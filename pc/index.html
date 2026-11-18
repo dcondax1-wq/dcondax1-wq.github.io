@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Start the bot on this PC</title>
+<meta name="theme-color" content="#14110e">
+<style>
+/* AGORA (docs/DESIGN_AGORA.md): warm marble and gold, serif headings, big clear steps, no neon, no shine, no aurora. */
+:root{--bg:#14110e;--panel:#1d1914;--raise:#26211b;--ink:#f3ece0;--soft:#cfc4b2;--mut:#a39883;--gold:#c8a24a;--bronze:#9c6b3c;--line:#3a3228;--serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;min-height:100dvh;color:var(--ink);font:400 19px/1.55 -apple-system,'SF Pro Text',system-ui,'Segoe UI',sans-serif;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(120% 70% at 50% -10%,#2a2118 0%,var(--bg) 62%) fixed,var(--bg)}
+.w{max-width:640px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 24px) 16px 64px;display:grid;gap:16px}
+h1{font:600 clamp(28px,8vw,36px)/1.1 var(--serif);margin:0;letter-spacing:.005em;color:var(--ink)}
+h1::after{content:"";display:block;width:56px;height:2px;margin-top:10px;background:linear-gradient(90deg,var(--gold),transparent)}
+h2{font:600 22px/1.2 var(--serif);margin:14px 0 0;color:var(--ink)}
+h2 small{display:block;margin-top:4px;font:400 16px/1.4 -apple-system,system-ui,sans-serif;color:var(--mut)}
+.s{background:linear-gradient(180deg,var(--raise),var(--panel));border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.s>b{font:600 21px/1.3 var(--serif)}
+.n{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--gold);color:#1b1610;font:700 18px -apple-system,system-ui,sans-serif;margin-right:10px;vertical-align:middle}
+a.b{display:grid;place-items:center;text-align:center;background:linear-gradient(180deg,#d4b05a,var(--gold));border:1px solid #e2c47a;color:#1b1610;font-weight:700;padding:16px;border-radius:14px;text-decoration:none;font-size:21px;margin-top:14px;min-height:56px}
+a.b:active{background:var(--bronze)}
+a{color:var(--gold)}
+code{display:block;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;word-break:break-all;font:14.5px/1.5 ui-monospace,Menlo,Consolas,monospace;margin-top:8px;color:var(--soft)}
+p{margin:8px 0;color:var(--soft)}b{color:var(--ink)}
+#which{color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:rgba(200,162,74,.07)}
+</style></head><body><div class="w">
+<h1>Start the bot on this PC</h1>
+<p id="which"><b>Main PC</b> (bot + NinjaTrader): <b>STATUS</b>, <b>PC care</b>, <b>Clean storage</b>, and <b>Fresh start</b> once. <b>Surface</b> (retired, cooling): <b>Clean storage</b> and <b>PC care</b> only, never Fresh start.</p>
+<p>Open this page ON YOUR MAIN PC. Three steps, nothing to type. Disk full? <a href="#storage">Clean storage</a> is further down. PC running hot, sleepy or slow? <a href="#care">PC care</a> (both work on both PCs).</p>
+<h2>Start the bot, three steps</h2>
+<div class="s"><span class="n">1</span><b>Make sure the Surface is off.</b><p>Start, Power, Shut down. Then NinjaTrader here: log in, connect MFFU, tick AT Interface.</p></div>
+<div class="s"><span class="n">2</span><b>Download and double-click this.</b>
+<a class="b" href="FRESH_START.bat" download>Download FRESH_START.bat</a>
+<p>When it opens: if Windows says "protected your PC", click <b>More info</b> then <b>Run anyway</b>. Press <b>Y</b> to every question. It does everything by itself and never turns on real trading.</p></div>
+<div class="s"><span class="n">3</span><b>In NinjaTrader press F5 once.</b><p>NinjaScript Editor, F5. Then LE START, Start trading. Text Claude "moved".</p></div>
+<h2>Look after this PC<small>Optional. Each one asks before it changes anything.</small></h2>
+<div class="s" id="storage"><b>Clean storage (Surface and main PC)</b>
+<p>Frees disk space: temp files, browser caches, Windows update leftovers, old logs. It first shows a table of what it would free and asks <b>Y</b>. It never touches the bot's data, your accounts, or NinjaTrader's charts and settings.</p>
+<a class="b" href="CLEAN_STORAGE.bat" download>Download CLEAN_STORAGE.bat</a>
+<p>Double-click it. If Windows says "protected your PC", click <b>More info</b> then <b>Run anyway</b>. Press <b>Y</b>. Windows asks once to make changes: click <b>Yes</b>. It takes a few minutes and ends with "Freed ... GB, C: now ... GB free".</p>
+<p>If NinjaTrader or the bot is running it leaves their folders alone and only clears temp files, caches and Windows leftovers. The Recycle Bin and the old Windows copy (big) are asked about separately. Do it on both PCs.</p>
+<p>Already have the bot folder? It is the same file: double-click <b>CLEAN_STORAGE.bat</b> there.</p></div>
+<div class="s" id="care"><b>PC care (Surface and main PC)</b>
+<p>One click to look after this PC. It finds out by itself which PC it is: the <b>main PC</b> (bot and NinjaTrader: never sleeps, high performance, screen off after 10 minutes) or the <b>Surface</b> (cooler, brighter screen, lighter). It shows a table of what it will change, asks <b>Y</b>, and ends with one line: <b>BOT PC HEALTHY: YES</b> or what needs you.</p>
+<a class="b" href="PC_CARE.bat" download>Download PC_CARE.bat</a>
+<p>Double-click it. If Windows says "protected your PC", click <b>More info</b> then <b>Run anyway</b>. Windows asks once to make changes: click <b>Yes</b>. It also offers to switch off startup apps (Y or N for each), background apps and visual effects, and pauses Windows search indexing during market hours.</p>
+<p>Nothing is closed, deleted or downloaded, and NinjaTrader and the bot are never touched. The CPU temperature is shown only if Windows lets a script read it; if not, it says so. To put everything back: double-click <b>UNDO_PC_TUNE.bat</b> (or run PC_CARE.bat again with <b>-Undo</b>).</p></div>
+<div class="s" id="status"><b>STATUS (both PCs)</b>
+<p>A six line health card: free disk, free memory, is the bot running and armed, is NinjaTrader running, how old the last bar is, the power plan. It ends with one sentence of what to do. It only looks: nothing is changed, closed or deleted, and Administrator is not needed.</p>
+<a class="b" href="STATUS.bat" download>Download STATUS.bat</a>
+<p>Double-click it. If Windows says "protected your PC", click <b>More info</b> then <b>Run anyway</b>. On the Surface it shows its own disk, memory and power plan and where the bot runs.</p></div>
+<h2>Still stuck?</h2>
+<div class="s"><b>Take a photo</b><p>Take a photo of the window and send it to Claude. Or use the PowerShell line:</p>
+<code id="freshLine">powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://demetrades2000-coder.github.io/nq-dashboard/pc/FRESH_START.ps1 | iex"</code></div>
+</div>
+<script>
+/* the one-line command points at this very site (same origin) when it is served from a real address; the old address stays as the visible fallback */
+(function () { try { var c = document.getElementById('freshLine'); if (c && location.protocol === 'https:' && !/^(localhost|127\.)/.test(location.hostname)) c.textContent = c.textContent.replace(/https:\/\/[^ ]*?\/pc\/FRESH_START\.ps1/, new URL('FRESH_START.ps1', location.href).href); } catch (e) { /* keep the fallback */ } })();
+</script></body></html>

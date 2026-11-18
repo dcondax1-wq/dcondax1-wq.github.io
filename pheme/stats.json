@@ -1,0 +1,758 @@
+{
+ "v": 1,
+ "built": "2026-11-10",
+ "last_bar_day": "2026-10-16",
+ "usd_per_point": 2.0,
+ "last_n": 8,
+ "min_bars": 90,
+ "source": {
+  "calendar": "data/news/events.csv (bls.gov, federalreserve.gov via data/build_news.py), data/news/hub.json when newer",
+  "bars": "data/NQ_5m.csv (TradingView CME NQ1! 5m)"
+ },
+ "label": "History, not a forecast: how far NQ travelled on past release days. A range is not a profit or a loss.",
+ "baseline": {
+  "days": 1103,
+  "day": {
+   "n": 1103,
+   "avg": 299.6,
+   "median": 262.2
+  },
+  "window": {
+   "08:30": {
+    "n": 1103,
+    "avg": 58.4,
+    "median": 45.0
+   },
+   "14:00": {
+    "n": 1103,
+    "avg": 58.1,
+    "median": 47.5
+   }
+  }
+ },
+ "kinds": {
+  "cpi": {
+   "label": "CPI (consumer prices)",
+   "time": "08:30",
+   "n_listed": 36,
+   "n_with_data": 35,
+   "all": {
+    "day": {
+     "n": 35,
+     "avg": 368.1,
+     "median": 326.0
+    },
+    "window": {
+     "n": 35,
+     "avg": 177.0,
+     "median": 159.8
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 388.4,
+     "median": 330.4
+    },
+    "window": {
+     "n": 8,
+     "avg": 181.9,
+     "median": 179.2
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-09-11",
+     "time": "08:30",
+     "day_range": 296.25,
+     "window_range": 271.75,
+     "day_usd": 592,
+     "window_usd": 544
+    },
+    {
+     "date": "2026-08-12",
+     "time": "08:30",
+     "day_range": 251.5,
+     "window_range": 209.75,
+     "day_usd": 503,
+     "window_usd": 420
+    },
+    {
+     "date": "2026-07-14",
+     "time": "08:30",
+     "day_range": 354.25,
+     "window_range": 244.75,
+     "day_usd": 708,
+     "window_usd": 490
+    },
+    {
+     "date": "2026-06-10",
+     "time": "08:30",
+     "day_range": 757.0,
+     "window_range": 253.5,
+     "day_usd": 1514,
+     "window_usd": 507
+    },
+    {
+     "date": "2026-05-12",
+     "time": "08:30",
+     "day_range": 554.0,
+     "window_range": 119.25,
+     "day_usd": 1108,
+     "window_usd": 238
+    },
+    {
+     "date": "2026-04-10",
+     "time": "08:30",
+     "day_range": 170.75,
+     "window_range": 80.0,
+     "day_usd": 342,
+     "window_usd": 160
+    },
+    {
+     "date": "2026-03-11",
+     "time": "08:30",
+     "day_range": 306.5,
+     "window_range": 148.75,
+     "day_usd": 613,
+     "window_usd": 298
+    },
+    {
+     "date": "2026-02-13",
+     "time": "08:30",
+     "day_range": 416.75,
+     "window_range": 127.75,
+     "day_usd": 834,
+     "window_usd": 256
+    }
+   ]
+  },
+  "nfp": {
+   "label": "Jobs report (NFP)",
+   "time": "08:30",
+   "n_listed": 37,
+   "n_with_data": 34,
+   "all": {
+    "day": {
+     "n": 34,
+     "avg": 423.6,
+     "median": 365.1
+    },
+    "window": {
+     "n": 34,
+     "avg": 162.6,
+     "median": 154.9
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 535.3,
+     "median": 385.8
+    },
+    "window": {
+     "n": 8,
+     "avg": 184.1,
+     "median": 192.4
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-10-02",
+     "time": "08:30",
+     "day_range": 364.5,
+     "window_range": 193.0,
+     "day_usd": 729,
+     "window_usd": 386
+    },
+    {
+     "date": "2026-09-04",
+     "time": "08:30",
+     "day_range": 226.0,
+     "window_range": 191.75,
+     "day_usd": 452,
+     "window_usd": 384
+    },
+    {
+     "date": "2026-08-07",
+     "time": "08:30",
+     "day_range": 303.25,
+     "window_range": 224.0,
+     "day_usd": 606,
+     "window_usd": 448
+    },
+    {
+     "date": "2026-07-02",
+     "time": "08:30",
+     "day_range": 991.5,
+     "window_range": 165.0,
+     "day_usd": 1983,
+     "window_usd": 330
+    },
+    {
+     "date": "2026-06-05",
+     "time": "08:30",
+     "day_range": 1183.25,
+     "window_range": 109.25,
+     "day_usd": 2366,
+     "window_usd": 218
+    },
+    {
+     "date": "2026-05-08",
+     "time": "08:30",
+     "day_range": 481.5,
+     "window_range": 86.0,
+     "day_usd": 963,
+     "window_usd": 172
+    },
+    {
+     "date": "2026-03-06",
+     "time": "08:30",
+     "day_range": 325.25,
+     "window_range": 290.5,
+     "day_usd": 650,
+     "window_usd": 581
+    },
+    {
+     "date": "2026-02-11",
+     "time": "08:30",
+     "day_range": 407.0,
+     "window_range": 213.25,
+     "day_usd": 814,
+     "window_usd": 426
+    }
+   ]
+  },
+  "ppi": {
+   "label": "PPI (producer prices)",
+   "time": "08:30",
+   "n_listed": 37,
+   "n_with_data": 36,
+   "all": {
+    "day": {
+     "n": 36,
+     "avg": 347.5,
+     "median": 296.0
+    },
+    "window": {
+     "n": 36,
+     "avg": 110.2,
+     "median": 93.2
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 519.8,
+     "median": 483.9
+    },
+    "window": {
+     "n": 8,
+     "avg": 140.9,
+     "median": 147.8
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-10-15",
+     "time": "08:30",
+     "day_range": 574.25,
+     "window_range": 139.0,
+     "day_usd": 1148,
+     "window_usd": 278
+    },
+    {
+     "date": "2026-09-10",
+     "time": "08:30",
+     "day_range": 235.0,
+     "window_range": 208.5,
+     "day_usd": 470,
+     "window_usd": 417
+    },
+    {
+     "date": "2026-08-13",
+     "time": "08:30",
+     "day_range": 460.5,
+     "window_range": 70.5,
+     "day_usd": 921,
+     "window_usd": 141
+    },
+    {
+     "date": "2026-07-15",
+     "time": "08:30",
+     "day_range": 602.75,
+     "window_range": 138.75,
+     "day_usd": 1206,
+     "window_usd": 278
+    },
+    {
+     "date": "2026-06-11",
+     "time": "08:30",
+     "day_range": 966.75,
+     "window_range": 190.0,
+     "day_usd": 1934,
+     "window_usd": 380
+    },
+    {
+     "date": "2026-05-13",
+     "time": "08:30",
+     "day_range": 490.5,
+     "window_range": 160.75,
+     "day_usd": 981,
+     "window_usd": 322
+    },
+    {
+     "date": "2026-04-14",
+     "time": "08:30",
+     "day_range": 351.5,
+     "window_range": 63.0,
+     "day_usd": 703,
+     "window_usd": 126
+    },
+    {
+     "date": "2026-03-18",
+     "time": "08:30",
+     "day_range": 477.25,
+     "window_range": 156.5,
+     "day_usd": 954,
+     "window_usd": 313
+    }
+   ]
+  },
+  "fomc": {
+   "label": "FOMC decision",
+   "time": "14:00",
+   "n_listed": 56,
+   "n_with_data": 40,
+   "all": {
+    "day": {
+     "n": 40,
+     "avg": 387.4,
+     "median": 342.0
+    },
+    "window": {
+     "n": 40,
+     "avg": 153.0,
+     "median": 132.0
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 427.4,
+     "median": 409.6
+    },
+    "window": {
+     "n": 8,
+     "avg": 150.1,
+     "median": 115.6
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-09-16",
+     "time": "14:00",
+     "day_range": 496.75,
+     "window_range": 132.5,
+     "day_usd": 994,
+     "window_usd": 265
+    },
+    {
+     "date": "2026-07-29",
+     "time": "14:00",
+     "day_range": 782.0,
+     "window_range": 173.75,
+     "day_usd": 1564,
+     "window_usd": 348
+    },
+    {
+     "date": "2026-06-17",
+     "time": "14:00",
+     "day_range": 622.75,
+     "window_range": 401.5,
+     "day_usd": 1246,
+     "window_usd": 803
+    },
+    {
+     "date": "2026-04-29",
+     "time": "14:00",
+     "day_range": 216.0,
+     "window_range": 98.75,
+     "day_usd": 432,
+     "window_usd": 198
+    },
+    {
+     "date": "2026-03-18",
+     "time": "14:00",
+     "day_range": 477.25,
+     "window_range": 90.75,
+     "day_usd": 954,
+     "window_usd": 182
+    },
+    {
+     "date": "2026-01-28",
+     "time": "14:00",
+     "day_range": 205.25,
+     "window_range": 79.5,
+     "day_usd": 410,
+     "window_usd": 159
+    },
+    {
+     "date": "2025-12-10",
+     "time": "14:00",
+     "day_range": 342.0,
+     "window_range": 138.5,
+     "day_usd": 684,
+     "window_usd": 277
+    },
+    {
+     "date": "2025-10-29",
+     "time": "14:00",
+     "day_range": 277.25,
+     "window_range": 85.25,
+     "day_usd": 554,
+     "window_usd": 170
+    }
+   ]
+  }
+ },
+ "events": [
+  {
+   "date": "2026-09-11",
+   "time": "08:30",
+   "title": "CPI (consumer inflation)",
+   "kind": "cpi",
+   "impact": "high",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-09-16",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2026-10-02",
+   "time": "08:30",
+   "title": "Non-Farm Payrolls (jobs report)",
+   "kind": "nfp",
+   "impact": "high",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "08:30",
+   "title": "Core PPI m/m",
+   "kind": "other",
+   "impact": "high",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "08:30",
+   "title": "Core Retail Sales m/m",
+   "kind": "other",
+   "impact": "high",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "08:30",
+   "title": "PPI m/m",
+   "kind": "ppi",
+   "impact": "high",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "08:30",
+   "title": "Philly Fed Manufacturing Index",
+   "kind": "other",
+   "impact": "med",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "08:30",
+   "title": "Retail Sales m/m",
+   "kind": "other",
+   "impact": "high",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "08:30",
+   "title": "Unemployment Claims",
+   "kind": "claims",
+   "impact": "med",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-15",
+   "time": "23:30",
+   "title": "Fed Chairman Warsh Speaks",
+   "kind": "other",
+   "impact": "high",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-20",
+   "time": "08:30",
+   "title": "Housing Starts / Building Permits",
+   "kind": "other",
+   "impact": "low",
+   "source": "data/news/hub.json"
+  },
+  {
+   "date": "2026-10-22",
+   "time": "08:30",
+   "title": "Unemployment Claims",
+   "kind": "claims",
+   "impact": "med",
+   "source": "dol.gov"
+  },
+  {
+   "date": "2026-10-23",
+   "time": "09:45",
+   "title": "S&P Global Flash PMIs",
+   "kind": "other",
+   "impact": "med",
+   "source": "spglobal.com"
+  },
+  {
+   "date": "2026-10-23",
+   "time": "10:00",
+   "title": "UMich Consumer Sentiment (final Oct)",
+   "kind": "other",
+   "impact": "med",
+   "source": "sca.isr.umich.edu"
+  },
+  {
+   "date": "2026-10-27",
+   "time": "08:30",
+   "title": "Durable Goods Orders",
+   "kind": "other",
+   "impact": "med",
+   "source": "census.gov"
+  },
+  {
+   "date": "2026-10-27",
+   "time": "10:00",
+   "title": "CB Consumer Confidence",
+   "kind": "other",
+   "impact": "high",
+   "source": "conference-board.org"
+  },
+  {
+   "date": "2026-10-27",
+   "time": "10:00",
+   "title": "New Home Sales",
+   "kind": "other",
+   "impact": "med",
+   "source": "census.gov"
+  },
+  {
+   "date": "2026-10-28",
+   "time": "14:00",
+   "title": "FOMC rate decision",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2026-10-29",
+   "time": "08:30",
+   "title": "GDP Q3 advance estimate",
+   "kind": "gdp",
+   "impact": "high",
+   "source": "bea.gov"
+  },
+  {
+   "date": "2026-10-29",
+   "time": "08:30",
+   "title": "Personal Income & Outlays / Core PCE (Sep)",
+   "kind": "pce",
+   "impact": "high",
+   "source": "bea.gov"
+  },
+  {
+   "date": "2026-10-29",
+   "time": "08:30",
+   "title": "Unemployment Claims",
+   "kind": "claims",
+   "impact": "med",
+   "source": "dol.gov"
+  },
+  {
+   "date": "2026-10-30",
+   "time": "08:30",
+   "title": "Employment Cost Index Q3",
+   "kind": "other",
+   "impact": "med",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-11-02",
+   "time": "10:00",
+   "title": "ISM Manufacturing PMI",
+   "kind": "ism",
+   "impact": "high",
+   "source": "ismworld.org"
+  },
+  {
+   "date": "2026-11-03",
+   "time": "10:00",
+   "title": "JOLTS Job Openings (Sep)",
+   "kind": "jolts",
+   "impact": "high",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-11-04",
+   "time": "08:15",
+   "title": "ADP Non-Farm Employment (Oct)",
+   "kind": "adp",
+   "impact": "high",
+   "source": "adp.com"
+  },
+  {
+   "date": "2026-11-04",
+   "time": "10:00",
+   "title": "ISM Services PMI",
+   "kind": "ism",
+   "impact": "high",
+   "source": "ismworld.org"
+  },
+  {
+   "date": "2026-11-05",
+   "time": "08:30",
+   "title": "Productivity & Unit Labor Costs Q3 (prelim)",
+   "kind": "other",
+   "impact": "med",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-11-05",
+   "time": "08:30",
+   "title": "Unemployment Claims",
+   "kind": "claims",
+   "impact": "med",
+   "source": "dol.gov"
+  },
+  {
+   "date": "2026-11-06",
+   "time": "08:30",
+   "title": "Non-Farm Payrolls (jobs report)",
+   "kind": "nfp",
+   "impact": "high",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-11-10",
+   "time": "08:30",
+   "title": "CPI (consumer inflation)",
+   "kind": "cpi",
+   "impact": "high",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-11-12",
+   "time": "08:30",
+   "title": "Unemployment Claims",
+   "kind": "claims",
+   "impact": "med",
+   "source": "dol.gov"
+  },
+  {
+   "date": "2026-11-13",
+   "time": "08:30",
+   "title": "PPI (producer inflation)",
+   "kind": "ppi",
+   "impact": "high",
+   "source": "bls.gov"
+  },
+  {
+   "date": "2026-11-18",
+   "time": "14:00",
+   "title": "Fed meeting minutes (Oct 27-28)",
+   "kind": "minutes",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2026-12-09",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-01-27",
+   "time": "14:00",
+   "title": "FOMC rate decision",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-03-17",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-04-28",
+   "time": "14:00",
+   "title": "FOMC rate decision",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-06-09",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-07-28",
+   "time": "14:00",
+   "title": "FOMC rate decision",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-09-15",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-10-27",
+   "time": "14:00",
+   "title": "FOMC rate decision",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  },
+  {
+   "date": "2027-12-08",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "kind": "fomc",
+   "impact": "high",
+   "source": "federalreserve.gov"
+  }
+ ],
+ "calendar_last_date": "2027-12-08"
+}

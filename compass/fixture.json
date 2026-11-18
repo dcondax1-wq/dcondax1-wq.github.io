@@ -1,0 +1,152 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: three accounts, a deal, a few trades and a Ledger as they might look, shown until the site's own files are there. Times are hours or days back from now.",
+ "home_age_h": 0.2,
+ "home": {
+  "accounts": [
+   {
+    "id": "mffu50k_eval",
+    "name": "Zlarior 50K",
+    "kind": "eval",
+    "conn": {
+     "connected": true
+    },
+    "eval": {
+     "balance": 50420,
+     "floor": 49000,
+     "room": 1420,
+     "mll": 2000,
+     "dll": 1000,
+     "dll_used": 0,
+     "target": 3000,
+     "to_target": 2580
+    },
+    "pnl": {
+     "today": 312
+    }
+   },
+   {
+    "id": "acctb",
+    "name": "ATLAS 25K",
+    "kind": "eval",
+    "conn": {
+     "connected": true
+    },
+    "eval": {
+     "balance": 25210,
+     "floor": 24160,
+     "room": 840,
+     "mll": 1000,
+     "dll": 600,
+     "dll_used": 60,
+     "target": 1500,
+     "to_target": 1365
+    },
+    "pnl": {
+     "today": -60
+    }
+   },
+   {
+    "id": "acct_c",
+    "name": "BLITZ 25K",
+    "kind": "eval",
+    "conn": {
+     "connected": true
+    },
+    "eval": {
+     "balance": 24860,
+     "floor": 24300,
+     "room": 560,
+     "mll": 1000,
+     "dll": 600,
+     "dll_used": 0,
+     "target": 1500,
+     "to_target": 1640
+    },
+    "pnl": {
+     "today": 0
+    }
+   }
+  ]
+ },
+ "money": {
+  "streams": [
+   {
+    "id": "mercury",
+    "name": "Mercury",
+    "status": "ok",
+    "age_min": 40,
+    "items": [
+     {
+      "title": "Prop-firm sale: 30% off a 50K plan",
+      "detail": "Ends tonight.",
+      "usd": 60,
+      "score": 75,
+      "risk": "low",
+      "expires_in_h": 5
+     }
+    ]
+   },
+   {
+    "id": "oikos",
+    "name": "Oikos",
+    "status": "stale",
+    "age_min": 700,
+    "items": []
+   },
+   {
+    "id": "chrysos",
+    "name": "Chrysos",
+    "status": "ok",
+    "age_min": 30,
+    "items": []
+   }
+  ]
+ },
+ "rules": {
+  "source": {
+   "built": "2026-10-18"
+  }
+ },
+ "trades": [
+  {
+   "back": 1,
+   "usd": 312
+  },
+  {
+   "back": 2,
+   "usd": -437
+  },
+  {
+   "back": 4,
+   "usd": 566
+  },
+  {
+   "back": 6,
+   "usd": 640
+  },
+  {
+   "back": 8,
+   "usd": -380
+  },
+  {
+   "back": 11,
+   "usd": 310
+  },
+  {
+   "back": 13,
+   "usd": 412
+  }
+ ],
+ "rated": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "ledger": {
+  "entries": 23,
+  "last_export_days_ago": 12
+ }
+}

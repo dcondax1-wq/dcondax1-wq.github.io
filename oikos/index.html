@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oikos</title>
+<meta name="description" content="OLYMPUS OIKOS: the household. Reads your Ledger and finds where money leaks: fees against payouts, resets and subscriptions that do not pay back, accounts that never covered their cost. A generic tax set-aside, a reinvest-or-withdraw projector and the emergency-fund and pay-yourself buckets, with a marble amphora that fills with gold coins.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Oikos">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- OIKOS (OLYMPUS, AGORA look, 2026-11-10): the household, money machine #4. oikoscore.js = the pure maths (node-tested, and checked against tools/money/oikos.py), oikosscene.js = the marble amphora (three.js),
+     oikos.js = the page (ES module). Read only: it reads the Ledger's own export (this phone's localStorage 'ledger.v1', read only), a file you import or paste, ../money/oikos.json and fixture.json (DEMO, never blank).
+     It keeps only its own sliders and an imported ledger on this phone ('oikos.v1'), sends nothing and never moves money. Not tax advice. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="oikos"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="oikos.css?v=a2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Oikos</h1><p class="sub">Home money: what to set aside, save and spend</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="amphH">
+    <div class="row"><h2 id="amphH">Money with a job</h2><span class="pill" id="fillPill">...</span></div>
+    <div class="stage"><canvas id="amph" width="640" height="560" role="img" aria-label="A marble amphora that fills with gold coins as your buckets fill"></canvas><svg id="amphFallback" class="fallback" viewBox="0 0 120 150" role="img" aria-label="A marble amphora filled to the level of your buckets" hidden></svg></div>
+    <p class="lead" id="headline"></p>
+    <p class="note" id="fillNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="srcH">
+    <h2 id="srcH">Where the numbers come from</h2>
+    <p class="note" id="srcNote"></p>
+    <div class="seg" id="srcBtns">
+      <button class="btn" id="useLedger" type="button">Use my Ledger</button>
+      <label class="btn filebtn" for="file">Import a file<input id="file" type="file" accept="application/json,.json" hidden></label>
+      <button class="btn" id="useDemo" type="button">Show the demo</button>
+      <button class="btn" id="exportBtn" type="button">Export JSON</button>
+    </div>
+    <details id="pasteBox">
+      <summary>Or paste a Ledger export</summary>
+      <div class="flds"><label class="fld"><span>Paste the JSON from the Ledger app (Export JSON)</span><textarea id="paste" rows="5" spellcheck="false" autocomplete="off"></textarea></label>
+        <button class="btn" id="pasteGo" type="button">Read it</button></div>
+    </details>
+  </section>
+
+  <section class="ag-card card" id="hhCard" aria-labelledby="hhH" hidden>
+    <div class="row"><h2 id="hhH">Your bank money</h2><span class="pill" id="hhPill">...</span></div>
+    <div id="hhLines"></div>
+    <dl class="kv" id="hhKv"></dl>
+    <h3 class="note" id="hhCatsH" hidden>Where it went this month</h3>
+    <ul class="leaks" id="hhCats"></ul>
+    <h3 class="note" id="hhSubsH" hidden>Subscriptions and bills</h3>
+    <ul class="leaks" id="hhSubs"></ul>
+    <h3 class="note" id="hhLeaksH" hidden>Money leaks in your bank data</h3>
+    <ul class="leaks" id="hhLeaks"></ul>
+    <p class="note" id="hhNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="leakH">
+    <div class="row"><h2 id="leakH">Where money leaks</h2><span class="pill" id="leakPill">...</span></div>
+    <p class="note">Worst first. Each line is an estimate from what you entered. Score: 0 = fine, 100 = fix it now.</p>
+    <ul class="leaks" id="leaks"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="acctH">
+    <h2 id="acctH">Did each prop account pay for itself?</h2>
+    <table class="lad"><caption class="note">Cost = fees, resets and activation. Paid back = payouts received.</caption><thead><tr><th scope="col">Account</th><th scope="col">Cost</th><th scope="col">Paid back</th><th scope="col">Result</th></tr></thead><tbody id="acctRows"></tbody></table>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="taxH">
+    <h2 id="taxH">Put aside for tax</h2>
+    <label class="fld"><span id="taxLabel">Set aside 30% of net profit</span><input id="tax" type="range" min="0" max="50" step="1" value="30" aria-label="Tax set-aside percent"></label>
+    <dl class="kv" id="taxKv"></dl>
+    <p class="note" id="taxNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="bktH">
+    <h2 id="bktH">Where each month's profit goes</h2>
+    <p class="note" id="bktNote"></p>
+    <label class="fld"><span id="emLabel">Emergency fund gets 25% of a month's profit</span><input id="em" type="range" min="0" max="60" step="1" value="25" aria-label="Emergency fund percent"></label>
+    <label class="fld"><span id="reLabel">Next account gets 20%</span><input id="re" type="range" min="0" max="60" step="1" value="20" aria-label="Next account percent"></label>
+    <details id="more">
+      <summary>Living cost and what you have saved</summary>
+      <div class="flds">
+        <label class="fld"><span>Monthly living cost $</span><input id="living" type="number" inputmode="decimal" min="0" step="50"></label>
+        <label class="fld"><span>Months of cover you want</span><input id="emMonths" type="number" inputmode="decimal" min="0" max="36" step="1"></label>
+        <label class="fld"><span>Already in the emergency fund $</span><input id="emSaved" type="number" inputmode="decimal" min="0" step="50"></label>
+      </div>
+    </details>
+    <ul class="buckets" id="buckets"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="prjH">
+    <h2 id="prjH">Buy more accounts or take the cash?</h2>
+    <p class="note" id="prjNote"></p>
+    <div class="seg" id="scen" role="group" aria-label="Scenario"></div>
+    <label class="fld"><span id="prLabel">Reinvest 50% of what is left after tax</span><input id="pr" type="range" min="0" max="100" step="5" value="50" aria-label="Share reinvested"></label>
+    <details id="prMore">
+      <summary>Account price and the most accounts you will run</summary>
+      <div class="flds">
+        <label class="fld"><span>Price of one more account $</span><input id="acctCost" type="number" inputmode="decimal" min="0" step="1"></label>
+        <div class="seg" id="priceChips" role="group" aria-label="Your real prices"></div>
+        <label class="fld"><span>Most accounts at once</span><input id="cap" type="number" inputmode="numeric" min="1" max="20" step="1"></label>
+      </div>
+    </details>
+    <svg id="chart" class="chart" viewBox="0 0 320 170" role="img" aria-label="Cash kept over the months, withdraw against reinvest"></svg>
+    <div class="legend"><span class="lg w">Withdraw</span><span class="lg r">Reinvest</span></div>
+    <dl class="kv" id="prjKv"></dl>
+    <p class="note" id="prjWarn"></p>
+  </section>
+
+  <p class="foot" id="foot">Oikos only reads and plans. It never trades, moves money or changes the bot. Every $ is an estimate from what you entered, not a promise; one bad month can fail every account at once. The tax % is a rule of thumb, not tax advice. Your sliders and imports stay on this phone.</p>
+</main>
+<script type="module" src="oikos.js?v=a2"></script>
+<script type="module" src="household.js?v=h1"></script>
+</body>
+</html>

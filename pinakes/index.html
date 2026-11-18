@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pinakes</title>
+<meta name="description" content="OLYMPUS PINAKES: the catalogue. Every table OLYMPUS keeps, in one marble card cabinet: search it, open any table, sort, filter in plain words, see quick stats and a chart, group, save a view, export CSV or JSON and share a link.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pinakes">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- PINAKES (OLYMPUS, AGORA look, 2026-11-11): the catalogue of every table. pinakescore.js = the pure rules (node-tested; the same inference as tools/pinakes_build.py),
+     pinakesscene.js = the marble card cabinet (three.js), pinakes.js = the page (ES module). Read only: it reads ./catalog.json (one small card per table, built by tools/pinakes_build.py),
+     then each table from its own address on this site when you open it, and fixture.json (DEMO, never blank). It keeps only your saved views on this phone ('pinakes.v1'), sends nothing. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="pinakes"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="pinakes.css?v=a2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Pinakes</h1><p class="sub">Every data table OLYMPUS keeps. Search a word to find where a number lives.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <div id="catView" class="view">
+    <section class="ag-card card hero" aria-labelledby="cabH">
+      <div class="row"><h2 id="cabH">All tables by area</h2><span class="pill" id="totalPill">...</span></div>
+      <div class="stage"><canvas id="cab" width="640" height="460" role="img" aria-label="A marble card cabinet with five drawers, one for each district"></canvas><svg id="cabFlat" class="fallback" viewBox="0 0 320 210" role="img" aria-label="A card cabinet with five drawers, one for each district" hidden></svg></div>
+      <p class="lead" id="headline"></p>
+      <p class="note" id="totalNote"></p>
+      <div class="seg" id="districts" role="group" aria-label="Districts"></div>
+    </section>
+
+    <section class="ag-card card" aria-labelledby="findH">
+      <div class="row"><h2 id="findH">Find a table</h2><span class="pill" id="foundPill">...</span></div>
+      <label class="fld"><span>Search by name, app, field or word</span><input id="q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="trades, runs, deals, usd ..."></label>
+      <ul class="tlist" id="list"></ul>
+      <button class="btn" id="more" type="button" hidden>Show more</button>
+    </section>
+
+    <section class="ag-card card" aria-labelledby="askH">
+      <h2 id="askH">Ask</h2>
+      <p class="note">Ready-made questions that join tables for you. Each one shows exactly what it does, in plain words. Nothing is guessed.</p>
+      <div class="seg col" id="asks"></div>
+      <div id="askOut" hidden>
+        <h3 id="askTitle"></h3>
+        <p class="words" id="askWords"></p>
+        <p class="note" id="askSrc"></p>
+        <svg id="askChart" class="chart" viewBox="0 0 340 200" role="img" aria-label="The answer as a chart" hidden></svg>
+        <div class="tbox"><table class="lad" id="askTable"><thead></thead><tbody></tbody></table></div>
+        <p class="note" id="askNote"></p>
+      </div>
+    </section>
+  </div>
+
+  <div id="tabView" class="view" hidden>
+    <section class="ag-card card" aria-labelledby="tName">
+      <button class="btn back" id="back" type="button">Back to the catalogue</button>
+      <h2 id="tName"></h2>
+      <p class="lead" id="tDesc"></p>
+      <div class="pills" id="tPills"></div>
+      <p class="note" id="tSrc"></p>
+      <label class="fld" id="pathFld" hidden><span>This file holds more than one list. Which one is the table?</span><select id="pathSel"></select></label>
+      <p class="why" id="tWhy" hidden></p>
+      <p class="note" id="tCols" hidden></p>
+    </section>
+
+    <section class="ag-card card" id="work" aria-label="The table" hidden>
+      <div class="ag-tabs" role="tablist" aria-label="Table views">
+        <button class="ag-tab" role="tab" id="tabRows" data-tab="rows" aria-selected="true" type="button">Rows</button>
+        <button class="ag-tab" role="tab" id="tabStats" data-tab="stats" aria-selected="false" type="button">Stats</button>
+        <button class="ag-tab" role="tab" id="tabChart" data-tab="chart" aria-selected="false" type="button">Chart</button>
+      </div>
+      <div class="filters">
+        <p class="words" id="fWords">No filter: every row is shown.</p>
+        <ul class="chips" id="fChips"></ul>
+        <div class="seg" id="fBar"><button class="btn" id="fMode" type="button" aria-pressed="false" hidden>Match any</button><button class="btn" id="fClear" type="button" hidden>Clear all</button></div>
+        <details id="fBox">
+          <summary>Add a filter</summary>
+          <div class="flds">
+            <label class="fld"><span>Field</span><select id="fCol"></select></label>
+            <label class="fld"><span>Rule</span><select id="fOp"></select></label>
+            <label class="fld" id="fValFld"><span id="fValLab">Value</span><input id="fVal" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+            <label class="fld" id="fVal2Fld" hidden><span>And</span><input id="fVal2" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+            <div class="seg"><button class="btn primary" id="fAdd" type="button">Add this filter</button></div>
+            <p class="note" id="fMsg"></p>
+          </div>
+        </details>
+      </div>
+
+      <div id="panelRows" role="tabpanel" aria-labelledby="tabRows">
+        <p class="note" id="count"></p>
+        <details id="colBox"><summary id="colSum">Fields shown</summary><div class="seg" id="colChips"></div></details>
+        <div id="grid" class="grid" role="table" aria-label="Rows of the table" tabindex="0"><div class="ghead" id="ghead" role="row"></div><div class="gbody" id="gbody"></div></div>
+        <div id="rowCard" class="rowcard" hidden><div class="row"><h3 id="rowTitle">Row</h3><button class="btn" id="rowClose" type="button">Close</button></div><dl class="kv wide" id="rowKv"></dl></div>
+        <div class="seg"><button class="btn" id="csvBtn" type="button">Export CSV</button><button class="btn" id="jsonBtn" type="button">Export JSON</button><button class="btn" id="shareBtn" type="button">Share link</button></div>
+        <label class="fld" id="shareFld" hidden><span>The link to this table with its filters</span><input id="shareOut" type="text" readonly></label>
+      </div>
+
+      <div id="panelStats" role="tabpanel" aria-labelledby="tabStats" hidden>
+        <p class="note" id="statNote"></p>
+        <ul class="stats" id="statList"></ul>
+      </div>
+
+      <div id="panelChart" role="tabpanel" aria-labelledby="tabChart" hidden>
+        <div class="flds two">
+          <label class="fld"><span>Chart</span><select id="cKind"><option value="bar">Bars</option><option value="line">Line</option><option value="hist">Histogram</option></select></label>
+          <label class="fld"><span>Number</span><select id="cY"></select></label>
+          <label class="fld" id="cByFld"><span>Grouped by</span><select id="cBy"></select></label>
+          <label class="fld" id="cBucketFld" hidden><span>Dates by</span><select id="cBucket"><option value="day">Day</option><option value="week">Week</option><option value="month">Month</option><option value="weekday">Weekday</option></select></label>
+          <label class="fld" id="cAggFld"><span>Show the</span><select id="cAgg"><option value="sum">Sum</option><option value="mean">Mean</option><option value="count">Count of rows</option></select></label>
+        </div>
+        <p class="words" id="chartWords"></p>
+        <svg id="chart" class="chart" viewBox="0 0 340 200" role="img" aria-label="Chart of the filtered rows"></svg>
+        <p class="note" id="chartNote"></p>
+        <div class="tbox"><table class="lad" id="groupTable"><thead></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="ag-card card" aria-labelledby="viewsH">
+    <div class="row"><h2 id="viewsH">Saved views</h2><span class="pill" id="viewsPill">0</span></div>
+    <p class="note" id="viewsNote">A saved view remembers a table with its filters, sort and chart. Kept on this phone only.</p>
+    <div class="savebar" id="saveBar" hidden><label class="fld"><span>Name this view</span><input id="vName" type="text" maxlength="60" autocomplete="off"></label><button class="btn primary" id="vSave" type="button">Save view</button></div>
+    <ul class="tlist" id="vList"></ul>
+    <div class="seg"><button class="btn" id="vExport" type="button">Export views</button><label class="btn filebtn" for="vFile">Import views<input id="vFile" type="file" accept="application/json,.json" hidden></label></div>
+  </section>
+
+  <p class="foot" id="foot">Pinakes only reads. It opens each table from its own file on this site, changes nothing, sends nothing and never trades. Demo, sample and stale tables are labelled, with their age. The research datasets (futures bars, VIX) stay on the PC: the catalogue shows their span and row count only. Field types ($, R, date) are worked out from the data and the field name, so check a number before you rely on it. Saved views stay on this phone.</p>
+</main>
+<script type="module" src="pinakes.js?v=a1"></script>
+</body>
+</html>

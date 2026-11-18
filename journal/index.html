@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MNEMOSYNE</title>
+<meta name="description" content="OLYMPUS MNEMOSYNE: a 10-second trade journal. Rate each of the bot's trades (followed plan, hesitated, interfered), tag your mood, and see in dollars what your habits cost. Kept only on this phone.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mnemosyne">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- MNEMOSYNE (OLYMPUS, 2026-11-04): journalcore.js = the pure part (the trades from the site's own odeon/trades.json, the maths in dollars, the weekly review, export /
+     import / Markdown); journal.js = the page. Everything the owner types is kept ONLY in localStorage['journal.v1'] on this phone (plus 'journal.card.v1', the Jarvis card, same pattern as the Inbox's): it never goes on the network. The
+     page reads one published file (../odeon/trades.json, read-only) and falls back to fixture.json (DEMO, synthetic trades) when it is missing. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="journal"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#e08a6b'); r.setProperty('--oly-accent-rgb', '224, 138, 107'); })();</script>
+<link rel="stylesheet" href="journal.css?v=j1g2">
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<main id="app">
+  <header class="top">
+    <div class="brand"><h1>MNEMOSYNE</h1><p class="sub">Rate each trade in 10 seconds: did you follow the plan? See what meddling costs in $.</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+
+  <section class="card" id="checkCard" aria-labelledby="chkH">
+    <h2 id="chkH">Before you touch the bot</h2>
+    <p class="hint" id="chkHint">5 yes or no questions, about 5 seconds.</p>
+    <button type="button" class="go" id="checkBtn" aria-haspopup="dialog" data-oly-cue="open">Pre-trade check</button>
+  </section>
+
+  <section class="hero card" id="hero" aria-labelledby="heroH">
+    <h2 id="heroH">What your habits cost</h2>
+    <div class="tiles">
+      <div class="tile bad"><small>Interfered</small><b id="tInt">$0</b><span id="tIntN">0 trades</span></div>
+      <div class="tile good"><small>Followed plan</small><b id="tPlan">$0</b><span id="tPlanN">0 trades</span></div>
+    </div>
+    <p class="lead" id="lead">Rate your trades below.</p>
+    <p class="ifplan" id="ifplan" hidden></p>
+    <svg id="bars" class="bars" viewBox="0 0 300 74" role="img" aria-label="Dollars by rating"></svg>
+    <p class="hint" id="progress"></p>
+  </section>
+  <section class="pl-place" data-polis-life="stoic" aria-label="A line from the Stoics for today" hidden></section>
+
+  <section class="card" id="week" aria-labelledby="weekH">
+    <h2 id="weekH">Your week, in plain words</h2>
+    <div id="weekLines"></div>
+    <div class="rule" id="rule"><small>ONE rule to try next week</small><p id="ruleText"></p><p class="why" id="ruleWhy"></p></div>
+    <button type="button" class="go" id="ruleBtn" aria-pressed="false" data-oly-cue="success">Try this rule next week</button>
+  </section>
+
+  <section class="card" id="trades" aria-labelledby="trH">
+    <h2 id="trH">Your trades</h2>
+    <p class="hint" id="trHint">The bot's latest trades. Tap a rating, a mood and (if you like) write one line. It saves by itself.</p>
+    <ul class="tlist" id="tlist"></ul>
+  </section>
+
+  <section class="card" id="moods" aria-labelledby="moH">
+    <h2 id="moH">Moods and streak</h2>
+    <ul class="mlist" id="mlist"></ul>
+    <p class="streak"><b id="streak">0</b><span id="streakLbl">days in a row following the plan</span></p>
+  </section>
+
+  <section class="card" id="tools" aria-labelledby="toolsH">
+    <h2 id="toolsH">Your journal, your phone</h2>
+    <p class="hint">Kept only on this phone, in one place. Nothing is sent anywhere.</p>
+    <div class="row">
+      <button type="button" class="mini" id="exportBtn" data-oly-cue="tap">Export JSON</button>
+      <button type="button" class="mini" id="mdBtn" data-oly-cue="tap">Copy as Markdown</button>
+      <label class="mini filebtn" for="importFile" id="importLbl">Import a file<input type="file" id="importFile" accept=".json,application/json"></label>
+    </div>
+    <label class="area" for="box"><span id="boxLbl">Export, Markdown or an import goes here</span><textarea id="box" rows="5" spellcheck="false" autocapitalize="off"></textarea></label>
+    <div class="row"><button type="button" class="mini" id="importBtn" data-oly-cue="open">Import what is in the box</button><button type="button" class="mini danger" id="wipeBtn" data-oly-cue="warning">Erase my journal</button></div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </section>
+  <p class="foot" id="foot">Paper research only. The journal never changes the bot and never leaves this phone.</p>
+</main>
+<div class="sheet" id="sheet" hidden>
+  <div class="scrim" id="scrim"></div>
+  <div class="panel card" id="panel" role="dialog" aria-modal="true" aria-labelledby="shH">
+    <div class="shead"><h2 id="shH">Pre-trade check</h2><button type="button" class="mini" id="shClose" data-oly-cue="close">Close</button></div>
+    <p class="hint">Looking at the bot is fine. Touching it is the habit that costs money. Answer all 5 first.</p>
+    <ol class="qs" id="qs"></ol>
+    <div class="verdict" id="verdict" data-level="open" role="status" aria-live="polite"><small id="vLevel">Your verdict</small><p class="vhead" id="vHead"></p><p class="why" id="vWhy"></p><p class="why" id="vCost"></p></div>
+    <button type="button" class="mini" id="shReset" data-oly-cue="tap">Start again</button>
+  </div>
+</div>
+<script type="module" src="journal.js?v=j1g"></script>
+</body>
+</html>

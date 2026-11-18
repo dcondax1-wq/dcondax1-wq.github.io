@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kronos</title>
+<meta name="description" content="OLYMPUS KRONOS: the calendar of money. A month grid of your daily profit and loss, your best and worst weekday and hour, what a normal bad week looks like from your own history, and a marble sundial whose shadow follows today.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kronos">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- KRONOS (OLYMPUS, AGORA look, 2026-11-10): the calendar of money. kronoscore.js = the pure logic (node-tested); kronos.js = the page (ES module); kronosdial.js = the marble sundial in 3D (its own module tag: if it fails the page draws the flat twin).
+     Read only: it reads the site's odeon/trades.json (real and paper trades; the backtest on request) and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent / createElementNS. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="kronos"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="kronos.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Kronos</h1><p class="sub">Your $ day by day: green days, red days, the best weekday.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <h2 id="heroH">Today in $</h2>
+    <div class="ballbox">
+      <canvas id="stage" role="img" aria-label="A marble sundial. The length of its shadow is today's profit or loss against a typical day: a short shadow is a strong day, a long shadow a hard one."></canvas>
+      <svg id="flat" viewBox="0 0 320 180" role="img" aria-label="A flat drawing of the marble sundial and its shadow" hidden></svg>
+    </div>
+    <p class="note" id="dialWord"></p>
+    <p class="lead" id="head"></p>
+    <div class="tiles" id="heroTiles"></div>
+    <div class="seg" id="sets" role="group" aria-label="Which trades"></div>
+    <p class="note" id="srcNote"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="monthTitle">
+    <div class="row"><button class="btn step" id="prevM" type="button" aria-label="Previous month">&lsaquo;</button><h2 id="monthTitle">Month</h2><button class="btn step" id="nextM" type="button" aria-label="Next month">&rsaquo;</button></div>
+    <div class="grid" id="grid" role="grid" aria-label="Daily profit and loss"></div>
+    <div class="tiles" id="monthTiles"></div>
+    <p class="note" id="monthNote"></p>
+  </section>
+  <section class="pl-place" data-polis-life="amphorae" aria-label="The storeroom: one amphora per trade" hidden></section>
+  <section class="ag-card card" aria-labelledby="wkH">
+    <h2 id="wkH">Which weekday pays</h2>
+    <ul class="plain bars" id="wkRows"></ul>
+    <p class="note" id="wkText"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="hrH">
+    <h2 id="hrH">Which hour pays</h2>
+    <ul class="plain bars" id="hrRows"></ul>
+    <p class="note" id="hrText"></p>
+  </section>
+  <section class="ag-card card" id="bandCard" aria-labelledby="bandH">
+    <div class="row"><h2 id="bandH">What a normal bad week looks like</h2><span class="pill" id="bandPill">...</span></div>
+    <div id="bandText" class="stack"></div>
+    <div id="bandViz"></div>
+    <ul class="plain" id="bandRows"></ul>
+    <p class="note">From your own weeks only (weeks with at least one trade), shown with how many there are. A short history means wide guesses: the next bad week can still be worse than the worst one so far.</p>
+  </section>
+
+  <p class="foot" id="foot">Kronos reads the site's own trade file and sends nothing. It is a record, not a forecast: it never places or changes an order. Every dollar is shown with its R (1R = the average risk of a trade in the set). Backtest numbers are history, not a promise.</p>
+</main>
+<script type="module" src="kronos.js?v=a1"></script>
+<script type="module" src="kronosdial.js?v=q6c" onerror="window.KRONOS_DIAL_FAIL = 1"></script>
+</body>
+</html>

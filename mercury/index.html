@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mercury</title>
+<meta name="description" content="OLYMPUS MERCURY: the deal watcher. It reads public prop-firm, data and platform pages for sales, discount codes, free resets and rule changes, and shows what each could save you against your own prices. It never buys anything.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mercury">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- MERCURY (OLYMPUS, AGORA look, 2026-11-10): money machine #2, DEALS. mercurycore.js = the pure model (node-tested); mercury.js = the page (ES module); mercury3d.js = the marble pedestal with orbiting price tags (optional, the page works without it).
+     Read only: it reads ../money/mercury.json (written by tools/money/mercury.py) and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="mercury"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="mercury.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Mercury</h1><p class="sub">Discount codes and sales on prop accounts. Read the top deal; buy only if you need that account.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <h2 id="heroH">The best deal right now</h2>
+    <div class="stage"><canvas id="stage" width="360" height="200" role="img" aria-label="A marble pedestal with price tags and tickets slowly circling it"></canvas></div>
+    <p class="big ag-num" id="headline">...</p>
+    <p class="note" id="asof"></p>
+  </section>
+
+  <section class="ag-card card" id="pickCard" aria-labelledby="pickH">
+    <div class="row"><h2 id="pickH">What I would buy, and why</h2><span class="pill" id="pickPill">...</span></div>
+    <p class="ans" id="pickTitle">...</p>
+    <p class="lead" id="pickWhy"></p>
+    <p class="note">Mercury only suggests. It never buys, logs in or pays. You decide.</p>
+  </section>
+
+  <section class="ag-card card" id="dealsCard" aria-labelledby="dealsH">
+    <h2 id="dealsH">Deals now</h2>
+    <ul class="list" id="deals"></ul>
+  </section>
+
+  <section class="ag-card card" id="soonCard" aria-labelledby="soonH">
+    <h2 id="soonH">Ends soon</h2>
+    <ul class="list" id="soon"></ul>
+  </section>
+
+  <section class="ag-card card" id="rulesCard" aria-labelledby="rulesH">
+    <h2 id="rulesH">Rule changes that affect you</h2>
+    <ul class="list" id="rules"></ul>
+    <details id="otherRules">
+      <summary id="otherSum">Other rule changes (firms you do not use)</summary>
+      <ul class="list" id="rulesOther"></ul>
+    </details>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="watchH">
+    <h2 id="watchH">Pages being watched</h2>
+    <ul class="plain" id="watch"></ul>
+    <details>
+      <summary>Things to remember</summary>
+      <ul class="plain" id="notes"></ul>
+    </details>
+  </section>
+
+  <p class="foot" id="foot">Mercury reads public pages and this site's own file, and sends nothing. Every saving is an estimate: the percent off times your own price for that plan (Builder 25K $63, ATLAS 25K $43, Builder 50K $91.80), or a reference price for a firm you do not use. A sale is only a saving if you would have bought anyway. This is not income.</p>
+</main>
+<script type="module" src="mercury.js?v=a1"></script>
+<script type="module" src="mercury3d.js?v=a1"></script>
+</body>
+</html>

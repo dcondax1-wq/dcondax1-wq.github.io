@@ -1,0 +1,1 @@
+{"v":1,"name":"Pnyx","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Micros","value":"23"},{"label":"Risk (1R)","value":"$964"},{"label":"Stop","value":"20 pts"}],"lines":["Type a stop in points to see the micros the rules allow.","Drawdown left is always shown with the max loss."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

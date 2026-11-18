@@ -1,0 +1,972 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "DEMO edition: written from made-up example files so the page is never empty. These are not real numbers.",
+ "edition": {
+  "v": 1,
+  "date": "2026-11-10",
+  "number": 7,
+  "built": "2026-11-10T13:00:00Z",
+  "demo": true,
+  "masthead": {
+   "title": "The Olympus Herald",
+   "motto": "Only what the files say",
+   "date_words": "Tuesday, 10 November 2026"
+  },
+  "label": "DEMO edition: example files, not real numbers.",
+  "lead": {
+   "id": "bots",
+   "kicker": "The floor",
+   "headline": "The day so far: $252 across the accounts",
+   "standfirst": "Each account's day and how much drawdown is left, from the live summary.",
+   "body": [
+    "Across the 2 accounts that reported, the day stands at $252.",
+    "Example 50K is $312 on the day (+0.73R), with drawdown left $1,420 of $2,000 max loss.",
+    "Example 25K is -$60 on the day, with drawdown left $840 of $1,000 max loss.",
+    "The file gives the day in dollars; where it also gives R, the R is printed next to its dollars.",
+    "These are the figures the phone's home page reads; the bots trade on paper or on an eval the owner arms himself."
+   ],
+   "facts": [
+    {
+     "t": "Example 50K",
+     "src": "home.json",
+     "quote": true
+    },
+    {
+     "t": "$312",
+     "src": "home.json",
+     "at": "accounts/0/pnl/today",
+     "raw": 312
+    },
+    {
+     "t": "+0.73R",
+     "src": "home.json",
+     "at": "accounts/0/pnl/today_r",
+     "raw": 0.73
+    },
+    {
+     "t": "$1,420",
+     "src": "home.json",
+     "at": "accounts/0/eval/room",
+     "raw": 1420
+    },
+    {
+     "t": "$2,000",
+     "src": "home.json",
+     "at": "accounts/0/eval/mll",
+     "raw": 2000
+    },
+    {
+     "t": "Example 25K",
+     "src": "home.json",
+     "quote": true
+    },
+    {
+     "t": "-$60",
+     "src": "home.json",
+     "at": "accounts/1/pnl/today",
+     "raw": -60
+    },
+    {
+     "t": "$840",
+     "src": "home.json",
+     "at": "accounts/1/eval/room",
+     "raw": 840
+    },
+    {
+     "t": "$1,000",
+     "src": "home.json",
+     "at": "accounts/1/eval/mll",
+     "raw": 1000
+    },
+    {
+     "t": "$252",
+     "src": "home.json",
+     "calc": "sum of pnl/today over the accounts named",
+     "raw": 252.0
+    },
+    {
+     "t": "2",
+     "src": "home.json",
+     "calc": "count of accounts with a P&L today",
+     "raw": 2
+    }
+   ],
+   "sources": [
+    "home.json"
+   ],
+   "sample": false
+  },
+  "articles": [
+   {
+    "id": "kalshi-research",
+    "kicker": "Kalshi desk",
+    "headline": "1 Kalshi edge hunts report: no edge found",
+    "standfirst": "The research teams' verdicts, one honest sentence each, copied from their write-ups.",
+    "body": [
+     "Example edge hunt, team Z: NO EDGE FOUND (dated 2026-11-09).",
+     "In its own words: No edge found. Out of the 12 example cells none beat the noise after fees.",
+     "Every test was on paper with fees in and a held-out block; no order was placed."
+    ],
+    "facts": [
+     {
+      "t": "Example edge hunt, team Z: NO EDGE FOUND",
+      "src": "research/writeups/kalshi_edge_Z.md",
+      "quote": true
+     },
+     {
+      "t": "2026-11-09",
+      "src": "research/writeups/kalshi_edge_Z.md",
+      "quote": true
+     },
+     {
+      "t": "No edge found. Out of the 12 example cells none beat the noise after fees.",
+      "src": "research/writeups/kalshi_edge_Z.md",
+      "quote": true
+     },
+     {
+      "t": "1",
+      "src": "research/writeups/kalshi_edge_Z.md",
+      "calc": "count of kalshi_edge_*.md write-ups read",
+      "raw": 1
+     }
+    ],
+    "sources": [
+     "research/writeups/kalshi_edge_Z.md"
+    ],
+    "sample": false
+   },
+   {
+    "id": "builders",
+    "kicker": "The workshop",
+    "headline": "3 builders at work in the workshop",
+    "standfirst": "Who is building what today, straight from the lead's roster.",
+    "body": [
+     "The roster the lead keeps lists 3 build agents at work on OLYMPUS, each on a branch of its own.",
+     "On the bench today: Example scribe: Writing the example daily paper.",
+     "Next to it: Example smith: Fixing 3 example tests.",
+     "And a third: Example mason: Laying the marble floor of an example app.",
+     "Between them they cover 3 areas: design, press, quality.",
+     "The roster was last updated at 2026-11-10T09:00:00Z."
+    ],
+    "facts": [
+     {
+      "t": "3",
+      "src": "handoff/agents_now.json",
+      "calc": "count of agents",
+      "raw": 3
+     },
+     {
+      "t": "Example scribe",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "Writing the example daily paper",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "Example smith",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "Fixing 3 example tests",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "Example mason",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "Laying the marble floor of an example app",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "3",
+      "src": "handoff/agents_now.json",
+      "calc": "count of different areas",
+      "raw": 3
+     },
+     {
+      "t": "design",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "press",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "quality",
+      "src": "handoff/agents_now.json",
+      "quote": true
+     },
+     {
+      "t": "2026-11-10T09:00:00Z",
+      "src": "handoff/agents_now.json",
+      "at": "asof",
+      "raw": "2026-11-10T09:00:00Z"
+     }
+    ],
+    "sources": [
+     "handoff/agents_now.json"
+    ],
+    "sample": false
+   },
+   {
+    "id": "kalshi-stop",
+    "kicker": "Kalshi desk",
+    "headline": "Kalshi stop list: 1 habits to drop",
+    "standfirst": "What the bot's own settled bets say it should stop doing. Suggestions only.",
+    "body": [
+     "The Kalshi review sorts the bot's habits into 1 to stop, 1 to pause, 2 to watch and 1 to keep.",
+     "Stop: Example habit A, 80 bets for -$31.50 after fees (-4.2% per dollar staked).",
+     "The rule as written: Do not do example habit A. It loses after fees.",
+     "What it rests on: Example basis: 200 made-up settled buys.",
+     "Suggestions only: nothing here places a bet."
+    ],
+    "facts": [
+     {
+      "t": "1",
+      "src": "kalshicity/suggestions.json",
+      "at": "counts/stop",
+      "raw": 1
+     },
+     {
+      "t": "1",
+      "src": "kalshicity/suggestions.json",
+      "at": "counts/pause",
+      "raw": 1
+     },
+     {
+      "t": "2",
+      "src": "kalshicity/suggestions.json",
+      "at": "counts/watch",
+      "raw": 2
+     },
+     {
+      "t": "1",
+      "src": "kalshicity/suggestions.json",
+      "at": "counts/keep",
+      "raw": 1
+     },
+     {
+      "t": "Example habit A",
+      "src": "kalshicity/suggestions.json",
+      "quote": true
+     },
+     {
+      "t": "80",
+      "src": "kalshicity/suggestions.json",
+      "at": "items/0/n",
+      "raw": 80
+     },
+     {
+      "t": "-$31.50",
+      "src": "kalshicity/suggestions.json",
+      "at": "items/0/net_usd",
+      "raw": -31.5
+     },
+     {
+      "t": "-4.2%",
+      "src": "kalshicity/suggestions.json",
+      "at": "items/0/roi_pct",
+      "raw": -4.2
+     },
+     {
+      "t": "Do not do example habit A. It loses after fees.",
+      "src": "kalshicity/suggestions.json",
+      "quote": true
+     },
+     {
+      "t": "Example basis: 200 made-up settled buys.",
+      "src": "kalshicity/suggestions.json",
+      "quote": true
+     },
+     {
+      "t": "Suggestions only: nothing here places a bet.",
+      "src": "kalshicity/suggestions.json",
+      "quote": true
+     },
+     {
+      "t": "1",
+      "src": "kalshicity/suggestions.json",
+      "calc": "count of items with verdict stop",
+      "raw": 1
+     }
+    ],
+    "sources": [
+     "kalshicity/suggestions.json"
+    ],
+    "sample": false
+   },
+   {
+    "id": "money",
+    "kicker": "Money",
+    "headline": "Money machines put a month at $310.50 (sample data)",
+    "standfirst": "What the five paper money machines add up to, by their own count.",
+    "body": [
+     "The money machines' own estimate for a month is $310.50, between -$40 on a bad month and $900 on a good one.",
+     "5 streams report in; 5 of them are still running on sample data.",
+     "The part of that estimate that rests on real finds, not samples, is $0.",
+     "Chrysos says: Example estimate: an example fleet nets about $100 a month. Not a promise.",
+     "It is an estimate on paper, not a promise, and no machine here places an order."
+    ],
+    "facts": [
+     {
+      "t": "$310.50",
+      "src": "money/index.json",
+      "at": "total/base",
+      "raw": 310.5
+     },
+     {
+      "t": "-$40",
+      "src": "money/index.json",
+      "at": "total/low",
+      "raw": -40.0
+     },
+     {
+      "t": "$900",
+      "src": "money/index.json",
+      "at": "total/high",
+      "raw": 900.0
+     },
+     {
+      "t": "5",
+      "src": "money/index.json",
+      "at": "counts/streams",
+      "raw": 5
+     },
+     {
+      "t": "5",
+      "src": "money/index.json",
+      "at": "counts/sample",
+      "raw": 5
+     },
+     {
+      "t": "$0",
+      "src": "money/index.json",
+      "at": "total/real_base",
+      "raw": 0.0
+     },
+     {
+      "t": "Chrysos",
+      "src": "money/index.json",
+      "quote": true
+     },
+     {
+      "t": "Example estimate: an example fleet nets about $100 a month. Not a promise.",
+      "src": "money/index.json",
+      "quote": true
+     }
+    ],
+    "sources": [
+     "money/index.json"
+    ],
+    "sample": true
+   },
+   {
+    "id": "archive",
+    "kicker": "Research",
+    "headline": "Archive: 3 adopted, 30 rejected",
+    "standfirst": "What the research library holds and its newest batch.",
+    "body": [
+     "The Archive now holds 40 research runs: 3 adopted, 30 rejected and 7 still open.",
+     "The newest batch in the index is stamped 26-11-09: 2 runs kept there, 1 adopted, 1 open.",
+     "Adopted, from the example family family: Example run that was adopted.",
+     "Still open, from the example family family: Example run still open.",
+     "On the rejected shelf, so nobody redoes it: Example idea that was dropped: a fixed 20-point stop.",
+     "21 write-ups explain the results in plain language."
+    ],
+    "facts": [
+     {
+      "t": "40",
+      "src": "archive/index.json",
+      "at": "counts/runs",
+      "raw": 40
+     },
+     {
+      "t": "3",
+      "src": "archive/index.json",
+      "at": "counts/adopted",
+      "raw": 3
+     },
+     {
+      "t": "30",
+      "src": "archive/index.json",
+      "at": "counts/rejected",
+      "raw": 30
+     },
+     {
+      "t": "7",
+      "src": "archive/index.json",
+      "at": "counts/open",
+      "raw": 7
+     },
+     {
+      "t": "26-11-09",
+      "src": "archive/index.json",
+      "quote": true
+     },
+     {
+      "t": "2",
+      "src": "archive/index.json",
+      "calc": "count of runs in the index with the newest built stamp",
+      "raw": 2
+     },
+     {
+      "t": "1",
+      "src": "archive/index.json",
+      "calc": "count of those with verdict adopted",
+      "raw": 1
+     },
+     {
+      "t": "1",
+      "src": "archive/index.json",
+      "calc": "count of those with verdict open",
+      "raw": 1
+     },
+     {
+      "t": "example family",
+      "src": "archive/index.json",
+      "quote": true
+     },
+     {
+      "t": "Example run that was adopted",
+      "src": "archive/index.json",
+      "quote": true
+     },
+     {
+      "t": "example family",
+      "src": "archive/index.json",
+      "quote": true
+     },
+     {
+      "t": "Example run still open",
+      "src": "archive/index.json",
+      "quote": true
+     },
+     {
+      "t": "Example idea that was dropped: a fixed 20-point stop",
+      "src": "archive/index.json",
+      "quote": true
+     },
+     {
+      "t": "21",
+      "src": "archive/index.json",
+      "at": "counts/writeups",
+      "raw": 21
+     },
+     {
+      "t": "3",
+      "src": "archive/index.json",
+      "at": "counts/adopted",
+      "raw": 3
+     },
+     {
+      "t": "30",
+      "src": "archive/index.json",
+      "at": "counts/rejected",
+      "raw": 30
+     }
+    ],
+    "sources": [
+     "archive/index.json"
+    ],
+    "sample": false
+   },
+   {
+    "id": "calendar",
+    "kicker": "Market calendar",
+    "headline": "Next on the calendar: Example CPI",
+    "standfirst": "The next dated market events, from Pythia's calendar.",
+    "body": [
+     "Example CPI: 2026-11-10 at 08:30 New York time, impact high, to be confirmed on the official page.",
+     "Example confidence survey: 2026-11-10 at 10:00 New York time, impact med, to be confirmed on the official page.",
+     "Example holiday: 2026-11-12, impact low.",
+     "Example PPI: 2026-11-13 at 08:30 New York time, impact med, to be confirmed on the official page.",
+     "A high-impact release is on the list: size down around it.",
+     "The calendar was last rebuilt on 2026-11-09; agencies move dates, so check the official page."
+    ],
+    "facts": [
+     {
+      "t": "Example CPI",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "2026-11-10",
+      "src": "pythia/events.json",
+      "at": "events/1/date",
+      "raw": "2026-11-10"
+     },
+     {
+      "t": "08:30",
+      "src": "pythia/events.json",
+      "at": "events/1/time",
+      "raw": "08:30"
+     },
+     {
+      "t": "high",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "Example confidence survey",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "2026-11-10",
+      "src": "pythia/events.json",
+      "at": "events/2/date",
+      "raw": "2026-11-10"
+     },
+     {
+      "t": "10:00",
+      "src": "pythia/events.json",
+      "at": "events/2/time",
+      "raw": "10:00"
+     },
+     {
+      "t": "med",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "Example holiday",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "2026-11-12",
+      "src": "pythia/events.json",
+      "at": "events/3/date",
+      "raw": "2026-11-12"
+     },
+     {
+      "t": "low",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "Example PPI",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "2026-11-13",
+      "src": "pythia/events.json",
+      "at": "events/4/date",
+      "raw": "2026-11-13"
+     },
+     {
+      "t": "08:30",
+      "src": "pythia/events.json",
+      "at": "events/4/time",
+      "raw": "08:30"
+     },
+     {
+      "t": "med",
+      "src": "pythia/events.json",
+      "quote": true
+     },
+     {
+      "t": "2026-11-09",
+      "src": "pythia/events.json",
+      "at": "updated",
+      "raw": "2026-11-09"
+     },
+     {
+      "t": "Example CPI",
+      "src": "pythia/events.json",
+      "quote": true
+     }
+    ],
+    "sources": [
+     "pythia/events.json"
+    ],
+    "sample": false
+   },
+   {
+    "id": "queue",
+    "kicker": "The workshop",
+    "headline": "4 tasks open, 5 done",
+    "standfirst": "The state of the build queue and the newest lesson written down.",
+    "body": [
+     "The build queue holds 9 tasks: 4 open and 5 done.",
+     "First in line (P1): Example task: polish the example page.",
+     "The research shelf now counts 21 write-ups.",
+     "The newest lesson on file, dated 2026-11-09, reads: Example lesson: a wide stop means fewer micros.",
+     "It was filed under \"adopted\" and comes from research/writeups/example.md."
+    ],
+    "facts": [
+     {
+      "t": "4",
+      "src": "ergasterion/queue.json",
+      "at": "queue/open",
+      "raw": 4
+     },
+     {
+      "t": "9",
+      "src": "ergasterion/queue.json",
+      "at": "queue/total",
+      "raw": 9
+     },
+     {
+      "t": "5",
+      "src": "ergasterion/queue.json",
+      "at": "queue/done",
+      "raw": 5
+     },
+     {
+      "t": "P1",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     },
+     {
+      "t": "Example task: polish the example page",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     },
+     {
+      "t": "21",
+      "src": "ergasterion/queue.json",
+      "at": "writeups/count",
+      "raw": 21
+     },
+     {
+      "t": "2026-11-09",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     },
+     {
+      "t": "Example lesson: a wide stop means fewer micros",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     },
+     {
+      "t": "adopted",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     },
+     {
+      "t": "research/writeups/example.md",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     }
+    ],
+    "sources": [
+     "ergasterion/queue.json"
+    ],
+    "sample": false
+   },
+   {
+    "id": "mind",
+    "kicker": "The Mind",
+    "headline": "The Mind's notebook: Example: 7 of the last 10 example losses came after lunch",
+    "standfirst": "What the nightly self-research wrote down. Context only.",
+    "body": [
+     "The Mind has tested 6 of its own ideas; its notes are dated 2026-11-08.",
+     "It noticed: Example: 7 of the last 10 example losses came after lunch.",
+     "These are observations for context, not rules: the Mind never changes a setting on its own."
+    ],
+    "facts": [
+     {
+      "t": "6",
+      "src": "ergasterion/queue.json",
+      "at": "mind/tested",
+      "raw": 6
+     },
+     {
+      "t": "2026-11-08",
+      "src": "ergasterion/queue.json",
+      "at": "mind/date",
+      "raw": "2026-11-08"
+     },
+     {
+      "t": "Example: 7 of the last 10 example losses came after lunch",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     },
+     {
+      "t": "Example: 7 of the last 10 example losses came after lunch",
+      "src": "ergasterion/queue.json",
+      "quote": true
+     }
+    ],
+    "sources": [
+     "ergasterion/queue.json"
+    ],
+    "sample": false,
+    "by": "mind"
+   },
+   {
+    "id": "new-apps",
+    "kicker": "Openings",
+    "headline": "1 new app opens on the agora",
+    "standfirst": "What was added to the app bar since the last edition.",
+    "body": [
+     "1 new app has opened since the last edition: Herald.",
+     "That brings the bar to 3 apps.",
+     "Each one reads only published files and falls back to labelled demo data, so none can be blank."
+    ],
+    "facts": [
+     {
+      "t": "1",
+      "src": "jarvis/apps.js",
+      "calc": "count of app ids not in the last edition's list",
+      "raw": 1
+     },
+     {
+      "t": "Herald",
+      "src": "jarvis/apps.js",
+      "quote": true
+     },
+     {
+      "t": "3",
+      "src": "jarvis/apps.js",
+      "calc": "count of app ids in jarvis/apps.js",
+      "raw": 3
+     }
+    ],
+    "sources": [
+     "jarvis/apps.js"
+    ],
+    "sample": false
+   }
+  ],
+  "numbers": [
+   {
+    "value": "$312",
+    "label": "The day so far: $252 across the accounts",
+    "src": "home.json",
+    "article": "bots"
+   },
+   {
+    "value": "1",
+    "label": "1 Kalshi edge hunts report: no edge found",
+    "src": "research/writeups/kalshi_edge_Z.md",
+    "article": "kalshi-research"
+   },
+   {
+    "value": "3",
+    "label": "3 builders at work in the workshop",
+    "src": "handoff/agents_now.json",
+    "article": "builders"
+   },
+   {
+    "value": "1",
+    "label": "Kalshi stop list: 1 habits to drop",
+    "src": "kalshicity/suggestions.json",
+    "article": "kalshi-stop"
+   },
+   {
+    "value": "$310.50",
+    "label": "Money machines put a month at $310.50 (sample data)",
+    "src": "money/index.json",
+    "article": "money"
+   },
+   {
+    "value": "40",
+    "label": "Archive: 3 adopted, 30 rejected",
+    "src": "archive/index.json",
+    "article": "archive"
+   },
+   {
+    "value": "2026-11-10",
+    "label": "Next on the calendar: Example CPI",
+    "src": "pythia/events.json",
+    "article": "calendar"
+   }
+  ],
+  "corrections": [
+   {
+    "was": "The Kalshi bot kept doing this: Example habit A.",
+    "now": "Do not do example habit A. It loses after fees.",
+    "src": "kalshicity/suggestions.json",
+    "proof": "80 bets, -$31.50 after fees."
+   },
+   {
+    "was": "The Kalshi bot kept doing this: Example habit B.",
+    "now": "Pause example habit B until there is more data.",
+    "src": "kalshicity/suggestions.json",
+    "proof": "40 bets, -$6 after fees."
+   },
+   {
+    "was": "We hoped a Kalshi edge was hiding in the data.",
+    "now": "No edge found. Out of the 12 example cells none beat the noise after fees.",
+    "src": "research/writeups/kalshi_edge_Z.md"
+   }
+  ],
+  "classifieds": {
+   "sample": true,
+   "src": "mercury/fixture.json",
+   "items": [
+    {
+     "title": "Example: 30% off an eval",
+     "detail": "Example code EXAMPLE30.",
+     "usd": 27.54,
+     "expires": "2026-11-13"
+    },
+    {
+     "title": "Example: free reset",
+     "detail": "No end date.",
+     "usd": 22.95
+    }
+   ],
+   "note": "Savings are estimates. Sample offers, not real ones."
+  },
+  "weather": {
+   "level": "careful",
+   "text": "Careful: a high-impact release is on today's calendar. Size down around it.",
+   "src": "pythia/events.json",
+   "events": [
+    {
+     "time": "08:30",
+     "title": "Example CPI",
+     "impact": "high"
+    },
+    {
+     "time": "10:00",
+     "title": "Example confidence survey",
+     "impact": "med"
+    }
+   ],
+   "note": "From the saved calendar. It is not a forecast of price."
+  },
+  "quiz": [
+   {
+    "id": "z1",
+    "topic": "size",
+    "q": "A wider stop means",
+    "o": [
+     "More micros",
+     "Fewer micros"
+    ],
+    "a": 1,
+    "why": "Size follows the stop: it's smaller when the stop is wide."
+   },
+   {
+    "id": "t1",
+    "topic": "target",
+    "q": "How many targets?",
+    "o": [
+     "One clear target",
+     "As many as possible"
+    ],
+    "a": 0,
+    "why": "One clear target, no greed."
+   },
+   {
+    "id": "s1",
+    "topic": "stop",
+    "q": "Where does the stop go?",
+    "o": [
+     "Beyond the sweep extreme",
+     "A fixed distance",
+     "Wherever feels safe"
+    ],
+    "a": 0,
+    "why": "The stop sits at the protected low or high."
+   }
+  ],
+  "interviews": [
+   {
+    "id": "mind",
+    "name": "The Mind",
+    "title": "Nightly self-research",
+    "src": "ergasterion/queue.json",
+    "qa": [
+     {
+      "q": "How many of your own ideas have you tested?",
+      "a": "6. I keep the count in my notes."
+     },
+     {
+      "q": "What is the clearest thing you noticed?",
+      "a": "Example: 7 of the last 10 example losses came after lunch."
+     },
+     {
+      "q": "Do you change the bot when you notice something?",
+      "a": "No. I write it down. I never change anything myself."
+     }
+    ]
+   },
+   {
+    "id": "scanner:mercury",
+    "name": "Mercury",
+    "title": "Deal scanner (sample data)",
+    "src": "mercury/fixture.json",
+    "sample": true,
+    "qa": [
+     {
+      "q": "How many offers are on your desk?",
+      "a": "2 that have not run out, in the list I publish."
+     },
+     {
+      "q": "Which one comes first?",
+      "a": "Example: 30% off an eval, ending 2026-11-13."
+     },
+     {
+      "q": "Can you buy it for me?",
+      "a": "No. I only read public pages and write a list. I can't place orders."
+     }
+    ]
+   },
+   {
+    "id": "builder:eeee5555",
+    "name": "Example smith",
+    "title": "Build agent, quality",
+    "src": "handoff/agents_now.json",
+    "qa": [
+     {
+      "q": "What are you building?",
+      "a": "Fixing 3 example tests."
+     },
+     {
+      "q": "Where does your work live?",
+      "a": "On my own branch, worktree-agent-eeee5555ffff6666a. The lead merges it when it is ready."
+     },
+     {
+      "q": "Which part of OLYMPUS is yours?",
+      "a": "The quality area."
+     }
+    ]
+   }
+  ],
+  "sources": {
+   "read": [
+    "archive/index.json",
+    "ergasterion/queue.json",
+    "handoff/agents_now.json",
+    "home.json",
+    "jarvis/apps.js",
+    "kalshicity/suggestions.json",
+    "lyceum/lyceumcore.js",
+    "mercury/fixture.json",
+    "money/index.json",
+    "pythia/events.json",
+    "research/writeups/kalshi_edge_Z.md"
+   ],
+   "missing": [
+    "money/mercury.json"
+   ]
+  },
+  "skipped": [],
+  "apps": [
+   "alpha",
+   "beta",
+   "herald"
+  ],
+  "press": {
+   "available": false,
+   "shipped": []
+  }
+ }
+}

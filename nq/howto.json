@@ -1,0 +1,31 @@
+{
+ "v": 1,
+ "source": "docs/NQ_BOT_BACK.md",
+ "updated": "2026-11-12",
+ "title": "Bring the bots back",
+ "intro": "The bots (LIT / ATLAS / BLITZ) never needed GitHub to trade. Only their reporting did. This puts the reporting on your main PC.",
+ "steps": [
+  {
+   "n": 1,
+   "title": "Update the bot folder from the zip",
+   "text": "Double-click STOP_BOT.bat. Put the code zip and its .sha256.txt in Downloads on the PC, open the zip, copy UPDATE_FROM_ZIP.bat into the bot folder and double-click it (type Y if it asks)."
+  },
+  {
+   "n": 2,
+   "title": "Double-click BOTS_BACK.bat",
+   "text": "in the bot folder. It checks NinjaTrader and its bars, starts the bots on Sim / paper (never a real account), turns the GitHub pushes off and ends with six lines. Note the phone alert topic it shows."
+  },
+  {
+   "n": 3,
+   "title": "iPhone:",
+   "text": "install the free ntfy app, tap +, type that topic, tap Subscribe. A test push arrives; after that every trade, a stale feed or a stopped bot pushes to your phone, and this site shows the PC's status every 15 minutes."
+  }
+ ],
+ "undo": "Undo: UNDO_UPDATE.bat puts the old files back; UNDO_PUBLISH_NQ.bat removes the publish task.",
+ "limits": [
+  "Netlify's new free plan allows about 20 deploys a month (each costs 15 of 300 credits; at zero the site pauses). So the publisher keeps a budget: at most 1 a day, 18 a month by default, and says so on its status line.",
+  "Check your real limit at app.netlify.com > Usage (the price page can change).",
+  "The phone live view (minute-by-minute) and phone remote control used GitHub; they are off. Phone alerts from the cloud monitor are gone; PC-side alerts still work.",
+  "Auto-update of the bot from GitHub is off: update with the zip and UPDATE_FROM_ZIP.bat (step 1)."
+ ]
+}

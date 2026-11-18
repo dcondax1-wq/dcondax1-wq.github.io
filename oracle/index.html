@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Oracle">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="OLYMPUS Oracle: a live 3D radar of NQ, the LIT bot's levels, sweeps, stage and position.">
+<title>OLYMPUS Oracle</title>
+<link rel="icon" href="../jarvis/icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="oracle"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/glossary-lite.js?v=g2" defer></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="oracle.css?v=o5">
+<link rel="stylesheet" href="sheet.css?v=o9">
+<script type="module" src="main.js?v=o7"></script>
+</head>
+<body>
+<canvas id="gl" aria-label="NQ as a 3D radar: the price column, the LIT levels as rings, the session clock and the bot's stage. Drag to turn, pinch to zoom, double tap to reset."></canvas>
+
+<div id="ladder" class="ladder" aria-hidden="true"></div>
+
+<header id="top" class="hud">
+  <div class="bar">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <ellipse cx="16" cy="16" rx="13" ry="5" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+      <ellipse cx="16" cy="11" rx="9" ry="3.4" fill="none" stroke="currentColor" stroke-width="1" opacity=".4"/>
+      <path d="M16 2v28" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="16" cy="13.5" r="2.6" fill="currentColor"/>
+    </svg>
+    <h1>Oracle</h1>
+    <span id="mode" class="mode" data-mode="loading" role="status"><i></i><span>Connecting</span></span>
+    <span class="grow"></span>
+    <button id="replay" class="ghost" type="button" hidden>Replay a day</button>
+    <button id="oracle-btn" class="ghost pr-btn" type="button" aria-controls="oracle" aria-expanded="false" title="What the bot needs next, level by level">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6zM18.5 14l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>Prophecy</span>
+    </button>
+    <button id="quality" class="ghost q" type="button" aria-pressed="true" title="Quality: HD or LITE">HD</button>
+  </div>
+  <div class="row">
+    <div class="px"><span class="lbl">NQ</span><b id="price">–</b></div>
+    <div class="pnl"><span class="lbl">P&amp;L today</span><b id="pnl" data-sign="flat">–</b><span id="pnl-note"></span></div>
+  </div>
+  <div id="stage" class="stage">
+    <p class="st"><b id="stage-n">–</b><span id="stage-label">Reading the market</span></p>
+    <p id="stage-gloss" class="gloss"></p>
+    <div id="wait" class="wait" data-tone="wait" aria-label="What the bot is waiting for">
+      <ol class="pips" aria-hidden="false"></ol>
+      <p class="need"><b>Next</b><span class="nx"></span><span class="dt"></span></p>
+    </div>
+    <p id="waiting" tabindex="0" role="region" aria-label="Full waiting reason"></p>
+  </div>
+</header>
+
+<section id="dock" class="hud sheet" aria-label="Today">
+  <div class="ev-row">
+    <ol id="events" class="events" aria-label="Today's moments: sweeps, CISDs, the entry and the exit"></ol>
+    <p id="ev-empty" class="ev-empty">No sweep yet today (no grab of an old high/low)</p>
+    <button id="today" class="ghost today" type="button" hidden>Replay today</button>
+  </div>
+  <div id="demo-bar" class="demo-bar" hidden>
+    <button id="demo-play" class="ghost play" type="button" aria-label="Pause the replay" data-playing="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l11-6.5z"/></svg></button>
+    <span id="demo-tag" class="tag">Replay</span>
+    <span class="scrub-wrap"><input id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Scrub through the session"><span id="scrub-ticks" class="scrub-ticks" aria-hidden="true"></span></span>
+    <span id="demo-time"></span>
+  </div>
+  <div id="pos" class="pos" hidden>
+    <p id="pos-side"></p>
+    <p id="pos-levels"></p>
+    <p id="pos-money" class="pos-money"></p>
+    <b id="pos-pnl" data-sign="up"></b>
+    <span id="pos-r"></span>
+    <a id="pos-film" class="film" hidden>Watch in Odeon ▸</a>
+  </div>
+  <div class="cond">
+    <p id="window" data-open="false"><i></i><span id="win-text"></span></p>
+    <p id="session"></p>
+    <div id="wx" class="wx"></div>
+    <div id="wx2" class="wx wx2" aria-label="Day type and sweeps today"></div>
+  </div>
+  <div id="levels" class="levels closed">
+    <button id="lv-toggle" type="button" aria-expanded="false"><span>Levels</span><span id="lv-meta"></span></button>
+    <ul id="lv-list"></ul>
+  </div>
+</section>
+
+<aside id="oracle" class="osheet" hidden aria-label="Prophecy: what the bot needs next">
+  <div class="os-head">
+    <h2>Prophecy</h2>
+    <div class="os-tabs" role="tablist" aria-label="Prophecy sections">
+      <button role="tab" type="button" data-tab="prophecy" aria-selected="true">Odds</button>
+      <button role="tab" type="button" data-tab="heat" aria-selected="false">Heat</button>
+      <button role="tab" type="button" data-tab="alerts" aria-selected="false">Alerts</button>
+      <button role="tab" type="button" data-tab="day" aria-selected="false">Day</button>
+    </div>
+    <button id="oracle-close" class="oly-close" type="button" aria-label="Close the prophecy">×</button>
+  </div>
+  <div class="os-body">
+    <section role="tabpanel" data-tab="prophecy">
+      <p class="pr-need"><b>Next</b><span id="pr-next"></span></p>
+      <ol id="pr-list" class="pr-list"></ol>
+      <p id="pr-empty" class="os-empty" hidden>No open level to read right now.</p>
+      <p id="pr-src" class="os-src"></p>
+    </section>
+    <section role="tabpanel" data-tab="heat" hidden>
+      <p class="os-note">How near price was to each level, over the last prices. 100% = price on the level.</p>
+      <ul id="ht-list" class="ht-list"></ul>
+      <p id="ht-empty" class="os-empty" hidden>Not enough price history yet.</p>
+    </section>
+    <section role="tabpanel" data-tab="alerts" hidden>
+      <ol id="al-list" class="al-list"></ol>
+      <p id="al-empty" class="os-empty" hidden>Nothing to report yet.</p>
+    </section>
+    <section role="tabpanel" data-tab="day" hidden>
+      <p class="day-k">Day type</p>
+      <p id="day-type" class="day-type">–</p>
+      <p id="day-why" class="os-note"></p>
+      <p class="day-k">Levels swept</p>
+      <p class="sw"><b id="sw-n">0</b><span id="sw-detail"></span></p>
+      <button id="day-replay" class="ghost day-rp" type="button" hidden>Replay today's session</button>
+    </section>
+  </div>
+</aside>
+
+<div id="nogl" class="nogl" hidden><canvas id="fallback" aria-label="Illustrated Delphi city, showing open levels as beacons. Market numbers remain in the panels."></canvas></div>
+</body>
+</html>

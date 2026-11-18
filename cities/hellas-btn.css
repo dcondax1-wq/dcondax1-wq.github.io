@@ -1,0 +1,9 @@
+/* the entry buttons of Hellas, in the AGORA look (next to the Athens ones) */
+.hellas-fab{position:fixed;z-index:40;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 186px);min-height:44px;padding:10px 16px;border-radius:22px;border:1px solid var(--oly-th-a8, #c8a24a);background:rgba(var(--oly-th-n4-rgb, 29,25,20),.94);color:var(--oly-th-n37, #f3ece0);font:600 15px/1 var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.hellas-fab:active,.hellas-enter:active{transform:scale(.97)}
+.atlas-actions .hellas-enter{min-height:44px;padding:10px 14px;border-radius:12px;border:1px solid var(--oly-th-a5, #9c6b3c);background:var(--oly-th-n5, #2a241c);color:var(--oly-th-n37, #f3ece0);font:700 14px/1 var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif)}
+.hellas-open .hellas-fab,.athens-open .hellas-fab,body:not([data-mode=hub]) .hellas-fab{display:none}
+@media (prefers-reduced-motion:reduce){.hellas-fab:active,.hellas-enter:active{transform:none}}
+/* cities pass 2026-11-18: one row with Athens (Hellas on the left), hidden while the loading card shows its own Enter Hellas */
+.hellas-fab{right:auto;left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 134px)}
+body[data-ready=false] .hellas-fab{display:none}

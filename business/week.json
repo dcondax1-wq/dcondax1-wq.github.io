@@ -1,0 +1,182 @@
+{
+ "v": 1,
+ "title": "ZEUS this week",
+ "built": "2026-11-17 21:14 ET",
+ "built_t": 1794968097,
+ "built_by": "tools/weekly_review.py",
+ "week": {
+  "from": "2026-11-16",
+  "to": "2026-11-20",
+  "label": "Nov 16 - Nov 20",
+  "complete": false,
+  "sessions_done": 2
+ },
+ "pc": "PC: no report reached the cloud",
+ "accounts": [
+  {
+   "key": "zlarior",
+   "name": "Zlarior",
+   "plan": "MFFU Builder 50K",
+   "stage": "eval",
+   "end": 49192.78,
+   "src": "PLAN (owner, Nov 17)",
+   "room": 1025.0,
+   "to_pass": 3807.22,
+   "trades": null,
+   "win_pct": null,
+   "usd_week": null,
+   "best_day": null,
+   "strat": "Zlarior",
+   "start": null,
+   "consistency": {
+    "rule": "Builder eval: no best-day rule",
+    "line": "No trading day this week."
+   },
+   "status_line": "$3,807 to pass, $1,025 of room above the floor"
+  },
+  {
+   "key": "atlas",
+   "name": "ATLAS",
+   "plan": "MFFU Builder 25K (funded)",
+   "stage": "PASSED",
+   "end": 26946.1,
+   "src": "owner, typed, Nov 17, 4 h ago",
+   "room": null,
+   "to_pass": 0.0,
+   "trades": null,
+   "win_pct": null,
+   "usd_week": null,
+   "best_day": null,
+   "strat": "ATLAS",
+   "start": null,
+   "consistency": {
+    "rule": "Builder eval: no best-day rule",
+    "line": "No trading day this week."
+   },
+   "status_line": "Passed. Locked until MFFU issues the funded account."
+  },
+  {
+   "key": "fresh25",
+   "name": "Zlarior 25K #2",
+   "plan": "MFFU Builder 25K",
+   "stage": "eval",
+   "end": null,
+   "src": "PLAN",
+   "room": null,
+   "to_pass": null,
+   "trades": null,
+   "win_pct": null,
+   "usd_week": null,
+   "best_day": null,
+   "strat": "Zlarior",
+   "start": null,
+   "consistency": {
+    "rule": "Builder eval: no best-day rule",
+    "line": "No trading day this week."
+   },
+   "status_line": "Pass: $1,500 profit, $1,000 max loss. Started Nov 18"
+  }
+ ],
+ "strategies": [
+  {
+   "name": "Zlarior",
+   "trades": null,
+   "target": "2-4 a week",
+   "pf": null,
+   "usd": null,
+   "win_pct": null,
+   "exp_tpw": [
+    2.56,
+    3.12
+   ],
+   "exp_pf": [
+    2.91,
+    4.98
+   ],
+   "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
+   "exp_usd_week": 153.0,
+   "plan_usd_month": 1656.0,
+   "verdict": "unknown",
+   "why": "No trade list this week (see what is missing)."
+  },
+  {
+   "name": "ATLAS",
+   "trades": null,
+   "target": "2-4 a week",
+   "pf": null,
+   "usd": null,
+   "win_pct": null,
+   "exp_tpw": [
+    3.0,
+    4.25
+   ],
+   "exp_pf": [
+    2.8,
+    2.86
+   ],
+   "exp_src": "edge_health.json (40-session medians, 2026)",
+   "exp_usd_week": 46.0,
+   "plan_usd_month": 500.0,
+   "verdict": "unknown",
+   "why": "No trade list this week (see what is missing)."
+  }
+ ],
+ "light": {
+  "light": "GREEN",
+  "line": "Edge health: GREEN · last 40 sessions PF 3.84 vs 2026 H1 3.91 · data to Nov 6"
+ },
+ "changes": {
+  "n": 107,
+  "items": [
+   "MFFU view page + board account matching by PC id (never plan size)",
+   "Business: Goals card; rebuild archive/indexes after the Tested-and-rejected move; cache bump",
+   "Reference: contents + where-things-are map; move Tested and rejected to...",
+   "Goals page: this week, the money ladder with done/next/later chips, rules, decisions",
+   "One-tap MFFU accounts on the Start page: plan from the Name + balance, the right button first,...",
+   "STATE: owner decisions Nov 18 night",
+   "Rapid EOD 25K: --plan rapideod25 (LIT + ATLAS on one account, the 50K's lanes at 25K numbers),...",
+   "Accounts: live set Nov 17 night (Zlarior 50K, Zlarior 25K #2, ATLAS funded 25K)"
+  ]
+ },
+ "next": {
+  "from": "2026-11-23",
+  "to": "2026-11-27",
+  "news": [],
+  "holidays": [
+   {
+    "date": "2026-11-26",
+    "type": "early",
+    "what": "Early close 13:00 ET: the bot stops new trades 15 min before, flat 5 min before"
+   },
+   {
+    "date": "2026-11-27",
+    "type": "early",
+    "what": "Early close 13:15 ET: the bot stops new trades 15 min before, flat 5 min before"
+   }
+  ],
+  "decisions": [
+   "Yes/no: ATLAS trades on Zlarior's 50K once it is funded",
+   "Yes/no: ATLAS trades on the Rapid EOD accounts",
+   "Yes/no: keep $1,000 in each Rapid when taking payouts",
+   "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
+  ],
+  "steps": []
+ },
+ "pace": {
+  "usd_month": null,
+  "basis": "none",
+  "line": "On pace: unknown this week (no trade list and no start-of-week balance). The plan says about $2,156 a month once funded (estimate)."
+ },
+ "missing": [
+  "PC live numbers: the PC has not reported here",
+  "trade list: no PC ledger here and no data pipe days yet (on the PC this fills itself; in the cloud run python tools/data_pull.py once the PC's data branch exists)",
+  "Zlarior: no live PC balance this week (plan / owner-typed number shown)",
+  "Zlarior 25K #2: no live PC balance this week (plan / owner-typed number shown)",
+  "start-of-week balances: not known (needs the trade list or a balance typed before Monday)"
+ ],
+ "sources": {
+  "trades": "none",
+  "plan_updated": "2026-11-18",
+  "board_pc_t": null
+ }
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aegis</title>
+<meta name="description" content="OLYMPUS AEGIS: the shield. A risk guard for the three MFFU accounts: the rules in plain words, drawdown left, a what-if for a full stop and a list of when to stop for the day. A bronze shield whose gold rim shrinks as the drawdown is used.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Aegis">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- AEGIS (OLYMPUS, AGORA look, 2026-11-10): the shield. A risk guard for Zlarior 50K, ATLAS 25K and BLITZ 25K. aegiscore.js = the pure maths and words (node-tested); shield.js = the 3D shield (render core ../olympus/render.js); aegis.js = the page (ES module).
+     Read only: it reads ../home.json, ../ledger/rules.json and fixture.json (DEMO, never blank) and sends nothing. It warns, it never blocks or places an order. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="aegis"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="aegis.css?v=a2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Aegis</h1><p class="sub">How many $ you can still lose before an eval fails</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <p id="src" class="note" data-truth="source"></p>
+
+  <section class="ag-card card" aria-labelledby="acctH">
+    <h2 id="acctH">Which account?</h2>
+    <div class="seg" id="accts" role="group" aria-label="Account"></div>
+  </section>
+
+  <section class="ag-card card hero" aria-labelledby="shieldH">
+    <div class="row"><h2 id="shieldH">$ you can still lose</h2><span class="pill" id="pill">...</span></div>
+    <div class="stage">
+      <canvas id="stage" aria-label="A bronze shield with a gold rim. The rim is the drawdown you still have: it shrinks as the max loss is used." role="img"></canvas>
+      <svg id="flat" class="flat" viewBox="0 0 200 230" role="img" aria-label="A bronze shield with a gold rim that shrinks as the max loss is used"></svg>
+    </div>
+    <p class="dd ag-num" id="dd"></p>
+    <div id="bar" class="ag-bar green" role="img"><i></i></div>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="ifH">
+    <h2 id="ifH">If the next trade loses the full stop</h2>
+    <div class="stopbox">
+      <button class="btn step" id="riskDown" type="button" aria-label="Stop 25 dollars smaller">-25</button>
+      <label class="fld big"><span>Dollars lost at the stop</span><input id="risk" type="number" inputmode="decimal" min="1" max="20000" step="5"></label>
+      <button class="btn step" id="riskUp" type="button" aria-label="Stop 25 dollars bigger">+25</button>
+    </div>
+    <div class="seg" id="quick" role="group" aria-label="Quick sizes"></div>
+    <p class="big2 ag-num" id="ifLine"></p>
+    <ul class="plain" id="ifLines"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="lockH">
+    <h2 id="lockH">When to stop trading today</h2>
+    <p class="note">Suggestions from the live numbers. Aegis only warns; you and the bot decide.</p>
+    <ul class="locks" id="locks"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="allH">
+    <h2 id="allH">Every account</h2>
+    <ul class="cards" id="all"></ul>
+  </section>
+  <section class="pl-place" data-polis-life="grove" aria-label="The olive grove: one tree per account" hidden></section>
+
+  <section class="ag-card card" aria-labelledby="rulesH">
+    <h2 id="rulesH">The prop firm rules, plain</h2>
+    <ul class="plain" id="rules"></ul>
+  </section>
+
+  <p class="foot" id="foot">Aegis only reads and warns. It never places, changes or blocks an order. Risk shows $ first, then R (1R = one full stop lost; ~ = estimate). Rules from MFFU's site, checked 2026-10-18; re-check before asking for a payout.</p>
+</main>
+<!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
+<script src="../olympus/lazy3d.js?v=l1" data-src="shieldload.js?v=a1" data-skip="lite" data-event="aegis-shield" defer></script>
+<script type="module" src="aegis.js?v=r7"></script>
+</body>
+</html>

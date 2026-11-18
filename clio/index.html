@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clio</title>
+<meta name="description" content="OLYMPUS CLIO: the research library. Browse and search every write-up the site publishes in plain words, grouped by verdict, with the best and worst ideas by dollars a month.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Clio">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- CLIO (OLYMPUS, AGORA look, 2026-11-09): The research library: the write-ups the site publishes (writeups/index.json, else the docs list in data.json, else a demo), searchable, grouped by verdict, best and worst ideas by $ a month, and a plain reader. cliocore.js = the pure maths (node-tested); clio.js = the page (ES module). Read only: it reads published JSON of this site
+     and fixture.json (DEMO, never blank) and sends nothing anywhere. Text only through textContent / createElementNS (no markup is built from data). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="clio"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d8c9a8'); r.setProperty('--oly-accent-rgb', '216, 201, 168'); })();</script>
+<link rel="stylesheet" href="clio.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Clio</h1><p class="sub">Every test we ran, in plain words. Search, or tap one to read.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" aria-labelledby="findH">
+    <h2 id="findH">Find a study</h2>
+    <label class="sr" for="q">Search the write-ups</label>
+    <input id="q" class="search" type="search" inputmode="search" placeholder="Search: size, Friday, slippage..." autocomplete="off" maxlength="80">
+    <div class="seg" id="groups" role="group" aria-label="Verdict"></div>
+    <div class="seg" id="sorts" role="group" aria-label="Order"></div>
+  </section>
+  <section class="ag-card card" aria-labelledby="ideasH">
+    <h2 id="ideasH">Best and worst ideas, in $ a month (past trades)</h2>
+    <h3 class="sub3 pos">Best five</h3><ul class="plain" id="best"></ul>
+    <h3 class="sub3 neg">Worst five</h3><ul class="plain" id="worst"></ul>
+    <p class="note" id="ideasNote"></p>
+  </section>
+  <section class="card" aria-labelledby="listH">
+    <h2 id="listH" class="ag-h lh">The library</h2>
+    <p class="note" id="count"></p>
+    <ul class="wlist" id="list"></ul>
+    <button type="button" class="btn" id="more" hidden>Show more</button>
+  </section>
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="shTitle">
+    <header><h2 id="shTitle">Write-up</h2><button type="button" class="btn" id="shClose" aria-label="Close">Close</button></header>
+    <div class="shbody" id="shBody"></div>
+  </section>
+
+  <p class="foot" id="foot">Clio only reads; it sends and keeps nothing. Each $ a month is copied from the write-up itself: past trades, not a promise.</p>
+</main>
+<script type="module" src="clio.js?v=a1"></script>
+</body>
+</html>

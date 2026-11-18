@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Board</title>
+<meta name="description" content="The Board: what the bot, you and Claude know, on one screen. Every account's stage, balance, room and what is left to pass, the newest events, what waits on you, and a red warning when the PC is silent.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Board">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- BOARD (2026-11-17, owner: "make a communication board so you and the bot know what's happening"; docs/BOARD.md). boardmodel.js = the pure
+     part (which source wins, the PLAN rows, PC silent); board.js = the page. Data: ./board.json (live on the PC, else the published copy),
+     the PC's ntfy status (../pc_feed.js), ../business/accounts.json (PLAN), ./fixture.json (?demo=1). The Payouts cards = ../business/payoutcard.js. Text only through textContent.
+     The writes: the note box and the Decide card's Yes / No / Later post to /inbox/board (engine/day_inbox.py), which only the PC's private link accepts. BLITZ never shown. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="board.css?v=b2">
+<style>
+  .payouts .pc-coach { margin: 0 0 12px; padding: 14px 16px; } .payouts .row2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .payouts h3 { margin: 0; font-size: 1.05rem; } .payouts .meta { opacity: .8; font-size: .85rem; overflow-wrap: anywhere; }
+  .payouts .st { font-size: .75rem; padding: 2px 8px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; }
+  .payouts .st.live { color: #9fcf8a; } .payouts .st.buying { color: #e0b85a; } .payouts .st.waiting { color: #a9a9b3; }
+  .coach-lines { margin: 8px 0; padding-left: 18px; font-size: .92rem; } .coach-lines li { margin: 4px 0; overflow-wrap: anywhere; }
+  .coach-lines li.lead { font-weight: 600; list-style: none; margin-left: -18px; } .coach-lines li.warn { color: #e0b85a; font-weight: 600; }
+  .coach-form summary { min-height: 44px; line-height: 44px; cursor: pointer; }
+  .coach-form form { display: grid; gap: 6px; } .coach-form label { font-size: .85rem; opacity: .8; }
+  .coach-form input { min-height: 44px; font-size: 16px; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.2); background: rgba(0,0,0,.25); color: inherit; max-width: 100%; box-sizing: border-box; }
+  .coach-form .ag-btn { min-height: 44px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<main id="app">
+  <header class="bd-top">
+    <div class="bd-head"><h1 class="ag-title">Board</h1><button type="button" class="ag-btn refresh" id="refresh" aria-label="Refresh">Refresh</button></div>
+    <p class="bd-sub">What the bot, you and Claude know. One screen.</p>
+    <span id="mode" class="tag">Loading</span>
+  </header>
+  <section id="silent" class="silent" role="alert" hidden><b>PC SILENT</b><p id="silentText"></p></section>
+  <p id="pcLine" class="pcline" role="status" aria-live="polite"></p>
+  <!-- ZEUS edge chip (../edge_chip.js): LIT + ATLAS last 40 sessions vs 2026; board.js hands it the PC status -->
+  <div id="edgeChip" data-edge-chip data-edge-src="../edge.json"></div>
+  <!-- the Decide card (../business/decide.js + decisions.json): Yes / No / Later on the PC link only; a tap = one owner note for Claude, never a live change -->
+  <section id="decide" data-decide data-decide-board="board.json" aria-label="Decide" hidden></section>
+  <h2 class="sect">Accounts</h2>
+  <p class="hint"><a href="../business/mffu.html">My accounts (MFFU view) &rarr;</a> every account the way MFFU shows it: dates, floor, target, days, payout.</p>
+  <div id="accounts" class="accounts"></div>
+  <div id="payouts" class="payouts" hidden></div>
+  <section id="waitBox" class="ag-card wait" hidden><h2>Waiting on you</h2><ol id="waiting"></ol></section>
+  <section class="ag-card feedbox"><h2>What happened, newest first</h2><ul id="feed" class="feed" aria-live="polite"></ul><p id="feedEmpty" class="hint" hidden>No events yet. The PC adds them as they happen.</p></section>
+  <section class="ag-card notebox">
+    <h2>Tell the bot and Claude</h2>
+    <p class="hint">"ATLAS passed", "Zlarior 49,192.78", "new funded name ends 1234". A balance you type updates that account's row.</p>
+    <form id="noteForm"><label class="ag-sr" for="noteText">Note</label><input id="noteText" maxlength="200" autocomplete="off" placeholder="Type a note"><button class="ag-btn" type="submit">Post</button></form>
+    <p id="noteSay" class="hint" role="status" aria-live="polite"></p>
+  </section>
+  <section id="laterBox" class="ag-card later" hidden><h2>Planned, not bought yet</h2><ul id="later"></ul></section>
+  <p class="foot" id="foot"></p>
+</main>
+<script src="../pc_feed.js?v=n2"></script><!-- after the content (was in <head>: render-blocking); still before the page scripts that read it -->
+<script src="../business/payoutcoach.js?v=1"></script>
+<script src="../business/payoutcard.js?v=1"></script>
+<script src="../business/mffumodel.js?v=1"></script>
+<script src="../edge_chip.js?v=1"></script>
+<script src="../business/decide.js?v=1"></script>
+<script src="boardmodel.js?v=b6"></script>
+<script src="board.js?v=b7"></script>
+</body>
+</html>

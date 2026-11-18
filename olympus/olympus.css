@@ -1,0 +1,153 @@
+/* OLYMPUS kit (2026-11-03, docs/OLYMPUS_DESIGN.md), AGORA look since 2026-11-09 (docs/DESIGN_AGORA.md): the design tokens, the type
+   scale and the shared patterns (chip, card, close, the orb's seat, the loading veil, the error line) for the 3D apps. Linked BEFORE
+   each app's own sheet, so an app keeps its colour identity and overrides what it must; only the structure is shared.
+   Fonts: none to download. Headings use the system serif (Iowan Old Style / Palatino / Georgia), text the system sans, numbers the
+   rounded system face. The old techno font files stay in ../jarvis/ for compatibility, but nothing loads them any more. */
+
+:root {
+  /* type: a serif for names and headings, the system sans for everything you read, rounded figures for numbers */
+  --oly-ui: -apple-system, "SF Pro Text", BlinkMacSystemFont, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --oly-display: var(--oly-th-display, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif);
+  --oly-num: var(--oly-th-num, "SF Pro Rounded", -apple-system, system-ui, sans-serif);
+  /* the type scale (px): small labels, labels, body, card titles, the app name, the big number */
+  --oly-t-micro: 12px; --oly-t-label: 13px; --oly-t-body: 15px; --oly-t-title: 18px; --oly-t-name: 17px; --oly-t-num: 28px;
+  --oly-track-label: .02em; --oly-track-name: .04em;
+  /* geometry */
+  --oly-tap: 44px; --oly-gutter: 12px; --oly-r-chip: 999px; --oly-r-btn: 12px; --oly-r-card: 16px;
+  --oly-st: env(safe-area-inset-top, 0px); --oly-sr: env(safe-area-inset-right, 0px);
+  --oly-sb: env(safe-area-inset-bottom, 0px); --oly-sl: env(safe-area-inset-left, 0px);
+  /* Jarvis's orb: the bottom-right 80 x 160 px stays free (96 px = the orb + a gutter for anything fixed at the bottom) */
+  --oly-orb-w: 80px; --oly-orb-h: 160px; --oly-orb-clear: 96px;
+  /* glass */
+  --oly-glass: rgba(29, 25, 20, .88); --oly-line: #3a3228; --oly-text: #f3ece0; --oly-dim: #cfc4b2;
+  --oly-blur: 10px; --oly-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+  --oly-accent: #c8a24a; --oly-accent-rgb: 200, 162, 74;   /* set per app by olympus.js (an app's own identity colour) */
+  /* full height that survives iOS Safari's toolbars (100vh where dvh is unknown) */
+  --oly-vh: 100vh;
+  /* OLYMPUS themes (themes.js): the default theme's palette. Any other theme paints these inline on <html>; the default paints
+     nothing, so these values (and every app's own) are today's look */
+  --oly-bg: #14110e; --oly-bg2: #1d1914; --oly-glass2: rgba(38, 33, 27, .96); --oly-edge: rgba(200, 162, 74, .38);
+  --oly-tone: #c8a24a; --oly-tone-rgb: 200, 162, 74; --oly-tone2: #e0b060; --oly-glow: #c8a24a; --oly-glow-rgb: 200, 162, 74;
+  --oly-ok: #7f8a52; --oly-bad: #c96a4a; --oly-warn: #e0b060;
+  --oly-fog: #2a2118; --oly-sky: #3a2a1c; --oly-emissive: #e0b060; --oly-bloom: #f0d9a0;
+  /* motion: one set of curves and durations for every app */
+  --oly-ease: cubic-bezier(.2, .8, .2, 1); --oly-ease-in-out: cubic-bezier(.65, 0, .35, 1); --oly-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --oly-dur-1: .14s; --oly-dur-2: .26s; --oly-dur-3: .42s;
+  /* the focus ring (keyboard only) */
+  --oly-ring: 0 0 0 2px var(--oly-bg), 0 0 0 4px var(--oly-th-ring, rgba(var(--oly-accent-rgb), .85));
+}
+@supports (height: 100dvh) { :root { --oly-vh: 100dvh; } }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { overscroll-behavior: none; }
+body { -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+/* WebKit: a long press on the 3D view must orbit, not select text or pop the image callout / magnifier */
+canvas { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+
+/* ---------------------------------------------------------------- classical polish (every theme) */
+/* the keyboard focus ring: zero specificity (:where), so an app's own ring always wins; a tap never shows it */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline: 2px solid var(--oly-th-ring, rgba(var(--oly-accent-rgb), .9)); outline-offset: 2px; }
+/* marble panels with a thin warm rim: a 1 px line in the theme's edge colour, brighter at the top (opt in: .oly-glass, and the kit's cards) */
+.oly-glass, .oly-card { position: relative; }
+.oly-glass::before, .oly-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1px;
+  background: linear-gradient(180deg, var(--oly-edge), rgba(255, 255, 255, .03) 55%, rgba(255, 255, 255, 0));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+html[data-fx="off"] .oly-glass::before, html[data-fx="off"] .oly-card::before { background: var(--oly-edge); opacity: .5; }
+
+/* ---------------------------------------------------------------- shared patterns (opt in by class) */
+.oly-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 12px; border-radius: var(--oly-r-chip);
+  font: 600 var(--oly-t-label)/1.1 var(--oly-ui); letter-spacing: .01em; color: var(--oly-dim); background: var(--oly-glass);
+  border: 1px solid var(--oly-line); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04); white-space: nowrap; }
+.oly-card { background: var(--oly-glass); border: 1px solid var(--oly-line); border-radius: var(--oly-r-card); box-shadow: var(--oly-shadow);
+  -webkit-backdrop-filter: blur(var(--oly-blur)); backdrop-filter: blur(var(--oly-blur)); }
+.oly-close { width: var(--oly-tap); height: var(--oly-tap); min-width: var(--oly-tap); border-radius: 50%; border: 1px solid var(--oly-line);
+  background: var(--oly-bg2); color: var(--oly-text); font: 400 22px/1 var(--oly-ui); display: grid; place-items: center;
+  padding: 0; cursor: pointer; touch-action: manipulation; transition: transform var(--oly-dur-1) var(--oly-ease), box-shadow var(--oly-dur-2) var(--oly-ease); }
+.oly-close:active, .oly-home:active { transform: scale(.94); }
+.oly-close:focus-visible, .oly-home:focus-visible, .oly-err-retry:focus-visible { outline: 2px solid var(--oly-th-ring, var(--oly-accent)); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- the orb's seat: Jarvis's orb when framed, the way back when alone */
+.oly-home { position: fixed; right: calc(18px + var(--oly-sr)); bottom: calc(18px + var(--oly-sb)); z-index: 40; width: var(--oly-tap); height: var(--oly-tap);
+  border-radius: 50%; display: grid; place-items: center; text-decoration: none; color: var(--oly-th-a8, var(--oly-accent));   /* a look: its text-safe accent (T2) */
+  background: radial-gradient(circle at 50% 35%, var(--oly-th-n7, #3a2f20), var(--oly-bg2) 75%); border: 1px solid rgba(var(--oly-accent-rgb), .55);
+  box-shadow: var(--oly-shadow); touch-action: manipulation; }
+.oly-home-o { font: 600 18px/1 var(--oly-display); }
+html.framed .oly-home { display: none; }
+/* the seal steps aside (a slide + fade, never a shrink: it stays a 44 px tap target while it fades) while the page scrolls down and whenever text or a control sits under it (olympus.js seatWatch); back on a scroll up */
+.oly-home { transition: opacity var(--oly-dur-2) var(--oly-ease), transform var(--oly-dur-2) var(--oly-ease), visibility 0s linear 0s; }
+.oly-home.oly-away { opacity: 0; transform: translateY(12px); visibility: hidden; pointer-events: none;
+  transition: opacity var(--oly-dur-2) var(--oly-ease), transform var(--oly-dur-2) var(--oly-ease), visibility 0s linear var(--oly-dur-2); }
+@media (prefers-reduced-motion: reduce) { .oly-home, .oly-home.oly-away { transition: none; transform: none; } }
+
+/* ---------------------------------------------------------------- the loading veil (never takes a tap; lifts on the first frame) */
+.oly-veil { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 38%, rgba(var(--oly-th-warn-rgb, 224, 176, 96), .16) 0%, rgba(var(--oly-th-n3-rgb, 20, 17, 14), 0) 64%) var(--oly-bg);
+  opacity: 1; transition: opacity var(--oly-dur-3) ease, visibility 0s linear var(--oly-dur-3); }
+.oly-veil.out { opacity: 0; visibility: hidden; }
+.oly-veil-box { display: grid; justify-items: center; gap: 12px; }
+.oly-seal { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: var(--oly-accent);
+  font: 600 26px/1 var(--oly-display); border: 1px solid rgba(var(--oly-accent-rgb), .6);
+  background: radial-gradient(circle at 50% 35%, var(--oly-th-n7, #3a2f20), var(--oly-bg2) 78%); box-shadow: var(--oly-shadow);
+  animation: oly-breathe 1.8s ease-in-out infinite; }
+.oly-veil-name { margin: 0; display: grid; justify-items: center; gap: 4px; }
+.oly-veil-pre { font: 600 var(--oly-t-label)/1 var(--oly-ui); letter-spacing: .04em; color: var(--oly-dim); }
+.oly-veil-name b { font: 600 22px/1.1 var(--oly-display); letter-spacing: .02em; color: var(--oly-accent); text-transform: none; }
+.oly-veil-bar { display: block; width: 96px; height: 2px; border-radius: 2px; overflow: hidden; background: var(--oly-th-n6, #2b251d); position: relative; }
+.oly-veil-bar::after { content: ""; position: absolute; inset: 0; width: 40%; background: var(--oly-accent); border-radius: 2px;
+  animation: oly-scan 1.2s ease-in-out infinite; }
+@keyframes oly-breathe { 50% { transform: scale(1.06); opacity: .82; } }
+@keyframes oly-scan { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+
+/* ---------------------------------------------------------------- the one-line error with Retry (only when the page failed) */
+.oly-err { position: fixed; left: calc(16px + var(--oly-sl)); right: calc(16px + var(--oly-sr)); top: calc(50% - 30px); z-index: 61;
+  display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: var(--oly-r-card); background: var(--oly-glass);
+  border: 1px solid rgba(var(--oly-th-r7-rgb, 192, 96, 63), .6); box-shadow: var(--oly-shadow); color: var(--oly-text);
+  -webkit-backdrop-filter: blur(var(--oly-blur)); backdrop-filter: blur(var(--oly-blur)); }
+.oly-err-msg { flex: 1; min-width: 0; font: 600 var(--oly-t-body)/1.25 var(--oly-ui); overflow-wrap: anywhere; }
+.oly-err-retry { flex: none; min-width: var(--oly-tap); height: var(--oly-tap); padding: 0 14px; border-radius: var(--oly-r-btn); border: 0; cursor: pointer;
+  font: 700 15px/1 var(--oly-ui); letter-spacing: 0; color: var(--oly-th-n3, #1b1610); background: var(--oly-accent); touch-action: manipulation; }
+
+@media (prefers-reduced-motion: reduce) {
+  .oly-veil, .oly-close { transition: none; }
+  .oly-seal, .oly-veil-bar::after { animation: none; }
+}
+html[data-fx="off"] .oly-seal, html[data-fx="off"] .oly-veil-bar::after { animation: none; }
+
+/* ---------------------------------------------------------------- effects wiring (2026-11-04, docs/OLYMPUS_FX.md)
+   data-oly-fx="shimmer | glow | ripple | tilt | odometer ..." on any element: shimmer, glow and ripple are styled here (no script);
+   the rest load olympus/fx-*.js on first use. The quality tier (html[data-fx]) and prefers-reduced-motion switch them: ultra / high
+   animate, low shows a still version, off shows nothing. Opt out: data-oly-fx-off on the element or an ancestor, or
+   <html data-oly-fx-ui="off">. Zero specificity (:where) everywhere, so an app's own rule always wins. shimmer draws on ::after and
+   ripple on ::before: leave those tokens off an element whose pseudo-elements the app already uses. */
+:where([data-oly-fx~="shimmer"], .oly-fx-shimmer, [data-oly-fx~="ripple"], .oly-fx-ripple) { position: relative; }
+:where([data-oly-fx~="ripple"], .oly-fx-ripple) { overflow: hidden; }
+:where([data-oly-fx~="shimmer"], .oly-fx-shimmer)::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(var(--oly-th-a13-rgb, 240, 217, 160), .16) 50%, rgba(255, 255, 255, 0) 62%) no-repeat;
+  background-size: 250% 100%; background-position: 150% 0; animation: oly-fx-sweep 3.4s var(--oly-ease-in-out) infinite; }
+@keyframes oly-fx-sweep { 0%, 30% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+:where([data-oly-fx~="glow"], .oly-fx-glow) { animation: oly-fx-glow 2.8s ease-in-out infinite; }
+@keyframes oly-fx-glow {
+  0%, 100% { filter: drop-shadow(0 1px 2px rgba(var(--oly-accent-rgb), .25)); }
+  50% { filter: drop-shadow(0 2px 5px rgba(var(--oly-accent-rgb), .45)); } }
+:where([data-oly-fx~="ripple"], .oly-fx-ripple):where(:not(.oly-card):not(.oly-glass))::before { content: ""; position: absolute; inset: 0;
+  border-radius: inherit; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at var(--oly-ox, 50%) var(--oly-oy, 50%), rgba(var(--oly-accent-rgb), .42) 0, rgba(var(--oly-accent-rgb), .2) 38%, rgba(var(--oly-accent-rgb), 0) 70%);
+  clip-path: circle(0% at var(--oly-ox, 50%) var(--oly-oy, 50%)); }
+:where(.oly-fx-rip-go):where(:not(.oly-card):not(.oly-glass))::before { animation: oly-fx-rip .6s var(--oly-ease) both; }
+@keyframes oly-fx-rip {
+  0% { opacity: 1; clip-path: circle(0% at var(--oly-ox, 50%) var(--oly-oy, 50%)); }
+  100% { opacity: 0; clip-path: circle(150% at var(--oly-ox, 50%) var(--oly-oy, 50%)); } }
+/* low: a still version; off: nothing */
+html[data-fx="low"] :where([data-oly-fx~="shimmer"], .oly-fx-shimmer)::after { animation: none; background-position: 60% 0; opacity: .5; }
+html[data-fx="low"] :where([data-oly-fx~="glow"], .oly-fx-glow) { animation: none; filter: drop-shadow(0 1px 3px rgba(var(--oly-accent-rgb), .35)); }
+html[data-fx="off"] :where([data-oly-fx~="shimmer"], .oly-fx-shimmer)::after, html[data-fx="off"] :where([data-oly-fx~="ripple"], .oly-fx-ripple)::before { content: none; }
+html[data-fx="off"] :where([data-oly-fx~="glow"], .oly-fx-glow) { animation: none; filter: none; }
+/* the opt-out */
+[data-oly-fx-off] [data-oly-fx~="shimmer"]::after, [data-oly-fx-off][data-oly-fx~="shimmer"]::after, html[data-oly-fx-ui="off"] [data-oly-fx~="shimmer"]::after,
+[data-oly-fx-off] [data-oly-fx~="ripple"]::before, [data-oly-fx-off][data-oly-fx~="ripple"]::before, html[data-oly-fx-ui="off"] [data-oly-fx~="ripple"]::before { content: none; }
+[data-oly-fx-off] [data-oly-fx~="glow"], [data-oly-fx-off][data-oly-fx~="glow"], html[data-oly-fx-ui="off"] [data-oly-fx~="glow"] { animation: none; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  :where([data-oly-fx~="shimmer"], .oly-fx-shimmer)::after, :where([data-oly-fx~="ripple"], .oly-fx-ripple)::before { content: none; }
+  :where([data-oly-fx~="glow"], .oly-fx-glow) { animation: none; filter: none; }
+}

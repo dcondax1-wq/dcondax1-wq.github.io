@@ -1,0 +1,121 @@
+{
+  "_about": "Business -> More work (2026-11-17, owner: 'find more work'). Ways to make money next to the bots, ranked. The research and every source: research/writeups/more-work-2026-11-17.md. Dollar figures are beginner ESTIMATES from mostly vendor and review blogs, not promises. work.js draws this with textContent only.",
+  "updated": "2026-11-17",
+  "first": [
+    "Today, 10 min on the PC: put your agency name, phone, email, postal address and city in agency/config.json, then double-click AGENCY_DAY.bat. You get today's leads, demo sites and every script.",
+    "Tomorrow, 2-4 pm: 10 calls and 5 walk-ins with the short scripts below. Anyone who says 'we already have a website' gets the $149 Google profile fix offer.",
+    "Only if you need cash in the next 2 weeks: sign up for DoorDash as a floor. Otherwise put those hours into the agency: it pays far more per hour once it sells."
+  ],
+  "ideas": [
+    {
+      "rank": 1, "name": "Websites for local shops (the agency)", "verdict": "legit",
+      "usd_month": "$0-$1,000 in month 1, $500-$2,000 by month 2-3",
+      "hours": "6-8 h a week", "cost": "$0 (free hosting; the client pays for the domain)",
+      "claude": "Finds the leads, builds a demo site before you call, writes the pitch, the email and the final site.",
+      "why": "17% of US small businesses still have no website. A one-page site from a freelancer costs $500-$1,500, so $499 is an easy yes. Crowded online, far less in person in your own town. The call rates are guesses until you count your own.",
+      "niche": "Tip: pick one trade for a month (roofers, HVAC, plumbers, dentists, auto repair). They earn more per job, so they take Growth at $999, and one script fits all of them.",
+      "steps": ["Fill agency/config.json, run AGENCY_DAY.bat", "15 contacts a weekday: 10 calls, 5 walk-ins or DMs", "Follow up once after 2-3 days, then stop"]
+    },
+    {
+      "rank": 2, "name": "Google Business Profile setup and fix", "verdict": "legit",
+      "usd_month": "$150-$600 (1-4 fixes at $149, a few at $49 a month)",
+      "hours": "3-5 h a week", "cost": "$0",
+      "claude": "Writes the description, services, weekly posts and review replies; checks the profile against a list.",
+      "why": "Same shops, same visit: it is the offer for the ones who already have a website. Fiverr sells it for $50-$200 and local freelancers for $300-$800. The owner stays the owner: you are only added as a Manager. Never write or buy reviews (the FTC banned fake reviews in 2024).",
+      "steps": ["Add 'Google profile fix $149' to your walk-in and call answers", "Do your first one free for a shop you know, take before/after shots", "Sell $49 a month for 4 posts and review replies"]
+    },
+    {
+      "rank": 3, "name": "Small freelance jobs, Claude-assisted (Upwork / Fiverr)", "verdict": "saturated",
+      "usd_month": "$0-$300 in months 1-2, $300-$1,000 by months 3-6",
+      "hours": "5-10 h a week", "cost": "$0 to join; Upwork proposals cost a few dollars of Connects; fees 10-20%",
+      "claude": "Does most of the work: spreadsheet formulas and clean-ups, data entry, TradingView Pine Script tweaks you can test for free.",
+      "why": "Writing, logos and social media gigs are flooded, and a study of Upwork found writing jobs and pay fell after ChatGPT. A narrow lane you know (trading spreadsheets, Pine Script indicators) is less crowded. Check every delivery yourself and never claim a skill you cannot back.",
+      "steps": ["One Upwork profile for one lane: 'Google Sheets and Excel fixes'", "Send 3 short proposals a day to small fixed-price jobs", "Ask every happy client for a review: the first 5 reviews are the hard part"]
+    },
+    {
+      "rank": 4, "name": "DoorDash / Uber Eats as the floor", "verdict": "legit",
+      "usd_month": "$400-$700 at 10 h a week ($10-$18 an hour after gas)",
+      "hours": "any, you choose", "cost": "$0 with your own car (check your insurance)",
+      "claude": "Little: picks the busy hours and keeps the mileage log for taxes.",
+      "why": "The only money here that is sure from week 1. It does not grow, wears the car, and costs gas and taxes (30-40% of gross).",
+      "steps": ["Sign up in the Dasher app (background check takes days)", "Drive only the dinner rush, Fri-Sun", "Log every mile: it lowers your tax"]
+    },
+    {
+      "rank": 5, "name": "AI training tasks (DataAnnotation, Outlier)", "verdict": "legit",
+      "usd_month": "$100-$600 at 5 h a week, when there is work",
+      "hours": "2-10 h a week", "cost": "$0",
+      "claude": "None on the tasks: the platforms ban AI answers and close accounts that use them.",
+      "why": "Real companies paying $15-$25 an hour for general tasks, but work comes and goes, the entry test is one try, and pay glitches are reported. Fake 'AI trainer' recruiters who ask for a fee are a scam.",
+      "steps": ["Apply on the platform's own site, never through a text or a recruiter", "Take the entry test slowly, once", "Treat it as extra, not as a plan"]
+    },
+    {
+      "rank": 6, "name": "Reselling (Facebook Marketplace flips)", "verdict": "saturated",
+      "usd_month": "$0-$100 in month 1, $200-$500 by months 3-6",
+      "hours": "10-15 h a week", "cost": "$100-$300 to buy the first items; a car helps",
+      "claude": "Prices from sold listings, writes the listings, spots good buys in photos.",
+      "why": "Real, but slow and crowded, and it needs money up front. Furniture gives the best margin ($100-$400 a piece). Meet in public, take cash or the app's own payment.",
+      "steps": ["Flip what you already own first", "Buy only items you have seen sell for 2x the price", "Track profit after gas, not sales"]
+    },
+    {
+      "rank": 7, "name": "Local service arbitrage (sell jobs, pay a crew)", "verdict": "skip for now",
+      "usd_month": "$0-$300 for a beginner",
+      "hours": "5-10 h a week", "cost": "$800-$2,500 a month of ads, or door knocking",
+      "claude": "Writes the ads and the quotes.",
+      "why": "Not free and not this week: leads cost $30-$65 each on Google, a house wash pays the crew about $300, so your slice is thin, and the customer's complaints are yours.",
+      "steps": ["Skip until the agency pays", "Then sell it to your web clients' trades", "Never take money before a crew has agreed the job"]
+    },
+    {
+      "rank": 8, "name": "Paid surveys and user testing (Prolific)", "verdict": "legit but tiny",
+      "usd_month": "$20-$150",
+      "hours": "whenever studies show up", "cost": "$0",
+      "claude": "None: answers must be your own.",
+      "why": "Prolific makes researchers pay at least $8 an hour ($12 suggested), but you can only take the studies you qualify for. Most survey apps pay $1-$3 an hour in points.",
+      "steps": ["Prolific only (skip points apps)", "Fill the profile fully: more studies match", "Cash out at $6"]
+    }
+  ],
+  "plan": {
+    "goal": "$1,000 in 30 days = 2 Starter sites ($998) + one $149 Google profile fix, or 1 Growth site ($999).",
+    "ladder": [
+      ["Google profile fix", "$149 one time: the door-opener for shops that already have a site"],
+      ["Starter", "$499 + $49 a month: the one-page site they saw"],
+      ["Growth", "$999 + $79 a month: roofers, plumbers, HVAC, electricians, dentists, auto repair"],
+      ["First 2 clients only", "$100 off the setup for a written review and the right to show their site"]
+    ],
+    "pace": "15 contacts a weekday (10 calls, 5 walk-ins or DMs), about 1.5 h. With the machine's guesses (1 in 4 calls reaches the owner, 1 in 2 agree to look, 1 in 4 who look buy) one sale takes about 32 contacts; 300 contacts in 20 days leaves a 3x margin, because those guesses are not proven yet.",
+    "weeks": [
+      ["Week 1", "Settings, first batch, 75 contacts. Goal: 8 people say 'send it'."],
+      ["Week 2", "Follow up once with everyone from week 1, 75 new contacts. Goal: the first yes."],
+      ["Week 3", "75 contacts; offer the $149 fix to everyone with a site; ask client 1 who else needs one."],
+      ["Week 4", "75 contacts; yes 2 and 3. Put your real call numbers into agency/pricing.json."]
+    ],
+    "say": [
+      ["Walk in", "Hi, is the owner in? I'm (name), I make websites for shops here in (city). I noticed you don't have a website I could find, so I built you a free preview. Can I show you on my phone? It takes 30 seconds. If you like it, it's $499 and $49 a month, cancel any time. I'll leave this page with the link."],
+      ["DM", "Hi! I'm (name), a local web designer in (city). I made (business) a free preview website: (link). No cost to look. If you like it, I can make it yours this week. Want the details?"],
+      ["Follow-up", "Hi, it's (name). Did you get a chance to look at the preview for (business)? I can switch it on with your logo and photos in 2 days: $499 to start, $49 a month, cancel any time. Want me to go ahead, or should I take it down?"],
+      ["How much?", "$499 to set it up, then $49 a month for hosting and small changes. Month to month: cancel any time."]
+    ],
+    "rules": "Take the setup fee before the site goes live (the billing kit makes the invoice). Demos: Netlify's free plan allows about 20 a month, after that drop them on Cloudflare Pages (free). One message, one follow-up, then stop. Put 30% of every payment in the tax pot."
+  },
+  "scams": [
+    ["Pay to unlock tasks", "Apps or 'jobs' that want a deposit, often crypto, before you can earn. Task scams took $220M in the first half of 2024 alone (FTC)."],
+    ["Job offers by text or WhatsApp", "Real employers do not recruit you out of the blue on a chat app."],
+    ["Reshipping or 'payment processing'", "Forwarding packages or moving money for someone: you become the money mule, and it is a crime."],
+    ["Overpayment", "A buyer pays too much and asks for the difference back. The first payment bounces later."],
+    ["Fake reviews", "Writing or buying reviews is banned by the FTC (2024) with fines per review."],
+    ["$997 'AI side hustle' courses", "Dropshipping stores, 'done for you' shops, 'copy and paste $500 a day': the seller earns from the course, not you."],
+    ["Sign-up fees and MLM", "Any 'opportunity' you pay to join or must recruit friends into."],
+    ["Points survey apps", "$1-$3 an hour paid in points, and some ask for a fee to 'upgrade'."]
+  ],
+  "sources": [
+    ["Clutch: 17% of small businesses have no website (2025)", "https://www.businesswire.com/news/home/20250821848152/en/Clutch-Report-No-Code-Tools-Fuel-Website-Growth-Yet-17-of-Small-Businesses-are-Still-Offline"],
+    ["WebsiteSetup: small-business website costs 2026", "https://websitesetup.org/website-cost/"],
+    ["Slashpost: Google Business Profile pricing 2026", "https://slashpost.ai/blogs/google-business-profile/google-business-profile-optimization-cost"],
+    ["Gridwise: DoorDash pay 2026", "https://gridwise.io/blog/how-much-do-doordash-drivers-make"],
+    ["Prolific: researcher pay rules", "https://researcher-help.prolific.com/en/article/2273bd"],
+    ["Breaking Even: AI training pay 2026", "https://breakingeven.online/blog/how-much-do-ai-training-platforms-actually-pay"],
+    ["Hui, Reshef, Zhou (WashU): ChatGPT cut Upwork writing jobs 2%, pay 5.2%", "https://olin.washu.edu/about/news-and-media/news/2023/08/study-ai-tools-cause-a-decline-in-freelance-work-and-incomeat-least-in-the-short-run.php"],
+    ["Side Quest Hustle: flipping guide 2026", "https://sidequesthustle.com/guides/flipping-guide-2026"],
+    ["AARP / FTC: job scam losses", "https://www.aarp.org/money/scams-fraud/info-2019/work-at-home.html"],
+    ["FTC: fake reviews rule", "https://www.ftc.gov/news-events/news/press-releases/2024/08/federal-trade-commission-announces-final-rule-banning-fake-reviews-testimonials"]
+  ]
+}

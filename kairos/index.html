@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kairos</title>
+<meta name="description" content="OLYMPUS KAIROS: the right moment. The trading day in New York time on one ring: the bot windows (Asia slot paper, London entries, New York, last entry 15:30, flat 15:55, MFFU flat 16:10, the CME break), what the bots do right now in plain words, today's trades on the clock with their dollars and R, and the history of dollars by hour.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kairos">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- KAIROS (OLYMPUS, AGORA look, 2026-11-10): the right moment. kairoscore.js = the pure clock and window maths (node-tested, including the clock change of 1 Nov 2026), kairosscene.js = the marble sundial ring (three.js),
+     kairos.js = the page (ES module). Read only: it reads published JSON of this site (odeon/trades.json for the bot's trades, home.json for the bot's own state line) and fixture.json (DEMO, never blank). It shows what the
+     bots do and never places or changes anything. Every time is New York time. Text only through textContent / createElementNS. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="kairos"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="kairos.css?v=a2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Kairos</h1><p class="sub">What time it is for trading in New York, and when the bots can trade.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="nowH">
+    <div class="row"><h2 id="nowH">Right now</h2><span class="pill" id="entPill">...</span></div>
+    <div class="stage"><canvas id="dial" width="640" height="560" role="img" aria-label="A marble sundial ring with twenty-four gold pillars, one for each New York hour; the current hour is lit."></canvas></div>
+    <p class="big ag-num" id="clock">--:--</p>
+    <p class="lead" id="phase"></p>
+    <p class="note" id="doing"></p>
+    <p class="note" id="until"></p>
+    <p class="warnbox" id="dst" hidden></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="ringH">
+    <h2 id="ringH">The day on a ring</h2>
+    <svg id="ring" class="ring" viewBox="-34 0 388 320" role="img" aria-label="The New York day on a 24 hour ring"></svg>
+    <div class="legend"><span class="lg w">Win</span><span class="lg l">Loss</span><span class="lg n">Now</span></div>
+    <p class="note" id="ringNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="winH">
+    <h2 id="winH">The windows</h2>
+    <ul class="wins" id="wins"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="trH">
+    <div class="row"><h2 id="trH">Trades on the clock</h2><span class="pill" id="trPill">...</span></div>
+    <ul class="trades" id="trades"></ul>
+    <p class="note" id="trNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="heatH">
+    <h2 id="heatH">Dollars by hour</h2>
+    <div class="heat" id="heat" role="group" aria-label="Result by New York hour of entry"></div>
+    <div class="detail" id="heatDetail" aria-live="polite"></div>
+    <p class="note" id="heatNote"></p>
+  </section>
+
+  <p class="foot" id="foot">Kairos shows the bot's windows and its past trades and sends nothing. It never places or changes an order. Every time is New York time; the clocks change the length of a day (25 hours on 1 Nov 2026) but never the bot's wall-clock windows. Every dollar is shown with its R. An hour is only judged when it holds at least 3 trades; past results with small samples are not a promise. The Asia slot, ATLAS and BLITZ are paper only.</p>
+</main>
+<script type="module" src="kairos.js?v=a1"></script>
+</body>
+</html>

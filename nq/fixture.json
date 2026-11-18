@@ -1,0 +1,207 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: three bots that reported a few minutes ago, with made-up trades, shown until the site's own home.json is there. Ages are counted back from now.",
+ "home": {
+  "home_only": true,
+  "live": {
+   "pc": {
+    "present": true,
+    "t_ago_min": 4,
+    "running": true,
+    "second": {
+     "t_ago_min": 4
+    },
+    "blitz": {
+     "t_ago_min": 4,
+     "paper": true,
+     "eval": {
+      "start_balance": 25000,
+      "balance": 24860,
+      "profit": -140,
+      "today": 0,
+      "floor": 24300,
+      "room": 560,
+      "target": 26500,
+      "to_target": 1640,
+      "status": "open",
+      "dll": 600
+     },
+     "state": {
+      "text": "No more checks today; the next at 11:00 ET on the next trading day."
+     },
+     "today": []
+    }
+   }
+  },
+  "board": {
+   "running": true,
+   "data_t_ago_min": 4,
+   "lit": {
+    "name": "Zlarior",
+    "balance": 50420,
+    "floor": 49000,
+    "room": 1420,
+    "mll": 2000,
+    "to_target": 2580,
+    "target_balance": 53000,
+    "profit": 420,
+    "today_pnl": 312,
+    "status": "open",
+    "waiting": "One trade taken today (the limit is one a day). Next chance tomorrow from 02:00 ET."
+   },
+   "atlas": {
+    "name": "ATLAS",
+    "balance": 25210,
+    "floor": 24370,
+    "room": 840,
+    "mll": 1000,
+    "to_target": 1290,
+    "target_balance": 26500,
+    "profit": 210,
+    "today_pnl": -60,
+    "status": "open",
+    "waiting": "Done for today (1 trade a day)."
+   },
+   "trades": [
+    {
+     "acct": "lit",
+     "src": "live",
+     "key": "lit",
+     "side": "LONG",
+     "usd": 312,
+     "r": 0.8,
+     "exit": "TIME",
+     "open": false,
+     "exit_t_ago_min": 90,
+     "entry_t_ago_min": 106
+    },
+    {
+     "acct": "atlas",
+     "src": "live",
+     "key": "ema_lon_vix",
+     "side": "SHORT",
+     "usd": -60,
+     "r": -0.4,
+     "exit": "TIME",
+     "open": false,
+     "exit_t_ago_min": 360,
+     "entry_t_ago_min": 410,
+     "member": "EMA"
+    },
+    {
+     "acct": "lit",
+     "src": "live",
+     "key": "lit",
+     "side": "SHORT",
+     "usd": -402,
+     "r": -1.0,
+     "exit": "STOP",
+     "open": false,
+     "exit_t_ago_min": 1560,
+     "entry_t_ago_min": 1595
+    },
+    {
+     "acct": "atlas",
+     "src": "live",
+     "key": "sr_nyreclaim",
+     "side": "SHORT",
+     "usd": 296,
+     "r": 2.0,
+     "exit": "TARGET",
+     "open": false,
+     "exit_t_ago_min": 1740,
+     "entry_t_ago_min": 1755,
+     "member": "S/R"
+    },
+    {
+     "acct": "lit",
+     "src": "live",
+     "key": "lit",
+     "side": "LONG",
+     "usd": 1180,
+     "r": 2.9,
+     "exit": "TARGET",
+     "open": false,
+     "exit_t_ago_min": 3000,
+     "entry_t_ago_min": 3190
+    },
+    {
+     "acct": "atlas",
+     "src": "paper",
+     "key": "macd_sweep",
+     "side": "LONG",
+     "usd": 2,
+     "r": 0.0,
+     "exit": "BE",
+     "open": false,
+     "exit_t_ago_min": 3240,
+     "entry_t_ago_min": 3270,
+     "member": "MACD"
+    },
+    {
+     "acct": "lit",
+     "src": "live",
+     "key": "lit",
+     "side": "LONG",
+     "usd": 6,
+     "r": 0.0,
+     "exit": "BE",
+     "open": false,
+     "exit_t_ago_min": 4440,
+     "entry_t_ago_min": 4485
+    },
+    {
+     "acct": "atlas",
+     "src": "live",
+     "key": "ema_lon_vix",
+     "side": "SHORT",
+     "usd": -152,
+     "r": -1.0,
+     "exit": "STOP",
+     "open": false,
+     "exit_t_ago_min": 5880,
+     "entry_t_ago_min": 5885,
+     "member": "EMA"
+    },
+    {
+     "acct": "lit",
+     "src": "paper",
+     "key": "lit",
+     "side": "SHORT",
+     "usd": -388,
+     "r": -1.0,
+     "exit": "STOP",
+     "open": false,
+     "exit_t_ago_min": 7320,
+     "entry_t_ago_min": 7340
+    },
+    {
+     "acct": "atlas",
+     "src": "paper",
+     "key": "sr_nyreclaim",
+     "side": "LONG",
+     "usd": 140,
+     "r": 0.9,
+     "exit": "LIT",
+     "open": false,
+     "exit_t_ago_min": 8760,
+     "entry_t_ago_min": 8820,
+     "member": "S/R"
+    },
+    {
+     "acct": "lit",
+     "src": "live",
+     "key": "lit",
+     "side": "LONG",
+     "usd": 77,
+     "r": 0.2,
+     "exit": "TIME",
+     "open": false,
+     "exit_t_ago_min": 10200,
+     "entry_t_ago_min": 10216
+    }
+   ]
+  }
+ }
+}

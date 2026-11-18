@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Herald</title>
+<meta name="description" content="THE OLYMPUS HERALD: a daily newspaper written only from what OLYMPUS publishes. Who is building what, the bots' day, the Kalshi verdicts, the calendar, the research library, with every number sourced.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Herald">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- HERALD (OLYMPUS, AGORA look, 2026-11-11): the daily paper. heraldcore.js = the pure rules (node-tested; the same number audit as tools/herald_build.py),
+     heraldscene.js = the marble newsstand (three.js), herald.js = the page (ES module). Read only: it reads ./edition.json (today's edition, written by tools/herald_build.py),
+     ./editions/index.json and the past editions next to it, and fixture.json (DEMO edition, never blank). It stores nothing, sends nothing. Text only through textContent.
+     Optional: ../olympus/people.js (portraits), added by herald.js after the first paint; without it the page draws initials. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="herald"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="herald.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Herald</h1><p class="sub">Today's news about your bots and apps, from real files. Read the top story.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="standH">
+    <div class="row"><h2 id="standH">The newsstand</h2><span class="pill" id="edPill">...</span></div>
+    <div class="stage"><canvas id="stand" width="640" height="460" role="img" aria-label="A marble newsstand with a scroll that unrolls today's headline"></canvas><svg id="standFlat" class="fallback" viewBox="0 0 320 200" role="img" aria-label="A scroll with today's headline" hidden></svg></div>
+    <div class="seg nav"><button class="btn" id="older" type="button">Older</button><span class="when" id="navWhen"></span><button class="btn" id="newer" type="button">Newer</button></div>
+    <div class="seg"><button class="btn" id="readMe" type="button" aria-pressed="false">Read it to me: off</button></div>
+  </section>
+  <section class="pl-place" data-polis-life="herald" aria-label="The herald cries today's news" hidden></section>
+
+  <article class="paper" id="paper" aria-labelledby="mastTitle">
+    <header class="mast">
+      <p class="mastline"><span id="mastNo"></span><span id="mastMotto"></span></p>
+      <p class="masttitle" id="mastTitle">The Olympus Herald</p>
+      <p class="mastdate" id="mastDate"></p>
+      <p class="built" id="built"></p>
+      <p class="label" id="label"></p>
+    </header>
+
+    <section class="lead" id="lead" aria-label="Lead story"></section>
+
+    <section class="cols" id="stories" aria-label="More stories"></section>
+
+    <section class="boxes">
+      <section class="box" id="numbersBox" aria-labelledby="numH"><h3 id="numH">By the numbers</h3><ul class="numbers" id="numbers"></ul></section>
+      <section class="box" id="weatherBox" aria-labelledby="wxH"><h3 id="wxH">Market weather</h3><p class="wx" id="wx"></p><ul class="plain" id="wxEvents"></ul><p class="small" id="wxNote"></p></section>
+      <section class="box" id="corrBox" aria-labelledby="corH"><h3 id="corH">What we got wrong before</h3><ul class="corr" id="corrections"></ul></section>
+      <section class="box" id="classBox" aria-labelledby="clsH"><h3 id="clsH">Classifieds</h3><ul class="class" id="classifieds"></ul><p class="small" id="classNote"></p></section>
+      <section class="box" id="quizBox" aria-labelledby="qzH"><h3 id="qzH">The mini quiz</h3><ol class="quiz" id="quiz"></ol><p class="small" id="quizScore"></p></section>
+      <section class="box" id="talkBox" aria-labelledby="ivH"><h3 id="ivH">Three short interviews</h3><div id="interviews"></div></section>
+      <section class="box" id="shipBox" aria-labelledby="shH"><h3 id="shH">Just shipped</h3><ul class="plain" id="shipped"></ul><p class="small">From git when this edition was built.</p></section>
+      <section class="box" id="skipBox" aria-labelledby="skH"><h3 id="skH">Not in today's paper</h3><ul class="plain" id="skipped"></ul><p class="small">A story is only written when its file is there. Nothing is filled in.</p></section>
+    </section>
+  </article>
+
+  <div class="sheet" id="reader" role="dialog" aria-modal="true" aria-labelledby="rHead" hidden>
+    <div class="sheetin paper">
+      <div class="seg"><button class="btn" id="rClose" type="button">Close</button><button class="btn" id="rSpeak" type="button">Read it to me</button><button class="btn" id="rShare" type="button">Share as text</button></div>
+      <p class="kicker" id="rKicker"></p>
+      <h2 id="rHead"></h2>
+      <p class="standfirst" id="rStand"></p>
+      <div class="body dropcap" id="rBody"></div>
+      <p class="small" id="rSample" hidden></p>
+      <details id="rFactsBox"><summary id="rFactsSum">Where every number comes from</summary><ul class="facts" id="rFacts"></ul></details>
+      <label class="fld" id="rShareFld" hidden><span>The article as text (copy it from here)</span><textarea id="rShareOut" rows="8" readonly></textarea></label>
+    </div>
+  </div>
+
+  <p class="foot" id="foot">The Herald is written by a script from files OLYMPUS already publishes. It invents nothing: every number in a story is read from a named file, and a story whose file is missing is not written. It never trades and never moves money; paper and suggestions only. A DEMO or sample mark means example data. Savings in the classifieds are estimates, not promises.</p>
+</main>
+<script type="module" src="herald.js?v=w8"></script>
+</body>
+</html>

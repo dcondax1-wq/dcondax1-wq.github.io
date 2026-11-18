@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: three accounts and their first-payout dates, shown until the site's own files are there.",
+  "accounts": [
+    { "key": "zlarior", "stage": "eval", "room": 1420, "mll": 2000, "floor": 48580, "balance": 50420, "start": 50000, "locked": false, "today": 312, "week": 640, "progress": 0.14, "toTarget": 2580, "dll": 1000, "dllUsed": 0, "risk": 425, "win": 640, "est": false },
+    { "key": "atlas", "stage": "eval", "room": 840, "mll": 1000, "floor": 24160, "balance": 25210, "start": 25000, "locked": false, "today": -60, "week": 140, "progress": 0.09, "toTarget": 1365, "dll": 600, "dllUsed": 60, "risk": 150, "win": 210, "est": true },
+    { "key": "blitz", "stage": "eval", "room": 560, "mll": 1000, "floor": 24300, "balance": 24860, "start": 25000, "locked": false, "today": 0, "week": -90, "progress": 0, "toTarget": 1640, "dll": 600, "dllUsed": 0, "risk": 120, "win": 150, "est": true }
+  ],
+  "roadmap": {
+    "conservative": "H2",
+    "accounts": [
+      { "id": "lit50", "H2": { "first": ["2026-12-21", "2027-02-09", "2027-05-21"] } },
+      { "id": "atlas25", "H2": { "first": ["2026-11-24", "2026-12-21", "2027-02-22"] } },
+      { "id": "blitz25", "H2": { "first": ["2026-12-24", "2027-03-02", "2027-06-30"] } }
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="gate">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus</title>
+<meta name="description" content="OLYMPUS home: your command center. Right now in plain words (bots on, drawdown left, today's money, Kalshi, the next trade window, your shift), then your hubs (Me: money, cards, health, home), then a search.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Olympus">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- OLYMPUS HOME v2 (the Gate, AGORA look, 2026-11-14, docs/OLYMPUS_IA_V2.md). Owner: "Make it very organized ... it always looks the same: 'Trading', 'Money',
+     'Life' subcategories. I want something more organized. Lock in." A list of 70 apps was the problem, not the labels. So the home is a command center:
+     1. Right now: the bots on / quiet / old numbers with the exact age, drawdown left per eval, today's $, Kalshi, the next trade window, your shift (each a tap to its app);
+     2. the HUBS named after the owner's jobs, each with a live one-line status (Today, Me, Bots & Evals, Kalshi, My Money, Plan & Day, Research, Jarvis, Worlds, Settings & Help;
+        Me = the personal hub, docs/ME_HUB.md: its line comes from the PC's private me/me.json, so only through the PC's own link);
+     3. a search by name / purpose / plain words; Recent (the last 4 apps opened, this phone only).
+     NAV v3 (2026-11-15, docs/OLYMPUS_NAV.md): the big search is FIRST (apps, hub tabs and plain actions), then Pinned (his favourites), Right now, Your six (one tap),
+     Recent (last 6), the hubs, and one All apps A to Z sheet (gate/#az, big rows, a star to pin).
+     A hub page (hub/?h=<id>) has one tab per job; each tab shows the best app for it first, the others below, duplicates folded under "Other views of the same".
+     Every old app URL still works. Works at gate/ AND copied to the site root as olympus-live.html: the line below finds the site root (GATE_BASE).
+     Read only: it reads home.json (through olympus/truth.js), kalshi.json, money/scoreboard.json, two status cards and the Planner's summary on this phone; it sends nothing.
+     Served from the PC (/site/, LIVE_LINK.bat) it also reads the bot's /api/site/live.json through ../pc_feed.js, every minute. -->
+<style>html, body { background: var(--oly-th-n3, #14110e); color: var(--oly-th-n37, #f3ece0); margin: 0; }</style>
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT: the look this page gets, from the engine's copy) */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  if (c.jarvis && P === 'jarvis') for (k in c.jarvis) { d.style.setProperty(k, c.jarvis[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })('gate', 'page');</script>
+<script>(function () {
+  var p = location.pathname || '', b = /\/gate\/(index\.html)?$/.test(p) ? '../' : '';
+  window.GATE_BASE = b;
+  var d = document, h = d.head || d.getElementsByTagName('head')[0];
+  try { if (window.top !== window) d.documentElement.className += ' framed'; } catch (e) { d.documentElement.className += ' framed'; }
+  /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
+     unstyled and then jumped, CLS 0.27 on the phone) */
+  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a4'; h.appendChild(k);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g10'; h.appendChild(l);
+  var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
+  ['olympus/themes.js?v=o6', 'pc_feed.js?v=pf1', 'olympus/gate-catalog.js?v=nv3', 'olympus/hub-status.js?v=h2', 'gate/gate.js?v=g8'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+})();</script>
+<script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
+  if (!/^\/site\//.test(location.pathname || '')) return;
+  var d = document, s = d.createElement('script'); s.src = (window.GATE_BASE || '') + 'gate/launch.js?v=l1'; s.async = false; (d.head || d.documentElement).appendChild(s);
+})();</script>
+</head>
+<body>
+<main id="gate" class="g-main">
+  <header class="g-head">
+    <h1 class="g-title">Olympus</h1>
+    <p class="g-sub">Type what you want, or open one of the four doors.</p>
+  </header>
+
+  <section class="g-find" aria-labelledby="findH">
+    <h2 class="g-h2 g-vh" id="findH"><label for="q">Find anything</label></h2>
+    <div class="g-findrow">
+      <div class="g-search g-big"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+        <input id="q" type="search" placeholder="Find anything: money, drawdown, news..." autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" aria-controls="results" aria-describedby="findHint"></div>
+      <a class="g-azbtn" id="azBtn" data-to="gate/index.html#az" href="gate/index.html#az" aria-label="All apps A to Z">A–Z</a>
+    </div>
+    <p class="g-hint g-vh" id="findHint">Apps, hub tabs and things to do, in plain words.</p>
+    <div class="g-list" id="results" aria-live="polite"></div>
+  </section>
+
+  <!-- THE FOUR DOORS (2026-11-18, night-org, docs/ORGANIZATION.md, olympus/doors.js): everything lives behind one of these; plain links -->
+  <section class="g-four" id="doorsSec" aria-labelledby="doorsH">
+    <h2 class="g-h2 g-vh" id="doorsH">Four doors</h2><!-- night-gate: heading for screen readers only (the subtitle names the doors), so Your six stay on the first phone screen -->
+    <nav class="g-qgrid" id="doors4" aria-labelledby="doorsH">
+      <a class="g-dr" data-door="zeus" data-to="hub/doors.html#zeus" href="hub/doors.html#zeus"><b>ZEUS Trading</b><small class="g-qline">Accounts, live bots, trades, brain, rules, payouts</small></a>
+      <a class="g-dr" data-door="money" data-to="hub/doors.html#money" href="hub/doors.html#money"><b>Money</b><small class="g-qline">Business, taxes, payouts, fleet plan, household</small></a>
+      <a class="g-dr" data-door="kalshi" data-to="hub/doors.html#kalshi" href="hub/doors.html#kalshi"><b>Kalshi</b><small class="g-qline">The Kalshi bot and its edges (paused)</small></a>
+      <a class="g-dr" data-door="more" data-to="hub/doors.html#more" href="hub/doors.html#more"><b>More</b><small class="g-qline">Research, my day, Jarvis, settings, the rest</small></a>
+    </nav>
+  </section>
+
+  <section class="g-pins" id="pinSec" aria-labelledby="pinH" hidden>
+    <h2 class="g-h2" id="pinH">Pinned</h2>
+    <div class="g-chips" id="pins"></div>
+  </section>
+
+  <section class="g-card g-now" id="now" aria-labelledby="nowH" data-state="loading">
+    <div class="g-nowhead"><h2 id="nowH">Right now</h2><span class="g-badge" id="nowBadge">Checking</span></div>
+    <p class="g-nowline" id="nowLine" role="status" aria-live="polite">Looking for the bots' numbers...</p>
+    <div class="g-facts" id="nowFacts" aria-hidden="true"><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i></div><!-- perf v2: four calm placeholder tiles hold the space the facts take, so the hubs below never jump when the numbers arrive (CLS) -->
+    <a class="g-btn primary" id="bringBack" data-to="nq/index.html?howto=1" href="nq/index.html?howto=1" hidden>Bring the bots back</a>
+    <p class="g-nowfoot" id="nowFoot"></p>
+  </section>
+
+  <section class="g-quick" aria-labelledby="quickH">
+    <h2 class="g-h2" id="quickH">Your six</h2>
+    <nav class="g-qgrid" id="quick" aria-labelledby="quickH">
+      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><b>Zlarior · ATLAS</b><small class="g-qline">Bots right now</small></a>
+      <a class="g-q" data-app="compass" data-to="compass/index.html" href="compass/index.html"><b>Today</b><small class="g-qline">What to do next</small></a>
+      <a class="g-q" data-app="ledger" data-to="ledger/index.html" href="ledger/index.html"><b>Money</b><small class="g-qline">Your real money</small></a>
+      <a class="g-q" data-app="aegis" data-to="aegis/index.html" href="aegis/index.html"><b>Drawdown</b><small class="g-qline">Risk guard</small></a>
+      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><b>My day</b><small class="g-qline">Day and week plan</small></a>
+      <a class="g-q" data-app="kalshi" data-to="kalshi/index.html" href="kalshi/index.html"><b>Kalshi</b><small class="g-qline">Kalshi bot</small></a>
+    </nav>
+  </section>
+
+  <section class="g-recent" id="recentSec" aria-labelledby="recentH" hidden>
+    <h2 class="g-h2" id="recentH">Recent</h2>
+    <div class="g-chips" id="recent"></div>
+  </section>
+
+  <section class="g-hubs" aria-labelledby="hubsH">
+    <h2 class="g-h2" id="hubsH">Your hubs</h2>
+    <p class="g-hint" id="hubsHint">Money and the two bots first. Each hub is one of your jobs; everything else lives inside them.</p>
+    <nav class="g-hubgrid" id="hubs" aria-labelledby="hubsH">
+      <a class="g-hub g-wide" data-hub="bots" data-to="hub/index.html?h=bots" href="hub/index.html?h=bots"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><path d="M7 15h26M9 33h22M11 15v18M20 15v18M29 15v18"/><path d="M11 6c-2 2 0 3.5-1.2 6h2.4c-.8-2.3.8-3.4-1.2-6zM20 4.5c-2.2 2.2 0 4-1.4 7.5h2.8c-.9-2.8.9-4.1-1.4-7.5zM29 6c-2 2 0 3.5-1.2 6h2.4c-.8-2.3.8-3.4-1.2-6z"/></svg><span class="g-htxt"><b>Bots &amp; Evals</b><small class="g-hline" id="hl-bots">Each account: drawdown, trades, pass odds</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub g-wide" data-hub="money" data-to="hub/index.html?h=money" href="hub/index.html?h=money"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="9.5"/><path d="M20 13.5v13M23 16.8c-.3-1.2-1.5-1.9-3-1.9-1.7 0-3 .9-3 2.3 0 3.2 6 1.9 6 5.1 0 1.4-1.3 2.4-3 2.4-1.6 0-2.8-.7-3.1-1.9"/></svg><span class="g-htxt"><b>My Money</b><small class="g-hline" id="hl-money">Cash, payouts, plans and net worth</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="today" data-to="hub/index.html?h=today" href="hub/index.html?h=today"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 27a12 12 0 0 1 24 0"/><path d="M20 7v4M8.5 12.5l2.8 2.8M31.5 12.5l-2.8 2.8M3 27h34M7 32h26"/></svg><span class="g-htxt"><b>Today</b><small class="g-hline" id="hl-today">Do now, the morning brief, the news</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="me" data-to="hub/index.html?h=me" href="hub/index.html?h=me"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="13" r="6.5"/><path d="M7 34c.8-7.4 6.2-12 13-12s12.2 4.6 13 12"/></svg><span class="g-htxt"><b>Me</b><small class="g-hline" id="hl-me">Money, cards, health, home and dates</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="plan" data-to="hub/index.html?h=plan" href="hub/index.html?h=plan"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="9" width="28" height="25" rx="3"/><path d="M6 16h28M13 5v7M27 5v7M12 22h4M18 22h4M24 22h4M12 28h4M18 28h4"/></svg><span class="g-htxt"><b>Plan &amp; Day</b><small class="g-hline" id="hl-plan">Calendar, shifts, tasks and habits</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="jarvis" data-to="hub/index.html?h=jarvis" href="hub/index.html?h=jarvis"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="6"/><path d="M20 3v3M20 34v3M3 20h3M34 20h3"/></svg><span class="g-htxt"><b>Jarvis</b><small class="g-hline" id="hl-jarvis">Ask anything · your AI team</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="research" data-to="hub/index.html?h=research" href="hub/index.html?h=research"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 8h9a4 4 0 0 1 3 1.5A4 4 0 0 1 23 8h9v24h-9a4 4 0 0 0-3 1.5A4 4 0 0 0 17 32H8z"/><path d="M20 9.5v24"/></svg><span class="g-htxt"><b>Research</b><small class="g-hline" id="hl-research">Backtests, edges and write-ups</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="kalshi" data-to="hub/index.html?h=kalshi" href="hub/index.html?h=kalshi"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5v30M9 12h22"/><path d="M9 12 4 23a5 5 0 0 0 10 0zM31 12l-5 11a5 5 0 0 0 10 0z"/><path d="M13 35h14"/></svg><span class="g-htxt"><b>Kalshi</b><small class="g-hline" id="hl-kalshi">The Kalshi bot, its bets and edges</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="worlds" data-to="hub/index.html?h=worlds" href="hub/index.html?h=worlds"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><path d="M5 14 20 6l15 8zM7 14h26M9.5 17.5v12M16 17.5v12M24 17.5v12M30.5 17.5v12M6 30h28M4 34h32"/></svg><span class="g-htxt"><b>Worlds</b><small class="g-hline" id="hl-worlds">The 3D places (optional)</small></span><em class="g-hcount"></em></a>
+      <a class="g-hub" data-hub="settings" data-to="hub/index.html?h=settings" href="hub/index.html?h=settings"><svg class="g-hicon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="5"/><path d="M20 4v5M20 31v5M4 20h5M31 20h5M8.7 8.7l3.5 3.5M27.8 27.8l3.5 3.5M8.7 31.3l3.5-3.5M27.8 12.2l3.5-3.5"/></svg><span class="g-htxt"><b>Settings &amp; Help</b><small class="g-hline" id="hl-settings">Look, the PC, every app</small></span><em class="g-hcount"></em></a>
+    </nav>
+    <a class="g-btn g-azwide" id="azWide" data-to="gate/index.html#az" href="gate/index.html#az">All apps A to Z</a>
+  </section>
+
+  <section class="g-look" id="lookSec" aria-labelledby="lookH" hidden>
+    <h2 class="g-h2" id="lookH">Look</h2>
+    <div class="g-tabs" role="tablist" aria-label="How to pick the look"><button type="button" role="tab" id="lookTab1" aria-selected="true">One look</button><button type="button" role="tab" id="lookTab2" aria-selected="false">Mix</button></div>
+    <p class="g-hint" id="lookHint">One tap changes the colours and the style everywhere: here, Jarvis and every app. Every word and number stays the same.</p>
+    <div class="g-swatches" id="looks" role="radiogroup" aria-labelledby="lookH"></div>
+    <div class="g-mix" id="lookMix" hidden></div>
+  </section>
+
+  <footer class="g-foot">
+    <a class="g-quiet" id="workshopLink" data-to="hub/index.html?h=settings&amp;t=workshop" href="hub/index.html?h=settings&amp;t=workshop">Workshop (labs and test pages)</a>
+    <p>Read only: nothing here can trade or change a bot.</p>
+  </footer>
+</main>
+<script>(function () { var b = window.GATE_BASE || '', a = document.querySelectorAll('[data-to]'), i;
+  for (i = 0; i < a.length; i++) a[i].setAttribute('href', b + a[i].getAttribute('data-to'));
+})();</script>
+</body>
+</html>

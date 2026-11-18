@@ -1,0 +1,38 @@
+{
+  "name": "Pnyx",
+  "short_name": "Pnyx",
+  "description": "OLYMPUS PNYX: the assembly. A prop-firm rules and risk calculator for MFFU Builder 50K and 25K: type the stop in points and see the micros allowed, the dollars at risk, the daily loss left, the trailing drawdown floor and the distance to the target.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14110e",
+  "theme_color": "#14110e",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

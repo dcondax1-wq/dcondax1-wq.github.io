@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="help">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How do I</title>
+<meta name="description" content="How do I...: plain answers in 2-4 steps for the things you do with ZEUS and MFFU: add an account, a passed eval, payouts, pause from the phone, restart, update, PC silent, Limit 0, taxes, holidays.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Help">
+<link rel="icon" href="icon.svg">
+<!-- HOW DO I (2026-11-18, night-help; owner: "I can't find a lot of stuff", "it shouldn't be this hard"). One page of questions:
+     each answer = 2-4 plain steps, where to click (desktop icon / page), at most one line to copy, a link to the page where it is done.
+     Data: help.json (the lead keeps it current; facts from the docs named in each item's src). help.js draws it with textContent only and
+     filters as you type. help.html#<id> opens one answer, help.html?q=<words> starts a search. Read only: it links to pages and sends nothing. -->
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
+.hp-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(28px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.hp-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.hp-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); }
+.hp-title { margin: 14px 0 2px; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.hp-sub { margin: 0 0 10px; color: var(--ag-soft, #cfc4b2); }
+.hp-find { position: sticky; top: 0; z-index: 2; margin: 0 -16px; padding: 8px 16px 10px; background: var(--ag-night, #14110e); }
+.hp-find input { width: 100%; height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s0, #14110e);
+  color: var(--ag-text, #f3ece0); padding: 0 14px; font: 500 16px var(--ag-sans, system-ui, sans-serif); }
+.hp-find input:focus { outline: 0; border-color: var(--ag-gold, #c8a24a); }
+.hp-count { margin: 6px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.hp-list { display: grid; gap: 8px; margin-top: 6px; }
+.hp-q { border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); }
+.hp-q[hidden] { display: none; }
+.hp-q summary { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 14px; box-sizing: border-box; cursor: pointer; list-style: none; }
+.hp-q summary::-webkit-details-marker { display: none; }
+.hp-q summary b { flex: 1; min-width: 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.25 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
+.hp-q summary i { flex: none; font-style: normal; color: var(--ag-gold, #c8a24a); font-size: 20px; transition: transform var(--ag-d1, 200ms); }
+.hp-q[open] summary i { transform: rotate(90deg); }
+.hp-q[open] { background: var(--ag-s3, #2b241d); }
+.hp-body { padding: 0 14px 14px; }
+.hp-where { margin: 0 0 8px; padding: 8px 10px; border-radius: 10px; background: var(--ag-s1, #1b1713); color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
+.hp-where b { color: var(--ag-gold-hi, #dcbd6e); }
+.hp-steps { margin: 0; padding-left: 22px; }
+.hp-steps li { margin: 6px 0; overflow-wrap: anywhere; }
+.hp-copy { display: flex; align-items: stretch; gap: 8px; margin-top: 10px; }
+.hp-copy code { flex: 1; min-width: 0; display: flex; align-items: center; padding: 8px 10px; border-radius: 10px; box-sizing: border-box; background: var(--ag-night, #14110e); border: 1px solid var(--ag-line, #3a3228);
+  font: 600 .8125rem/1.35 var(--ag-mono, ui-monospace, Menlo, monospace); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; word-break: break-word; user-select: all; -webkit-user-select: all; }
+.hp-copy button { flex: none; min-width: 64px; min-height: 44px; border-radius: 10px; border: 1px solid var(--ag-gold, #c8a24a); background: transparent; color: var(--ag-gold-hi, #dcbd6e); font: 700 .875rem var(--ag-sans, system-ui); cursor: pointer; }
+.hp-copy button:active { background: var(--ag-s4, #332b22); }
+.hp-cnote { margin: 4px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.hp-go { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; margin-top: 12px; padding: 0 14px; border-radius: 12px; box-sizing: border-box;
+  text-decoration: none; color: var(--ag-on-gold, #1b1610); background: var(--ag-gold, #c8a24a); font: 700 var(--ag-fs-body, .9375rem) var(--ag-sans, system-ui); }
+.hp-go span { min-width: 0; overflow-wrap: anywhere; }
+.hp-empty { margin: 14px 2px; color: var(--ag-soft, #cfc4b2); }
+.hp-empty a { color: var(--ag-gold-hi, #dcbd6e); }
+.hp-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.hp-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); }
+.hp-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<script src="help.js?v=3" defer></script>
+</head>
+<body>
+<main class="hp-main" id="help">
+  <nav class="hp-nav" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="doors.html">All doors</a></nav>
+  <h1 class="hp-title">How do I...?</h1>
+  <p class="hp-sub">Tap a question. Each answer: a few steps, where to click, the page where it is done.</p>
+  <div class="hp-find"><label for="q" style="position:absolute;left:-9999px">Search the questions</label>
+    <input id="q" type="search" placeholder="Type: payout, restart, silent, taxes..." autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-controls="list">
+    <p class="hp-count" id="count" role="status" aria-live="polite">Loading the questions...</p></div>
+  <section class="hp-list" id="list" aria-label="Questions"></section>
+  <p class="hp-empty" id="empty" hidden></p>
+  <nav class="hp-links" aria-label="Other ways in"><a href="doors.html">The four doors</a><a href="../gate/index.html#az">Every app A to Z</a><a href="../business/">Business</a></nav>
+  <p class="hp-foot" id="foot">Read only: nothing here can trade or change a bot.</p>
+</main>
+</body>
+</html>

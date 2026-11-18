@@ -1,0 +1,28 @@
+/* AGORA for the kit-based apps (docs/DESIGN_AGORA.md): points the kit's variables at marble / bronze / gold, serif headings, no glow.
+   Load AFTER olympus.css and agora.css. The !important on the accent (AGORA theme only) beats the per-app inline accent; other themes paint their own. */
+:root {
+  --oly-ui: -apple-system, 'SF Pro Text', system-ui, 'Helvetica Neue', Arial, sans-serif;
+  --oly-display: var(--oly-th-display, 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif);
+  --oly-track-label: .02em; --oly-track-name: .02em;
+  --oly-bg: var(--oly-th-n3, #14110e); --oly-bg2: var(--oly-th-n4, #1d1914); --oly-text: var(--oly-th-n37, #f3ece0); --oly-dim: var(--oly-th-n30, #cfc4b2);
+  --oly-glass: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .94); --oly-glass2: rgba(var(--oly-th-n5-rgb, 38, 33, 27), .97); --oly-line: var(--oly-th-n8, #3a3228); --oly-edge: rgba(var(--oly-th-a8-rgb, 200, 162, 74), .28);
+  --oly-good: var(--oly-th-g6, #7f8a52); --oly-bad: var(--oly-th-r8, #c96a4a); --oly-warn: var(--oly-th-warn, #e0b060);
+  --oly-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+}
+:root:where(:not([data-oly-theme]), [data-oly-theme="agora"]) { --oly-accent: var(--oly-th-a8, #c8a24a) !important; --oly-accent-rgb: 200, 162, 74 !important; }   /* pinned on AGORA only; another theme (Hades...) keeps the accent the kit painted */
+:root { --ag-num: var(--oly-th-num, 'SF Pro Rounded', -apple-system, system-ui, sans-serif); }
+html, body { background-color: var(--oly-th-n3, #14110e); }
+body { font-variant-numeric: tabular-nums; letter-spacing: 0; }
+html * { text-shadow: none !important; }
+.oly-glass::before, .oly-card::before { background: var(--oly-edge) !important; opacity: .55; }
+.oly-chip, .oly-card { box-shadow: var(--oly-shadow); }
+/* the shared AGORA bits the apps use */
+.ag-money { font: 700 clamp(34px, 11vw, 46px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-text, var(--oly-th-n37, #f3ece0)); letter-spacing: -.01em; }
+.ag-money.pos { color: var(--oly-th-g8, #a3ad73); } .ag-money.neg { color: var(--oly-th-r9, #d9785a); }
+.ag-cap { font: 600 13px/1.3 var(--oly-ui); color: var(--ag-muted, var(--oly-th-n22, #9a8f7d)); letter-spacing: .01em; }
+.ag-rulet { display: block; width: 56px; height: 2px; margin: 8px 0 0; background: linear-gradient(90deg, var(--oly-th-a8, #c8a24a), transparent); border: 0; }
+.ag-meander { height: 10px; margin: 6px 0; opacity: .55; background: repeating-linear-gradient(90deg, var(--oly-th-a5, #9c6b3c) 0 2px, transparent 2px 6px, var(--oly-th-a5, #9c6b3c) 6px 8px, transparent 8px 10px) center/auto 2px no-repeat; }
+:root { --oly-t-micro: 12px; --oly-t-label: 13px; --oly-t-body: 15px; }
+/* no neon pulse, no moving sheen, no glow on the AGORA apps */
+.oly-fx-spec, [data-oly-fx~="shimmer"]::after, .oly-fx-shimmer::after { display: none !important; }
+[data-oly-fx~="glow"], .oly-fx-glow, .oly-fx-neon { animation: none !important; filter: none !important; box-shadow: none; }

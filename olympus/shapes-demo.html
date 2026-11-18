@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shapes demo</title>
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<!-- The one-liner of olympus/shapes-mount.js: OLYMPUS_SHAPES.mount(element, 'owl'). ?flat=1 shows the 2D fallback, ?lite=1 the LITE builds, ?q=low|high picks the render tier.
+     tests/test_shapes3d.py drives it. Docs: docs/NEW_APPS_WIRING.md (Agora Gallery section 8). -->
+<link rel="stylesheet" href="olympus.css?v=o7">
+<link rel="stylesheet" href="agora.css?v=a4">
+<script src="themes.js?v=o6"></script>
+<script src="olympus.js?v=o10"></script>
+<style>
+  body { margin: 0; padding: 16px; font: 500 15px/1.45 var(--ag-sans); background: var(--ag-night); color: var(--ag-text); }
+  h1 { margin: 0 0 12px; font-size: 22px; }
+  .spots { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .spot { height: 220px; border-radius: 16px; border: 1px solid var(--ag-line); background: radial-gradient(90% 80% at 50% 38%, #3a2f22 0%, #1d1914 78%); overflow: hidden; }
+  p { color: var(--ag-soft); font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Shapes demo</h1>
+<div class="spots">
+  <div class="spot" id="s1" aria-label="owl"></div>
+  <div class="spot" id="s2" aria-label="pillar chart"></div>
+  <div class="spot" id="s3" aria-label="amphora"></div>
+</div>
+<p id="note">Three spots, one line each.</p>
+<script type="module" src="shapes-mount.js"></script>
+<script type="module">
+const lite = /[?&]lite=1/.test(location.search);
+const go = () => {
+  const M = window.OLYMPUS_SHAPES;
+  window.__mounts = [M.mount(document.getElementById('s1'), 'owl', { lite: lite || undefined }), M.mount(document.getElementById('s2'), 'pillarbar', { values: [0.3, 0.6, 0.45, 0.9], tones: ['loss', 'gain', 'gain', 'gain'], lite: true }), M.mount(document.getElementById('s3'), 'amphora', { lite: true, spin: false })];
+  window.__done = true;
+};
+if (window.OLYMPUS_SHAPES) go(); else window.addEventListener('olympus-shapes', go, { once: true });
+</script>
+</body>
+</html>

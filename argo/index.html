@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Argo</title>
+<meta name="description" content="OLYMPUS ARGO: the voyage. Your money goals as islands on a sea map, with progress from published numbers only and honest ETA ranges (slowest, base, fastest month) from your real payouts. Edit the goals, export and import them.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Argo">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- ARGO (OLYMPUS, AGORA look, 2026-11-10): the voyage, a long-term goals arena. argocore.js = the pure maths (node-tested); argoscene.js = a marble trireme on waves drawn on a 2D canvas (no WebGL); argo.js = the page (ES module).
+     Read only for data: it reads published JSON of this site (home.json, ledger/rules.json) and fixture.json (DEMO, never blank) and sends nothing. The goals are the owner's own and live in this browser (localStorage, export / import as JSON).
+     A pace or date is shown only from real payouts, always as a range with n and "not a promise". Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="argo"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#4b7a99'); r.setProperty('--oly-accent-rgb', '75, 122, 153'); })();</script>
+<link rel="stylesheet" href="argo.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Argo</h1><p class="sub">Your money goals: how close you are, and the next step</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">Next goal</h2><span class="pill" id="count">...</span></div>
+    <p class="selt" id="nextName"></p>
+    <p class="big ag-num" id="nextPct"></p>
+    <div id="nextBar" class="ag-bar green" role="img"><i></i></div>
+    <p class="lead" id="nextEta"></p>
+    <p class="note" id="demoNote" hidden></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="seaH">
+    <h2 id="seaH">The ship</h2>
+    <div class="stage"><canvas id="scene" width="340" height="200" role="img" aria-label="A marble trireme sailing across waves toward the next island"></canvas></div>
+    <p class="note" id="sceneCap"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="mapH">
+    <h2 id="mapH">All your goals</h2>
+    <div id="map" class="map"></div>
+    <p class="note">Each island is one goal. Tap one to see what it takes. Gold flag = done.</p>
+  </section>
+
+  <section class="ag-card card" id="isle" aria-labelledby="isleH">
+    <div class="row"><h2 id="isleH">This goal</h2><span class="pill" id="selPill">...</span></div>
+    <p class="selt" id="selName"></p>
+    <div id="selBar" class="ag-bar green" role="img"><i></i></div>
+    <p class="when" id="selNums"></p>
+    <div class="why"><h3>What it takes</h3><p id="selTakes"></p></div>
+    <div class="why"><h3>When (estimate)</h3><p id="selEta"></p><p class="note" id="selRange"></p></div>
+    <div class="why"><h3>Next 3 actions</h3><ol class="plain" id="selActs"></ol></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="ladH">
+    <h2 id="ladH">Goals in order</h2>
+    <div id="ladder" class="list"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="edH">
+    <h2 id="edH">Change your goals</h2>
+    <p class="note">Saved on this phone only. Progress comes from real numbers, never typed in.</p>
+    <div id="goalsEdit" class="list"></div>
+    <h3 class="sub3">Add a goal</h3>
+    <div class="flds">
+      <label class="fld"><span>Kind</span><select id="addType"></select></label>
+      <label class="fld"><span>Name</span><input id="addName" type="text" maxlength="40" placeholder="Name of the island"></label>
+      <label class="fld"><span>Target</span><input id="addTarget" type="number" inputmode="decimal" min="1" step="1"></label>
+    </div>
+    <div class="seg"><button class="btn primary" id="addBtn" type="button">Add goal</button><button class="btn" id="resetBtn" type="button">Back to the starter goals</button></div>
+    <p class="note" id="editMsg" role="status" aria-live="polite"></p>
+    <details id="io">
+      <summary>Export or import goals (JSON)</summary>
+      <label class="fld"><span>Goals as text</span><textarea id="ioText" rows="7" spellcheck="false"></textarea></label>
+      <div class="seg"><button class="btn" id="exportBtn" type="button">Export</button><button class="btn" id="importBtn" type="button">Import</button></div>
+      <p class="note" id="ioMsg" role="status" aria-live="polite"></p>
+    </details>
+  </section>
+
+  <p class="foot" id="foot">Argo only reads; it sends nothing and never trades. A date shows only after 2 full months of real payouts, as a range (fast, normal, slow). An estimate, not a promise.</p>
+</main>
+<script type="module" src="argo.js?v=a1"></script>
+</body>
+</html>

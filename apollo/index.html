@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apollo</title>
+<meta name="description" content="OLYMPUS APOLLO: the weekly review. This week's trades in dollars and R, what went right, what went wrong, your discipline from the Mnemosyne journal and the one rule for next week.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Apollo">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- APOLLO (OLYMPUS, AGORA look, 2026-11-09): Weekly review: this week's trades (odeon/trades.json), what went right and wrong, discipline from Mnemosyne's card (localStorage journal.card.v1, read only) and the one rule for next week. apollocore.js = the pure maths (node-tested); apollo.js = the page (ES module). Read only: it reads published JSON of this site
+     and fixture.json (DEMO, never blank) and sends nothing anywhere. Text only through textContent / createElementNS (no markup is built from data). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="apollo"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#e0b060'); r.setProperty('--oly-accent-rgb', '224, 176, 96'); })();</script>
+<link rel="stylesheet" href="apollo.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Apollo</h1><p class="sub">Your week in $: what went right, what went wrong, and the one rule for next week.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" aria-labelledby="weeksH">
+    <h2 id="weeksH">Pick a week</h2>
+    <div class="seg" id="weeks" role="group" aria-label="Weeks"></div>
+  </section>
+  <section class="ag-card card hero" id="hero" aria-labelledby="weekH">
+    <p class="ag-eyebrow">The week in one line</p>
+    <h2 id="weekH">This week</h2>
+    <p class="big ag-num" id="big">$0 (0.0R)</p>
+    <div class="tiles" id="tiles"></div>
+    <svg id="bars" class="bars" viewBox="0 0 360 112" role="img" aria-label="Profit and loss for each day of the week"></svg>
+  </section>
+  <section class="ag-card card good-card" aria-labelledby="rightH">
+    <h2 id="rightH">What went right</h2>
+    <ul class="plain" id="right"></ul>
+  </section>
+  <section class="ag-card card bad-card" aria-labelledby="wrongH">
+    <h2 id="wrongH">What went wrong</h2>
+    <ul class="plain" id="wrong"></ul>
+  </section>
+  <section class="ag-card card" id="discCard" aria-labelledby="discH">
+    <h2 id="discH">Your discipline</h2>
+    <div class="tiles" id="disc"></div>
+    <div id="discText"></div>
+    <p class="note" id="discNote"></p>
+    <a class="btn" href="../journal/" id="jlink">Open Mnemosyne</a>
+  </section>
+  <section class="ag-card card rule" id="ruleCard" aria-labelledby="ruleH">
+    <p class="ag-eyebrow">The ONE rule for next week</p>
+    <h2 id="ruleH" class="ruleh"><span id="ruleText"></span></h2>
+    <p class="lead" id="ruleWhy"></p>
+  </section>
+
+  <p class="foot" id="foot">Apollo reads the site's trades file and, if you use Mnemosyne, its card on this phone. It sends nothing and writes nothing. Every dollar sits next to its R; a ~ means the R was estimated from the risk.</p>
+</main>
+<script type="module" src="apollo.js?v=a1"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+{
+ "v": 1,
+ "name": "Ergasterion lessons",
+ "asof": "2026-11-18",
+ "say": "This week we wrote down 20 lessons. The strongest (2 files agree): (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost… What changed our mind: Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
+ "week": [
+  {
+   "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 2,
+   "sources": [
+    "research/writeups/rapid25-lit-lane-2026-11-18.md",
+    "research/writeups/builder25k-eval-sizing-2026-11-17.md"
+   ]
+  },
+  {
+   "text": "In 2021-25 they halve the failed Builder evals (55% - 28% within 60 sessions) and cut fees ($212 - $166 per 6 months), but the payouts fall by the same amount: the Builder still makes -$7 instead of -$9 a m…",
+   "cat": "NQ strategy",
+   "d": "2026-11-17",
+   "strength": 2,
+   "sources": [
+    "research/writeups/drift-switch-2026-11-17.md",
+    "research/writeups/eval-game.md"
+   ]
+  },
+  {
+   "text": "Bigger room shares (45-60%) pass 1-3 sessions sooner but 60-session fails jump to 7-21%. $ caps $150-$400 are all slower.",
+   "cat": "NQ strategy",
+   "d": "2026-11-17",
+   "strength": 2,
+   "sources": [
+    "research/writeups/rapid25-lit-lane-2026-11-18.md",
+    "research/writeups/builder25k-eval-sizing-2026-11-17.md"
+   ]
+  },
+  {
+   "text": "No single fact has a bin that loses in both halves; 425 two-fact loser cells picked on Jan-Jun keep losing in Jul-Oct 88 times against 95 expected by chance.",
+   "cat": "NQ strategy",
+   "d": "2026-11-15",
+   "strength": 2,
+   "sources": [
+    "research/writeups/2026-11-15-lit-deep.md",
+    "research/writeups/lit-retail-entries.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: ZEUS Lab LIT ideas (2026-11-18, zeus-lab-lit-ideas-2026-11-18.md, tools/lit_lab_ideas.py, Lab kind lit_idea): 10",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: ATLAS new members (2026-11-18, atlas-members-2026-11-18.md, tools/atlas_plus.py, research/second/atlas_plus.json): 29",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "The four that look best on paper (pre-FOMC, RSI(2), 12-month trend, overnight drift) all hold positions overnight, which MFFU does not allow (flat by 16:10 ET), and every one of them lost money in 2026 H2 or in 2021-25.",
+   "cat": "process",
+   "d": "2026-11-17",
+   "strength": 1,
+   "sources": [
+    "research/writeups/public-strategies-2026-11-17.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: Walk-forward re-tuning (2026-11-17, lit-walkforward-2026-11-17.md, tools/lit_wf_retune.py, research/lit/wf_retune.json):",
+   "cat": "NQ strategy",
+   "d": "2026-11-17",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  }
+ ],
+ "top": [
+  {
+   "text": "No edge found. None of them beat the noise bar on the training data, so none was carried forward.",
+   "cat": "Kalshi",
+   "d": "2026-11-11",
+   "strength": 3,
+   "sources": [
+    "research/writeups/kalshi_edge_C.md",
+    "research/writeups/kalshi_edge_B.md",
+    "research/writeups/kalshi_edge_A.md"
+   ]
+  },
+  {
+   "text": "None gives an edge that survives fees, a held-out block and a second asset.",
+   "cat": "Kalshi",
+   "d": "2026-11-10",
+   "strength": 3,
+   "sources": [
+    "research/writeups/kalshi_edge_C.md",
+    "research/writeups/kalshi_edge_B.md",
+    "research/writeups/kalshi_edge_A.md"
+   ]
+  },
+  {
+   "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 2,
+   "sources": [
+    "research/writeups/rapid25-lit-lane-2026-11-18.md",
+    "research/writeups/builder25k-eval-sizing-2026-11-17.md"
+   ]
+  },
+  {
+   "text": "In 2021-25 they halve the failed Builder evals (55% - 28% within 60 sessions) and cut fees ($212 - $166 per 6 months), but the payouts fall by the same amount: the Builder still makes -$7 instead of -$9 a m…",
+   "cat": "NQ strategy",
+   "d": "2026-11-17",
+   "strength": 2,
+   "sources": [
+    "research/writeups/drift-switch-2026-11-17.md",
+    "research/writeups/eval-game.md"
+   ]
+  },
+  {
+   "text": "Bigger room shares (45-60%) pass 1-3 sessions sooner but 60-session fails jump to 7-21%. $ caps $150-$400 are all slower.",
+   "cat": "NQ strategy",
+   "d": "2026-11-17",
+   "strength": 2,
+   "sources": [
+    "research/writeups/rapid25-lit-lane-2026-11-18.md",
+    "research/writeups/builder25k-eval-sizing-2026-11-17.md"
+   ]
+  },
+  {
+   "text": "No single fact has a bin that loses in both halves; 425 two-fact loser cells picked on Jan-Jun keep losing in Jul-Oct 88 times against 95 expected by chance.",
+   "cat": "NQ strategy",
+   "d": "2026-11-15",
+   "strength": 2,
+   "sources": [
+    "research/writeups/2026-11-15-lit-deep.md",
+    "research/writeups/lit-retail-entries.md"
+   ]
+  },
+  {
+   "text": "(1m for 2026, 5m for 2021-25), costs in ($1.90 a micro, 1 tick on every market and stop fill, limits only when traded through, every same-bar tie booked against us), picked on 2026 Jan-Jun, checked on Jul-Oct, 2021-25 o…",
+   "cat": "NQ strategy",
+   "d": "2026-10-28",
+   "strength": 2,
+   "sources": [
+    "research/writeups/scalp-momentum.md",
+    "research/writeups/lit-gap-audit.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: ZEUS Lab LIT ideas (2026-11-18, zeus-lab-lit-ideas-2026-11-18.md, tools/lit_lab_ideas.py, Lab kind lit_idea): 10",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  }
+ ],
+ "changed": [
+  {
+   "text": "Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
+   "was": "",
+   "cat": "NQ strategy",
+   "d": "2026-11-13",
+   "source": "research/writeups/es-and-sessions-2026-11-13.md"
+  },
+  {
+   "text": "One pocket looked real (and replicated across two assets) until I ran it on two months of data it had never seen: it vanished.",
+   "was": "",
+   "cat": "Kalshi",
+   "d": "2026-11-10",
+   "source": "research/writeups/kalshi_edge_B.md"
+  },
+  {
+   "text": "The earlier finding \"95c and above is +1.4% per $\" came from the bot's own bets (no market-wide data). On the market-wide data it is +0.1% (train) and -0.6% (test): that pocket is not an edge, it is the bot's entry timing plus luck.",
+   "was": "95c and above is +1.4% per $",
+   "cat": "Kalshi",
+   "d": "2026-11-10",
+   "source": "research/writeups/kalshi_edge_A.md"
+  },
+  {
+   "text": "The H2 gain of the pick (fail in 2 weeks 17.4% vs 21.7%) rests on 31 trades and does not hold in 2021-25.",
+   "was": "",
+   "cat": "NQ strategy",
+   "d": "2026-10-31",
+   "source": "research/writeups/blitz-streak-size-2026-10-31.md"
+  },
+  {
+   "text": "If shuffled outcomes do as well, the previous result carries no information.",
+   "was": "",
+   "cat": "NQ strategy",
+   "d": "2026-10-31",
+   "source": "research/writeups/blitz-streak-size-2026-10-31.md"
+  },
+  {
+   "text": "That does not hold afterwards: H2 +0.93 / +0.14 / +0.92, 2025 +0.04 / -0.03 / +0.28, 2021-24 +0.04 / +0.16 / -0.12.",
+   "was": "",
+   "cat": "NQ strategy",
+   "d": "2026-10-30",
+   "source": "research/writeups/discretion-score-2026-10-30.md"
+  }
+ ],
+ "counts": {
+  "NQ strategy": 46,
+  "Kalshi": 2,
+  "money": 2,
+  "process": 10,
+  "app": 0
+ },
+ "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."
+}

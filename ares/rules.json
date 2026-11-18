@@ -1,0 +1,121 @@
+{
+ "v": 1,
+ "kind": "olympus-ares-rules",
+ "source": "research/lit/mffu_rules.json (built 2026-10-18; re-check before the first live payout)",
+ "plans": {
+  "50k": {
+   "name": "Builder 50K",
+   "start": 50000.0,
+   "target": 3000.0,
+   "mll": 2000.0,
+   "lock": 100.0,
+   "dll": 1000.0,
+   "max_micros": 40,
+   "max_minis": 4,
+   "buffer": 2100.0,
+   "pay_min": 500.0,
+   "pay_max": 2000.0,
+   "split": 0.8,
+   "cons": 0.5,
+   "max_payouts": 5,
+   "price": 91.8,
+   "list_price": 153.0
+  },
+  "25k": {
+   "name": "Builder 25K",
+   "start": 25000.0,
+   "target": 1500.0,
+   "mll": 1000.0,
+   "lock": 100.0,
+   "dll": 600.0,
+   "max_micros": 20,
+   "max_minis": 2,
+   "buffer": 1100.0,
+   "pay_min": 250.0,
+   "pay_max": 1000.0,
+   "split": 0.8,
+   "cons": 0.5,
+   "max_payouts": 5,
+   "price": 63.0,
+   "list_price": 105.0
+  }
+ },
+ "flat_by": "16:10",
+ "open": "18:00",
+ "break": [
+  "17:00",
+  "18:00"
+ ],
+ "comm_rt": {
+  "MNQ": 1.9,
+  "NQ": 4.68
+ },
+ "slip_ticks": 2,
+ "point_value": {
+  "MNQ": 2.0,
+  "NQ": 20.0
+ },
+ "tick": 0.25,
+ "bot": {
+  "entry_from": "02:00",
+  "entry_to": "15:30",
+  "stop_min_pts": 8,
+  "stop_max_pts": 80,
+  "max_trades_day": 1,
+  "room_f_eval": 0.4,
+  "room_f_funded": 0.6,
+  "note": "LIT: 1 trade a day, entries 02:00-15:30 ET, stop 8-80 pts"
+ },
+ "rules": [
+  {
+   "id": "mll",
+   "text": "The account fails if your balance, open trade included, touches the floor. The floor starts at the start balance minus the max loss and moves up only at the close of the day, from your best end-of-day balance, until it locks at start + $100.",
+   "status": "confirmed"
+  },
+  {
+   "id": "dll",
+   "text": "Daily loss limit is soft: hit it and trading is paused for that session. The account stays open.",
+   "status": "confirmed"
+  },
+  {
+   "id": "flat",
+   "text": "Intraday only. Be flat by 16:10 ET. The platform closes you at 16:10; never force orders after it. No weekend holds.",
+   "status": "confirmed"
+  },
+  {
+   "id": "hedge",
+   "text": "No long and short on the same market at the same time, also across your accounts.",
+   "status": "confirmed"
+  },
+  {
+   "id": "size",
+   "text": "The contract limit counts minis and micros together: 10 micros = 1 mini. Over the limit, the order is rejected.",
+   "status": "confirmed"
+  },
+  {
+   "id": "news",
+   "text": "News is allowed in the eval and when sim-funded. On a live account MFFU advises against it.",
+   "status": "confirmed"
+  },
+  {
+   "id": "bots",
+   "text": "Bots are allowed with your own settings and you watching. No high-frequency trading, no exploiting simulated fills.",
+   "status": "confirmed"
+  },
+  {
+   "id": "idle",
+   "text": "Trade at least once every 7 days or the account can be closed.",
+   "status": "confirmed"
+  },
+  {
+   "id": "target",
+   "text": "The eval passes at +$3,000 (Builder 25K: +$1,500). No consistency rule in the eval.",
+   "status": "confirmed"
+  },
+  {
+   "id": "pay",
+   "text": "Funded: the first payout once you are $500 above the $2,100 buffer (25K: $250 above $1,100). Payouts $500 to $2,000, 80% to you, best day under 50% of the cycle, 5 sim payouts and then a live account.",
+   "status": "confirmed"
+  }
+ ]
+}

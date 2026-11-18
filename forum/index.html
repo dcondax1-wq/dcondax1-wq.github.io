@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forum</title>
+<meta name="description" content="FORUM: your morning briefing in a Roman forum at the real New York hour. The Council of the Gods, the VIX, the calendar, the eval and today's plan on six glowing tablets, then you seal the day's oath and the temple gates open. Read-only; never a signal, never an order.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Forum">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- FORUM (OLYMPUS, 2026-11-03): a morning ritual. It reads what the site already publishes: ../pantheon/pantheon.json (the Council of
+     the Gods: verdict, VIX, rates, the macro calendar) and ../home.json (the live eval). forumcore.js = the briefing (pure),
+     scene.js = the 3D forum on the OLYMPUS render core, forum.js = the page. The oath you seal is kept on this phone only
+     (localStorage 'forum.v1'). Nothing here is a signal and nothing writes to a bot. ?t=08:40 shows the forum at that New York time. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="forum"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#8f9f3c'); r.setProperty('--oly-accent-rgb', '143, 159, 60'); })();</script>
+<link rel="stylesheet" href="forum.css?v=f2g">
+</head>
+<body>
+<canvas id="view" aria-label="A Roman forum: an avenue of six pillars with glowing tablets leading to a temple, under the sky of the real New York hour" role="img"></canvas>
+<main id="ui">
+  <header class="top">
+    <div class="brand"><h1>FORUM</h1><p class="sub">A 2-minute morning read before you trade. Press Start.</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <section class="clock" id="clock" aria-live="polite">
+    <div class="ck"><b id="ckTime">--:--</b><span id="ckPhase">ET</span></div>
+    <p class="nx" id="ckNext">&nbsp;</p>
+    <span class="oly-chip streak" id="streak" title="Market days in a row with the oath sealed"><span class="k">Forum streak</span> <b id="streakN" data-oly-fx="odometer">0</b> <span class="u">days</span></span>
+    <div class="shrine" id="shrine" role="img" aria-label="Streak shrine"></div>
+  </section>
+</main>
+<section class="card" id="card" aria-live="polite">
+  <div class="heroc" id="hero" aria-label="Drawdown left"></div>
+  <div class="intro" id="intro">
+    <h2>Good morning, trader.</h2>
+    <p id="introText">Six short cards: today's risk, $ room left and the plan. Read them, tick today's promises, and you are ready.</p>
+    <button type="button" class="go" id="start">Start the briefing</button>
+  </div>
+  <div class="scroll" id="scroll" hidden>
+    <div class="sh"><span class="glyph" id="sGlyph"></span><div class="st"><b id="sTitle"></b><span id="sStat"></span></div><span class="tone" id="sTone"></span></div>
+    <p class="body" id="sBody"></p>
+  </div>
+  <div class="oath" id="oath" hidden>
+    <h2>The oath</h2>
+    <div id="pledges" role="group" aria-label="Today's pledges"></div>
+    <button type="button" class="go" id="seal" disabled>Seal the day</button>
+    <p class="done" id="sealed" hidden></p>
+  </div>
+  <div class="desk" id="desk" aria-label="On the desk"></div>
+  <div class="desk plus" id="money" aria-label="Money today"></div>
+  <div class="desk plus" id="day" aria-label="The trading day"></div>
+</section>
+<nav class="steps" id="steps" aria-label="The briefing" hidden>
+  <button type="button" id="prev" aria-label="Previous tablet">‹</button>
+  <div class="dots" id="dots"></div>
+  <button type="button" id="next" aria-label="Next tablet">›</button>
+</nav>
+<script type="module" src="forum.js?v=f2g"></script>
+</body>
+</html>

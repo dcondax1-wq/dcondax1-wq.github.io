@@ -1,0 +1,469 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: invented release days, ranges and schedule, shown until the built stats.json is there.",
+ "today": "2026-11-10",
+ "built": "2026-11-09",
+ "last_bar_day": "2026-11-06",
+ "calendar_last_date": "2026-11-20",
+ "usd_per_point": 2.0,
+ "last_n": 8,
+ "min_bars": 90,
+ "label": "History, not a forecast: how far NQ travelled on past release days. A range is not a profit or a loss.",
+ "baseline": {
+  "days": 400,
+  "day": {
+   "n": 400,
+   "avg": 290.0,
+   "median": 255.0
+  },
+  "window": {
+   "08:30": {
+    "n": 400,
+    "avg": 60.0,
+    "median": 48.0
+   },
+   "14:00": {
+    "n": 400,
+    "avg": 58.0,
+    "median": 47.0
+   }
+  }
+ },
+ "kinds": {
+  "cpi": {
+   "label": "CPI (consumer prices)",
+   "time": "08:30",
+   "n_listed": 12,
+   "n_with_data": 8,
+   "all": {
+    "day": {
+     "n": 8,
+     "avg": 378.8,
+     "median": 365.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 228.8,
+     "median": 225.0
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 378.8,
+     "median": 365.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 228.8,
+     "median": 225.0
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-09-11",
+     "time": "08:30",
+     "day_range": 330.0,
+     "window_range": 240.0,
+     "day_usd": 660,
+     "window_usd": 480
+    },
+    {
+     "date": "2026-08-12",
+     "time": "08:30",
+     "day_range": 290.0,
+     "window_range": 190.0,
+     "day_usd": 580,
+     "window_usd": 380
+    },
+    {
+     "date": "2026-07-14",
+     "time": "08:30",
+     "day_range": 410.0,
+     "window_range": 260.0,
+     "day_usd": 820,
+     "window_usd": 520
+    },
+    {
+     "date": "2026-06-10",
+     "time": "08:30",
+     "day_range": 350.0,
+     "window_range": 200.0,
+     "day_usd": 700,
+     "window_usd": 400
+    },
+    {
+     "date": "2026-05-12",
+     "time": "08:30",
+     "day_range": 520.0,
+     "window_range": 300.0,
+     "day_usd": 1040,
+     "window_usd": 600
+    },
+    {
+     "date": "2026-04-10",
+     "time": "08:30",
+     "day_range": 300.0,
+     "window_range": 150.0,
+     "day_usd": 600,
+     "window_usd": 300
+    },
+    {
+     "date": "2026-03-11",
+     "time": "08:30",
+     "day_range": 380.0,
+     "window_range": 210.0,
+     "day_usd": 760,
+     "window_usd": 420
+    },
+    {
+     "date": "2026-02-13",
+     "time": "08:30",
+     "day_range": 450.0,
+     "window_range": 280.0,
+     "day_usd": 900,
+     "window_usd": 560
+    }
+   ]
+  },
+  "nfp": {
+   "label": "Jobs report (NFP)",
+   "time": "08:30",
+   "n_listed": 12,
+   "n_with_data": 8,
+   "all": {
+    "day": {
+     "n": 8,
+     "avg": 395.0,
+     "median": 355.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 227.5,
+     "median": 195.0
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 395.0,
+     "median": 355.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 227.5,
+     "median": 195.0
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-10-02",
+     "time": "08:30",
+     "day_range": 360.0,
+     "window_range": 190.0,
+     "day_usd": 720,
+     "window_usd": 380
+    },
+    {
+     "date": "2026-09-04",
+     "time": "08:30",
+     "day_range": 300.0,
+     "window_range": 180.0,
+     "day_usd": 600,
+     "window_usd": 360
+    },
+    {
+     "date": "2026-08-07",
+     "time": "08:30",
+     "day_range": 540.0,
+     "window_range": 330.0,
+     "day_usd": 1080,
+     "window_usd": 660
+    },
+    {
+     "date": "2026-07-02",
+     "time": "08:30",
+     "day_range": 280.0,
+     "window_range": 160.0,
+     "day_usd": 560,
+     "window_usd": 320
+    },
+    {
+     "date": "2026-06-05",
+     "time": "08:30",
+     "day_range": 420.0,
+     "window_range": 250.0,
+     "day_usd": 840,
+     "window_usd": 500
+    },
+    {
+     "date": "2026-05-08",
+     "time": "08:30",
+     "day_range": 350.0,
+     "window_range": 200.0,
+     "day_usd": 700,
+     "window_usd": 400
+    },
+    {
+     "date": "2026-04-03",
+     "time": "08:30",
+     "day_range": 310.0,
+     "window_range": 170.0,
+     "day_usd": 620,
+     "window_usd": 340
+    },
+    {
+     "date": "2026-03-06",
+     "time": "08:30",
+     "day_range": 600.0,
+     "window_range": 340.0,
+     "day_usd": 1200,
+     "window_usd": 680
+    }
+   ]
+  },
+  "ppi": {
+   "label": "PPI (producer prices)",
+   "time": "08:30",
+   "n_listed": 12,
+   "n_with_data": 8,
+   "all": {
+    "day": {
+     "n": 8,
+     "avg": 338.8,
+     "median": 320.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 131.2,
+     "median": 135.0
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 338.8,
+     "median": 320.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 131.2,
+     "median": 135.0
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-10-15",
+     "time": "08:30",
+     "day_range": 500.0,
+     "window_range": 140.0,
+     "day_usd": 1000,
+     "window_usd": 280
+    },
+    {
+     "date": "2026-09-10",
+     "time": "08:30",
+     "day_range": 260.0,
+     "window_range": 120.0,
+     "day_usd": 520,
+     "window_usd": 240
+    },
+    {
+     "date": "2026-08-13",
+     "time": "08:30",
+     "day_range": 310.0,
+     "window_range": 130.0,
+     "day_usd": 620,
+     "window_usd": 260
+    },
+    {
+     "date": "2026-07-15",
+     "time": "08:30",
+     "day_range": 280.0,
+     "window_range": 110.0,
+     "day_usd": 560,
+     "window_usd": 220
+    },
+    {
+     "date": "2026-06-11",
+     "time": "08:30",
+     "day_range": 340.0,
+     "window_range": 150.0,
+     "day_usd": 680,
+     "window_usd": 300
+    },
+    {
+     "date": "2026-05-13",
+     "time": "08:30",
+     "day_range": 290.0,
+     "window_range": 100.0,
+     "day_usd": 580,
+     "window_usd": 200
+    },
+    {
+     "date": "2026-04-14",
+     "time": "08:30",
+     "day_range": 330.0,
+     "window_range": 140.0,
+     "day_usd": 660,
+     "window_usd": 280
+    },
+    {
+     "date": "2026-03-18",
+     "time": "08:30",
+     "day_range": 400.0,
+     "window_range": 160.0,
+     "day_usd": 800,
+     "window_usd": 320
+    }
+   ]
+  },
+  "fomc": {
+   "label": "FOMC decision",
+   "time": "14:00",
+   "n_listed": 12,
+   "n_with_data": 8,
+   "all": {
+    "day": {
+     "n": 8,
+     "avg": 452.5,
+     "median": 410.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 135.0,
+     "median": 135.0
+    }
+   },
+   "last": {
+    "day": {
+     "n": 8,
+     "avg": 452.5,
+     "median": 410.0
+    },
+    "window": {
+     "n": 8,
+     "avg": 135.0,
+     "median": 135.0
+    }
+   },
+   "rows": [
+    {
+     "date": "2026-09-16",
+     "time": "14:00",
+     "day_range": 500.0,
+     "window_range": 130.0,
+     "day_usd": 1000,
+     "window_usd": 260
+    },
+    {
+     "date": "2026-07-29",
+     "time": "14:00",
+     "day_range": 780.0,
+     "window_range": 170.0,
+     "day_usd": 1560,
+     "window_usd": 340
+    },
+    {
+     "date": "2026-06-17",
+     "time": "14:00",
+     "day_range": 420.0,
+     "window_range": 150.0,
+     "day_usd": 840,
+     "window_usd": 300
+    },
+    {
+     "date": "2026-04-29",
+     "time": "14:00",
+     "day_range": 380.0,
+     "window_range": 120.0,
+     "day_usd": 760,
+     "window_usd": 240
+    },
+    {
+     "date": "2026-03-18",
+     "time": "14:00",
+     "day_range": 450.0,
+     "window_range": 140.0,
+     "day_usd": 900,
+     "window_usd": 280
+    },
+    {
+     "date": "2026-01-28",
+     "time": "14:00",
+     "day_range": 330.0,
+     "window_range": 110.0,
+     "day_usd": 660,
+     "window_usd": 220
+    },
+    {
+     "date": "2025-12-10",
+     "time": "14:00",
+     "day_range": 400.0,
+     "window_range": 160.0,
+     "day_usd": 800,
+     "window_usd": 320
+    },
+    {
+     "date": "2025-10-29",
+     "time": "14:00",
+     "day_range": 360.0,
+     "window_range": 100.0,
+     "day_usd": 720,
+     "window_usd": 200
+    }
+   ]
+  }
+ },
+ "events": [
+  {
+   "date": "2026-11-10",
+   "time": "08:30",
+   "title": "Example: consumer prices (CPI)",
+   "kind": "cpi",
+   "impact": "high",
+   "source": "example"
+  },
+  {
+   "date": "2026-11-10",
+   "time": "10:00",
+   "title": "Example: a survey release",
+   "kind": "ism",
+   "impact": "med",
+   "source": "example"
+  },
+  {
+   "date": "2026-11-12",
+   "time": "08:30",
+   "title": "Example: jobless claims",
+   "kind": "claims",
+   "impact": "low",
+   "source": "example"
+  },
+  {
+   "date": "2026-11-13",
+   "time": "08:30",
+   "title": "Example: producer prices (PPI)",
+   "kind": "ppi",
+   "impact": "med",
+   "source": "example"
+  },
+  {
+   "date": "2026-11-18",
+   "time": "14:00",
+   "title": "Example: Fed meeting minutes",
+   "kind": "minutes",
+   "impact": "high",
+   "source": "example"
+  },
+  {
+   "date": "2026-11-20",
+   "time": "10:00",
+   "title": "Example: a sentiment survey",
+   "kind": "other",
+   "impact": "low",
+   "source": "example"
+  }
+ ]
+}

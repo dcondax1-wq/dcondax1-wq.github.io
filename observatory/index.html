@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Observatory ">
+<link rel="icon" href="icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#14110e"><meta name="color-scheme" content="dark">
+<title>Observatory · OLYMPUS</title>
+<meta name="description" content="Read-only evidence center for OLYMPUS dashboard data health and improvement ideas.">
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7"><link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6"></script><script src="../olympus/olympus.js?v=o10" data-app="observatory"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<link rel="stylesheet" href="observatory.css?v=3"><script src="app.js?v=6" defer></script>
+</head>
+<body>
+<header class="head"><a class="back" href="../jarvis/" aria-label="Back to Jarvis">←</a><div><span class="overline">Olympus · Intelligence</span><h1>Observatory</h1></div><span class="mode">Read only</span></header>
+<main>
+  <section class="hero" aria-labelledby="heading"><span class="eyebrow">Is every data feed working?</span><h2 id="heading">See what is broken.<br><em>Fix that first.</em></h2><p>Each tower is one data file the apps read. Gold = fine, amber = look at it, red = down. Tap a tower to see why.</p><div class="actions"><button id="refresh" type="button">Scan sources</button><button id="export" type="button" class="secondary">Export review</button></div><p id="updated" role="status" aria-live="polite">Preparing source scan…</p></section>
+  <section class="city" aria-label="Interactive source city"><div class="horizon" aria-hidden="true"></div><div id="towers" class="towers"></div><div class="ground" aria-hidden="true"></div></section>
+  <section class="overview" aria-label="Source overview"><div><strong id="healthy">—</strong><span>available</span></div><div><strong id="attention">—</strong><span>need review</span></div><div><strong id="history">—</strong><span>scans saved here</span></div></section>
+  <section class="panel" aria-labelledby="detail-title"><div class="section-head"><span>Source intelligence</span><h2 id="detail-title">Select a tower</h2></div><div id="detail">Each tower links to a published OLYMPUS source.</div></section>
+  <section class="panel" aria-labelledby="review-title"><div class="section-head"><span>Review queue</span><h2 id="review-title">What deserves attention</h2></div><div id="reviews">Scanning…</div></section>
+  <section class="panel" aria-labelledby="method-title"><div class="section-head"><span>Method</span><h2 id="method-title">Evidence before changes</h2></div><p>The Observatory refreshes every five minutes while this page is open and keeps up to 30 scan summaries in this browser. A failed request, older timestamp, demo flag, or changed source produces a review card. It cannot change a bot, dashboard, order, or deployment. A scheduled publisher is needed for continuous checks when this page is closed.</p><a class="learn" href="../#/learning">Open Zlarior trade learning ↗</a></section>
+</main>
+</body>
+</html>

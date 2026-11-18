@@ -1,0 +1,1322 @@
+{
+ "v": 1,
+ "kind": "olympus-polis",
+ "date": "2026-11-11",
+ "built": "2026-11-11T06:10:00+00:00",
+ "demo": true,
+ "paper": true,
+ "label": "DEMO: made-up example files, not real numbers.",
+ "herald": [
+  {
+   "kind": "pass",
+   "day": "2026-10-26",
+   "cry": "Hear, citizens! ATLAS 25K: eval passed. Crown it with laurel.",
+   "plain": "ATLAS 25K: eval passed.",
+   "usd": null,
+   "r": null,
+   "src": "data.json",
+   "by": {
+    "id": "bot:atlas",
+    "name": "Telamon"
+   },
+   "facts": [
+    {
+     "t": "ATLAS 25K",
+     "src": "data.json",
+     "at": "accounts/atlas25k/name"
+    },
+    {
+     "t": "Mon 26 Oct",
+     "src": "data.json",
+     "at": "accounts/atlas25k/funded/start"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "festival",
+   "day": "2026-11-13",
+   "cry": "The Dionysia comes in 2 days! The CPI inflation report at 08:30 ET.",
+   "plain": "Example CPI (consumer prices) in 2 days at 08:30 ET.",
+   "usd": null,
+   "r": null,
+   "src": "pythia/events.json",
+   "by": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   },
+   "facts": [
+    {
+     "t": "in 2 days at 08:30 ET",
+     "src": "pythia/events.json",
+     "at": "events/2026-11-13"
+    },
+    {
+     "t": "Example CPI (consumer prices)",
+     "src": "pythia/events.json",
+     "at": "events/2026-11-13/title"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "torch",
+   "day": "2026-11-11",
+   "cry": "The torch has passed through 3 green weeks in a row. Keep it burning.",
+   "plain": "3 green weeks in a row with every trade inside the rules.",
+   "usd": null,
+   "r": null,
+   "src": "data.json",
+   "by": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   },
+   "facts": [
+    {
+     "t": "3",
+     "src": "data.json",
+     "at": "weeks",
+     "how": "count of green weeks in a row"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "trade",
+   "day": "2026-11-10",
+   "cry": "Zlarior returns wounded from the market: -$210 (-1.0R).",
+   "plain": "Zlarior closed a long trade on Tue 10 Nov: -$210 (-1.0R).",
+   "usd": -210.0,
+   "r": -1.0,
+   "src": "data.json",
+   "by": {
+    "id": "bot:lit",
+    "name": "Phoibos"
+   },
+   "facts": [
+    {
+     "t": "Zlarior",
+     "src": "data.json",
+     "at": "trades/account"
+    },
+    {
+     "t": "-$210 (-1.0R)",
+     "src": "data.json",
+     "at": "trades/pnl, r"
+    },
+    {
+     "t": "Tue 10 Nov",
+     "src": "data.json",
+     "at": "trades/day"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "kalshi",
+   "day": "2026-11-10",
+   "cry": "From the Kalshi paper book: Example 15-min favourite on Bitcoin settled -$0.60.",
+   "plain": "Kalshi paper trade settled -$0.60 (Example 15-min favourite). Paper only, no real bet.",
+   "usd": -0.6,
+   "r": null,
+   "src": "kalshicity/ledger.json",
+   "by": {
+    "id": "bot:kalshi",
+    "name": "Eutychos"
+   },
+   "facts": [
+    {
+     "t": "-$0.60",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/pnl"
+    },
+    {
+     "t": "Example 15-min favourite",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/s"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "money",
+   "day": "2026-11-10",
+   "cry": "The 5 money machines reckon about $310.50 a month. An estimate, not a promise.",
+   "plain": "Money machines (paper): an estimate of about $310.50 a month. Not a promise.",
+   "usd": 310.5,
+   "r": null,
+   "src": "money/index.json",
+   "by": {
+    "id": "keeper:money",
+    "name": "Tamias"
+   },
+   "facts": [
+    {
+     "t": "$310.50",
+     "src": "money/index.json",
+     "at": "total/base"
+    },
+    {
+     "t": "5",
+     "src": "money/index.json",
+     "at": "counts/streams"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "payout",
+   "day": "2026-11-09",
+   "cry": "Silver from the treasury! ATLAS 25K: 1 payout, $500 in all.",
+   "plain": "ATLAS 25K: 1 payout: $500 paid out in all.",
+   "usd": 500.0,
+   "r": null,
+   "src": "data.json",
+   "by": {
+    "id": "bot:atlas",
+    "name": "Telamon"
+   },
+   "facts": [
+    {
+     "t": "ATLAS 25K",
+     "src": "data.json",
+     "at": "accounts/atlas25k/name"
+    },
+    {
+     "t": "1",
+     "src": "data.json",
+     "at": "accounts/atlas25k/funded/payouts",
+     "how": "count of payout days"
+    },
+    {
+     "t": "+$500",
+     "src": "data.json",
+     "at": "accounts/atlas25k/funded/payouts",
+     "how": "sum of the payouts"
+    },
+    {
+     "t": "Mon 9 Nov",
+     "src": "data.json",
+     "at": "accounts/atlas25k/funded/payouts"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "kalshi",
+   "day": "2026-11-09",
+   "cry": "From the Kalshi paper book: Example late favourite on Bitcoin settled +$0.18.",
+   "plain": "Kalshi paper trade settled +$0.18 (Example late favourite). Paper only, no real bet.",
+   "usd": 0.18,
+   "r": null,
+   "src": "kalshicity/ledger.json",
+   "by": {
+    "id": "bot:kalshi",
+    "name": "Eutychos"
+   },
+   "facts": [
+    {
+     "t": "+$0.18",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/pnl"
+    },
+    {
+     "t": "Example late favourite",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/s"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  }
+ ],
+ "oracle": {
+  "src": "home.json",
+  "day": "2026-11-11",
+  "stale": false,
+  "speaker": {
+   "id": "villager:pythia",
+   "name": "Delia"
+  },
+  "verse": "At the hour 10:30 the bronze voice will speak. Hold the spear until the echo fades. Two roads leave the city: one climbs, one falls. Walk the one the market opens and leave the other to the crows. The god's reach today runs from 25,038 to 25,562; beyond it, take your prize and go home.",
+  "plain": [
+   "A sweep of the Asia high above is the short setup, target near the VIX band low. A sweep of yesterday's low below is the long setup, target near the VIX band high.",
+   "Example news today: Crude Oil Inventories 10:30.",
+   "The target band for the day (18:00 open plus or minus one VIX day move) is 25,038 to 25,562.",
+   "Drawdown left today: $1,830.",
+   "The Mind reads the market as: Quiet range, normal volatility."
+  ],
+  "facts": [
+   {
+    "t": "A sweep of the Asia high above is the short setup, target near the VIX band low. A sweep of yesterday's low below is the long setup, target near the VIX band high.",
+    "src": "home.json",
+    "at": "live/brief/plan"
+   },
+   {
+    "t": "Crude Oil Inventories at 10:30 ET",
+    "src": "home.json",
+    "at": "live/brief/news/0"
+   },
+   {
+    "t": "Example news today: Crude Oil Inventories 10:30.",
+    "src": "home.json",
+    "at": "live/brief/news_text"
+   },
+   {
+    "t": "VIX band 25,038 to 25,562",
+    "src": "home.json",
+    "at": "live/brief/vix/low, high"
+   },
+   {
+    "t": "$1,830 of drawdown left",
+    "src": "home.json",
+    "at": "live/brief/eval/room"
+   },
+   {
+    "t": "Quiet range, normal volatility",
+    "src": "home.json",
+    "at": "live/pc/mind/regime/label"
+   }
+  ]
+ },
+ "festivals": {
+  "src": "pythia/events.json",
+  "label": "From the published calendar (pythia/events.json). Confirm times on the official page.",
+  "items": [
+   {
+    "id": "cpi:2026-11-13",
+    "kind": "cpi",
+    "festival": "Dionysia",
+    "god": "Dionysus",
+    "glyph": "kantharos",
+    "meaning": "The wine feast of Dionysus. Prices speak and the market can lose its head.",
+    "event": "CPI inflation report",
+    "title": "Example CPI (consumer prices)",
+    "date": "2026-11-13",
+    "date_words": "Fri 13 Nov",
+    "time": "08:30",
+    "days_left": 2,
+    "when": "in 2 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "nfp:2026-12-04",
+    "kind": "nfp",
+    "festival": "Thesmophoria",
+    "god": "Demeter",
+    "glyph": "wheat",
+    "meaning": "Demeter's harvest feast. The jobs count shows how the fields of work are growing.",
+    "event": "Jobs report (NFP)",
+    "title": "Example jobs report (NFP)",
+    "date": "2026-12-04",
+    "date_words": "Fri 4 Dec",
+    "time": "08:30",
+    "days_left": 23,
+    "when": "in 23 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "fomc:2026-12-09",
+    "kind": "fomc",
+    "festival": "Panathenaia",
+    "god": "Athena",
+    "glyph": "owl",
+    "meaning": "The city's greatest feast, for Athena. The Fed sets the price of money.",
+    "event": "FOMC rate decision",
+    "title": "Example FOMC decision 2:00 PM",
+    "date": "2026-12-09",
+    "date_words": "Wed 9 Dec",
+    "time": "14:00",
+    "days_left": 28,
+    "when": "in 28 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "roll:2026-12-09",
+    "kind": "roll",
+    "festival": "Synoikia",
+    "god": "Athena Polias",
+    "glyph": "walls",
+    "meaning": "The feast of the joining of the city. The bot moves to the next NQ contract.",
+    "event": "Contract roll week",
+    "title": "Example roll step: switch the chart",
+    "date": "2026-12-09",
+    "date_words": "Wed 9 Dec",
+    "time": "16:00",
+    "days_left": 28,
+    "when": "in 28 days",
+    "verify": false,
+    "week_of": "2026-12-07"
+   }
+  ],
+  "builtin": false
+ },
+ "torch": {
+  "weeks": {
+   "streak": 3,
+   "best": 3,
+   "rows": [
+    {
+     "week": "2026-09-14",
+     "net": 1297.5,
+     "trades": 3,
+     "clean": true,
+     "green": true
+    },
+    {
+     "week": "2026-09-21",
+     "net": 700.0,
+     "trades": 3,
+     "clean": false,
+     "green": false
+    },
+    {
+     "week": "2026-09-28",
+     "net": 344.0,
+     "trades": 2,
+     "clean": true,
+     "green": true
+    },
+    {
+     "week": "2026-10-05",
+     "net": 1325.9,
+     "trades": 3,
+     "clean": true,
+     "green": true
+    },
+    {
+     "week": "2026-10-12",
+     "net": -205.0,
+     "trades": 1,
+     "clean": true,
+     "green": false
+    },
+    {
+     "week": "2026-10-19",
+     "net": 1404.0,
+     "trades": 3,
+     "clean": true,
+     "green": true
+    },
+    {
+     "week": "2026-10-26",
+     "net": 1762.5,
+     "trades": 4,
+     "clean": true,
+     "green": true
+    },
+    {
+     "week": "2026-11-02",
+     "net": 1490.0,
+     "trades": 4,
+     "clean": true,
+     "green": true
+    }
+   ],
+   "current": {
+    "week": "2026-11-09",
+    "net": -210.0,
+    "trades": 1,
+    "clean": true,
+    "green": null
+   }
+  },
+  "days": {
+   "streak": 18,
+   "best": 18,
+   "rows": [
+    {
+     "day": "2026-09-22",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-09-24",
+     "trades": 2,
+     "kept": false,
+     "broke": [
+      "1 trade a day"
+     ]
+    },
+    {
+     "day": "2026-09-29",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-01",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-06",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-08",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-09",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-14",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-20",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-22",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-23",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-27",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-28",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-29",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-10-30",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-11-03",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-11-04",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-11-05",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-11-06",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    },
+    {
+     "day": "2026-11-10",
+     "trades": 1,
+     "kept": true,
+     "broke": []
+    }
+   ]
+  },
+  "flame": "lit",
+  "src": "data.json",
+  "rule": "A runner takes the torch for every finished week that closed green with every trade inside the rules (weeks without a trade are skipped), and for every trading day where each trade kept the rules (1 trade a day, stop beyond the sweep, entries 02:00-15:30, flat by 15:55, hands off). One break puts the flame out."
+ },
+ "grove": {
+  "src": "data.json",
+  "trees": [
+   {
+    "id": "mffu50k_eval",
+    "name": "Zlarior 50K",
+    "stage": "eval",
+    "bot": "Zlarior",
+    "balance": 52412.5,
+    "profit": 2412.5,
+    "target": 3000.0,
+    "progress": 0.8042,
+    "growth": 0.8042,
+    "rings": 4,
+    "olives": 9,
+    "thirsty": false,
+    "room": 1830.0,
+    "mll": 2000.0,
+    "payouts": null,
+    "line": "Eval 80% of the way to the target.",
+    "facts": [
+     {
+      "t": "$52,412.50",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/balance"
+     },
+     {
+      "t": "+$2,412.50",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/profit"
+     },
+     {
+      "t": "$3,000",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/target_balance - start_balance",
+      "how": "target minus start"
+     },
+     {
+      "t": "Drawdown left $1,830 of $2,000 max loss",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/room, mll"
+     },
+     {
+      "t": "80%",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/progress",
+      "how": "profit / target, 0 to 100"
+     }
+    ]
+   },
+   {
+    "id": "atlas25k",
+    "name": "ATLAS 25K",
+    "stage": "funded",
+    "bot": "ATLAS",
+    "balance": 26520.0,
+    "profit": 1520.0,
+    "target": 1500.0,
+    "progress": 1.0,
+    "growth": 1.0,
+    "rings": 3,
+    "olives": 3,
+    "thirsty": false,
+    "room": 1000.0,
+    "mll": 1000.0,
+    "payouts": 500.0,
+    "line": "Funded: a full tree.",
+    "facts": [
+     {
+      "t": "$26,520",
+      "src": "data.json",
+      "at": "accounts/atlas25k/eval/balance"
+     },
+     {
+      "t": "+$1,520",
+      "src": "data.json",
+      "at": "accounts/atlas25k/eval/profit"
+     },
+     {
+      "t": "$1,500",
+      "src": "data.json",
+      "at": "accounts/atlas25k/eval/target_balance - start_balance",
+      "how": "target minus start"
+     },
+     {
+      "t": "Drawdown left $1,000 of $1,000 max loss",
+      "src": "data.json",
+      "at": "accounts/atlas25k/eval/room, mll"
+     }
+    ]
+   },
+   {
+    "id": "blitz25k",
+    "name": "BLITZ 25K",
+    "stage": "eval",
+    "bot": "BLITZ",
+    "balance": 24880.0,
+    "profit": -120.0,
+    "target": 1500.0,
+    "progress": 0.0,
+    "growth": 0.12,
+    "rings": 0,
+    "olives": 0,
+    "thirsty": true,
+    "room": 880.0,
+    "mll": 1000.0,
+    "payouts": null,
+    "line": "Below its start by $120: a thirsty tree.",
+    "facts": [
+     {
+      "t": "$24,880",
+      "src": "data.json",
+      "at": "accounts/blitz25k/eval/balance"
+     },
+     {
+      "t": "-$120",
+      "src": "data.json",
+      "at": "accounts/blitz25k/eval/profit"
+     },
+     {
+      "t": "$1,500",
+      "src": "data.json",
+      "at": "accounts/blitz25k/eval/target_balance - start_balance",
+      "how": "target minus start"
+     },
+     {
+      "t": "Drawdown left $880 of $1,000 max loss",
+      "src": "data.json",
+      "at": "accounts/blitz25k/eval/room, mll"
+     },
+     {
+      "t": "$120",
+      "src": "data.json",
+      "at": "accounts/blitz25k/eval/profit",
+      "how": "minus the profit"
+     }
+    ]
+   },
+   {
+    "id": "cloud_paper",
+    "name": "Paper (cloud)",
+    "stage": "paper",
+    "bot": "Paper twin",
+    "balance": null,
+    "profit": null,
+    "target": null,
+    "progress": 0.0,
+    "growth": 0.12,
+    "rings": 0,
+    "olives": 0,
+    "thirsty": false,
+    "room": null,
+    "mll": null,
+    "payouts": null,
+    "line": "A paper sapling: the cloud's twin, not real money.",
+    "facts": []
+   }
+  ],
+  "rule": "One olive tree per account. It grows with the eval's progress to the target (a funded account is a full tree), one ring per $500 of profit, one olive per winning trade. A tree below its start balance looks thirsty."
+ },
+ "amphorae": {
+  "src": "data.json",
+  "n": 24,
+  "shelves": [
+   {
+    "month": "2026-11",
+    "label": "November 2026",
+    "n": 5,
+    "net": 1280.0,
+    "wins": 4,
+    "losses": 1,
+    "items": [
+     {
+      "id": "mffu50k_eval:1793717520:2026-11-03",
+      "day": "2026-11-03",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "win",
+      "usd": 310.0,
+      "r": 1.2,
+      "exit": "FLAT",
+      "paper": false,
+      "label": "+$310 (+1.2R)"
+     },
+     {
+      "id": "atlas25k:1793809200:2026-11-04",
+      "day": "2026-11-04",
+      "bot": "ATLAS",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "win",
+      "usd": 280.0,
+      "r": 2.0,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$280 (+2.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1793891280:2026-11-05",
+      "day": "2026-11-05",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "win",
+      "usd": 640.0,
+      "r": 3.4,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$640 (+3.4R)"
+     },
+     {
+      "id": "atlas25k:1793990400:2026-11-06",
+      "day": "2026-11-06",
+      "bot": "ATLAS",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "win",
+      "usd": 260.0,
+      "r": 2.0,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$260 (+2.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1794321840:2026-11-10",
+      "day": "2026-11-10",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "loss",
+      "usd": -210.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$210 (-1.0R)"
+     }
+    ]
+   },
+   {
+    "month": "2026-10",
+    "label": "October 2026",
+    "n": 12,
+    "net": 4707.4,
+    "wins": 6,
+    "losses": 5,
+    "items": [
+     {
+      "id": "mffu50k_eval:1790861940:2026-10-01",
+      "day": "2026-10-01",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "win",
+      "usd": 420.0,
+      "r": 2.1,
+      "exit": "FLAT",
+      "paper": false,
+      "label": "+$420 (+2.1R)"
+     },
+     {
+      "id": "mffu50k_eval:1791294120:2026-10-06",
+      "day": "2026-10-06",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "win",
+      "usd": 1520.0,
+      "r": 8.0,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$1,520 (+8.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1791468300:2026-10-08",
+      "day": "2026-10-08",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "loss",
+      "usd": -190.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$190 (-1.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1791530100:2026-10-09",
+      "day": "2026-10-09",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "flat",
+      "usd": -4.1,
+      "r": -0.02,
+      "exit": "BE",
+      "paper": false,
+      "label": "-$4.10 (0.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1791985860:2026-10-14",
+      "day": "2026-10-14",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "loss",
+      "usd": -205.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$205 (-1.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1792503480:2026-10-20",
+      "day": "2026-10-20",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "win",
+      "usd": 1216.0,
+      "r": 6.4,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$1,216 (+6.4R)"
+     },
+     {
+      "id": "mffu50k_eval:1792651680:2026-10-22",
+      "day": "2026-10-22",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "loss",
+      "usd": -260.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$260 (-1.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1792767900:2026-10-23",
+      "day": "2026-10-23",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "win",
+      "usd": 448.0,
+      "r": 1.6,
+      "exit": "FLAT",
+      "paper": false,
+      "label": "+$448 (+1.6R)"
+     },
+     {
+      "id": "mffu50k_eval:1793108640:2026-10-27",
+      "day": "2026-10-27",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "loss",
+      "usd": -240.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$240 (-1.0R)"
+     },
+     {
+      "id": "atlas25k:1793197860:2026-10-28",
+      "day": "2026-10-28",
+      "bot": "ATLAS",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "win",
+      "usd": 240.0,
+      "r": 2.0,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$240 (+2.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1793281620:2026-10-29",
+      "day": "2026-10-29",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "win",
+      "usd": 1912.5,
+      "r": 8.0,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$1,912.50 (+8.0R)"
+     },
+     {
+      "id": "atlas25k:1793379720:2026-10-30",
+      "day": "2026-10-30",
+      "bot": "ATLAS",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "loss",
+      "usd": -150.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$150 (-1.0R)"
+     }
+    ]
+   },
+   {
+    "month": "2026-09",
+    "label": "September 2026",
+    "n": 7,
+    "net": 1921.5,
+    "wins": 2,
+    "losses": 4,
+    "items": [
+     {
+      "id": "mffu50k_eval:1789479660:2026-09-15",
+      "day": "2026-09-15",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "win",
+      "usd": 1480.0,
+      "r": 8.0,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$1,480 (+8.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1789653720:2026-09-17",
+      "day": "2026-09-17",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "loss",
+      "usd": -185.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$185 (-1.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1789715520:2026-09-18",
+      "day": "2026-09-18",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "flat",
+      "usd": 2.5,
+      "r": 0.0,
+      "exit": "BE",
+      "paper": false,
+      "label": "+$2.50 (0.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1790084820:2026-09-22",
+      "day": "2026-09-22",
+      "bot": "Zlarior",
+      "side": "SHORT",
+      "scene": "dolphin",
+      "result": "win",
+      "usd": 1140.0,
+      "r": 6.2,
+      "exit": "TARGET",
+      "paper": false,
+      "label": "+$1,140 (+6.2R)"
+     },
+     {
+      "id": "mffu50k_eval:1790232900:2026-09-24",
+      "day": "2026-09-24",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "loss",
+      "usd": -240.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$240 (-1.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1790273400:2026-09-24",
+      "day": "2026-09-24",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "loss",
+      "usd": -200.0,
+      "r": -1.0,
+      "exit": "STOP",
+      "paper": false,
+      "label": "-$200 (-1.0R)"
+     },
+     {
+      "id": "mffu50k_eval:1790691120:2026-09-29",
+      "day": "2026-09-29",
+      "bot": "Zlarior",
+      "side": "LONG",
+      "scene": "horse",
+      "result": "loss",
+      "usd": -76.0,
+      "r": -0.4,
+      "exit": "TIME",
+      "paper": false,
+      "label": "-$76 (-0.4R)"
+     }
+    ]
+   }
+  ],
+  "rule": "One amphora per closed trade. Long = a horse rising, short = a dolphin diving. Bright clay = win, dark clay = loss, pale clay = a scratch (under $5 either way)."
+ },
+ "statues": {
+  "src": "data.json",
+  "items": [
+   {
+    "id": "pass:atlas25k",
+    "kind": "pass",
+    "figure": "nike",
+    "title": "ATLAS 25K: eval passed",
+    "day": "2026-10-26",
+    "usd": null,
+    "r": null,
+    "bot": "ATLAS",
+    "plaque": "Mon 26 Oct · eval passed",
+    "facts": [
+     {
+      "t": "ATLAS 25K",
+      "src": "data.json",
+      "at": "accounts/atlas25k/name"
+     },
+     {
+      "t": "Mon 26 Oct",
+      "src": "data.json",
+      "at": "accounts/atlas25k/funded/start"
+     }
+    ]
+   },
+   {
+    "id": "payout:atlas25k",
+    "kind": "payout",
+    "figure": "nike",
+    "title": "ATLAS 25K: 1 payout",
+    "day": "2026-11-09",
+    "usd": 500.0,
+    "r": null,
+    "bot": "ATLAS",
+    "plaque": "Mon 9 Nov · +$500 paid out",
+    "facts": [
+     {
+      "t": "ATLAS 25K",
+      "src": "data.json",
+      "at": "accounts/atlas25k/name"
+     },
+     {
+      "t": "1",
+      "src": "data.json",
+      "at": "accounts/atlas25k/funded/payouts",
+      "how": "count of payout days"
+     },
+     {
+      "t": "+$500",
+      "src": "data.json",
+      "at": "accounts/atlas25k/funded/payouts",
+      "how": "sum of the payouts"
+     },
+     {
+      "t": "Mon 9 Nov",
+      "src": "data.json",
+      "at": "accounts/atlas25k/funded/payouts"
+     }
+    ]
+   },
+   {
+    "id": "trade:mffu50k_eval:1793281620:2026-10-29",
+    "kind": "trade",
+    "figure": "victor",
+    "title": "Zlarior short",
+    "day": "2026-10-29",
+    "usd": 1912.5,
+    "r": 8.0,
+    "bot": "Zlarior",
+    "record": true,
+    "plaque": "Thu 29 Oct · +$1,912.50 (+8.0R)",
+    "facts": [
+     {
+      "t": "Zlarior",
+      "src": "data.json",
+      "at": "trades/account"
+     },
+     {
+      "t": "Thu 29 Oct",
+      "src": "data.json",
+      "at": "trades/day"
+     },
+     {
+      "t": "+$1,912.50 (+8.0R)",
+      "src": "data.json",
+      "at": "trades/pnl, r"
+     }
+    ]
+   },
+   {
+    "id": "trade:mffu50k_eval:1791294120:2026-10-06",
+    "kind": "trade",
+    "figure": "athlete",
+    "title": "Zlarior long",
+    "day": "2026-10-06",
+    "usd": 1520.0,
+    "r": 8.0,
+    "bot": "Zlarior",
+    "record": false,
+    "plaque": "Tue 6 Oct · +$1,520 (+8.0R)",
+    "facts": [
+     {
+      "t": "Zlarior",
+      "src": "data.json",
+      "at": "trades/account"
+     },
+     {
+      "t": "Tue 6 Oct",
+      "src": "data.json",
+      "at": "trades/day"
+     },
+     {
+      "t": "+$1,520 (+8.0R)",
+      "src": "data.json",
+      "at": "trades/pnl, r"
+     }
+    ]
+   },
+   {
+    "id": "trade:mffu50k_eval:1789479660:2026-09-15",
+    "kind": "trade",
+    "figure": "athlete",
+    "title": "Zlarior long",
+    "day": "2026-09-15",
+    "usd": 1480.0,
+    "r": 8.0,
+    "bot": "Zlarior",
+    "record": false,
+    "plaque": "Tue 15 Sep · +$1,480 (+8.0R)",
+    "facts": [
+     {
+      "t": "Zlarior",
+      "src": "data.json",
+      "at": "trades/account"
+     },
+     {
+      "t": "Tue 15 Sep",
+      "src": "data.json",
+      "at": "trades/day"
+     },
+     {
+      "t": "+$1,480 (+8.0R)",
+      "src": "data.json",
+      "at": "trades/pnl, r"
+     }
+    ]
+   },
+   {
+    "id": "trade:mffu50k_eval:1792503480:2026-10-20",
+    "kind": "trade",
+    "figure": "athlete",
+    "title": "Zlarior short",
+    "day": "2026-10-20",
+    "usd": 1216.0,
+    "r": 6.4,
+    "bot": "Zlarior",
+    "record": false,
+    "plaque": "Tue 20 Oct · +$1,216 (+6.4R)",
+    "facts": [
+     {
+      "t": "Zlarior",
+      "src": "data.json",
+      "at": "trades/account"
+     },
+     {
+      "t": "Tue 20 Oct",
+      "src": "data.json",
+      "at": "trades/day"
+     },
+     {
+      "t": "+$1,216 (+6.4R)",
+      "src": "data.json",
+      "at": "trades/pnl, r"
+     }
+    ]
+   },
+   {
+    "id": "trade:mffu50k_eval:1790084820:2026-09-22",
+    "kind": "trade",
+    "figure": "athlete",
+    "title": "Zlarior short",
+    "day": "2026-09-22",
+    "usd": 1140.0,
+    "r": 6.2,
+    "bot": "Zlarior",
+    "record": false,
+    "plaque": "Tue 22 Sep · +$1,140 (+6.2R)",
+    "facts": [
+     {
+      "t": "Zlarior",
+      "src": "data.json",
+      "at": "trades/account"
+     },
+     {
+      "t": "Tue 22 Sep",
+      "src": "data.json",
+      "at": "trades/day"
+     },
+     {
+      "t": "+$1,140 (+6.2R)",
+      "src": "data.json",
+      "at": "trades/pnl, r"
+     }
+    ]
+   }
+  ],
+  "rule": "The best winning trades (biggest $ first; the first is the record) and every eval pass and payout stand in the hall."
+ },
+ "stoic": {
+  "mood": "loss",
+  "why": "The last closed trade was a loss: a line on patience.",
+  "text": "How much more grievous are the consequences of anger than the causes of it.",
+  "author": "Marcus Aurelius",
+  "work": "Meditations XI.18",
+  "translator": "George Long",
+  "public_domain": true
+ },
+ "sources": {
+  "read": [
+   "data.json",
+   "home.json",
+   "kalshicity/ledger.json",
+   "money/index.json",
+   "olympus/people.json",
+   "pythia/events.json"
+  ],
+  "missing": [],
+  "trades": "data.json",
+  "accounts": "data.json"
+ }
+}

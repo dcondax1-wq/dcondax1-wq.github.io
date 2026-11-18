@@ -1,0 +1,253 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE shelf, not real data: the 41 AGORA shapes with what each stands for. No numbers of yours are shown here.",
+  "shapes": [
+    {
+      "id": "doric",
+      "name": "Doric column",
+      "means": "Strength and discipline. The plain, sturdy column: one simple rule that holds the whole roof up.",
+      "group": "Architecture"
+    },
+    {
+      "id": "ionic",
+      "name": "Ionic column",
+      "means": "Learning and balance. The scrolled column: a plan that is both strong and graceful.",
+      "group": "Architecture"
+    },
+    {
+      "id": "temple",
+      "name": "Temple",
+      "means": "A place of trust. Every part of the system standing together under one roof.",
+      "group": "Architecture"
+    },
+    {
+      "id": "obelisk",
+      "name": "Obelisk",
+      "means": "Permanence. A record carved to last: the long, honest track record.",
+      "group": "Architecture"
+    },
+    {
+      "id": "stele",
+      "name": "Stele with inscription",
+      "means": "A promise in stone. An inscribed slab: the rules you wrote down and agreed to keep.",
+      "group": "Architecture"
+    },
+    {
+      "id": "stoa",
+      "name": "Stoa",
+      "means": "Shelter for the whole group. The covered walk where people meet and talk it over.",
+      "group": "Architecture"
+    },
+    {
+      "id": "fountain",
+      "name": "Fountain",
+      "means": "Steady flow. Income that keeps running, tier by tier.",
+      "group": "Architecture"
+    },
+    {
+      "id": "mosaic",
+      "name": "Mosaic floor tile",
+      "means": "Many small pieces, one picture. Each trade is a tile; the pattern shows over time.",
+      "group": "Architecture"
+    },
+    {
+      "id": "sundial",
+      "name": "Sundial",
+      "means": "Timing. Reading the session by the light of day: when to trade and when to wait.",
+      "group": "Objects"
+    },
+    {
+      "id": "hourglass",
+      "name": "Hourglass",
+      "means": "Time running. The eval clock and the trading day: sand falls, patience pays.",
+      "group": "Objects"
+    },
+    {
+      "id": "scroll",
+      "name": "Scroll",
+      "means": "The written plan. Rules and records kept on paper so nothing is left to memory.",
+      "group": "Objects"
+    },
+    {
+      "id": "redvase",
+      "name": "Red-figure krater",
+      "means": "Craft and story. A vase painted with scenes: a journal is the story of your trades.",
+      "group": "Objects"
+    },
+    {
+      "id": "kylix",
+      "name": "Kylix cup",
+      "means": "Celebration, shared. A wine cup raised after a goal is reached; enjoy it, then get back to the plan.",
+      "group": "Objects"
+    },
+    {
+      "id": "brazier",
+      "name": "Brazier",
+      "means": "Hestia's fire. The steady daily routine that keeps the home warm.",
+      "group": "Objects"
+    },
+    {
+      "id": "lyre",
+      "name": "Lyre of Apollo",
+      "means": "Harmony. Many strings in tune: entries, stops and targets playing one plan.",
+      "group": "Objects"
+    },
+    {
+      "id": "harp",
+      "name": "Harp",
+      "means": "Calm focus. A harp played slowly: patience between setups.",
+      "group": "Objects"
+    },
+    {
+      "id": "shield",
+      "name": "Hoplon shield",
+      "means": "Defence. Protecting the account: the drawdown limit that is never crossed.",
+      "group": "Objects"
+    },
+    {
+      "id": "helmet",
+      "name": "Corinthian helmet",
+      "means": "Readiness. Focus put on before the open: calm, covered, ready.",
+      "group": "Objects"
+    },
+    {
+      "id": "laurel",
+      "name": "Laurel wreath",
+      "means": "Victory. A goal reached: a passed eval, a good week.",
+      "group": "Objects"
+    },
+    {
+      "id": "bust",
+      "name": "Bust on a plinth",
+      "means": "The person behind the plan. A marble portrait: you, calm and in command of the trades.",
+      "group": "Objects"
+    },
+    {
+      "id": "caduceus",
+      "name": "Caduceus",
+      "means": "Safe passage and fair deals. Hermes' staff: messages and trades delivered without loss.",
+      "group": "Objects"
+    },
+    {
+      "id": "sandal",
+      "name": "Winged sandal",
+      "means": "Swiftness. Hermes' sandals: act fast when the signal is clear, stand still when it is not.",
+      "group": "Objects"
+    },
+    {
+      "id": "bow",
+      "name": "Bow and quiver",
+      "means": "Aim before you release. Choose the target first, then take one clean shot.",
+      "group": "Objects"
+    },
+    {
+      "id": "swordspear",
+      "name": "Sword and spear",
+      "means": "Tools of the trade, kept sharp. Entry and exit crossed, each ready when needed.",
+      "group": "Objects"
+    },
+    {
+      "id": "olivetree",
+      "name": "Olive tree",
+      "means": "Peace and patience. A tree that grows slowly and feeds a family for generations: steady growth.",
+      "group": "Objects"
+    },
+    {
+      "id": "chariot",
+      "name": "Chariot",
+      "means": "Speed under control. A fast ride that only works with a firm hand on the reins: sizing the risk.",
+      "group": "Objects"
+    },
+    {
+      "id": "owl",
+      "name": "Athena's owl",
+      "means": "Wisdom. Look carefully, then act: analysis before every decision.",
+      "group": "Beasts"
+    },
+    {
+      "id": "pegasus",
+      "name": "Pegasus",
+      "means": "Rising ambition. The winged horse: big goals, carried by a sound plan.",
+      "group": "Beasts"
+    },
+    {
+      "id": "dolphin",
+      "name": "Dolphin",
+      "means": "Good luck at sea. A leaping dolphin: a friendly sign that the trade is going with the tide.",
+      "group": "Beasts"
+    },
+    {
+      "id": "coinstack",
+      "name": "Coin stacks",
+      "means": "Capital. The money itself, built coin by coin and counted in dollars.",
+      "group": "Money"
+    },
+    {
+      "id": "scales",
+      "name": "Scales",
+      "means": "Risk against reward. Every R weighed next to its dollars.",
+      "group": "Money"
+    },
+    {
+      "id": "pillarbar",
+      "name": "Pillar chart",
+      "means": "Results at a glance. A bar chart built as pillars: taller means more.",
+      "group": "Money"
+    },
+    {
+      "id": "tetradrachm",
+      "name": "Tetradrachm coin",
+      "means": "Money and wisdom on one face. Athens' silver coin with the owl, spinning.",
+      "group": "Money"
+    },
+    {
+      "id": "goldbars",
+      "name": "Gold bars",
+      "means": "Banked gains. Profit locked away at the target, not left to chance.",
+      "group": "Money"
+    },
+    {
+      "id": "vaultdoor",
+      "name": "Vault door",
+      "means": "Safekeeping. The vault: payouts moved out of the account and into your hands.",
+      "group": "Money"
+    },
+    {
+      "id": "amphora",
+      "name": "Amphora",
+      "means": "Savings. A store of value kept safe for later: payouts put away.",
+      "group": "Money"
+    },
+    {
+      "id": "cornucopia",
+      "name": "Cornucopia",
+      "means": "Abundance. The horn of plenty: what steady work and good habits bring back.",
+      "group": "Money"
+    },
+    {
+      "id": "trophy",
+      "name": "Trophy cup",
+      "means": "A prize earned. The passed eval and the payouts: proof the plan worked.",
+      "group": "Money"
+    },
+    {
+      "id": "trireme",
+      "name": "Trireme",
+      "means": "Reach and trade. Capital sailing out to markets and coming home.",
+      "group": "Sea"
+    },
+    {
+      "id": "anchor",
+      "name": "Anchor",
+      "means": "Staying put. The anchor holds in a storm: your stop, and the discipline to leave it alone.",
+      "group": "Sea"
+    },
+    {
+      "id": "lighthouse",
+      "name": "Lighthouse of Pharos",
+      "means": "Guidance in the dark. A steady light to steer by: the levels the bot watches.",
+      "group": "Sea"
+    }
+  ]
+}

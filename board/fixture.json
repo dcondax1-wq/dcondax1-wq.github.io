@@ -1,0 +1,163 @@
+{
+ "v": 1,
+ "kind": "olympus-board",
+ "t": 1794960000,
+ "src": "demo",
+ "pc": {
+  "t": 1794959880,
+  "age_s": 120,
+  "via": "heartbeat",
+  "stale": false
+ },
+ "accounts": [
+  {
+   "key": "zlarior",
+   "name": "Zlarior",
+   "plan": "MFFU Builder 50K",
+   "status": "live",
+   "stage": "eval",
+   "balance": 50850.0,
+   "room": 2000.0,
+   "floor": 48850.0,
+   "to_pass": 2150.0,
+   "locked": false,
+   "last4": null,
+   "src": "PC",
+   "src_t": 1794951000,
+   "last": {
+    "t": 1794951000,
+    "kind": "balance",
+    "text": "Balance after the close",
+    "src": "bot"
+   },
+   "target_balance": 53000.0,
+   "chip": "eval",
+   "age_s": 9000
+  },
+  {
+   "key": "atlas",
+   "name": "ATLAS",
+   "plan": "MFFU Builder 25K",
+   "status": "live",
+   "stage": "funded",
+   "balance": 26620.0,
+   "room": null,
+   "floor": null,
+   "to_pass": null,
+   "locked": false,
+   "last4": "1234",
+   "src": "PC",
+   "src_t": 1794955020,
+   "last": {
+    "t": 1794959400,
+    "kind": "owner_note",
+    "text": "new funded name ends 1234",
+    "src": "owner"
+   },
+   "chip": "funded",
+   "age_s": 4980
+  },
+  {
+   "key": "rapid1",
+   "name": "Rapid EOD",
+   "plan": "MFFU Rapid EOD 50K",
+   "status": "buying",
+   "stage": "eval",
+   "balance": null,
+   "room": null,
+   "floor": null,
+   "to_pass": null,
+   "locked": false,
+   "last4": null,
+   "src": "PLAN",
+   "src_t": null,
+   "last": null,
+   "chip": "planned",
+   "age_s": null
+  }
+ ],
+ "events": [
+  {
+   "id": "0093357b9d5e",
+   "t": 1794959700,
+   "kind": "claude_note",
+   "text": "Got it: ATLAS funded account ends 1234. The bot routes to it after the next update.",
+   "src": "claude"
+  },
+  {
+   "id": "5b68e1000fe3",
+   "t": 1794959400,
+   "kind": "owner_note",
+   "acct": "atlas",
+   "text": "new funded name ends 1234",
+   "src": "owner",
+   "data": {
+    "last4": "1234",
+    "stage": "funded"
+   }
+  },
+  {
+   "id": "6d8ef44d78ed",
+   "t": 1794955020,
+   "kind": "eval_passed",
+   "acct": "atlas",
+   "text": "ATLAS passed: balance $26,620 over the $26,500 target",
+   "src": "bot",
+   "data": {
+    "balance": 26620
+   }
+  },
+  {
+   "id": "cb28c572319a",
+   "t": 1794955010,
+   "kind": "account_locked",
+   "acct": "atlas",
+   "text": "Account takes no orders (Limit 0): passed or locked by MFFU. Bot stays off it.",
+   "src": "bot"
+  },
+  {
+   "id": "0f4416454611",
+   "t": 1794955000,
+   "kind": "order_rejected",
+   "acct": "atlas",
+   "text": "Order rejected: max order quantity, Limit 0, Scope MNQ",
+   "src": "bot",
+   "data": {
+    "reason": "Limit 0"
+   }
+  },
+  {
+   "id": "972b98ef5cad",
+   "t": 1794951000,
+   "kind": "balance",
+   "acct": "zlarior",
+   "text": "Balance after the close",
+   "src": "bot",
+   "data": {
+    "balance": 50850,
+    "floor": 48850
+   }
+  },
+  {
+   "id": "2e0e18af0c3a",
+   "t": 1794940000,
+   "kind": "bot_started",
+   "text": "Bot running (PC server started)",
+   "src": "bot"
+  }
+ ],
+ "open_notes": [
+  {
+   "id": "5b68e1000fe3",
+   "t": 1794959400,
+   "acct": "atlas",
+   "text": "new funded name ends 1234"
+  }
+ ],
+ "waiting": [
+  "Example: yes/no on a new account",
+  "Example: send the funded account name"
+ ],
+ "plan_updated": "2026-11-17",
+ "demo": true
+}

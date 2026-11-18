@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arbiter</title>
+<meta name="description" content="OLYMPUS ARBITER: a paper-only finder of funding, stablecoin-peg and two-venue price gaps, with the honest net yearly return after fees, slippage and locked time, a risk score and why each gap usually disappears.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Arbiter">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- ARBITER (OLYMPUS, AGORA look, 2026-11-10): money machine #5. Paper-only spread and funding finder. arbitercore.js = the pure maths (node-tested); arbiter.js = the page (ES module).
+     Read only: it reads ../money/arbiter.json (written by tools/money/arbiter.py from public data) and its own fixture.json (DEMO, never blank) and sends nothing. It never trades and never asks for a key.
+     Paper positions are hypothetical and live in this browser only. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="arbiter"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="arbiter.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Arbiter</h1><p class="sub">Practice price-gap trades with fake money. Read the top idea, then try it with a paper $1,000.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">The best idea today</h2><span class="pill" id="statusPill">...</span></div>
+    <p class="lead" id="headline"></p>
+    <p class="note" id="asof"></p>
+    <p class="warn" id="paperWarn">Paper only: no real money, no orders, no keys. Every $ here is an ESTIMATE.</p>
+  </section>
+
+  <section class="ag-card card" id="scalesCard" aria-labelledby="scH">
+    <h2 id="scH">The scales</h2>
+    <div id="scales" class="scales" role="img" aria-label="Two marble balance scales"></div>
+    <p class="note" id="scaleA"></p>
+    <p class="note" id="scaleB"></p>
+  </section>
+
+  <section class="ag-card card" id="listCard" aria-labelledby="listH">
+    <h2 id="listH">Ideas, best first</h2>
+    <div class="seg" id="kinds" role="group" aria-label="Kind of idea"></div>
+    <div id="list" class="list"></div>
+  </section>
+
+  <section class="ag-card card" id="selCard" aria-labelledby="selH">
+    <div class="row"><h2 id="selH">This idea in full</h2><span class="pill" id="selPill">...</span></div>
+    <p class="selt" id="selTitle"></p>
+    <p class="lead" id="selDetail"></p>
+    <div class="tiles" id="selTiles"></div>
+    <dl class="kv" id="selKv"></dl>
+    <div class="why"><h3>Why this usually disappears</h3><p id="selWhy"></p></div>
+    <div class="why warnbox"><h3>Exchange and loss risk</h3><p id="selWarn"></p></div>
+    <button class="btn primary" id="openBtn" type="button">Open a $1,000 paper position</button>
+  </section>
+
+  <section class="ag-card card" id="trackCard" aria-labelledby="trH">
+    <div class="row"><h2 id="trH">Paper positions</h2><span class="pill" id="trPill">0</span></div>
+    <p class="note">Hypothetical. They live only in this browser, hold no money and place no order. The mark is the carry earned so far minus the costs paid on entry.</p>
+    <div id="pos" class="list"></div>
+    <p class="note" id="trNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="notesH">
+    <h2 id="notesH">Read this before you believe a number</h2>
+    <ul class="plain" id="notes"></ul>
+  </section>
+
+  <p class="foot" id="foot">Arbiter reads public price lists (Binance and Bybit funding, CoinGecko stablecoin prices, Polymarket and Kalshi lists) through a scan that runs away from your money. It is a way to learn what carry costs, not advice. The bar to beat is a plain 4% savings rate plus an allowance for the risk. Numbers are per $1,000.</p>
+</main>
+<script type="module" src="arbiter.js?v=a1"></script>
+</body>
+</html>

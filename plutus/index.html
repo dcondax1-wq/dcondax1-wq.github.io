@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plutus</title>
+<meta name="description" content="PLUTUS, the money plan: how many prop accounts, what they cost, when the payouts land and what a month is worth, from the bot's measured numbers. Sliders, no promises.">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Plutus">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<!-- PLUTUS (tools/web_public/plutus/, 2026-11-03): the money plan. plans.json (tools/ares_plutus_build.py from research/lit/funded_firms.json:
+     the purchase-to-payout study of the bot's real LIT trades, per plan and period) is the model; the site's own ../data.json adds the
+     bot's published record and the published trio to check against, when it is there. Look: plutus.css; the maths: plutuscore.js
+     (pure functions); the 3D vault + the UI: plutus.js (three.js from ../jarvis/). Study numbers, not promises, paper results.
+     Bump ?v= on all of them when one changes. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="plutus"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#a9b84f'); r.setProperty('--oly-accent-rgb', '169, 184, 79'); })();</script>
+<link rel="stylesheet" href="plutus.css?v=m3g">
+</head>
+<body>
+<canvas id="vault" aria-label="The vault: one gold column per month, how much money the plan has made by then after fees; a blue ghost column is the bad case" role="img"></canvas>
+<div id="nogl" class="nogl" hidden>3D is not available here. Everything works below.</div>
+<header class="hud">
+  <div class="title"><h1>PLUTUS</h1><span class="tag" id="demo" hidden>OFFLINE STUDY</span><span class="tag live" id="livetag" hidden>PUBLISHED DATA</span></div>
+  <p class="sub" id="sub">Your payout plan: $ to you each month after fees. ESTIMATE from past trades. Move the sliders.</p>
+</header>
+<section class="sheet" id="sheet">
+  <div class="pane" id="p-plan" role="tabpanel" aria-label="Plan">
+    <section class="xbox mplan" id="mplan" aria-label="Money plan"><h3>Money plan <span class="tag" id="mplanTag" hidden>OFFLINE COPY</span></h3><div id="mplanBody"><p class="plain">Loading your 12-month plan (ESTIMATE from past trades, not a promise)...</p></div></section>
+    <section class="xbox keep" id="keep" aria-label="What you keep"><h3>What you keep</h3><div id="keepBody"></div></section>
+    <div class="row seg" id="spans" role="group" aria-label="Which months the bot is judged on"></div>
+    <div id="accts"></div>
+    <label class="slide">Months: <b id="monthsV">6</b><input id="months" type="range" min="3" max="12" step="1" value="6"></label>
+    <label class="slide">If the bot does worse than the study: <b id="hairV">0%</b><input id="haircut" type="range" min="0" max="60" step="5" value="0"></label>
+    <label class="slide">Keep aside for tax: <b id="taxV">0%</b><input id="tax" type="range" min="0" max="40" step="5" value="0"></label>
+    <label>My goal ($ a month)<input id="goal" inputmode="decimal" autocomplete="off" placeholder="3000"></label>
+    <section class="xbox" aria-label="What if I add an account"><h3>What if I add an account</h3><div id="whatif"></div></section>
+    <section class="plus" aria-label="Which plan, how many evals">
+      <details class="pd" open><summary><b>Best plan per dollar</b><span id="plusRankS"></span></summary><div id="plusRank"></div></details>
+      <details class="pd"><summary><b>How many evals to buy</b><span id="plusBuyS"></span></summary><div id="plusBuy"></div></details>
+    </section>
+  </div>
+  <div class="pane" id="p-money" role="tabpanel" aria-label="Money" hidden><div id="money"></div>
+    <section class="xbox" aria-label="Goal tracker"><h3>Goal tracker</h3><div class="goalrow"><div class="ringhost" id="goalring" role="img"><b id="goalpct">-</b></div><p class="line" id="goaltxt"></p></div><ol class="miles" id="miles"></ol></section>
+    <section class="xbox" aria-label="Payout calendar"><h3>Payout calendar</h3><div class="cal" id="cal"></div></section>
+    <section class="xbox" aria-label="Monthly income waterfall"><h3>Monthly income waterfall</h3><div class="fall" id="fall"></div><p class="src">Green: payouts that month (after the tax set-aside). Red: fees due. Right: the change and the running total.</p></section>
+  </div>
+  <div class="pane" id="p-risk" role="tabpanel" aria-label="Risk" hidden><div id="risk"></div>
+    <section class="plus" aria-label="Cash and timing">
+      <details class="pd" open><summary><b>Cash cushion</b><span id="plusCushionS"></span></summary><div id="plusCushion"></div></details>
+      <details class="pd"><summary><b>Who pays first</b><span id="plusRaceS"></span></summary><div id="plusRace"></div></details>
+    </section>
+  </div>
+  <div class="pane" id="p-notes" role="tabpanel" aria-label="Notes" hidden><div id="notes"></div></div>
+</section>
+<footer class="dock">
+  <button type="button" class="headline" id="headline" aria-label="Open the money table" data-oly-fx="shimmer">
+    <span class="hk" id="hk" data-oly-fx="odometer">$0</span><span class="hs" id="hs">per month, first 6 months</span>
+  </button>
+  <p class="vline" id="vline"></p>
+  <nav class="tabs" id="tabs" aria-label="Plutus">
+    <button type="button" data-tab="plan" aria-pressed="true">Plan</button><button type="button" data-tab="money" aria-pressed="false">Money</button>
+    <button type="button" data-tab="risk" aria-pressed="false">Risk</button><button type="button" data-tab="notes" aria-pressed="false">Notes</button>
+  </nav>
+</footer>
+<script type="module" src="plutus.js?v=m3g"></script>
+</body>
+</html>

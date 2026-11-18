@@ -1,0 +1,32 @@
+{
+  "name": "Plutus",
+  "short_name": "Plutus",
+  "description": "The money plan: accounts and payouts",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#06100a",
+  "theme_color": "#06100a",
+  "icons": [
+    {
+      "src": "../jarvis/icon-192.png?v=j5",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../jarvis/icon-512.png?v=j5",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../jarvis/icon-maskable-512.png?v=j5",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

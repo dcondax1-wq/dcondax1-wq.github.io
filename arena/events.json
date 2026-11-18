@@ -1,0 +1,1 @@
+{"demo":false,"events":[{"day":"2026-11-18","id":"bot_down:2026-11-18","kind":"bot_down","note":"Heartbeat up 0% of the window","src":"site"}],"kind":"olympus-arena","sources":{"site":"data.json: perf.status (Surface heartbeat), accounts (trades, evals, payouts)"},"t":1795016929,"theme":"#0a0710","today":"2026-11-18","v":1}

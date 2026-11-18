@@ -1,0 +1,270 @@
+{
+ "basis": "The bot's own 1,836 settled buys (feed of 2026-11-04, 41 days, Kalshi fees already inside the dollars).",
+ "counts": {
+  "keep": 5,
+  "pause": 1,
+  "stop": 3,
+  "watch": 9
+ },
+ "evidence_files": [
+  "research/writeups/kalshi_edge_B.md",
+  "research/kalshi/edge_tables.json",
+  "research/kalshi_edge_B/stop_bleed.json",
+  "research/kalshi_edge_B/results_frozen.json"
+ ],
+ "items": [
+  {
+   "evidence": "research/kalshi/edge_tables.json (buckets); research/kalshi_edge_B/results.json (favourites_15m, favourites_hourly)",
+   "interval_pct": [
+    -7.9,
+    -1.6
+   ],
+   "kind": "Buying at 90 to 95 cents",
+   "n": 581,
+   "net_usd": -248.3,
+   "roi_pct": -4.7,
+   "rule": "Do not buy any contract priced 90 to 95 cents. Wins 92.3% but needs 93.2% to break even, and the losses are bigger bets.",
+   "verdict": "stop"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -10.9,
+    -1.2
+   ],
+   "kind": "XRP bets",
+   "n": 192,
+   "net_usd": -106.63,
+   "roi_pct": -6.1,
+   "rule": "Turn off XRP bets. The loss is large enough to be real, not luck.",
+   "verdict": "stop"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    93.5,
+    96.1
+   ],
+   "kind": "Strategy: 15-min favourites",
+   "n": 1131,
+   "net_usd": -88.77,
+   "roi_pct": null,
+   "rule": "Keep the 15-minute favourites strategy off. It wins 95.0% of the time but needs 96.6% to break even.",
+   "verdict": "stop"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    59.8,
+    85.8
+   ],
+   "kind": "Strategy: Value",
+   "n": 40,
+   "net_usd": -13.04,
+   "roi_pct": null,
+   "rule": "Pause the Value strategy. It wins 75% and is losing; only 40 bets, so not proven.",
+   "verdict": "pause"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -4.0,
+    0.8
+   ],
+   "kind": "Solana bets",
+   "n": 142,
+   "net_usd": -13.29,
+   "roi_pct": -1.3,
+   "rule": "Keep Solana bets small and watch them. Slightly negative, but luck could explain it.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -5.9,
+    3.5
+   ],
+   "kind": "HYPE bets",
+   "n": 122,
+   "net_usd": -12.14,
+   "roi_pct": -0.7,
+   "rule": "Keep HYPE bets small and watch them. Slightly negative, but luck could explain it.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -7.7,
+    4.3
+   ],
+   "kind": "BNB bets",
+   "n": 77,
+   "net_usd": -7.66,
+   "roi_pct": -0.9,
+   "rule": "Keep BNB bets small and watch them. Slightly negative, but luck could explain it.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    14.2,
+    55.6
+   ],
+   "kind": "Strategy: Flip exit sell-backs",
+   "n": 16,
+   "net_usd": -7.66,
+   "roi_pct": null,
+   "rule": "Keep off. Lost on 16 bets: too few to prove, no reason to turn it on.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -3.9,
+    2.7
+   ],
+   "kind": "Ethereum bets",
+   "n": 165,
+   "net_usd": -5.35,
+   "roi_pct": -0.3,
+   "rule": "Keep Ethereum bets small and watch them. Slightly negative, but luck could explain it.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    45.4,
+    88.3
+   ],
+   "kind": "Strategy: Sniper test",
+   "n": 14,
+   "net_usd": -5.25,
+   "roi_pct": null,
+   "rule": "Keep off. 14 bets, losing: too few to judge.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    4.6,
+    69.9
+   ],
+   "kind": "Strategy: arb",
+   "n": 4,
+   "net_usd": -2.82,
+   "roi_pct": null,
+   "rule": "Keep off. 4 bets, too few to judge.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -2.5,
+    2.0
+   ],
+   "kind": "Dogecoin bets",
+   "n": 165,
+   "net_usd": -0.65,
+   "roi_pct": -0.0,
+   "rule": "Keep Dogecoin bets small and watch them. Slightly negative, but luck could explain it.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    0.0,
+    43.5
+   ],
+   "kind": "Strategy: arbx",
+   "n": 5,
+   "net_usd": -0.65,
+   "roi_pct": null,
+   "rule": "Keep off. 5 bets, all lost: too few to judge.",
+   "verdict": "watch"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    94.6,
+    99.4
+   ],
+   "kind": "Strategy: combo",
+   "n": 159,
+   "net_usd": 5.29,
+   "roi_pct": null,
+   "rule": "No change. Positive, not proven.",
+   "verdict": "keep"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    95.3,
+    99.4
+   ],
+   "kind": "Strategy: Late favourite (BTC hourly)",
+   "n": 182,
+   "net_usd": 16.26,
+   "roi_pct": null,
+   "rule": "No change. 179 wins and 3 losses: positive but too few bets to prove it beats zero.",
+   "verdict": "keep"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    -1.6,
+    2.3
+   ],
+   "kind": "Bets on small coins (Other)",
+   "n": 347,
+   "net_usd": 23.96,
+   "roi_pct": 0.5,
+   "rule": "No change. Not negative after fees.",
+   "verdict": "keep"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (strategies); research/kalshi_edge_B/stop_bleed.json",
+   "interval_is": "win rate",
+   "interval_pct": [
+    92.1,
+    97.1
+   ],
+   "kind": "Strategy: Hourly BTC",
+   "n": 291,
+   "net_usd": 30.32,
+   "roi_pct": null,
+   "rule": "No change (paper strategy). Positive, not proven.",
+   "verdict": "keep"
+  },
+  {
+   "evidence": "research/kalshi/edge_tables.json (categories); research/kalshi_edge_B/stop_bleed.json",
+   "interval_pct": [
+    0.1,
+    1.2
+   ],
+   "kind": "Bitcoin bets",
+   "n": 623,
+   "net_usd": 51.82,
+   "roi_pct": 0.7,
+   "rule": "No change. Not negative after fees.",
+   "verdict": "keep"
+  }
+ ],
+ "kind": "kalshi-suggestions",
+ "label": "Suggestions only: nothing here changes or places a bet. The bot is untouched.",
+ "mode": "suggestions-only",
+ "not_proven": [
+  "Kalshi pays you on average only when the market misprices something. Two months of quotes on about 28,000 crypto markets say it mostly does not.",
+  "No new money-making rule was found. A pocket that looked good (15-minute favourites at 95-97c, 8 minutes out) fell apart on unseen data: 544 bets, edge 0.0048 per $1, range -0.0138 to 0.0197.",
+  "So the realistic goal is losing less, not winning more.",
+  "A small number of bets can be luck either way; every row shows its n."
+ ],
+ "v": 1
+}

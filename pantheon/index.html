@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pantheon</title>
+<meta name="description" content="PANTHEON: free market-context data for NQ futures, one Greek god per source, and the Council of the Gods verdict.">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pantheon">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<!-- PANTHEON (tools/web_public/pantheon/, 2026-11-03): the hall of the data gods. tools/pantheon/build.py writes
+     pantheon.json + states.json + jarvis.json here (CRONOS refreshes them nightly); fixture.json is the demo copy.
+     Read-only context page: it never changes a strategy. Look: pantheon.css; data + formatting: pantheoncore.js;
+     the 3D hall + UI: pantheon.js (three.js r160 from ../jarvis/). Bump ?v= on all three when one changes. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="pantheon"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<link rel="stylesheet" href="pantheon.css?v=p7">
+<script src="../olympus/fx-core.js?v=f1"></script>
+</head>
+<body>
+<canvas id="hall" aria-label="Mount Olympus: a circle of marble pillars, one per data god, around the Council orb" role="img"></canvas>
+<div id="nogl" class="nogl" hidden></div>
+<header class="hud" id="hud">
+  <div class="title">
+    <h1>Pantheon</h1>
+    <span class="tag" id="demo" hidden>Demo data</span>
+  </div>
+  <p class="sub" id="sub">Free market data in plain words: rates, money flow, fear. Tap a pillar.</p>
+  <div class="hudrow">
+    <button type="button" class="council" id="councilBtn" aria-controls="council" aria-expanded="false">
+      <span class="ck">All signals together</span>
+      <b id="c-label">—</b><i id="c-gauge"></i>
+    </button>
+    <button type="button" class="deskbtn" id="deskBtn" aria-controls="desk" aria-expanded="false"><span>My</span><b>Desk</b></button>
+  </div>
+  <p class="glance" id="glance" hidden></p>
+</header>
+<aside class="flip" id="flip" hidden role="status"><b id="flip-t"></b><button type="button" id="flip-x" aria-label="Dismiss">✕</button></aside>
+<footer class="dock" id="dock">
+  <nav class="strip" id="strip" aria-label="The gods"></nav>
+  <p class="vline" id="vline"></p>
+</footer>
+<section class="card" id="card" hidden role="dialog" aria-modal="false" aria-labelledby="card-h">
+  <button type="button" class="x" id="cardX" aria-label="Close">✕</button>
+  <h2 id="card-h"></h2>
+  <p class="meta" id="card-m"></p>
+  <div id="card-b"></div>
+</section>
+<section class="card" id="council" hidden role="dialog" aria-modal="false" aria-labelledby="council-h">
+  <button type="button" class="x" id="councilX" aria-label="Close">✕</button>
+  <h2 id="council-h">The Council of the Gods</h2>
+  <div id="council-b"></div>
+</section>
+<section class="card" id="desk" hidden role="dialog" aria-modal="false" aria-labelledby="desk-h">
+  <button type="button" class="x" id="deskX" aria-label="Close">✕</button>
+  <h2 id="desk-h">My desk</h2>
+  <p class="meta">What the gods mean for your day, in plain words. Context, never a signal.</p>
+  <div id="desk-b"></div>
+</section>
+<script type="module" src="pantheon.js?v=p9"></script>
+</body>
+</html>

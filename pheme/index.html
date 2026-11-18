@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pheme</title>
+<meta name="description" content="OLYMPUS PHEME: the word on the street. Today's and the next two weeks' scheduled market releases with why they matter for NQ and what the bots do, and how far NQ moved on the last 8 days of each kind of release. History only, never a forecast.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pheme">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- PHEME (OLYMPUS, AGORA look, 2026-11-10): the word on the street. phemecore.js = the pure logic (node-tested); pheme.js = the page (ES module); phemerack.js = the marble scroll rack in 3D (its own module tag: if it fails the page draws the flat twin).
+     Reads ./stats.json (built offline by tools/pheme_build.py from data/news/events.csv and data/NQ_5m.csv) and fixture.json (DEMO, never blank); sends nothing. Text only through textContent / createElementNS. HISTORY ONLY: no forecast. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="pheme"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="pheme.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Pheme</h1><p class="sub">News days ahead, and how far NQ moved on past ones. Check before you trade.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <h2 id="heroH">Today</h2>
+    <p class="lead" id="todayWord"></p>
+    <p class="lead big" id="head"></p>
+    <ul class="plain" id="todayEv"></ul>
+    <p class="note" id="cov"></p>
+    <p class="banner">History only. Pheme shows what happened on past release days, with how many days (n). It does not predict anything and it does not change what the bots do.</p>
+  </section>
+  <section class="ag-card card" id="histCard" aria-labelledby="hTitle">
+    <div class="row"><h2 id="hTitle">History</h2><span class="pill" id="hPill">...</span></div>
+    <div class="seg" id="kinds" role="group" aria-label="Which release"></div>
+    <div class="ballbox">
+      <canvas id="stage" role="img" aria-label="A marble rack holding up to eight columns. Each column is one past release day and its height is how far NQ travelled that day. A gold bar behind them marks an ordinary day. Tap a column to open its row."></canvas>
+      <svg id="flat" viewBox="0 0 320 180" role="img" aria-label="A flat drawing of the marble rack: one column for each of the last release days and a dashed gold line for an ordinary day" hidden></svg>
+    </div>
+    <div class="tiles" id="hTiles"></div>
+    <div class="stack" id="hLines"></div>
+    <table class="lad" id="hTable"><caption class="note">The last release days, newest first (points, then dollars for one MNQ micro)</caption><thead><tr><th scope="col">Day</th><th scope="col">Range</th><th scope="col">$ / micro</th><th scope="col">First 30 min</th><th scope="col">$ / micro</th></tr></thead><tbody id="hRows"></tbody></table>
+    <p class="note" id="hNote"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="weekH">
+    <h2 id="weekH">The next two weeks</h2>
+    <ul class="plain" id="weekEv"></ul>
+  </section>
+
+  <p class="foot" id="foot">Pheme reads its own numbers file (built offline from the saved calendar and the NQ price history) and sends nothing. Times are New York (ET). A range is how far the price travelled, not a profit or a loss. 1 MNQ micro = $2 per point.</p>
+</main>
+<script type="module" src="pheme.js?v=a1"></script>
+<script type="module" src="phemerack.js?v=q6c" onerror="window.PHEME_RACK_FAIL = 1"></script>
+</body>
+</html>

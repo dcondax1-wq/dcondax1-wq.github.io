@@ -1,0 +1,1 @@
+{"v":1,"name":"Demeter","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Zlarior","value":"$1,420 left"},{"label":"ATLAS","value":"$840 left"},{"label":"BLITZ","value":"$560 left"}],"lines":["BLITZ has the least room: $560 of $1,000 max loss.","What-if sizes 0.5x to 2x; the bot never changes size."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

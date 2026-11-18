@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moirai</title>
+<meta name="description" content="OLYMPUS MOIRAI: the three fates. A scenario lab for the MFFU Builder 50K eval. Set the win rate, the average win and loss in R, the trades a week and the risk per trade, and a seeded simulation of 1,000 paths shows the chance to pass, to bust and the time it takes. A simulation, not a forecast.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Moirai">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- MOIRAI (OLYMPUS, AGORA look, 2026-11-10): the three fates. moiraicore.js = the pure seeded Monte-Carlo (node-tested, same seed gives the same numbers), moiraiscene.js = the marble loom (three.js),
+     moirai.js = the page (ES module). Read only: fixture.json holds the bot's own 2026 numbers as the defaults; ../ledger/rules.json may refine the 50K limits and price. It sends nothing, places nothing and
+     keeps only your slider values on this phone ('moirai.v1'). A simulation, not a forecast. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="moirai"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="moirai.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Moirai</h1><p class="sub">Pass, fail or still going: one eval played 1,000 times. Move the sliders.</p></div></div>
+    <div class="tags"><span class="tag demo">SIMULATION</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="fateH">
+    <div class="row"><h2 id="fateH">Pass, fail, still going</h2><span class="pill info" id="runPill">...</span></div>
+    <div class="stage"><canvas id="loom" width="640" height="560" role="img" aria-label="A marble spindle with three threads: olive for pass, terracotta for bust, gold for still open. A thread is as thick as its chance."></canvas><svg id="loomFallback" class="fallback" viewBox="0 0 120 100" role="img" aria-label="Three bars: pass, bust and still open" hidden></svg></div>
+    <div class="tiles" id="fates"></div>
+    <p class="lead" id="headline"></p>
+    <p class="note" id="honest"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="preH">
+    <h2 id="preH">Start from</h2>
+    <div class="seg" id="presets" role="group" aria-label="Starting points"></div>
+    <p class="note" id="srcNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="planH">
+    <h2 id="planH">The account and its rules</h2>
+    <div class="seg" id="plans" role="group" aria-label="Account"></div>
+    <p class="note" id="planNote"></p>
+    <p class="ag-eyebrow">Minimum trading days before a pass</p>
+    <div class="seg" id="minDays" role="group" aria-label="Minimum trading days"></div>
+    <p class="ag-eyebrow">Most trades a day (the daily loss lockout needs more than one)</p>
+    <div class="seg" id="maxTrades" role="group" aria-label="Most trades a day"></div>
+    <p class="ag-eyebrow">Best-day rule (stress test)</p>
+    <div class="seg" id="consBox" role="group" aria-label="Best-day rule"></div>
+    <p class="note" id="rulesNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="inH">
+    <h2 id="inH">Your odds</h2>
+    <label class="fld"><span id="winL">Win rate</span><input id="win" type="range" min="5" max="70" step="1" aria-label="Win rate percent"></label>
+    <label class="fld"><span id="scrL">Break-even trades</span><input id="scr" type="range" min="0" max="60" step="1" aria-label="Break-even trades percent"></label>
+    <label class="fld"><span id="awL">Average win</span><input id="aw" type="range" min="0.5" max="10" step="0.05" aria-label="Average win in R"></label>
+    <label class="fld"><span id="alL">Average loss</span><input id="al" type="range" min="0.3" max="1.5" step="0.01" aria-label="Average loss in R"></label>
+    <label class="fld"><span id="tpwL">Trades a week</span><input id="tpw" type="range" min="0.5" max="5" step="0.1" aria-label="Trades a week"></label>
+    <label class="fld"><span id="riskL">Risk per trade</span><input id="risk" type="range" min="0.1" max="2.5" step="0.05" aria-label="Risk per trade, percent of the account"></label>
+    <p class="note" id="expNote"></p>
+    <details id="seedBox">
+      <summary>Seed and number of paths</summary>
+      <div class="flds"><label class="fld"><span>Seed (the same seed always gives the same numbers)</span><input id="seed" type="number" inputmode="numeric" min="0" step="1"></label>
+        <button class="btn" id="reseed" type="button">Run again with a new seed</button></div>
+    </details>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="resH">
+    <h2 id="resH">What the 1,000 paths say</h2>
+    <dl class="kv" id="kv"></dl>
+    <p class="note" id="resNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="bitH">
+    <h2 id="bitH">Which rules bit</h2>
+    <ul class="plain" id="bit"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="fanH">
+    <h2 id="fanH">The fan of paths</h2>
+    <svg id="fan" class="chart" viewBox="0 0 320 200" role="img" aria-label="Equity paths over the sessions"></svg>
+    <div class="legend"><span class="lg m">Middle path</span><span class="lg b">Half of paths</span><span class="lg t">Target</span><span class="lg f">Floor</span></div>
+    <p class="note" id="fanNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="cashH">
+    <h2 id="cashH">What the odds are worth in $ (estimate)</h2>
+    <dl class="kv" id="cash"></dl>
+    <p class="note" id="cashNote"></p>
+  </section>
+
+  <p class="foot" id="foot">Moirai is a simulation, not a forecast. It plays the odds you set 1,000 times with a fixed seed; it never places or changes an order and does not move the bot's size. Every R is shown with its dollars (1R = the risk per trade on the chosen account, never more than its daily loss limit). Modelled from MFFU's rulebook as checked on 2026-10-18: the trailing floor, the soft daily loss limit, a minimum number of trading days and, as a switch, the 50% best-day rule. Not modelled: slippage beyond the costs already in the R's and intraday swings, so a real eval can be slower or worse.</p>
+</main>
+<script type="module" src="moirai.js?v=a1"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14110e"><meta name="color-scheme" content="dark">
+<title>ATLAS Strategy City · OLYMPUS</title>
+<meta name="description" content="A read-only city for ATLAS's three NQ strategies: London EMA, MACD sweep, and New York reclaim.">
+<link rel="stylesheet" href="city.css?v=5">
+<script src="city.js?v=5" defer></script>
+</head><body>
+<a class="skip" href="#brief">Skip city</a>
+<header><a class="back" href="../jarvis/" aria-label="Back to Jarvis">← Olympus</a><span id="quality" class="chip">City view</span></header>
+<main>
+<section class="lead" id="brief">
+  <p class="eyebrow">The NQ strategy districts · read only</p>
+  <h1>ATLAS <em>Strategy City</em></h1>
+  <p class="lede" id="answer">Three strategies, one city. Checking the latest published snapshot…</p>
+  <div class="metrics" aria-label="Published account context">
+    <div><small>Drawdown left</small><strong id="room">—</strong></div>
+    <div><small>To target</small><strong id="target">—</strong></div>
+    <div><small>Snapshot</small><strong id="freshness">Checking</strong></div>
+  </div>
+</section>
+<section class="world" aria-label="ATLAS strategy city">
+  <div class="sky" aria-hidden="true"><i class="moon"></i><i class="halo"></i><i class="starfield"></i></div>
+  <svg class="route-glow" viewBox="0 0 700 470" aria-hidden="true"><path d="M20 300Q350 35 680 290"/><path d="M35 350Q340 115 665 340"/><path d="M65 410Q350 160 630 390"/></svg><div class="mini-map" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="scene" id="scene" tabindex="0" aria-label="City camera. Drag to orbit; arrow keys to orbit; W and S to move.">
+    <div class="city" id="city">
+      <div class="floor"></div><div class="road road-a"></div><div class="road road-b"></div>
+      <div class="blocks" aria-hidden="true"></div><div class="city-lights" id="city-lights" aria-hidden="true"></div>
+      <div class="capital-core hq" aria-hidden="true"><span class="capital-tower"><i class="front"></i><i class="side"></i><i class="roof"></i><i class="crown"></i></span><span class="hq-label">ATLAS HQ</span></div>
+      <button class="district ema" data-key="ema_lon_vix" type="button" aria-label="Open London EMA district">
+        <span class="tower"><i class="face front"></i><i class="face side"></i><i class="face roof"></i><i class="spire"></i></span>
+        <span class="plaza"><b>01</b><small>London EMA</small></span>
+      </button>
+      <button class="district macd" data-key="macd_sweep" type="button" aria-label="Open MACD sweep district">
+        <span class="tower"><i class="face front"></i><i class="face side"></i><i class="face roof"></i><i class="spire"></i></span>
+        <span class="plaza"><b>02</b><small>MACD sweep</small></span>
+      </button>
+      <button class="district reclaim" data-key="sr_nyreclaim" type="button" aria-label="Open New York reclaim district">
+        <span class="tower"><i class="face front"></i><i class="face side"></i><i class="face roof"></i><i class="spire"></i></span>
+        <span class="plaza"><b>03</b><small>NY reclaim</small></span>
+      </button>
+    </div>
+  </div>
+  <div class="controls"><button type="button" id="left" aria-label="Orbit left">↶</button><button type="button" id="home" aria-label="Reset camera">Reset view</button><button type="button" id="right" aria-label="Orbit right">↷</button></div>
+  <p class="hint">Drag to orbit · arrows to turn · W/S to move · tap a strategy tower for its report. Small buildings and arcs are decorative.</p>
+</section>
+<section class="report" id="report" aria-live="polite">
+  <div class="report-head"><span class="number" id="number">01 / 03</span><span id="state" class="state">Checking</span></div>
+  <h2 id="title">London EMA trend pullback</h2>
+  <p id="status">Waiting for the published strategy state.</p>
+  <dl><div><dt>Session</dt><dd id="hours">—</dd></div><div><dt>Entry window</dt><dd id="window">—</dd></div></dl>
+  <p class="note">This city reads published ATLAS data. It cannot arm, size, route, or place a trade. A reported strategy state is not an instruction.</p>
+</section>
+<section class="paper-section" aria-labelledby="paper-title"><p class="eyebrow">Research district · never routed here</p><h2 id="paper-title">Paper outposts</h2><p>Separate ideas under observation. Their paper results do not describe the ATLAS account.</p><div id="outposts" class="outposts"></div></section>
+<nav class="district-nav" aria-label="Strategy districts"><button type="button" data-key="ema_lon_vix">EMA</button><button type="button" data-key="macd_sweep">MACD</button><button type="button" data-key="sr_nyreclaim">NY reclaim</button></nav>
+</main></body></html>
+

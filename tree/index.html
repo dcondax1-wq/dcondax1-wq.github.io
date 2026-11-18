@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DAPHNE</title>
+<meta name="description" content="DAPHNE: the strategy-tree search on NQ. Every branch adds one condition to a plain level trade; the bound cuts what cannot win; the best path lights up, then meets the out-of-sample test.">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Daphne">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<!-- DAPHNE (2026-11-03): the strategy-tree search of tools/strategytree, drawn as a growing tree. Read-only, paper only.
+     Data: tree.json next to this page (python -X utf8 -m tools.strategytree), else demo.json (synthetic, marked DEMO).
+     Logic: core.js (data + layout, no DOM), paint.js (everything on the canvas), app.js (state, playback, touch, HUD).
+     Look: tree.css. Layout: one top bar (brand, the verdict, the rule), one bottom sheet (THE SEARCH / TOP RULES), the seeds. -->
+<script>try { if (window.top !== window) document.documentElement.classList.add('framed'); } catch (e) { document.documentElement.classList.add('framed'); }</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="tree"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<link rel="stylesheet" href="tree.css?v=d7">
+<script src="../olympus/fx-core.js?v=f1"></script>
+</head>
+<body>
+<div id="app" data-state="loading">
+  <canvas id="stage" aria-label="The search tree"></canvas>
+  <canvas id="gl" hidden aria-hidden="true"></canvas>   <!-- the OLYMPUS render core over the tree: bloom, film finish, fireflies (glow.js) -->
+
+  <header class="hud hud-top">
+    <div class="brand"><span class="sigil" aria-hidden="true"></span><h1>Daphne</h1><span class="dim">· the search for better rules</span>
+      <span class="badge" id="demo" hidden>Demo data</span></div>
+    <p class="verdict" id="verdict" aria-live="polite"></p>
+    <p class="line" id="topo">Searching…</p>
+    <p class="line rule" id="rule">Loading the search…</p>
+    <p class="line money" id="money"></p>
+  </header>
+
+  <div class="tools" role="toolbar" aria-label="View">
+    <div class="lens" role="radiogroup" aria-label="Colour the tree by">
+      <button type="button" role="radio" aria-checked="true" data-lens="train">Train</button>
+      <button type="button" role="radio" aria-checked="false" data-lens="test">New data</button>
+    </div>
+    <button type="button" class="tool" id="replay" title="Replay the search">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M13.5 2.5v3h-3"/></svg><span>Replay</span></button>
+    <button type="button" class="tool" id="openTop" title="The top 10 rules">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4h10M3 8h10M3 12h6"/></svg><span>Top 10</span></button>
+  </div>
+
+  <div class="tools tools-l" role="toolbar" aria-label="Branches, seasons and time">
+    <button type="button" class="tool" id="openBranches" title="Search, compare and rank every best branch">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14V8M8 8 4 4M8 8l4-4M4 4V2M12 4V2"/></svg><span>Branches</span></button>
+    <button type="button" class="tool" id="season" title="Season of the tree" aria-label="Season: auto">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2"/></svg><span id="seasonT">Auto</span></button>
+    <div class="timeline" id="timeline">
+      <button type="button" class="tool" id="play" aria-pressed="true" aria-label="Pause the growth"><svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M5 3v10M11 3v10"/></svg></button>
+      <input type="range" id="scrub" min="0" max="1000" value="1000" step="1" aria-label="Growth of the tree, scrub through time">
+    </div>
+  </div>
+
+  <section class="hud hud-foot" id="foot" aria-label="The search">
+    <div class="sheet-tabs" role="tablist" aria-label="Panel">
+      <button type="button" role="tab" data-tab="search" aria-selected="true">The search</button>
+      <button type="button" role="tab" data-tab="rules" aria-selected="false">Top rules</button>
+      <button type="button" role="tab" data-tab="best" aria-selected="false">Best</button>
+    </div>
+    <div class="pane" data-pane="search">
+    <div class="col search">
+      <h2>The search · <b id="nsteps">0</b> steps to the best</h2>
+      <ol class="steps" id="steps"></ol>
+    </div>
+    <div class="col">
+      <h2>Gap, bound, best</h2>
+      <div class="bars" id="bars"></div>
+    </div>
+    <div class="col">
+      <h2 class="roots-title">Roots: searched to the end or still open</h2>
+      <div class="roots" id="roots"></div>
+      <p class="roots-legend" id="rootsLegend"></p>
+    </div>
+    <p class="line dim crit" id="crit">Scored on mean excess</p>
+    </div>
+    <div class="pane" data-pane="best" hidden><div id="best" class="best" aria-live="polite"></div></div>
+    <div class="pane" data-pane="rules" hidden>
+      <ol class="rules" id="rules"></ol>
+      <p class="roots-legend" id="rulesNote"></p>
+    </div>
+  </section>
+
+  <div class="lens-fx" id="lensFx" hidden aria-hidden="true"><b id="lensT"></b><span id="lensS"></span></div>
+
+  <nav class="seeds" id="seeds" aria-label="Roots"></nav>
+
+  <aside class="card" id="card" role="dialog" aria-modal="false" aria-labelledby="cardTitle" hidden>
+    <button type="button" class="close" data-close aria-label="Close">×</button>
+    <div id="cardBody"></div>
+  </aside>
+
+  <aside class="sheet branches" id="branches" role="dialog" aria-modal="true" aria-labelledby="brTitle" hidden>
+    <div class="sheet-head"><h2 id="brTitle">Branches: the best of every root</h2><button type="button" class="close" data-bclose aria-label="Close">×</button></div>
+    <nav class="btabs" role="tablist" aria-label="Branch pages">
+      <button type="button" role="tab" data-btab="list" aria-selected="true">List</button><button type="button" role="tab" data-btab="fame" aria-selected="false">Hall of fame</button>
+      <button type="button" role="tab" data-btab="compare" aria-selected="false">Compare</button><button type="button" role="tab" data-btab="stats" aria-selected="false">Stats</button></nav>
+    <div class="br-body" id="br-body"></div>
+  </aside>
+
+  <div class="shareview" id="shareView" hidden role="dialog" aria-label="Share picture"><img alt=""><p>Press and hold the picture to save or share it.</p><button type="button" id="shareClose" class="go">Close</button></div>
+  <div class="toast-d" id="toastD" role="status" hidden></div>
+
+  <aside class="sheet" id="top" role="dialog" aria-modal="true" aria-labelledby="topTitle" hidden>
+    <div class="sheet-head"><h2 id="topTitle">Top 10 rules: best training score, one per setup</h2>
+      <button type="button" class="close" data-close aria-label="Close">×</button></div>
+    <p class="sheet-sub" id="topSub"></p>
+    <div class="topbar" id="topBar" role="toolbar" aria-label="Sort the top rules"></div>
+    <ol class="toplist" id="toplist"></ol>
+  </aside>
+
+  <p class="loading" id="loading" aria-live="polite">Growing the tree…</p>
+</div>
+<script type="module" src="app.js?v=d9"></script>
+</body>
+</html>

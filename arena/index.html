@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARENA</title>
+<meta name="description" content="ARENA, Olympian Ranks: XP, the rank ladder, 28 trophies, weekly discipline bosses, the 12 Labours, daily quests and streaks from verifiable events across OLYMPUS. Paper only.">
+<meta name="theme-color" content="#14110e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Arena">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<!-- ARENA (2026-11-03): the rules are data (rules.json, twin engines rules.js + tools/arena/score.py); the site's trading events
+     come from events.json (python -m tools.arena.build), the phone adds the Planner, Obsidian, Kalshi and quests (sources.js) and
+     keeps the progress (ledger.js, localStorage 'arena.v1', export in the XP log). Jarvis's orb owns the bottom-right 80 x 160 px. -->
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="arena"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#ffb547'); r.setProperty('--oly-accent-rgb', '255, 181, 71'); })();</script>
+<link rel="stylesheet" href="arena.css?v=a6">
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div id="arena-illustration" aria-hidden="true"></div>
+<div class="arena-vignette" aria-hidden="true"></div>
+<aside class="world-caption" aria-label="Arena setting">
+  <span class="world-eyebrow">Olympus · the realm of discipline</span>
+  <h2>The Colosseum</h2>
+  <p>Earn points for following your trading rules. Do a quest to rank up.</p>
+  <span class="world-mode"><i></i><span id="worldMode">Explore the arena</span></span>
+</aside>
+<aside class="campaign" aria-label="Campaign progress">
+  <span>Your campaign</span>
+  <b id="campaignState">Loading your progress</b>
+  <p id="campaignDetail">Quests, labours and trophies from your records.</p>
+</aside>
+<div id="flash" aria-hidden="true"></div>
+<main id="ui">
+  <header class="top">
+    <div class="brand">
+      <h1>Arena</h1>
+      <p class="sub">Olympian Ranks</p>
+    </div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>Demo</span><span id="lite" class="tag" hidden>Lite</span></div>
+  </header>
+  <section class="rank" id="rank" aria-live="polite" role="button" tabindex="0" aria-label="Rank. Open the rank ladder">
+    <svg class="emblem" viewBox="0 0 64 64" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M22 54c-9-5-14-13-14-23 0-6 2-11 5-15"/><path d="M42 54c9-5 14-13 14-23 0-6-2-11-5-15"/>
+      </g>
+      <g fill="currentColor">
+        <ellipse cx="9.5" cy="25" rx="2.6" ry="6" transform="rotate(-20 9.5 25)"/><ellipse cx="9" cy="35" rx="2.6" ry="6" transform="rotate(-40 9 35)"/>
+        <ellipse cx="13" cy="45" rx="2.6" ry="6" transform="rotate(-58 13 45)"/><ellipse cx="20" cy="51" rx="2.4" ry="5.5" transform="rotate(-75 20 51)"/>
+        <ellipse cx="54.5" cy="25" rx="2.6" ry="6" transform="rotate(20 54.5 25)"/><ellipse cx="55" cy="35" rx="2.6" ry="6" transform="rotate(40 55 35)"/>
+        <ellipse cx="51" cy="45" rx="2.6" ry="6" transform="rotate(58 51 45)"/><ellipse cx="44" cy="51" rx="2.4" ry="5.5" transform="rotate(75 44 51)"/>
+        <ellipse cx="14" cy="16" rx="2.2" ry="5" transform="rotate(10 14 16)"/><ellipse cx="50" cy="16" rx="2.2" ry="5" transform="rotate(-10 50 16)"/>
+      </g>
+    </svg>
+    <div class="rk">
+      <span class="l">Rank · tap for the ladder</span>
+      <b id="rankName">-</b>
+      <span id="lvl" class="lv">Level 1 · 0 XP</span>
+      <div class="bar" role="progressbar" aria-label="XP to the next level" aria-valuemin="0"><i id="lvlBar"></i></div>
+      <span class="s" id="nextRank"></span>
+    </div>
+  </section>
+  <section class="streaks" id="streaks" aria-label="Streaks"></section>
+  <section class="pace" id="pace" aria-label="This week"></section>
+</main>
+<nav class="tabs" id="tabs" aria-label="ARENA">
+  <button type="button" data-tab="quests" aria-pressed="false">Quests <b id="qCount">0/3</b></button>
+  <button type="button" data-tab="bosses" aria-pressed="false">Bosses <b id="bCount">0/4</b></button>
+  <button type="button" data-tab="labours" aria-pressed="false">Labours <b id="lCount">0/12</b></button>
+  <button type="button" data-tab="trophies" aria-pressed="false">Trophies <b id="tCount">0/28</b></button>
+  <button type="button" data-tab="log" aria-pressed="false">XP log <b id="xCount">0</b></button>
+</nav>
+<section class="sheet" id="sheet" hidden aria-labelledby="sheetTitle">
+  <header><h2 id="sheetTitle"></h2><button type="button" class="oly-close" id="close" aria-label="Close">×</button></header>
+  <div class="body" id="sheetBody"></div>
+</section>
+<div class="pop" id="pop" hidden role="dialog" aria-modal="false" aria-label="Labour">
+  <div class="pbody"></div>
+  <button type="button" class="oly-close" id="popClose" aria-label="Close">×</button>
+</div>
+<div class="banner" id="banner" hidden role="status" aria-live="assertive"></div>
+<script type="module" src="main.js?v=a8"></script>
+</body>
+</html>
+

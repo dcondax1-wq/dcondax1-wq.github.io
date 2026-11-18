@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OLYMPUS FX lab</title>
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<!-- The OLYMPUS effects library's lab (docs/OLYMPUS_FX.md): every effect of olympus/fx-*.js with a tier switcher.
+     Scene effects draw on the sticky stage (the render core), card / button / number effects on their own sample.
+     ?q=ultra|high|low|off forces the stage's render tier, ?stage=off|low pins the stage whatever the effects' tier, ?stage=still draws no loop (the page calls __fxLab.rc.render() itself) and ?small=1 shrinks the stage (tests), ?bare=1 loads
+     no fx script at all (only olympus.js: the zero-edit data-oly-fx wiring loads what it needs), ?fx=<tier> starts the effects on that tier.
+     tests/test_olympus_fx.py drives it through window.__fxLab. -->
+<link rel="stylesheet" href="olympus.css?v=o7">
+<script src="themes.js?v=o6"></script>
+<script src="olympus.js?v=o10"></script>
+<script>
+  if (!/[?&]bare=1/.test(location.search)) ['fx-core', 'fx-ui', 'fx-text', 'fx-burst'].forEach(function (f) { document.write('<script src="' + f + '.js?v=f1"><\/script>'); });
+</script>
+<style>
+  html, body { margin: 0; background: #14110e; color: #f3ece0; font: 500 14px/1.35 var(--oly-ui, system-ui, sans-serif); }
+  body { padding-bottom: calc(40px + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  header { position: sticky; top: 0; z-index: 20; padding: calc(8px + env(safe-area-inset-top)) 12px 8px; background: rgba(20, 17, 14, .94); border-bottom: 1px solid var(--oly-line);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  h1 { margin: 0; font: 700 17px/1 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; letter-spacing: .02em; color: #c8a24a; flex: 1 1 auto; }
+  .tiers { display: flex; gap: 4px; }
+  .tiers button, .btn { min-height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .06); color: inherit;
+    font: 700 12px/1 var(--oly-ui, system-ui); letter-spacing: .05em; cursor: pointer; touch-action: manipulation; }
+  .tiers button[aria-pressed="true"] { background: rgba(var(--oly-accent-rgb), .3); border-color: rgba(var(--oly-accent-rgb), .8); }
+  #stagebox { position: sticky; top: 52px; z-index: 10; height: 34vh; min-height: 220px; background: #1d1914; border-bottom: 1px solid var(--oly-line); }
+  #stage { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  #on { position: absolute; left: 10px; bottom: 8px; margin: 0; font: 600 11px/1.3 var(--oly-ui); letter-spacing: .05em; color: rgba(255, 255, 255, .7); pointer-events: none; max-width: 90%; }
+  main { padding: 12px; display: grid; gap: 12px; }
+  h2 { margin: 14px 0 0; font: 700 12px/1 var(--oly-display, system-ui); letter-spacing: .05em; color: var(--oly-dim); text-transform: uppercase; }
+  .card { border: 1px solid var(--oly-line); border-radius: 14px; background: rgba(255, 255, 255, .035); padding: 12px; display: grid; gap: 8px; }
+  .card h3 { margin: 0; font: 700 14px/1.2 var(--oly-display, system-ui); letter-spacing: .05em; display: flex; justify-content: space-between; gap: 8px; }
+  .card h3 small { font: 600 10px/1.6 var(--oly-ui); color: var(--oly-dim); letter-spacing: .05em; text-transform: uppercase; }
+  .card p { margin: 0; color: var(--oly-dim); font-size: 13px; }
+  .demo { min-height: 64px; display: grid; place-items: center; position: relative; padding: 6px; border-radius: 10px; background: linear-gradient(135deg, #2b2219, #1d1914 55%, #3a2a1c); }
+  #cine .row { flex-wrap: wrap; }
+  #cine .btn[aria-pressed="true"] { background: rgba(200, 162, 74, .28); border-color: rgba(200, 162, 74, .8); }
+  #readout { position: absolute; right: 10px; top: 8px; margin: 0; font: 600 11px/1.35 'SF Pro Rounded', -apple-system, sans-serif; font-variant-numeric: tabular-nums; white-space: pre;
+    color: #f3ece0; background: rgba(20, 17, 14, .72); border: 1px solid #3a3228; border-radius: 10px; padding: 5px 8px; pointer-events: none; text-align: right; }
+  .demo .proto { padding: 14px 18px; border-radius: 14px; border: 1px solid var(--oly-line); background: rgba(29, 25, 20, .85); font: 700 15px/1.2 var(--oly-ui); min-width: 140px; text-align: center; }
+  .demo .num { font: 700 28px/1.2 var(--oly-display, system-ui); background: none; border: 0; }
+  .demo .ringhost { width: 96px; height: 96px; padding: 0; min-width: 0; border-radius: 50%; display: grid; place-items: center; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  pre { margin: 0; font: 11px/1.4 ui-monospace, Menlo, monospace; color: #b8c2e6; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .scene-note { font-size: 12px; color: var(--oly-dim); }
+  .wire { display: grid; gap: 10px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>OLYMPUS FX</h1>
+  <div class="tiers" id="tiers" role="group" aria-label="effects tier">
+    <button type="button" data-t="ultra" aria-pressed="false">ULTRA</button><button type="button" data-t="high" aria-pressed="true">HIGH</button>
+    <button type="button" data-t="low" aria-pressed="false">LOW</button><button type="button" data-t="off" aria-pressed="false">OFF</button>
+  </div>
+</header>
+<div id="stagebox"><canvas id="stage"></canvas><p id="on">scene effects draw here</p><p id="readout" aria-live="off">fps -</p></div>
+<main id="list"></main>
+
+<script type="module">
+import * as THREE from '../jarvis/three.module.min.js';
+import { createRenderer } from './render.js';
+import { marble, metal, glass } from './materials.js';
+
+const q = new URLSearchParams(location.search), bare = q.get('bare') === '1', FXP = window.OLYMPUS_FX;
+const canvas = document.getElementById('stage');
+const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(46, 1, 0.1, 400);
+camera.position.set(0, 3.6, 13); camera.lookAt(0, 2.2, 0);
+scene.fog = new THREE.FogExp2(0x2a2018, 0.02);
+scene.userData.camera = camera;
+
+// the stage: a dark floor, marble columns, a glass orb with a neon core, a chrome knot
+scene.add(new THREE.HemisphereLight(0xf0dcb8, 0x4a3a28, 0.55));
+const key = new THREE.DirectionalLight(0xfff1dc, 2.0); key.position.set(4, 8, 6); scene.add(key);
+const floor = new THREE.Mesh(new THREE.CircleGeometry(16, 64), marble({ color: '#d9cfbb' })); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.4; scene.add(floor);
+const orb = new THREE.Group(); orb.position.set(0, 2.2, 0); scene.add(orb);
+orb.add(new THREE.Mesh(new THREE.SphereGeometry(1, 48, 32), glass({ color: '#cfe8ff', rim: '#7fa6bd' })));
+orb.add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.4, 2), new THREE.MeshBasicMaterial({ color: new THREE.Color('#c9a06a').multiplyScalar(3) })));
+const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.14, 120, 16), metal({ kind: 'chrome' })); knot.position.set(-3.2, 1.2, 1.5); scene.add(knot);
+const mm = marble({ gold: true });
+const columns = [];
+for (const x of [-5.5, 5.5]) { const c = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.46, 5, 28), mm); c.position.set(x, 2.1, -2); scene.add(c); columns.push(c); }
+
+const pin = q.get('stage');
+const pinned = pin === 'off' || pin === 'low' || pin === 'still';
+if (q.get('small') === '1') document.getElementById('stagebox').style.cssText = 'height:140px;min-height:0';
+const rc = createRenderer({ canvas, scene, camera, quality: pinned ? (pin === 'still' ? 'off' : pin) : (q.get('q') || undefined), env: 'night', tint: '#9c6b3c', adapt: false });
+if (pin === 'still') rc.render();                 // tests: no render loop, they draw a frame when they need one (rc.render())
+else rc.start((dt, t) => { orb.rotation.y = t * 0.2; knot.rotation.set(t * 0.3, t * 0.5, 0); });
+
+// ------------------------------------------------------------------ the sample element of each card / button / number effect
+const PROTO = {
+  gradientBorder: 'card', shimmer: 'card', glow: 'btn', tilt: 'card', magnetic: 'btn', ripple: 'btn', glassSpecular: 'card', neonPulse: 'btn', skeleton: 'card',
+  press: 'card', stagger: 'card', goldFlash: 'num', odometer: 'num', countUp: 'num', typewriter: 'text', glitch: 'text', progressRing: 'ring', confetti: 'btn', sparkleBurst: 'btn', toast: 'btn',
+};
+const DEMO = {
+  odometer: {}, countUp: { to: 12840 }, typewriter: { text: 'OLYMPUS online. All systems nominal.', loop: true }, progressRing: { value: 0.72, stroke: 7 },
+  toast: { text: 'Order filled: +2.4R', kind: 'ok' }, glitch: { every: 1.2 }, confetti: {}, sparkleBurst: {},
+};
+const SCENE_DEMO = {
+  lightning: { every: [1.6, 2.6], flash: 0.8 }, glowOutline: () => ({ target: orb }), hologram: () => ({ position: [-2.2, 0, 3.4] }), glassPanel: { position: [3.6, 2.4, 2] },
+  fire: { position: [-3.4, 0, 2.4], height: 2.6 }, heatShimmer: { position: [-3.4, 0, 2.4], height: 4 }, lensFlare: { position: [6, 6.5, -6] },
+  shockwave: { every: 2.4, position: [0, 2.2, 0], radius: 5, vertical: true }, cineFire: { position: [-3.4, 0.2, 2.4] }, cineSparks: { position: [2.4, 0.6, 2] },
+  cineCoins: { position: [0, 1.2, 2] }, cineLaurel: { position: [0, 3.2, 1] }, cineSea: { size: 40, y: -0.45 }, marbleFloor: { size: 24 }, waterSurface: { size: 26, position: [0, -0.1, 0] }, lavaCracks: { size: 20 },
+  caustics: { size: 26 }, volumetricFog: { size: 30 }, aurora: { position: [0, 17, -40] }, nebulaDome: {}, godRays: { position: [3, 11, -3], intensity: 0.7 },
+  starWarp: { camera }, lightTrails: { position: [0, 2.5, -1] },
+};
+const handles = {}, hosts = {};
+const target = () => ({ scene, camera, renderer: rc.renderer, rc });
+const resolve = (v) => (typeof v === 'function' ? v() : v);
+
+function start(name) {
+  const FX = window.OLYMPUS_FX, info = FX.info(name);
+  if (!info) return null;
+  stop(name);
+  let h;
+  if (info.kind === 'scene') h = FX[name](target(), Object.assign({ camera }, resolve(SCENE_DEMO[name]) || {}));
+  else {
+    const host = hosts[name] || document.body;
+    h = FX[name](host, Object.assign({}, DEMO[name] || {}));
+  }
+  handles[name] = h; sync();
+  return h;
+}
+function stop(name) { const h = handles[name]; if (h) { h.stop(); delete handles[name]; } sync(); }
+function sync() {
+  const on = Object.keys(handles).filter((n) => handles[n] && !handles[n].stopped);
+  document.getElementById('on').textContent = on.length ? on.join(' · ') : 'scene effects draw here';
+  document.querySelectorAll('[data-run]').forEach((b) => { const n = b.dataset.run, a = on.indexOf(n) >= 0; b.textContent = a ? 'Stop' : 'Start'; b.setAttribute('aria-pressed', String(a)); });
+}
+
+// ------------------------------------------------------------------ the page
+function proto(name) {
+  const kind = PROTO[name], el = document.createElement(kind === 'btn' ? 'button' : 'div');
+  el.className = 'proto' + (kind === 'num' ? ' num' : kind === 'ring' ? ' ringhost' : '');
+  if (kind === 'btn') el.type = 'button';
+  el.textContent = { btn: name.replace(/([A-Z])/g, ' $1'), card: 'OLYMPUS card\nlive data', num: '1,284', text: 'OLYMPUS online. All systems nominal.', ring: '72%' }[kind];
+  if (kind === 'card') { el.style.whiteSpace = 'pre-line'; if (name === 'tilt') { const d = document.createElement('div'); d.setAttribute('data-oly-depth', '2'); d.textContent = 'depth 2'; d.style.cssText = 'font:600 11px var(--oly-ui);margin-top:6px;color:var(--oly-accent)'; el.appendChild(d); } }
+  if (name === 'skeleton') el.textContent = 'Loading the market view';
+  return el;
+}
+function card(name, info) {
+  const c = document.createElement('section'); c.className = 'card'; c.id = 'fx-' + name;
+  c.innerHTML = `<h3><span>${name}</span><small>${info.group}${info.kind === 'scene' ? ' · 3D' : ''}</small></h3><p></p>`;
+  c.querySelector('p').textContent = info.desc;
+  if (info.kind === 'el') {
+    const demo = document.createElement('div'); demo.className = 'demo';
+    const el = proto(name); demo.appendChild(el); hosts[name] = el; c.appendChild(demo);
+  } else { const n = document.createElement('p'); n.className = 'scene-note'; n.textContent = 'draws on the stage above'; c.appendChild(n); }
+  const row = document.createElement('div'); row.className = 'row';
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.run = name; b.textContent = 'Start'; b.setAttribute('aria-pressed', 'false');
+  b.addEventListener('click', () => { if (handles[name] && !handles[name].stopped) stop(name); else start(name); });
+  row.appendChild(b);
+  if (name === 'stagger') { const h = hosts[name]; h.textContent = ''; ['Balance', 'Drawdown left', 'This week'].forEach((t) => { const d = document.createElement('div'); d.textContent = t; h.appendChild(d); }); }
+  if (name === 'odometer' || name === 'goldFlash') { const nx = document.createElement('button'); nx.type = 'button'; nx.className = 'btn'; nx.textContent = 'Next number'; nx.addEventListener('click', () => { hosts[name].textContent = (Math.floor(Math.random() * 9e4) / 10).toLocaleString('en-US', { minimumFractionDigits: 1 }); }); row.appendChild(nx); }
+  if (name === 'progressRing' || name === 'countUp') { const nx = document.createElement('button'); nx.type = 'button'; nx.className = 'btn'; nx.textContent = 'Change'; nx.addEventListener('click', () => { const h = handles[name]; if (h) h.set(name === 'countUp' ? Math.round(Math.random() * 90000) : Math.random()); }); row.appendChild(nx); }
+  c.appendChild(row);
+  const pre = document.createElement('pre');
+  pre.textContent = `const fx = OLYMPUS_FX.${name}(${info.kind === 'scene' ? 'scene' : info.global ? 'document.body' : 'el'}, ${JSON.stringify(DEMO[name] || (info.demo && !info.demo.to ? info.demo : {})) || '{}'});\nfx.stop();`;
+  c.appendChild(pre);
+  return c;
+}
+async function build() {
+  if (!bare) {
+    await Promise.all(['fx-sky.js', 'fx-weather.js', 'fx-surface.js'].map((f) => import('./' + f + '?v=f1')));
+    CINE = await import('./fx-cine.js?v=c1');
+    const FX = window.OLYMPUS_FX;
+    if (q.get('fx')) FX.setTier(q.get('fx'));
+    const list = document.getElementById('list'), groups = {};
+    FX.list().forEach((i) => { (groups[i.group] = groups[i.group] || []).push(i); });
+    const label = { cinema: 'Cinema (golden hour)', cards: 'Cards', buttons: 'Buttons', numbers: 'Numbers', text: 'Text', bursts: 'Bursts', sky: 'Sky and light', weather: 'Weather and particles', surfaces: 'Surfaces and panels' };
+    Object.keys(label).forEach((g) => {
+      if (!groups[g]) return;
+      const h = document.createElement('h2'); h.textContent = label[g] + ' (' + groups[g].length + ')'; list.appendChild(h);
+      groups[g].forEach((i) => list.appendChild(card(i.name, i)));
+    });
+  }
+  // the zero-edit wiring: nothing here calls OLYMPUS_FX, the attributes are all it takes
+  const w = document.createElement('section'); w.className = 'card'; w.id = 'wiring';
+  w.innerHTML = `<h3><span>data-oly-fx wiring</span><small>no script</small></h3><p>Plain elements with the attribute. Same page, no calls: the kit adds the effect.</p>
+    <div class="wire">
+      <div class="proto" id="wire-shimmer" data-oly-fx="shimmer" style="padding:14px;border-radius:14px;border:1px solid var(--oly-line)">shimmer</div>
+      <div class="proto" id="wire-tilt" data-oly-fx="tilt" style="padding:14px;border-radius:14px;border:1px solid var(--oly-line)">tilt (drag on me)</div>
+      <div class="proto" id="wire-glow" data-oly-fx="glow" style="padding:14px;border-radius:14px;border:1px solid var(--oly-line)">glow</div>
+      <div class="row"><span class="proto num" id="wire-odo" data-oly-fx="odometer" style="min-width:0">1,284</span><button class="btn" type="button" id="wire-next">Next number</button></div>
+      <button class="btn" type="button" id="wire-ripple" data-oly-fx="ripple" style="min-height:48px">ripple (tap)</button>
+      <div data-oly-fx-off><div class="proto" id="wire-off" data-oly-fx="shimmer glow" style="padding:14px;border-radius:14px;border:1px solid var(--oly-line)">opted out (data-oly-fx-off on the parent)</div></div>
+    </div>`;
+  document.getElementById('list').prepend(w);
+  if (!bare) document.getElementById('list').prepend(cinePanel());
+  document.getElementById('wire-next').addEventListener('click', () => { document.getElementById('wire-odo').textContent = (Math.floor(Math.random() * 9e4) / 10).toLocaleString('en-US', { minimumFractionDigits: 1 }); });
+  sync();
+}
+
+// ------------------------------------------------------------------ the cinema stack (olympus/fx-cine.js): every piece and the post at once
+let CINE = null, cine = null;
+const fires = [[-3.4, 0.2, 2.4], [3.6, 0.2, 2.2]];
+const cineOpts = (extra) => Object.assign({ time: 'golden', sky: true, sea: { y: -0.9, size: 160, center: [0, 0, -50], amplitude: 0.45 }, rays: { to: [0, -0.4, 0], spread: [10, 0, 6] },
+  shadows: { casters: columns.concat([knot, orb]), receivers: [floor], box: 9 }, fires, dust: { box: [16, 6, 10], center: [0, 2.6, 0] },
+  birds: { center: [0, 0, -12], radius: 16, height: 9, size: 0.35 }, fireflies: true, blobs: [[-5.5, -2, 0.9], [5.5, -2, 0.9], [-3.2, 1.5, 0.7], [0, 0, 1.2]], blobY: -0.4 }, extra || {});
+function cineStack(on, extra) {
+  if (cine) { cine.dispose(); cine = null; }
+  if (on && CINE) cine = CINE.cinema(rc, cineOpts(extra));
+  document.querySelectorAll('[data-cine="stack"]').forEach((b) => { b.setAttribute('aria-pressed', String(!!cine)); b.textContent = cine ? 'Stop the stack' : 'Start the whole stack'; });
+  if (pin === 'still') rc.render();
+  return cine ? cine.stats() : null;
+}
+let fpsN = 0, fpsT = 0, fps = 0;
+function readout() {
+  const s = rc.stats(), c = cine ? cine.stats() : null;
+  const txt = (fps ? fps + ' fps · ' : '') + s.calls + ' draws · ' + Math.round(s.triangles / 1000) + 'k tris\n' + s.quality
+    + (c ? ' · ' + c.time + (c.shadows ? ' · shadows ' + c.shadowMap : '') : '') + (s.grade ? ' · grade ' + s.grade : '');
+  const el = document.getElementById('readout'); if (el) el.textContent = txt;
+  return { fps, calls: s.calls, triangles: s.triangles, quality: s.quality, grade: s.grade, cine: c };
+}
+if (pin !== 'still') {
+  const tickFps = (now) => { fpsN++; if (!fpsT) fpsT = now; if (now - fpsT > 1000) { fps = Math.round((fpsN * 1000) / (now - fpsT)); fpsN = 0; fpsT = now; } requestAnimationFrame(tickFps); };
+  requestAnimationFrame(tickFps);
+}
+setInterval(readout, 500);
+function cinePanel() {
+  const c = document.createElement('section'); c.className = 'card'; c.id = 'cine';
+  const btns = (attr, list, pre) => list.map((t) => '<button class="btn" type="button" data-' + attr + '="' + t + '">' + (pre || '') + t + '</button>').join('');
+  c.innerHTML = '<h3><span>Cinema stack</span><small>olympus/fx-cine.js · 3D</small></h3>'
+    + '<p>Golden-hour light that follows the clock, a sky with clouds and a sun disc, the sea, shafts through the columns, fire with embers and smoke, dust, birds, '
+    + 'soft shadows (HIGH) or contact blobs (LITE), the time-of-day colour grade and the speaker focus. One draw per piece; the readout shows the cost.</p>'
+    + '<div class="row"><button class="btn" type="button" data-cine="stack" aria-pressed="false">Start the whole stack</button>'
+    + '<button class="btn" type="button" data-cine="focus" aria-pressed="false">Focus on the orb</button></div>'
+    + '<div class="row" role="group" aria-label="time of day">' + btns('time', ['clock', 'dawn', 'golden', 'day', 'dusk', 'night']) + '</div>'
+    + '<div class="row" role="group" aria-label="bursts">' + btns('burst', ['sparks', 'coins', 'laurel', 'confetti', 'embers']) + '</div>'
+    + '<div class="row" role="group" aria-label="colour grade">' + btns('grade', ['dawn', 'golden', 'day', 'dusk', 'night', 'none'], 'grade ')
+    + '<button class="btn" type="button" data-tone="agx">AgX tone</button><button class="btn" type="button" data-tone="aces">ACES tone</button></div>'
+    + '<pre>import { cinema } from \'../olympus/fx-cine.js\';\nconst cine = cinema(rc, { time: \'clock\', sky: true, fires, dust: true, shadows: { casters } });\ncine.burst(\'sparks\', [x, y, z]); cine.focus(speakerHead);</pre>';
+  c.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.cine === 'stack') cineStack(!cine);
+    else if (b.dataset.cine === 'focus') { if (!cine) cineStack(true); const on = b.getAttribute('aria-pressed') !== 'true'; cine.focus(on ? orb : null); b.setAttribute('aria-pressed', String(on)); }
+    else if (b.dataset.time) { if (!cine) cineStack(true); cine.setTime(b.dataset.time); }
+    else if (b.dataset.burst) { if (!cine) cineStack(true); cine.burst(b.dataset.burst, [0, 1.6, 2]); }
+    else if (b.dataset.grade) rc.setGrade({ lut: b.dataset.grade === 'none' ? null : b.dataset.grade });
+    else if (b.dataset.tone) rc.setGrade({ tone: b.dataset.tone });
+    if (pin === 'still') rc.render();
+  });
+  return c;
+}
+function setTier(t) {
+  document.documentElement.setAttribute('data-fx', t);
+  if (window.OLYMPUS_FX) window.OLYMPUS_FX.setTier(t);
+  if (!pinned) rc.setQuality(t);
+  document.querySelectorAll('#tiers button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.t === t)));
+  return t;
+}
+document.getElementById('tiers').addEventListener('click', (e) => { const b = e.target.closest('button[data-t]'); if (b) setTier(b.dataset.t); });
+
+window.__fxLab = { rc, scene, camera, THREE, orb, run: start, stop, setTier, handles, hosts, ready: false, bare, cine: cineStack, cineState: () => (cine ? cine.stats() : null), readout,
+  cineBurst: (k, at) => (cine ? cine.burst(k, at) : 0), cineFocus: (t) => (cine ? cine.focus(t) : false), cineSetTime: (n) => (cine ? cine.setTime(n, 0) : ''),
+  names: () => (window.OLYMPUS_FX ? window.OLYMPUS_FX.names() : []), stopAll: () => { Object.keys(handles).forEach(stop); } };
+build().then(() => {
+  if (!bare && !q.get('fx')) document.querySelectorAll('#tiers button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.t === window.OLYMPUS_FX.tier())));
+  window.__fxLab.ready = true;
+}).catch((e) => { window.__fxLab.error = String(e && e.message || e); throw e; });
+</script>
+</body>
+</html>

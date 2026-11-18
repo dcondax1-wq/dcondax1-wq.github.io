@@ -1,0 +1,111 @@
+/* MNEMOSYNE: a glass journal over a soft rose aurora. The kit's tokens drive every colour; Jarvis's orb owns the bottom-right 80 x 160 px: the page ends 176 px above the
+   bottom. Safe areas on every edge; no sideways scroll at 375 px; every tap target is at least 44 px; animations only without reduced motion and not in LITE. */
+:root { --j-acc: var(--oly-accent, #c8a24a); --j-rgb: var(--oly-accent-rgb, 200, 162, 74); --good: #7f8a52; --bad: #c96a4a; --warn: #e0b060;
+  --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px)); --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px)); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--oly-bg, #15120f); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); color: var(--oly-text, #f3e7d6); background: radial-gradient(ellipse at 50% -10%, rgba(var(--j-rgb), .16), transparent 60%), var(--oly-bg, #15120f);
+  font: 500 var(--oly-t-body, 15px)/1.4 var(--oly-ui, -apple-system, system-ui, sans-serif); overflow-x: hidden; }
+button, input, textarea, label { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--j-acc); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.aurora { position: fixed; inset: -20% -20% auto -20%; height: 70vh; pointer-events: none; z-index: 0; overflow: hidden; opacity: .7; -webkit-mask-image: linear-gradient(#161310 30%, transparent); mask-image: linear-gradient(#161310 30%, transparent); }
+.aurora i { position: absolute; width: 70%; height: 70%; border-radius: 50%; filter: blur(60px); }
+.aurora i:nth-child(1) { left: 0; top: 0; background: rgba(var(--j-rgb), .4); } .aurora i:nth-child(2) { right: 0; top: 10%; background: rgba(224, 176, 96, .22); } .aurora i:nth-child(3) { left: 25%; top: 30%; background: rgba(224, 176, 96, .12); }
+html[data-oly-lite="1"] .aurora i { filter: blur(36px); }
+#app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+html.framed #app { padding-top: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; }
+.brand h1 { margin: 0; font: 800 20px/1 var(--oly-display, sans-serif); letter-spacing: .01em; color: var(--j-acc);  }
+.brand .sub { margin: 4px 0 0; font-size: var(--oly-t-micro, 10.5px); letter-spacing: .01em; text-transform: none; color: var(--oly-dim, #c4bbac); }
+.tags { display: flex; gap: 6px; align-items: center; }
+.tag { padding: 4px 9px; border-radius: 999px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; border: 1px solid var(--oly-line, rgba(255,255,255,.14)); color: var(--oly-dim, #c4bbac); }
+.tag.demo { color: #302922; background: var(--warn); border-color: transparent; }
+.card { position: relative; padding: 14px; border-radius: var(--oly-r-card, 16px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0;
+  background: var(--oly-glass, rgba(25, 21, 18, .76));
+  border: 1px solid var(--oly-line, rgba(255,255,255,.14)); border-top-color: rgba(255,255,255,.22); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 14px 34px rgba(0,0,0,.35);
+  -webkit-backdrop-filter: blur(var(--oly-blur, 14px)) saturate(1.3); backdrop-filter: blur(var(--oly-blur, 14px)) saturate(1.3); }
+.card h2 { margin: 0; font: 700 12px/1.3 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--j-acc); }
+.hint { margin: 0; color: var(--oly-dim, #c4bbac); font-size: 14px; }
+.lead { margin: 0; font-size: 15.5px; }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tile { padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid var(--oly-line, rgba(255,255,255,.14)); display: grid; gap: 2px; min-width: 0; }
+.tile small { font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--oly-dim, #c4bbac); }
+.tile b { font: 800 28px/1.1 var(--oly-display, sans-serif); font-variant-numeric: tabular-nums; }
+.tile span { font-size: 13px; color: var(--oly-dim, #c4bbac); }
+.tile.bad b { color: var(--bad); } .tile.good b { color: var(--good); }
+.bars { width: 100%; height: 74px; display: block; }
+.go, .mini { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid rgba(var(--j-rgb), .7); background: rgba(var(--j-rgb), .16); font: 700 12px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.go { width: 100%; }
+.go[aria-pressed="true"] { background: rgba(200, 162, 74, .2); border-color: rgba(200, 162, 74, .7); }
+.mini { padding: 0 12px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; text-align: center; }
+.mini.danger { border-color: rgba(192, 96, 63, .6); background: rgba(192, 96, 63, .12); }
+.mini.danger.arm { background: rgba(192, 96, 63, .34); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.filebtn { position: relative; overflow: hidden; cursor: pointer; }
+.filebtn input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; font-size: 16px; }
+.rule { padding: 12px; border-radius: 14px; background: rgba(var(--j-rgb), .1); border: 1px solid rgba(var(--j-rgb), .4); display: grid; gap: 4px; }
+.rule small { font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--j-acc); }
+.rule p { margin: 0; font-size: 16px; line-height: 1.35; }
+.rule .why { font-size: 13.5px; color: var(--oly-dim, #c4bbac); }
+#weekLines p { margin: 0 0 6px; font-size: 15px; }
+.tlist, .mlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; min-width: 0; }
+.trade { display: grid; gap: 8px; padding: 12px; border-radius: 14px; min-width: 0; background: rgba(255,255,255,.04); border: 1px solid var(--oly-line, rgba(255,255,255,.14)); border-left: 3px solid var(--c, var(--j-acc)); }
+.trade.win { --c: var(--good); } .trade.loss { --c: var(--bad); }
+.thead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.thead .what { font: 700 13px/1.3 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; min-width: 0; overflow-wrap: anywhere; }
+.thead .usd { font: 800 20px/1 var(--oly-display, sans-serif); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.trade.win .usd { color: var(--good); } .trade.loss .usd { color: var(--bad); }
+.tmeta { color: var(--oly-dim, #c4bbac); font-size: 13px; }
+.seg, .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.seg button, .chips button { flex: 1 1 auto; min-height: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--oly-line, rgba(255,255,255,.14)); background: rgba(255,255,255,.05); color: var(--oly-dim, #dcd1c2); font: 600 14px var(--oly-ui, sans-serif); }
+.seg button[aria-checked="true"], .chips button[aria-checked="true"] { color: var(--oly-text, #f3e7d6); border-color: rgba(var(--j-rgb), .8); background: rgba(var(--j-rgb), .24); box-shadow: none; }
+.seg button[data-v="plan"][aria-checked="true"] { border-color: rgba(200, 162, 74, .8); background: rgba(200, 162, 74, .2); }
+.seg button[data-v="interfered"][aria-checked="true"] { border-color: rgba(192, 96, 63, .8); background: rgba(192, 96, 63, .2); }
+.chips { flex-wrap: nowrap; gap: 4px; }
+.chips button { padding: 0 4px; font-size: 13px; min-width: 0; flex: 1 1 0; }
+.noterow { display: flex; align-items: center; gap: 8px; }
+.noterow input { flex: 1; min-width: 0; min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--oly-line, rgba(255,255,255,.14)); background: rgba(0,0,0,.3); font-size: 16px; }
+.noterow .cnt { font-size: 12px; color: var(--oly-dim, #c4bbac); min-width: 34px; text-align: right; font-variant-numeric: tabular-nums; }
+.mrow { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 44px; }
+.mrow .nm { font-weight: 700; } .mrow .bar { height: 10px; border-radius: 5px; background: rgba(255,255,255,.07); position: relative; overflow: hidden; }
+.mrow .bar i { position: absolute; top: 0; bottom: 0; border-radius: 5px; }
+.mrow .v { font: 700 14px var(--oly-ui, -apple-system, system-ui, sans-serif); font-variant-numeric: tabular-nums; text-align: right; }
+.pos { color: var(--good); } .neg { color: var(--bad); }
+.streak { margin: 4px 0 0; display: flex; align-items: baseline; gap: 10px; }
+.streak b { font: 800 34px/1 var(--oly-display, sans-serif); color: var(--j-acc);  }
+.streak span { color: var(--oly-dim, #c4bbac); }
+.area { display: grid; gap: 6px; font-size: 13px; color: var(--oly-dim, #c4bbac); }
+.area textarea { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--oly-line, rgba(255,255,255,.14)); background: rgba(0,0,0,.3); font: 16px/1.4 ui-monospace, Menlo, monospace; resize: vertical; min-height: 96px; }
+.status { margin: 0; min-height: 20px; font-size: 14px; color: var(--warn); }
+.foot { text-align: center; color: var(--oly-dim, #c4bbac); font-size: 13px; margin: 4px 0 0; }
+/* the pre-trade check: a sheet over the page; it ends 176 px above the bottom so Jarvis's orb stays free */
+html.sheeted, html.sheeted body { overflow: hidden; }
+.sheet { position: fixed; inset: 0; z-index: 50; }
+.scrim { position: absolute; inset: 0; background: rgba(21, 18, 15, .66); }
+.panel { position: absolute; left: calc(var(--sl) + 10px); right: calc(var(--sr) + 10px); top: calc(var(--st) + 10px); bottom: calc(176px + var(--sb)); max-width: 620px; margin: 0 auto; overflow-y: auto; overscroll-behavior: contain; align-content: start; background-color: rgba(25, 21, 18, .96); }
+.shead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.q { display: grid; gap: 6px; padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid var(--oly-line, rgba(255,255,255,.14)); border-left: 3px solid var(--c, var(--j-acc)); }
+.q.ok { --c: var(--good); } .q.red { --c: var(--bad); }
+.qt { margin: 0; font-weight: 700; font-size: 15px; }
+.qh { margin: 0; font-size: 13px; color: var(--oly-dim, #c4bbac); }
+.verdict { padding: 12px; border-radius: 14px; display: grid; gap: 4px; background: rgba(255,255,255,.05); border: 1px solid var(--oly-line, rgba(255,255,255,.14)); }
+.verdict small { font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--oly-dim, #c4bbac); }
+.verdict .vhead { margin: 0; font: 800 20px/1.25 var(--oly-display, sans-serif); }
+.verdict .why { margin: 0; font-size: 14px; color: var(--oly-dim, #dcd1c2); }
+.verdict[data-level="fine"] { background: rgba(200, 162, 74, .14); border-color: rgba(200, 162, 74, .6); } .verdict[data-level="fine"] .vhead { color: var(--good); }
+.verdict[data-level="wait"] { background: rgba(224, 176, 96, .14); border-color: rgba(224, 176, 96, .65); } .verdict[data-level="wait"] .vhead { color: var(--warn); }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-oly-lite="1"]) .aurora i:nth-child(1) { animation: d1 18s ease-in-out infinite alternate; } html:not([data-oly-lite="1"]) .aurora i:nth-child(2) { animation: d2 22s ease-in-out infinite alternate; }
+  .trade.new { animation: rise .45s var(--oly-ease, ease-out) both; }
+}
+@keyframes d1 { from { transform: translate(-6%, 0) scale(1); } to { transform: translate(8%, 12%) scale(1.2); } }
+@keyframes d2 { from { transform: translate(6%, 4%) scale(1.1); } to { transform: translate(-10%, 0) scale(.9); } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+
+.ifplan { margin: 0; padding: 10px 12px; border-radius: 12px; background: #2a2217; border: 1px solid #c8a24a; color: #c8a24a; font-weight: 600; }
+
+/* the stoic line (olympus/polis-life.js, QA round 6): one of the journal's own cards, same radius */
+#app > .pl-placed { border-radius: var(--oly-r-card, 16px); }

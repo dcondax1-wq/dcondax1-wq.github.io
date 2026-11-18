@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Security</title>
+<meta name="description" content="Lock your money accounts: a password manager, one long password each, 2-step login, offline recovery codes, a carrier PIN, and what to do if hacked.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- SECURITY (2026-11-17): a plain checklist. It never asks for, stores or shows a password: the only thing kept is which boxes
+     are ticked (localStorage key business.security.v1, wrapped in try/catch, this phone only). No input but checkboxes, no fetch,
+     no outside request. Text is static HTML; security.js only ticks boxes and counts them (textContent). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=4">
+<style>
+  main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .row2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+  .how { margin: -4px 0 8px 36px; font-size: 13px; color: var(--ag-muted); }
+  ol.fix { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 14px; }
+  .warn { border-color: var(--oly-th-a3, #6e5424); }
+</style>
+</head>
+<body>
+<main id="app">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">Security</h1><p class="sub">Lock the accounts that hold your money</p></div></div></header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card warn" aria-labelledby="ruleH">
+    <h2 id="ruleH">The one rule</h2>
+    <p class="lead">Never type a password or a login code into a chat, an email or a call. Claude never needs your passwords. Nobody from MFFU, your bank or Apple will ask for one.</p>
+    <p class="note">This page only keeps your ticks, on this phone. It never asks for a password.</p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="s1H">
+    <div class="row2"><h2 id="s1H">1. A free password manager</h2><span class="pill" data-count="s1">0 of 2</span></div>
+    <ul class="steps">
+      <li><label class="chk"><input type="checkbox" data-k="pm.install"><span>Install Bitwarden (free) on your phone and PC</span></label></li>
+      <li class="how">On iPhone only? Apple Passwords is fine too. Both are free.</li>
+      <li><label class="chk"><input type="checkbox" data-k="pm.master"><span>Pick one long master phrase you can remember (4-5 random words)</span></label></li>
+      <li class="how">Write it on paper, keep it at home. It is the only password you remember from now on.</li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="s2H">
+    <div class="row2"><h2 id="s2H">2. One long password per account</h2><span class="pill" data-count="s2">0 of 2</span></div>
+    <ul class="steps">
+      <li><label class="chk"><input type="checkbox" data-k="pw.unique"><span>Let the manager make a new 20+ character password for each account below</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="pw.noreuse"><span>No password is used twice anywhere</span></label></li>
+      <li class="how">If one site leaks, the others stay safe.</li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="s3H">
+    <div class="row2"><h2 id="s3H">3. 2-step login, in this order</h2><span class="pill" data-count="s3">0 of 7</span></div>
+    <p class="note">Use an authenticator app (free: Google Authenticator, Microsoft Authenticator or Bitwarden Authenticator). Text-message codes only where the site has nothing better.</p>
+    <ul class="steps">
+      <li><label class="chk"><input type="checkbox" data-k="2fa.email"><span>Email first: it can reset every other account</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="2fa.bank"><span>Bank</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="2fa.mffu"><span>MFFU (your evals and payouts)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="2fa.broker"><span>Tradovate / Rithmic / NinjaTrader</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="2fa.kalshi"><span>Kalshi</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="2fa.github"><span>GitHub (the bot's code)</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="2fa.apple"><span>Apple ID</span></label></li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="s4H">
+    <div class="row2"><h2 id="s4H">4. Recovery codes, offline</h2><span class="pill" data-count="s4">0 of 1</span></div>
+    <ul class="steps">
+      <li><label class="chk"><input type="checkbox" data-k="rec.offline"><span>Print or write down each site's backup codes and keep them at home</span></label></li>
+      <li class="how">Not in photos, not in email, not in notes on the phone. They get you back in if you lose the phone.</li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="s5H">
+    <div class="row2"><h2 id="s5H">5. A PIN on your phone carrier</h2><span class="pill" data-count="s5">0 of 1</span></div>
+    <ul class="steps">
+      <li><label class="chk"><input type="checkbox" data-k="sim.pin"><span>Add an account PIN / port-out PIN in your carrier's app or by phone</span></label></li>
+      <li class="how">This stops a thief moving your number to their phone (a "SIM swap") to get your text codes.</li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="s6H">
+    <div class="row2"><h2 id="s6H">6. Habits</h2><span class="pill" data-count="s6">0 of 2</span></div>
+    <ul class="steps">
+      <li><label class="chk"><input type="checkbox" data-k="hab.screen"><span>Never share your screen while logged in to money accounts</span></label></li>
+      <li><label class="chk"><input type="checkbox" data-k="hab.noshare"><span>Never send a password or login code to anyone, Claude included</span></label></li>
+    </ul>
+  </section>
+
+  <section class="ag-card card warn" aria-labelledby="hackH">
+    <h2 id="hackH">If you think you were hacked</h2>
+    <ol class="fix">
+      <li>From a safe device, change your email password first. Then "log out of all devices".</li>
+      <li>Change the bank, MFFU and broker passwords. Check 2-step login is still on.</li>
+      <li>Money moved? Call your bank now and freeze the cards.</li>
+      <li>Tell MFFU support, so they can lock the account.</li>
+      <li>Phone suddenly has no signal? Call your carrier: it may be a SIM swap.</li>
+      <li>PC looks wrong? Press STOP BOT, then run a virus scan.</li>
+      <li>Freeze your credit for free at Equifax, Experian and TransUnion.</li>
+      <li>Report it for free at identitytheft.gov (US).</li>
+    </ol>
+  </section>
+  <p class="note">Every tick stays on this phone only. Clearing the browser clears the ticks, nothing else.</p>
+</main>
+<script src="ticks.js?v=1" data-key="business.security.v1"></script>
+</body>
+</html>

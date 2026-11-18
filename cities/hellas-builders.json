@@ -1,0 +1,67 @@
+{
+ "v": 1,
+ "asof": "2026-11-11T01:10:00Z",
+ "label": "Snapshot at build time: the build agents that were working when this page was built. Not live.",
+ "agents": [
+  {
+   "name": "Theme finisher",
+   "job": "One calm AGORA look in every app; a unique accent per app",
+   "area": "design",
+   "branch": "worktree-agent-a8fa04fb59e01df25"
+  },
+  {
+   "name": "Jarvis home",
+   "job": "A clean, beautiful Jarvis first screen with a golden-hour courtyard",
+   "area": "jarvis",
+   "branch": "worktree-agent-a43a2daec19cf8666"
+  },
+  {
+   "name": "Jarvis brain",
+   "job": "Search everything, follow-up questions, briefings, tours",
+   "area": "jarvis",
+   "branch": "worktree-agent-ab25b5ae6ac17c255"
+  },
+  {
+   "name": "Hellas",
+   "job": "A world of 200+ cities built from the real research data",
+   "area": "cities",
+   "branch": "worktree-agent-a802da4078c305b1b"
+  },
+  {
+   "name": "Ergasterion",
+   "job": "The agent factory: watch every worker and what it learned",
+   "area": "factory",
+   "branch": "worktree-agent-a1d36b031da943214"
+  },
+  {
+   "name": "NQ bot",
+   "job": "The NQ page and the kit that updates the PC's bot folder",
+   "area": "trading",
+   "branch": "worktree-agent-a545b014870ea708c"
+  },
+  {
+   "name": "Pinakes",
+   "job": "A browser for every table of data OLYMPUS has",
+   "area": "data",
+   "branch": "worktree-agent-afc68d30fdf5b4f1b"
+  },
+  {
+   "name": "Kalshi team C",
+   "job": "Hunting for a real Kalshi edge in weather and index markets",
+   "area": "research",
+   "branch": "worktree-agent-aa29a7ded798881ae"
+  },
+  {
+   "name": "Colosseum",
+   "job": "A 3D arena where two strategies duel on real numbers",
+   "area": "arena",
+   "branch": "worktree-agent-a9fa9fcc5a553e79b"
+  },
+  {
+   "name": "Fixer",
+   "job": "Fixing the broken tests and phone-layout bugs in old apps",
+   "area": "quality",
+   "branch": "worktree-agent-aa54c21090a103d33"
+  }
+ ]
+}

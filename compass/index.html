@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compass</title>
+<meta name="description" content="OLYMPUS COMPASS: the next best action. Up to five suggestions for today, ranked by urgency and dollars in plain words, each with a why and a $ or free tag. A bronze compass rose whose needle points at the top action. Done and Snooze are kept on this phone.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Compass">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- COMPASS (OLYMPUS, AGORA look, 2026-11-10): the next best action. compasscore.js = the rules table, the ranking and the words (node-tested); rose.js = the 3D compass rose (render core ../olympus/render.js); compass.js = the page (ES module).
+     Read only: it reads ../home.json, ../money/index.json, ../ledger/rules.json, ../odeon/trades.json and fixture.json (DEMO, never blank); on this phone it reads the journal ratings and the Ledger store (never written) and keeps its own Done / Snooze (compass.state.v1). Sends nothing. It only suggests. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="compass"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="compass.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Compass</h1><p class="sub">Up to five things to do next, most urgent first. Do the top one.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="firstH">
+    <div class="row"><h2 id="firstH">Do this first</h2><span class="pill" id="pill">...</span></div>
+    <div class="stage">
+      <canvas id="stage" aria-label="A bronze compass rose. The needle points at the direction of the top action: north is money at risk now, east money to gain, south habits, west feeds." role="img"></canvas>
+      <svg id="flat" class="flat" viewBox="0 0 200 200" role="img" aria-label="A bronze compass rose whose needle points at the direction of the top action"></svg>
+    </div>
+    <p class="big2 ag-num" id="top"></p>
+    <p class="lead" id="why"></p>
+    <p class="note" id="tag"></p>
+    <div class="seg" id="topBtns"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="nextH">
+    <h2 id="nextH">Then</h2>
+    <ul class="acts" id="acts"></ul>
+  </section>
+
+  <section class="ag-card card" id="quietCard" aria-labelledby="quietH" hidden>
+    <h2 id="quietH">Set aside</h2>
+    <ul class="acts" id="quiet"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="howH">
+    <h2 id="howH">How Compass decides</h2>
+    <p class="note">Every rule has a tag: a dollar figure (an estimate) or free. Urgency decides the order, dollars break ties. At most five actions are shown.</p>
+    <ul class="rules" id="how"></ul>
+    <p class="note" id="inputs"></p>
+  </section>
+
+  <p class="foot" id="foot">Compass reads the site's own files and, on this phone, your journal ratings and your Ledger (it never writes them). It sends nothing and it only suggests: it never trades, buys or changes anything. Dollar figures are estimates, never income. Done and Snooze are kept on this phone only.</p>
+</main>
+<script type="module" src="needleload.js?v=a1"></script>
+<script type="module" src="compass.js?v=q6c"></script>
+</body>
+</html>

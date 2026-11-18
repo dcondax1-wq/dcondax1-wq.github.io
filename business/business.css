@@ -1,0 +1,84 @@
+/* BUSINESS (team BIZ, 2026-11-15): AGORA base copied from mint.css (only layout; every colour an --ag-* token). Safe areas, 44 px taps, no sideways scroll at 375 px, ends 176 px above the bottom. */
+:root { --acc: var(--oly-accent, var(--oly-th-a8, #c8a24a)); --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px)); --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px)); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--ag-night, var(--oly-th-n3, #14110e)); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); overflow-x: hidden; font: 500 15px/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-text, var(--oly-th-n37, #f3ece0)); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ag-gold, var(--oly-th-a8, #c8a24a)); outline-offset: 2px; }
+[hidden] { display: none !important; }
+#app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+html.framed #app { padding-top: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
+.brand h1 { margin: 0; }
+.brand .sub { margin: 6px 0 0; font-size: 13px; color: var(--ag-soft); }
+.tags { display: flex; gap: 6px; align-items: center; flex: none; }
+.tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); }
+.tag.demo { color: var(--oly-th-n3, #1b1610); background: var(--ag-sun); border-color: transparent; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.card > h2 { margin: 0; }
+.lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
+.note { margin: 0; font-size: 13px; color: var(--ag-muted); }
+.pos { color: var(--ag-olive); } .neg { color: var(--ag-terra); }
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; margin: 0; font-size: 14px; }
+.kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--oly-th-n4, #211c16); white-space: nowrap; }
+.pill.ok { color: var(--ag-olive); border-color: var(--oly-th-n10, #4c5530); } .pill.warn { color: var(--ag-sun); border-color: var(--oly-th-a3, #6e5424); } .pill.bad { color: var(--ag-terra); border-color: var(--oly-th-r3, #6e3424); } .pill.info { color: var(--oly-th-infot, #7fa7c2); border-color: #2f4a5c; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); }
+.btn[aria-expanded="true"] { border-color: var(--ag-gold); color: var(--ag-gold); background: var(--oly-th-n5, #2a2217); }
+svg text { font-family: var(--ag-sans); }
+.foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; } .row h2 { margin: 0; }
+
+/* MINT */
+.hero { border-color: var(--oly-th-n9, #4a3d28); }
+.big { margin: 0; font: 700 clamp(40px, 13vw, 56px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-gold); }
+
+/* BUSINESS */
+.big { margin: 0; font: 700 clamp(30px, 10vw, 44px)/1.1 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-gold); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+.tbl th, .tbl td { padding: 8px 4px; border-bottom: 1px solid var(--ag-line); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.tbl th { font: 700 12px var(--ag-sans); color: var(--ag-soft); }
+.tbl td.n, .tbl th.n { text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; }
+.model .next { margin: 0; font-weight: 700; color: var(--ag-text); }
+.model ul { margin: 0; padding-left: 18px; font-size: 14px; color: var(--ag-soft); }
+.model details summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--ag-soft); }
+.model.paused { opacity: .7; }
+.week ol { margin: 0; padding: 0; display: grid; gap: 6px; list-style: none; }
+.week h3 { margin: 8px 0 2px; font-size: 15px; }
+.chk { position: relative; display: block; min-height: 44px; padding: 11px 0 0 36px; font-size: 14px; }
+.chk input { position: absolute; left: -11px; top: 0; width: 44px; height: 44px; margin: 0; opacity: 0; cursor: pointer; }
+.chk span::before { content: ""; position: absolute; left: 0; top: 11px; width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--ag-line); box-sizing: border-box; }
+.chk input:checked + span::before { background: var(--ag-gold); border-color: var(--ag-gold); }
+.chk input:focus-visible + span::before { outline: 2px solid var(--ag-gold); outline-offset: 2px; }
+.chk input:checked + span { text-decoration: line-through; color: var(--ag-muted); }
+#app .week { overflow: visible; }
+
+/* THE ONE MONEY PLACE (night team B, 2026-11-16) */
+.door { border-color: var(--oly-th-n9, #4a3d28); }
+.links { display: flex; flex-wrap: wrap; gap: 6px; }
+.links a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ag-line); color: var(--ag-soft); text-decoration: none; font-size: 13px; }
+.moves ol, .item ol { margin: 0; padding: 0; display: grid; gap: 4px; list-style: none; }
+#app .moves, #app .item { overflow: visible; }
+.acct { padding: 10px 0; border-top: 1px solid var(--ag-line); display: grid; gap: 6px; }
+.acct:first-child { border-top: 0; padding-top: 0; }
+.acct .kv { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+.acct h3, .item h3 { margin: 0; font-size: 16px; }
+.item { border-top: 1px solid var(--ag-line); }
+.item summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; font-weight: 700; }
+.item summary .pr { font-family: var(--ag-num); color: var(--ag-gold); flex: none; }
+.item summary[data-done="1"] .nm { text-decoration: line-through; color: var(--ag-muted); }
+.item ul { margin: 6px 0; padding-left: 18px; font-size: 14px; color: var(--ag-soft); }
+.item > ol > li:not(:has(label)) { font-size: 14px; color: var(--ag-soft); padding: 2px 0; }
+#ideas td:first-child { width: 46%; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+html[data-oly-lite="1"] .ag-card { box-shadow: none; }
+#propTbl { font-size: 13px; }
+
+/* the page doors (2026-11-17): My Accounts / Taxes / Security / Work week, two a row on a phone */
+.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.door2 { display: grid; gap: 4px; min-height: 44px; padding: 12px 14px; text-decoration: none; color: inherit; align-content: start; }
+.door2 h2 { margin: 0; font-size: 16px; color: var(--ag-gold); }
+.door2 .note { font-size: 12px; }

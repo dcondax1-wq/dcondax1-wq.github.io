@@ -1,0 +1,654 @@
+{
+ "v": 1,
+ "kind": "olympus-plutus-plans",
+ "built": "2026-11-04 05:27",
+ "source": "research/lit/funded_firms.json (research/writeups/lit-funded-firms.md, rerun 2026-11-04 05:27 with the live presets: eval room 0.8 then safe_eval, funded 60% of the room <= $1,500 and a winner <= $2,000; 1,500 paths x 126 sessions from the purchase: eval -> funded -> payouts; net = payouts - fees; the bot's real LIT trades, costs in); strategies: research/second/ + research/scalp/",
+ "spans": {
+  "H1": "Jan-Jun 2026",
+  "H2": "Jul-Oct 2026 (the honest check)",
+  "2021-25": "2021-25 (reference only)"
+ },
+ "plans": [
+  {
+   "id": "mffu_builder_50k",
+   "firm": "MFFU",
+   "name": "Builder 50K",
+   "cap": 1,
+   "price": 91.8,
+   "list_price": 153,
+   "target": 3000.0,
+   "mll": 2000.0,
+   "split": 0.8,
+   "note": "The owner's eval. MFFU allows 1 active sim-funded Builder 50K per person.",
+   "spans": {
+    "H1": {
+     "net_6m": 4742,
+     "net_med_6m": 4708,
+     "net_p10_6m": 1308,
+     "per_month": 790,
+     "steady": 987,
+     "fees_6m": 144,
+     "evals": 1.56,
+     "neg_6m": 7.4,
+     "first_pay_sessions": 40.0,
+     "first_pay_funded": 26.0,
+     "any_pay": 92.6,
+     "lost": 0.02,
+     "funded_per_month": 906,
+     "p10": 52.9,
+     "f10": 17.8,
+     "p60": 71.1,
+     "pass_med": 6.0
+    },
+    "H2": {
+     "net_6m": 4629,
+     "net_med_6m": 4708,
+     "net_p10_6m": 1247,
+     "per_month": 771,
+     "steady": 962,
+     "fees_6m": 141,
+     "evals": 1.54,
+     "neg_6m": 7.4,
+     "first_pay_sessions": 41.0,
+     "first_pay_funded": 23.0,
+     "any_pay": 92.6,
+     "lost": 0.02,
+     "funded_per_month": 914,
+     "p10": 58.6,
+     "f10": 20.9,
+     "p60": 80.8,
+     "pass_med": 5.0
+    },
+    "2021-25": {
+     "net_6m": -85,
+     "net_med_6m": -275,
+     "net_p10_6m": -551,
+     "per_month": -14,
+     "steady": 52,
+     "fees_6m": 323,
+     "evals": 3.52,
+     "neg_6m": 86.3,
+     "first_pay_sessions": 77.0,
+     "first_pay_funded": 35.0,
+     "any_pay": 13.7,
+     "lost": 0.32,
+     "funded_per_month": 47,
+     "p10": 18.8,
+     "f10": 16.0,
+     "p60": 27.5,
+     "pass_med": 8.0
+    }
+   }
+  },
+  {
+   "id": "mffu_builder_25k",
+   "firm": "MFFU",
+   "name": "Builder 25K",
+   "cap": 2,
+   "price": 63.0,
+   "list_price": 105,
+   "target": 1500.0,
+   "mll": 1000.0,
+   "split": 0.8,
+   "note": "2 active sim-funded are allowed, but MFFU has not said it may sit next to a Builder 50K: ask first.",
+   "spans": {
+    "H1": {
+     "net_6m": 2205,
+     "net_med_6m": 2337,
+     "net_p10_6m": -63,
+     "per_month": 368,
+     "steady": 463,
+     "fees_6m": 98,
+     "evals": 1.55,
+     "neg_6m": 10.3,
+     "first_pay_sessions": 40.0,
+     "first_pay_funded": 26.0,
+     "any_pay": 89.7,
+     "lost": 0.03,
+     "funded_per_month": 428,
+     "p10": 55.5,
+     "f10": 13.3,
+     "p60": 71.1,
+     "pass_med": 6.0
+    },
+    "H2": {
+     "net_6m": 1978,
+     "net_med_6m": 2100,
+     "net_p10_6m": -63,
+     "per_month": 330,
+     "steady": 424,
+     "fees_6m": 102,
+     "evals": 1.63,
+     "neg_6m": 11.0,
+     "first_pay_sessions": 40.0,
+     "first_pay_funded": 23.0,
+     "any_pay": 89.1,
+     "lost": 0.05,
+     "funded_per_month": 395,
+     "p10": 50.0,
+     "f10": 11.5,
+     "p60": 73.1,
+     "pass_med": 5.0
+    },
+    "2021-25": {
+     "net_6m": -121,
+     "net_med_6m": -189,
+     "net_p10_6m": -378,
+     "per_month": -20,
+     "steady": 25,
+     "fees_6m": 234,
+     "evals": 3.71,
+     "neg_6m": 86.0,
+     "first_pay_sessions": 77.0,
+     "first_pay_funded": 39.0,
+     "any_pay": 14.1,
+     "lost": 0.31,
+     "funded_per_month": 21,
+     "p10": 18.8,
+     "f10": 19.1,
+     "p60": 27.6,
+     "pass_med": 7.0
+    }
+   }
+  },
+  {
+   "id": "lucid_pro_50k",
+   "firm": "Lucid",
+   "name": "LucidPro 50K",
+   "cap": 1,
+   "price": 115.4,
+   "list_price": 192,
+   "target": 3000.0,
+   "mll": 2000.0,
+   "split": 0.9,
+   "note": "Bots and copiers allowed. The cap of 1 is this app's assumption.",
+   "spans": {
+    "H1": {
+     "net_6m": 4703,
+     "net_med_6m": 3935,
+     "net_p10_6m": 1192,
+     "per_month": 784,
+     "steady": 1086,
+     "fees_6m": 138,
+     "evals": 1.19,
+     "neg_6m": 7.1,
+     "first_pay_sessions": 47.0,
+     "first_pay_funded": 30.0,
+     "any_pay": 92.9,
+     "lost": 0.01,
+     "funded_per_month": 983,
+     "p10": 47.7,
+     "f10": 0.0,
+     "p60": 78.9,
+     "pass_med": 8.0
+    },
+    "H2": {
+     "net_6m": 4211,
+     "net_med_6m": 3935,
+     "net_p10_6m": -115,
+     "per_month": 702,
+     "steady": 988,
+     "fees_6m": 134,
+     "evals": 1.16,
+     "neg_6m": 11.6,
+     "first_pay_sessions": 51.0,
+     "first_pay_funded": 30.0,
+     "any_pay": 88.4,
+     "lost": 0.01,
+     "funded_per_month": 965,
+     "p10": 42.3,
+     "f10": 0.0,
+     "p60": 91.0,
+     "pass_med": 17.0
+    },
+    "2021-25": {
+     "net_6m": -179,
+     "net_med_6m": -231,
+     "net_p10_6m": -462,
+     "per_month": -30,
+     "steady": 23,
+     "fees_6m": 279,
+     "evals": 2.42,
+     "neg_6m": 94.4,
+     "first_pay_sessions": 78.0,
+     "first_pay_funded": 52.5,
+     "any_pay": 5.6,
+     "lost": 0.13,
+     "funded_per_month": 43,
+     "p10": 11.2,
+     "f10": 0.8,
+     "p60": 21.1,
+     "pass_med": 9.0
+    }
+   }
+  },
+  {
+   "id": "fn_rapid_daily_50k",
+   "firm": "FundedNext",
+   "name": "Rapid Daily 50K",
+   "cap": 1,
+   "price": 169.99,
+   "list_price": 299.98,
+   "target": 3000.0,
+   "mll": 2000.0,
+   "split": 0.9,
+   "note": "Own accounts only. The cap of 1 is this app's assumption.",
+   "spans": {
+    "H1": {
+     "net_6m": 6485,
+     "net_med_6m": 5970,
+     "net_p10_6m": 1990,
+     "per_month": 1081,
+     "steady": 1220,
+     "fees_6m": 395,
+     "evals": 2.32,
+     "neg_6m": 4.7,
+     "first_pay_sessions": 33.0,
+     "first_pay_funded": 15.0,
+     "any_pay": 95.4,
+     "lost": 0.01,
+     "funded_per_month": 804,
+     "p10": 47.7,
+     "f10": 0.0,
+     "p60": 78.9,
+     "pass_med": 8.0
+    },
+    "H2": {
+     "net_6m": 4042,
+     "net_med_6m": 4031,
+     "net_p10_6m": -170,
+     "per_month": 674,
+     "steady": 842,
+     "fees_6m": 322,
+     "evals": 1.89,
+     "neg_6m": 11.7,
+     "first_pay_sessions": 45.0,
+     "first_pay_funded": 21.0,
+     "any_pay": 88.7,
+     "lost": 0.01,
+     "funded_per_month": 658,
+     "p10": 42.3,
+     "f10": 0.0,
+     "p60": 91.0,
+     "pass_med": 17.0
+    },
+    "2021-25": {
+     "net_6m": -287,
+     "net_med_6m": -340,
+     "net_p10_6m": -680,
+     "per_month": -48,
+     "steady": 24,
+     "fees_6m": 416,
+     "evals": 2.45,
+     "neg_6m": 91.7,
+     "first_pay_sessions": 62.0,
+     "first_pay_funded": 19.0,
+     "any_pay": 9.1,
+     "lost": 0.16,
+     "funded_per_month": 44,
+     "p10": 11.2,
+     "f10": 0.8,
+     "p60": 22.3,
+     "pass_med": 10.0
+    }
+   }
+  }
+ ],
+ "trio": {
+  "H1": {
+   "net_per_month": 2655,
+   "months4_6_per_month": 3292,
+   "neg_6m": 3.1
+  },
+  "H2": {
+   "net_per_month": 2147,
+   "months4_6_per_month": 2792,
+   "neg_6m": 5.2
+  },
+  "2021-25": {
+   "net_per_month": -92,
+   "months4_6_per_month": 100,
+   "neg_6m": 83.9
+  }
+ },
+ "sessions_per_month": 21,
+ "corr": 0.85,
+ "strategy": {
+  "accounts": [
+   {
+    "id": "lit_50k",
+    "name": "LIT on the Builder 50K",
+    "price": 91.8,
+    "funded_per_month": {
+     "H1": 907,
+     "H2": 914
+    },
+    "first_pay_from_funded": {
+     "H1": 26.0,
+     "H2": 23.0
+    },
+    "first_pay_from_purchase": {
+     "H1": 40.0,
+     "H2": 41.0
+    },
+    "eval_2w_pass": {
+     "H1": 52.9,
+     "H2": 58.6
+    },
+    "eval_2w_fail": {
+     "H1": 17.8,
+     "H2": 20.9
+    },
+    "net_per_month_from_purchase": {
+     "H1": 790,
+     "H2": 771
+    },
+    "model_per_month": {
+     "H1": 718,
+     "H2": 477
+    },
+    "funded_label": "funded study",
+    "source": "research/lit/funded_firms.json (live presets, rerun 2026-11-04)"
+   },
+   {
+    "id": "atlas_25k",
+    "name": "ATLAS on a Builder 25K",
+    "price": 43.0,
+    "funded_per_month": {
+     "H1": 582,
+     "H2": 517
+    },
+    "first_pay_from_funded": {
+     "H1": 18.0,
+     "H2": 24.0
+    },
+    "first_pay_from_purchase": {
+     "H1": 21.0,
+     "H2": 32.0
+    },
+    "eval_2w_pass": {
+     "H1": 65.5,
+     "H2": 43.5
+    },
+    "eval_2w_fail": {
+     "H1": 0.0,
+     "H2": 0.0
+    },
+    "net_per_month_from_purchase": {
+     "H1": 623,
+     "H2": 519
+    },
+    "model_per_month": {
+     "H1": 623,
+     "H2": 519
+    },
+    "funded_label": "funded study",
+    "source": "research/second/atlas_funded.json (funded stage, price now $43), sn_plan.json (from purchase)"
+   },
+   {
+    "id": "blitz_25k",
+    "name": "BLITZ on a Builder 25K",
+    "price": 63.0,
+    "funded_per_month": {
+     "H1": 322,
+     "H2": 82
+    },
+    "first_pay_from_funded": null,
+    "first_pay_from_purchase": {
+     "H1": 57.0,
+     "H2": 67.0
+    },
+    "eval_2w_pass": {
+     "H1": 49.6,
+     "H2": 36.2
+    },
+    "eval_2w_fail": {
+     "H1": 26.9,
+     "H2": 21.7
+    },
+    "net_per_month_from_purchase": {
+     "H1": 289,
+     "H2": 52
+    },
+    "model_per_month": {
+     "H1": 191,
+     "H2": 140
+    },
+    "funded_label": "funded estimate (6-month Monte Carlo at the $150 size; many accounts get stuck with too little room)",
+    "funded_stuck_pct": {
+     "H1": 24.0,
+     "H2": 58.9
+    },
+    "source": "research/scalp/blitz_funded_study.json (funded stage only), ab_blitz_final.json (slot, later-break size), sn_plan.json"
+   }
+  ],
+  "corr_pairs": [
+   {
+    "a": "LIT",
+    "b": "ATLAS",
+    "rho": 0.135
+   },
+   {
+    "a": "LIT",
+    "b": "BLITZ",
+    "rho": -0.061
+   },
+   {
+    "a": "ATLAS",
+    "b": "BLITZ",
+    "rho": -0.001
+   },
+   {
+    "a": "copies of one strategy",
+    "b": "the same strategy",
+    "rho": 0.85
+   }
+  ],
+  "mffu_caps": {
+   "funded_50k": 1,
+   "funded_25k": 2,
+   "funded_total": 3,
+   "source": "research/lit/mffu_rules.json",
+   "text": "MFFU lets one person hold 1 funded Builder 50K and 2 funded Builder 25K: 3 accounts is the cap. Extra accounts must be another firm."
+  },
+  "three_accounts": {
+   "H1": {
+    "per_month": 1532,
+    "p10_net_6m": 5292,
+    "neg_6m_pct": 0.0,
+    "evals_per_month": 0.96,
+    "fails_per_month": 0.46,
+    "first_payout_session_med": 19.0,
+    "fees_6m": 353,
+    "joint_breach_windows_per_path": 0.09
+   },
+   "H2": {
+    "per_month": 1136,
+    "p10_net_6m": 3549,
+    "neg_6m_pct": 0.5,
+    "evals_per_month": 0.92,
+    "fails_per_month": 0.42,
+    "first_payout_session_med": 29.0,
+    "fees_6m": 337,
+    "joint_breach_windows_per_path": 0.07
+   },
+   "range": {
+    "low": 1100,
+    "high": 1800,
+    "text": "$1,100-1,800 a month after eval fees: the model's Jul-Oct result up to the sum of the three single-account figures for Jan-Jun"
+   }
+  },
+  "by_count": {
+   "1 account: LIT 50K": {
+    "H1": {
+     "per_month": 718,
+     "p10_net_6m": 1325,
+     "evals_per_month": 0.24,
+     "fails_per_month": 0.08,
+     "first_payout_session_med": 48.0,
+     "fees_6m": 134,
+     "joint_breach_windows_per_path": 0.0
+    },
+    "H2": {
+     "per_month": 477,
+     "p10_net_6m": -184,
+     "evals_per_month": 0.23,
+     "fails_per_month": 0.07,
+     "first_payout_session_med": 58.5,
+     "fees_6m": 129,
+     "joint_breach_windows_per_path": 0.0
+    }
+   },
+   "1 account: ATLAS 25K": {
+    "H1": {
+     "per_month": 623,
+     "p10_net_6m": 3028,
+     "evals_per_month": 0.45,
+     "fails_per_month": 0.28,
+     "first_payout_session_med": 21.0,
+     "fees_6m": 115,
+     "joint_breach_windows_per_path": 0.0
+    },
+    "H2": {
+     "per_month": 519,
+     "p10_net_6m": 1428,
+     "evals_per_month": 0.41,
+     "fails_per_month": 0.24,
+     "first_payout_session_med": 32.0,
+     "fees_6m": 106,
+     "joint_breach_windows_per_path": 0.0
+    }
+   },
+   "1 account: BLITZ 25K": {
+    "H1": {
+     "per_month": 191,
+     "p10_net_6m": -126,
+     "evals_per_month": 0.27,
+     "fails_per_month": 0.11,
+     "first_payout_session_med": 57.0,
+     "fees_6m": 104,
+     "joint_breach_windows_per_path": 0.0
+    },
+    "H2": {
+     "per_month": 140,
+     "p10_net_6m": -126,
+     "evals_per_month": 0.27,
+     "fails_per_month": 0.1,
+     "first_payout_session_med": 67.0,
+     "fees_6m": 103,
+     "joint_breach_windows_per_path": 0.0
+    }
+   },
+   "2 accounts: LIT 50K + ATLAS 25K": {
+    "H1": {
+     "per_month": 1341,
+     "p10_net_6m": 5168,
+     "evals_per_month": 0.69,
+     "fails_per_month": 0.36,
+     "first_payout_session_med": 20.0,
+     "fees_6m": 249,
+     "joint_breach_windows_per_path": 0.025
+    },
+    "H2": {
+     "per_month": 996,
+     "p10_net_6m": 2930,
+     "evals_per_month": 0.64,
+     "fails_per_month": 0.31,
+     "first_payout_session_med": 30.0,
+     "fees_6m": 235,
+     "joint_breach_windows_per_path": 0.02
+    }
+   },
+   "2 accounts: LIT 50K + BLITZ 25K": {
+    "H1": {
+     "per_month": 909,
+     "p10_net_6m": 1598,
+     "evals_per_month": 0.52,
+     "fails_per_month": 0.18,
+     "first_payout_session_med": 40.0,
+     "fees_6m": 238,
+     "joint_breach_windows_per_path": 0.035
+    },
+    "H2": {
+     "per_month": 616,
+     "p10_net_6m": 1156,
+     "evals_per_month": 0.51,
+     "fails_per_month": 0.17,
+     "first_payout_session_med": 50.0,
+     "fees_6m": 232,
+     "joint_breach_windows_per_path": 0.007
+    }
+   },
+   "3 accounts: LIT 50K + ATLAS 25K + BLITZ 25K": {
+    "H1": {
+     "per_month": 1532,
+     "p10_net_6m": 5292,
+     "evals_per_month": 0.96,
+     "fails_per_month": 0.46,
+     "first_payout_session_med": 19.0,
+     "fees_6m": 353,
+     "joint_breach_windows_per_path": 0.09
+    },
+    "H2": {
+     "per_month": 1136,
+     "p10_net_6m": 3549,
+     "evals_per_month": 0.92,
+     "fails_per_month": 0.42,
+     "first_payout_session_med": 29.0,
+     "fees_6m": 337,
+     "joint_breach_windows_per_path": 0.07
+    }
+   },
+   "4 accounts: + a LIT copy on a 25K": {
+    "H1": {
+     "per_month": 1635,
+     "p10_net_6m": 5092,
+     "evals_per_month": 1.19,
+     "fails_per_month": 0.53,
+     "first_payout_session_med": 19.0,
+     "fees_6m": 445,
+     "joint_breach_windows_per_path": 0.292
+    },
+    "H2": {
+     "per_month": 1175,
+     "p10_net_6m": 3180,
+     "evals_per_month": 1.14,
+     "fails_per_month": 0.47,
+     "first_payout_session_med": 29.0,
+     "fees_6m": 426,
+     "joint_breach_windows_per_path": 0.23
+    }
+   },
+   "6 accounts: + a 2nd ATLAS 25K + a 2nd BLITZ 25K": {
+    "H1": {
+     "per_month": 1669,
+     "p10_net_6m": 4596,
+     "evals_per_month": 1.65,
+     "fails_per_month": 0.65,
+     "first_payout_session_med": 21.0,
+     "fees_6m": 587,
+     "joint_breach_windows_per_path": 1.415
+    },
+    "H2": {
+     "per_month": 1203,
+     "p10_net_6m": 2748,
+     "evals_per_month": 1.63,
+     "fails_per_month": 0.63,
+     "first_payout_session_med": 30.0,
+     "fees_6m": 578,
+     "joint_breach_windows_per_path": 1.4
+    }
+   }
+  },
+  "first_payout_note": "From the funded start (the repo's own figure) and from the purchase (adds the eval, about 5-6 sessions, and 2 sessions of paperwork); the model's from-purchase medians are shown for ATLAS and BLITZ.",
+  "model_note": "Model: the same sampled 2026 sessions drive every account (research/second/sn_plan.json), daily steps, 2026 only: LIT is under-modelled (model $718 / $477 against the funded study's $907 / $914), ATLAS matches, BLITZ is in the research's range."
+ },
+ "notes": [
+  "Copies of one strategy take the same trades (MFFU forbids long and short at once across your accounts), so those accounts rise and fall together: the study measured a 0.85 correlation between two of them. LIT, ATLAS and BLITZ are different strategies: their daily correlation in 2026 is LIT x ATLAS +0.14, LIT x BLITZ -0.06, ATLAS x BLITZ 0.00.",
+  "The study covers 6 months from the purchase. Later months continue at the months 4-6 rate: an extension, not a measurement.",
+  "MFFU allows 1 funded Builder 50K and 2 funded Builder 25K per person: 3 accounts is the cap; more accounts must be another firm.",
+  "First payout is shown from the purchase (the plan rows) and from the funded start (the strategy rows): the funded start is about 5-6 eval sessions and 2 paperwork sessions later than the purchase.",
+  "All rows and the 3-firm trio (Builder 50K + LucidPro 50K + FundedNext Rapid Daily 50K, three copies of LIT) come from one study run with the live LIT trades and, for the Builder rows, the live sizing; the firms' rules are as researched on 2026-10-19.",
+  "The Builder 50K 2-week pass / fail is the engine's own two_week sizing (uprisk.py); the Builder 25K row is LIT on a 25K: ATLAS and BLITZ have their own eval and money figures in the strategy table."
+ ]
+}

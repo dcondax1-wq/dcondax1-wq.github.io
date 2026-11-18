@@ -1,0 +1,68 @@
+/* Observatory in AGORA (docs/DESIGN_AGORA.md, owner 2026-11-09): a row of marble columns, one per dashboard source. Gold cap = healthy, amber = look, terracotta = down.
+   No neon, no moon glow, no night sky, no techno fonts. */
+:root{--bg:#14110e;--panel:#1d1914;--raise:#26211b;--line:#3a3228;--ink:#f3ece0;--soft:#cfc4b2;--muted:#a39883;--gold:#c8a24a;--gold2:#e0c27a;--bronze:#9c6b3c;--olive:#9aa664;--sun:#e0b060;--terra:#d97a58;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--sans:-apple-system,'SF Pro Text',system-ui,'Helvetica Neue',Arial,sans-serif}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--ink);font-family:var(--sans)}
+body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;background:radial-gradient(120% 60% at 50% -8%,#2a2118 0%,var(--bg) 62%) fixed,var(--bg)}
+button,a{font:inherit}
+.head,main{position:relative;z-index:1;max-width:900px;margin:auto}
+.head{display:flex;align-items:center;gap:14px;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 6px}
+.head h1{font:600 clamp(26px,7vw,34px)/1.1 var(--serif);letter-spacing:.005em;margin:2px 0}
+.overline,.eyebrow,.section-head span{letter-spacing:.01em;font:600 14px var(--sans);color:var(--gold)}
+.back{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;color:var(--gold2);text-decoration:none;font-size:22px;background:var(--panel)}
+.mode{margin-left:auto;border:1px solid var(--line);padding:8px 14px;border-radius:99px;color:var(--soft);font:600 14px var(--sans)}
+.hero{padding:14px 16px 0;max-width:740px}
+.hero h2{font:600 clamp(30px,8.5vw,46px)/1.1 var(--serif);letter-spacing:0;margin:10px 0}
+.hero h2::after{content:"";display:block;width:56px;height:2px;margin-top:14px;background:linear-gradient(90deg,var(--gold),transparent)}
+.hero em{font-style:normal;color:var(--gold2)}
+.hero p{font-size:17px;line-height:1.5;color:var(--soft);max-width:34em}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+button{min-height:48px;border:1px solid #e2c47a;border-radius:12px;background:linear-gradient(180deg,#d4b05a,var(--gold));color:#1b1610;font-weight:700;padding:10px 20px;cursor:pointer}
+.secondary{background:var(--raise);color:var(--ink);border:1px solid var(--line)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+#updated{font-size:14px;min-height:20px;color:var(--muted)}
+
+/* the row of columns */
+.city{height:clamp(260px,46vw,420px);position:relative;overflow:hidden;margin-top:6px}
+.horizon{position:absolute;left:0;right:0;bottom:12%;height:1px;background:var(--line)}
+.ground{position:absolute;left:0;right:0;bottom:0;height:12%;background:linear-gradient(180deg,#3a3228,#26211b);border-top:1px solid var(--bronze)}
+.towers{position:absolute;inset:8% 4% 12%;display:flex;align-items:flex-end;justify-content:space-around;gap:6px}
+.tower{--glow:var(--gold);--height:100px;position:relative;min-width:0;width:min(13%,90px);height:var(--height);border:1px solid #8d8472;border-radius:3px 3px 0 0;padding:0;
+  background:repeating-linear-gradient(90deg,#efe6d3 0 7px,#cdc1a8 8px 10px,#efe6d3 11px 18px);box-shadow:none}
+.tower:before{content:"";position:absolute;left:-4px;right:-4px;top:-10px;height:10px;border-radius:3px 3px 0 0;background:var(--glow)}
+.tower:after{content:none}
+.tower:active,.tower[aria-pressed=true]{outline:3px solid var(--glow);outline-offset:2px}
+.tower.warn{--glow:var(--sun)}
+.tower.bad{--glow:var(--terra)}
+.tower span{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);white-space:nowrap;font:600 12px var(--sans);color:var(--soft)}
+
+.overview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px;margin:10px 0 24px}
+.overview div,.panel{border:1px solid var(--line);background:linear-gradient(180deg,var(--raise),var(--panel));border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.overview div{padding:14px}
+.overview strong{display:block;font:700 28px 'SF Pro Rounded',var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
+.overview span{font-size:14px;color:var(--muted)}
+.panel{margin:12px 16px;padding:18px}
+.section-head h2{font:600 clamp(21px,5vw,26px) var(--serif);margin:6px 0 14px}
+.panel p,#detail{font-size:16px;line-height:1.5;color:var(--soft)}
+.item{border-top:1px solid var(--line);padding:14px 0}
+.item:first-child{border:0}
+.item b{color:var(--ink)}
+.item small{display:block;color:var(--muted);font-size:14px;margin-top:4px;line-height:1.45}
+.pill{display:inline-block;margin-left:8px;font:600 13px var(--sans);padding:3px 10px;border-radius:20px;background:#e0b06026;color:var(--sun)}
+.pill.bad{background:#c96a4a26;color:var(--terra)}
+.learn{color:var(--gold2);display:inline-block;min-height:44px;padding-top:10px}
+.towers{z-index:1}
+@media(max-width:600px){.tower{width:13%}.tower span{font-size:12px;writing-mode:vertical-rl;bottom:-68px}.city{height:380px}.towers{bottom:32%}.ground{height:32%}.horizon{bottom:32%}}
+*{scroll-behavior:auto!important;transition:none!important}
+
+/* phone-fit 2026-11-10 (tap targets on a 320 px screen) */
+.back { flex: 0 0 48px; min-width: 48px; }
+
+/* phone-fit 2026-11-11: seven columns cannot each be 44 px wide on a 320 px iPhone, so under 380 px the row becomes a strip you slide sideways:
+   every column is 48 px wide, its name stays under it, the ground and horizon stay still behind (layout only) */
+@media(max-width:380px){
+  .towers{inset:8% 0 0 0;bottom:0;display:flex;justify-content:flex-start;gap:16px;padding:14px 16px 122px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}
+  .towers::-webkit-scrollbar{display:none}
+  .tower{flex:0 0 48px;width:48px;min-width:48px}
+}

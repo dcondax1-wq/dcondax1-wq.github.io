@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: a Builder 50K part-way through an eval, shown until the site's own home.json has the live account.",
+  "home": {
+    "accounts": [
+      { "id": "mffu50k_eval", "name": "Zlarior 50K", "kind": "eval", "eval": { "balance": 50420, "floor": 49000, "room": 1420, "mll": 2000, "dll": 1000, "dll_used": 0 } }
+    ]
+  }
+}

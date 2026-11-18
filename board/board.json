@@ -1,0 +1,149 @@
+{
+ "v": 1,
+ "kind": "olympus-board",
+ "t": 1794966916,
+ "src": "cloud",
+ "pc": {
+  "t": 1794966300,
+  "age_s": 616,
+  "via": "ntfy",
+  "stale": false
+ },
+ "accounts": [
+  {
+   "key": "zlarior",
+   "name": "Zlarior",
+   "plan": "MFFU Builder 50K",
+   "status": "live",
+   "stage": "eval",
+   "balance": 49192.78,
+   "room": 1024.58,
+   "floor": 48168.2,
+   "to_pass": 3807.22,
+   "locked": false,
+   "last4": null,
+   "src": "PC live",
+   "src_t": 1794966285,
+   "last": null,
+   "pc": [
+    "mffu50k_eval",
+    "lit"
+   ],
+   "target_balance": 53000.0,
+   "chip": "eval",
+   "plan_only": false,
+   "age_s": 631
+  },
+  {
+   "key": "atlas",
+   "name": "ATLAS",
+   "plan": "MFFU Builder 25K (funded)",
+   "status": "live",
+   "stage": "funded",
+   "balance": 25000.0,
+   "room": 1000.0,
+   "floor": 24000.0,
+   "to_pass": null,
+   "locked": false,
+   "last4": null,
+   "src": "PC live",
+   "src_t": 1794966285,
+   "last": {
+    "t": 1794951528,
+    "kind": "claude_note",
+    "text": "Board is live (Nov 17). ATLAS passed its 25K eval; MFFU locked it until the funded account is issued. Send the funded account's last 4 digit",
+    "src": "claude"
+   },
+   "pc": [
+    "atlas",
+    "acct_b"
+   ],
+   "chip": "funded",
+   "plan_only": false,
+   "age_s": 631
+  },
+  {
+   "key": "rapid1",
+   "name": "Rapid EOD 25K (next)",
+   "plan": "MFFU Rapid EOD 25K",
+   "status": "waiting",
+   "stage": "eval",
+   "balance": null,
+   "room": null,
+   "floor": null,
+   "to_pass": null,
+   "locked": false,
+   "last4": null,
+   "src": "PLAN",
+   "src_t": null,
+   "last": null,
+   "pc": [],
+   "chip": "planned",
+   "plan_only": true,
+   "age_s": null
+  },
+  {
+   "key": "fresh25",
+   "name": "Zlarior 25K #2",
+   "plan": "MFFU Builder 25K",
+   "status": "live",
+   "stage": "eval",
+   "balance": 25000.0,
+   "room": 1000.0,
+   "floor": 24000.0,
+   "to_pass": 1500.0,
+   "locked": false,
+   "last4": null,
+   "src": "PC live",
+   "src_t": 1794966285,
+   "last": null,
+   "pc": [
+    "b25k_2"
+   ],
+   "target_balance": 26500.0,
+   "chip": "eval",
+   "plan_only": false,
+   "age_s": 631
+  }
+ ],
+ "events": [
+  {
+   "id": "e21d584fa4dd",
+   "t": 1794952101,
+   "kind": "bot_started",
+   "text": "Bot running (PC server started)",
+   "src": "bot"
+  },
+  {
+   "id": "afee29f4b055",
+   "t": 1794951528,
+   "kind": "claude_note",
+   "acct": "atlas",
+   "text": "Board is live (Nov 17). ATLAS passed its 25K eval; MFFU locked it until the funded account is issued. Send the funded account's last 4 digits here when it comes.",
+   "src": "claude"
+  },
+  {
+   "id": "059908161756",
+   "t": 1794951527,
+   "kind": "owner_note",
+   "acct": "atlas",
+   "text": "ATLAS balance $26,946.10: passed (target $26,500). Account locked: an order was rejected with max order quantity, Limit 0, Scope MNQ",
+   "src": "owner",
+   "data": {
+    "via": "chat",
+    "balance": 26946.1,
+    "stage": "passed",
+    "locked": true
+   }
+  }
+ ],
+ "open_notes": [],
+ "waiting": [
+  "Yes/no: ATLAS trades on Zlarior's 50K once it is funded",
+  "Yes/no: ATLAS trades on the Rapid EOD accounts",
+  "Yes/no: keep $1,000 in each Rapid when taking payouts",
+  "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
+ ],
+ "plan_updated": "2026-11-18",
+ "about": "The Board: what the bot, the owner and Claude know. Privacy-safe copy (python tools/board.py publish)."
+}

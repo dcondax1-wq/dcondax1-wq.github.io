@@ -1,0 +1,1 @@
+{"v":1,"name":"Harmonia","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Depends on NQ","value":"90%"},{"label":"If NQ stops","value":"$156"},{"label":"Accounts","value":"3"}],"lines":["Most of the estimate depends on the same NQ signals.","Copies of one strategy win and lose together."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

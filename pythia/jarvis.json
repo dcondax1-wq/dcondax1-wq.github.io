@@ -1,0 +1,1 @@
+{"v":1,"name":"Pythia","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Today","value":"Red"},{"label":"Events","value":"6"},{"label":"Next","value":"2 days"}],"lines":["Example: Fed decision, Tue Nov 17 2:00 PM ET.","Times are New York (ET). Check dates marked \"check\"."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

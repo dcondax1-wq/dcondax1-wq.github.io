@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stoa</title>
+<meta name="description" content="OLYMPUS STOA: the colonnade. What needs you right now, one plain sentence each, with Done and Snooze, and a row of marble columns where a lit column means something needs you.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Stoa">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- STOA (OLYMPUS, AGORA look, 2026-11-10): the colonnade, "what needs me now". Reads the site's published JSON (../home.json, ../money/index.json, the public kalshi.json feed, ../alerts.json if there is one) and fixture.json (DEMO, never blank).
+     Read only, paper only: it sends nothing; Done and Snooze are kept on this phone only. Text only through textContent / createElementNS. stoacore.js = the pure rules (node-tested); stoa.js = the page; stoascene.js = the optional 3D columns (a separate module, so a device without WebGL keeps the 2D columns). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="stoa"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="stoa.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Stoa</h1><p class="sub">What needs you now. Do the top card first.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" id="hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">Right now</h2><span class="pill" id="heroPill">...</span></div>
+    <p class="big" id="heroTitle">Loading...</p>
+    <p class="lead" id="heroWhy"></p>
+  </section>
+
+  <section class="ag-card card" id="sceneCard" aria-labelledby="sceneH">
+    <h2 id="sceneH">At a glance</h2>
+    <div class="scene" id="scene" role="img" aria-label="Six marble columns, a lit column means something needs you">
+      <div id="scene3d" class="s3d" hidden></div>
+      <svg id="fallback" class="s2d" viewBox="0 0 360 160" aria-hidden="true"></svg>
+    </div>
+    <p class="note" id="sceneNote"></p>
+  </section>
+
+  <section id="cards" class="cards" aria-label="What needs you"></section>
+
+  <section class="ag-card card" id="quietCard" aria-labelledby="quietH" hidden>
+    <h2 id="quietH">Set aside</h2>
+    <ul class="calm" id="quiet"></ul>
+  </section>
+
+  <section class="ag-card card" id="calmCard" aria-labelledby="calmH">
+    <h2 id="calmH">All calm</h2>
+    <ul class="calm" id="calm"></ul>
+  </section>
+
+  <p class="foot" id="foot">Done hides a card for today, Snooze for 4 hours (this phone only); a card that changes comes back. Stoa only reads: it never trades or moves money.</p>
+</main>
+<script type="module" src="stoa.js?v=a1"></script>
+<script type="module" src="stoascene.js?v=q6c"></script>
+</body>
+</html>

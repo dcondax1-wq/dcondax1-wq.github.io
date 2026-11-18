@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: a made-up voyage shown until the site's own home.json is there. Offsets are days back from today.",
+  "accounts": [
+    { "id": "demo50", "name": "Demo 50K", "kind": "funded" },
+    { "id": "demo25", "name": "Demo 25K", "kind": "eval" }
+  ],
+  "payouts": [
+    { "usd": 640, "off": 14 }, { "usd": 520, "off": 41 }, { "usd": 700, "off": 74 }, { "usd": 410, "off": 105 }, { "usd": 600, "off": 133 }, { "usd": 450, "off": 160 }
+  ]
+}

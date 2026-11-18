@@ -1,0 +1,96 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: two accounts, five money streams and a Kalshi bot shown until the site has its own files. expires_in_h is hours from now.",
+ "home": {
+  "accounts": [
+   {
+    "id": "mffu50k_eval",
+    "name": "Zlarior 50K",
+    "eval": {
+     "room": 1420,
+     "mll": 2000,
+     "dll_used": 0,
+     "dll": 1000
+    },
+    "pnl": {
+     "today": 312
+    },
+    "conn": {
+     "connected": true
+    }
+   },
+   {
+    "id": "acctb",
+    "name": "Atlas 25K",
+    "eval": {
+     "room": 440,
+     "mll": 1000,
+     "dll_used": 60,
+     "dll": 600
+    },
+    "pnl": {
+     "today": -60
+    },
+    "conn": {
+     "connected": true
+    }
+   }
+  ]
+ },
+ "money": {
+  "streams": [
+   {
+    "id": "chrysos",
+    "name": "Chrysos",
+    "status": "stale",
+    "age_min": 700,
+    "items": []
+   },
+   {
+    "id": "mercury",
+    "name": "Mercury",
+    "status": "ok",
+    "age_min": 20,
+    "items": [
+     {
+      "title": "Prop-firm sale on the 50K plan",
+      "detail": "A public sale page shows a discount.",
+      "usd": 18,
+      "score": 70,
+      "risk": "low",
+      "expires_in_h": 20
+     }
+    ]
+   },
+   {
+    "id": "sibyl",
+    "name": "Sibyl",
+    "status": "ok",
+    "age_min": 10,
+    "items": []
+   },
+   {
+    "id": "oikos",
+    "name": "Oikos",
+    "status": "ok",
+    "age_min": 10,
+    "items": []
+   },
+   {
+    "id": "arbiter",
+    "name": "Arbiter",
+    "status": "ok",
+    "age_min": 10,
+    "items": []
+   }
+  ]
+ },
+ "kalshi": {
+  "running": true,
+  "today_pnl": 12.4
+ },
+ "alerts": {
+  "alerts": []
+ }
+}

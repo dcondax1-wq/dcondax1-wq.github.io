@@ -1,0 +1,137 @@
+/* LABYRINTH in the AGORA look (docs/DESIGN_AGORA.md): warm marble cards over a bronze maze. Jarvis's orb owns the bottom-right 80 x 160 px:
+   the dock stops 96 px from the right; the sheet sits above the dock. Safe areas on every edge; no sideways scroll at 390 px; inputs are 16 px (no iPhone zoom). */
+:root {
+  --l-bg: #14110e; --l-red: #c96a4a; --l-red-rgb: 192, 96, 63; --l-gold: #c8a24a; --l-ok: #7f8a52; --dock-h: 232px;
+  --panel: #1d1914; --raise: #26211b; --line: #3a3228; --text: #f3ece0; --soft: #cfc4b2; --muted: #9a8f7d;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; --num: 'SF Pro Rounded', -apple-system, system-ui, sans-serif;
+  --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px));
+  --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px));
+  --vh: var(--oly-vh, 100vh);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--l-bg); color: var(--text); overflow: hidden; }
+body { font: 400 15px/1.4 -apple-system, 'SF Pro Text', system-ui, sans-serif; min-height: var(--vh); }
+button, select, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--l-gold); outline-offset: 2px; }
+#maze { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+html[data-noscene] #maze { display: none; }
+html[data-noscene] body { background: radial-gradient(ellipse at 50% 55%, #3a2a1c 0%, var(--l-bg) 62%); }
+
+#ui { position: fixed; top: 0; left: 0; right: 0; padding: calc(var(--st) + 10px) calc(var(--sr) + 16px) 0 calc(var(--sl) + 16px); pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
+#ui > * { pointer-events: auto; }
+.top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 36px; }
+.brand h1 { margin: 0; font: 600 24px/1.1 var(--serif); letter-spacing: .01em; color: var(--text); }
+.brand h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 6px; background: linear-gradient(90deg, var(--l-gold), transparent); }
+.brand .sub { margin: 5px 0 0; font-size: 13px; color: var(--soft); }
+.tags { display: flex; gap: 6px; }
+.tag { padding: 5px 11px; border-radius: 999px; font: 600 12px/1 -apple-system, system-ui, sans-serif; border: 1px solid var(--line); color: var(--soft); background: rgba(29, 25, 20, .85); }
+.tag.demo { color: #e0b060; border-color: rgba(224, 176, 96, .55); }
+.tag[hidden] { display: none; }
+
+.verdict { padding: 14px 16px; border-radius: 16px; background: linear-gradient(180deg, var(--raise), var(--panel)); border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.verdict .v { margin: 0 0 10px; font: 500 15px/1.35 -apple-system, system-ui, sans-serif; color: var(--soft); }
+.odds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.odd { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.odd .k { font-size: 12.5px; color: var(--muted); }
+.odd b { font: 700 30px/1.1 var(--num); }
+.odd.pass b { color: var(--l-gold); }
+.odd.bust b { color: var(--l-red); }
+.money { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.money > div { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.money .k { font-size: 12.5px; color: var(--muted); }
+.money b { font: 700 18px/1.15 var(--num); color: var(--text); }
+.money small { font-size: 11.5px; line-height: 1.25; color: var(--muted); }
+.verdict .live { margin: 10px 0 0; padding-top: 8px; border-top: 1px solid var(--line); font-size: 13px; color: var(--soft); overflow-wrap: anywhere; }
+.verdict .live[hidden] { display: none; }
+
+.pills { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+.pills::-webkit-scrollbar { display: none; }
+.pills button { flex: none; min-height: 44px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); background: rgba(29, 25, 20, .92); font: 600 13.5px/1 -apple-system, system-ui, sans-serif; color: var(--soft); }
+.pills button[aria-pressed="true"] { border-color: var(--l-gold); background: #2a2217; color: #e2c47a; }
+.pills button.go { margin-left: auto; border-color: var(--l-gold); color: #1b1610; background: linear-gradient(180deg, #d4b05a, var(--l-gold)); }
+.pills button.go[aria-pressed="true"] { background: #2a2217; color: #e2c47a; }
+
+.dock { position: fixed; z-index: 5; left: calc(var(--sl) + 16px); right: calc(var(--sr) + var(--oly-orb-clear, 96px)); bottom: calc(var(--sb) + 12px);
+  display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 16px; border: 1px solid var(--line); background: rgba(29, 25, 20, .94); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.dock .row { display: flex; align-items: center; gap: 8px; }
+.dock .size label { flex: none; font-size: 14px; color: var(--soft); }
+.dock .size label b { color: var(--l-gold); font: 700 18px/1 var(--num); margin-left: 4px; }
+.dock input[type=range] { flex: 1; min-width: 0; height: 44px; accent-color: var(--l-gold); background: transparent; }
+.dock .chips { flex-wrap: wrap; }
+.dock .chips button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 4px 6px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); font: 600 14px/1 -apple-system, system-ui, sans-serif; white-space: nowrap; }
+.dock .chips button[aria-pressed="true"] { border-color: var(--l-gold); background: #2a2217; color: #e2c47a; }
+.dock .sel { gap: 8px; }
+.dock .sel label { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 12.5px; color: var(--muted); }
+.dock select { width: 100%; min-height: 44px; padding: 4px 6px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); font-size: 16px; }
+.dock .help { margin: 0; font-size: 12px; color: var(--muted); }
+
+.sheet { position: fixed; z-index: 6; left: calc(var(--sl) + 16px); right: calc(var(--sr) + 16px); bottom: calc(var(--sb) + var(--dock-h) + 22px);
+  max-height: calc(100vh - var(--hud-h, 380px) - var(--dock-h) - 40px); max-height: calc(100dvh - var(--hud-h, 380px) - var(--dock-h) - 40px); min-height: 120px; display: flex; flex-direction: column;
+  border-radius: 16px; border: 1px solid var(--line); background: rgba(29, 25, 20, .97); box-shadow: 0 6px 18px rgba(0, 0, 0, .45); }
+.sheet[hidden] { display: none; }
+.sheet header { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 0 16px; }
+.sheet h2 { margin: 0; font: 600 18px/1.2 var(--serif); color: var(--text); }
+.sheet .body { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 4px 16px 14px; }
+.sheet h3 { margin: 14px 0 6px; font: 600 15px/1.2 var(--serif); color: var(--soft); }
+.sheet p { margin: 8px 0; font-size: 14px; color: var(--soft); overflow-wrap: anywhere; }
+.sheet p.strong { color: var(--text); font-size: 15px; }
+
+.chart { width: 100%; height: auto; display: block; }
+.chart text { font: 500 10px -apple-system, system-ui, sans-serif; fill: var(--muted); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.tbl th { text-align: right; font: 600 13px/1.2 var(--serif); color: var(--soft); padding: 4px; }
+.tbl th:first-child, .tbl td:first-child { text-align: left; }
+.tbl td { text-align: right; padding: 8px 4px; border-top: 1px solid var(--line); }
+.tbl tr.me td { background: rgba(200, 162, 74, .1); }
+.tbl tr.sweet td:first-child { color: var(--l-gold); font-weight: 700; }
+.tbl .p { color: var(--l-gold); } .tbl .b { color: var(--l-red); }
+.march { list-style: none; margin: 0; padding: 0; }
+.march li { display: grid; grid-template-columns: 44px 1fr auto; gap: 6px; align-items: baseline; padding: 8px 2px; border-bottom: 1px solid var(--line); font-size: 14px; font-variant-numeric: tabular-nums; }
+.march .n { color: var(--muted); }
+.march .up { color: var(--l-ok); } .march .down { color: var(--l-red); }
+.march .room { color: var(--muted); font-size: 12.5px; }
+.march li.end { font-weight: 700; }
+.march li.end.pass .n, .march li.end.pass b { color: var(--l-gold); }
+.march li.end.bust .n, .march li.end.bust b { color: var(--l-red); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+@media (max-height: 900px) { .dock .help { display: none; } :root { --dock-h: 232px; } .odd b { font-size: 24px; } }
+
+/* the maze picker, the risk-of-ruin gauge, the best size, the walkthrough line */
+.mazes { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
+.mazes::-webkit-scrollbar { display: none; }
+.mazes button { flex: none; min-height: 44px; min-width: 44px; padding: 4px 14px; border-radius: 12px; border: 1px solid var(--line); background: rgba(29, 25, 20, .92); font: 600 15px/1.1 -apple-system, system-ui, sans-serif; text-align: left; color: var(--soft); }
+.mazes button small { display: block; font: 400 12px/1.2 var(--num); color: var(--muted); }
+.mazes button[aria-selected="true"] { border-color: var(--l-gold); background: #2a2217; color: #e2c47a; }
+.ruin { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.gauge { flex: none; width: 74px; height: 44px; overflow: visible; }
+.gauge .trk { fill: none; stroke: #33291f; stroke-width: 9; stroke-linecap: round; }
+.gauge .arc { fill: none; stroke: var(--gc, #7f8a52); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--gp, 0) * 100); transition: stroke-dashoffset .5s ease-out, stroke .3s; }
+.gauge .needle { stroke: var(--text); stroke-width: 2.2; stroke-linecap: round; transform-origin: 60px 62px; transform: rotate(calc(-90deg + var(--gp, 0) * 180deg)); transition: transform .5s ease-out; }
+.gauge .hub { fill: var(--text); }
+.ruin .rt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; min-width: 0; flex: 1; }
+.ruin .k { font-size: 12.5px; color: var(--muted); }
+.ruin b { font: 700 22px/1 var(--num); color: var(--gc, #7f8a52); }
+.ruin .lv { font: 600 13px/1 -apple-system, system-ui, sans-serif; color: var(--gc, #7f8a52); text-transform: capitalize; }
+.ruin p { display: none; }
+.ruin[data-level="moderate"] { --gc: #e0b060; } .ruin[data-level="high"] { --gc: #c98a4a; } .ruin[data-level="extreme"] { --gc: #c96a4a; }
+.bestbtn { flex: none; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 76px; min-height: 44px; padding: 4px 10px; border-radius: 12px; border: 1px solid var(--l-gold); background: #2a2217; color: var(--soft); }
+.bestbtn .k { font-size: 12px; color: var(--soft); }
+.bestbtn b { font: 700 16px/1 var(--num); color: var(--l-gold); }
+.bestbtn[aria-pressed="true"] { background: #3a2e1b; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.walkline { margin: 0; padding: 10px 14px; border-radius: 12px; background: rgba(29, 25, 20, .94); border: 1px solid var(--l-gold); font-size: 14px; color: #e8d6a8; }
+.walkline[hidden] { display: none; }
+@media (max-height: 760px) { .verdict .v { font-size: 14px; margin-bottom: 6px; } }
+.heatrows { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.heatrows > div { display: grid; grid-template-columns: 58px 1fr 44px; align-items: center; gap: 8px; font-size: 13px; }
+.heatrows .bar { height: 10px; border-radius: 6px; background: #33291f; overflow: hidden; }
+.heatrows .bar i { display: block; height: 100%; border-radius: 6px; background: linear-gradient(90deg, #7f8a52, #e0b060 50%, #c96a4a); }
+.heatrows .n { color: var(--muted); } .heatrows .v { text-align: right; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .gauge .arc, .gauge .needle { transition: none; } }
+/* a sheet is open: the verdict shrinks to the three odds so the sheet has room (the money lines and the gauge come back when it closes) */
+#ui:has(~ #sheet:not([hidden])) .money, #ui:has(~ #sheet:not([hidden])) .ruin, #ui:has(~ #sheet:not([hidden])) .verdict .v, #ui:has(~ #sheet:not([hidden])) .mazes { display: none; }
+
+/* phone-fit 2026-11-10 (tap targets on a 320 px screen) */
+.dock .chips button { min-width: 44px; }

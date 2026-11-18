@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hestia</title>
+<meta name="description" content="OLYMPUS HESTIA: today at home. One screen that answers what to do right now: your three accounts, how much drawdown is left, today's profit and loss, the bot's next action and the trading clock.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hestia">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- HESTIA (OLYMPUS, AGORA look, 2026-11-09): Today at home: the three accounts (Zlarior 50K, ATLAS 25K, BLITZ 25K), drawdown left, today's P&L, the bot's next action and the New York clock. hestiacore.js = the pure maths (node-tested); hestia.js = the page (ES module). Read only: it reads published JSON of this site
+     and fixture.json (DEMO, never blank) and sends nothing anywhere. Text only through textContent / createElementNS (no markup is built from data). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="hestia"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="hestia.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Hestia</h1><p class="sub">What to do right now</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" id="answer" aria-labelledby="ansH">
+    <p class="ag-eyebrow">Right now</p>
+    <h2 id="ansH" class="ans">Loading...</h2>
+    <p class="lead" id="ansWhy"></p>
+    <p class="doit"><b>Do this:</b> <span id="ansDo"></span></p>
+    <div><span class="pill" id="ansPill">...</span></div>
+  </section>
+  <section id="accts" class="accts" aria-label="Your accounts"></section>
+  <section class="ag-card card" id="todayCard" aria-labelledby="todayH">
+    <h2 id="todayH">Today's profit and loss</h2>
+    <div class="tiles" id="todayTiles"></div>
+    <ul class="tlist" id="tlist"></ul>
+    <p class="note" id="todayNote"></p>
+  </section>
+  <section class="ag-card card" id="clockCard" aria-labelledby="clkH">
+    <h2 id="clkH">The clock</h2>
+    <div class="clock"><b id="clkTime" class="ag-num">--:--</b><span class="note">New York time</span><span class="pill" id="clkPhase"></span></div>
+    <p class="lead" id="clkNext"></p>
+    <p class="note" id="clkEntries"></p>
+    <svg id="line" class="line" viewBox="0 0 360 62" role="img" aria-label="The trading day"></svg>
+  </section>
+  <section class="ag-card card" id="botCard" aria-labelledby="botH">
+    <h2 id="botH">The bot's next action</h2>
+    <p class="lead" id="botNext"></p>
+    <dl class="kv" id="botKv"></dl>
+  </section>
+
+  <p class="foot" id="foot">Hestia only reads this site's files and sends nothing. The "R" next to a $ amount compares it to an average losing trade (1R = one normal loss). A ~ means an estimate. Paper and eval accounts only.</p>
+</main>
+<script type="module" src="hestia.js?v=a2"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>People lab</title>
+<meta name="theme-color" content="#14110e">
+<!-- PEOPLE LAB (v3: the rigged cast, people-rig.js; v2 when the cast cannot load): look at every person of the roster. A turntable of one person (drag to turn) with every pose, expression and mouth shape; a lineup of everyone
+     (one crowd in 2 draw calls + close-up figures at work), with the measured draw calls and triangles; the 2D portraits. A checking page for the people kit
+     (olympus/people.js, people3d.js); not an app. ?person=<id> ?pose=<pose> ?expr=<expression> ?mouth=<viseme> ?still=1 (one frame, no animation) ?lite=1 -->
+<link rel="stylesheet" href="agora.css?v=a4">
+<style>
+  html { background: #14110e; } body { margin: 0; padding: 14px 14px 60px; font: 500 14px/1.4 -apple-system, system-ui, sans-serif; color: #f3ece0; }
+  h1 { font: 600 24px 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; margin: 0 0 4px; } h2 { font: 600 17px 'Iowan Old Style', Palatino, Georgia, serif; margin: 18px 0 8px; }
+  p { margin: 0 0 8px; color: #cfc4b2; }
+  .stage { position: relative; }
+  canvas { display: block; width: 100%; border-radius: 16px; border: 1px solid #3a3228; background: #2a2118; touch-action: none; }
+  #turn { height: 420px; } #line { height: 380px; }
+  .who { display: flex; align-items: center; gap: 10px; margin: 10px 0 6px; } .who b { font: 600 17px 'Iowan Old Style', Palatino, Georgia, serif; } .who small { display: block; color: #9a8f7d; font-size: 12px; }
+  .who .nav { margin-left: auto; display: flex; gap: 6px; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 4px; } .row > span { width: 100%; color: #9a8f7d; font-size: 12px; }
+  button.b { min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid #3a3228; background: #1d1914; color: #f3ece0; font: 500 14px -apple-system, system-ui, sans-serif; cursor: pointer; }
+  button.b[aria-pressed="true"] { border-color: #c8a24a; background: #26211b; color: #e0c27a; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .cell { display: grid; justify-items: center; gap: 4px; padding: 8px 4px; min-height: 44px; border-radius: 14px; border: 1px solid #3a3228; background: #1d1914; color: inherit; font: inherit; cursor: pointer; text-align: center; }
+  .cell b { font-size: 13px; } .cell small { font-size: 11px; color: #9a8f7d; }
+  .moods { display: flex; gap: 3px; }
+  .meter { font: 500 12px 'SF Pro Rounded', -apple-system, sans-serif; font-variant-numeric: tabular-nums; color: #9a8f7d; margin-top: 4px; }
+</style>
+</head>
+<body>
+<h1>People lab</h1>
+<p id="status" role="status" aria-live="polite">Loading...</p>
+<h2>One person</h2>
+<div class="stage"><canvas id="turn" aria-label="One person on a turntable. Drag to turn."></canvas></div>
+<div class="who"><span id="pp"></span><div><b id="pname">-</b><small id="ptitle"></small></div><div class="nav"><button class="b" id="prev" type="button" aria-label="Previous person">&#8249;</button><button class="b" id="next" type="button" aria-label="Next person">&#8250;</button></div></div>
+<div class="row" id="poses"><span>Pose</span></div>
+<div class="row" id="exprs"><span>Face</span></div>
+<div class="row" id="mouths"><span>Mouth (hold a shape for a moment)</span></div>
+<div class="row" id="toggles"><span>Also</span></div>
+<p class="meter" id="tmeter"></p>
+<h2>Everyone (one crowd, close-ups at work)</h2>
+<canvas id="line" aria-label="Everyone in the roster, standing together"></canvas>
+<p class="meter" id="lmeter"></p>
+<h2>Portraits (photographed from the 3D character; 96 px, then 44 px: calm, proud, sheepish, worried)</h2>
+<div class="grid" id="grid"></div>
+<p class="meter" id="credit">Bodies and animations: KayKit Character Pack Adventurers 1.0 by Kay Lousberg (kaylousberg.com), CC0. Faces, colours, Greek outfits, accessories and the extra moves (wave, talk, nod, shrug, think and the work loops) are our own. Licences: docs/ASSETS_LICENSES.md.</p>
+<script src="quiet-net.js?v=q6a"></script>
+<script type="module">
+import P from './people.js?v=p3';
+import * as THREE from '../jarvis/three.module.min.js';
+import { spec, figure, figureInstanced, play, animate, lookAt, setMouth, setExpression, setTalking, POSE_NAMES, WORK_POSES, VISEMES, EXPRESSIONS, loadRig, rigStatus } from './people3d.js?v=p2';
+const q = new URLSearchParams(location.search), still = q.get('still') === '1', lite = q.get('lite') === '1';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+await P.ready(); try { await P.warm(); } catch (_) { /* sample */ }
+await Promise.race([loadRig(), new Promise((r) => setTimeout(r, 15000))]);      // the rigged cast (v3); without it the v2 figures
+const people = P.list(), villagers = P.list({ kind: 'villager' }).slice(0, 8), all = people.concat(villagers);
+const $ = (id) => document.getElementById(id);
+const st = { seated: q.get('seated') === '1', close: q.get('close') === '1', i: Math.max(0, all.findIndex((p) => p.id === q.get('person'))), pose: POSE_NAMES.indexOf(q.get('pose')) >= 0 ? q.get('pose') : 'idle', expr: EXPRESSIONS.indexOf(q.get('expr')) >= 0 ? q.get('expr') : null, talk: false, look: true, spin: !still, fig: null, mouth: q.get('mouth'), mouthUntil: 0 };
+const info = { turn: {}, line: {}, rig: rigStatus() };
+function btn(row, label, on, pressed) { const b = document.createElement('button'); b.className = 'b'; b.type = 'button'; b.textContent = label; if (pressed != null) b.setAttribute('aria-pressed', String(!!pressed)); b.addEventListener('click', on); $(row).appendChild(b); return b; }
+function lights(scene) { scene.add(new THREE.HemisphereLight('#fbf3e6', '#4a3d30', 1.25)); const sun = new THREE.DirectionalLight('#fff0dc', 2.2); sun.position.set(2.5, 4, 3.5); scene.add(sun); const back = new THREE.DirectionalLight('#c9d6e0', 0.6); back.position.set(-3, 2.5, -3); scene.add(back); }
+function renderer(canvas) { const r = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'low-power' }); r.setPixelRatio(Math.min(2, devicePixelRatio || 1)); r.outputColorSpace = THREE.SRGBColorSpace; r.toneMapping = THREE.ACESFilmicToneMapping; return r; }
+let turn = null, line = null;
+try {
+  // ---- the turntable
+  const r = renderer($('turn')), scene = new THREE.Scene(); scene.background = new THREE.Color('#2e241b'); lights(scene);
+  const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.6, 0.06, 40), new THREE.MeshStandardMaterial({ color: '#d9cfbb', roughness: 0.85 })); disc.position.y = -0.03; scene.add(disc);
+  const holder = new THREE.Group(); scene.add(holder);
+  const cam = new THREE.PerspectiveCamera(30, 1, 0.1, 30), me = new THREE.Vector3();
+  let angle = 0, drag = null;
+  function set(i) {
+    st.i = (i + all.length) % all.length; const p = all[st.i];
+    if (st.fig) st.fig.userData.dispose();
+    st.fig = figure(THREE, spec(p.id), { lite, seated: !!st.seated }); holder.add(st.fig);
+    play(st.fig, st.pose); if (st.expr) setExpression(st.fig, st.expr); setTalking(st.fig, st.talk);
+    $('pname').textContent = p.name; const ot = st.fig.userData.outfit; $('ptitle').textContent = p.title + ' (' + (ot ? [ot.body, (ot.hair || 'no hair').replace('hair_', ''), ot.cape ? 'cape' : '', ot.hood ? 'hood' : '', ot.accessory].filter(Boolean).join(', ') : st.fig.userData.look.cut + ', ' + st.fig.userData.look.garb) + ')';
+    $('pp').replaceChildren(P.portrait(p.id, 44));
+    info.turn.triangles = st.fig.userData.triangles;
+  }
+  function fit() { const w = $('turn').clientWidth, h = $('turn').clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.position.set(0, st.close ? 0.72 : 0.68, st.close ? 1.45 : 2.9); cam.lookAt(0, st.close ? 0.66 : 0.5, 0); cam.updateProjectionMatrix(); }
+  function frame(dt, t) {
+    holder.rotation.y = angle; me.copy(cam.position);
+    if (st.fig) { lookAt(st.fig, st.look ? me : null); if (st.mouth && (still || t < st.mouthUntil)) setMouth(st.fig, st.mouth, 1); st.fig.userData.tick(dt, t); }
+    r.render(scene, cam); info.turn.calls = r.info.render.calls; info.turn.tris = r.info.render.triangles;
+    $('tmeter').textContent = 'This figure: ' + r.info.render.calls + ' draw calls with the floor, ' + (st.fig ? st.fig.userData.triangles.toLocaleString('en-US') : 0) + ' triangles' + (st.fig && st.fig.userData.rig ? ' (rigged v3: body + face, ' + st.fig.userData.info().bones + ' bones, ' + st.fig.userData.state().base + ').' : ' (v2: body ' + (st.fig ? st.fig.userData.bodyTriangles.toLocaleString('en-US') : 0) + ' + ink line).');
+  }
+  $('turn').addEventListener('pointerdown', (e) => { drag = { x: e.clientX, a: angle }; st.spin = false; $('turn').setPointerCapture(e.pointerId); });
+  $('turn').addEventListener('pointermove', (e) => { if (drag) { angle = drag.a + (e.clientX - drag.x) * 0.012; if (still) frame(0, 1.3); } });
+  $('turn').addEventListener('pointerup', () => { drag = null; });
+  $('prev').addEventListener('click', () => { set(st.i - 1); if (still) frame(0.5, 1.3); });
+  $('next').addEventListener('click', () => { set(st.i + 1); if (still) frame(0.5, 1.3); });
+  const poseBtns = {}, exprBtns = {};
+  for (const n of POSE_NAMES) poseBtns[n] = btn('poses', n, () => { st.pose = n; play(st.fig, n); for (const k in poseBtns) poseBtns[k].setAttribute('aria-pressed', String(k === n)); }, n === st.pose);
+  for (const n of EXPRESSIONS) exprBtns[n] = btn('exprs', n, () => { st.expr = n; setExpression(st.fig, n); for (const k in exprBtns) exprBtns[k].setAttribute('aria-pressed', String(k === n)); }, n === st.expr);
+  for (const v of VISEMES) btn('mouths', v, () => { st.mouth = v; st.mouthUntil = performance.now() / 1000 + 1.4; });
+  const tb = btn('toggles', 'Talk', () => { st.talk = !st.talk; setTalking(st.fig, st.talk); tb.setAttribute('aria-pressed', String(st.talk)); }, false);
+  const lb = btn('toggles', 'Look at me', () => { st.look = !st.look; lb.setAttribute('aria-pressed', String(st.look)); }, true);
+  const sb = btn('toggles', 'Spin', () => { st.spin = !st.spin; sb.setAttribute('aria-pressed', String(st.spin)); }, st.spin);
+  const seb = btn('toggles', 'Seated', () => { st.seated = !st.seated; seb.setAttribute('aria-pressed', String(st.seated)); set(st.i); }, false);
+  const cb = btn('toggles', 'Close-up', () => { st.close = !st.close; cb.setAttribute('aria-pressed', String(st.close)); fit(); if (still) frame(0.05, 1.3); }, false);
+  fit(); addEventListener('resize', fit); set(st.i);
+  turn = { frame, set, angle: (a) => { angle = a; }, step: (dt) => { if (st.spin && !reduced) angle += dt * 0.5; } };
+  // ---- the lineup: everyone as one crowd, and a few close-ups at work in front
+  const r2 = renderer($('line')), s2 = new THREE.Scene(); s2.background = new THREE.Color('#3a2c1e'); s2.fog = new THREE.Fog('#3a2c1e', 9, 22); lights(s2);
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(16, 48), new THREE.MeshStandardMaterial({ color: '#cdbf9f', roughness: 0.95 })); floor.rotation.x = -Math.PI / 2; s2.add(floor);
+  const cam2 = new THREE.PerspectiveCamera(34, 1, 0.1, 60);
+  const front = people.slice(0, 6); const heroes = front.map((p, i) => { const f = figure(THREE, spec(p.id), { lite }); f.position.set((i - 2.5) * 0.66, 0, 1.25 - Math.abs(i - 2.5) * 0.12); f.rotation.y = -(i - 2.5) * 0.08; play(f, WORK_POSES[p.kind] || 'idle'); s2.add(f); return f; });
+  const rest = all.filter((p) => !front.includes(p)), crowd = figureInstanced(THREE, rest.map((p) => spec(p.id)), { lite: true });
+  rest.forEach((p, i) => { const per = 10, row = Math.floor(i / per), k = i % per, n = Math.min(per, rest.length - row * per); crowd.userData.place(i, (k - (n - 1) / 2) * 0.62 + (row % 2) * 0.2, 0, -0.2 - row * 0.85, 0, 1); });
+  s2.add(crowd);
+  function fit2() { const w = $('line').clientWidth, h = $('line').clientHeight; r2.setSize(w, h, false); cam2.aspect = w / h; const d = w < 600 ? 7.4 : 5.0; cam2.position.set(0, 1.35, d); cam2.lookAt(0, 0.5, -0.9); cam2.updateProjectionMatrix(); }
+  fit2(); addEventListener('resize', fit2);
+  function frame2(dt, t) {
+    for (const f of heroes) { lookAt(f, null); f.userData.tick(dt, t); }
+    crowd.userData.lookAll(cam2.position); crowd.userData.tick(t);
+    r2.render(s2, cam2); info.line.calls = r2.info.render.calls; info.line.tris = r2.info.render.triangles; info.line.crowdCalls = crowd.userData.drawCalls; info.line.impostors = !!crowd.userData.impostors; info.rig = rigStatus(); info.line.people = all.length;
+    $('lmeter').textContent = all.length + ' people on screen in ' + r2.info.render.calls + ' draw calls and ' + r2.info.render.triangles.toLocaleString('en-US') + ' triangles (the crowd of ' + rest.length + ' is ' + crowd.userData.drawCalls + ' draw calls' + (crowd.userData.impostors ? ': sprites photographed from their 3D selves' : '') + ').';
+  }
+  line = { frame: frame2 };
+  crowd.addEventListener('impostors', () => { if (still) frame2(0.05, 1.3); });      // the sprites arrive after the cast is photographed
+} catch (e) { $('status').textContent = 'No WebGL here: ' + (e && e.message ? e.message : e); }
+// ---- portraits
+for (const p of all) {
+  const b = document.createElement('button'); b.className = 'cell'; b.type = 'button';
+  b.appendChild(P.portrait(p.id, 96));
+  const m = document.createElement('span'); m.className = 'moods'; for (const mood of ['calm', 'proud', 'sheepish', 'worried']) m.appendChild(P.portrait(p.id, 44, { mood, uid: mood })); b.appendChild(m);
+  const n = document.createElement('b'); n.textContent = p.name; b.appendChild(n); const t = document.createElement('small'); t.textContent = p.title; b.appendChild(t);
+  b.addEventListener('click', () => P.open(p.id, { anchor: b })); $('grid').appendChild(b);
+}
+if (turn) {
+  if (still) { for (let k = 0; k < 40; k++) { turn.frame(0.05, 1 + k * 0.05); if (line) line.frame(0.05, 1 + k * 0.05); } }
+  else { const t0 = performance.now(); let last = t0; const loop = (now) => { const dt = Math.min(0.05, (now - last) / 1000), t = (now - t0) / 1000; last = now; if (!document.hidden) { turn.step(dt); turn.frame(reduced ? 0 : dt, t); if (line) line.frame(reduced ? 0 : dt, t); } requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+  $('status').textContent = all.length + ' people. Turn the one on top with your finger; tap a pose, a face or a mouth shape. Tap a portrait to talk.';
+} else if (!$('status').textContent.startsWith('No WebGL')) $('status').textContent = all.length + ' people.';
+/** for tests and screenshots: show one person in a pose / face / mouth, turned by angle, after n settled frames */
+function show(o) {
+  if (!turn) return null; const k = all.findIndex((p) => p.id === o.id); st.pose = o.pose || 'idle'; st.expr = o.expr || null; st.mouth = o.mouth || null; st.talk = !!o.talk; st.spin = false;
+  turn.set(k >= 0 ? k : st.i); if (o.angle != null) turn.angle(o.angle);
+  for (let j = 0; j < (o.frames || 40); j++) turn.frame(0.05, (o.t || 1) + j * 0.05);
+  return { id: all[st.i].id, triangles: st.fig.userData.triangles, state: st.fig.userData.state() };
+}
+window.PEOPLE_LAB = { ready: () => true, info: () => info, show, ids: () => all.map((p) => p.id), set: (id) => turn && turn.set(all.findIndex((p) => p.id === id)), frame: (dt, t) => { if (turn) turn.frame(dt, t); if (line) line.frame(dt, t); } };
+</script>
+</body>
+</html>

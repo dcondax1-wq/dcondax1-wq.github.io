@@ -1,0 +1,1 @@
+{"v":1,"name":"Inbox","status":{"level":"ok","label":"All quiet"},"kpis":[{"label":"New","value":"0"},{"label":"Bots","value":"0"},{"label":"System","value":"0"}],"lines":["All quiet: your bots are fine.","Bot events, Argus, Kalshi, Bridge and Jarvis in one list."],"t":1793394000,"open":"#inbox","theme":"#070a12","stale_after":31536000}

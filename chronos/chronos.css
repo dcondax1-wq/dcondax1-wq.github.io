@@ -1,0 +1,151 @@
+/* CHRONOS: the HUD over the clock tower. The kit (../olympus/olympus.css) gives fonts, tokens, chips, the close button and the veil.
+   Jarvis's orb owns the bottom-right 80 x 160 px: the dock stops 96 px from the right; the sheet sits above the dock. Safe areas on
+   every edge; no sideways scroll at 390 px; inputs are 16 px (no iPhone zoom). */
+:root {
+  --c-bg: #13100d; --c-acc: #c8a24a; --c-acc-rgb: 200, 162, 74; --c-gold: #c8a24a; --c-ok: #7f8a52; --c-bad: #c96a4a; --dock-h: 186px;
+  --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px));
+  --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px));
+  --vh: var(--oly-vh, 100vh);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--c-bg); color: var(--oly-text, #f3ece0); overflow: hidden; }
+body { font: 500 var(--oly-t-body, 14px)/1.35 var(--oly-ui, -apple-system, system-ui, sans-serif); min-height: var(--vh); }
+button, select, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--c-acc); outline-offset: 2px; }
+#tower { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+html[data-noscene] #tower { display: none; }
+html[data-noscene] body { background: radial-gradient(ellipse at 50% 55%, #43392f 0%, var(--c-bg) 62%); }
+
+#ui { position: fixed; top: 0; left: 0; right: 0; padding: calc(var(--st) + 10px) calc(var(--sr) + 16px) 0 calc(var(--sl) + 16px); pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
+#ui > * { pointer-events: auto; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 36px; }
+.brand h1 { margin: 0; font: 800 18px/1 var(--oly-display, sans-serif); letter-spacing: .01em; color: var(--c-acc);  }
+.brand .sub { margin: 3px 0 0; font-size: var(--oly-t-micro, 10.5px); letter-spacing: .01em; text-transform: none; color: var(--oly-dim); }
+.tags { display: flex; gap: 6px; }
+.tag { padding: 3px 8px; border-radius: 999px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; border: 1px solid var(--oly-line); color: var(--oly-dim); background: var(--oly-glass); }
+.tag.demo { color: #e0b060; border-color: rgba(224, 176, 96, .5); }
+.tag[hidden] { display: none; }
+
+.daycard, .caption { padding: 8px 10px; border-radius: var(--oly-r-card, 16px); background: var(--oly-glass); border: 1px solid var(--oly-line);
+  -webkit-backdrop-filter: blur(var(--oly-blur, 14px)); backdrop-filter: blur(var(--oly-blur, 14px)); }
+.pick { display: flex; align-items: center; gap: 6px; }
+.pick button { flex: none; width: 44px; min-height: 44px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .05); font: 700 22px/1 var(--oly-ui); }
+.pick button:disabled { opacity: .35; cursor: default; }
+.pick select { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 4px 8px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .06); font-size: 16px; font-weight: 700; }
+.jumps { display: flex; gap: 6px; margin-top: 6px; }
+.jumps button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 4px 4px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .04); font: 700 12px/1.1 var(--oly-ui); }
+.jumps button:disabled { opacity: .35; cursor: default; }
+.jumps button[aria-pressed="true"] { border-color: rgba(var(--c-acc-rgb), .8); color: var(--c-acc); }
+
+.caption .line1 { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.caption b { font: 800 15px/1.1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; color: var(--c-acc);  }
+.caption #clock { font: 700 13px/1 var(--oly-ui); font-variant-numeric: tabular-nums; color: var(--c-gold); }
+.caption .meta { margin-left: auto; font-size: 12px; color: var(--oly-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.caption p { margin: 4px 0 0; font-size: 12.5px; line-height: 1.3; color: var(--oly-text); min-height: 2.6em; overflow-wrap: anywhere; }
+
+.pills { display: flex; gap: 6px; }
+.pills button { min-height: 44px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--oly-line); background: var(--oly-glass); font: 700 12px/1 var(--oly-ui); letter-spacing: .01em;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.pills button[aria-pressed="true"] { border-color: rgba(var(--c-acc-rgb), .75); box-shadow: none; color: var(--c-acc); }
+
+.dock { position: fixed; z-index: 5; left: calc(var(--sl) + 16px); right: calc(var(--sr) + var(--oly-orb-clear, 96px)); bottom: calc(var(--sb) + 12px);
+  display: flex; flex-direction: column; gap: 6px; padding: 8px 8px 10px; border-radius: var(--oly-r-card, 16px); border: 1px solid var(--oly-line); background: rgba(21, 18, 15, .82);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.dock .row { display: flex; align-items: center; gap: 8px; }
+.dock .trades { flex-wrap: wrap; gap: 6px; }
+.dock .trades[hidden] { display: none; }
+.dock .trades button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 4px 6px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .04); font: 700 12px/1.1 var(--oly-ui); }
+.dock .trades button[aria-pressed="true"] { border-color: rgba(var(--c-acc-rgb), .8); color: var(--c-acc); }
+.dock input[type=range] { flex: 1; min-width: 0; height: 44px; accent-color: var(--c-acc); background: transparent; touch-action: none; }
+.ctl { gap: 4px; }
+.play { flex: none; min-width: 52px; min-height: 44px; padding: 4px 4px; border-radius: 12px; border: 1px solid rgba(var(--c-acc-rgb), .8); background: rgba(var(--c-acc-rgb), .16); font: 800 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--c-acc); }
+.speeds { display: flex; flex: 1 1 0; min-width: 0; gap: 4px; }
+.speeds button { flex: 1 1 0; min-width: 44px; min-height: 44px; padding: 4px 2px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .04); font: 700 12px/1 var(--oly-ui); }
+.speeds button[aria-pressed="true"] { border-color: rgba(var(--c-acc-rgb), .8); color: var(--c-acc); }
+.dock .help { margin: 0; font-size: 12px; color: var(--oly-dim); }
+
+.sheet { position: fixed; z-index: 6; left: calc(var(--sl) + 16px); right: calc(var(--sr) + 16px); bottom: calc(var(--sb) + var(--dock-h) + 22px);
+  max-height: calc(100vh - var(--st) - var(--dock-h) - 300px); max-height: calc(100dvh - var(--st) - var(--dock-h) - 300px); min-height: 160px; display: flex; flex-direction: column;
+  border-radius: var(--oly-r-card, 16px); border: 1px solid var(--oly-line); background: rgba(21, 18, 15, .92); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: var(--oly-shadow); }
+.sheet[hidden] { display: none; }
+.sheet header { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 0 14px; }
+.sheet h2 { margin: 0; font: 700 13px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--c-acc); }
+.sheet .body { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 4px 12px 12px; }
+.sheet p { margin: 6px 0; font-size: 12.5px; color: var(--oly-dim); overflow-wrap: anywhere; }
+/* the festival calendar in the About sheet (olympus/polis-life.js, QA round 6): its own header and title, not the sheet's */
+.sheet .body > .pl-placed { margin: 14px 0 4px; }
+.sheet .body > .pl-placed header.pl-head { display: block; padding: 0; }
+.sheet .body > .pl-placed h2.pl-title { font: 600 18px/1.2 var(--ag-serif, "Iowan Old Style", Palatino, Georgia, serif); color: #f3ece0; }
+.sheet .body > .pl-placed p.pl-sub { margin: 3px 0 0; font-size: 13.5px; }
+.sheet p.strong { color: var(--oly-text); font-size: 13px; }
+.sheet .head { margin: 6px 0 4px; font: 800 17px/1.25 var(--oly-display, sans-serif); letter-spacing: .01em; color: var(--c-gold);  overflow-wrap: anywhere; }
+.sheet .head.loss { color: var(--c-bad);  }
+.sheet h3 { margin: 10px 0 4px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--oly-dim); }
+.sheet ul.what { margin: 0; padding-left: 18px; font-size: 12.5px; color: var(--oly-text); }
+.sheet ul.what li { margin: 4px 0; overflow-wrap: anywhere; }
+.sheet .again { margin-top: 8px; min-height: 44px; padding: 4px 14px; border-radius: 12px; border: 1px solid rgba(var(--c-acc-rgb), .8); background: rgba(var(--c-acc-rgb), .16); font: 800 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--c-acc); }
+.stepsl { list-style: none; margin: 0; padding: 0; }
+.stepsl li button { display: grid; grid-template-columns: 44px 1fr; gap: 8px; align-items: baseline; width: 100%; text-align: left; padding: 7px 2px; background: none; border: 0; border-bottom: 1px solid rgba(255, 255, 255, .06); font-size: 12.5px; }
+.stepsl .t { color: var(--c-gold); font-variant-numeric: tabular-nums; font-weight: 700; }
+.stepsl .n { display: block; color: var(--c-acc); font: 700 12px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.stepsl li.future button { opacity: .45; }
+.stepsl .x { color: var(--oly-text); display: block; overflow-wrap: anywhere; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+@media (max-height: 740px) { .dock .help { display: none; } :root { --dock-h: 164px; } .caption p { min-height: 0; } }
+
+/* ---- 2026-11-04 (JOB 10+11): the Lab (compare, reels, what if, calendar, export) */
+.labtabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.labtabs::-webkit-scrollbar { display: none; }
+.labtabs button { flex: none; min-height: 44px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--oly-line); background: var(--oly-glass); font: 700 12px/1 var(--oly-ui); color: var(--oly-text); }
+.labtabs button[aria-pressed="true"] { border-color: rgba(var(--c-acc-rgb), .75); color: var(--c-acc); box-shadow: none; }
+.lab { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.lab .note { margin: 0; font-size: 12px; color: var(--oly-dim); overflow-wrap: anywhere; }
+.cmpsel { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cmpsel select { min-width: 0; min-height: 44px; border-radius: 10px; border: 1px solid var(--oly-line); background: var(--oly-glass); color: var(--oly-text); font: 600 12px var(--oly-ui); font-size: 16px; padding: 0 8px; }   /* 16px: iOS zooms the page when a smaller select is focused */
+.cmpcols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cmpcol { display: flex; flex-direction: column; gap: 3px; padding: 10px; border-radius: 12px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .03); font-size: 12px; min-width: 0; }
+.cmpcol.a { border-color: rgba(224, 176, 96, .5); } .cmpcol.b { border-color: rgba(224, 176, 96, .5); }
+.cmpcol b { font-size: 13px; } .cmpcol .big { font: 800 22px/1.1 var(--oly-display, sans-serif); color: var(--c-ok, #c8a24a); } .cmpcol .big.neg { color: #c96a4a; }
+.cmpcol .note { font-size: 12px; }
+.cchart { display: block; width: 100%; height: auto; background: rgba(0, 0, 0, .25); border-radius: 10px; }
+.cchart .z { stroke: rgba(255, 255, 255, .18); } .cchart .stop { stroke: #c96a4a; stroke-dasharray: 4 3; }
+.cchart .lb { font: 600 12px var(--oly-ui, sans-serif); fill: var(--oly-dim); }
+.cchart .p { fill: none; stroke-width: 1.8; stroke-linejoin: round; opacity: .9; }
+.cchart .p.a, .cchart .p.best { stroke: #e0b060; } .cchart .p.b, .cchart .p.avg { stroke: #e0b060; } .cchart .p.worst { stroke: #c96a4a; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; margin: 0; font-size: 12px; color: var(--oly-dim); }
+.legend .k { display: inline-block; width: 18px; height: 3px; border-radius: 2px; } .legend .k.a { background: #e0b060; } .legend .k.b { background: #e0b060; }
+.reel { display: flex; flex-direction: column; gap: 6px; padding: 10px; border-radius: 12px; border: 1px solid var(--oly-line); background: rgba(255, 255, 255, .03); }
+.reel .rh { display: flex; justify-content: space-between; align-items: baseline; } .reel .rh .pos { color: #c8a24a; font-weight: 700; } .reel .rh .neg { color: #c96a4a; font-weight: 700; }
+.reel .rd { font-size: 12px; color: var(--oly-dim); }
+.wtab { width: 100%; border-collapse: collapse; font-size: 12px; }
+.wtab th { text-align: right; font: 700 12px var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; color: var(--oly-dim); padding: 4px; } .wtab th:first-child, .wtab td:first-child { text-align: left; }
+.wtab td { text-align: right; padding: 6px 4px; border-top: 1px solid rgba(255, 255, 255, .07); } .wtab tr.base td { color: var(--c-acc); font-weight: 700; } .wtab tr.best td { background: rgba(200, 162, 74, .12); }
+.month h4 { margin: 6px 0; font: 700 12px var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--c-acc); }
+.hgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.hc { display: grid; place-items: center; aspect-ratio: 1; min-height: 30px; border-radius: 6px; font-size: 12px; color: var(--oly-dim); background: rgba(255, 255, 255, .04); border: 0; padding: 0; }
+.hc.blank { background: transparent; } .hc.wk { opacity: .4; } .hc.has { color: #f3ece0; font-weight: 700; cursor: pointer; }
+.export .copybox { width: 100%; min-height: 120px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(0, 0, 0, .3); color: var(--oly-text); font: 12px/1.4 ui-monospace, monospace; padding: 8px; }
+.lab .btnrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.lab .btn { min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(var(--c-acc-rgb), .7); background: rgba(var(--c-acc-rgb), .16); color: var(--oly-text); font: 700 13px var(--oly-ui); }
+.lab .btn.ghost { background: transparent; } .lab .btn.mini { min-height: 44px; }
+
+/* ===== AGORA revamp (2026-11-09): the day's money first; the controls are quiet ===== */
+.brand h1 { font: 600 26px/1.05 var(--ag-serif, Georgia, serif); color: #f3ece0; }
+.brand h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 7px; background: linear-gradient(90deg, #c8a24a, transparent); }
+.brand .sub { font-size: 13px; color: #cfc4b2; }
+.daycard, .caption { background: rgba(29, 25, 20, .94); border-color: #3a3228; border-radius: 16px; padding: 12px 14px; }
+.daymoney { margin: 0 0 8px; }
+.dm-top { display: flex; align-items: baseline; gap: 10px; }
+.dm-big { font: 700 40px/1.05 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; } .dm-big.pos { color: #a3ad73; } .dm-big.neg { color: #d9785a; }
+.dm-r { font: 600 16px var(--ag-num, system-ui); color: #cfc4b2; }
+.dm-line { margin: 3px 0 0; font-size: 14px; line-height: 1.35; color: #f3ece0; } .dm-line.dim { color: #9a8f7d; }
+.jumps button { font: 600 13px/1.1 var(--ag-sans, system-ui); background: transparent; }
+.jumps button[aria-pressed="true"] { background: #2a2217; border-color: #c8a24a; color: #c8a24a; }
+.caption b { font: 600 17px var(--ag-serif, Georgia, serif); color: #c8a24a; } .caption p { font-size: 14px; }
+.pills button { font: 600 15px var(--ag-sans, system-ui); background: rgba(29, 25, 20, .94); border-color: #3a3228; }
+.pills button[aria-pressed="true"] { background: #c8a24a; color: #1b1610; border-color: #c8a24a; }
+.play { background: linear-gradient(180deg, #c8a24a, #c8a24a); color: #1b1610; border-color: #e0b060; font-weight: 700; }
+
+.dm-bar { display: block; height: 8px; margin: 8px 0; border-radius: 99px; background: #2b251d; overflow: hidden; } .dm-bar i { display: block; height: 100%; background: linear-gradient(90deg, #9c6b3c, #c8a24a); }

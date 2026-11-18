@@ -1,0 +1,2145 @@
+{
+ "v": 1,
+ "t": 1794983020,
+ "built": "2026-11-18 06:23",
+ "data_to": "2026-10-16",
+ "where": "cloud",
+ "counts": {
+  "rejected": 21,
+  "parked": 5,
+  "blocked": 3
+ },
+ "cells": 53,
+ "p_needed": 0.00377,
+ "rules": {
+  "shadow_weeks": 4,
+  "min_forward_changed": 2,
+  "family_alpha": 0.2,
+  "signflip_draws": 4000,
+  "atlas_risk_usd": 250
+ },
+ "safety": {
+  "light": "GREEN",
+  "data_to": "2026-11-06",
+  "line": "Edge health: GREEN \u00b7 last 40 sessions PF 3.84 vs 2026 H1 3.91 \u00b7 data to Nov 6",
+  "advice": "none",
+  "say": "Edge light GREEN: the market still looks like 2026. No change."
+ },
+ "recent": null,
+ "rows": [
+  {
+   "id": "lit_be_on_close",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: breakeven only after a 1-minute CLOSE at +1R (not the first touch)",
+   "what": "The stop moves to breakeven (+1.25 pts) when a 1-minute candle closes at +1R or better, instead of the first wick that touches +1R.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (4 in Jan-Jun, 0 in Jul-Oct); Jan-Jun (pick): -$1,989 at the LIT size; Jan-Jun (pick): -$2,529 on the eval path; Jul-Oct (check): +$0 at the LIT size; Jul-Oct (check): +$0 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -326,
+    "H2": 0,
+    "2021-25": 122
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 36,
+    "H1": 4
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5236.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2670.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 147.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5108.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3159.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.18,
+     "net": 31912,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.91,
+     "net": 9919,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.07,
+     "net": 7506,
+     "dd": -18120
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 44.5,
+     "f10": 0.0,
+     "pass_med": 10.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_buildup_london_x1.25",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x1.25 size on London build-up sweeps (equal highs / lows, 02:00-08:00)",
+   "what": "When the swept level is a build-up (equal highs or lows) and the entry is in London (02:00-08:00 ET), Zlarior risks 25% more. Other trades unchanged.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$25 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 295,
+    "H2": 14,
+    "2021-25": -19
+   },
+   "flip": {
+    "H1": 0.14571,
+    "H2": 0.50612
+   },
+   "hits": {
+    "2021-25": 177,
+    "H1": 26,
+    "H2": 12
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5857.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2684.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 6.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5519.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3281.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.85,
+     "net": 35701,
+     "dd": -2458
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.83,
+     "net": 9969,
+     "dd": -1555
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.0,
+     "net": 318,
+     "dd": -21999
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 41.2,
+     "f10": 0.0,
+     "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_gap_against_x0.75",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x0.75 size when the 18:00 open gapped against the trade",
+   "what": "When the session opened (18:00) away from the prior close against the trade's direction (bottom quarter of Jan-Jun gaps, in daily ATR), Zlarior risks 25% less.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$2,485 at the LIT size; Jan-Jun (pick): -$6,274 on the eval path; Jul-Oct (check): -$700 at the LIT size; Jul-Oct (check): -$728 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -408,
+    "H2": -188,
+    "2021-25": 0
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 100,
+    "H1": 20,
+    "H2": 10
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5154.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2482.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 25.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 4494.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 2964.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.82,
+     "net": 31416,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.83,
+     "net": 9219,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.01,
+     "net": 1281,
+     "dd": -17002
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 40.3,
+     "f10": 0.0,
+     "pass_med": 12.5
+    },
+    "H2": {
+     "p10": 34.8,
+     "f10": 0.0,
+     "pass_med": 14.0
+    }
+   }
+  },
+  {
+   "id": "lit_news_be",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: breakeven 2 minutes before big US news when +0.5R or better",
+   "what": "2 minutes before a high-impact release, a trade at least +0.5R in profit but not yet at breakeven gets its stop moved to breakeven (+1.25 pts).",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (0 in Jan-Jun, 0 in Jul-Oct); Jan-Jun (pick): +$0 at the LIT size; Jan-Jun (pick): +$0 on the eval path; Jul-Oct (check): +$0 at the LIT size; Jul-Oct (check): +$0 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 0,
+    "H2": 0,
+    "2021-25": 0
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {},
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5562.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2670.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 25.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5523.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3159.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.98,
+     "net": 33901,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.91,
+     "net": 9919,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.01,
+     "net": 1265,
+     "dd": -19426
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 44.5,
+     "f10": 0.0,
+     "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_news_out",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: out 2 minutes before big US news if not yet at breakeven",
+   "what": "An open trade not yet at breakeven is closed 2 minutes before a high-impact release (CPI, jobs, PPI 08:30; FOMC 14:00). At breakeven it runs on.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (1 in Jan-Jun, 0 in Jul-Oct); Jul-Oct (check): +$0 at the LIT size; Jul-Oct (check): +$0 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 64,
+    "H2": 0,
+    "2021-25": 15
+   },
+   "flip": {
+    "H1": 0.49988,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 7,
+    "H1": 1
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5626.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2670.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 40.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5541.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3159.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 5.22,
+     "net": 34293,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.91,
+     "net": 9919,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.02,
+     "net": 2042,
+     "dd": -19611
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 44.5,
+     "f10": 0.0,
+     "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_nr7_x1.25",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x1.25 size the day after an NR7 (narrowest range of 7 sessions)",
+   "what": "When yesterday's session range was the smallest of the last 7 sessions, Zlarior risks 25% more on today's trade. Other days unchanged.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$143 at the LIT size; Jul-Oct (check): -$44 at the LIT size",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -24,
+    "H2": -11,
+    "2021-25": -5
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 68,
+    "H1": 6,
+    "H2": 9
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5538.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2659.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 20.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5589.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3308.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.89,
+     "net": 33758,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.87,
+     "net": 9875,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.01,
+     "net": 1008,
+     "dd": -19288
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 44.5,
+     "f10": 0.0,
+     "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_ny_open_be",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: breakeven before the NY open when +0.5R or better",
+   "what": "At 09:29 ET a trade filled earlier, not yet at breakeven but at least +0.5R in profit, gets its stop moved to breakeven (+1.25 pts). Losing trades unchanged.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (0 in Jan-Jun, 0 in Jul-Oct); Jan-Jun (pick): +$0 at the LIT size; Jan-Jun (pick): +$0 on the eval path; Jul-Oct (check): +$0 at the LIT size; Jul-Oct (check): +$0 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 0,
+    "H2": 0,
+    "2021-25": -15
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 1
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5562.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2670.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 10.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5523.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3159.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.98,
+     "net": 33901,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.91,
+     "net": 9919,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.01,
+     "net": 521,
+     "dd": -19426
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 44.5,
+     "f10": 0.0,
+     "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_ny_open_out",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: out before the NY open if not yet at breakeven",
+   "what": "A trade filled before 09:29 ET that is still open and not at breakeven is closed at 09:29 (the 09:28 close decides). Trades already at breakeven run on.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (5 in Jan-Jun, 2 in Jul-Oct); Jan-Jun (pick): -$1,932 at the LIT size; Jan-Jun (pick): -$2,922 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -317,
+    "H2": 33,
+    "2021-25": -100
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 0.23669
+   },
+   "hits": {
+    "2021-25": 73,
+    "H1": 5,
+    "H2": 2
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5245.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2703.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": -75.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5043.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3267.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.71,
+     "net": 31969,
+     "dd": -2244
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.98,
+     "net": 10039,
+     "dd": -1329
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 0.96,
+     "net": -3854,
+     "dd": -17603
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 43.7,
+     "f10": 0.0,
+     "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_pm_cap_3r",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: from 14:00 ET the target is at most 3R",
+   "what": "A Zlarior trade entered at or after 14:00 ET aims for at most 3x its risk instead of the full VIX band (less time left in the day).",
+   "source": "research/writeups/lit-edge-2026-10-30.md (thin lead)",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-10-30",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (2 in Jan-Jun, 1 in Jul-Oct)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 75,
+    "H2": 84,
+    "2021-25": 29
+   },
+   "flip": {
+    "H1": 0.23669,
+    "H2": 0.49988
+   },
+   "hits": {
+    "H1": 2,
+    "H2": 1,
+    "2021-25": 14
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5637.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2754.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 54.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5605.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3913.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 5.03,
+     "net": 34361,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.97,
+     "net": 10230,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.03,
+     "net": 2748,
+     "dd": -18941
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 47.1,
+     "f10": 0.0,
+     "pass_med": 10.0
+    },
+    "H2": {
+     "p10": 40.6,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_rr_high_x1.25",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x1.25 size when the planned reward is big (R:R top third)",
+   "what": "Zlarior risks 25% more when its VIX-band target is far away compared with its stop. Other trades unchanged.",
+   "source": "ZEUS Lab seed (Claude idea)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$142 on the eval path; Jul-Oct (check): -$215 at the LIT size; Jul-Oct (check): -$179 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 525,
+    "H2": -57,
+    "2021-25": 0
+   },
+   "flip": {
+    "H1": 0.05199,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 31,
+    "H1": 27,
+    "H2": 8
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 6087.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2613.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 25.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5500.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3111.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 5.13,
+     "net": 37104,
+     "dd": -2373
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.78,
+     "net": 9704,
+     "dd": -1552
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.01,
+     "net": 1278,
+     "dd": -19381
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 43.7,
+     "f10": 0.0,
+     "pass_med": 10.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_stall_60",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: after breakeven, out when 60 minutes pass without a new best price",
+   "what": "Once a trade is at breakeven, if 60 minutes pass without a new high (low for shorts) it is closed at the next 1-minute open instead of waiting for breakeven or the target.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$9,237 at the LIT size; Jan-Jun (pick): -$11,535 on the eval path; Jul-Oct (check): -$1,700 at the LIT size; Jul-Oct (check): -$3,876 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -1516,
+    "H2": -457,
+    "2021-25": -29
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 91,
+    "H1": 18,
+    "H2": 7
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 4046.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2213.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": -4.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 3630.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 2116.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 3.89,
+     "net": 24664,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.58,
+     "net": 8219,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.0,
+     "net": -198,
+     "dd": -18193
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 19.3,
+     "f10": 0.0,
+     "pass_med": 14.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.5
+    }
+   }
+  },
+  {
+   "id": "lit_time_stop_60",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: time stop - out after 60 minutes if the trade never reached +1R",
+   "what": "60 minutes after the fill, a Zlarior trade that has not once been +1R (so no breakeven yet) is closed at the next 1-minute open. Today it waits for its stop, breakeven, target or 15:55.",
+   "source": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md (tools/lit_lab_ideas.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$4,236 at the LIT size; Jan-Jun (pick): -$8,420 on the eval path; Jul-Oct (check): -$3,512 at the LIT size; Jul-Oct (check): -$6,361 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -695,
+    "H2": -945,
+    "2021-25": -377
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 247,
+    "H1": 19,
+    "H2": 17
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 4867.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 1725.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": -352.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 4141.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 1447.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 5.09,
+     "net": 29665,
+     "dd": -2259
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.42,
+     "net": 6407,
+     "dd": -1693
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 0.77,
+     "net": -17948,
+     "dd": -27396
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 49.6,
+     "f10": 0.0,
+     "pass_med": 9.0
+    },
+    "H2": {
+     "p10": 26.1,
+     "f10": 0.0,
+     "pass_med": 8.0
+    }
+   }
+  },
+  {
+   "id": "atlas_member_ksq",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: new member - 15m Keltner squeeze release",
+   "what": "ATLAS gets a 4th member: trade the first 15m close out of a Keltner squeeze box, stop beyond the breakout bar or box middle, one target.",
+   "source": "research/writeups/atlas-members-2026-11-18.md (tools/atlas_plus.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "no Jan-Jun pick: none of its 8 versions made money with PF >= 1.2 on 12+ trades in Jan-Jun (alone, $250 a trade); 0 hold all 4 spans vs 0.0 with coin-flip sides",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": null,
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 541.0,
+     "now": 541.0
+    },
+    "H2": {
+     "exp": 353.0,
+     "now": 353.0
+    },
+    "2021-25": {
+     "exp": 34,
+     "now": 34
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 104,
+     "tpw": 4.06,
+     "pf": 2.92,
+     "net": 18362,
+     "dd": -1062
+    },
+    "H2": {
+     "n": 46,
+     "tpw": 2.95,
+     "pf": 2.55,
+     "net": 5256,
+     "dd": -876
+    },
+    "2025": {
+     "n": 994,
+     "tpw": 4.61,
+     "pf": 1.08,
+     "net": 10393,
+     "dd": -11403
+    },
+    "2021-24": {
+     "n": 994,
+     "tpw": 4.61,
+     "pf": 1.08,
+     "net": 10393,
+     "dd": -11403
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_member_odc",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: new member - Opening-drive continuation (1m trigger)",
+   "what": "ATLAS gets a 4th member: after a strong opening drive, enter the pullback's 1m turn in the drive's direction, until 11:00, stop 1 tick beyond the pullback, one target.",
+   "source": "research/writeups/atlas-members-2026-11-18.md (tools/atlas_plus.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun 4.49 trades a week (rule 2-4); Jul-Oct funded -$100 a month; 2021-25 -$2 a month; green days not up in both halves (or more red days with LIT); could be luck: p 0.11822 / 1.0 (needs <= 0.00588)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 37,
+    "H2": -100
+   },
+   "flip": {
+    "H1": 0.11822,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 578.0,
+     "now": 541.0
+    },
+    "H2": {
+     "exp": 253.0,
+     "now": 353.0
+    },
+    "2021-25": {
+     "exp": 32,
+     "now": 34
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 115,
+     "tpw": 4.49,
+     "pf": 2.9,
+     "net": 20093,
+     "dd": -1036
+    },
+    "H2": {
+     "n": 56,
+     "tpw": 3.59,
+     "pf": 1.94,
+     "net": 4675,
+     "dd": -1578
+    },
+    "2025": {
+     "n": 1064,
+     "tpw": 4.94,
+     "pf": 1.05,
+     "net": 7241,
+     "dd": -14925
+    },
+    "2021-24": {
+     "n": 1064,
+     "tpw": 4.94,
+     "pf": 1.05,
+     "net": 7241,
+     "dd": -14925
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_member_poc",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: new member - Prior-day POC first touch (own idea)",
+   "what": "ATLAS gets a 4th member: fade the first touch of yesterday's point of control, stop 1 tick beyond the touch bar.",
+   "source": "research/writeups/atlas-members-2026-11-18.md (tools/atlas_plus.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun funded -$20 a month; Jan-Jun 4.38 trades a week (rule 2-4); Jul-Oct funded -$74 a month; 2021-25 -$11 a month; green days not up in both halves (or more red days with LIT); could be luck: p 0.47238 / 0.49063 (needs <= 0.00588)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -20,
+    "H2": -74
+   },
+   "flip": {
+    "H1": 0.47238,
+    "H2": 0.49063
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 521.0,
+     "now": 541.0
+    },
+    "H2": {
+     "exp": 279.0,
+     "now": 353.0
+    },
+    "2021-25": {
+     "exp": 23,
+     "now": 34
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 112,
+     "tpw": 4.38,
+     "pf": 2.68,
+     "net": 18476,
+     "dd": -1244
+    },
+    "H2": {
+     "n": 55,
+     "tpw": 3.53,
+     "pf": 2.07,
+     "net": 5283,
+     "dd": -1401
+    },
+    "2025": {
+     "n": 1127,
+     "tpw": 5.23,
+     "pf": 1.01,
+     "net": 1311,
+     "dd": -15819
+    },
+    "2021-24": {
+     "n": 1127,
+     "tpw": 5.23,
+     "pf": 1.01,
+     "net": 1311,
+     "dd": -15819
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_member_pva",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: new member - Prior-day value-area re-entry (80% rule, re-measure)",
+   "what": "ATLAS gets a 4th member: Dalton's 80% rule (open outside yesterday's value area, back inside -> trade to the far edge).",
+   "source": "research/writeups/atlas-members-2026-11-18.md (tools/atlas_plus.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "no Jan-Jun pick: none of its 1 versions made money with PF >= 1.2 on 12+ trades in Jan-Jun (alone, $250 a trade); 0 hold all 4 spans vs 0.0 with coin-flip sides",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": null,
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 541.0,
+     "now": 541.0
+    },
+    "H2": {
+     "exp": 353.0,
+     "now": 353.0
+    },
+    "2021-25": {
+     "exp": 34,
+     "now": 34
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 104,
+     "tpw": 4.06,
+     "pf": 2.92,
+     "net": 18362,
+     "dd": -1062
+    },
+    "H2": {
+     "n": 46,
+     "tpw": 2.95,
+     "pf": 2.55,
+     "net": 5256,
+     "dd": -876
+    },
+    "2025": {
+     "n": 994,
+     "tpw": 4.61,
+     "pf": 1.08,
+     "net": 10393,
+     "dd": -11403
+    },
+    "2021-24": {
+     "n": 994,
+     "tpw": 4.61,
+     "pf": 1.08,
+     "net": 10393,
+     "dd": -11403
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_member_vwp",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: new member - VWAP pullback with trend",
+   "what": "ATLAS gets a 4th member: buy the first dip to VWAP in an up-trend (sell the first rally in a down-trend), 10:00-14:30, stop 1 tick beyond the last 3 bars, one target.",
+   "source": "research/writeups/atlas-members-2026-11-18.md (tools/atlas_plus.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "no Jan-Jun pick: none of its 8 versions made money with PF >= 1.2 on 12+ trades in Jan-Jun (alone, $250 a trade); 0 hold all 4 spans vs 0.0 with coin-flip sides",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": null,
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 541.0,
+     "now": 541.0
+    },
+    "H2": {
+     "exp": 353.0,
+     "now": 353.0
+    },
+    "2021-25": {
+     "exp": 34,
+     "now": 34
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 104,
+     "tpw": 4.06,
+     "pf": 2.92,
+     "net": 18362,
+     "dd": -1062
+    },
+    "H2": {
+     "n": 46,
+     "tpw": 2.95,
+     "pf": 2.55,
+     "net": 5256,
+     "dd": -876
+    },
+    "2025": {
+     "n": 994,
+     "tpw": 4.61,
+     "pf": 1.08,
+     "net": 10393,
+     "dd": -11403
+    },
+    "2021-24": {
+     "n": 994,
+     "tpw": 4.61,
+     "pf": 1.08,
+     "net": 10393,
+     "dd": -11403
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_skip_vix15",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: skip days when VIX closed under 15",
+   "what": "ATLAS takes no trade on a day whose prior VIX close is under 15 (calm days, small VIX-band targets). Today it trades them.",
+   "source": "research/writeups/atlas-revive-2026-11-17.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-11-17",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (4 in Jan-Jun, 8 in Jul-Oct); not better in Jan-Jun (pick) (Jan-Jun money after fees -$292)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -1085,
+    "H2": 412,
+    "2025": 307,
+    "2021-24": 161
+   },
+   "flip": {
+    "H1": 0.31092,
+    "H2": 0.04574
+   },
+   "hits": {
+    "2021-24": 275,
+    "2025": 32,
+    "H1": 4,
+    "H2": 8
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 1134.0,
+     "now": 2219.0
+    },
+    "H2": {
+     "exp": 1491.0,
+     "now": 1079.0
+    },
+    "2021-25": {
+     "exp": 95,
+     "now": -95
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 53,
+     "tpw": 2.07,
+     "pf": 2.28,
+     "net": 6911,
+     "dd": -917
+    },
+    "H2": {
+     "n": 33,
+     "tpw": 2.12,
+     "pf": 3.43,
+     "net": 5539,
+     "dd": -904
+    },
+    "2025": {
+     "n": 142,
+     "tpw": 2.75,
+     "pf": 1.05,
+     "net": 725,
+     "dd": -2404
+    },
+    "2021-24": {
+     "n": 394,
+     "tpw": 2.42,
+     "pf": 1.11,
+     "net": 4039,
+     "dd": -6496
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 61.3,
+     "f10": 0.0,
+     "pass_med": 6.0
+    },
+    "H2": {
+     "p10": 43.5,
+     "f10": 0.0,
+     "pass_med": 7.0
+    }
+   }
+  },
+  {
+   "id": "atlas_stop_tight_x1.25",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: x1.25 size when the stop is tight vs the 5m ATR (bottom third)",
+   "what": "ATLAS risks 25% more when its stop is small next to the recent 5-minute candle size. Other trades unchanged.",
+   "source": "ZEUS Lab seed (Claude idea)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "not better in Jan-Jun (pick) (Jan-Jun 2-week pass 61.3 -> 60.5%)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 156,
+    "H2": 77,
+    "2025": 287,
+    "2021-24": -12
+   },
+   "flip": {
+    "H1": 0.02399,
+    "H2": 0.20845
+   },
+   "hits": {
+    "2021-24": 231,
+    "2025": 73,
+    "H1": 37,
+    "H2": 17
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 2375.0,
+     "now": 2219.0
+    },
+    "H2": {
+     "exp": 1156.0,
+     "now": 1079.0
+    },
+    "2021-25": {
+     "exp": -47,
+     "now": -95
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 84,
+     "tpw": 3.28,
+     "pf": 2.94,
+     "net": 14477,
+     "dd": -1200
+    },
+    "H2": {
+     "n": 24,
+     "tpw": 1.54,
+     "pf": 3.29,
+     "net": 4292,
+     "dd": -890
+    },
+    "2025": {
+     "n": 155,
+     "tpw": 3.0,
+     "pf": 1.03,
+     "net": 485,
+     "dd": -3749
+    },
+    "2021-24": {
+     "n": 587,
+     "tpw": 3.61,
+     "pf": 0.95,
+     "net": -2670,
+     "dd": -7089
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 60.5,
+     "f10": 0.0,
+     "pass_med": 5.0
+    },
+    "H2": {
+     "p10": 43.5,
+     "f10": 0.0,
+     "pass_med": 7.0
+    }
+   }
+  },
+  {
+   "id": "atlas_vix18_x1.25",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: x1.25 size when VIX closed at 18 or more",
+   "what": "ATLAS risks 25% more on days whose prior VIX close is 18 or higher. Other days unchanged.",
+   "source": "research/writeups/atlas-revive-2026-11-17.md (VIX 18-22 bucket)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "not better in Jan-Jun (pick); 2021-25 worse than today (Jan-Jun 2-week pass 61.3 -> 60.5%)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 163,
+    "H2": 34,
+    "2025": 30,
+    "2021-24": -54
+   },
+   "flip": {
+    "H1": 0.00475,
+    "H2": 0.08223
+   },
+   "hits": {
+    "2021-24": 431,
+    "2025": 90,
+    "H1": 59,
+    "H2": 6
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 2382.0,
+     "now": 2219.0
+    },
+    "H2": {
+     "exp": 1113.0,
+     "now": 1079.0
+    },
+    "2021-25": {
+     "exp": -132,
+     "now": -95
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 85,
+     "tpw": 3.32,
+     "pf": 2.9,
+     "net": 14521,
+     "dd": -1200
+    },
+    "H2": {
+     "n": 25,
+     "tpw": 1.6,
+     "pf": 3.21,
+     "net": 4135,
+     "dd": -887
+    },
+    "2025": {
+     "n": 155,
+     "tpw": 3.0,
+     "pf": 0.81,
+     "net": -2678,
+     "dd": -5796
+    },
+    "2021-24": {
+     "n": 589,
+     "tpw": 3.62,
+     "pf": 0.92,
+     "net": -4298,
+     "dd": -10265
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 60.5,
+     "f10": 0.0,
+     "pass_med": 5.0
+    },
+    "H2": {
+     "p10": 43.5,
+     "f10": 0.0,
+     "pass_med": 7.0
+    }
+   }
+  },
+  {
+   "id": "lit_rr_high_x1.25__on_atlas",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: x1.25 size when the planned reward is big (R:R top third) (learned from Zlarior)",
+   "what": "ATLAS risks 25% more when its VIX-band target is far away compared with its stop. Other trades unchanged.",
+   "source": "cross from lit_rr_high_x1.25 (Zlarior)",
+   "origin": "cross",
+   "cross_of": "lit_rr_high_x1.25",
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "not better in Jan-Jun (pick); 2021-25 worse than today (Jan-Jun 2-week pass 61.3 -> 60.5%)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 89,
+    "H2": 34,
+    "2025": 175,
+    "2021-24": -82
+   },
+   "flip": {
+    "H1": 0.0075,
+    "H2": 0.48838
+   },
+   "hits": {
+    "2021-24": 327,
+    "2025": 107,
+    "H1": 40,
+    "H2": 14
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 2308.0,
+     "now": 2219.0
+    },
+    "H2": {
+     "exp": 1113.0,
+     "now": 1079.0
+    },
+    "2021-25": {
+     "exp": -126,
+     "now": -95
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 89,
+     "tpw": 3.48,
+     "pf": 2.78,
+     "net": 14067,
+     "dd": -1207
+    },
+    "H2": {
+     "n": 24,
+     "tpw": 1.54,
+     "pf": 3.2,
+     "net": 4132,
+     "dd": -890
+    },
+    "2025": {
+     "n": 180,
+     "tpw": 3.49,
+     "pf": 0.95,
+     "net": -894,
+     "dd": -4887
+    },
+    "2021-24": {
+     "n": 580,
+     "tpw": 3.56,
+     "pf": 0.9,
+     "net": -5377,
+     "dd": -12393
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 60.5,
+     "f10": 0.0,
+     "pass_med": 6.0
+    },
+    "H2": {
+     "p10": 43.5,
+     "f10": 0.0,
+     "pass_med": 7.0
+    }
+   }
+  },
+  {
+   "id": "asia_slot_300",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Asia slot (18:00-02:00) at $300 a trade on the Rapid EOD",
+   "what": "A third lane on the Rapid account: Zlarior's setups in the Asia session at a fixed $300 risk.",
+   "source": "research/writeups/rapid-levers-2026-11-16.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-11-16",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Not built: the PC bot does not route Asia trades today, and 2021-25 is worse (2-week fails 4.7% vs 2.9%)."
+  },
+  {
+   "id": "lit_scale_in_s5",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: scale-in adds on the eval only from eval session 5",
+   "what": "After break-even Zlarior adds 1 micro, only on an eval and only from its 5th session; never on funded accounts.",
+   "source": "research/writeups/lit-edge-2026-10-30.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-10-30",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Needs new code (lit_sizing scale_in_from_session in engine/live.py) and the owner's Sim101 round-trip proof first."
+  },
+  {
+   "id": "lit_trail_15m",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: 15-minute structure trail after +1R",
+   "what": "Once a trade is +1R, the stop follows the 15-minute protected swing.",
+   "source": "research/writeups/structure-management.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-10-29",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Needs the structure engine in the Lab runner; the live advisor's trail_15m tally already watches it on real trades."
+  },
+  {
+   "id": "atlas_hunts_na",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: add the hunts x0.5 + the noise-area day-hold x0.5 as members",
+   "what": "Two more ATLAS members at half size.",
+   "source": "research/writeups/atlas-blitz-edge-2026-10-30.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-10-30",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Fails the Jan-Jun 2-week test (62.2 / 5.9 vs 65.5 / 0.8) and 5-6 trades a week (rule: 2-4). Paper lead only."
+  },
+  {
+   "id": "kalshi_pause_5c",
+   "bot": "kalshi",
+   "who": "Kalshi",
+   "title": "Kalshi rewards: pause both quotes for an hour after a 5c move",
+   "what": "The Kalshi rewards quoter would stop quoting for an hour after the price jumps 5 cents (news, a score).",
+   "source": "research/writeups/kalshi-rewards-backtest-2026-11-17.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-11-17",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Separate family (Kalshi, paused by the owner). Its own paper test (tools/kalshi_rewards_paper.py, GET only) is the shadow; no futures backtest applies."
+  },
+  {
+   "id": "atlas_skip_vix15__on_lit",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: skip days when VIX closed under 15 (learned from ATLAS)",
+   "what": "Zlarior takes no trade on a day whose prior VIX close is under 15 (calm days, small VIX-band targets). Today it trades them.",
+   "source": "cross from atlas_skip_vix15 (ATLAS)",
+   "origin": "cross",
+   "cross_of": "atlas_skip_vix15",
+   "registered": "2026-11-17",
+   "status": "blocked",
+   "word": "Rejected for good (already tested)",
+   "why": "already tested: Zlarior size or skip by the VIX level (any cut) (lit-regime-sizing-2026-11-17.md, lit-deep 2026-11-15)"
+  },
+  {
+   "id": "atlas_stop_tight_x1.25__on_lit",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x1.25 size when the stop is tight vs the 5m ATR (bottom third) (learned from ATLAS)",
+   "what": "Zlarior risks 25% more when its stop is small next to the recent 5-minute candle size. Other trades unchanged.",
+   "source": "cross from atlas_stop_tight_x1.25 (ATLAS)",
+   "origin": "cross",
+   "cross_of": "atlas_stop_tight_x1.25",
+   "registered": "2026-11-18",
+   "status": "blocked",
+   "word": "Rejected for good (already tested)",
+   "why": "already tested: Zlarior wide-stop half size / stop vs ATR cuts (lit-smart-entries-2026-11-17.md, lit-deep 2026-11-15)"
+  },
+  {
+   "id": "atlas_vix18_x1.25__on_lit",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x1.25 size when VIX closed at 18 or more (learned from ATLAS)",
+   "what": "Zlarior risks 25% more on days whose prior VIX close is 18 or higher. Other days unchanged.",
+   "source": "cross from atlas_vix18_x1.25 (ATLAS)",
+   "origin": "cross",
+   "cross_of": "atlas_vix18_x1.25",
+   "registered": "2026-11-18",
+   "status": "blocked",
+   "word": "Rejected for good (already tested)",
+   "why": "already tested: Zlarior size or skip by the VIX level (any cut) (lit-regime-sizing-2026-11-17.md, lit-deep 2026-11-15)"
+  }
+ ],
+ "forever": [
+  {
+   "id": "lit_gex_low_x1.25",
+   "title": "Zlarior x1.25 on low dealer gamma",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "lit_vix_rising_x0.75",
+   "title": "Zlarior x0.75 the day after VIX jumped",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "lit_asia_tight_x1.25",
+   "title": "Zlarior x1.25 after a tight Asia range",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "lit_level_touched_x1.25",
+   "title": "Zlarior x1.25 on a many-times-touched level",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "lit_level_old_x1.25",
+   "title": "Zlarior x1.25 on an old level",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "lit_fast_fill_x1.25",
+   "title": "Zlarior x1.25 on a fast fill after the CISD",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "atlas_after_lit_opp_stop_x1.25",
+   "title": "ATLAS x1.25 after Zlarior was stopped on the other side",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "atlas_chop_day_x0.5",
+   "title": "ATLAS x0.5 on a two-way day",
+   "source": "docs/LEARN_LOOP.md (2026-11-15)"
+  },
+  {
+   "id": "lit_vix_level",
+   "title": "Zlarior size or skip by the VIX level (any cut)",
+   "source": "lit-regime-sizing-2026-11-17.md, lit-deep 2026-11-15"
+  },
+  {
+   "id": "lit_vix_change",
+   "title": "Zlarior size by the VIX change",
+   "source": "lit-regime-sizing-2026-11-17.md"
+  },
+  {
+   "id": "lit_gex",
+   "title": "Zlarior size by dealer gamma (sign / level)",
+   "source": "lit-regime-sizing-2026-11-17.md"
+  },
+  {
+   "id": "lit_stop_wide",
+   "title": "Zlarior wide-stop half size / stop vs ATR cuts",
+   "source": "lit-smart-entries-2026-11-17.md, lit-deep 2026-11-15"
+  },
+  {
+   "id": "lit_weekday",
+   "title": "Zlarior weekday / hour tilts",
+   "source": "lit-edge-2026-10-30.md"
+  },
+  {
+   "id": "atlas_stop_vs_median",
+   "title": "ATLAS stop > 1.6x / 2x the member's median",
+   "source": "2026-11-15-atlas-deep.md"
+  },
+  {
+   "id": "atlas_daily_trend",
+   "title": "ATLAS daily-trend skip / halve",
+   "source": "2026-11-15-atlas-deep.md"
+  },
+  {
+   "id": "atlas_lit_won_other",
+   "title": "ATLAS skip / halve after Zlarior won the other side",
+   "source": "2026-11-15-atlas-deep.md"
+  },
+  {
+   "id": "atlas_retry",
+   "title": "ATLAS same-side retry skip / x1.25",
+   "source": "2026-11-15-atlas-deep.md"
+  },
+  {
+   "id": "lit_drift_switch",
+   "title": "Cut Zlarior to paper / half after a rolling loss (drift switch)",
+   "source": "drift-switch-2026-11-17.md"
+  },
+  {
+   "id": "lit_walkforward",
+   "title": "Walk-forward re-tuning of Zlarior's knobs",
+   "source": "lit-walkforward-2026-11-17.md"
+  },
+  {
+   "id": "lit_cold_streak_skip",
+   "title": "Skip-mode cold-streak filter (paused 14 weeks)",
+   "source": "CLAUDE_REFERENCE Tested and rejected"
+  }
+ ],
+ "forever_doc": [
+  "ATLAS new members",
+  "New-strategy hunt",
+  "Market-regime warning features",
+  "Famous published strategies",
+  "Drift switch",
+  "Walk-forward re-tuning",
+  "Rule-native layer",
+  "B-holds",
+  "LIT studies of 2026-10-18/19",
+  "Reversal exits after the first live trade",
+  "Diversifier search",
+  "Payout / eval mechanics",
+  "ATLAS funded 25K day limit",
+  "ATLAS + BLITZ edge night",
+  "Rapid EOD levers",
+  "ATLAS deep edge",
+  "E2 new NQ strategies",
+  "E3 same edge, more markets",
+  "Learn loop first night"
+ ],
+ "protected_ok": true,
+ "errors": [],
+ "how": [
+  "Every night on your PC (after the data comes in) the Lab re-tests each idea on the real Zlarior and ATLAS backtests, all periods, costs in.",
+  "An idea must make more $ in Jan-Jun AND Jul-Oct, keep 2-4 trades a week, not raise eval fails, and beat random luck (with a stricter bar the more ideas we test).",
+  "Then it trades on paper (shadow) for 4 weeks on days it has never seen. Still not losing = READY TO ADOPT: you get one push. Nothing changes until you say yes.",
+  "What helps Zlarior is tried on ATLAS and the other way round. Ideas already rejected are never re-run."
+ ]
+}

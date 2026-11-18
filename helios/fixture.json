@@ -1,0 +1,112 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: a made-up morning (a CPI day, three accounts, a deal ending in 5 hours, a quiz not done yet), shown until the site's own files are there. Days and hours are counted from now.",
+ "events": [
+  {
+   "day": 0,
+   "time": "08:30",
+   "kind": "cpi",
+   "title": "CPI (consumer prices)",
+   "impact": "high"
+  },
+  {
+   "day": 0,
+   "time": "10:00",
+   "kind": "other",
+   "title": "CB Consumer Confidence",
+   "impact": "med"
+  }
+ ],
+ "home": {
+  "accounts": [
+   {
+    "id": "mffu50k_eval",
+    "name": "Zlarior 50K",
+    "kind": "eval",
+    "conn": {
+     "connected": true
+    },
+    "eval": {
+     "room": 1420,
+     "mll": 2000,
+     "dll": 1000,
+     "dll_used": 0
+    },
+    "pnl": {
+     "today": 312
+    }
+   },
+   {
+    "id": "acctb",
+    "name": "ATLAS 25K",
+    "kind": "eval",
+    "conn": {
+     "connected": true
+    },
+    "eval": {
+     "room": 840,
+     "mll": 1000,
+     "dll": 600,
+     "dll_used": 60
+    },
+    "pnl": {
+     "today": -60
+    }
+   },
+   {
+    "id": "acct_c",
+    "name": "BLITZ 25K",
+    "kind": "eval",
+    "conn": {
+     "connected": true
+    },
+    "eval": {
+     "room": 560,
+     "mll": 1000,
+     "dll": 600,
+     "dll_used": 0
+    },
+    "pnl": {
+     "today": 0
+    }
+   }
+  ]
+ },
+ "money": {
+  "streams": [
+   {
+    "id": "mercury",
+    "name": "Mercury",
+    "status": "ok",
+    "age_min": 40,
+    "items": [
+     {
+      "title": "Prop-firm sale: 30% off a 50K plan",
+      "usd": 60,
+      "score": 75,
+      "expires_in_h": 5
+     }
+    ]
+   },
+   {
+    "id": "chrysos",
+    "name": "Chrysos",
+    "status": "ok",
+    "age_min": 30,
+    "items": []
+   },
+   {
+    "id": "oikos",
+    "name": "Oikos",
+    "status": "stale",
+    "age_min": 700,
+    "items": []
+   }
+  ]
+ },
+ "quiz": {
+  "done_today": false,
+  "streak": 3
+ }
+}

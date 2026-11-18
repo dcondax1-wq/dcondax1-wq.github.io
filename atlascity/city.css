@@ -1,0 +1,147 @@
+/* ATLAS Strategy City in AGORA (docs/DESIGN_AGORA.md, owner 2026-11-09): a small marble town at dawn. Three columns are the three strategies;
+   the small buildings are scenery only. Warm stone, bronze, gold, olive, terracotta. No neon, no glow, no night sky. CSS 3D only; nothing moves on its own (the camera glides only when moved). */
+:root{color-scheme:dark;--bg:#14110e;--panel:#1d1914;--raise:#26211b;--line:#3a3228;--ink:#f3ece0;--soft:#cfc4b2;--muted:#a39883;--gold:#c8a24a;--gold2:#e0c27a;--bronze:#9c6b3c;--olive:#7f8a52;--terra:#c96a4a;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--sans:-apple-system,'SF Pro Text',system-ui,'Helvetica Neue',Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(120% 60% at 50% -8%,#2a2118 0%,var(--bg) 62%) fixed,var(--bg);color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh}
+button,a{touch-action:manipulation}
+button{font:inherit}
+a{color:inherit}
+header{min-height:56px;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 6px) max(16px,env(safe-area-inset-right)) 6px}
+.back{text-decoration:none;color:var(--gold2);font:600 16px var(--sans);min-height:44px;display:flex;align-items:center}
+.chip{border:1px solid var(--line);border-radius:99px;padding:8px 14px;color:var(--soft);font:600 14px var(--sans)}
+.eyebrow,.number{font:600 14px var(--sans);letter-spacing:.01em;color:var(--gold)}
+.skip{position:absolute;left:12px;top:-60px;z-index:9;padding:10px;background:var(--gold);color:#1b1610;border-radius:8px}
+.skip:focus{top:8px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+main{max-width:900px;margin:auto;padding:0 16px 48px}
+.lead{padding:14px 0 18px}
+.lead h1{font:600 clamp(32px,9vw,48px)/1.08 var(--serif);letter-spacing:0;margin:8px 0 10px}
+.lead h1::after{content:"";display:block;width:56px;height:2px;margin-top:12px;background:linear-gradient(90deg,var(--gold),transparent)}
+.lead h1 em{display:block;color:var(--gold2);font-style:normal;font-size:.62em;margin-top:6px}
+.lede{max-width:34em;color:var(--soft);min-height:48px;font-size:17px;margin:0}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 0}
+.metrics>div{padding:12px;border:1px solid var(--line);background:linear-gradient(180deg,var(--raise),var(--panel));border-radius:14px}
+.metrics small,.metrics strong{display:block}
+.metrics small{color:var(--muted);font-size:13px}
+.metrics strong{font:700 18px 'SF Pro Rounded',var(--sans);font-variant-numeric:tabular-nums;margin-top:3px}
+
+/* the town */
+.world{position:relative;height:470px;margin-top:8px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#3a3a52 0%,#8a6a55 55%,#d9a55c 100%);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.sky{position:absolute;inset:0;pointer-events:none;background:linear-gradient(#3b3b57,#8c6b5a 62%,#dba85f)}
+.moon{position:absolute;right:20%;top:12%;width:56px;aspect-ratio:1;border-radius:50%;background:#f3d9a0}
+.halo,.starfield{display:none}
+.scene{position:absolute;inset:0;perspective:1000px;overflow:hidden;outline:none;cursor:grab;touch-action:pan-y}
+.scene:active{cursor:grabbing}
+.scene:focus-visible{outline:2px solid var(--gold);outline-offset:-5px}
+.city{position:absolute;left:50%;top:56%;width:560px;height:560px;transform-style:preserve-3d;transform:translate(-50%,-50%) translate3d(var(--pan,0px),0,var(--zoom,0px)) rotateX(62deg) rotateZ(var(--yaw,-22deg)) scale(.68);transition:transform .42s ease}
+.floor{position:absolute;inset:0;border:1px solid #cdbb98;border-radius:42px;background:repeating-linear-gradient(0deg,#14110e10 0 1px,transparent 1px 45px),repeating-linear-gradient(90deg,#14110e10 0 1px,transparent 1px 45px),radial-gradient(#d8cdb6,#a89a80 78%);box-shadow:0 0 0 20px #5a4d3a}
+.road{position:absolute;background:#b9a98a}
+.road-a{height:16px;left:8%;right:8%;top:50%}
+.road-b{width:16px;top:8%;bottom:8%;left:50%}
+.blocks{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 40px,#8d84721c 40px 47px,transparent 47px 80px);mask-image:radial-gradient(circle,transparent 0 32%,#000 49%,transparent 70%);opacity:.8}
+
+/* scenery: small marble houses, never trades */
+.city-lights{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
+.city-light{position:absolute;width:var(--w);height:var(--h);transform-style:preserve-3d;transform:translateZ(2px) rotateX(-62deg) rotateY(25deg);opacity:var(--alpha,.9)}
+.city-light i{position:absolute;display:block;border:1px solid #8d8472;background-color:#e4dac6;background-image:repeating-linear-gradient(90deg,transparent 0 5px,#b8ac95 5px 6px)}
+.city-light .front{inset:0;transform:translateZ(calc(var(--d) / 2))}
+.city-light .side{width:var(--d);height:100%;right:0;transform:rotateY(90deg) translateZ(calc(var(--d) / 2));filter:brightness(.72)}
+.city-light .roof{width:100%;height:var(--d);top:0;transform:rotateX(90deg) translateZ(calc(var(--d) / 2));background:linear-gradient(135deg,#d9cfbd,var(--c))}
+.city-light.form-1 .front{clip-path:polygon(12% 0,88% 0,100% 100%,0 100%)}
+.city-light.form-1 .side{clip-path:polygon(0 0,100% 10%,100% 100%,0 100%)}
+.city-light.form-2 .front{border-top:3px solid var(--c)}
+.city-light.form-3{transform:translateZ(2px) rotateX(-62deg) rotateY(18deg)}
+.city-light.form-3 .roof{border-radius:50%}
+
+/* the capital: a taller marble column with a gold cap */
+.capital-core{position:absolute;left:220px;top:228px;width:120px;height:124px;transform-style:preserve-3d;pointer-events:none;z-index:3}
+.capital-tower{--depth:70px;position:absolute;left:18px;top:-158px;width:82px;height:234px;transform-style:preserve-3d;transform:rotateX(-62deg) rotateY(25deg)}
+.capital-tower i{position:absolute;display:block;border:1px solid #8d8472;background-color:#ece3d0;background-image:repeating-linear-gradient(90deg,transparent 0 9px,#c9bda4 9px 11px)}
+.capital-tower .front{inset:0;transform:translateZ(calc(var(--depth) / 2));clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+.capital-tower .side{right:0;width:var(--depth);height:100%;transform:rotateY(90deg) translateZ(calc(var(--depth) / 2));filter:brightness(.7);clip-path:polygon(0 0,82% 16%,100% 100%,0 100%)}
+.capital-tower .roof{top:0;width:100%;height:var(--depth);transform:rotateX(90deg) translateZ(calc(var(--depth) / 2));background:var(--gold)}
+.capital-tower .crown{left:38px;top:-52px;width:6px;height:58px;border:0;border-radius:99px;background:var(--gold)}
+.hq-label{position:absolute;left:7px;right:0;bottom:-4px;padding:4px 10px;border:1px solid var(--bronze);border-radius:99px;background:#1d1914e6;text-align:center;color:var(--gold2);font:700 12px var(--sans);transform:rotateZ(22deg)}
+
+/* three roads of light become three plain bronze paths */
+.route-glow{position:absolute;inset:17% 2% 10%;width:96%;height:73%;pointer-events:none;overflow:visible}
+.route-glow path{fill:none;stroke-width:1.5;stroke-linecap:round;opacity:.5;stroke-dasharray:3 6;stroke:#f3ece0}
+.mini-map{display:none}
+
+/* the three strategy districts: a marble column, one accent each */
+.district{--c:var(--gold);position:absolute;width:125px;height:125px;border:0;background:transparent;color:var(--ink);transform-style:preserve-3d;cursor:pointer;padding:0;outline-offset:6px}
+.district.ema{--c:#c8a24a;left:12%;top:17%}
+.district.macd{--c:#c96a4a;right:12%;top:15%}
+.district.reclaim{--c:#7f8a52;left:40%;bottom:11%}
+.district[aria-pressed=true] .plaza{border-color:var(--c);box-shadow:0 0 0 3px var(--c)}
+.district:focus-visible{outline:3px solid var(--c)}
+.tower{position:absolute;left:30px;top:-52px;width:65px;height:120px;transform-style:preserve-3d;transform:rotateX(-62deg) rotateY(26deg);pointer-events:none}
+.tower .face{position:absolute;display:block;border:1px solid #8d8472;background:repeating-linear-gradient(90deg,#efe6d3 0 9px,#cfc3aa 10px 12px,#efe6d3 13px 22px)}
+.tower .front{width:65px;height:118px;transform:translateZ(26px);border-top:6px solid var(--c)}
+.tower .side{width:52px;height:118px;transform:rotateY(90deg) translateZ(39px);filter:brightness(.7);border-top:6px solid var(--c)}
+.tower .roof{width:65px;height:52px;transform:rotateX(90deg) translateZ(26px);background:var(--c)}
+.tower .spire{position:absolute;left:31px;top:-30px;height:32px;border-left:3px solid var(--c)}
+.plaza{position:absolute;inset:0;display:flex;align-items:center;justify-content:end;flex-direction:column;border:1px solid #8d8472;border-radius:14px;background:radial-gradient(circle at center,#e9dfc9,#cdbf9f 70%);transform:translateZ(4px)}
+.plaza b,.plaza small{transform:rotateZ(22deg);color:#2a2118}
+.plaza b{font:700 20px 'SF Pro Rounded',var(--sans)}
+.plaza small{font:700 12px var(--sans);margin-bottom:8px}
+.controls{position:absolute;bottom:13px;right:13px;display:flex;gap:8px}
+.controls button{height:44px;min-width:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);cursor:pointer}
+.hint{text-align:center;margin:14px 4px;color:var(--muted);font-size:14px}
+
+/* the report: one card, plain words */
+.report{margin:26px auto 20px;max-width:700px;border:1px solid var(--line);border-radius:16px;padding:18px;background:linear-gradient(180deg,var(--raise),var(--panel));box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.report-head{display:flex;align-items:center;justify-content:space-between}
+.state{font:600 14px var(--sans);color:var(--gold)}
+.state.warn{color:#d97a58}
+.state.active{color:#9aa664}
+.report h2{font:600 clamp(24px,6vw,32px)/1.15 var(--serif);margin:10px 0}
+.report p{color:var(--soft)}
+.report dl{display:flex;gap:15px;font-size:15px}
+.report dl div{flex:1;border-top:1px solid var(--line);padding-top:10px}
+.report dt{font-size:13px;color:var(--muted)}
+.report dd{margin:4px 0 0}
+.note{font-size:14px;border-left:2px solid var(--gold);padding-left:12px}
+.district-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.district-nav button{min-height:44px;padding:0 18px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;font-weight:600}
+.district-nav button[aria-pressed=true]{background:var(--gold);color:#1b1610;border-color:var(--gold)}
+
+.paper-section{max-width:900px;margin:30px auto;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+.paper-section h2{font:600 24px var(--serif);margin:4px 0}
+.paper-section>p:not(.eyebrow){color:var(--soft);margin-top:0}
+.outposts{display:grid;grid-template-columns:1fr;gap:10px}
+.outpost{position:relative;padding:16px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--raise),var(--panel))}
+.outpost b{display:block;font:600 18px var(--serif)}
+.outpost p{color:var(--soft);font-size:15px}
+.outpost small{color:var(--muted)}
+.paper-badge{display:inline-block;margin-top:8px;padding:4px 8px;border:1px solid var(--bronze);border-radius:6px;color:var(--gold);font:700 12px var(--sans)}
+@media(min-width:700px){.outposts{grid-template-columns:repeat(3,minmax(0,1fr))}.world{height:540px}.city{transform:translate(-50%,-50%) translate3d(var(--pan,0px),0,var(--zoom,0px)) rotateX(62deg) rotateZ(var(--yaw,-22deg))}}
+/* nothing moves on its own (no animation anywhere); the camera alone glides to where the finger or a button put it (night-3d) */
+*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}
+.city{transition:transform .5s cubic-bezier(.22,.8,.26,1)!important}
+.city.drag{transition:transform .09s linear!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html[data-lite=true] .city-light:nth-child(3n+1),html[data-lite=true] .city-light:nth-child(3n+2){display:none}
+html[data-lite=true] .moon{display:none}
+
+/* night-3d look (2026-11-17): light, shade and air. Still CSS 3D, still nothing ambient moves; every layer below is a static gradient
+   (composited once). The sun sits low behind the moon's corner: faces lit from above and fading to a darker foot (ambient occlusion at
+   the base), soft contact shadows under the capital and the three plazas, a warm halo round the low sun, haze over the far side of town
+   (aerial perspective) and a shade at the near edge. LITE keeps the halo and haze off. */
+.halo{display:block;position:absolute;right:calc(20% - 70px);top:calc(12% - 70px);width:196px;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(255,226,160,.42),rgba(255,196,120,.14) 55%,transparent)}
+.moon{z-index:1;box-shadow:0 0 0 1px rgba(255,236,190,.5),inset -8px -6px 0 rgba(214,170,110,.35)}
+.world::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(180deg,transparent 0%,transparent 24%,rgba(232,178,112,.2) 36%,transparent 54%,transparent 80%,rgba(20,14,10,.3) 100%)}
+.controls,.mini-map{z-index:2}
+.floor{background:radial-gradient(60% 60% at 46% 52%,transparent 55%,rgba(60,44,28,.22)),repeating-linear-gradient(0deg,#14110e10 0 1px,transparent 1px 45px),repeating-linear-gradient(90deg,#14110e10 0 1px,transparent 1px 45px),radial-gradient(#ddd2bb,#a89a80 78%)}
+.city-light i{background-image:linear-gradient(180deg,rgba(255,246,226,.2),transparent 45%,rgba(46,32,18,.3)),repeating-linear-gradient(90deg,transparent 0 5px,#b8ac95 5px 6px)}
+.city-light .roof{background:linear-gradient(135deg,#efe4cf,var(--c))}
+.tower .face:not(.roof){background:linear-gradient(180deg,rgba(255,246,226,.24),transparent 40%,rgba(46,32,18,.32)),repeating-linear-gradient(90deg,#efe6d3 0 9px,#cfc3aa 10px 12px,#efe6d3 13px 22px)}
+.capital-tower i{background-image:linear-gradient(180deg,rgba(255,246,226,.24),transparent 40%,rgba(46,32,18,.32)),repeating-linear-gradient(90deg,transparent 0 9px,#c9bda4 9px 11px)}
+.capital-core::before{content:"";position:absolute;left:-6px;top:6px;width:150px;height:118px;border-radius:50%;transform:translate(26px,-30px) rotate(-18deg);background:radial-gradient(closest-side,rgba(38,24,12,.5),rgba(38,24,12,.18) 60%,transparent)}
+.plaza{box-shadow:0 10px 22px rgba(38,24,12,.38),inset 0 2px 0 rgba(255,250,236,.55),inset 0 -10px 18px rgba(90,66,40,.25)}
+.district[aria-pressed=true] .plaza{box-shadow:0 0 0 3px var(--c),0 10px 22px rgba(38,24,12,.38),inset 0 2px 0 rgba(255,250,236,.55)}
+html[data-lite=true] .halo,html[data-lite=true] .world::after{display:none}

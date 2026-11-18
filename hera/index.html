@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hera</title>
+<meta name="description" content="OLYMPUS HERA: the plan and the payouts. The 12-month money roadmap as a calm chart, the payout calendar, cash in and out, and which account to buy next.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hera">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- HERA (OLYMPUS, AGORA look, 2026-11-09): Plan and payouts: the 12-month money roadmap (plutus/roadmap.json) as a calm chart with a 1-in-10 band, the payout calendar, cash in and out, and the next account to buy. heracore.js = the pure maths (node-tested); hera.js = the page (ES module). Read only: it reads published JSON of this site
+     and fixture.json (DEMO, never blank) and sends nothing anywhere. Text only through textContent / createElementNS (no markup is built from data). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="hera"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c96a4a'); r.setProperty('--oly-accent-rgb', '192, 96, 63'); })();</script>
+<link rel="stylesheet" href="hera.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Hera</h1><p class="sub">Your 12-month money plan (ESTIMATE). Slide to a month, then see which account to buy next.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" aria-labelledby="bigH">
+    <p class="ag-eyebrow" id="bigH">Cash to you in 12 months</p>
+    <p class="big ag-num" id="big">$0</p>
+    <p class="lead" id="bigText"></p>
+    <div class="seg" id="vers" role="group" aria-label="Which half of 2026 the plan is based on"></div>
+    <p class="note" id="bigNote"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="chartH">
+    <h2 id="chartH">The 12 months</h2>
+    <svg id="chart" class="chart" viewBox="0 0 360 220" role="img" aria-label="Cash to you over 12 months"></svg>
+    <p class="note" id="chartNote"></p>
+    <label class="slide" for="mslider"><span class="note">Slide to a month</span>
+      <input id="mslider" type="range" min="1" max="12" step="1" value="12"></label>
+    <h3 id="mH" class="mh">Month</h3>
+    <p class="lead" id="mText"></p>
+    <div class="tiles" id="mTiles"></div>
+  </section>
+  <section class="ag-card card" aria-labelledby="cashH">
+    <h2 id="cashH">Cash in and out</h2>
+    <div class="tiles" id="cashTiles"></div>
+    <p class="note" id="cashNote"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="calH">
+    <h2 id="calH">Payout calendar</h2>
+    <svg id="cal" class="cal" viewBox="0 0 360 140" role="img" aria-label="First payout dates"></svg>
+    <ul class="plain" id="calList"></ul>
+  </section>
+  <section class="ag-card card" aria-labelledby="buyH">
+    <h2 id="buyH">Next account to buy</h2>
+    <p class="lead" id="buyText"></p>
+    <ul class="plain" id="buyList"></ul>
+    <p class="note" id="buyNow"></p>
+    <p class="note" id="buyTodo"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="cavH">
+    <details><summary id="cavH">What this plan does not know</summary><ul class="plain" id="cav"></ul></details>
+  </section>
+
+  <p class="foot" id="foot">Hera reads the site's roadmap file and sends nothing. The plan is a study of 2026 paper results: not a promise and not advice. Prices are your real ones ($91.80 / $63 / $43, one-time).</p>
+</main>
+<script type="module" src="hera.js?v=a1"></script>
+</body>
+</html>

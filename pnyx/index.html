@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pnyx</title>
+<meta name="description" content="OLYMPUS PNYX: the assembly. A prop-firm rules and risk calculator for MFFU Builder 50K and 25K: type the stop in points and see the micros allowed, the dollars at risk, the daily loss left, the trailing drawdown floor and the distance to the target.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pnyx">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- PNYX (OLYMPUS, AGORA look, 2026-11-10): the assembly. Prop-firm rules and risk calculator for MFFU Builder 50K / 25K / ATLAS 25K. pnyxcore.js = the pure maths (node-tested); pnyx.js = the page (ES module).
+     Read only: it reads published JSON of this site (home.json for the live balance, ledger/rules.json for the limits) and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="pnyx"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="pnyx.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Pnyx</h1><p class="sub">Risk calculator: type your stop in points, see how many micros to trade and the $ at risk.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" aria-labelledby="planH">
+    <h2 id="planH">Which account?</h2>
+    <div class="seg" id="plans" role="group" aria-label="Account"></div>
+    <p class="note" id="planNote"></p>
+  </section>
+  <section class="ag-card card" id="inCard" aria-labelledby="inH">
+    <h2 id="inH">Your stop</h2>
+    <div class="stopbox">
+      <button class="btn step" id="stopDown" type="button" aria-label="Stop 5 points tighter">-5</button>
+      <label class="fld big"><span>Stop in points</span><input id="stop" type="number" inputmode="decimal" min="0.25" max="500" step="0.25" value="20"></label>
+      <button class="btn step" id="stopUp" type="button" aria-label="Stop 5 points wider">+5</button>
+    </div>
+    <p class="note">The stop sits 1 tick beyond the sweep extreme (the protected high or low). Type the distance from your entry to there.</p>
+    <p class="ag-eyebrow">Part of the drawdown left one trade may risk</p>
+    <div class="seg" id="shares" role="group" aria-label="Share of the drawdown left"></div>
+    <details id="acct">
+      <summary>Account numbers (balance, best day, today's loss)</summary>
+      <div class="flds">
+        <label class="fld"><span>Balance $</span><input id="bal" type="number" inputmode="decimal" step="1"></label>
+        <label class="fld"><span>Best end-of-day balance $</span><input id="best" type="number" inputmode="decimal" step="1"></label>
+        <label class="fld"><span>Lost today so far $</span><input id="lost" type="number" inputmode="decimal" step="1" min="0"></label>
+      </div>
+      <p class="note" id="srcNote"></p>
+    </details>
+  </section>
+  <section class="ag-card card hero" id="answer" aria-labelledby="ansH">
+    <div class="row"><h2 id="ansH">The rules allow</h2><span class="pill" id="ansPill">...</span></div>
+    <p class="big ag-num" id="micros">-</p>
+    <div class="tiles" id="tiles"></div>
+    <ul class="plain" id="lines"></ul>
+  </section>
+  <section class="ag-card card" id="floorCard" aria-labelledby="floorH">
+    <h2 id="floorH">Drawdown and daily loss</h2>
+    <p class="dd ag-num" id="dd"></p>
+    <div id="bar" class="ag-bar green" role="img"><i></i></div>
+    <dl class="kv" id="facts"></dl>
+  </section>
+  <section class="ag-card card" id="tgtCard" aria-labelledby="tgtH">
+    <h2 id="tgtH">The target</h2>
+    <dl class="kv" id="tgt"></dl>
+    <p class="note" id="tgtNote"></p>
+  </section>
+  <section class="ag-card card" id="ladCard" aria-labelledby="ladH">
+    <h2 id="ladH">The size follows the stop</h2>
+    <table class="lad"><caption class="note">Same account, other stops</caption><thead><tr><th scope="col">Stop</th><th scope="col">Micros</th><th scope="col">Risk (1R)</th></tr></thead><tbody id="ladRows"></tbody></table>
+  </section>
+  <section class="ag-card card" id="priceCard" aria-labelledby="priceH">
+    <h2 id="priceH">What it costs</h2>
+    <ul class="plain" id="price"></ul>
+  </section>
+  <section class="ag-card card" aria-labelledby="rulesH">
+    <h2 id="rulesH">The rules in plain words</h2>
+    <ul class="plain" id="rules"></ul>
+  </section>
+
+  <p class="foot" id="foot">Pnyx reads the site's own files and sends nothing. It is a planning tool: it never places or changes an order and does not move the bot's size. Every dollar of risk is shown with its R (1R = the risk of the trade above, commission included at $1.90 a micro). Rules: MFFU's pages as checked on 2026-10-18; re-check before a payout. Prices are yours: Builder 25K $63, ATLAS 25K $43, Builder 50K $91.80.</p>
+</main>
+<script type="module" src="pnyx.js?v=a1"></script>
+</body>
+</html>

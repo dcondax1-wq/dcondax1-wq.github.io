@@ -1,0 +1,443 @@
+{
+  "v": 1,
+  "updated": "2026-11-10",
+  "generated": {
+    "by": "tools/money/pythia_dates.py",
+    "from": "2026-10-26",
+    "to": "2027-03-31",
+    "asof": "2026-11-10",
+    "calendar": "data/news/events.csv"
+  },
+  "about": "Built by tools/money/pythia_dates.py from rules and from the repo's saved calendar (data/news/events.csv). Never guessed: a date is here only when a rule or a saved official calendar gives it; verify: true means confirm it on the official page (agencies move releases and exchanges change holiday hours). A release whose date is not known is in 'undated' with the name of the official calendar to look it up (text only). All times are New York (ET) clock times.",
+  "weekly": [
+    {
+      "kind": "claims",
+      "title": "Jobless claims",
+      "dow": 3,
+      "time": "08:30",
+      "impact": "low",
+      "verify": false,
+      "skip": [
+        "2026-11-26"
+      ],
+      "src": "US Labor Department: every Thursday 8:30 AM ET"
+    }
+  ],
+  "events": [
+    {
+      "date": "2026-10-27",
+      "time": "08:30",
+      "kind": "other",
+      "title": "Durable Goods Orders",
+      "impact": "low",
+      "verify": true,
+      "src": "data/news/events.csv (census.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-10-27",
+      "time": "10:00",
+      "kind": "other",
+      "title": "CB Consumer Confidence",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (conference-board.org); confirm on the official page"
+    },
+    {
+      "date": "2026-10-27",
+      "time": "10:00",
+      "kind": "other",
+      "title": "New Home Sales",
+      "impact": "low",
+      "verify": true,
+      "src": "data/news/events.csv (census.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-10-28",
+      "time": "14:00",
+      "kind": "fomc",
+      "title": "FOMC decision 2:00 PM, press conference 2:30 PM",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (federalreserve.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-10-29",
+      "time": "08:30",
+      "kind": "other",
+      "title": "GDP Q3 advance estimate",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (bea.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-10-29",
+      "time": "08:30",
+      "kind": "other",
+      "title": "Personal Income & Outlays / Core PCE (Sep)",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (bea.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-10-30",
+      "time": "08:30",
+      "kind": "other",
+      "title": "Employment Cost Index Q3",
+      "impact": "low",
+      "verify": true,
+      "src": "data/news/events.csv (bls.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-02",
+      "time": "10:00",
+      "kind": "other",
+      "title": "ISM Manufacturing PMI",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (ismworld.org); confirm on the official page"
+    },
+    {
+      "date": "2026-11-03",
+      "time": "10:00",
+      "kind": "other",
+      "title": "JOLTS Job Openings (Sep)",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (bls.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-04",
+      "time": "08:15",
+      "kind": "other",
+      "title": "ADP Non-Farm Employment (Oct)",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (adp.com); confirm on the official page"
+    },
+    {
+      "date": "2026-11-04",
+      "time": "10:00",
+      "kind": "other",
+      "title": "ISM Services PMI",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (ismworld.org); confirm on the official page"
+    },
+    {
+      "date": "2026-11-05",
+      "time": "08:30",
+      "kind": "other",
+      "title": "Productivity & Unit Labor Costs Q3 (prelim)",
+      "impact": "low",
+      "verify": true,
+      "src": "data/news/events.csv (bls.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-06",
+      "time": "08:30",
+      "kind": "nfp",
+      "title": "Jobs report (NFP), October data",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (bls.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-10",
+      "time": "08:30",
+      "kind": "cpi",
+      "title": "CPI (consumer prices)",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (bls.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-11",
+      "time": null,
+      "kind": "holiday",
+      "title": "Veterans Day: stocks trade, bond market closed",
+      "impact": "low",
+      "verify": false,
+      "src": "NYSE holiday calendar: stock market open"
+    },
+    {
+      "date": "2026-11-13",
+      "time": "08:30",
+      "kind": "ppi",
+      "title": "PPI (producer prices)",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (bls.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-18",
+      "time": "14:00",
+      "kind": "other",
+      "title": "Fed meeting minutes (Oct 27-28)",
+      "impact": "med",
+      "verify": true,
+      "src": "data/news/events.csv (federalreserve.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-11-20",
+      "time": "09:30",
+      "kind": "opex",
+      "title": "Monthly options expiration (third Friday)",
+      "impact": "low",
+      "verify": false,
+      "src": "Third Friday of the month"
+    },
+    {
+      "date": "2026-11-25",
+      "time": "08:30",
+      "kind": "claims",
+      "title": "Jobless claims (moved to Wednesday for the holiday)",
+      "impact": "low",
+      "verify": true,
+      "src": "Labor Department moves the Thursday release when Thursday is a holiday"
+    },
+    {
+      "date": "2026-11-26",
+      "time": null,
+      "kind": "holiday",
+      "title": "Thanksgiving: US markets closed",
+      "impact": "low",
+      "closed": true,
+      "verify": true,
+      "src": "US market holiday rule; check the CME holiday calendar for futures"
+    },
+    {
+      "date": "2026-11-27",
+      "time": "13:15",
+      "kind": "early",
+      "title": "Day after Thanksgiving: early close 1:15 PM ET",
+      "impact": "med",
+      "close_et": "13:15",
+      "verify": true,
+      "src": "CME equity futures short day; check the CME holiday calendar"
+    },
+    {
+      "date": "2026-12-04",
+      "time": "08:30",
+      "kind": "nfp",
+      "title": "Jobs report (NFP, November data)",
+      "impact": "high",
+      "verify": true,
+      "src": "BLS rule: the third Friday after the week that contains the 12th; confirm on bls.gov"
+    },
+    {
+      "date": "2026-12-09",
+      "time": "14:00",
+      "kind": "fomc",
+      "title": "FOMC decision 2:00 PM with projections, press conference 2:30 PM",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (federalreserve.gov); confirm on the official page"
+    },
+    {
+      "date": "2026-12-09",
+      "time": "16:00",
+      "kind": "roll",
+      "title": "Your roll step: switch the NinjaTrader chart to MNQ 03-27",
+      "impact": "med",
+      "verify": false,
+      "src": "docs/ROLL_DEC_2026.md: the evening before, after 16:00 ET"
+    },
+    {
+      "date": "2026-12-10",
+      "time": "00:00",
+      "kind": "roll",
+      "title": "NQ roll: orders switch to MNQ 03-27 (8 days before expiry)",
+      "impact": "med",
+      "verify": false,
+      "src": "docs/ROLL_DEC_2026.md, engine/roll_watch.py: Thursday 00:00 ET, 8 days before the expiry"
+    },
+    {
+      "date": "2026-12-18",
+      "time": "09:30",
+      "kind": "quad",
+      "title": "Quad witching and December NQ expiry",
+      "impact": "med",
+      "verify": false,
+      "src": "Third Friday of the quarter month; the quarterly NQ contract expires 9:30 AM ET"
+    },
+    {
+      "date": "2026-12-24",
+      "time": "13:15",
+      "kind": "early",
+      "title": "Christmas Eve: early close 1:15 PM ET",
+      "impact": "med",
+      "close_et": "13:15",
+      "verify": true,
+      "src": "CME equity futures short day; check the CME holiday calendar"
+    },
+    {
+      "date": "2026-12-25",
+      "time": null,
+      "kind": "holiday",
+      "title": "Christmas Day: US markets closed",
+      "impact": "low",
+      "closed": true,
+      "verify": true,
+      "src": "US market holiday rule; check the CME holiday calendar for futures"
+    },
+    {
+      "date": "2027-01-01",
+      "time": null,
+      "kind": "holiday",
+      "title": "New Year's Day: US markets closed",
+      "impact": "low",
+      "closed": true,
+      "verify": true,
+      "src": "US market holiday rule; check the CME holiday calendar for futures"
+    },
+    {
+      "date": "2027-01-15",
+      "time": "09:30",
+      "kind": "opex",
+      "title": "Monthly options expiration (third Friday)",
+      "impact": "low",
+      "verify": false,
+      "src": "Third Friday of the month"
+    },
+    {
+      "date": "2027-01-18",
+      "time": null,
+      "kind": "holiday",
+      "title": "Martin Luther King Jr. Day: stock market closed, CME futures on holiday hours (check)",
+      "impact": "med",
+      "partial": true,
+      "verify": true,
+      "src": "US market holiday rule; CME holiday hours: check the CME holiday calendar"
+    },
+    {
+      "date": "2027-01-27",
+      "time": "14:00",
+      "kind": "fomc",
+      "title": "FOMC decision 2:00 PM, press conference 2:30 PM",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (federalreserve.gov); confirm on the official page"
+    },
+    {
+      "date": "2027-02-05",
+      "time": "08:30",
+      "kind": "nfp",
+      "title": "Jobs report (NFP, January data)",
+      "impact": "high",
+      "verify": true,
+      "src": "BLS rule: the third Friday after the week that contains the 12th; confirm on bls.gov"
+    },
+    {
+      "date": "2027-02-15",
+      "time": null,
+      "kind": "holiday",
+      "title": "Presidents Day: stock market closed, CME futures on holiday hours (check)",
+      "impact": "med",
+      "partial": true,
+      "verify": true,
+      "src": "US market holiday rule; CME holiday hours: check the CME holiday calendar"
+    },
+    {
+      "date": "2027-02-19",
+      "time": "09:30",
+      "kind": "opex",
+      "title": "Monthly options expiration (third Friday)",
+      "impact": "low",
+      "verify": false,
+      "src": "Third Friday of the month"
+    },
+    {
+      "date": "2027-03-05",
+      "time": "08:30",
+      "kind": "nfp",
+      "title": "Jobs report (NFP, February data)",
+      "impact": "high",
+      "verify": true,
+      "src": "BLS rule: the third Friday after the week that contains the 12th; confirm on bls.gov"
+    },
+    {
+      "date": "2027-03-10",
+      "time": "16:00",
+      "kind": "roll",
+      "title": "Your roll step: switch the NinjaTrader chart to MNQ 06-27",
+      "impact": "med",
+      "verify": false,
+      "src": "docs/ROLL_DEC_2026.md: the evening before, after 16:00 ET"
+    },
+    {
+      "date": "2027-03-11",
+      "time": "00:00",
+      "kind": "roll",
+      "title": "NQ roll: orders switch to MNQ 06-27 (8 days before expiry)",
+      "impact": "med",
+      "verify": false,
+      "src": "docs/ROLL_DEC_2026.md, engine/roll_watch.py: Thursday 00:00 ET, 8 days before the expiry"
+    },
+    {
+      "date": "2027-03-17",
+      "time": "14:00",
+      "kind": "fomc",
+      "title": "FOMC decision 2:00 PM with projections, press conference 2:30 PM",
+      "impact": "high",
+      "verify": true,
+      "src": "data/news/events.csv (federalreserve.gov); confirm on the official page"
+    },
+    {
+      "date": "2027-03-19",
+      "time": "09:30",
+      "kind": "quad",
+      "title": "Quad witching and March NQ expiry",
+      "impact": "med",
+      "verify": false,
+      "src": "Third Friday of the quarter month; the quarterly NQ contract expires 9:30 AM ET"
+    },
+    {
+      "date": "2027-03-26",
+      "time": null,
+      "kind": "holiday",
+      "title": "Good Friday: US markets closed",
+      "impact": "low",
+      "closed": true,
+      "verify": true,
+      "src": "US market holiday rule; check the CME holiday calendar for futures"
+    }
+  ],
+  "undated": [
+    {
+      "kind": "cpi",
+      "title": "CPI (consumer prices): the release after 2026-11-10",
+      "approx": "mid-month, 8:30 AM ET",
+      "impact": "high",
+      "verify": true,
+      "confirm": "bls.gov, Release calendar, Consumer Price Index",
+      "src": "not in the saved calendar yet"
+    },
+    {
+      "kind": "ppi",
+      "title": "PPI (producer prices): the release after 2026-11-13",
+      "approx": "mid-month, 8:30 AM ET",
+      "impact": "med",
+      "verify": true,
+      "confirm": "bls.gov, Release calendar, Producer Price Index",
+      "src": "not in the saved calendar yet"
+    },
+    {
+      "kind": "retail",
+      "title": "Retail sales",
+      "approx": "mid-month, 8:30 AM ET",
+      "impact": "med",
+      "verify": true,
+      "confirm": "census.gov, Economic Indicators calendar, Advance Monthly Retail Sales",
+      "src": "not in the saved calendar"
+    },
+    {
+      "kind": "nfp",
+      "title": "Jobs report (NFP, December data): the rule gives 2027-01-01, a market holiday, so BLS moves it",
+      "approx": "the week of that holiday, 8:30 AM ET",
+      "impact": "high",
+      "verify": true,
+      "confirm": "bls.gov, Release calendar, Employment Situation",
+      "src": "rule date falls on a holiday"
+    }
+  ]
+}

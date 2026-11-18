@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chronos</title>
+<meta name="description" content="CHRONOS: the time machine. Pick a past day the bot traded and replay it: the price as a glowing ribbon in front of a Greek clock tower, the LIT levels, the bot's steps, entry, stop, target and exit appearing in time, and a plain verdict at the end. Read-only.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Chronos">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- CHRONOS (OLYMPUS, 2026-11-03): a replay of the LIT trades the site already publishes (../odeon/trades.json: per trade the 1-minute path, levels,
+     the engine's steps, stop, target, exit, $ and the best move). chroncore.js = the maths (pure), scene.js = the 3D clock tower on the OLYMPUS
+     render core, chronos.js = the page. Nothing here writes anywhere: no orders, no bot setting. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="chronos"></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d4a574'); r.setProperty('--oly-accent-rgb', '212, 165, 116'); })();</script>
+<link rel="stylesheet" href="chronos.css?v=c2g2">
+</head>
+<body>
+<canvas id="tower" aria-label="A Greek clock tower with the day's price drawn as a glowing ribbon in front of it" role="img"></canvas>
+<main id="ui">
+  <header class="top">
+    <div class="brand"><h1>CHRONOS</h1><p class="sub">Replay any past day: pick a day, press play, see each bot step and the $.</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <section class="daycard" aria-label="Pick a day">
+    <div class="pick">
+      <button type="button" id="prev" aria-label="Earlier day">&lsaquo;</button>
+      <select id="daySel" aria-label="Day"></select>
+      <button type="button" id="next" aria-label="Later day">&rsaquo;</button>
+    </div>
+    <div class="jumps" id="jumps" role="group" aria-label="Jump to a day">
+      <button type="button" data-j="month">Last month</button>
+      <button type="button" data-j="weekday">Same weekday</button>
+      <button type="button" data-j="best">Best day</button>
+      <button type="button" data-j="worst">Worst day</button>
+    </div>
+  </section>
+  <section class="caption" id="caption">
+    <div class="line1"><b id="phase">Watching</b><span id="clock">--:--</span><span id="meta" class="meta"></span></div>
+    <p id="step">Press play. The bot's steps appear here as they happen.</p>
+  </section>
+  <nav class="pills" id="pills" aria-label="Views">
+    <button type="button" data-view="steps" aria-pressed="false">Steps</button>
+    <button type="button" data-view="verdict" aria-pressed="false">Verdict</button>
+    <button type="button" data-view="lab" aria-pressed="false">Lab</button>
+    <button type="button" data-view="about" aria-pressed="false">About</button>
+  </nav>
+</main>
+<section class="sheet" id="sheet" hidden aria-labelledby="sheetTitle">
+  <header><h2 id="sheetTitle"></h2><button type="button" class="oly-close" id="close" aria-label="Close">×</button></header>
+  <div class="body" id="sheetBody" aria-live="polite"></div>
+</section>
+<section class="dock" id="dock" aria-label="Replay controls">
+  <div class="row trades" id="trades" role="group" aria-label="Trades that day" hidden></div>
+  <div class="row scrubrow">
+    <input id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Scrub the replay">
+  </div>
+  <div class="row ctl">
+    <button type="button" id="play" class="play" aria-pressed="false">Play</button>
+    <div class="speeds" id="speeds" role="group" aria-label="Speed">
+      <button type="button" data-s="1">1x</button>
+      <button type="button" data-s="2">2x</button>
+      <button type="button" data-s="4">4x</button>
+      <button type="button" data-s="8">8x</button>
+    </div>
+  </div>
+  <p class="help" id="help">Replays the trade's own 1-minute path, not the whole day.</p>
+</section>
+<script type="module" src="chronos.js?v=c2g2"></script>
+</body>
+</html>

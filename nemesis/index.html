@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nemesis</title>
+<meta name="description" content="NEMESIS: the loss post-mortem. Every losing trade is a fallen figure in a dark underworld; tap one for a plain-words autopsy (the plan or a rule break, the stop, the size against the room, the time of day, what the twin says, one lesson). A weekly ranking of your biggest leaks with the dollars they cost, and a vow you can tick. Read-only; never an order.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nemesis">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- NEMESIS (OLYMPUS, 2026-11-04): a post-mortem of the losing trades the site already publishes (../odeon/trades.json: the trades with
+     their stop, sweep, size, time, twin) and the live eval of ../home.json. It also reads, on this phone only, the Zenith journal tags
+     (le.jtags). nemcore.js = the autopsy and the maths (pure), scene.js = the 3D underworld on the OLYMPUS render core, nemesis.js = the page.
+     The vows are kept in this page's localStorage ('nemesis.v1'); the Copy buttons only put text on your clipboard. Nothing is sent anywhere
+     and nothing writes to a bot. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="nemesis"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b55c66'); r.setProperty('--oly-accent-rgb', '181, 92, 102'); })();</script>
+<link rel="stylesheet" href="nemesis.css?v=n3h">
+</head>
+<body>
+<canvas id="view" aria-label="A dark underworld arena: every losing trade is a fallen warrior lit by its own ember. Tap one to open its autopsy." role="img"></canvas>
+<main id="ui">
+  <header class="top">
+    <div class="brand"><h1>NEMESIS</h1><p class="sub">Why each loss happened, and its $</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <section class="verdict" id="verdict" aria-live="polite">
+    <p class="v" id="vText">Reading the trades...</p>
+    <div class="tiles">
+      <div class="tile"><span class="k">Fallen</span><b id="tFallen">-</b></div>
+      <div class="tile lost"><span class="k">Lost</span><b id="tLost">-</b></div>
+      <div class="tile leak"><span class="k">Leaks cost</span><b id="tLeak">-</b></div>
+    </div>
+    <p class="live" id="live" hidden></p>
+  </section>
+  <nav class="pills" id="pills" aria-label="Views">
+    <button type="button" data-view="fallen" aria-pressed="false">Fallen</button>
+    <button type="button" data-view="leaks" aria-pressed="false">Leaks</button>
+    <button type="button" data-view="vow" aria-pressed="false">Vow</button>
+    <button type="button" data-view="about" aria-pressed="false">About</button>
+  </nav>
+</main>
+<section class="sheet" id="sheet" hidden aria-labelledby="sheetTitle">
+  <header><h2 id="sheetTitle"></h2><button type="button" class="oly-close" id="close" aria-label="Close">×</button></header>
+  <div class="body" id="sheetBody"></div>
+</section>
+<section class="dock" id="dock" aria-label="Week">
+  <div class="row wk">
+    <button type="button" id="wkPrev" aria-label="Older week">‹</button>
+    <div class="wl"><b id="wkLabel">-</b><span id="wkSub">&nbsp;</span></div>
+    <button type="button" id="wkNext" aria-label="Newer week">›</button>
+    <button type="button" id="wkAll" class="all" aria-pressed="false">All</button>
+  </div>
+  <p class="help" id="help"><i class="d plan"></i>plan loss (normal) <i class="d soft"></i>leak (small mistake) <i class="d break"></i>rule break</p>
+</section>
+<script type="module" src="nemesis.js?v=n2g"></script>
+</body>
+</html>

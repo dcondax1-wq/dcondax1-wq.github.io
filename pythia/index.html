@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pythia</title>
+<meta name="description" content="OLYMPUS PYTHIA: the risk calendar. The next 14 days of market-moving events for NQ (Fed days, inflation and jobs reports, jobless claims, expiries, holidays, early closes and the December roll), each with what the bots do around it, a risk colour and New York times.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pythia">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- PYTHIA (OLYMPUS, AGORA look, 2026-11-10): the risk calendar. pythiacore.js = the pure logic (node-tested: dates, New York time from the daylight-saving rule, the roll); pythia.js = the page (ES module); pythiawheel.js = the marble wheel of days in 3D (its own module tag: if it fails the page draws the flat twin).
+     Reads the bundled events.json (hand-maintained, each date marked "check" when not certain), ../home.json (today's live brief, optional) and fixture.json (DEMO, only when events.json is missing); sends nothing. Text only through textContent / createElementNS. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="pythia"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#e0b060'); r.setProperty('--oly-accent-rgb', '224, 176, 96'); })();</script>
+<link rel="stylesheet" href="pythia.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Pythia</h1><p class="sub">Big news days in the next 14 days. Red means be careful that day.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" id="todayCard" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">Today</h2><span class="pill" id="riskPill">...</span></div>
+    <div class="ballbox">
+      <canvas id="stage" role="img" aria-label="A marble wheel with fourteen slots, one for each of the next fourteen days. A pillar stands in each slot: tall and red for a big release, short for a light day, blue when the market is closed. Tap a pillar to open that day."></canvas>
+      <svg id="flat" viewBox="0 0 320 190" role="img" aria-label="A flat drawing of the marble wheel of days with its event pillars" hidden></svg>
+    </div>
+    <p class="lead" id="todayWord"></p>
+    <ul class="plain" id="todayEv"></ul>
+  </section>
+  <section class="pl-place" data-polis-life="oracle" aria-label="The oracle of the day" hidden></section>
+  <section class="ag-card card" id="liveCard" aria-labelledby="liveH" hidden>
+    <h2 id="liveH">Today's live briefing</h2>
+    <ul class="plain" id="liveBox"></ul>
+    <p class="note">From the bot's own morning briefing (home.json), with its quiet windows. New York time.</p>
+  </section>
+  <section class="ag-card card" aria-labelledby="gridH">
+    <div class="row"><button class="btn step" id="prevW" type="button" aria-label="A week earlier">&lsaquo;</button><h2 id="gridH">Next 14 days</h2><button class="btn step" id="nextW" type="button" aria-label="A week later">&rsaquo;</button></div>
+    <p class="note center" id="range"></p>
+    <div class="dgrid" id="grid" role="group" aria-label="Pick a day"></div>
+    <div class="key" aria-label="Colours"><span><i class="dot high"></i>Red: big release</span><span><i class="dot med"></i>Amber</span><span><i class="dot low"></i>Light</span><span><i class="dot calm"></i>Calm</span><span><i class="dot closed"></i>Closed</span></div>
+    <button class="btn wide" id="todayBtn" type="button">Back to today</button>
+  </section>
+  <section class="ag-card card" aria-labelledby="dayTitle">
+    <div class="row"><h2 id="dayTitle">Day</h2><span class="pill" id="dayPill">...</span></div>
+    <ul class="plain" id="dayList"></ul>
+  </section>
+  <section class="ag-card card" aria-labelledby="nextH">
+    <h2 id="nextH">Coming up</h2>
+    <ul class="plain" id="nextList"></ul>
+  </section>
+  <section class="pl-place" data-polis-life="festivals" aria-label="Festival calendar" hidden></section>
+  <section class="ag-card card" id="undatedCard" aria-labelledby="udH">
+    <h2 id="udH">Dates to confirm</h2>
+    <p class="note">These come every month but their exact day is not in the list yet. Pythia never guesses a date: look them up before you rely on them.</p>
+    <ul class="plain" id="undated"></ul>
+  </section>
+
+  <p class="foot" id="notes"></p>
+  <p class="foot" id="foot">Pythia reads its own hand-kept list and sends nothing. All times are New York (ET). It is a calendar, not a forecast: it never places or changes an order and it does not change what the bots do. "Check date" means confirm the date on the agency's or the exchange's own page.</p>
+</main>
+<script type="module" src="pythia.js?v=a1"></script>
+<script type="module" src="pythiawheel.js?v=w7" onerror="window.PYTHIA_WHEEL_FAIL = 1"></script>
+</body>
+</html>

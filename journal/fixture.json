@@ -1,0 +1,190 @@
+{
+ "v": 1,
+ "app": "journal",
+ "demo": true,
+ "note": "Synthetic trades for the demo journal: not real, not a result.",
+ "trades": [
+  {
+   "id": "demo.01",
+   "day": "2026-10-30",
+   "entry": {
+    "t": 1793367660
+   },
+   "side": "LONG",
+   "qty": 6,
+   "usd": 412.0,
+   "r": 1.98,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.02",
+   "day": "2026-10-29",
+   "entry": {
+    "t": 1793257920
+   },
+   "side": "SHORT",
+   "qty": 5,
+   "usd": -437.0,
+   "r": -1.03,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.03",
+   "day": "2026-10-29",
+   "entry": {
+    "t": 1793282700
+   },
+   "side": "LONG",
+   "qty": 7,
+   "usd": 318.5,
+   "r": 1.52,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.04",
+   "day": "2026-10-28",
+   "entry": {
+    "t": 1793170680
+   },
+   "side": "SHORT",
+   "qty": 4,
+   "usd": 566.0,
+   "r": 2.74,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.05",
+   "day": "2026-10-27",
+   "entry": {
+    "t": 1793108100
+   },
+   "side": "LONG",
+   "qty": 8,
+   "usd": -352.0,
+   "r": -1.01,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.06",
+   "day": "2026-10-27",
+   "entry": {
+    "t": 1793121600
+   },
+   "side": "SHORT",
+   "qty": 3,
+   "usd": 119.0,
+   "r": 0.77,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.07",
+   "day": "2026-10-26",
+   "entry": {
+    "t": 1793001780
+   },
+   "side": "LONG",
+   "qty": 6,
+   "usd": -401.0,
+   "r": -1.02,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.08",
+   "day": "2026-10-23",
+   "entry": {
+    "t": 1792763400
+   },
+   "side": "SHORT",
+   "qty": 5,
+   "usd": 740.0,
+   "r": 3.58,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.09",
+   "day": "2026-10-22",
+   "entry": {
+    "t": 1792664040
+   },
+   "side": "LONG",
+   "qty": 4,
+   "usd": -208.0,
+   "r": -1.03,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.10",
+   "day": "2026-10-22",
+   "entry": {
+    "t": 1792681320
+   },
+   "side": "SHORT",
+   "qty": 6,
+   "usd": 272.0,
+   "r": 1.34,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.11",
+   "day": "2026-10-21",
+   "entry": {
+    "t": 1792568400
+   },
+   "side": "LONG",
+   "qty": 7,
+   "usd": 505.0,
+   "r": 2.31,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.12",
+   "day": "2026-10-20",
+   "entry": {
+    "t": 1792506120
+   },
+   "side": "SHORT",
+   "qty": 5,
+   "usd": -390.0,
+   "r": -1.0,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.13",
+   "day": "2026-10-19",
+   "entry": {
+    "t": 1792391580
+   },
+   "side": "LONG",
+   "qty": 6,
+   "usd": 96.0,
+   "r": 0.5,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  },
+  {
+   "id": "demo.14",
+   "day": "2026-10-16",
+   "entry": {
+    "t": 1792157460
+   },
+   "side": "SHORT",
+   "qty": 4,
+   "usd": 340.0,
+   "r": 1.65,
+   "src": "demo",
+   "label": "Demo trade (not real)"
+  }
+ ]
+}

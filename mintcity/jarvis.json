@@ -1,0 +1,1 @@
+{"v": 1, "name": "Mint City", "status": {"level": "off", "label": "Example numbers"}, "kpis": [{"label": "Estimate / month", "value": "$1,495"}, {"label": "Range", "value": "$0-$2,990"}, {"label": "Districts", "value": "5"}], "lines": ["Example numbers: five districts, none live yet."], "t": 1793394000, "open": "#", "theme": "#14110e", "stale_after": 21600}

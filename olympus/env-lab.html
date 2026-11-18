@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OLYMPUS environment lab</title>
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<!-- The environment kit's lab (olympus/env-kit.js): a small sanctuary built only from the kit (PBR scans, HDRI light, a Doric
+     temple, a house with a tiled roof, couches, a table, a brazier, an anvil, KayKit props, Poly Haven hero models) on the
+     render core with fx-cine's clock light and sky. ?q=high|low picks the tier, ?time=golden|day|dusk|night, ?noassets=1
+     builds without any file (the fallback colours), ?view=temple|hall|camp. tests/test_olympus_fx.py reads window.ENV_LAB. -->
+<link rel="stylesheet" href="olympus.css?v=o7">
+<script src="themes.js?v=o6"></script>
+<script src="olympus.js?v=o10"></script>
+<style>
+  html, body { margin: 0; height: 100%; background: #14110e; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  .tag { position: fixed; left: 12px; top: calc(10px + env(safe-area-inset-top)); font: 600 13px/1.3 'Iowan Old Style', Palatino, Georgia, serif; color: #f3ece0; pointer-events: none; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+<canvas id="lab"></canvas>
+<p class="tag" id="tag">Environment lab</p>
+<script type="module">
+import * as THREE from '../jarvis/three.module.min.js';
+import { createRenderer } from './render.js';
+import { envKit, measure } from './env-kit.js';
+
+const q = new URLSearchParams(location.search), view = q.get('view') || 'temple';
+const canvas = document.getElementById('lab');
+const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(50, 1, 0.1, 400);
+scene.background = new THREE.Color('#c9a27a'); scene.fog = new THREE.Fog('#d8b48a', 30, 140);
+const rc = createRenderer({ canvas, scene, camera, env: 'none', tint: '#c8a24a', theme: { sky: '#6a4526', fog: '#3b2a1c', emissive: '#c8a24a', bloom: '#e0b060', accent: '#c8a24a' } });
+const hemi = new THREE.HemisphereLight('#f2d6b0', '#5a4630', 0.7); scene.add(hemi);
+const sun = new THREE.DirectionalLight('#ffd29a', 2.4); sun.position.set(-14, 10, 9); scene.add(sun); scene.add(sun.target);
+const kit = envKit({ rc, tier: rc.quality(), hdri: q.get('noassets') !== '1' });
+if (q.get('noassets') === '1') { kit.place = async () => null; kit.hero = async () => null; }
+const B = kit.builder();
+// the ground: paving in the sanctuary, sand beyond
+B.box('paving', 0, -0.05, 0, 30, 0.1, 30); B.box('sand', 0, -0.12, 0, 120, 0.1, 120);
+// the temple: steps, 6 x 4 columns, entablature, roof with pediments, a plaster cella with a door
+const W = 9, D = 6.2, H = 4.2;
+B.steps({ x: 0, z: -4, w: W + 1.2, d: D + 1.2, h: 0.6, n: 3 });
+for (let i = 0; i < 6; i++) for (const zz of [-D / 2, D / 2]) B.column({ x: -W / 2 + (i * W) / 5, y: 0.6, z: -4 + zz, h: H, r: 0.32 });
+for (const xx of [-W / 2, W / 2]) for (const zz of [-D / 6, D / 6]) B.column({ x: xx, y: 0.6, z: -4 + zz, h: H, r: 0.32 });
+B.wall({ x0: -W / 2 + 1.2, z0: -4 + D / 2 - 1.1, x1: W / 2 - 1.2, z1: -4 + D / 2 - 1.1, y: 0.6, h: H, door: 0.5, doorW: 1.6, doorH: 3 });
+B.box('plaster', 0, 0.6 + H / 2, -4 - D / 2 + 1.1, W - 2.4, H, 0.3);
+B.entablature({ x: 0, z: -4 - D / 2, y: 0.6 + H, w: W + 0.8, d: 0.8, metope: '#e8dccb' });
+B.entablature({ x: 0, z: -4 + D / 2, y: 0.6 + H, w: W + 0.8, d: 0.8, metope: '#e8dccb' });
+B.entablature({ x: -W / 2, z: -4, y: 0.6 + H, w: D + 0.8, d: 0.8, ry: Math.PI / 2 });
+B.entablature({ x: W / 2, z: -4, y: 0.6 + H, w: D + 0.8, d: 0.8, ry: Math.PI / 2 });
+B.roof({ x: 0, z: -4, y: 0.6 + H + 1.0, w: W + 0.8, d: D + 0.8, h: 1.4, over: 0.25 });
+// a house with a tiled roof
+B.wall({ x0: 6.5, z0: 3, x1: 11.5, z1: 3, h: 3, door: 0.4 }); B.wall({ x0: 6.5, z0: 7, x1: 11.5, z1: 7, h: 3 });
+B.wall({ x0: 6.5, z0: 3, x1: 6.5, z1: 7, h: 3 }); B.wall({ x0: 11.5, z0: 3, x1: 11.5, z1: 7, h: 3 });
+B.roof({ x: 9, z: 5, y: 3, w: 5, d: 4.3, h: 1.2, pedMat: 'plaster' });
+// the feast and the forge
+B.kline({ x: -4, z: 4, ry: 0.2, color: '#c96a4a' }); B.kline({ x: -1.4, z: 5.4, ry: -0.1, color: '#4b7a99' });
+B.table({ x: -2.6, z: 3.2 }); B.brazier({ x: 1.5, z: 2.5 }); B.brazier({ x: -6.5, z: 1.5 });
+B.anvil({ x: 3.6, z: 5.6, ry: 0.4 }); B.scroll({ x: -2.6, y: 0.5, z: 3.1, ry: 0.5 });
+const built = B.build(scene);
+kit.blobs(scene, [[-4, 4, 1.1, 1, 0.012, 0.6], [-1.4, 5.4, 1.1, 1, 0.012, 0.6], [-2.6, 3.2, 0.6], [1.5, 2.5, 0.45], [-6.5, 1.5, 0.45], [3.6, 5.6, 0.5]]);
+const props = kit.place(scene, 'dungeon', [['barrel_large', 4.5, 0, 1.5, 0.3, 0.7], ['crates_stacked', 5.4, 0, 2.6, 0.5, 0.8], ['chest_gold', 2.8, 0, 0.6, -0.4, 0.7], ['coin_stack_large', 3.1, 0, 0.0, 0, 0.5],
+  ['banner_patternA_red', -9, 0, -1, 0.6, 1], ['table_medium', 6, 0, -3, 0.2, 0.8], ['candle_triple', 6, 0.8, -3, 0, 0.6], ['keg', 7.5, 0, -1.5, 0, 0.8]]);
+const camp = kit.place(scene, 'camp', [['tent', -10, 0, 9, 0.6, 1.2], ['tree_single_B', -12, 0, -6, 0, 1.6], ['trees_A_medium', 14, 0, -8, 0.4, 1.8], ['rock_single_C', -7, 0, 9, 0, 1], ['wheelbarrow', -6, 0, 7.5, 1, 1], ['sack', 2.6, 0, 6.5, 0.4, 1]]);
+const heroes = Promise.all([kit.hero(scene, 'bust', [[-2.6, 0.6 + H * 0 + 0, -0.6, 0.3, 1]]), kit.hero(scene, 'amphora', [[-5.6, 0, 3, 0, 1], [-6, 0, 3.6, 1, 0.8]], { color: '#c87a50' }),
+  kit.hero(scene, 'goblets', [[-2.6, 0.5, 3.3, 0, 1]]), kit.hero(scene, 'horse', [[5, 0.6, -0.8, -0.6, 1]])]);
+let cine = null;
+import('./fx-cine.js').then((C) => { cine = C.cinema(rc, { time: 'golden', sky: true, fog: 0.5, fires: [[1.5, 1.15, 2.5], [-6.5, 1.15, 1.5]], shadows: { casters: [built], receivers: [built], box: 18 }, dust: { box: [20, 4, 20], center: [0, 2, 0] } });
+  kit.follow(cine); }).catch(() => kit.env('golden'));
+const pos = { temple: [[9, 3.2, 16], [-1, 2.4, -3]], hall: [[-0.5, 1.6, 9.5], [-3, 0.6, 3.5]], camp: [[-3, 2.2, 15], [-9, 1, 6]] }[view] || [[7.5, 2.4, 12.5], [-1, 2.2, -2]];
+camera.position.set(...pos[0]); camera.lookAt(...pos[1]);
+rc.start(() => {});
+document.getElementById('tag').textContent = 'Environment lab · ' + rc.quality();
+window.ENV_LAB = { kit, rc, scene, ready: Promise.all([props, camp, heroes]).then(() => true), measure: () => Object.assign(measure(scene), kit.stats(), { render: rc.stats() }), built: built.userData.stats };
+</script>
+</body>
+</html>

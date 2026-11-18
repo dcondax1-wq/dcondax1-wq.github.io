@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goals</title>
+<meta name="description" content="Your next plans, in order: this week's steps with dates, the money ladder with milestones, the rules that protect the accounts, and the decisions waiting on you.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- GOALS (2026-11-18, night-goals): read only. ./goals.json = tools/money/goals_build.py (fleet_plan.json + rapid25.json +
+     accounts.json + the live board). Text only through textContent. goals.js = the page. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=4">
+<style>
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .steps li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding-top: 10px; border-top: 1px solid var(--ag-line, #3a3226); }
+  .steps li:first-child { border-top: 0; padding-top: 0; }
+  .steps .d { grid-column: 1 / -1; font: 700 12px var(--ag-sans); color: var(--ag-soft, #cbbfa8); letter-spacing: .02em; text-transform: uppercase; }
+  .steps .w { font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+  .steps .y { grid-column: 1 / -1; font-size: 13px; color: var(--ag-muted, #a89c86); overflow-wrap: anywhere; }
+  .steps .pill { align-self: start; }
+  .ladder li { padding-left: 14px; position: relative; }
+  .ladder li::before { content: ""; position: absolute; left: 0; top: 14px; bottom: -10px; width: 2px; background: var(--ag-line, #3a3226); }
+  .ladder li:first-child::before { top: 4px; }
+  .ladder li:last-child::before { bottom: 0; }
+  .ladder li.next .w { color: var(--ag-gold, #c8a24a); }
+  .ladder .usd { grid-column: 1 / -1; font: 700 14px var(--ag-num); font-variant-numeric: tabular-nums; }
+  .bad { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--oly-th-r3, #6e3424); font-size: 13px; color: var(--ag-soft, #cbbfa8); }
+  .rules dt { font-weight: 700; font-size: 15px; margin-top: 10px; } .rules dt:first-child { margin-top: 0; }
+  .rules dd { margin: 2px 0 0; font-size: 14px; color: var(--ag-soft, #cbbfa8); }
+  ol.dec { margin: 0; padding-left: 20px; } ol.dec li { margin: 6px 0; font-size: 14px; }
+  .now { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 13px; color: var(--ag-soft, #cbbfa8); }
+</style>
+</head>
+<body>
+<main id="app">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">Goals</h1><p class="sub">Your next plans, in order</p></div></div></header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <ul class="now" id="now" aria-label="Where you are now"></ul>
+
+  <section class="ag-card card" aria-labelledby="weekH">
+    <h2 id="weekH">This week</h2>
+    <ol class="steps" id="week"></ol>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="ladH">
+    <div class="row"><h2 id="ladH">The money ladder</h2><span class="pill warn">ESTIMATE</span></div>
+    <p class="note" id="ladNote"></p>
+    <ol class="steps ladder" id="ladder"></ol>
+    <p class="bad" id="bad"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="rulesH">
+    <h2 id="rulesH">Rules that protect the accounts</h2>
+    <dl class="rules" id="rules"></dl>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="decH">
+    <h2 id="decH">Decisions waiting on you</h2>
+    <ol class="dec" id="dec"></ol>
+  </section>
+
+  <p class="note" id="foot"></p>
+</main>
+<script src="goals.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "name": "Oracle",
+  "status": {
+    "level": "ok",
+    "label": "Radar online"
+  },
+  "kpis": [],
+  "lines": [
+    "NQ as a live 3D radar: LIT levels, sweeps, the bot's stage and its position"
+  ],
+  "t": 1793673600,
+  "open": "#",
+  "theme": "#14110e"
+}

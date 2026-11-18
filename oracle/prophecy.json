@@ -1,0 +1,301 @@
+{
+ "v": 1,
+ "kind": "oracle-prophecy",
+ "source": "research/lab/backtest_live.json (LIT, live settings, costs in)",
+ "built_from": "2026-10-25 15:38",
+ "days": [
+  "2021-11-09",
+  "2026-10-14"
+ ],
+ "all": {
+  "n": 631,
+  "win_pct": 54.2,
+  "avg_r": 0.17,
+  "n26": 120,
+  "win26": 55.8,
+  "avg_r26": 0.81
+ },
+ "families": {
+  "bu_h": {
+   "n": 273,
+   "share": 0.4326,
+   "win_pct": 52.0,
+   "avg_r": 0.14,
+   "n26": 51,
+   "win26": 51.0,
+   "avg_r26": 0.43,
+   "low_n": false
+  },
+  "bu_l": {
+   "n": 235,
+   "share": 0.3724,
+   "win_pct": 56.2,
+   "avg_r": 0.14,
+   "n26": 39,
+   "win26": 53.8,
+   "avg_r26": 0.69,
+   "low_n": false
+  },
+  "asia_h": {
+   "n": 126,
+   "share": 0.1997,
+   "win_pct": 50.0,
+   "avg_r": 0.05,
+   "n26": 25,
+   "win26": 64.0,
+   "avg_r26": 1.07,
+   "low_n": false
+  },
+  "frank_h": {
+   "n": 122,
+   "share": 0.1933,
+   "win_pct": 50.0,
+   "avg_r": 0.15,
+   "n26": 23,
+   "win26": 43.5,
+   "avg_r26": 0.47,
+   "low_n": false
+  },
+  "frank_l": {
+   "n": 101,
+   "share": 0.1601,
+   "win_pct": 60.4,
+   "avg_r": 0.18,
+   "n26": 20,
+   "win26": 60.0,
+   "avg_r26": 0.72,
+   "low_n": false
+  },
+  "lon34_l": {
+   "n": 96,
+   "share": 0.1521,
+   "win_pct": 57.3,
+   "avg_r": 0.13,
+   "n26": 19,
+   "win26": 52.6,
+   "avg_r26": 0.5,
+   "low_n": false
+  },
+  "asia_l": {
+   "n": 95,
+   "share": 0.1506,
+   "win_pct": 50.5,
+   "avg_r": 0.02,
+   "n26": 19,
+   "win26": 57.9,
+   "avg_r26": 1.31,
+   "low_n": false
+  },
+  "lon34_h": {
+   "n": 93,
+   "share": 0.1474,
+   "win_pct": 48.4,
+   "avg_r": 0.02,
+   "n26": 21,
+   "win26": 42.9,
+   "avg_r26": 0.69,
+   "low_n": false
+  },
+  "lon25_h": {
+   "n": 85,
+   "share": 0.1347,
+   "win_pct": 50.6,
+   "avg_r": 0.12,
+   "n26": 11,
+   "win26": 36.4,
+   "avg_r26": 0.49,
+   "low_n": false
+  },
+  "lon25_l": {
+   "n": 83,
+   "share": 0.1315,
+   "win_pct": 54.2,
+   "avg_r": 0.13,
+   "n26": 14,
+   "win26": 50.0,
+   "avg_r26": 0.44,
+   "low_n": false
+  },
+  "ny89_h": {
+   "n": 27,
+   "share": 0.0428,
+   "win_pct": 48.1,
+   "avg_r": -0.05,
+   "n26": 4,
+   "win26": 75.0,
+   "avg_r26": 0.31,
+   "low_n": true
+  },
+  "ny89_l": {
+   "n": 23,
+   "share": 0.0365,
+   "win_pct": 56.5,
+   "avg_r": 0.02,
+   "n26": 3,
+   "win26": 66.7,
+   "avg_r26": 0.41,
+   "low_n": true
+  },
+  "pd_h": {
+   "n": 23,
+   "share": 0.0365,
+   "win_pct": 47.8,
+   "avg_r": 0.13,
+   "n26": 4,
+   "win26": 50.0,
+   "avg_r26": 0.71,
+   "low_n": true
+  },
+  "ny830_h": {
+   "n": 22,
+   "share": 0.0349,
+   "win_pct": 50.0,
+   "avg_r": -0.26,
+   "n26": 4,
+   "win26": 75.0,
+   "avg_r26": 0.31,
+   "low_n": true
+  },
+  "nwog": {
+   "n": 21,
+   "share": 0.0333,
+   "win_pct": 66.7,
+   "avg_r": -0.05,
+   "n26": 4,
+   "win26": 75.0,
+   "avg_r26": 1.26,
+   "low_n": true
+  },
+  "ny830_l": {
+   "n": 19,
+   "share": 0.0301,
+   "win_pct": 63.2,
+   "avg_r": 0.09,
+   "n26": 3,
+   "win26": 66.7,
+   "avg_r26": 0.41,
+   "low_n": true
+  },
+  "ny930_h": {
+   "n": 18,
+   "share": 0.0285,
+   "win_pct": 50.0,
+   "avg_r": -0.08,
+   "n26": 2,
+   "win26": 100.0,
+   "avg_r26": 1.28,
+   "low_n": true
+  },
+  "pd_l": {
+   "n": 17,
+   "share": 0.0269,
+   "win_pct": 47.1,
+   "avg_r": -0.28,
+   "n26": 3,
+   "win26": 0.0,
+   "avg_r26": -0.83,
+   "low_n": true
+  },
+  "pre_h": {
+   "n": 17,
+   "share": 0.0269,
+   "win_pct": 47.1,
+   "avg_r": -0.24,
+   "n26": 3,
+   "win26": 66.7,
+   "avg_r26": 0.29,
+   "low_n": true
+  },
+  "pre_l": {
+   "n": 16,
+   "share": 0.0254,
+   "win_pct": 75.0,
+   "avg_r": 0.27,
+   "n26": 2,
+   "win26": 100.0,
+   "avg_r26": 1.12,
+   "low_n": true
+  },
+  "ny930b_l": {
+   "n": 16,
+   "share": 0.0254,
+   "win_pct": 68.8,
+   "avg_r": 0.2,
+   "n26": 1,
+   "win26": 100.0,
+   "avg_r26": 0.01,
+   "low_n": true
+  },
+  "ny930b_h": {
+   "n": 15,
+   "share": 0.0238,
+   "win_pct": 46.7,
+   "avg_r": -0.01,
+   "n26": 2,
+   "win26": 100.0,
+   "avg_r26": 1.28,
+   "low_n": true
+  },
+  "ndog": {
+   "n": 13,
+   "share": 0.0206,
+   "win_pct": 61.5,
+   "avg_r": -0.39,
+   "n26": 0,
+   "win26": null,
+   "avg_r26": null,
+   "low_n": true
+  },
+  "ny930_l": {
+   "n": 11,
+   "share": 0.0174,
+   "win_pct": 81.8,
+   "avg_r": 0.13,
+   "n26": 1,
+   "win26": 100.0,
+   "avg_r26": 0.01,
+   "low_n": true
+  },
+  "pw_h": {
+   "n": 9,
+   "share": 0.0143,
+   "win_pct": 44.4,
+   "avg_r": 0.76,
+   "n26": 3,
+   "win26": 66.7,
+   "avg_r26": 3.64,
+   "low_n": true
+  },
+  "pw_l": {
+   "n": 7,
+   "share": 0.0111,
+   "win_pct": 85.7,
+   "avg_r": -0.05,
+   "n26": 0,
+   "win26": null,
+   "avg_r26": null,
+   "low_n": true
+  },
+  "pm_h": {
+   "n": 5,
+   "share": 0.0079,
+   "win_pct": 40.0,
+   "avg_r": 1.78,
+   "n26": 2,
+   "win26": 100.0,
+   "avg_r26": 5.97,
+   "low_n": true
+  },
+  "pm_l": {
+   "n": 3,
+   "share": 0.0048,
+   "win_pct": 33.3,
+   "avg_r": -0.67,
+   "n26": 0,
+   "win26": null,
+   "avg_r26": null,
+   "low_n": true
+  }
+ },
+ "note": "A family's share = trades that swept it / all trades. One trade can sweep two families. Odds, not a forecast."
+}

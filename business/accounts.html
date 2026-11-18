@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Accounts</title>
+<meta name="description" content="Every prop account in one place: what you have, live room and target, which bots trade it, what is planned, and what waits on you.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- MY ACCOUNTS (2026-11-16, owner: "a spot where I can directly see evals, what we have"): read only. ./accounts.json = the plan
+     (the lead keeps it current from STATE.md); live room / to-go from the PC (../pc_feed.js over ntfy, else ../home.json).
+     Text only through textContent. accounts.js = the page. payoutcoach.js + payoutcard.js = the payout coach card (funded accounts). BLITZ's own account C is never shown (hidden bot). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="preconnect" href="https://ntfy.sh" crossorigin><!-- speed: the PC live line (../pc_feed.js -> ntfy.sh) skips its DNS + TLS wait -->
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=4">
+<style>
+  .acc { display: grid; gap: 12px; }
+  .acc .ag-card { padding: 14px 16px; }
+  .acc h3 { margin: 0; font-size: 1.05rem; }
+  .acc .meta { opacity: .8; font-size: .85rem; margin: 2px 0 8px; }
+  .acc dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: .92rem; }
+  .acc dt { opacity: .7; }
+  .acc dd { margin: 0; overflow-wrap: anywhere; }
+  .bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.08); overflow: hidden; margin: 8px 0 4px; }
+  .bar > i { display: block; height: 100%; background: var(--oly-accent, #c8a24a); }
+  .st { font-size: .75rem; padding: 2px 8px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; }
+  .st.live { color: #9fcf8a; } .st.buying { color: #e0b85a; } .st.waiting { color: #a9a9b3; }
+  .row2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  ol.dec { margin: 0; padding-left: 20px; } ol.dec li { margin: 6px 0; }
+  dl.rules { display: grid; grid-template-columns: 7.5em 1fr; gap: 8px 12px; margin: 0; font-size: .9rem; } dl.rules dt { opacity: .75; } dl.rules dd { margin: 0; }
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .coach h2 { margin: 18px 0 0; }
+  .coach-lines { margin: 8px 0; padding-left: 18px; font-size: .92rem; } .coach-lines li { margin: 4px 0; overflow-wrap: anywhere; }
+  .coach-lines li.lead { font-weight: 600; list-style: none; margin-left: -18px; } .coach-lines li.warn { color: #e0b85a; font-weight: 600; }
+  .coach-form summary { min-height: 44px; line-height: 44px; cursor: pointer; }
+  .coach-form form { display: grid; gap: 6px; } .coach-form label { font-size: .85rem; opacity: .8; }
+  .coach-form input { min-height: 44px; font-size: 16px; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.2); background: rgba(0,0,0,.25); color: inherit; max-width: 100%; box-sizing: border-box; }
+  .coach-form .ag-btn { min-height: 44px; margin-top: 6px; }
+  main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+</style>
+</head>
+<body>
+<main id="app">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">My Accounts</h1><p class="sub">Every eval and funded account, one page</p></div></div></header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <p class="note"><a href="mffu.html">My accounts (MFFU view) &rarr;</a> each account the way MFFU shows it.</p>
+  <section class="ag-card card" aria-labelledby="sumH">
+    <div class="row2"><h2 id="sumH">At a glance</h2><span class="pill warn">ESTIMATE</span></div>
+    <dl class="kv" id="sum"></dl>
+  </section>
+  <div class="acc coach" id="coach" hidden></div>
+  <h2 style="margin:18px 0 8px">Accounts</h2>
+  <div class="acc" id="list"></div>
+  <section class="ag-card card" aria-labelledby="decH" style="margin-top:16px">
+    <h2 id="decH">Waiting on you</h2>
+    <ol class="dec" id="dec"></ol>
+  </section>
+  <section class="ag-card card" aria-labelledby="ruleH" style="margin-top:16px">
+    <h2 id="ruleH">The rules, short</h2>
+    <dl id="rules" class="rules"></dl>
+    <p class="note" id="limits"></p>
+  </section>
+  <p class="note" id="foot"></p>
+</main>
+<script src="../pc_feed.js?v=n2"></script><!-- after the content (was in <head>: render-blocking); still before the page scripts that read it -->
+<script src="payoutcoach.js?v=1"></script>
+<script src="payoutcard.js?v=1"></script>
+<script src="mffumodel.js?v=1"></script>
+<script src="accounts.js?v=4"></script>
+</body>
+</html>

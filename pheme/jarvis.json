@@ -1,0 +1,1 @@
+{"v":1,"name":"Pheme","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Today","value":"2"},{"label":"High","value":"1"},{"label":"Built","value":"11-09"}],"lines":["Example: consumer prices (CPI), 8:30 AM ET.","History only, never a forecast."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

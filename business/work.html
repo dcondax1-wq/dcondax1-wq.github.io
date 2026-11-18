@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>More Work</title>
+<meta name="description" content="More ways to make money next to the bots, ranked: what pays a beginner, hours, start cost, first steps, and the scams to skip.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- MORE WORK (2026-11-17, owner: "find more work"): read only. ./work.json = the ranked list and the agency's first $1,000
+     plan (research: research/writeups/more-work-2026-11-17.md). Text only through textContent. work.js = the page. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=3">
+<style>
+  .ideas { display: grid; gap: 12px; }
+  .ideas .ag-card { padding: 14px 16px; }
+  .idea h3 { margin: 0; font-size: 1.05rem; min-width: 0; overflow-wrap: anywhere; }
+  .idea .money { margin: 0; font-weight: 700; color: var(--ag-gold, #c8a24a); font-variant-numeric: tabular-nums; }
+  dl.facts, dl.two { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 6px 12px; margin: 0; font-size: .9rem; }
+  dl.facts dt, dl.two dt { opacity: .75; } dl.facts dd, dl.two dd { margin: 0; overflow-wrap: anywhere; }
+  ol.steps, ol.first { margin: 0; padding-left: 20px; font-size: .92rem; } ol.steps li, ol.first li { margin: 4px 0; }
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .src a { overflow-wrap: anywhere; }
+  .src li { margin: 6px 0; }
+  main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+</style>
+</head>
+<body>
+<main id="app">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">More Work</h1><p class="sub">Ways to earn next to the bots, ranked</p></div></div></header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" aria-labelledby="firstH">
+    <h2 id="firstH">Do this first</h2>
+    <ol class="first" id="first"></ol>
+  </section>
+  <h2 id="ideasH" style="margin:18px 0 8px">Ranked ideas</h2>
+  <div class="ideas" id="ideas" aria-labelledby="ideasH"></div>
+  <section class="ag-card card" aria-labelledby="planH" style="margin-top:16px">
+    <div class="row"><h2 id="planH">Agency: first $1,000 plan</h2><span class="pill warn">ESTIMATE</span></div>
+    <p class="lead" id="goal"></p>
+    <h3>The price ladder</h3>
+    <dl class="two" id="ladder"></dl>
+    <h3>How many a day</h3>
+    <p class="note" id="pace"></p>
+    <dl class="two" id="weeks"></dl>
+    <h3>What to say</h3>
+    <dl class="two" id="say"></dl>
+    <p class="note" id="planRules"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="scamH" style="margin-top:16px">
+    <div class="row"><h2 id="scamH">Scams to skip</h2><span class="pill bad">never</span></div>
+    <dl class="two" id="scams"></dl>
+  </section>
+  <footer class="ag-card card src" aria-labelledby="srcH" style="margin-top:16px">
+    <h2 id="srcH">Sources</h2>
+    <p class="note">Read Nov 17, 2026. Most are vendor or review blogs, so the numbers are ranges, not facts.</p>
+    <ul class="note" id="src"></ul>
+  </footer>
+</main>
+<script src="work.js?v=1"></script>
+</body>
+</html>

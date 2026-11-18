@@ -1,0 +1,1047 @@
+{
+ "trading": {
+  "v": 1,
+  "kind": "payout-plan",
+  "today": "2026-11-16",
+  "label": "ESTIMATE",
+  "accounts": [
+   {
+    "name": "Zlarior (LIT)",
+    "plan": "builder50k",
+    "label": "MFFU Builder 50K",
+    "stage": "eval",
+    "room": 2000.0,
+    "price": 91.8,
+    "request": 1500.0,
+    "to_you": 1200.0,
+    "funded_month": 546.0,
+    "state": "eval",
+    "pass_typical": "2026-12-01",
+    "pass_slow": "2026-12-15",
+    "sessions_to_pass": 10,
+    "payout_typical": "2026-12-18",
+    "payout_slow": "2027-01-22",
+    "bank_typical": "2026-12-24",
+    "sessions_to_payout": 12,
+    "text": "Zlarior (LIT): passes about 2026-12-01 (slow 2026-12-15), first payout about 2026-12-18 (slow 2027-01-22): ask $1,500, $1,200 to you, in the bank about 2026-12-24."
+   },
+   {
+    "name": "ATLAS",
+    "plan": "builder25k",
+    "label": "MFFU Builder 25K",
+    "stage": "eval",
+    "room": 1000.0,
+    "price": 63.0,
+    "request": 750.0,
+    "to_you": 600.0,
+    "funded_month": 338.0,
+    "state": "eval",
+    "pass_typical": "2026-12-01",
+    "pass_slow": "2026-12-15",
+    "sessions_to_pass": 10,
+    "payout_typical": "2026-12-21",
+    "payout_slow": "2027-01-26",
+    "bank_typical": "2026-12-25",
+    "sessions_to_payout": 13,
+    "text": "ATLAS: passes about 2026-12-01 (slow 2026-12-15), first payout about 2026-12-21 (slow 2027-01-26): ask $750, $600 to you, in the bank about 2026-12-25."
+   }
+  ],
+  "account4": {
+   "name": "LucidPro 50K (copies Zlarior)",
+   "price": [
+    120,
+    135
+   ],
+   "adds_month": 810.0,
+   "sale": [
+    "2026-11-19",
+    "2026-12-01"
+   ],
+   "doc": "docs/ACCOUNT_4.md",
+   "buy_on": "2026-12-24",
+   "in_sale": false,
+   "after": "Zlarior (LIT)",
+   "text": "Account #4: buy the LucidPro 50K (copies Zlarior) about 2026-12-24, the day Zlarior (LIT)'s first payout is in your bank ($120-135 with a code; adds about $810 a month, estimate)."
+  },
+  "first_payout_to_you": 1800.0,
+  "funded_month": 884.0,
+  "funded_month_with_4": 1694.0,
+  "first": {
+   "name": "Zlarior (LIT)",
+   "bank": "2026-12-24",
+   "to_you": 1200.0
+  },
+  "note": "Typical pace from the research (not a promise). Evals can fail; the slow date is about twice the sessions. Bank dates assume about 4 business days after the request: check MFFU's payout page.",
+  "demo": true
+ },
+ "costs": {
+  "bought": [
+   {
+    "what": "MFFU Builder 50K eval (Zlarior / LIT)",
+    "usd": 91.8,
+    "kind": "eval"
+   },
+   {
+    "what": "MFFU Builder 25K eval (ATLAS)",
+    "usd": 63.0,
+    "kind": "eval"
+   },
+   {
+    "what": "MFFU 25K eval (BLITZ, paper / hidden)",
+    "usd": 43.0,
+    "kind": "eval"
+   }
+  ],
+  "spent": 197.8,
+  "subscriptions": [],
+  "monthly": 0,
+  "next_buys": [
+   {
+    "what": "LucidPro 50K (account #4, copies Zlarior)",
+    "usd": [
+     120,
+     135
+    ],
+    "when": "the day the first MFFU payout is in your bank (docs/ACCOUNT_4.md)"
+   },
+   {
+    "what": "A new MFFU eval after a failed one",
+    "usd": [
+     63,
+     91.8
+    ],
+    "when": "only if an eval fails (25K $63, 50K $91.80 at your prices)"
+   },
+   {
+    "what": "Etsy listing fee (only if you list there)",
+    "usd": [
+     0.2,
+     1.6
+    ],
+    "when": "$0.20 per listing; Payhip and Gumroad cost $0 up front"
+   }
+  ],
+  "note": "Evals from research/props/roadmap.json paid_already ($197.80). No monthly subscription is on the money plan: every business account is a free plan. Add a line here if you start paying for one (name, $ a month)."
+ },
+ "ready": [
+  {
+   "id": "prop-trader-bundle",
+   "kind": "product",
+   "name": "Prop Trader Bundle",
+   "usd": 29.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/prop_trader_bundle_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload prop_trader_bundle_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/prop_bundle/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/prop_bundle/shop/",
+    "Price $29, then Publish"
+   ]
+  },
+  {
+   "id": "prop-eval-tracker",
+   "kind": "product",
+   "name": "Prop Eval Tracker (Excel + Google Sheets + offline web app)",
+   "usd": 17.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/prop_eval_tracker_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload prop_eval_tracker_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/eval_tracker/listing.md",
+    "Add the 3 wide covers from money_machines/products/eval_tracker/",
+    "Price $17, then Publish"
+   ]
+  },
+  {
+   "id": "eval-risk-calculator",
+   "kind": "product",
+   "name": "Eval Risk Calculator",
+   "usd": 12.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/eval_risk_calculator_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload eval_risk_calculator_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/risk_calculator/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/risk_calculator/shop/",
+    "Price $12, then Publish"
+   ]
+  },
+  {
+   "id": "eval-rules-explained",
+   "kind": "product",
+   "name": "Prop Eval Rules Explained",
+   "usd": 7.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/prop_eval_rules_explained_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload prop_eval_rules_explained_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/rules_guide/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/rules_guide/shop/",
+    "Price $7, then Publish"
+   ]
+  },
+  {
+   "id": "trader-routine-planner",
+   "kind": "product",
+   "name": "Trader's daily routine planner",
+   "usd": 14.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/trader_routine_planner_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload trader_routine_planner_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/trader_planner/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/trader_planner/shop/",
+    "Price $14, then Publish"
+   ]
+  },
+  {
+   "id": "local-site-templates",
+   "kind": "product",
+   "name": "5 one-page website templates for local businesses + an offline no-code Site Editor + a publish guide",
+   "usd": 24.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/local_business_website_templates_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload local_business_website_templates_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/site_templates/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/site_templates/shop/",
+    "Price $24, then Publish"
+   ]
+  },
+  {
+   "id": "social-post-pack",
+   "kind": "product",
+   "name": "30-day social media kit for local businesses",
+   "usd": 14.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/local_social_media_kit_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload local_social_media_kit_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/social_kit/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/social_kit/shop/",
+    "Price $14, then Publish"
+   ]
+  },
+  {
+   "id": "agency-starter-kit",
+   "kind": "product",
+   "name": "First clients agency starter kit",
+   "usd": 19.0,
+   "minutes": 15,
+   "where": "Payhip (free), then Gumroad / Etsy",
+   "file": "money_machines/out/products/first_clients_agency_kit_v1.0.zip",
+   "steps": [
+    "On the PC: python -m money_machines.products.build_all --zip (makes every zip in money_machines/out/products/)",
+    "payhip.com (free plan) > Products > Add new > Digital download",
+    "Upload first_clients_agency_kit_v1.0.zip",
+    "Paste the title, description and FAQ from money_machines/products/agency_kit/shop/listing.md",
+    "Add the 3 wide covers from money_machines/products/agency_kit/shop/",
+    "Price $19, then Publish"
+   ]
+  },
+  {
+   "id": "fiverr-gigs",
+   "kind": "gigs",
+   "name": "Fiverr: 4 ready gigs",
+   "usd": 120.0,
+   "minutes": 60,
+   "where": "Fiverr (free; it keeps 20%)",
+   "file": "docs/GIG_PACK.md",
+   "steps": [
+    "fiverr.com > Become a seller, your real name; finish the ID + selfie check on the phone (14 days)",
+    "Create a gig: paste 'I will build a fast mobile website for your local business...' with its tags, packages ($120-480) and FAQ from docs/GIG_PACK.md",
+    "Create a gig: paste 'I will design a simple modern logo and brand kit for your sm...' with its tags, packages ($25-95) and FAQ from docs/GIG_PACK.md",
+    "Add 3 pictures (docs/shots/money_machines/brand_kit_concepts.jpg for the logo gig), Publish",
+    "Answer every message the same day (Claude drafts, you send)"
+   ]
+  },
+  {
+   "id": "content-30d",
+   "kind": "content",
+   "name": "Two 30-day Instagram plans",
+   "usd": 0.0,
+   "minutes": 30,
+   "where": "Meta Business Suite (free)",
+   "file": "money_machines/plans/",
+   "steps": [
+    "On the PC: python -m money_machines.content_plan --all --render (the images + posting sheet)",
+    "New Instagram, switch to Professional",
+    "Meta Business Suite > Planner: schedule week 1 from the posting sheet",
+    "Shop link in the bio once the products are up"
+   ]
+  },
+  {
+   "id": "demo-sites",
+   "kind": "sites",
+   "name": "Demo websites to sell",
+   "usd": 499.0,
+   "minutes": 30,
+   "where": "Netlify Drop (free)",
+   "file": "agency/out/",
+   "steps": [
+    "Double-click AGENCY_DAY.bat (fill agency/config.json the first time)",
+    "Drop each site folder on app.netlify.com/drop, press Publish",
+    "Call the owners on Call today, by hand, business hours"
+   ]
+  }
+ ],
+ "ideas": {
+  "searched": "2026-11-16",
+  "how": "Ranked by $ an hour, then the time to the first dollar, for a non-coder with a PC and Claude. Numbers are the search engine's reading of blogs and aggregators (most have affiliate interests): treat them as rough.",
+  "rows": [
+   {
+    "rank": 1,
+    "id": "ai_training",
+    "name": "AI training tasks (rating and writing for AI companies)",
+    "usd_hour": [
+     15,
+     30
+    ],
+    "first_dollar": "1-3 weeks (application + assessment)",
+    "month": [
+     0,
+     500
+    ],
+    "risk": "No guaranteed hours; projects come and go; many applicants are never given work; pay per task on some sites. Using an AI to do the tasks is banned and gets the account closed.",
+    "fits": "Your own time at the PC, in English; no selling, no audience. Claude can only help you prepare the application, never do the tasks.",
+    "model": true,
+    "sources": [
+     "https://www.ziprecruiter.com/Jobs/Remote-Annotation",
+     "https://jobright.ai/blog/data-annotation-jobs-guide/",
+     "https://breakingeven.online/blog/how-much-do-ai-training-platforms-actually-pay"
+    ]
+   },
+   {
+    "rank": 2,
+    "id": "user_testing",
+    "name": "Paid website and app tests (record your screen and voice)",
+    "usd_hour": [
+     15,
+     30
+    ],
+    "first_dollar": "2-3 weeks (a practice test, then PayPal about 14 days after a test)",
+    "month": [
+     0,
+     120
+    ],
+    "risk": "Few tests a week for a new tester; you must match the screener; a 20-minute test pays about $10, flat-rate sites $5.",
+    "fits": "A PC with a microphone, 20 minutes at a time, nothing to build.",
+    "model": true,
+    "sources": [
+     "https://www.finder.com/make-money-online/how-to-earn-money-user-testing",
+     "https://cleverx.com/blog/user-testing-platforms-pay-per-test-2026/"
+    ]
+   },
+   {
+    "rank": 3,
+    "id": "ai_gigs",
+    "name": "AI set-up and automation gigs for small businesses (Fiverr)",
+    "usd_hour": [
+     10,
+     40
+    ],
+    "first_dollar": "2-8 weeks (new sellers wait for the first order)",
+    "month": [
+     0,
+     400
+    ],
+    "risk": "Crowded; Fiverr keeps 20%; the client must be told AI is used. Fiverr's own index: AI automation +136%, prompt work +76%.",
+    "fits": "Builds on the 8 ready gigs (docs/GIG_PACK.md); Claude drafts, you check and send.",
+    "model": false,
+    "sources": [
+     "https://www.fiverr.com/resources/guides/reports/freelancing-and-future-of-work-statistics",
+     "https://www.entrepreneur.com/business-news/the-top-10-ways-small-businesses-are-using-ai-right-now-according-to-fiverr-data"
+    ]
+   },
+   {
+    "rank": 4,
+    "id": "prop_affiliate",
+    "name": "Disclosed prop-firm affiliate links (the eval journal, the product shop page)",
+    "usd_hour": [
+     0,
+     20
+    ],
+    "first_dollar": "1-3 months (needs an audience)",
+    "month": [
+     0,
+     100
+    ],
+    "risk": "Needs followers first; 'Ad' on every link (FTC); no results or pass claims; firm rules on affiliates differ. Reported rates 5-25% of the eval fee, often recurring (vendor blogs, unverified).",
+    "fits": "You already trade these evals and have the eval journal plan.",
+    "model": false,
+    "sources": [
+     "https://track360.io/blog/prop-firm-affiliate-commission-rates-benchmark-2026",
+     "https://track360.io/blog/best-prop-firm-affiliate-programs-2026-operator-teardown"
+    ]
+   },
+   {
+    "rank": 5,
+    "id": "more_templates",
+    "name": "More spreadsheet / printable templates (Etsy, Payhip)",
+    "usd_hour": [
+     0,
+     15
+    ],
+    "first_dollar": "1-3 months",
+    "month": [
+     0,
+     100
+    ],
+    "risk": "Most template sellers make little; volume comes from many listings and search; Etsy charges $0.20 a listing.",
+    "fits": "Claude builds them; you upload (the 8 products are the start).",
+    "model": false,
+    "sources": [
+     "https://dev.to/fermainpariz/how-to-make-money-selling-notion-templates-in-2026-realistic-guide-5g09",
+     "https://fungies.io/?p=40583"
+    ]
+   },
+   {
+    "rank": 6,
+    "id": "print_on_demand",
+    "name": "Print on demand (shirts, mugs with your designs)",
+    "usd_hour": [
+     0,
+     10
+    ],
+    "first_dollar": "1-6 months",
+    "month": [
+     0,
+     200
+    ],
+    "risk": "Most stores fail; 6-12 months to profit in the guides; ads cost money. Not recommended now.",
+    "fits": "Low fit: design-heavy, slow.",
+    "model": false,
+    "sources": [
+     "https://www.artomate.app/blog/etsy-print-on-demand-side-hustle-2026-earnings-how-to-start",
+     "https://app.unilink.us/blog/side-hustle-ideas-2026"
+    ]
+   }
+  ],
+  "kits": {
+   "ai_training": {
+    "title": "AI training tasks: starter kit",
+    "steps": [
+     "Pick 2 well-known sites that pay for AI rating / writing work (search 'AI training jobs remote'); read their own pay and rules page first",
+     "Apply with your real name; take the assessment in one quiet sitting (30-90 min); write in your own words",
+     "Never pay to apply or to 'unlock' work: real sites pay you, never the other way",
+     "When work comes: 1-2 hours on weekday evenings, after the market closes; log hours and $ in the Ledger",
+     "Set aside 25-30% for taxes (you are a contractor: no tax is taken out)"
+    ],
+    "rules": [
+     "Do the tasks yourself: using an AI to answer AI-training tasks is banned and ends the account",
+     "One account per person, your real identity",
+     "Keep task content private (they sign you to confidentiality)"
+    ],
+    "money": "About $15-30 an hour for general English tasks when work is there (ZipRecruiter average $27.67 for remote annotation); hours are never guaranteed."
+   },
+   "user_testing": {
+    "title": "Paid website tests: starter kit",
+    "steps": [
+     "Sign up on 2 tester sites with your real details; do the practice test well (it decides if you get tests)",
+     "Have a quiet room, a working microphone and the PC ready; tests appear in the site's feed with the pay shown first",
+     "Think out loud: say what you see, what you expect and what confuses you; that is the whole job",
+     "Take only tests whose screener honestly fits you (lying gets the account closed)",
+     "PayPal pays about 14 days after a test; log each test in the Ledger"
+    ],
+    "rules": [
+     "Honest screener answers only",
+     "Never share the sites' or clients' private content",
+     "Never pay to join"
+    ],
+    "money": "About $10 for a 20-minute recorded test ($5 flat on some sites, $30-120 for rare live interviews); a new tester often gets only a few a week."
+   }
+  }
+ },
+ "moves": [
+  {
+   "id": "m-evals",
+   "what": "Let Zlarior and ATLAS trade every session; check the eval room each evening (first payout about 2026-12-24).",
+   "minutes": 5,
+   "usd": [
+    0,
+    1200.0
+   ],
+   "where": "Business > Trading money"
+  },
+  {
+   "id": "m-shop-trading",
+   "what": "Upload the 4 trading products to a free Payhip shop (bundle $29, tracker $17, calculator $12, cheat sheet $7).",
+   "minutes": 60,
+   "usd": [
+    0,
+    100
+   ],
+   "where": "Business > Ready to upload"
+  },
+  {
+   "id": "m-ai-apply",
+   "what": "Apply to 2 AI-training sites and take the assessment (your own words).",
+   "minutes": 90,
+   "usd": [
+    0,
+    400
+   ],
+   "where": "AI training tasks"
+  },
+  {
+   "id": "m-fiverr",
+   "what": "Publish the logo and Google-profile gigs on Fiverr (texts are ready).",
+   "minutes": 60,
+   "usd": [
+    0,
+    100
+   ],
+   "where": "Business > Ready to upload"
+  },
+  {
+   "id": "m-agency",
+   "what": "AGENCY_DAY.bat, then 10 calls by hand (one Starter sale = $499 + $49 a month).",
+   "minutes": 75,
+   "usd": [
+    0,
+    548
+   ],
+   "where": "Website agency"
+  },
+  {
+   "id": "m-shop-rest",
+   "what": "Upload the other 4 products (site templates, social kit, agency kit, planner).",
+   "minutes": 60,
+   "usd": [
+    0,
+    50
+   ],
+   "where": "Business > Ready to upload"
+  },
+  {
+   "id": "m-account4",
+   "what": "Account #4: not yet. Buy the LucidPro 50K about 2026-12-24 (money in the bank first).",
+   "minutes": 0,
+   "usd": [
+    0,
+    0
+   ],
+   "where": "Business > Trading money"
+  }
+ ],
+ "door_rules": [
+  "Nothing here posts, emails, uploads or calls by itself: you press every button.",
+  "Every $ is an ESTIMATE range from research, not income; 'real' is only what the ledger recorded.",
+  "No paid services: every account on this page is a free plan (Etsy's $0.20 listing fee is the one optional cost)."
+ ],
+ "v": 1,
+ "kind": "business",
+ "asof": "2026-11-15T12:00:00+00:00",
+ "label": "ESTIMATE",
+ "sample": true,
+ "demo": true,
+ "note": "EXAMPLE, not real: the plan with no progress from the PC yet (DEMO).",
+ "total": {
+  "usd_m1": [
+   0,
+   1160
+  ],
+  "usd_m3": [
+   0,
+   3250
+  ],
+  "hours": [
+   20,
+   32
+  ],
+  "real_usd_month": 0.0
+ },
+ "models": [
+  {
+   "id": "agency",
+   "name": "Website agency",
+   "rank": 1,
+   "what": "Find local shops with no website, build each a demo site, call them, sell a site + a monthly plan.",
+   "built": [
+    "Lead finder (free map data)",
+    "Demo sites (8 looks)",
+    "Pitch kit: opener, email, one-pager",
+    "Call list with do-not-call rules",
+    "Agency page (pipeline on the phone)",
+    "Storefront site",
+    "Proposal, agreement, invoice, payment links",
+    "Upsells: reviews, chat, social posts"
+   ],
+   "first_dollar": [
+    "Your name, phone, email, postal address and city in agency/config.json",
+    "Free Netlify account (to put demo sites online)",
+    "Free Stripe account + one payment link per plan",
+    "About 60 calls by hand to find the first yes"
+   ],
+   "usd_m1": [
+    0,
+    550
+   ],
+   "usd_m3": [
+    0,
+    2000
+   ],
+   "hours": [
+    5,
+    7
+   ],
+   "why": "One Starter sale is $499 + $49 a month. Month 3 assumes 0-2 sales a month (the docs' plan of 4 a month needs 6 calls a working day).",
+   "doc": "docs/AGENCY.md",
+   "paused": false,
+   "next": "Double-click AGENCY_DAY.bat and fill in agency/config.json (name, phone, email, address, city).",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "gigs",
+   "name": "Freelance gigs",
+   "rank": 2,
+   "what": "8 ready gigs (websites, logos, Google profile, reviews, posts...) on Fiverr first; the tools make the work, you deliver.",
+   "built": [
+    "8 gig texts with prices, tags, FAQ",
+    "Logo + brand kit maker",
+    "Google profile checklist",
+    "Order -> agency tools in one line"
+   ],
+   "first_dollar": [
+    "Fiverr seller account in your real name + ID check",
+    "Publish the logo and Google-profile gigs (text in docs/GIG_PACK.md)",
+    "Answer every message the same day"
+   ],
+   "usd_m1": [
+    0,
+    100
+   ],
+   "usd_m3": [
+    0,
+    400
+   ],
+   "hours": [
+    6,
+    10
+   ],
+   "why": "New sellers often wait weeks for the first order. Fiverr keeps 20% ($120 order pays $96).",
+   "doc": "docs/GIG_PACK.md",
+   "paused": false,
+   "next": "Fiverr seller account in your real name + ID check",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "ai_training",
+   "name": "AI training tasks",
+   "rank": 3,
+   "what": "Rate and write answers for AI companies on the PC, in your own words (new, researched 2026-11-16).",
+   "built": [
+    "Starter kit: where to apply, the assessment, the honest rules, the tax set-aside",
+    "Ranked against 5 other ideas with sources"
+   ],
+   "first_dollar": [
+    "Apply to 2 AI-training sites with your real name",
+    "Pass the assessment (30-90 min, your own words: AI use is banned)",
+    "1-2 hours on weekday evenings when work is offered"
+   ],
+   "usd_m1": [
+    0,
+    400
+   ],
+   "usd_m3": [
+    0,
+    500
+   ],
+   "hours": [
+    3,
+    5
+   ],
+   "why": "About $15-30 an hour when there is work; hours are never guaranteed and some applicants get none.",
+   "doc": "money_machines/money_door.json",
+   "paused": false,
+   "next": "Apply to 2 AI-training sites with your real name",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "products",
+   "name": "Digital products",
+   "rank": 4,
+   "what": "8 finished downloads: prop trader bundle $29, eval tracker $17, risk calculator $12, rules cheat sheet $7, trader planner $14, site templates $24, social kit $14, agency kit $19.",
+   "built": [
+    "All 8 products, upload zips, 6 covers each",
+    "Title, description, tags, FAQ per product",
+    "One listing kit for every shop"
+   ],
+   "first_dollar": [
+    "Free Payhip account (lowest fee)",
+    "Upload the 8 zips with their covers (about 15 min each; the 4 trading ones first)",
+    "A link to the shop from an Instagram bio"
+   ],
+   "usd_m1": [
+    0,
+    50
+   ],
+   "usd_m3": [
+    0,
+    100
+   ],
+   "hours": [
+    1,
+    2
+   ],
+   "why": "Expect 0-10 sales a month per product until a social account or search sends buyers.",
+   "doc": "docs/BUSINESS_LISTING_KIT.md",
+   "paused": false,
+   "next": "Make the 8 zips (python -m money_machines.products.build_all --zip), then upload them to Payhip, the 4 trading ones first.",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "user_testing",
+   "name": "Paid website tests",
+   "rank": 5,
+   "what": "Test websites and apps while you think out loud, 20 minutes at a time (new, researched 2026-11-16).",
+   "built": [
+    "Starter kit: sign-up, the practice test, the honest screener rule, payouts"
+   ],
+   "first_dollar": [
+    "Sign up on 2 tester sites, real details",
+    "Do the practice test well (it decides if you get tests)",
+    "Take the tests that honestly fit you"
+   ],
+   "usd_m1": [
+    0,
+    60
+   ],
+   "usd_m3": [
+    0,
+    120
+   ],
+   "hours": [
+    1,
+    2
+   ],
+   "why": "About $10 for a 20-minute test; a new tester often gets only a few a week; PayPal about 14 days later.",
+   "doc": "money_machines/money_door.json",
+   "paused": false,
+   "next": "Sign up on 2 tester sites, real details",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "insta_local",
+   "name": "Instagram: local business tips",
+   "rank": 6,
+   "what": "A tips account for local owners that sends them to the agency's free website check.",
+   "built": [
+    "30-day plan with captions and images",
+    "Posting sheet for the free Meta scheduler",
+    "Optional API poster (dry run by default)"
+   ],
+   "first_dollar": [
+    "New Instagram, switched to Professional",
+    "Schedule the 30 posts in Meta Business Suite (free, about 15 min a week)",
+    "It pays only through agency clients it brings"
+   ],
+   "usd_m1": [
+    0,
+    0
+   ],
+   "usd_m3": [
+    0,
+    100
+   ],
+   "hours": [
+    2,
+    3
+   ],
+   "why": "Plan for 100-1,000 followers in 3 months; the money is the agency clients it brings.",
+   "doc": "docs/MONEY_MACHINES.md",
+   "paused": false,
+   "next": "New Instagram, switched to Professional",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "insta_eval",
+   "name": "Instagram: the eval journal",
+   "rank": 7,
+   "what": "Trading routines (never results) that link the eval tracker; later disclosed affiliate links.",
+   "built": [
+    "30-day plan with captions and images",
+    "The risk line and Ad rules built in"
+   ],
+   "first_dollar": [
+    "Second Instagram, Professional account",
+    "Schedule the 30 posts",
+    "The eval tracker link in the bio"
+   ],
+   "usd_m1": [
+    0,
+    0
+   ],
+   "usd_m3": [
+    0,
+    30
+   ],
+   "hours": [
+    2,
+    3
+   ],
+   "why": "Strict rules: no profits, passes or signals; every paid link starts with Ad.",
+   "doc": "docs/MONEY_MACHINES.md",
+   "paused": false,
+   "next": "Second Instagram, Professional account",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "rank_rent",
+   "name": "Rank-and-rent sites",
+   "rank": 8,
+   "what": "A site for one trade in one town, ranked, then rented to a local business.",
+   "built": [
+    "Research and a 6-month plan only"
+   ],
+   "first_dollar": [
+    "A $12 domain (not free: your call)",
+    "3-12 months to rank",
+    "A tenant"
+   ],
+   "usd_m1": [
+    0,
+    0
+   ],
+   "usd_m3": [
+    0,
+    0
+   ],
+   "hours": [
+    0,
+    0
+   ],
+   "why": "The slowest machine: start only once the agency and gigs run.",
+   "doc": "docs/MONEY_MACHINES.md",
+   "paused": true,
+   "next": "Nothing: paused.",
+   "real_usd_month": 0.0
+  },
+  {
+   "id": "kalshi",
+   "name": "Kalshi",
+   "rank": 9,
+   "what": "Prediction-market bot.",
+   "built": [
+    "Bot, Kalshi City page, edge research"
+   ],
+   "first_dollar": [
+    "Paused: no proven edge"
+   ],
+   "usd_m1": [
+    0,
+    0
+   ],
+   "usd_m3": [
+    0,
+    0
+   ],
+   "hours": [
+    0,
+    0
+   ],
+   "why": "Paused until research shows an edge. Nothing to do.",
+   "doc": "docs/KALSHI_STOP_LIST.md",
+   "paused": true,
+   "next": "Nothing: paused.",
+   "real_usd_month": 0.0
+  }
+ ],
+ "progress": {},
+ "prices": [
+  {
+   "id": "starter",
+   "name": "Starter",
+   "setup": 499.0,
+   "monthly": 49.0
+  },
+  {
+   "id": "growth",
+   "name": "Growth",
+   "setup": 999.0,
+   "monthly": 79.0
+  },
+  {
+   "id": "pro",
+   "name": "Pro",
+   "setup": 1999.0,
+   "monthly": 129.0
+  }
+ ],
+ "week": [
+  {
+   "day": 1,
+   "title": "Set up (about 1 hour)",
+   "tasks": [
+    "Double-click AGENCY_DAY.bat: Notepad opens agency/config.json; put in your name, phone, email, postal address, city; save",
+    "Make the free accounts: Netlify, Stripe, Payhip, Fiverr (real name, finish the ID check)",
+    "Double-click AGENCY_DAY.bat again: 3 demo sites, the call list and TODAY.txt"
+   ]
+  },
+  {
+   "day": 2,
+   "title": "First calls (1 hour)",
+   "tasks": [
+    "Drop the 3 site folders on app.netlify.com/drop, press Publish",
+    "Call 10 owners from Call today, by hand, 10:00-12:00 or 14:00-16:00",
+    "Mark every call on the card (Contacted, Call back, Do not contact)"
+   ]
+  },
+  {
+   "day": 3,
+   "title": "Shop + gigs (1 hour)",
+   "tasks": [
+    "Payhip: upload the 8 products with docs/BUSINESS_LISTING_KIT.md (zips: RUN_MONEY or python -m money_machines.products.build_all --zip)",
+    "Fiverr: publish the logo and Google-profile gigs (docs/GIG_PACK.md)",
+    "Make one Stripe payment link per plan, paste them in the billing kit"
+   ]
+  },
+  {
+   "day": 4,
+   "title": "Calls + Instagram (1 hour)",
+   "tasks": [
+    "AGENCY_DAY.bat, then 10 more calls",
+    "New Instagram (Professional); schedule the first week in Meta Business Suite",
+    "Put the shop link in the bio"
+   ]
+  },
+  {
+   "day": 5,
+   "title": "Follow up (1 hour)",
+   "tasks": [
+    "Call back everyone who asked; send the demo link only to those who said send it",
+    "10 new calls",
+    "Answer every Fiverr message the same day"
+   ]
+  },
+  {
+   "day": 6,
+   "title": "Close (1 hour)",
+   "tasks": [
+    "A yes: python -m agency.billing kit for their proposal + invoice with your payment link",
+    "Tell Claude 'Agency: <business> said yes' to build the live site",
+    "10 calls"
+   ]
+  },
+  {
+   "day": 7,
+   "title": "Count (15 min)",
+   "tasks": [
+    "Agency page > Export; count calls, talks, demos, yeses",
+    "Business page: what moved, what to drop",
+    "Tell Claude your counts: it replaces the guessed call rates with yours"
+   ]
+  }
+ ],
+ "rules": [
+  "Nothing here sends, posts or calls: you press every button.",
+  "Calls by hand, business hours, never a robot or a recording; stop means Do not contact.",
+  "Emails need your real name, email and postal address (CAN-SPAM).",
+  "Every $ is an ESTIMATE range from the teams' docs, not a promise; 'real' is only what the ledger recorded."
+ ],
+ "prop": {
+  "label": "ESTIMATE",
+  "span": "Jul-Oct 2026 replay (the check half)",
+  "source": "tools/money/payout_plan.py -> research/lab/payout_plan.json",
+  "table": [
+   {
+    "accounts": 2,
+    "usd_month_y1": 1049,
+    "usd_month_m7_12": 1202,
+    "month_worst": -227,
+    "months_no_income_pct": 54.4,
+    "y1_p10": 5328,
+    "ref_usd_month": 15
+   },
+   {
+    "accounts": 3,
+    "usd_month_y1": 1628,
+    "usd_month_m7_12": 2130,
+    "month_worst": -227,
+    "months_no_income_pct": 42.2,
+    "y1_p10": 6640,
+    "ref_usd_month": 13
+   },
+   {
+    "accounts": 4,
+    "usd_month_y1": 2098,
+    "usd_month_m7_12": 2977,
+    "month_worst": -312,
+    "months_no_income_pct": 38.7,
+    "y1_p10": 6298,
+    "ref_usd_month": 13
+   },
+   {
+    "accounts": 6,
+    "usd_month_y1": 2779,
+    "usd_month_m7_12": 4289,
+    "month_worst": -446,
+    "months_no_income_pct": 35.7,
+    "y1_p10": 6298,
+    "ref_usd_month": 13
+   }
+  ],
+  "new_account": {
+   "plan": "LucidPro 50K copy of Zlarior",
+   "price": 134.4
+  },
+  "rules": [
+   "Buy the next account only from a payout that reached your bank: one new account per payout, and only when the payout money holds two of its price (one to buy, one kept for a re-buy).",
+   "MFFU funds only ONE Builder 50K a person: account #3 and up are LucidPro 50K copies of Zlarior (Lucid allows 5 funded).",
+   "Stop rule: at most 2 re-buys from your own pocket ($183.60); past that stop and rethink.",
+   "Prop money: you can lose only the fees, never more; a bad week inside an account is the firm's money."
+  ],
+  "notes": [
+   "Every account copies the SAME Zlarior signal (daily correlation about 0.94): a bad week hits all of them at once, so more accounts multiply the good months AND the empty ones.",
+   "Backtest of 2026 (where LIT works); on 2021-25 (no edge) the same plan makes about $0 a month. Nothing is promised.",
+   "ATLAS's $ is the stored research estimate (a different bot), added from month 3."
+  ]
+ },
+ "edge": {
+  "light": "GREEN",
+  "line": "Edge health: GREEN · last 40 sessions PF 3.84 vs 2026 H1 3.91 · data to Nov 6",
+  "data_to": "2026-11-06",
+  "sessions_missing": 7,
+  "pf40": 3.84,
+  "usd_month40": 3440,
+  "tpw40": 2.5,
+  "pf40_2026_h1": 3.91,
+  "pf40_2021_25": 1.1,
+  "false_alarm_h2_pct": 8.6,
+  "export": "TradingView CME_MINI:NQ1! 1-minute chart (all hours, B-ADJ off), Export chart data from Oct 16 to today, save in data/tv_exports/, then: python data/import_futures.py csv NQ data/tv_exports/<file>.csv (5m and ES1! 5m the same way). Or start the PC bot: its heartbeat pushes the NinjaTrader bars.",
+  "note": "A warning, not a switch: the bots trade the same either way. GREEN = LIT's last 40 sessions look like 2026, RED = like 2021-25 (about $0). Past weeks do not forecast the next ones; it says what the market has been.",
+  "atlas": {
+   "light": "AMBER",
+   "data_to": "2026-10-16",
+   "pf_r40": 1.89,
+   "pf_r40_2026_h1": 2.83,
+   "pf_r40_2021_25": 1.06,
+   "r_week40": 0.99,
+   "tpw40": 3.0,
+   "usd_pf40_eval_sized": 1.41
+  },
+  "source": "tools/edge_health.py -> research/lab/edge_health.json",
+  "built": "2026-11-18T02:10:30+00:00"
+ }
+}

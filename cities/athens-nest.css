@@ -1,0 +1,45 @@
+/* ATHENS nested world and walk mode, AGORA look: marble, bronze, gold, olive, terracotta. 390 x 844 first, taps >= 44 px. */
+.ath-dock{grid-template-columns:repeat(6,1fr);gap:2px;padding:5px}
+.ath-dock button{font-size:11px}
+.ath-crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin:0 0 8px}
+.ath-crumbs button,.ath-crumbs span{min-height:44px;display:inline-flex;align-items:center;padding:0 10px;border-radius:12px;font:600 13px var(--sans)}
+.ath-crumbs button{border:1px solid var(--line);background:var(--oly-th-n5, #26211b);color:var(--text)}
+.ath-crumbs span{color:var(--gold)}.ath-crumbs b{color:var(--sub);font-weight:400}
+.ath-vline{color:var(--sub);font-size:13px;margin:0 0 6px}.ath-vfact{margin:0 0 10px;color:var(--oly-th-a13, #f1d9a0);font:600 15px/1.35 var(--serif)}
+.ath-card .ath-btns+.ath-btns{margin-top:8px}.ath-card .ath-crumbs{padding-right:44px}
+.ath-vh{margin:2px 0 4px;font:700 22px var(--serif)}
+.ath-dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ath-dtile{min-height:96px;text-align:left;padding:10px 12px;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;background:var(--oly-th-n4, #211c16);color:var(--text);display:flex;flex-direction:column;gap:3px}
+.ath-dtile b{font:700 17px var(--serif)}.ath-dtile span{color:var(--text);font-size:13px}.ath-dtile small{color:var(--sub);font-size:12px}
+.ath-vrow,.ath-hrow{width:100%;min-height:48px;display:grid;grid-template-columns:14px 1fr;column-gap:10px;align-items:center;text-align:left;padding:6px 12px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--text)}
+.ath-vrow i{width:12px;height:12px;border-radius:3px;background:var(--c);grid-row:1/3}.ath-vrow b,.ath-hrow b{font:600 15px var(--serif)}.ath-vrow small{color:var(--sub);font-size:12px}.ath-vrow.empty{opacity:.6}
+.ath-hrow i{width:12px;height:12px;border-radius:3px}.ath-hrow{min-height:44px;grid-template-columns:14px 1fr}.ath-hrow b{font:600 14px var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ath-vmap{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;margin:6px 0 10px;touch-action:manipulation}
+.ath-hlist{margin-top:8px}
+/* walk mode */
+.ath-compass{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 64px);height:34px;overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:12px}
+.ath-compass[hidden],.ath-where[hidden],.ath-stickzone[hidden],.ath-walkbar[hidden],.ath-hlabel[hidden],.ath-stickbase[hidden],.ath-stickhint[hidden]{display:none}
+.ath-compass i{position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--gold)}
+.ath-compass span{position:absolute;top:0;line-height:34px;transform:translateX(-50%);font:700 13px var(--serif);color:var(--text)}
+.ath-where{position:absolute;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 102px);text-align:center;font:600 13px var(--serif);color:var(--oly-th-a13, #f1d9a0);text-shadow:0 1px 2px #000}
+.ath-hlabel{position:absolute;left:0;top:0;white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis;font:600 13px/1 var(--serif);color:var(--oly-th-n37, #fff6df);background:rgba(var(--oly-th-n3-rgb, 20,17,14),.8);border:1px solid var(--c,var(--oly-th-a8, #c8a24a));padding:5px 9px;border-radius:10px;pointer-events:none;will-change:transform}
+.ath-stickzone{position:absolute;left:0;top:30%;bottom:calc(env(safe-area-inset-bottom,0px) + 84px);width:50%;touch-action:none}
+.ath-stickhint{position:absolute;left:14px;bottom:28px;width:130px;color:var(--sub);font:13px/1.35 var(--sans);pointer-events:none;text-shadow:0 1px 2px #000}
+.ath-stickbase{position:absolute;width:96px;height:96px;border-radius:50%;border:2px solid var(--bronze);background:rgba(var(--oly-th-n4-rgb, 29,25,20),.55);pointer-events:none}
+.ath-stickknob{position:absolute;left:26px;top:26px;width:44px;height:44px;border-radius:50%;background:var(--gold);border:2px solid var(--oly-th-a4, #7d5530)}
+.ath-walkbar{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:6px;border:1px solid var(--line);background:var(--panel);border-radius:18px}
+.ath-walkbar button{min-height:50px;border:0;border-radius:12px;background:transparent;color:var(--sub);font:600 14px var(--sans)}
+.ath-walkbar button[aria-pressed=true],.ath-walkbar button:active{background:var(--oly-th-n5, #26211b);color:var(--gold)}
+.ath.walking .ath-dock,.ath.walking .ath-mini,.ath.walking .ath-today,.ath.walking .ath-labels,.ath.walking .ath-tourbar{display:none}
+.ath.walking .ath-card{bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}
+@media (min-width:700px){.ath-walkbar{left:50%;right:auto;width:520px;transform:translateX(-50%)}}
+
+/* people: the strip of villagers nearby (walking), the name over the nearest head, the Talk button */
+.ath-people{position:absolute;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 84px);display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;touch-action:pan-x}
+.ath-people[hidden],.ath-plabel[hidden]{display:none}
+.ath-people::-webkit-scrollbar{display:none}
+.ath-people span{flex:none;font:600 11.5px/1 var(--sans);color:var(--sub);background:rgba(var(--oly-th-n3-rgb, 20,17,14),.7);padding:5px 8px;border-radius:9px}
+.ath-people button{flex:none;min-height:44px;padding:0 12px;border-radius:22px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:600 13px/1 var(--serif);white-space:nowrap}
+.ath-plabel{position:absolute;left:0;top:0;white-space:nowrap;font:600 12px/1 var(--sans);color:var(--oly-th-n37, #fff6df);background:rgba(var(--oly-th-n3-rgb, 20,17,14),.8);border:1px solid rgba(var(--oly-th-n37-rgb, 243,236,224),.55);padding:5px 9px;border-radius:12px;pointer-events:none;will-change:transform}
+.ath-walkbar button:disabled{opacity:.45}
+.ath-card .ppl-chat{margin-top:10px;max-height:38vh;overflow-y:auto}

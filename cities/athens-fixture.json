@@ -1,0 +1,20 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: shown only when the site has no home.json yet.",
+ "home": {
+  "accounts": [
+   { "id": "mffu50k_eval", "name": "Zlarior 50K", "eval": { "room": 640, "mll": 2000, "dll_used": 0, "dll": 1000 }, "pnl": { "today": 312 }, "conn": { "connected": true }, "stats": { "avg_loss": -425 }, "position": { "side": "LONG", "qty": 6 } },
+   { "id": "acctb", "name": "Atlas 25K", "eval": { "room": 840, "mll": 1000, "dll_used": 60, "dll": 600 }, "pnl": { "today": -60 }, "conn": { "connected": true }, "stats": { "avg_loss": -150 } },
+   { "id": "blitz", "name": "Blitz 25K", "eval": { "room": 900, "mll": 1000, "dll_used": 0, "dll": 600 }, "pnl": { "today": 0 }, "conn": { "connected": true }, "stats": { "avg_loss": -120 } }
+  ]
+ },
+ "money": {
+  "streams": [
+   { "id": "chrysos", "name": "Chrysos", "status": "stale", "age_min": 700, "items": [] },
+   { "id": "mercury", "name": "Mercury", "status": "ok", "age_min": 20, "items": [ { "title": "Prop-firm sale on the 50K plan", "detail": "A public sale page shows a discount.", "usd": 18, "score": 70, "risk": "low", "expires_in_h": 20 } ] },
+   { "id": "sibyl", "name": "Sibyl", "status": "ok", "age_min": 10, "items": [] }
+  ]
+ },
+ "alerts": { "alerts": [] }
+}

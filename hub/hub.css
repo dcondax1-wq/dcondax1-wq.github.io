@@ -1,0 +1,136 @@
+/* OLYMPUS HUB PAGE (AGORA look, 2026-11-14). Colours only through the AGORA tokens (--ag-*, olympus/agora.css; the theme engine repaints them);
+   the fallback literals read the theme slots (tools/theme_tokenize.py), the style looks have their layer at the end.
+   The fallback values sit at zero specificity (:where), for a copy where agora.css is not served. Phone first: 390 x 844, taps >= 44 px. */
+:where(:root) {
+  --ag-s0: var(--oly-th-n3, #14110e); --ag-s1: var(--oly-th-n4, #1b1713); --ag-s2: var(--oly-th-n4, #221d17); --ag-s3: var(--oly-th-n6, #2b241d); --ag-line: var(--oly-th-n8, #3a3228); --ag-line-gold: rgba(var(--oly-th-a8-rgb, 200, 162, 74), .32);
+  --ag-text: var(--oly-th-n37, #f3ece0); --ag-soft: var(--oly-th-n30, #cfc4b2); --ag-muted: var(--oly-th-n24, #a89c88); --ag-gold: var(--oly-th-a8, #c8a24a); --ag-gold-hi: var(--oly-th-a10, #dcbd6e); --ag-olive-text: var(--oly-th-g8, #a0ac6e); --ag-terra-text: var(--oly-th-r10, #e08a6b); --ag-sun: var(--oly-th-warn, #e0b060);
+  --ag-gold-rgb: var(--oly-th-a8-rgb, 200, 162, 74); --ag-on-gold: var(--oly-th-n3, #1b1610);
+  --ag-serif: var(--oly-th-display, 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif); --ag-sans: -apple-system, 'SF Pro Text', system-ui, 'Helvetica Neue', Arial, sans-serif;
+  --ag-num: 'SF Pro Rounded', -apple-system, system-ui, sans-serif;
+  --ag-radius: 16px; --ag-radius-s: 12px; --ag-ease: cubic-bezier(.2, .8, .2, 1); --ag-d1: 200ms;
+  --ag-e2: 0 1px 0 rgba(var(--oly-th-a15-rgb, 255, 240, 214), .05) inset, 0 6px 16px rgba(0, 0, 0, .26);
+  --ag-st: env(safe-area-inset-top, 0px); --ag-sr: env(safe-area-inset-right, 0px); --ag-sb: env(safe-area-inset-bottom, 0px); --ag-sl: env(safe-area-inset-left, 0px);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { margin: 0; background: var(--ag-s0); color: var(--ag-text); }
+body { font: 400 1rem/1.45 var(--ag-sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+svg { flex: none; }
+:focus-visible { outline: 2px solid var(--oly-th-ring, var(--ag-gold)); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+.hb-main { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px;
+  padding: calc(var(--ag-st) + 8px) calc(var(--ag-sr) + 16px) calc(var(--ag-sb) + 176px) calc(var(--ag-sl) + 16px); }
+html.framed .hb-main { padding-top: 12px; }
+.hb-main .gn-row { margin: 0 0 -8px; }
+.hb-head { display: flex; flex-direction: column; gap: 6px; }
+.hb-main .hb-title { display: block; margin: 0; font: 600 2rem/1.1 var(--ag-serif); color: var(--ag-text); }
+.hb-main .hb-title::after { content: ""; display: block; width: 48px; height: 2px; margin-top: 9px; border-radius: 2px; background: linear-gradient(90deg, var(--ag-gold), transparent); }
+.hb-ticon { width: 32px; height: 32px; margin-right: 10px; vertical-align: -4px; fill: none; stroke: var(--ag-gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hb-q { margin: 0; color: var(--ag-soft); font-size: 1.0625rem; line-height: 1.35; }
+.hb-main .hb-h2 { margin: 0 0 8px; font: 600 1.125rem/1.2 var(--ag-serif); color: var(--ag-gold); }
+.hb-main .hb-h3 { margin: 18px 2px 8px; font: 600 .9375rem/1.2 var(--ag-serif); color: var(--ag-gold); }
+
+/* ------------------------------------------------------------------ the live strip */
+.hb-now { display: flex; flex-direction: column; gap: 8px; }
+.hb-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.hb-fact { position: relative; min-width: 0; min-height: 44px; display: flex; flex-direction: column; padding: 10px 12px; border-radius: var(--ag-radius-s); border: 1px solid var(--ag-line);
+  background: linear-gradient(180deg, var(--ag-s2), var(--ag-s1)); color: var(--ag-text); text-decoration: none; -webkit-touch-callout: none; }
+a.hb-fact::after { content: ""; position: absolute; top: 12px; right: 11px; width: 6px; height: 6px; border-top: 1.6px solid var(--ag-muted); border-right: 1.6px solid var(--ag-muted); transform: rotate(45deg); }
+.hb-fl { color: var(--ag-muted); font-size: .8125rem; line-height: 1.25; padding-right: 12px; }
+.hb-fv { margin-top: 2px; font: 600 1.25rem/1.15 var(--ag-num); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.hb-fv.up { color: var(--ag-olive-text); } .hb-fv.down { color: var(--ag-terra-text); } .hb-fv.warn { color: var(--ag-sun); }
+.hb-fsub { margin-top: 2px; color: var(--ag-muted); font-size: .8125rem; line-height: 1.3; overflow-wrap: anywhere; }
+.hb-nowfoot { margin: 0 2px; color: var(--ag-muted); font-size: .8125rem; }
+.hb-nowfoot:empty { display: none; }
+
+/* ------------------------------------------------------------------ tabs: chips that wrap (no hidden tab off the side of a phone) */
+.hb-tabs { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px; }
+.hb-tab { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-s1); color: var(--ag-soft); font: 600 .9375rem/1 var(--ag-sans); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.hb-tab[aria-selected="true"] { background: linear-gradient(180deg, var(--ag-gold-hi), var(--ag-gold)); border-color: var(--ag-gold-hi); color: var(--ag-on-gold); }
+
+/* ------------------------------------------------------------------ a tab: the job, the best app, the others, the folded duplicates */
+.hb-panel { display: flex; flex-direction: column; }
+.hb-blurb { margin: 0 2px 10px; color: var(--ag-soft); font-size: .9375rem; }
+.hb-best { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--ag-radius); border: 1px solid var(--ag-line-gold); box-shadow: var(--ag-e2);
+  background: radial-gradient(120% 90% at 0% 0%, rgba(var(--ag-gold-rgb), .14), transparent 62%), linear-gradient(180deg, var(--ag-s2), var(--ag-s1)); }
+.hb-bhead { display: flex; align-items: flex-start; gap: 14px; }
+.hb-btxt { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.hb-tag { color: var(--ag-gold); font: 600 .75rem/1.2 var(--ag-sans); letter-spacing: .03em; }
+.hb-main .hb-bname { margin: 0; font: 600 1.375rem/1.15 var(--ag-serif); color: var(--ag-text); }
+.hb-bline { margin: 0; color: var(--ag-soft); font-size: .9375rem; line-height: 1.35; }
+.hb-blive { margin: 0; padding: 10px 12px; border-radius: var(--ag-radius-s); background: var(--ag-s0); border: 1px solid var(--ag-line); color: var(--ag-soft); font-size: .9375rem; }
+.hb-blive.ok { color: var(--ag-olive-text); } .hb-blive.warn { color: var(--ag-sun); } .hb-blive.bad { color: var(--ag-terra-text); }
+.hb-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hb-btn { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 14px; border-radius: var(--ag-radius-s); border: 1px solid var(--ag-line-gold); background: var(--ag-s2);
+  color: var(--ag-text); font: 600 1rem/1.2 var(--ag-sans); text-decoration: none; text-align: center; cursor: pointer; }
+.hb-btn.primary { background: linear-gradient(180deg, var(--ag-gold-hi), var(--ag-gold)); border-color: var(--ag-gold-hi); color: var(--ag-on-gold); }
+.hb-embed { display: flex; flex-direction: column; gap: 6px; }
+.hb-frame { display: block; width: 100%; height: min(72vh, 680px); border: 1px solid var(--ag-line); border-radius: var(--ag-radius-s); background: var(--ag-s0); }
+.hb-embedfoot { margin: 0; }
+.hb-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--ag-gold); font-weight: 600; text-underline-offset: 3px; }
+
+.hb-ico { width: 40px; height: 40px; border-radius: 11px; flex: 0 0 40px; background: var(--ag-s2); border: 1px solid var(--ag-line); display: flex; align-items: center; justify-content: center; overflow: hidden;
+  font: 600 1.0625rem/1 var(--ag-serif); color: var(--ag-gold); }
+.hb-ico.big { width: 56px; height: 56px; flex-basis: 56px; border-radius: 14px; font-size: 1.5rem; }
+.hb-ico img { width: 100%; height: 100%; display: block; }
+.hb-list { display: flex; flex-direction: column; border: 1px solid var(--ag-line); border-radius: var(--ag-radius); background: var(--ag-s1); overflow: hidden; }
+.hb-row, .hb-hubrow { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 9px 12px; color: var(--ag-text); text-decoration: none; border-top: 1px solid var(--ag-line); -webkit-touch-callout: none; }
+.hb-row:first-child, .hb-hubrow:first-child { border-top: 0; }
+.hb-txt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.hb-row b, .hb-hubrow b { font: 600 1rem/1.25 var(--ag-sans); }
+.hb-row small, .hb-hubrow small { color: var(--ag-muted); font-size: .8125rem; line-height: 1.3; overflow-wrap: anywhere; }
+.hb-row small i { font-style: normal; color: var(--ag-soft); }
+.hb-live { margin-top: 2px; font-size: .8125rem; line-height: 1.3; color: var(--ag-soft); }
+.hb-live.ok { color: var(--ag-olive-text); } .hb-live.warn { color: var(--ag-sun); } .hb-live.bad { color: var(--ag-terra-text); }
+.hb-note { margin-top: 2px; color: var(--ag-gold); font-size: .75rem; line-height: 1.3; }
+.hb-chev { width: 16px; height: 16px; fill: none; stroke: var(--ag-muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hb-hicon { width: 32px; height: 32px; fill: none; stroke: var(--ag-gold); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hb-fold { margin-top: 14px; border: 1px solid var(--ag-line); border-radius: var(--ag-radius); background: var(--ag-s0); }
+.hb-fold > summary { display: flex; align-items: center; min-height: 48px; padding: 0 14px; color: var(--ag-soft); font: 600 .9375rem/1.2 var(--ag-sans); cursor: pointer; list-style: none; }
+.hb-fold > summary::-webkit-details-marker { display: none; }
+.hb-fold > summary::after { content: ""; margin-left: auto; width: 7px; height: 7px; border-right: 1.8px solid var(--ag-muted); border-bottom: 1.8px solid var(--ag-muted); transform: rotate(45deg); }
+.hb-fold[open] > summary::after { transform: rotate(-135deg); }
+.hb-foldnote { margin: 0 14px 10px; color: var(--ag-muted); font-size: .8125rem; }
+.hb-fold .hb-list { margin: 0 8px 8px; }
+
+.hb-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.hb-chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-s1); color: var(--ag-text); text-decoration: none; font-size: .9375rem; }
+.hb-chip[aria-current="page"] { border-color: var(--ag-gold); color: var(--ag-gold); }
+.hb-chip.hb-home { border-color: var(--ag-line-gold); }
+.hb-index .hb-list + .hb-chip { margin-top: 10px; align-self: flex-start; }
+.hb-index { display: flex; flex-direction: column; }
+.hb-foot { color: var(--ag-muted); font-size: .8125rem; }
+.hb-foot p { margin: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hb-tab, .hb-row, .hb-btn, .hb-fact, .hb-chip { transition: transform var(--ag-d1) var(--ag-ease), border-color var(--ag-d1) var(--ag-ease), background-color var(--ag-d1) var(--ag-ease); }
+  .hb-btn:active, .hb-tab:active, .hb-fact:active, .hb-chip:active { transform: scale(.97); }
+  .hb-row:active { background: var(--ag-s2); }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+html[data-oly-lite="1"] .hb-best { box-shadow: none; }
+@media (hover: hover) { .hb-row:hover, .hb-hubrow:hover { background: var(--ag-s2); } .hb-tab:hover, .hb-chip:hover, a.hb-fact:hover { border-color: var(--ag-gold); } }
+@media (max-width: 359px) { .hb-main .hb-title { font-size: 1.625rem; } .hb-acts { grid-template-columns: 1fr; } }
+
+/* 3D touch (team FX 2026-11-15, hub.js mark3d): the best app's icon turns in like a coin catching the light, once per launch */
+@keyframes hb-coin { 0% { opacity: 0; transform: perspective(400px) rotateY(-70deg) scale(.9); } 60% { opacity: 1; transform: perspective(400px) rotateY(8deg); } 100% { transform: none; } }
+@keyframes hb-glint { 0%, 35% { background-position: -120% 0; } 100% { background-position: 220% 0; } }
+html[data-g3d] .hb-best .hb-ico.big { position: relative; animation: hb-coin .7s cubic-bezier(.2, .8, .2, 1) .1s both; }
+html[data-g3d] .hb-best .hb-ico.big::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(var(--oly-th-a8-rgb, 211,181,121), .35) 50%, transparent 65%) no-repeat; background-size: 60% 100%;
+  animation: hb-glint 1.1s ease-out .2s both; }
+@media (prefers-reduced-motion: reduce) { html[data-g3d] .hb-best .hb-ico.big, html[data-g3d] .hb-best .hb-ico.big::after { animation: none !important; } }
+
+/* ================================================================================================ style themes (olympus/themes.js 'style', 2026-11-14)
+   Only under <html data-oly-style> (a style look is on): the cards' surface, border, shadow and blur, the titles and the primary button, from the
+   --oly-th-* the engine paints (the page background and h1-h3 come from agora.css's own style layer). The default and the colour-only looks never set it. */
+html[data-oly-style] :is(.hb-best, .hb-fact, .hb-list, .hb-fold, .hb-chip, .hb-tab) { background: var(--oly-th-card-bg) !important; border: var(--oly-th-card-border) !important; box-shadow: var(--oly-th-card-shadow) !important;
+  -webkit-backdrop-filter: var(--oly-th-card-blur); backdrop-filter: var(--oly-th-card-blur); }
+html[data-oly-style] :is(.hb-best, .hb-fact, .hb-list, .hb-fold) { border-radius: var(--oly-th-radius) !important; }
+html[data-oly-style] .hb-fold .hb-list { background: transparent !important; box-shadow: none !important; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html[data-oly-style] :is(.hb-title, .hb-h2, .hb-h3, .hb-bname) { font-weight: var(--oly-th-title-weight) !important; text-transform: var(--oly-th-title-case); letter-spacing: var(--oly-th-title-track) !important;
+  font-style: var(--oly-th-title-style); }
+html[data-oly-style] :is(.hb-btn.primary, .hb-tab[aria-selected="true"]) { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }

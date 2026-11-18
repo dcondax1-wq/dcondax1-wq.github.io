@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FATES</title>
+<meta name="description" content="FATES: a Monte Carlo of the bots' MFFU evals and money, drawn as threads of fate. Paper only.">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fates">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<!-- FATES (2026-11-03): the Moirai spin the threads. Data: fates.json (python -X utf8 -m tools.fates.build), demo: fixture.json.
+     Numbers without WebGL: fates-core.js; the scene: fates-scene.js; the page: fates.js; look: fates.css.
+     Layout: one top bar (scenario + sample), the HUD, one bottom bar, one bottom sheet. Jarvis's orb owns the bottom-right 80 x 160 px. -->
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="fates"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="fates.css?v=f8">
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<main id="ui">
+  <header class="bar" id="bar">
+    <div class="brand">
+      <h1>Fates</h1>
+      <p class="sub" id="sub">Odds each eval passes, and the $ after (estimate)</p>
+      <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+      <div class="seg small" id="period" role="tablist" aria-label="Sample">
+        <button type="button" role="tab" data-period="2026">2026</button>
+        <button type="button" role="tab" data-period="H2">Jul-Oct</button>
+        <button type="button" role="tab" data-period="2021-25">2021-25</button>
+      </div>
+    </div>
+    <nav class="switch" id="scen" role="tablist" aria-label="Scenario">
+      <button type="button" role="tab" data-scen="zlarior"><b>Zlarior</b><small>50K eval</small></button>
+      <button type="button" role="tab" data-scen="atlas"><b>ATLAS</b><small>25K eval</small></button>
+      <button type="button" role="tab" data-scen="money"><b>Money</b><small>1-6 accounts</small></button>
+    </nav>
+    <div class="row">
+      <div class="seg small accts" id="acctsRow" aria-label="Accounts" hidden>
+        <div class="seg-in" id="accts">
+          <button type="button" data-n="1">1</button><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button>
+          <button type="button" data-n="4">4</button><button type="button" data-n="5">5</button><button type="button" data-n="6">6</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <p class="verdict" id="verdict" aria-live="polite"></p>
+  <p class="story" id="story" aria-live="polite" hidden></p>
+  <p class="weak" id="weak" hidden>2021-25: the older market (LIT was tuned on 2026 only). A much weaker edge: read it as the bad-market case.</p>
+  <section class="hud" id="hud" aria-live="polite">
+    <div class="tile gold" data-id="pass"><span class="l"></span><b class="v"></b><span class="s"></span></div>
+    <div class="tile red" data-id="fail"><span class="l"></span><b class="v"></b><span class="s"></span></div>
+    <div class="tile" data-id="days"><span class="l"></span><b class="v"></b><span class="s"></span></div>
+    <div class="tile wide" data-id="money"><span class="l"></span><b class="v"></b><span class="s"></span><i class="rng" id="rng" aria-hidden="true" hidden><u></u><s></s></i>
+      <div class="span seg tiny" id="span"><button type="button" data-span="6m">6M</button><button type="button" data-span="12m">12M</button></div></div>
+    <div class="tile" data-id="pay30"><span class="l"></span><b class="v"></b><span class="s"></span></div>
+  </section>
+  <p class="live" id="live" aria-live="polite"></p>
+  <section class="gauge" id="gauge" aria-label="Eval gauge: drawdown left, distance to target, pass odds" hidden>
+    <div class="g" data-id="dd"><span class="l">Drawdown left</span><b class="v"></b><i class="gb"><u></u></i><span class="s"></span></div>
+    <div class="g" data-id="tgt"><span class="l">To target</span><b class="v"></b><i class="gb"><u></u></i><span class="s"></span></div>
+    <div class="g" data-id="odds"><span class="l">Pass odds</span><b class="v"></b><i class="gb"><u></u></i><span class="s"></span></div>
+  </section>
+  <p class="cap" id="cap"></p>
+  <div class="bottom">
+    <button type="button" class="spin" id="spin">Spin again</button>
+    <button type="button" class="ghost" id="next10" aria-controls="follow" aria-expanded="false">Next 10</button>
+    <button type="button" class="ghost gold" id="labBtn" aria-controls="lab" aria-expanded="false">Lab</button>
+  </div>
+  <section class="sheet follow" id="follow" hidden aria-live="polite">
+    <header><b id="fTitle"></b><span id="fEnd"></span><button type="button" class="x" id="fClose" aria-label="Close">×</button></header>
+    <ol id="fRows"></ol>
+  </section>
+  <section class="sheet lab" id="lab" hidden aria-label="Lab: what-ifs on the futures">
+    <header><b data-lab-title>Lab</b><span data-lab-sub></span><button type="button" class="x" id="labClose" aria-label="Close">×</button></header>
+    <nav class="labtabs" data-lab-tabs role="tablist" aria-label="Lab views"></nav>
+    <div class="labbody" data-lab-body></div>
+  </section>
+  <p class="nogl" id="nogl" hidden>3D is off on this device: the numbers above are the full result.</p>
+</main>
+<script type="module" src="fates.js?v=f9"></script>
+<script type="module" src="glossary.js"></script>
+</body>
+</html>

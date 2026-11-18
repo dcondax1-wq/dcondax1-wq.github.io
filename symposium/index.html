@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Symposium</title>
+<meta name="description" content="OLYMPUS SYMPOSIUM: meet everyone who works for you. Tap a person to talk, ask the whole table one question, play the daily stand-up, let two argue with real numbers, and keep your requests in one box.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Symposium">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- SYMPOSIUM (OLYMPUS, AGORA look, 2026-11-11): the hall where you meet everyone. Each real worker (bots, money scanners, the Mind, the nightly jobs, the build agents, the keepers,
+     the champions of the Archive) is a small cartoon person on a couch around the table. Tap one to talk (olympus/people.js: offline answers from that worker's own files).
+     Round table: one question, everyone answers from their own data. Stand-up: everyone's one line, and who is blocked. Debate: two argue with real numbers, with a neutral summary.
+     Request box: the notes you left, with "Copy for Claude". Make my character: your own figure. symposiumcore.js = the pure parts (node-tested); symposium.js = the page;
+     hall.js = the optional 3D hall (LITE and no WebGL keep the portrait grid). Read only: nothing is sent anywhere. Text only through textContent / createElementNS. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="symposium"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d9b25a'); r.setProperty('--oly-accent-rgb', '217, 178, 90'); })();</script>
+<link rel="stylesheet" href="../olympus/people.css?v=p3" data-pp-css="1">
+<link rel="stylesheet" href="symposium.css?v=a4">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Symposium</h1><p class="sub">Every helper app as a person. Tap one to hear what it does.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hallcard" id="hallCard" aria-labelledby="hallH">
+    <div class="rowhead"><h2 id="hallH">The hall</h2><div class="rowbtns"><button class="btn small" id="voiceBtn" type="button" aria-pressed="false">Voices: off</button><button class="btn small" id="viewBtn" type="button" hidden>Show as a list</button></div></div>
+    <div class="stage" id="stage" hidden>
+      <canvas id="hall3d" tabindex="0" aria-label="The hall in 3D. Drag sideways or use the arrow keys to walk around the table; tap a person to talk."></canvas>
+      <div class="tagsover" id="hallTags"></div>
+      <div class="cardsover" id="hallCards" aria-live="polite"></div>
+    </div>
+    <div class="wall" id="wall" role="list" aria-label="Everyone in the hall"></div>
+    <p class="note" id="hallNote">Tap anyone to talk. They only say what their own files say.</p>
+  </section>
+
+  <section class="ag-card card" id="newCard" aria-labelledby="newH">
+    <h2 id="newH">New and active today</h2>
+    <div class="strip" id="newStrip"></div>
+    <p class="note" id="newNote"></p>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="What to do in the hall" id="tabs">
+    <button class="tab" role="tab" id="tab-meet" aria-controls="p-meet" aria-selected="true" type="button">Meet</button>
+    <button class="tab" role="tab" id="tab-table" aria-controls="p-table" aria-selected="false" type="button">Round table</button>
+    <button class="tab" role="tab" id="tab-standup" aria-controls="p-standup" aria-selected="false" type="button">Stand-up</button>
+    <button class="tab" role="tab" id="tab-debate" aria-controls="p-debate" aria-selected="false" type="button">Debate</button>
+    <button class="tab" role="tab" id="tab-requests" aria-controls="p-requests" aria-selected="false" type="button">Requests</button>
+    <button class="tab" role="tab" id="tab-me" aria-controls="p-me" aria-selected="false" type="button">Me</button>
+  </nav>
+
+  <section class="ag-card card panel" id="p-meet" role="tabpanel" aria-labelledby="tab-meet">
+    <h2>Everyone, by craft</h2>
+    <div id="meetList" class="meet"></div>
+  </section>
+
+  <section class="ag-card card panel" id="p-table" role="tabpanel" aria-labelledby="tab-table" hidden>
+    <h2>Round table</h2>
+    <p class="lead">Ask one question. Everyone who has something to say answers from their own data.</p>
+    <form class="askrow" id="tableForm"><input id="tableQ" class="field" type="text" maxlength="200" autocomplete="off" enterkeyhint="send" aria-label="Your question for the table" placeholder="How did yesterday go?"><button class="btn primary" type="submit">Ask</button></form>
+    <div class="chips" id="tableChips"></div>
+    <label class="pick"><span>Who answers</span><select id="tableScope" class="field"></select></label>
+    <p class="note" id="tableNote" role="status" aria-live="polite"></p>
+    <div class="talk" id="tableOut"></div>
+    <h3 class="subh" id="togetherH">Let them talk</h3>
+    <p class="lead">Two or three of them talk to each other, each about their own numbers. With voices on you hear them; in the 3D hall the words appear over their heads.</p>
+    <div class="chips" id="togetherChips" aria-labelledby="togetherH"></div>
+    <p class="note" id="togetherNote" role="status" aria-live="polite"></p>
+    <div class="talk" id="togetherOut"></div>
+    <div class="blockbox" id="togetherBox" hidden><h3>Summary</h3><p class="lead" id="togetherSummary"></p></div>
+  </section>
+
+  <section class="ag-card card panel" id="p-standup" role="tabpanel" aria-labelledby="tab-standup" hidden>
+    <h2>Daily stand-up</h2>
+    <p class="lead">Everyone's one line: yesterday, today, blocked.</p>
+    <div class="seg"><button class="btn primary" id="suPlay" type="button">Play the stand-up</button><button class="btn" id="suNext" type="button" hidden>Next</button><button class="btn" id="suStop" type="button" hidden>Stop</button></div>
+    <div class="now" id="suNow" hidden><span id="suFace" class="face56"></span><div><b id="suName"></b><p id="suLine" class="lead"></p></div></div>
+    <div class="blockbox" id="suBlocked"><h3>Who is blocked</h3><p class="lead" id="suSummary"></p><ul class="plain" id="suBlockedList"></ul></div>
+    <ol class="standup" id="suList"></ol>
+  </section>
+
+  <section class="ag-card card panel" id="p-debate" role="tabpanel" aria-labelledby="tab-debate" hidden>
+    <h2>Debate</h2>
+    <p class="lead">Pick two. They argue with their own numbers; the summary takes no side.</p>
+    <div class="two"><label class="pick"><span>First</span><select id="dbA" class="field"></select></label><label class="pick"><span>Second</span><select id="dbB" class="field"></select></label></div>
+    <label class="pick"><span>Topic</span><input id="dbTopic" class="field" type="text" maxlength="80" autocomplete="off" placeholder="Who makes more money?"></label>
+    <div class="chips" id="dbPairs"></div>
+    <div class="seg"><button class="btn primary" id="dbGo" type="button">Start the debate</button></div>
+    <div class="talk" id="dbOut"></div>
+    <div class="blockbox" id="dbSummaryBox" hidden><h3>Neutral summary</h3><p class="lead" id="dbSummary"></p></div>
+  </section>
+
+  <section class="ag-card card panel" id="p-requests" role="tabpanel" aria-labelledby="tab-requests" hidden>
+    <h2>Request box</h2>
+    <p class="lead">Notes you left for your workers. They stay on this phone until you copy them to Claude.</p>
+    <form class="reqnew" id="reqForm"><label class="pick"><span>For</span><select id="reqWho" class="field"></select></label><textarea id="reqText" class="field area" rows="2" maxlength="600" aria-label="Your request" placeholder="What should they do?"></textarea><button class="btn" type="submit">Add the request</button></form>
+    <div class="seg"><button class="btn primary" id="reqCopy" type="button">Copy for Claude</button><button class="btn" id="reqExport" type="button">Export JSON</button><button class="btn" id="reqClear" type="button">Clear all</button></div>
+    <p class="note" id="reqNote" role="status" aria-live="polite"></p>
+    <textarea id="reqBlock" class="field area" rows="6" readonly hidden aria-label="The requests as one text block"></textarea>
+    <div id="reqList" class="reqlist"></div>
+  </section>
+
+  <section class="ag-card card panel" id="p-me" role="tabpanel" aria-labelledby="tab-me" hidden>
+    <h2>Make my character</h2>
+    <p class="lead">This is you in the hall and in every chat. Kept on this phone only.</p>
+    <div class="mepreview"><canvas id="meCanvas" aria-label="Your character, turning slowly"></canvas><span id="meFace" class="face96"></span></div>
+    <label class="pick"><span>Name</span><input id="meName" class="field" type="text" maxlength="24" autocomplete="off" placeholder="Your name"></label>
+    <div id="meOptions" class="looks"></div>
+    <div class="seg"><button class="btn" id="meRandom" type="button">Randomise</button><button class="btn primary" id="meSave" type="button">Save my character</button></div>
+    <p class="note" id="meNote" role="status" aria-live="polite"></p>
+  </section>
+
+  <p class="foot" id="foot">Symposium reads the site's own files and sends nothing. A person speaks for one real worker and only says what that worker's files say; sample numbers are labelled sample. Nobody here can place an order: paper and suggestions only. Every dollar is shown with its R where both exist.</p>
+</main>
+<!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
+<script src="../olympus/lazy3d.js?v=l1" data-src="hallload.js?v=a2" data-skip="lite" data-event="sym-hall" defer></script>
+<script type="module" src="symposium.js?v=a3"></script>
+</body>
+</html>

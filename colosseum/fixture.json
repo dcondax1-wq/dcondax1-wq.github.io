@@ -1,0 +1,40 @@
+{"v":1,"demo":true,"note":"Demo arena: invented example runs and bot rows, not real results. The real fighters come from archive/index.json and home.json.","built":"2026-11-11","counts":{"runs":13,"adopted":9},
+"runs":[
+["lit_live","Example: the live strategy","LIT research",1,0,"adopt-candidate","26-11-01",3,[120,2.9,3.1,30100,3070,30.0,1.5],[510,2.4,1.02,1500,29,6.0,13.0],"","Demo row, not real."],
+["demo_wide_stop","Example: wider stop at night","stops",1,0,"adopt-candidate","26-11-01",3,[112,2.7,2.6,24400,2490,26.0,2.0],[480,2.2,1.08,4100,80,7.0,11.0],"","Demo row, not real."],
+["demo_room_cap","Example: room cap 55%","risk",1,0,"adopt-candidate","26-11-01",3,[118,2.9,2.9,27800,2835,28.5,1.0],[505,2.4,0.98,-900,-18,5.5,12.5],"","Demo row, not real."],
+["demo_atlas","Example: ATLAS on a 25K","ATLAS",0,0,"adopt-candidate","26-11-01",3,[80,1.9,2.4,10200,1040,6.0,0.5],[620,2.9,1.01,300,6,3.0,0.4],"","Demo row, not real."],
+["demo_monday","Example: the Monday rule","filters",1,0,"adopt-candidate","26-11-01",3,[104,2.5,3.4,26900,2745,27.0,0.8],[470,2.2,1.05,2600,51,6.5,12.0],"","Demo row, not real."],
+["demo_be_off","Example: breakeven with costs","management",1,0,"adopt-candidate","26-11-01",3,[120,2.9,2.8,25100,2560,24.0,2.4],[511,2.4,0.99,-400,-8,5.0,14.0],"","Demo row, not real."],
+["demo_two_week","Example: two-week sizing","risk",1,0,"adopt-candidate","26-11-01",1,[120,2.9,2.5,33900,3460,36.0,3.4],0,"","Demo row, not real."],
+["demo_target_vix","Example: VIX band target","targets",1,0,"adopt-candidate","26-11-01",3,[96,2.3,2.2,18700,1905,20.0,3.0],[455,2.1,1.1,5200,102,8.0,10.0],"","Demo row, not real."],
+["demo_small","Example: a tiny sample","winrate",1,0,"adopt-candidate","26-11-01",1,[14,0.4,5.2,6100,620,9.0,0.0],0,"","Demo row, not real."],
+["demo_orb","Example: opening range breakout","ATLAS",0,1,"rejected","26-11-01",3,[190,4.7,0.96,-2100,-215,8.0,26.0],[1050,4.9,1.16,34000,670,4.0,12.0],"","Demo row, not real."],
+["demo_fixed_stop","Example: fixed 12 point stops","stops",1,1,"rejected","26-11-01",3,[140,3.4,1.1,1900,195,4.0,21.0],[600,2.8,0.9,-8200,-160,1.0,30.0],"","Demo row, not real."],
+["demo_old_only","Example: an old-years-only test","sessions",0,2,"info","26-11-01",2,0,[300,1.4,1.2,6100,120,null,null],"","Demo row, not real."],
+["demo_asia","Example: the Asia session slot","sessions",1,2,"promising","26-11-01",3,[44,1.1,1.9,5200,530,7.0,4.0],[200,0.9,1.3,7400,145,3.0,6.0],"","Demo row, not real."]
+],
+"shards":[],
+"extra":{"v":1,"cols":["dd","dec10","pass_med"],"runs":{
+"lit_live":[[-2300,32.0,15],[-19000,19.0,28]],
+"demo_wide_stop":[[-2900,28.0,17],[-9800,18.0,30]],
+"demo_room_cap":[[-2100,29.5,16],[-15500,18.0,29]],
+"demo_atlas":[[-1400,6.5,31],[-6100,3.4,44]],
+"demo_monday":[[-1900,27.8,16],[-11200,18.5,27]],
+"demo_be_off":[[-2600,26.4,18],[-17000,19.0,30]],
+"demo_two_week":[[-3900,39.4,12],0],
+"demo_target_vix":[[-3100,23.0,19],[-8700,18.0,26]],
+"demo_small":[[-700,null,null],0],
+"demo_orb":[[-7400,34.0,22],[-9100,16.0,35]],
+"demo_fixed_stop":[[-5200,25.0,24],[-21000,31.0,null]],
+"demo_asia":[[-1500,11.0,26],[-4200,9.0,33]]}},
+"rejected":[
+{"title":"Example: fixed 12 point stops","text":"Example: fixed 10-15 point stops were wicked out and lost money in 2021-25 (-$8,200). Not real data.","writeups":[]},
+{"title":"Example: opening range breakouts","text":"Example: breakouts of the first minutes traded 4.7 times a week and lost money in 2026 (PF 0.96). Not real data.","writeups":[]},
+{"title":"Example: skipping Mondays","text":"Example: skipping Mondays paused trading for weeks, which breaks the 2 to 4 trades a week rule. Not real data.","writeups":[]}
+],
+"bots":[
+{"key":"lit","name":"LIT","stats":{"n":14,"net":1260.0,"pf":2.1,"win_pct":50.0,"max_dd":-640.0},"pnl":{"today":0,"week":310.0}},
+{"key":"atlas","name":"ATLAS","stats":{"n":9,"net":280.0,"pf":1.4,"win_pct":44.4,"max_dd":-390.0},"pnl":{"today":0,"week":-60.0}},
+{"key":"blitz","name":"BLITZ","stats":{"n":21,"net":-140.0,"pf":0.9,"win_pct":38.1,"max_dd":-520.0},"pnl":{"today":0,"week":-90.0}}
+]}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hephaestus</title>
+<meta name="description" content="HEPHAESTUS: the strategy workshop. Turn safe dials on the LIT strategy (target, break-even, 15-minute cut, entry window, trades a day, size mode) and see the 2026 result from the stored backtest runs, Jan-Jun against Jul-Oct, with a plain verdict against the live setting. Read-only: it changes nothing in the bot.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hephaestus">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- HEPHAESTUS (OLYMPUS, 2026-11-04): the strategy workshop. It READS data.json, which tools/hephaestus_build.py cuts from the STORED backtest
+     runs (research/runs/, tools/runlib.py): every setting on the page is one run that really exists; nothing is computed in the page and
+     nothing is written to the bot. fixture.json = a recorded sample (DEMO badge) when data.json is missing. hephaestuscore.js = the logic (pure),
+     scene.js = the forge on the OLYMPUS render core, hephaestus.js = the page. The last dials you chose stay on this phone only
+     (localStorage 'hephaestus.v1'). Bump ?v= on all of them when one changes. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="hephaestus"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="hephaestus.css?v=h4">
+</head>
+<body>
+<canvas id="view" aria-label="A forge: an anvil with a glowing ingot that is the setting you are testing, a hammer that strikes when you turn a dial, a furnace behind" role="img"></canvas>
+<header class="top">
+  <div class="brand"><h1>Hephaestus</h1><p class="sub">Try other settings on past trades. Tap a recipe. Changes nothing in the bot.</p></div>
+  <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+</header>
+<section class="sheet" id="sheet" aria-label="Dials and numbers">
+  <div class="hero" id="hero" aria-live="polite">
+    <p class="eyebrow" id="heroLab">This setting, Jul-Oct check</p>
+    <p class="big"><span id="heroBig" class="ag-num">-</span><small> a month</small></p>
+    <p class="delta" id="heroDelta"></p>
+    <div class="bars" aria-hidden="true"><div class="bar"><span>This</span><i id="barThis"></i></div><div class="bar"><span>Live</span><i id="barLive"></i></div></div>
+    <ul class="facts" id="heroFacts"></ul>
+  </div>
+  <p class="honest" id="honest">This page changes nothing in the bot. It only reads test runs that were already stored.</p>
+  <h2>Recipes <span class="hint">one tap, every one a stored run</span></h2>
+  <div class="recipes" id="recipes" role="group" aria-label="Recipes"></div>
+  <p class="rblurb" id="rblurb"></p>
+  <div id="dials" role="group" aria-label="Dials"></div>
+  <div class="row"><button type="button" id="reset" class="ghost">Back to live</button><button type="button" id="forge" class="ghost gold">Forge a report card</button><span id="msg" class="msg" role="status" aria-live="polite"></span></div>
+  <h2>2026 result <span class="hint">this setting, with the live bot underneath</span></h2>
+  <table class="tbl" id="tbl" aria-label="Results, Jan-Jun against Jul-Oct">
+    <thead><tr><th scope="col"></th><th scope="col">Jan-Jun<small>pick</small></th><th scope="col">Jul-Oct<small>check</small></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <h2>Compare <span class="hint">pin one, turn the dials to another</span></h2>
+  <div class="row"><button type="button" id="pin" class="ghost">Pin this as A</button><button type="button" id="unpin" class="ghost" hidden>Clear A</button><span class="msg" id="pinmsg"></span></div>
+  <p class="cmpline" id="cmpline"></p>
+  <table class="tbl cmp" id="cmp" aria-label="Side by side: A (pinned) and B (now)" hidden>
+    <thead><tr><th scope="col"></th><th scope="col" colspan="2">Jan-Jun<small>A | B</small></th><th scope="col" colspan="2">Jul-Oct<small>A | B</small></th></tr></thead>
+    <tbody id="cmprows"></tbody>
+  </table>
+  <h2>Dials tried <span class="hint">tap to turn them back</span></h2>
+  <ol class="hist" id="hist"></ol>
+  <p class="ref" id="ref2125"></p>
+  <p class="src" id="src"></p>
+  <h2>What we rejected and why</h2>
+  <div class="strip" id="rej" tabindex="0" aria-label="Tested and rejected, scroll sideways"></div>
+</section>
+<section class="cardbox" id="cardbox" hidden aria-label="Report card" role="dialog">
+  <div class="cb"><canvas id="cardCv" width="1080" height="1350" aria-hidden="true"></canvas>
+    <div class="cbtn"><a id="cardDl" class="ghost gold" download="hephaestus-report-card.png" href="#">Save image</a><button type="button" id="cardShare" class="ghost" hidden>Share</button><button type="button" id="cardX" class="ghost">Close</button></div>
+  </div>
+</section>
+<footer class="dock" id="dock" aria-live="polite">
+  <div class="verdict" id="verdict" data-kind="live">
+    <b class="vh" id="vh">This is the live setting</b>
+    <span class="vp" id="vp"></span>
+    <span class="vs" id="vs"></span>
+  </div>
+</footer>
+<script type="module" src="hephaestus.js?v=h4"></script>
+<script type="module" src="glossary.js"></script>
+</body>
+</html>

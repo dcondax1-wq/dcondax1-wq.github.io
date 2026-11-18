@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planner</title>
+<meta name="description" content="OLYMPUS PLANNER: calendar, projects and tasks, the trading day (windows, market events, pre-session checklist, post-session review), habits, goals, a focus timer and notes, all kept on this phone with Export, Import and a calendar file.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Planner">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- PLANNER v2 (OLYMPUS, AGORA look, 2026-11-10). plannercore.js = the pure maths (node-tested): calendar repeats through the clock change, the quick-add phrase parser, migrations, .ics, search.
+     planner.js = the page (ES module); plannerscene.js = the small marble sundial in the header (plain canvas, still when LITE or reduced motion).
+     The plan lives in this phone's localStorage ('planner.agora.v2', migrated from 'planner.agora.v1' and 'planner.v1' which are never touched) with Export / Import JSON and a calendar (.ics) file; it works offline.
+     fixture.json is the DEMO plan shown while nothing is saved (never blank). Read only from other apps: ../pythia/events.json, ../home.json and Argo's goals. It sends nothing anywhere. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="planner"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#7fa7c2'); r.setProperty('--oly-accent-rgb', '127, 167, 194'); })();</script>
+<link rel="stylesheet" href="planner.css?v=b4">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Planner</h1><p class="sub" id="sub">Your day and week: what to do, and when</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span><canvas id="scene" width="84" height="84" aria-hidden="true"></canvas></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <ul id="remindBar" class="remind" aria-label="Reminders" hidden></ul>
+  <a class="ag-card card weeklink" href="../business/schedule.html"><b>My work week &rarr;</b><span class="note">When to check the PC, the Friday review, payouts, taxes.</span></a>
+  <section class="ag-card card" id="demoBar" aria-labelledby="demoH" hidden>
+    <h2 id="demoH">This is an example plan</h2>
+    <p class="lead" id="demoNote">Example plan, not real.</p>
+    <div class="seg"><button type="button" class="btn primary" id="startBtn">Start my plan</button></div>
+  </section>
+  <form class="ag-card card quick" id="qForm" autocomplete="off" aria-label="Quick add">
+    <label class="note" for="qIn">Quick add: type it the way you say it</label>
+    <div class="addrow"><input id="qIn" type="text" maxlength="200" enterkeyhint="done" placeholder="Fri 9am journal review" aria-label="Quick add"><button type="submit" class="btn primary" id="qAdd">Add</button></div>
+    <div class="seg" role="group" aria-label="What to make">
+      <button type="button" class="ag-chip" data-kind="auto" aria-pressed="true">Auto</button>
+      <button type="button" class="ag-chip" data-kind="task" aria-pressed="false">Task</button>
+      <button type="button" class="ag-chip" data-kind="event" aria-pressed="false">Event</button>
+    </div>
+    <p class="note" id="qPrev" aria-live="polite">With a time or "every ..." it goes on the calendar; without, it is a to-do. Try "every Friday 16:30 weekly review".</p>
+  </form>
+  <div class="ag-tabs" role="tablist" aria-label="Planner views" id="tabs">
+    <button type="button" class="ag-tab" role="tab" id="tab-today" data-tab="today" aria-controls="p-today" aria-selected="true">Today</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-calendar" data-tab="calendar" aria-controls="p-calendar" aria-selected="false">Calendar</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-tasks" data-tab="tasks" aria-controls="p-tasks" aria-selected="false">Tasks</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-projects" data-tab="projects" aria-controls="p-projects" aria-selected="false">Projects</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-habits" data-tab="habits" aria-controls="p-habits" aria-selected="false">Habits</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-goals" data-tab="goals" aria-controls="p-goals" aria-selected="false">Goals</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-notes" data-tab="notes" aria-controls="p-notes" aria-selected="false">Notes</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-focus" data-tab="focus" aria-controls="p-focus" aria-selected="false">Focus</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-find" data-tab="find" aria-controls="p-find" aria-selected="false">Find</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-data" data-tab="data" aria-controls="p-data" aria-selected="false">Data</button>
+  </div>
+
+  <section id="p-today" class="panel" role="tabpanel" aria-labelledby="tab-today">
+    <section class="ag-card card daynav" id="dayNav" aria-label="Choose the day">
+      <button type="button" class="btn sq" id="dayPrev" aria-label="Previous day">&lsaquo;</button>
+      <div class="daymid"><b id="dayTitle" class="ag-title2">--</b><span class="note" id="daySub"></span></div>
+      <button type="button" class="btn sq" id="dayNext" aria-label="Next day">&rsaquo;</button>
+      <button type="button" class="btn wide" id="dayToday">Back to today</button>
+    </section>
+    <div id="v-today" class="stack"></div>
+  </section>
+
+  <section id="p-calendar" class="panel" role="tabpanel" aria-labelledby="tab-calendar" hidden>
+    <section class="ag-card card" aria-labelledby="calH">
+      <h2 id="calH">Calendar <span class="note" id="calTz">New York time</span></h2>
+      <div class="seg" id="calView" role="group" aria-label="Calendar view">
+        <button type="button" class="ag-chip" data-view="month" aria-pressed="true">Month</button>
+        <button type="button" class="ag-chip" data-view="week" aria-pressed="false">Week</button>
+        <button type="button" class="ag-chip" data-view="day" aria-pressed="false">Day</button>
+      </div>
+      <div class="weeknav">
+        <button type="button" class="btn sq" id="calPrev" aria-label="Previous">&lsaquo;</button>
+        <div class="daymid"><b id="calTitle" class="ag-title2">--</b><span class="note" id="calSub"></span></div>
+        <button type="button" class="btn sq" id="calNext" aria-label="Next">&rsaquo;</button>
+      </div>
+      <div class="seg">
+        <button type="button" class="btn" id="calToday">Today</button>
+        <button type="button" class="btn primary" id="calAdd">Add event</button>
+        <button type="button" class="ag-chip" id="tgWin" aria-pressed="true">Trading windows</button>
+        <button type="button" class="ag-chip" id="tgMkt" aria-pressed="true">Market events</button>
+      </div>
+      <div id="calBody" class="calbody"></div>
+    </section>
+    <section class="ag-card card" aria-labelledby="calDayH">
+      <h2 id="calDayH">The day</h2>
+      <div id="calDay" class="stack"></div>
+    </section>
+  </section>
+
+  <section id="p-tasks" class="panel" role="tabpanel" aria-labelledby="tab-tasks" hidden>
+    <section class="ag-card card" aria-labelledby="taskH">
+      <h2 id="taskH">Tasks</h2>
+      <div class="seg" id="laneBtns" role="group" aria-label="Lanes"></div>
+      <div class="filterrow"><label class="note" for="taskProj">Project</label><select id="taskProj" aria-label="Show one project"></select></div>
+      <div class="seg"><button type="button" class="btn primary" id="taskAdd">Add a task</button></div>
+      <div id="taskRows" class="stack"></div>
+    </section>
+  </section>
+
+  <section id="p-projects" class="panel" role="tabpanel" aria-labelledby="tab-projects" hidden>
+    <div id="projList" class="stack"></div>
+    <section class="ag-card card" aria-labelledby="projAddH">
+      <h2 id="projAddH">Add a project</h2>
+      <form class="addrow" id="projForm" autocomplete="off"><input id="projIn" type="text" maxlength="60" enterkeyhint="done" placeholder="For example: Prop firm payout" aria-label="New project"><button type="submit" class="btn primary">Add</button></form>
+    </section>
+  </section>
+
+  <section id="p-habits" class="panel" role="tabpanel" aria-labelledby="tab-habits" hidden>
+    <section class="ag-card card" aria-labelledby="heatH"><h2 id="heatH">The last 12 weeks</h2><p class="note" id="heatNote"></p><div id="heat" class="heat"></div></section>
+    <div id="habitCards" class="stack"></div>
+    <section class="ag-card card" aria-labelledby="habitAddH">
+      <h2 id="habitAddH">Add a habit</h2>
+      <form class="addrow" id="habitForm" autocomplete="off"><input id="habitIn" type="text" maxlength="80" enterkeyhint="done" placeholder="For example: Read for 20 minutes" aria-label="New habit"><button type="submit" class="btn primary">Add</button></form>
+    </section>
+  </section>
+
+  <section id="p-goals" class="panel" role="tabpanel" aria-labelledby="tab-goals" hidden>
+    <div id="goalList" class="stack"></div>
+    <section class="ag-card card" aria-labelledby="goalAddH">
+      <h2 id="goalAddH">Add a goal</h2>
+      <form class="addrow" id="goalForm" autocomplete="off"><input id="goalIn" type="text" maxlength="80" enterkeyhint="done" placeholder="For example: Pass the eval" aria-label="New goal"><button type="submit" class="btn primary">Add</button></form>
+    </section>
+    <section class="ag-card card" aria-labelledby="argoH"><h2 id="argoH">Your Argo goals</h2><p class="note" id="argoNote"></p><ul class="rows" id="argoList"></ul></section>
+  </section>
+
+  <section id="p-notes" class="panel" role="tabpanel" aria-labelledby="tab-notes" hidden>
+    <section class="ag-card card" aria-labelledby="noteH">
+      <h2 id="noteH">Notes</h2>
+      <div class="addrow"><input id="noteQ" type="text" maxlength="80" enterkeyhint="search" placeholder="Search notes or #tag" aria-label="Search notes"><button type="button" class="btn primary" id="noteNew">New note</button></div>
+      <div class="seg" id="noteTags" aria-label="Tags"></div>
+      <ul class="rows" id="noteList"></ul>
+    </section>
+  </section>
+
+  <section id="p-focus" class="panel" role="tabpanel" aria-labelledby="tab-focus" hidden>
+    <section class="ag-card card focus" aria-labelledby="focusH">
+      <h2 id="focusH">Focus timer</h2>
+      <p class="note" id="fPhase">Ready. 25 minutes of work, then 5 off.</p>
+      <div class="fclock"><b id="fTime" class="ag-num">25:00</b></div>
+      <div class="ag-bar" aria-hidden="true"><i id="fBar" style="width:0%"></i></div>
+      <div class="filterrow"><label class="note" for="fTask">Working on</label><select id="fTask" aria-label="Working on"></select></div>
+      <div class="seg">
+        <button type="button" class="btn primary" id="fStart">Start</button>
+        <button type="button" class="btn" id="fPause" hidden>Pause</button>
+        <button type="button" class="btn" id="fSkip">Skip</button>
+        <button type="button" class="btn" id="fReset">Reset</button>
+      </div>
+      <p class="lead" id="fStats"></p>
+      <div class="seg"><button type="button" class="ag-chip" id="fNotify" aria-pressed="false">Tell me when it ends</button></div>
+      <p class="note" id="fNote">The phone only buzzes if you allow it. Otherwise the clock above changes and this page says so.</p>
+    </section>
+  </section>
+
+  <section id="p-find" class="panel" role="tabpanel" aria-labelledby="tab-find" hidden>
+    <section class="ag-card card" aria-labelledby="findH">
+      <h2 id="findH">Find anything</h2>
+      <input id="findIn" type="text" maxlength="120" enterkeyhint="search" placeholder="Search tasks, events, notes, goals, reviews" aria-label="Search everything">
+      <p class="note" id="findNote">Every word you type must appear. Add #tag to search notes by tag.</p>
+      <ul class="rows" id="findOut"></ul>
+    </section>
+  </section>
+
+  <section id="p-data" class="panel" role="tabpanel" aria-labelledby="tab-data" hidden>
+    <section class="ag-card card" aria-labelledby="expH">
+      <h2 id="expH">Export</h2>
+      <p class="lead" id="expSum"></p>
+      <div class="seg"><button type="button" class="btn primary" id="expBtn">Export JSON</button><button type="button" class="btn" id="icsBtn">Export events (.ics)</button></div>
+      <p class="note">One file with your whole plan. Keep a copy somewhere safe: the plan lives only on this phone. The .ics file opens in any calendar app.</p>
+    </section>
+    <section class="ag-card card" aria-labelledby="impH">
+      <h2 id="impH">Import</h2>
+      <p class="lead">Replace the plan on this phone with an exported file (an older Planner file works too). The plan you have now is kept as a backup first.</p>
+      <label class="btn filebtn" for="impFile">Choose a file<input id="impFile" type="file" accept=".json,application/json"></label>
+      <label class="note" for="impText">Or paste the file's text here</label>
+      <textarea id="impText" rows="4" placeholder="Paste the exported text"></textarea>
+      <div class="seg"><button type="button" class="btn" id="impBtn">Import</button></div>
+      <p class="note" id="impMsg" role="status" aria-live="polite"></p>
+    </section>
+    <section class="ag-card card" aria-labelledby="clH">
+      <h2 id="clH">Pre-session checklist</h2>
+      <ul class="rows" id="clEdit"></ul>
+      <form class="addrow" id="clForm" autocomplete="off"><input id="clIn" type="text" maxlength="200" enterkeyhint="done" placeholder="New checklist line" aria-label="New checklist line"><button type="submit" class="btn primary">Add</button></form>
+    </section>
+    <section class="ag-card card" aria-labelledby="pcH">
+      <h2 id="pcH">Post-session review lines</h2>
+      <ul class="rows" id="pcEdit"></ul>
+      <form class="addrow" id="pcForm" autocomplete="off"><input id="pcIn" type="text" maxlength="200" enterkeyhint="done" placeholder="New review line" aria-label="New review line"><button type="submit" class="btn primary">Add</button></form>
+    </section>
+    <section class="ag-card card" aria-labelledby="stH">
+      <h2 id="stH">Storage</h2>
+      <p class="lead" id="stMsg"></p>
+      <p class="note" id="stFrom"></p>
+      <div class="seg"><button type="button" class="btn" id="resetBtn">Reset to a blank plan</button></div>
+    </section>
+  </section>
+
+  <p class="foot" id="foot">Your plan stays on this phone only and works offline. Times are New York time. The bot can enter 02:00 to 15:30, closes everything at 15:55, and MFFU needs no open trade after 16:10.</p>
+</main>
+
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-bg" id="sheetBg"></div>
+  <section class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sheetT">
+    <header class="sheet-head"><h2 id="sheetT">Edit</h2><button type="button" class="btn sq" id="sheetX" aria-label="Close">&times;</button></header>
+    <div id="sheetBody" class="sheet-body"></div>
+    <div id="sheetAct" class="seg sheet-act"></div>
+  </section>
+</div>
+<script type="module" src="planner.js?v=b4"></script>
+</body>
+</html>

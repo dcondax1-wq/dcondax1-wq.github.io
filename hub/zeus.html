@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="zeus">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZEUS</title>
+<meta name="description" content="ZEUS: the trading door. Is the PC reporting, every account's balance, $ to pass or payout and today's $, the edge light, today's entry windows and news, and one big button for each trading page.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ZEUS">
+<link rel="icon" href="icon.svg">
+<!-- ZEUS (2026-11-18, night-zeushub): the ZEUS Trading door's landing (olympus/doors.js zeus.home; hub/doors.html#zeus opens with a link here).
+     Data: the PC's ntfy status (../pc_feed.js), ../board/board.json, ../business/accounts.json, matched like the Board (../board/boardmodel.js +
+     ../business/mffumodel.js), ../edge.json (../edge_chip.js), ../pythia/events.json. It links to pages; the only write is the Decide card's note (../business/decide.js, PC link only). Text only through textContent. -->
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
+.zs-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(28px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.zs-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.zs-nav a, .zs-nav button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none;
+  border: 1px solid var(--ag-line, #3a3228); background: transparent; font: inherit; cursor: pointer; }
+.zs-title { margin: 14px 0 0; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); letter-spacing: .06em; }
+.zs-sub { margin: 2px 0 12px; color: var(--ag-soft, #cfc4b2); }
+.zs-h2 { margin: 22px 2px 8px; font: 700 var(--ag-fs-h2, 1.375rem)/1.15 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); border-bottom: 1px solid var(--ag-gold, #c8a24a); padding-bottom: 6px; }
+.zs-pc { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 14px; border-radius: 14px; box-sizing: border-box; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s2, #221d17); }
+.zs-pc b { font-weight: 700; overflow-wrap: anywhere; }
+.zs-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ag-muted, #a89c88); }
+.zs-pc.good b { color: var(--ag-olive-text, #a0ac6e); } .zs-pc.good .zs-dot { background: #8fbf6a; }
+.zs-pc.bad { background: #8f1d1d; border: 2px solid #ff5a4f; color: #fff; } .zs-pc.bad b { color: #fff; font-size: 1.05rem; } .zs-pc.bad .zs-dot { background: #ff5a4f; }
+.zs-accts { display: grid; gap: 8px; margin-top: 8px; }
+.zs-acct { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); }
+.zs-top { display: flex; align-items: center; gap: 8px; }
+.zs-top h3 { margin: 0; flex: 1; min-width: 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.2 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
+.zs-chip { flex: none; font: 700 .75rem/1 var(--ag-sans, system-ui); padding: 5px 10px; border-radius: 999px; border: 1px solid currentColor; }
+.zs-chip.eval { color: var(--ag-aegean-text, #7fa7c2); } .zs-chip.funded { color: var(--ag-olive-text, #a0ac6e); }
+.zs-chip.passed { color: #14110e; background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); } .zs-chip.failed { color: #fff; background: #b33a2e; border-color: #b33a2e; }
+.zs-mid { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.zs-bal { font: 700 1.5rem/1.1 var(--ag-sans, system-ui); font-variant-numeric: tabular-nums; }
+.zs-today { font-weight: 600; color: var(--ag-soft, #cfc4b2); font-variant-numeric: tabular-nums; } .zs-today.pos { color: #8fbf6a; } .zs-today.neg { color: #ff8a7a; }
+.zs-goal { margin: 4px 0 0; overflow-wrap: anywhere; }
+.zs-src { margin: 4px 0 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); overflow-wrap: anywhere; }
+.zs-empty { color: var(--ag-soft, #cfc4b2); }
+#edgeChip { margin-top: 4px; }
+.zs-wins { display: grid; gap: 8px; }
+.zs-win { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; border-radius: 14px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); }
+.zs-win b { font: 700 var(--ag-fs-lead, 1.0625rem)/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.zs-win.open { border-color: #8fbf6a; } .zs-win.open span { color: #a9d68a; font-weight: 600; }
+.zs-win small { color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); overflow-wrap: anywhere; }
+.zs-notes { margin-top: 10px; }
+.zs-notes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.zs-note { display: flex; flex-direction: column; gap: 1px; padding: 8px 12px; border-radius: 12px; background: var(--ag-s1, #1b1713); border-left: 3px solid var(--ag-line, #3a3228); }
+.zs-note b { font-size: var(--ag-fs-foot, .8125rem); color: var(--ag-soft, #cfc4b2); } .zs-note span { overflow-wrap: anywhere; }
+.zs-note.high, .zs-note.closed { border-left-color: #ff8a7a; } .zs-note.early, .zs-note.med { border-left-color: var(--ag-sun, #e0b060); }
+.zs-note.today b { color: var(--ag-sun, #e0b060); }
+.zs-note-src { margin: 6px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-btns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.zs-btn { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 76px; padding: 12px 14px; border-radius: 16px; box-sizing: border-box; text-decoration: none;
+  color: var(--ag-text, #f3ece0); background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-top: 3px solid var(--ag-gold, #c8a24a); min-width: 0; }
+.zs-btn:active { background: var(--ag-s3, #2b241d); }
+.zs-btn b { font: 700 1.0625rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; }
+.zs-btn small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-foot, .8125rem); line-height: 1.3; }
+.zs-btn[hidden] { display: none; }
+.zs-info { grid-column: 1 / -1; border-radius: 16px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); }
+.zs-info summary { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 64px; padding: 10px 14px; cursor: pointer; list-style: none; }
+.zs-info summary::-webkit-details-marker { display: none; }
+.zs-info summary b { font: 700 1.0625rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.zs-info summary small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-info div { padding: 0 14px 12px; } .zs-info p, .zs-info li { margin: 6px 0; overflow-wrap: anywhere; } .zs-info ol { margin: 0; padding-left: 20px; }
+.zs-info code { font: 600 .875rem var(--ag-mono, ui-monospace, Menlo, monospace); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; }
+.zs-stamp { margin: 10px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-foot { margin-top: 26px; text-align: center; color: var(--ag-soft, #cfc4b2); font: 700 var(--ag-fs-body, .9375rem) var(--ag-serif, Georgia, serif); }
+.zs-foot small { display: block; margin-top: 4px; color: var(--ag-muted, #a89c88); font: 400 var(--ag-fs-foot, .8125rem) var(--ag-sans, system-ui); }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<script src="../pc_feed.js?v=n2"></script>
+<script src="../business/payoutcoach.js?v=1" defer></script>
+<script src="../business/mffumodel.js?v=1" defer></script>
+<script src="../board/boardmodel.js?v=b6" defer></script>
+<script src="../edge_chip.js?v=1" defer></script>
+<script src="../business/decide.js?v=1" defer></script>
+<script src="../olympus/zeus_core.js?v=1" defer></script>
+<script src="zeus.js?v=2" defer></script>
+</head>
+<body>
+<main class="zs-main" id="zeus">
+  <nav class="zs-nav" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="doors.html#zeus">All ZEUS apps</a><a href="help.html" id="helpBtn">Help</a><button type="button" id="refresh" aria-label="Refresh">Refresh</button></nav>
+  <h1 class="zs-title">ZEUS</h1>
+  <p class="zs-sub">Trading: your accounts, today, and every trading page.</p>
+
+  <section aria-labelledby="hLive">
+    <h2 class="zs-h2" id="hLive">Right now</h2>
+    <div id="pc" class="zs-pc" role="status" aria-live="polite"><span class="zs-dot"></span><b>Asking your PC...</b></div>
+    <div id="accts" class="zs-accts"></div>
+    <!-- ZEUS edge chip (../edge_chip.js): Zlarior + ATLAS last 40 sessions vs 2026; zeus.js hands it the PC status -->
+    <div id="edgeChip" data-edge-chip data-edge-src="../edge.json"></div>
+  </section>
+
+  <!-- the Decide card (../business/decide.js + ../business/decisions.json): Yes / No / Later only on the PC link; a tap = one owner note for Claude -->
+  <section id="decide" data-decide aria-label="Decide" hidden></section>
+
+  <section aria-labelledby="hToday">
+    <h2 class="zs-h2" id="hToday">Today</h2>
+    <div id="wins" class="zs-wins"></div>
+    <div id="notes" class="zs-notes" hidden><ul id="noteList"></ul><p class="zs-note-src" id="noteSrc"></p></div>
+  </section>
+
+  <section aria-labelledby="hGo">
+    <h2 class="zs-h2" id="hGo">Open</h2>
+    <nav class="zs-btns" aria-labelledby="hGo">
+      <a class="zs-btn" href="../business/mffu.html"><b>My accounts</b><small>Every account the way MFFU shows it</small></a>
+      <a class="zs-btn" href="../trading/"><b>Trades &amp; calendar</b><small>Every trade, the P&amp;L calendar</small></a>
+      <a class="zs-btn" href="../index.html#/brain"><b>Brain</b><small>What the bot sees and waits for</small></a>
+      <a class="zs-btn" href="../board/"><b>Board</b><small>What the bot, you and Claude know</small></a>
+      <a class="zs-btn" href="../business/lab.html"><b>ZEUS Lab</b><small>Ideas tested; nothing changes without your yes</small></a>
+      <a class="zs-btn" href="../business/accounts.html#coach"><b>Payouts</b><small>The payout coach: what to request today</small></a>
+      <a class="zs-btn" id="btnWeek" href="../business/week.html" hidden><b>Weekly review</b><small>The week in one page</small></a>
+      <details class="zs-info" id="safety">
+        <summary><b>Safety: pause / flatten</b><small>On your PC's private link only. Tap to see how.</small></summary>
+        <div>
+          <p>PAUSE, RESUME, FLATTEN and KILL live on your PC's private Tailscale link, never on this public site, so nobody else can press them.</p>
+          <ol>
+            <li>On your phone, turn Tailscale on.</li>
+            <li>Open your PC link (the Tailscale address you use for the PC bot) and add <code>/safety/</code> at the end.</li>
+            <li>First time only, at the PC: <code>python -X utf8 -m engine.phone_safety --on</code></li>
+          </ol>
+          <p>It can stop or flatten the bots. It can never arm them or place a trade.</p>
+        </div>
+      </details>
+      <details class="zs-info" id="addAcct">
+        <summary><b>Add an account</b><small>New eval or funded account: done at the PC. Tap to see how.</small></summary>
+        <div>
+          <ol>
+            <li>Buy it at MFFU, then let NinjaTrader show the new account.</li>
+            <li>At the PC, double-click <code>ADD_ACCOUNT.bat</code>, or open the PC's Start page: each new account gets a card with ONE button first ("Zlarior trades it", "Zlarior + ATLAS", "Move ATLAS here (funded)").</li>
+            <li>It is added NOT armed. Arm it yourself: STOP BOT, START BOT, type the phrase.</li>
+          </ol>
+        </div>
+      </details>
+    </nav>
+  </section>
+
+  <p class="zs-stamp" id="stamp"></p>
+  <p class="zs-foot">ZEUS = Zlarior (LIT) + ATLAS + the engine<small>Nothing on this page can trade or change a bot. A Decide answer is only a note for Claude.</small></p>
+</main>
+</body>
+</html>

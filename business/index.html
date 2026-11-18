@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Business</title>
+<meta name="description" content="OLYMPUS BUSINESS: every money model beside the trading: its next action, what is missing before the first dollar, and an honest monthly ESTIMATE.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Business">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- BUSINESS (OLYMPUS, AGORA look, team BIZ 2026-11-15): reads ./business.json (tools/biz_publish.py on the PC, gitignored), else fixture.json (DEMO, never blank).
+     Read only: it sends nothing, posts nothing, calls nobody. Text only through textContent. businesscore.js = pure helpers (node-tested); business.js = the page.
+     The 7-day checklist ticks stay in this browser only (localStorage, wrapped in try/catch). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="business"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script>
+<link rel="prefetch" href="../olympus/sfx.js?v=s4" as="script"><!-- the sound engine (32 KB gzipped) is not in the deferred chain the page waits on: olympus.js loads it after the page has loaded (its sound bed) or on the first cue -->
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="business.css?v=4">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Business</h1><p class="sub">Your money: what comes in, what to do next</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <a class="ag-card card door2 mffu-top" href="mffu.html" style="display:grid;margin:0 0 12px"><h2>My accounts (MFFU view) &rarr;</h2><p class="note">Every MFFU account the way MFFU shows it: status, start date, balance, floor, target, days, payout. Live from your PC.</p></a>
+  <nav class="doors" aria-label="Business pages">
+    <a class="ag-card card door2" href="accounts.html"><h2>My Accounts &rarr;</h2><p class="note">Each eval: $ to pass, $ room left, what to buy next.</p></a>
+    <a class="ag-card card door2" href="taxes.html"><h2>Taxes &rarr;</h2><p class="note">What to set aside, and when to pay.</p></a>
+    <a class="ag-card card door2" href="security.html"><h2>Security &rarr;</h2><p class="note">Lock your accounts in 7 steps.</p></a>
+    <a class="ag-card card door2" href="schedule.html"><h2>Work week &rarr;</h2><p class="note">When to check the PC, review, ask for payouts.</p></a>
+    <a class="ag-card card door2" href="week.html"><h2>ZEUS this week &rarr;</h2><p class="note">Friday review: $ per account, Zlarior and ATLAS vs 2026, next week's news and decisions.</p></a>
+    <a class="ag-card card door2" href="lab.html"><h2>ZEUS Lab &rarr;</h2><p class="note">Ideas the bots test on their own. Nothing changes without your yes.</p></a>
+    <a class="ag-card card door2" href="goals.html"><h2>Goals &rarr;</h2><p class="note">This week's steps, the money ladder with dates, the rules, your decisions.</p></a>
+    <a class="ag-card card door2" href="plan.html"><h2>Fleet plan &rarr;</h2><p class="note">All 5 accounts, 6 months: cash after tax, first payouts, what to buy next.</p></a>
+    <a class="ag-card card door2" href="work.html"><h2>More work &rarr;</h2><p class="note">Side income ranked by $ a month, the website plan, scams to skip.</p></a>
+    <a class="ag-card card door2" href="../hub/help.html"><h2>Help: how do I... &rarr;</h2><p class="note">Payouts, a passed eval, restart, PC silent, taxes: a few steps each.</p></a>
+  </nav>
+
+  <section class="ag-card card door" aria-labelledby="doorH">
+    <div class="row"><h2 id="doorH">Your money at a glance</h2><span class="pill warn">ESTIMATE</span></div>
+    <dl class="kv" id="door"></dl>
+    <p class="note" id="doorNote">Trading = your prop accounts. Business = your side work. Costs = what you paid. All future $ are estimates.</p>
+    <nav class="links" aria-label="The other money pages"><a href="../ledger/">Ledger: real money</a><a href="../hera/">Hera: 12-month plan</a><a href="../plutus/">Plutus: payouts</a><a href="../oikos/">Oikos: household</a><a href="../pnyx/">Pnyx: risk</a><a href="../agency/">Agency: calls</a></nav>
+  </section>
+
+  <section class="ag-card card moves" aria-labelledby="movesH">
+    <div class="row"><h2 id="movesH">Do this week</h2><span class="pill" id="movesPill">0 done</span></div>
+    <ol id="moves"></ol>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="tradeH">
+    <div class="row"><h2 id="tradeH">Trading: when the money comes</h2><span class="pill" id="tradeSrc">plan</span></div>
+    <div id="trade"></div>
+    <p class="lead" id="acct4"></p>
+    <p class="note">Estimate from past trades, not a promise. An eval can fail. "Slow" means it takes about twice as long. Money reaches your bank about 4 business days after you ask.</p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="readyH">
+    <div class="row"><h2 id="readyH">Ready for you to upload</h2><span class="pill ok" id="readyPill">-</span></div>
+    <p class="note">Claude made these. Each one only needs your click. Tick the steps as you go (saved on this phone). Nothing posts by itself.</p>
+    <div id="ready"></div>
+  </section>
+
+  <section class="ag-card card" id="hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">Side work, all together</h2><span class="pill warn">ESTIMATE</span></div>
+    <p class="big ag-num" id="heroM3">-</p>
+    <p class="lead" id="heroText"></p>
+    <dl class="kv" id="heroKv"></dl>
+    <p class="note">An estimate is not income. "Real" means money that actually came in.</p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="tblH">
+    <h2 id="tblH">Each idea: $ a month (estimate)</h2>
+    <table class="tbl" id="tbl"><thead><tr><th>Idea</th><th class="n">Month 1</th><th class="n">Month 3</th><th class="n">Hours / week</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <section class="ag-card card" id="prop" aria-labelledby="propH" hidden>
+    <div class="row"><h2 id="propH">Prop accounts: $ to you a month</h2><span class="pill warn">ESTIMATE</span></div>
+    <p class="note">From a replay of past trades (<span id="propSpan">replay</span>). $ a month to you after fees. A bad month costs only the fees, never more.</p>
+    <div class="scroll"><table class="tbl" id="propTbl"><thead><tr><th>Accounts</th><th class="n">Year 1</th><th class="n">Months 7-12</th><th class="n">Worst month</th><th class="n">Months with $0</th><th class="n">2021-25</th></tr></thead><tbody></tbody></table></div>
+    <dl class="kv" id="propKv"></dl>
+    <ul id="propRules" class="note"></ul>
+  </section>
+
+  <section id="models" aria-label="The models"></section>
+
+  <section class="ag-card card" aria-labelledby="ideasH">
+    <div class="row"><h2 id="ideasH">New money ideas, best first</h2><span class="pill info" id="ideasPill">researched</span></div>
+    <p class="note" id="ideasHow"></p>
+    <table class="tbl" id="ideas"><thead><tr><th>Idea</th><th class="n">$ / hour</th><th class="n">$ / month</th><th>First $</th></tr></thead><tbody></tbody></table>
+    <div id="kits"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="costH">
+    <h2 id="costH">What you spent</h2>
+    <dl class="kv" id="costs"></dl>
+    <p class="note" id="costNote"></p>
+    <ul class="note" id="nextBuys"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="priceH">
+    <h2 id="priceH">Website prices you charge</h2>
+    <dl class="kv" id="prices"></dl>
+  </section>
+
+  <section class="ag-card card week" aria-labelledby="weekH">
+    <div class="row"><h2 id="weekH">7-day start plan</h2><span class="pill" id="weekPill">0 done</span></div>
+    <div id="week"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="rulesH">
+    <h2 id="rulesH">Rules we keep</h2>
+    <ul id="rules" class="note"></ul>
+  </section>
+
+  <p class="foot">This page only reads. It never trades, posts, emails or calls anyone.</p>
+</main>
+<script type="module" src="business.js?v=3"></script>
+</body>
+</html>

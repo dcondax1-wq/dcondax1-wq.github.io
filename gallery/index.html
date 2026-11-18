@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agora Gallery</title>
+<meta name="description" content="OLYMPUS AGORA GALLERY: every 3D shape of the Agora (columns, temple, amphora, owl, lyre, shield, ship, scales and more) on a rotating marble pedestal, with what each one stands for. Drag to turn, tap to look closer.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gallery">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- AGORA GALLERY (OLYMPUS, 2026-11-10): the viewer for olympus/shapes3d.js. gallerycore.js = the pure maths and the 2D drawings (node-tested); gallery.js = the page and the shelf (ES module, no three.js, so the
+     page is never blank); stage.js = the 3D stage on the kit's render core (loads three.js; if it cannot start, the 2D drawing stays). Read only: it reads fixture.json (the shelf) and sends nothing anywhere. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="gallery"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="gallery.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Agora Gallery</h1><p class="sub">The 3D shapes used across the apps, and what each means. Swipe to browse. Nothing to do.</p></div></div>
+    <div class="tags"><span id="sample" class="tag demo" hidden>SAMPLE</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <div class="seg views" id="views" role="group" aria-label="View"></div>
+  <section class="ag-card stagecard" id="stageCard" aria-label="The pedestal">
+    <div class="stage" id="stageBox">
+      <canvas id="stage" tabindex="0" role="img" aria-label="A 3D shape turning on a marble pedestal. Drag to turn it, tap to look closer."></canvas>
+      <div class="flat" id="flat" aria-hidden="true"><svg id="flatSvg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></svg><div class="flatrow" id="flatRow"></div></div>
+      <button class="nav prev" id="prev" type="button" aria-label="Previous shape">&#8249;</button>
+      <button class="nav next" id="next" type="button" aria-label="Next shape">&#8250;</button>
+      <p class="hint" id="hint">Drag to turn. Tap to look closer.</p>
+    </div>
+  </section>
+
+  <section class="ag-card card info" id="infoCard" aria-labelledby="shapeName">
+    <p class="ag-eyebrow" id="shapeGroup">Temples and monuments</p>
+    <h2 id="shapeName">Doric column</h2>
+    <p class="note" id="shapePos">Shape 1 of 19</p>
+    <p class="lead"><b>What it stands for:</b> <span id="shapeMeans"></span></p>
+    <div class="tiles">
+      <div class="tile"><small>Triangles</small><b id="tTris" class="ag-num">-</b><span id="tTrisNote"></span></div>
+      <div class="tile"><small>Draw calls</small><b id="tDraws" class="ag-num">-</b><span id="tDrawsNote"></span></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="focusBtn" type="button" aria-pressed="false">Look closer</button>
+      <div class="seg" id="quality" role="group" aria-label="Quality"></div>
+    </div>
+    <p class="note" id="qualityNote"></p>
+  </section>
+
+  <section class="ag-card card" id="buildCard" aria-labelledby="buildH" hidden>
+    <p class="ag-eyebrow">Scene builder</p>
+    <h2 id="buildH">Your scene</h2>
+    <p class="lead" id="buildCount">Tap shapes on the shelf below to put up to 6 on the pedestal.</p>
+    <div class="picked" id="picked"></div>
+    <div class="row"><button class="btn" id="buildClear" type="button">Clear</button><button class="btn primary" id="buildShare" type="button">Share</button></div>
+    <input class="link" id="shareUrl" type="text" readonly aria-label="Link to this scene" hidden>
+    <p class="note" id="buildNote"></p>
+  </section>
+
+  <section class="ag-card card" id="collCard" aria-labelledby="collH" hidden>
+    <p class="ag-eyebrow">Collection</p>
+    <h2 id="collH">Every shape at once</h2>
+    <p class="lead" id="collCount"></p>
+    <p class="lead"><b id="collName">Tap a shape</b> <span id="collMeans"></span></p>
+    <div class="row"><button class="btn" id="collOpen" type="button" disabled>Show on the pedestal</button></div>
+  </section>
+
+  <div class="chips" id="cats" role="group" aria-label="Category"></div>
+  <section id="shelf" class="shelf" aria-label="The shelf: every shape"></section>
+  <p class="foot">Built from olympus/shapes3d.js. Warm marble, bronze and gold; nothing here moves money.</p>
+</main>
+<script type="module" src="stage.js?v=a1"></script>
+<script type="module" src="gallery.js?v=a1"></script>
+</body>
+</html>

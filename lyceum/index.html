@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lyceum</title>
+<meta name="description" content="OLYMPUS LYCEUM: the school. A 5-question quiz each day on your own trading rules, streaks and Greek ranks, review cards made from your past mistakes, the three habits that cost you the most money, and a weekly report card.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lyceum">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- LYCEUM (OLYMPUS, AGORA look, 2026-11-10): the school. lyceumcore.js = the pure model (node-tested); lyceum.js = the page (ES module); lyceum3d.js = the marble lecture hall (optional).
+     Read only: it reads the site's published trades (../odeon/trades.json), ../home.json and the Journal's ratings on this phone (read only), plus fixture.json (DEMO, never blank). It keeps only its own progress on this phone and sends nothing. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="lyceum"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="lyceum.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Lyceum</h1><p class="sub">Learn your own trading rules: 5 quick questions a day, and the habits costing you $.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="rankH">
+    <div class="stage"><canvas id="stage" width="360" height="200" role="img" aria-label="A marble lecture hall with columns; each rank you earn adds a column and a laurel"></canvas></div>
+    <div class="row"><h2 id="rankH">Mathetes</h2><span class="pill gold" id="streakPill">0 day streak</span></div>
+    <p class="lead" id="rankNote"></p>
+    <div id="xpBar" class="ag-bar" role="img"><i></i></div>
+    <p class="note" id="xpLine"></p>
+  </section>
+
+  <section class="ag-card card" id="quizCard" aria-labelledby="quizH">
+    <div class="row"><h2 id="quizH">Today's 5 questions</h2><span class="pill" id="quizPill">...</span></div>
+    <div id="quizBody" class="qbody"></div>
+  </section>
+
+  <section class="ag-card card" id="habitsCard" aria-labelledby="habH">
+    <h2 id="habH">Your 3 habits costing money</h2>
+    <ul class="list" id="habits"></ul>
+    <p class="note" id="habNote"></p>
+  </section>
+
+  <section class="ag-card card" id="reviewCard" aria-labelledby="revH">
+    <div class="row"><h2 id="revH">Review your mistakes</h2><span class="pill" id="revPill">...</span></div>
+    <div id="revBody" class="qbody"></div>
+  </section>
+
+  <section class="ag-card card" id="reportCard" aria-labelledby="repH">
+    <div class="row"><h2 id="repH">Weekly report card</h2><span class="pill gold" id="grade">...</span></div>
+    <div class="tiles" id="repTiles"></div>
+    <p class="note" id="repNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="ladH">
+    <h2 id="ladH">The ranks</h2>
+    <details id="ladder"><summary>All seven ranks and what each adds to the hall</summary><ol class="plain" id="ranks"></ol></details>
+  </section>
+
+  <p class="foot" id="foot">Lyceum is practice, not advice. The questions are your own rules: the stop 1 tick beyond the sweep extreme, size follows the stop, one target banked at 8R, no greed (one trade a day), flat at 15:55 New York. It keeps its progress only on this phone, reads your Journal ratings without changing them, and never places or changes an order. Habit costs are estimates from your own ratings, in dollars with their R.</p>
+</main>
+<script type="module" src="lyceum.js?v=a1"></script>
+<script type="module" src="lyceum3d.js?v=q6c"></script>
+</body>
+</html>

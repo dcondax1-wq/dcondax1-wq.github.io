@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Atlas · Olym">
+<link rel="icon" href="icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#14110e"><meta name="color-scheme" content="dark">
+<title>Atlas · Olympus</title>
+<meta name="description" content="A fast visual map of the Olympus dashboards.">
+<link rel="stylesheet" href="atlas.css?v=8">
+<script src="../olympus/apps-list.js?v=o7" defer></script>
+<script src="../olympus/doors.js?v=d4" defer></script>
+<script src="atlas-intro.js?v=1" defer></script>
+<script src="atlas.js?v=9" defer></script>
+<script src="hub.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#results">Skip to dashboards</a>
+<header class="top">
+  <a class="home" href="./" aria-label="Olympus Atlas home">◈ <span>Olympus</span></a>
+  <span class="edition">Command center / Atlas</span>
+</header>
+<main>
+  <section class="hero" aria-labelledby="title">
+    <div class="hero-copy">
+      <p class="eyebrow">Olympus</p>
+      <h1 id="title">Every arena.<br><em>One command center.</em></h1>
+      <p class="lead">Search every app by plain words, open one of the four doors, and pin the rooms you use most.</p>
+      <div class="hero-actions"><a class="primary" href="#deckTitle">Open the arena map <span aria-hidden="true">↓</span></a><button class="secondary" type="button" data-focus-search>Find an arena <span aria-hidden="true">⌕</span></button></div>
+    </div>
+    <aside class="command-glass" aria-label="Olympus network overview">
+      
+      <strong>Everything in one map</strong>
+      <p>Choose a door now. <a href="../hub/doors.html">The four doors, short</a></p>
+      <dl><div><dt id="arenaTotal">32</dt><dd>arenas</dd></div><div><dt>4</dt><dd>doors</dd></div><div><dt id="pinTotal">0</dt><dd>pinned</dd></div></dl>
+    </aside>
+    <nav class="district-jump" aria-label="Jump to one of the four doors">
+      <button type="button" data-jump-filter="zeus"><span>01</span><strong>ZEUS Trading</strong><small>Accounts, bots, trades, rules</small></button>
+      <button type="button" data-jump-filter="money"><span>02</span><strong>Money</strong><small>Business, taxes, payouts</small></button>
+      <button type="button" data-jump-filter="kalshi"><span>03</span><strong>Kalshi</strong><small>The Kalshi bot (paused)</small></button>
+      <button type="button" data-jump-filter="more"><span>04</span><strong>More</strong><small>Research, my day, the rest</small></button>
+    </nav>
+    <section class="needs" id="needs" aria-label="What needs you now" aria-live="polite"><h2>What needs me now</h2><p id="needsText">Checking every room...</p><div id="needsList" class="needs-list"></div></section>
+    <nav class="spotlight" aria-label="Featured destinations"><a href="../oracle/"><span>ZEUS Trading</span><strong>Oracle</strong><small>Market radar ↗</small></a><a href="../datacity/"><span>More</span><strong>Data City</strong><small>Explore the data ↗</small></a><a href="../cities/"><span>Worlds</span><strong>Cities</strong><small>Enter the city map ↗</small></a><a href="../kalshicity/"><span>Kalshi</span><strong>Kalshi City</strong><small>Prediction markets ↗</small></a></nav>
+  </section>
+  <section class="deck" aria-labelledby="deckTitle">
+    <div class="deck-head"><div><p class="eyebrow">The full directory</p><h2 id="deckTitle">Choose your arena</h2></div><span id="count" class="count" aria-live="polite"></span></div>
+    <label class="search"><span aria-hidden="true">⌕</span><span class="sr">Search dashboards by name or purpose</span><input id="query" type="search" autocomplete="off" placeholder="Search: payout, taxes, accounts, kalshi"><kbd>/</kbd></label>
+    <div class="filters" role="group" aria-label="Dashboard categories">
+      <button data-filter="all" aria-pressed="true">All</button><button data-filter="favorites" aria-pressed="false">★ Favorites</button><button data-filter="zeus" aria-pressed="false">ZEUS Trading</button><button data-filter="money" aria-pressed="false">Money</button><button data-filter="kalshi" aria-pressed="false">Kalshi</button><button data-filter="more" aria-pressed="false">More</button>
+    </div>
+    <div class="viewbar"><button id="mapBtn" class="mapbtn" type="button" aria-pressed="false">All apps on one screen</button><span class="hint">Tip: press and hold a room to pin it</span></div>
+    <div id="pinned" class="recent" hidden></div>
+    <div id="recent" class="recent" hidden></div>
+    <div id="results" class="results" tabindex="-1"></div>
+    <p id="empty" class="empty" hidden>No dashboards match this search. Try another name or category.</p>
+  </section>
+</main>
+<footer>Olympus Atlas <span>·</span> <output id="saveStatus" role="status" aria-live="polite">Checking device storage…</output></footer>
+</body>
+</html>

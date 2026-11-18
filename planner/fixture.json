@@ -1,0 +1,70 @@
+{
+  "demo": true,
+  "note": "Example plan, not real. It only shows how the Planner looks. Tap Start my plan to begin with your own.",
+  "checklist": [
+    "Look at the news calendar for red-folder events",
+    "Mark the levels: the 18:00 open and the VIX band",
+    "Check the drawdown left on the account",
+    "Check the bot is on and its feed is fresh",
+    "Decide the one rule for today",
+    "I am present: no live order without me"
+  ],
+  "checkedToday": [0, 1, 2],
+  "projects": [
+    { "name": "Trading routine", "cat": "trading" },
+    { "name": "Money and bills", "cat": "money" },
+    { "name": "Health", "cat": "health" }
+  ],
+  "goals": [
+    { "name": "First payout", "argo": "g1", "pct": 60 },
+    { "name": "Journal 20 days in a row", "pct": 35 }
+  ],
+  "events": [
+    { "title": "Weekly review", "off": 6, "start": "16:30", "end": "17:15", "cat": "trading", "repeat": "weekly", "remind": 15 },
+    { "title": "Pre-session look at the levels", "off": 0, "start": "01:45", "end": "02:00", "cat": "trading", "repeat": "weekdays", "remind": 15 },
+    { "title": "Walk", "off": 0, "start": "17:30", "end": "18:15", "cat": "health", "repeat": "daily", "remind": 0 },
+    { "title": "Call the prop firm support", "off": 1, "start": "10:00", "end": "10:30", "cat": "work", "repeat": "none", "remind": 10 },
+    { "title": "Data subscription renews", "off": 3, "start": "", "end": "", "cat": "money", "repeat": "none", "remind": 1440 },
+    { "title": "Dinner with family", "off": 5, "start": "19:00", "end": "21:00", "cat": "life", "repeat": "none", "remind": 60 }
+  ],
+  "tasks": [
+    { "text": "Review yesterday's trade picture", "off": 0, "done": true, "slot": "08:30", "prio": 2, "project": "Trading routine", "lane": "today" },
+    { "text": "Reply to the prop firm support ticket", "off": 0, "done": false, "slot": "10:00", "prio": 3, "project": "Trading routine", "lane": "today",
+      "steps": [{ "text": "Find the ticket number", "done": true }, { "text": "Attach the screenshot", "done": false }, { "text": "Send", "done": false }] },
+    { "text": "Read the weekly report", "off": 0, "done": false, "slot": "", "prio": 1, "lane": "today" },
+    { "text": "Pay the data subscription", "off": 1, "done": false, "slot": "09:00", "prio": 2, "project": "Money and bills", "lane": "next" },
+    { "text": "Write up the Thursday idea", "off": 2, "done": false, "slot": "", "prio": 0, "project": "Trading routine", "lane": "next" },
+    { "text": "Book the dentist", "off": null, "done": false, "slot": "", "prio": 1, "project": "Health", "lane": "next" },
+    { "text": "Learn how scale-in works", "off": null, "done": false, "slot": "", "prio": 0, "lane": "someday" },
+    { "text": "Backup the trade pictures", "off": null, "done": false, "slot": "", "prio": 0, "project": "Money and bills", "lane": "someday" },
+    { "text": "Pay last month's card", "off": -3, "done": true, "slot": "", "prio": 2, "project": "Money and bills", "lane": "today" }
+  ],
+  "habits": [
+    { "name": "Journal the day", "hits": [1, 2, 3, 5, 6, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 21, 22, 24, 25, 26, 28] },
+    { "name": "Review the trades", "perWeek": 5, "hits": [1, 2, 4, 8, 9, 11, 15, 16, 18, 22, 23, 25, 29, 30] },
+    { "name": "Move: walk or train", "perWeek": 4, "hits": [0, 1, 3, 4, 6, 7, 10, 11, 13, 17, 20, 24, 27] }
+  ],
+  "notes": [
+    { "off": 0, "text": "One rule today: no second trade after a loss. Wait for the sweep, then the stop goes beyond the extreme.", "tags": ["daily", "rule"] },
+    { "off": -1, "text": "Quiet day. Skipped two setups that did not sweep a level. Good.", "tags": ["daily"] },
+    { "off": -4, "title": "Why the stop goes beyond the sweep", "text": "The stop sits one tick beyond the extreme made before the entry, never a fixed distance. A wide stop means fewer micros.", "tags": ["strategy", "rules"] },
+    { "off": -9, "title": "Book idea", "text": "Re-read the chapter on size and risk before the next eval.", "tags": ["study", "ideas"] }
+  ],
+  "review": { "off": -1, "rating": "plan", "mood": "calm", "lesson": "Waited for the sweep and skipped the rest.", "rule": "No second trade after a loss." },
+  "market": [
+    { "off": 1, "time": "08:30", "title": "Jobless claims", "impact": "low", "kind": "claims" },
+    { "off": 2, "time": "08:30", "title": "CPI (inflation)", "impact": "high", "kind": "cpi" },
+    { "off": 3, "time": "08:30", "title": "PPI", "impact": "med", "kind": "ppi" },
+    { "off": 5, "time": "", "title": "Options expiry", "impact": "med", "kind": "opex" },
+    { "off": 8, "time": "14:00", "title": "FOMC decision", "impact": "high", "kind": "fomc" },
+    { "off": 11, "time": "", "title": "Early close", "impact": "low", "kind": "early" }
+  ],
+  "bots": {
+    "line": "Example: LIT is watching for a sweep, no trade yet today.",
+    "accounts": [
+      { "key": "zlarior", "room": 1420, "mll": 2000 },
+      { "key": "atlas", "room": 840, "mll": 1000 },
+      { "key": "blitz", "room": 960, "mll": 1000 }
+    ]
+  }
+}

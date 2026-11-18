@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en" data-theme="agora"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="OLYMPUS Sound Lab: tap and hear every cue, place, world sound, recording and harp motif; A/B synth vs recorded, a loudness meter.">
+<title>OLYMPUS Sound Lab</title>
+<link rel="stylesheet" href="agora.css?v=a4">
+<style>
+:root{--bg:#14110e;--panel:#1d1914;--raise:#26211b;--line:#3a3228;--text:#f3ece0;--soft:#cfc4b2;--muted:#9a8f7d;--gold:#c8a24a;--bronze:#9c6b3c;--olive:#7f8a52}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text)}
+body{padding:16px 16px calc(28px + env(safe-area-inset-bottom));font:16px/1.4 -apple-system,'SF Pro Text',system-ui,sans-serif;max-width:720px;margin:0 auto}
+h1{font:600 28px/1.1 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;margin:4px 0 0}
+h1::after{content:"";display:block;width:56px;height:2px;margin-top:8px;background:linear-gradient(90deg,var(--gold),transparent)}
+h2{font:600 18px 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;margin:0 0 4px}
+.sub{color:var(--soft);font-size:14px;margin:8px 0 0}
+.card{background:linear-gradient(180deg,var(--raise),var(--panel));border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:14px 0;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.note{color:var(--muted);font-size:13px;margin:0 0 10px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+button{-webkit-tap-highlight-color:transparent;min-height:48px;border:1px solid var(--line);background:var(--raise);color:var(--text);border-radius:12px;font:600 15px -apple-system,system-ui,sans-serif;padding:6px 10px;cursor:pointer;touch-action:manipulation;transition:background .25s ease-out,border-color .25s ease-out}
+button small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
+button:active{background:#33291d}
+button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);background:#2a2217}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>button{flex:1 1 120px}
+.seg{display:flex;gap:6px}.seg button{flex:1}
+label.sl{display:grid;grid-template-columns:96px 1fr 44px;align-items:center;gap:10px;min-height:44px;color:var(--soft);font-size:14px}
+label.sl output{font-variant-numeric:tabular-nums;color:var(--text);text-align:right}
+input[type=range]{width:100%;accent-color:var(--gold);min-height:32px}
+#gate{border-color:var(--bronze)}
+#gate b{color:var(--gold)}
+#pad{display:block;width:100%;max-width:340px;aspect-ratio:1;margin:10px auto 6px;border-radius:50%;background:radial-gradient(circle,#2b241b 0%,#1a1611 70%);border:1px solid var(--line);touch-action:none}
+details summary{min-height:44px;display:flex;align-items:center;color:var(--soft);cursor:pointer}
+pre{background:var(--panel);border:1px solid var(--line);padding:10px;border-radius:10px;font-size:12px;overflow:auto;color:var(--soft);white-space:pre-wrap}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.hd span{color:var(--muted);font-size:13px}
+a{color:var(--gold)}
+.meter{display:grid;grid-template-columns:1fr 132px;gap:10px;align-items:center;margin-top:12px}
+.mt{position:relative;height:14px;border-radius:7px;background:var(--panel);border:1px solid var(--line);overflow:hidden}
+.mt i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--olive),var(--gold));transition:width .08s linear}
+.mt b{position:absolute;top:0;bottom:0;width:2px;left:0;background:var(--gold)}
+.meter output{font-variant-numeric:tabular-nums;color:var(--soft);font-size:12px;white-space:nowrap;text-align:right}
+h3{font:600 14px 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color:var(--soft);margin:12px 0 6px}
+table.m{border-collapse:collapse;font-size:12px;color:var(--soft);min-width:520px}
+table.m td,table.m th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:right;font-variant-numeric:tabular-nums}
+table.m td:first-child,table.m th:first-child{text-align:left}
+</style></head><body>
+<a href="../jarvis/" class="ag-back">&#8592; Jarvis</a>
+<h1>Sound Lab</h1>
+<p class="sub">Every OLYMPUS sound: real CC0 recordings (harp, wood, paper, bells, coins, steps, sea, wind, fire, crowds) layered with sound made in code.</p>
+
+<div class="card" id="gate" role="status" aria-live="polite"><b id="gateT">Tap anything to start the sound.</b>
+  <p class="note" id="gateN" style="margin:4px 0 0">Sound stays off until your first tap. On iPhone, the silent switch silences it too.</p></div>
+
+<section class="card" aria-labelledby="hMix">
+  <h2 id="hMix">Mix</h2>
+  <label class="sl">Master <input id="vMaster" type="range" min="0" max="1" step="0.01" aria-label="Master volume"><output id="oMaster"></output></label>
+  <div id="cats"></div>
+  <div class="row" style="margin-top:8px">
+    <button id="mute" aria-pressed="false">Mute all</button>
+    <button id="quiet" aria-pressed="false">Quiet</button>
+    <button id="duck">Someone speaks <small>ducks the places 3 s</small></button>
+  </div>
+  <p class="note" style="margin:12px 0 6px">Sound switch (shared with every app)</p>
+  <div class="seg" role="radiogroup" aria-label="Sound" id="snd">
+    <button data-snd="auto" role="radio">Auto</button><button data-snd="on" role="radio">On</button><button data-snd="off" role="radio">Off</button>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="hRec">
+  <div class="hd"><h2 id="hRec">Recorded layer</h2><span id="recFmt">-</span></div>
+  <p class="note" id="recSt">Real recordings load after your first tap. If one fails, the made-in-code sound plays instead.</p>
+  <p class="note" style="margin:0 0 6px">Hear (A/B for every button on this page)</p>
+  <div class="seg" role="radiogroup" aria-label="Hear" id="ab">
+    <button data-ab="rec" role="radio" aria-pressed="true">Recorded + synth</button><button data-ab="synth" role="radio" aria-pressed="false">Synth only</button>
+  </div>
+  <div class="row" style="margin-top:8px"><button id="abLast">A/B the last sound <small>synth, then recorded</small></button><button id="loadAll">Load every file <small id="loadAllN">4 MB on the shelf</small></button></div>
+  <div class="meter" aria-label="Output level"><div class="mt"><i id="mRms"></i><b id="mPk"></b></div><output id="mOut">- dBFS</output></div>
+  <p class="note" style="margin:6px 0 0">Meter: the bar is the level (RMS), the gold line the peak (held 1.5 s).</p>
+</section>
+
+<section class="card" aria-labelledby="hCues">
+  <div class="hd"><h2 id="hCues">Taps and cues</h2><span>key of D</span></div>
+  <div class="g" id="gCues"></div>
+</section>
+
+<section class="card" aria-labelledby="hPlaces">
+  <div class="hd"><h2 id="hPlaces">Places</h2><span>one plays at a time</span></div>
+  <p class="note">Each bed is layered and keeps changing. Tap again to stop.</p>
+  <div class="g" id="gPlaces"></div>
+  <details><summary>Old names in the apps (they play the new places)</summary><div class="g" id="gOld"></div></details>
+  <p class="note" style="margin:12px 0 6px">Room (the shared echo)</p>
+  <div class="seg" id="rooms"></div>
+</section>
+
+<section class="card" aria-labelledby="hWorld">
+  <h2 id="hWorld">World sounds</h2>
+  <p class="note">Pick one, then tap the circle to place it around you (you are the dot in the middle, facing up). Headphones help.</p>
+  <div class="g" id="gWorld"></div>
+  <canvas id="pad" width="680" height="680" aria-label="Tap to place the chosen sound around you" role="img"></canvas>
+  <div class="row"><button id="walk">Someone walks around you</button></div>
+</section>
+
+<section class="card" aria-labelledby="hBanks">
+  <div class="hd"><h2 id="hBanks">Every recording</h2><span id="banksN"></span></div>
+  <p class="note">Each button plays one family; tap again for the next take (a little pitch and level change each time).</p>
+  <div id="gBanks"></div>
+  <details><summary>Measured files (loudness, peaks, loop seams)</summary><div id="meas" style="overflow:auto"></div></details>
+</section>
+
+<section class="card" aria-labelledby="hMusic">
+  <h2 id="hMusic">Music</h2>
+  <p class="note">A calm harp (real folk harp notes) that writes itself for each district. Off by default; very quiet.</p>
+  <div class="row"><button id="music" aria-pressed="false">Music: off</button></div>
+  <div class="seg" id="dist" style="margin-top:8px"></div>
+</section>
+
+<details class="card"><summary>Engine state</summary><pre id="st"></pre></details>
+
+<script src="sfx.js"></script>
+<script>
+(function () {
+  var S = window.OLYMPUS_SFX, $ = function (id) { return document.getElementById(id); }, pick = 'step-stone', bed = '', ab = 'rec', last = null;
+  function mode() { return ab === 'synth' ? { synth: true } : undefined; }
+  if (!S) { $('gateT').textContent = 'The sound kit did not load.'; return; }
+  var CUE_LABEL = { tick: ['Tick', 'marble'], tap: ['Tap', 'soft pluck'], open: ['Open', 'harp rises'], close: ['Close', 'harp falls'], swipe: ['Swipe', 'air'],
+    toggle: ['Toggle on', 'up a fifth'], 'toggle-off': ['Toggle off', 'down'], success: ['Success', 'D - A - D'], warning: ['Warning', 'two warm notes'],
+    error: ['Error', 'muted string'], notify: ['Notification', 'bronze bell'], money: ['Money in', 'coins + lyre'], levelup: ['Level up', 'lyre run'],
+    portal: ['Portal', 'app opens'], thunder: ['Thunder', 'over the hills'], rankup: ['Rank up', 'old name'], pad: ['Pad', 'warm drone'] };
+  var PLACE_LABEL = { marble: 'Marble hall', agora: 'Agora crowd', workshop: 'Workshop', desert: 'Desert + camels', harbour: 'Harbour', night: 'Night crickets',
+    library: 'Library hush', colosseum: 'Colosseum', grove: 'Olive grove', temple: 'Temple wind', treasury: 'Treasury' };
+  var WORLD_LABEL = { 'step-stone': 'Steps: stone', 'step-sand': 'Steps: sand', 'step-wood': 'Steps: wood', hammer: 'Hammer + anvil', quill: 'Quill', scroll: 'Scroll',
+    coin: 'Coin', crate: 'Crate', cheer: 'Cheer', groan: 'Groan', door: 'Door', fire: 'Fire', page: 'Page turn', chime: 'Hand chime', drum: 'Frame drum', jingle: 'Their things' };
+  function btn(parent, label, sub, fn, attrs) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = label;
+    if (sub) { var s = document.createElement('small'); s.textContent = sub; b.appendChild(s); }
+    for (var k in (attrs || {})) b.setAttribute(k, attrs[k]);
+    b.addEventListener('click', function () { S.unlock(); fn(b); up(); }); parent.appendChild(b); return b;
+  }
+  ['tick', 'tap', 'open', 'close', 'swipe', 'toggle', 'toggle-off', 'success', 'warning', 'error', 'notify', 'money', 'levelup', 'portal', 'thunder', 'rankup', 'pad'].forEach(function (n) {
+    btn($('gCues'), CUE_LABEL[n][0], CUE_LABEL[n][1], function (b) {
+      if (n === 'pad') { if (S.state().padOn) S.stop('pad'); else S.play('pad'); b.setAttribute('aria-pressed', String(S.state().padOn)); return; }
+      if (!S.play(n, mode())) say(n); last = { k: 'play', n: n };
+    }, n === 'pad' ? { 'aria-pressed': 'false' } : null);
+  });
+  function setBed(n) {
+    bed = bed === n ? '' : n; S.ambience(true); S.ambient(bed);
+    document.querySelectorAll('[data-bed]').forEach(function (x) { x.setAttribute('aria-pressed', String(x.getAttribute('data-bed') === bed)); });
+    if (bed && !S.ambientState().playing) say('bed');
+  }
+  S.beds.forEach(function (n) { btn($('gPlaces'), PLACE_LABEL[n] || n, '', function () { setBed(n); }, { 'data-bed': n, 'aria-pressed': 'false' }); });
+  S.ambients.filter(function (n) { return S.beds.indexOf(n) < 0; }).forEach(function (n) {
+    btn($('gOld'), n, '= ' + (PLACE_LABEL[S.bedOf(n)] || S.bedOf(n)), function () { setBed(n); }, { 'data-bed': n, 'aria-pressed': 'false' });
+  });
+  S.rooms.forEach(function (r) { btn($('rooms'), r[0].toUpperCase() + r.slice(1), '', function () { S.room(r); markRoom(); }, { 'data-room': r }); });
+  function markRoom() { var r = S.state().room; document.querySelectorAll('[data-room]').forEach(function (x) { x.setAttribute('aria-pressed', String(x.getAttribute('data-room') === r)); }); }
+  S.worlds.forEach(function (n) {
+    btn($('gWorld'), WORLD_LABEL[n] || n, '', function (b) {
+      pick = n; document.querySelectorAll('[data-world]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      if (!S.play(n, mode())) say(n); last = { k: 'play', n: n };
+    }, { 'data-world': n, 'aria-pressed': String(n === pick) });
+  });
+  // the 3D pad: the listener at the centre facing up (-z); 1 px of the pad = 0.05 m, so the edge is 17 m away
+  var cv = $('pad'), g = cv.getContext('2d'), marks = [];
+  function draw() {
+    var w = cv.width, c = w / 2; g.clearRect(0, 0, w, w);
+    g.strokeStyle = '#3a3228'; g.lineWidth = 2; [0.33, 0.66, 0.98].forEach(function (k) { g.beginPath(); g.arc(c, c, c * k, 0, 7); g.stroke(); });
+    g.fillStyle = '#c8a24a'; g.beginPath(); g.arc(c, c, 14, 0, 7); g.fill();
+    g.beginPath(); g.moveTo(c, c - 34); g.lineTo(c - 10, c - 16); g.lineTo(c + 10, c - 16); g.fill();
+    var now = Date.now(); marks = marks.filter(function (m) { return now - m.t < 900; });
+    marks.forEach(function (m) { g.globalAlpha = 1 - (now - m.t) / 900; g.fillStyle = '#cfc4b2'; g.beginPath(); g.arc(m.x, m.y, 10 + (now - m.t) / 30, 0, 7); g.fill(); });
+    g.globalAlpha = 1; if (marks.length) requestAnimationFrame(draw);
+  }
+  function placeAt(px, py) {
+    var c = cv.width / 2, pos = { x: (px - c) * 0.05, y: 0, z: (py - c) * 0.05 };
+    marks.push({ x: px, y: py, t: Date.now() }); draw();
+    if (!S.at(pick, pos, { x: 0, y: 0, z: 0, yaw: 0 }, mode())) say(pick);
+  }
+  cv.addEventListener('pointerdown', function (e) {
+    S.unlock(); var r = cv.getBoundingClientRect(), k = cv.width / r.width; placeAt((e.clientX - r.left) * k, (e.clientY - r.top) * k); up();
+  });
+  var walking = 0;
+  $('walk').addEventListener('click', function () {
+    S.unlock(); if (walking) return; var i = 0, c = cv.width / 2;
+    walking = setInterval(function () {
+      var a = i * 0.32, px = c + Math.cos(a) * c * 0.6, py = c + Math.sin(a) * c * 0.6;
+      marks.push({ x: px, y: py, t: Date.now() }); draw();
+      walker.step({ x: (px - c) * 0.05, y: 0, z: (py - c) * 0.05 }, { x: 0, y: 0, z: 0, yaw: 0 }, mode());
+      if (++i > 20) { clearInterval(walking); walking = 0; }
+    }, 520);
+  });
+  // music
+  $('music').addEventListener('click', function () { S.unlock(); S.music(!S.musicState().on); up(); });
+  S.districts.forEach(function (d) { btn($('dist'), d[0].toUpperCase() + d.slice(1), '', function () { S.district(d); }, { 'data-d': d }); });
+  // mix
+  var vm = $('vMaster'); vm.value = S.state().volume; vm.addEventListener('input', function () { S.setVolume(+vm.value); up(); });
+  S.categories.forEach(function (c) {
+    var l = document.createElement('label'); l.className = 'sl'; l.textContent = { ui: 'Taps (UI)', ambience: 'Places', voices: 'Voices', world: 'World', music: 'Music' }[c] || c;
+    var r = document.createElement('input'); r.type = 'range'; r.min = 0; r.max = 1; r.step = 0.01; r.value = S.volume(c); r.setAttribute('aria-label', c + ' volume');
+    var o = document.createElement('output'); o.id = 'o_' + c;
+    r.addEventListener('input', function () { S.volume(c, +r.value); up(); });
+    r.addEventListener('change', function () { S.unlock(); S.play(c === 'world' ? 'coin' : c === 'music' ? 'notify' : 'tap'); });
+    l.appendChild(r); l.appendChild(o); $('cats').appendChild(l);
+  });
+  $('mute').addEventListener('click', function () { S.mute(); up(); });
+  $('quiet').addEventListener('click', function () { S.quiet(!S.quiet()); up(); });
+  $('duck').addEventListener('click', function () { S.unlock(); S.duck(true); S.play('notify'); setTimeout(function () { S.duck(false); up(); }, 3000); up(); });
+  $('snd').addEventListener('click', function (e) { var b = e.target.closest('[data-snd]'); if (!b) return; S.unlock(); var m = b.getAttribute('data-snd'); S.sound(m === 'auto' ? null : m === 'on'); up(); });
+  function say(what) {
+    var st = S.state(), am = S.ambientState(), t = st.muted ? 'Muted: tap Mute all to hear it.' : am.sound === false ? 'The Sound switch is Off: choose On or Auto.'
+      : !S.sound() ? 'Auto keeps cues quiet in LITE, reduced motion or battery saver: choose On.' : !st.unlocked ? 'Tap once more to start the sound.' : 'Skipped: too many sounds at once.';
+    $('gateN').textContent = t;
+  }
+  function up() {
+    var st = S.state(), am = S.ambientState(), ms = S.musicState(), v = S.volumes();
+    $('gateT').textContent = !st.unlocked ? 'Tap anything to start the sound.' : st.muted ? 'Muted.' : 'Sound is on. Room: ' + st.room + (am.playing ? ', place: ' + (PLACE_LABEL[am.bed] || am.bed) : '') + (ms.playing ? ', music: ' + ms.playing : '') + '.';
+    $('oMaster').textContent = Math.round(st.volume * 100);
+    S.categories.forEach(function (c) { var o = $('o_' + c); if (o) o.textContent = Math.round(v[c] * 100); });
+    $('mute').setAttribute('aria-pressed', String(st.muted)); $('mute').textContent = st.muted ? 'Unmute' : 'Mute all';
+    $('quiet').setAttribute('aria-pressed', String(st.quiet));
+    $('music').setAttribute('aria-pressed', String(ms.on)); $('music').textContent = 'Music: ' + (ms.on ? (ms.playing || 'on') : 'off');
+    document.querySelectorAll('[data-d]').forEach(function (x) { x.setAttribute('aria-pressed', String(x.getAttribute('data-d') === (ms.district || ms.playing))); });
+    var sm = am.sound === true ? 'on' : am.sound === false ? 'off' : 'auto';
+    document.querySelectorAll('[data-snd]').forEach(function (x) { x.setAttribute('aria-checked', String(x.getAttribute('data-snd') === sm)); x.setAttribute('aria-pressed', String(x.getAttribute('data-snd') === sm)); });
+    markRoom();
+    var sm2 = st.samples || {}; $('recFmt').textContent = sm2.fmt ? sm2.fmt.toUpperCase() : '-';
+    $('recSt').textContent = !st.unlocked ? 'Real recordings load after your first tap. If one fails, the made-in-code sound plays instead.' : !sm2.on ? 'Synth only (A/B).' : (sm2.loaded || []).length + ' of ' + sm2.files + ' files ready (' + sm2.kb + ' kB)' + ((sm2.failed || []).length ? ', ' + sm2.failed.length + ' failed: the synth plays' : '') + '; ' + sm2.played + ' recorded plays.';
+    $('st').textContent = JSON.stringify({ engine: st, place: am, music: ms }, null, 1);
+  }
+  S.onUnlock(function () { setTimeout(up, 50); });
+  document.addEventListener('pointerdown', function () { setTimeout(up, 60); }, true);
+  setInterval(function () { if (!document.hidden) up(); }, 2000);
+  // the recorded layer: A/B, every bank, the meter, the measured files
+  var walker = S.walker ? S.walker({ kind: 'keeper', surface: 'stone' }) : { step: function (p, l, o) { S.at('step-stone', p, l, o); } };
+  $('ab').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-ab]'); if (!b) return; S.unlock(); ab = b.getAttribute('data-ab');
+    S.samples(ab !== 'synth', false); if (bed) { var keep = bed; S.ambient(''); S.ambient(keep); }
+    document.querySelectorAll('[data-ab]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); x.setAttribute('aria-checked', String(x === b)); }); up();
+  });
+  $('abLast').addEventListener('click', function () {
+    S.unlock(); var L = last || { k: 'play', n: 'success' };
+    if (L.k === 'bank') { S.sample(L.n, { gain: 0.3 }); return; }
+    S.play(L.n, { synth: true }); setTimeout(function () { S.play(L.n); }, 1300);
+  });
+  $('loadAll').addEventListener('click', function () { S.unlock(); $('loadAllN').textContent = 'loading...'; S.preload('all').then(function (ok) { $('loadAllN').textContent = ok ? 'all ready' : 'some failed: the synth plays'; up(); }); });
+  var FAM = {}, BANK_LABEL = { tap: 'Wood tap', tick: 'Tiny click', toggle: 'Switch', paper: 'Paper', chime: 'Hand chimes', shimmer: 'Finger cymbal', bell: 'Small bells',
+    coin: 'Coins', harp: 'Folk harp', harplo: 'Harp, low', 'step-stone': 'Steps: stone', 'step-sand': 'Steps: sand', 'step-wood': 'Steps: wood', 'step-leaves': 'Steps: leaves',
+    anvil: 'Anvil', smith: 'Smith hammer', tool: 'Tools', quill: 'Pen on paper', page: 'Book pages', scroll: 'Map unfolds', door: 'Door', crate: 'Crate', whoosh: 'Fire whoosh',
+    keys: 'Keys', metal: 'Armour', beads: 'Beads', cloth: 'Cloth', pouch: 'Coin pouch', jingle: 'Little bells', rustle: 'Leaves', pour: 'Coins poured', count: 'Coins counted',
+    gull: 'Gulls', wave: 'Waves break', chirp: 'Birds', clap: 'Claps', drum: 'Frame drum', cheer: 'Crowd cheers', camel: 'Camel bells', windchime: 'Wind chimes' };
+  var A = S.audio || { banks: {}, files: {}, loops: {} };
+  Object.keys(A.banks).forEach(function (b) { var f = A.banks[b][0]; (FAM[f] = FAM[f] || []).push(b); });
+  Object.keys(FAM).forEach(function (f) {
+    var h = document.createElement('h3'); h.textContent = f + (A.files[f] ? ' · ' + Math.round(A.files[f][1]) + ' kB' : ''); $('gBanks').appendChild(h);
+    var g = document.createElement('div'); g.className = 'g'; $('gBanks').appendChild(g);
+    FAM[f].forEach(function (b) {
+      var n = A.banks[b][1].length, k = 0;
+      btn(g, BANK_LABEL[b] || b, n + (n > 1 ? ' takes' : ' take'), function (el) {
+        last = { k: 'bank', n: b };
+        if (!S.sample(b, { gain: 0.3, i: (k++) % n })) {
+          el.querySelector('small').textContent = 'loading...';
+          S.preload([f]).then(function (ok) { el.querySelector('small').textContent = ok ? n + (n > 1 ? ' takes' : ' take') : 'failed: synth'; if (ok) S.sample(b, { gain: 0.3 }); });
+        }
+      }, { 'data-bank': b });
+    });
+  });
+  var h3 = document.createElement('h3'); h3.textContent = 'Bed loops (under each place)'; $('gBanks').appendChild(h3);
+  $('banksN').textContent = Object.keys(A.banks).length + ' families, ' + Object.keys(A.loops).length + ' loops';
+  var gl = document.createElement('div'); gl.className = 'g'; $('gBanks').appendChild(gl);
+  var LOOP_PLACE = { crowd: 'agora', applause: 'colosseum', fire: 'workshop', wind: 'desert', gusts: 'desert', sea: 'harbour', crickets: 'night', birds: 'grove', brook: 'grove' };
+  Object.keys(A.loops).forEach(function (l) {
+    btn(gl, l, (PLACE_LABEL[LOOP_PLACE[l]] || '') + ' · ' + Math.round(A.loops[l][1]) + ' s', function () { if (bed !== LOOP_PLACE[l]) setBed(LOOP_PLACE[l]); }, { 'data-loop': l });
+  });
+  try {
+    fetch('../assets/audio/manifest.json').then(function (r) { return r.json(); }).then(function (m) {
+      var rows = (m.measure || []).map(function (r) {
+        return '<tr><td>' + r.file + '</td><td>' + r.ogg_kb + ' / ' + r.m4a_kb + '</td><td>' + r.lufs + '</td><td>' + r.ogg_peak + ' / ' + r.m4a_peak + '</td><td>' + r.centroid + '</td><td>' + (r.kind === 'loop' ? r.seam_jump + ' / ' + r.seam_step_db + ' dB' : '-') + '</td></tr>';
+      }).join('');
+      $('meas').innerHTML = '<table class="m"><tr><th>file</th><th>kB ogg / m4a</th><th>LUFS</th><th>peak dBFS</th><th>centroid Hz</th><th>loop seam</th></tr>' + rows + '</table><p class="note">Total ' + (m.total_kb / 1024).toFixed(2) + ' MB on the shelf; a phone loads one format, only what a place needs.</p>';
+    }, function () { $('meas').textContent = 'The measurements are not available offline yet.'; });
+  } catch (e) {}
+  var pkHold = -120, pkT = 0, metering = false;
+  function meterLoop() {
+    var m = S.meter ? S.meter() : { rms: -120, peak: -120 }, now = Date.now();
+    if (m.peak > pkHold || now - pkT > 1500) { pkHold = m.peak; pkT = now; }
+    var w = function (d) { return Math.max(0, Math.min(100, (d + 60) / 60 * 100)); };
+    $('mRms').style.width = w(m.rms) + '%'; $('mPk').style.left = w(pkHold) + '%';
+    $('mOut').textContent = (m.rms > -119 ? m.rms.toFixed(1) : '-') + ' / ' + (pkHold > -119 ? pkHold.toFixed(1) : '-') + ' dBFS';
+    if (!document.hidden) requestAnimationFrame(meterLoop); else setTimeout(meterLoop, 500);
+  }
+  S.onUnlock(function () { if (!metering) { metering = true; setTimeout(meterLoop, 100); } });
+  draw(); up();
+})();
+</script></body></html>

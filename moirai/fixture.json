@@ -1,0 +1,99 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "Defaults from the bot's own 2026 backtest (run lit_live, costs in): a simulation input, not real fills and not a forecast. EXAMPLE settings, not real results of any eval.",
+ "source": {
+  "run": "research/runs/lit_live.json",
+  "from": "2026-01-02",
+  "to": "2026-10-14",
+  "trades": 120,
+  "pnl_usd": 43820,
+  "median_risk_usd": 282
+ },
+ "defaults": {
+  "win": 0.267,
+  "scratch": 0.292,
+  "avg_win_r": 4.49,
+  "avg_loss_r": 0.88,
+  "tpw": 3.08,
+  "risk_pct": 0.6,
+  "seed": 2026
+ },
+ "presets": [
+  {
+   "id": "lit26",
+   "label": "LIT 2026",
+   "win": 0.267,
+   "scratch": 0.292,
+   "avg_win_r": 4.49,
+   "avg_loss_r": 0.88,
+   "tpw": 3.08,
+   "risk_pct": 0.6
+  },
+  {
+   "id": "h2",
+   "label": "Jul-Oct only",
+   "win": 0.35,
+   "scratch": 0.15,
+   "avg_win_r": 3.42,
+   "avg_loss_r": 0.91,
+   "tpw": 2.69,
+   "risk_pct": 0.6
+  },
+  {
+   "id": "half",
+   "label": "Half the edge",
+   "win": 0.2,
+   "scratch": 0.292,
+   "avg_win_r": 3.14,
+   "avg_loss_r": 0.88,
+   "tpw": 3.08,
+   "risk_pct": 0.6
+  },
+  {
+   "id": "coin",
+   "label": "Coin flip 1R",
+   "win": 0.5,
+   "scratch": 0,
+   "avg_win_r": 1.0,
+   "avg_loss_r": 1.0,
+   "tpw": 3.08,
+   "risk_pct": 0.6
+  }
+ ],
+ "rules": {
+  "b50": {
+   "start": 50000,
+   "target": 3000.0,
+   "mll": 2000.0,
+   "lock": 100.0,
+   "dll": 1000.0,
+   "price": 91.8
+  },
+  "atlas": {
+   "start": 25000,
+   "target": 1500.0,
+   "mll": 1000.0,
+   "lock": 100.0,
+   "dll": 600.0,
+   "price": 43
+  },
+  "blitz": {
+   "start": 25000,
+   "target": 1500.0,
+   "mll": 1000.0,
+   "lock": 100.0,
+   "dll": 600.0,
+   "price": 63
+  },
+  "horizon": 30,
+  "min_days": 2,
+  "cons": 0.5,
+  "notes": {
+   "consistency": "MFFU's Builder eval has no best-day rule (confirmed in research/lit/mffu_rules.json); the 50% rule is for payouts. The switch applies it to the eval as a stress test.",
+   "min_days": "MFFU's help guides say a pass can come in 1 trading day; the plan page table says 2. The simulation uses 2.",
+   "dll": "Soft daily loss limit: trading is paused for the rest of the session, the account stays open.",
+   "plans": "ATLAS 25K and BLITZ 25K both run on a Builder 25K account (target $1,500, max loss $1,000, daily loss $600); the prices are the owner's ($43 and $63). Their own odds are not in this file: set them yourself."
+  }
+ }
+}

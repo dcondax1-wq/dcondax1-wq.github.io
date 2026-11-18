@@ -1,0 +1,21 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE trades, not real: two made-up weeks (wk 0 = this week, -1 = last week; dow 0 = Monday) and a made-up Mnemosyne card, shown until the site's own trades are there.",
+  "trades": [
+    { "wk": 0, "dow": 0, "side": "LONG", "qty": 6, "usd": 566, "r": 1.33, "risk_usd": 425, "mfe_r": 1.4, "mae_r": 0.2, "held_min": 64, "exit": { "kind": "TARGET" }, "bot": "LIT" },
+    { "wk": 0, "dow": 1, "side": "SHORT", "qty": 5, "usd": -437, "r": -1.03, "risk_usd": 425, "mfe_r": 0.3, "mae_r": 1.03, "held_min": 19, "exit": { "kind": "STOP" }, "bot": "LIT" },
+    { "wk": 0, "dow": 1, "side": "LONG", "qty": 4, "usd": -12, "r": -0.03, "risk_usd": 425, "mfe_r": 1.1, "mae_r": 0.4, "held_min": 41, "exit": { "kind": "BE" }, "bot": "LIT" },
+    { "wk": 0, "dow": 2, "side": "SHORT", "qty": 7, "usd": 640, "r": 1.5, "risk_usd": 425, "mfe_r": 1.6, "mae_r": 0.3, "held_min": 95, "exit": { "kind": "TARGET" }, "bot": "LIT" },
+    { "wk": 0, "dow": 3, "side": "LONG", "qty": 5, "usd": -380, "r": -0.89, "risk_usd": 425, "mfe_r": 0.3, "mae_r": 0.9, "held_min": 15, "exit": { "kind": "CUT" }, "bot": "LIT" },
+    { "wk": 0, "dow": 3, "side": "SHORT", "qty": 6, "usd": 310, "r": 0.73, "risk_usd": 425, "mfe_r": 2.4, "mae_r": 0.2, "held_min": 220, "exit": { "kind": "FLAT" }, "bot": "LIT" },
+    { "wk": -1, "dow": 0, "side": "LONG", "qty": 6, "usd": 412, "r": 0.97, "risk_usd": 425, "mfe_r": 1.1, "mae_r": 0.3, "held_min": 80, "exit": { "kind": "TARGET" }, "bot": "LIT" },
+    { "wk": -1, "dow": 2, "side": "SHORT", "qty": 5, "usd": -560, "r": -1.32, "risk_usd": 425, "mfe_r": 0.1, "mae_r": 1.32, "held_min": 12, "exit": { "kind": "STOP" }, "bot": "LIT" },
+    { "wk": -1, "dow": 4, "side": "LONG", "qty": 7, "usd": 319, "r": 0.75, "risk_usd": 425, "mfe_r": 0.9, "mae_r": 0.4, "held_min": 110, "exit": { "kind": "FLAT" }, "bot": "LIT" }
+  ],
+  "card": {
+    "v": 1, "name": "MNEMOSYNE", "status": { "level": "off", "label": "Demo journal" },
+    "kpis": [{ "label": "Rated", "value": "11 of 14" }, { "label": "Interfered", "value": "-$1,228" }, { "label": "Plan streak", "value": "1 day" }],
+    "lines": ["You interfered on 2 of your last 9 trades, it cost $838.", "Next week: once I am in, I do not touch the stop or the target"], "t": 1793394000
+  }
+}

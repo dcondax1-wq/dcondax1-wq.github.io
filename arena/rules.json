@@ -1,0 +1,63 @@
+{
+  "v": 1,
+  "about": "ARENA rules (tools/arena/score.py = tools/web_public/arena/rules.js): XP only from verifiable events, never from $, size, R or trades past the plan.",
+  "level_xp": 250,
+  "xp": {
+    "bot_day":     {"xp": 20,  "cap_day": 1, "label": "Bot ran the market day", "src": "site", "why": "The PC heartbeat was up 90%+ of the 01:30-16:30 ET window (data.json perf.status, Surface heartbeat)"},
+    "bot_down":    {"xp": 0,   "cap_day": 1, "label": "Bot down most of the day", "src": "site", "why": "Heartbeat up under 50% of the window: no XP, the uptime streak resets"},
+    "clean_trade": {"xp": 25,  "cap_day": 2, "label": "Trade inside every rule", "src": "site", "why": "Stop beyond the sweep, entry 02:00-15:30, flat by 15:55, 1 a day, closed by the bot (data.json accounts)"},
+    "rule_broken": {"xp": 0,   "cap_day": 9, "label": "A rule was broken", "src": "site", "why": "A manual exit, a missing stop, a second trade or a time rule: no XP, the discipline streak resets"},
+    "plan_week":   {"xp": 60,  "cap_day": 1, "label": "Plan week (2-4 clean trades)", "src": "site", "why": "A finished week with 2-4 Zlarior trades, every one inside the rules; 5+ trades earn nothing"},
+    "green_week":  {"xp": 40,  "cap_day": 1, "label": "Green week inside the rules", "src": "site", "why": "A finished week that closed green with every trade inside the rules (the $ size never counts)"},
+    "lapse":       {"xp": 0,   "cap_day": 9, "label": "7-day inactivity lapse", "src": "site", "why": "An eval account went 7+ days without a trade: no XP, a warning"},
+    "eval_passed": {"xp": 500, "cap_day": 9, "label": "Eval passed", "src": "site", "why": "An account's eval status says passed, or it is funded (data.json accounts)"},
+    "payout":      {"xp": 400, "cap_day": 9, "label": "Payout", "src": "site", "why": "A payout recorded on a funded account (data.json accounts funded.payouts); flat XP whatever the amount"},
+    "task_done":   {"xp": 5,   "cap_day": 6, "label": "Planner task done", "src": "planner", "why": "A task ticked done in the Planner on this phone (6 a day count)"},
+    "goal_day":    {"xp": 20,  "cap_day": 1, "label": "Daily goal met", "src": "planner", "why": "Every habit checked in, or every task of the day done (Planner on this phone)"},
+    "habit":       {"xp": 5,   "cap_day": 3, "label": "Habit check-in", "src": "planner", "why": "A habit logged in the Planner (3 a day count)"},
+    "journal":     {"xp": 15,  "cap_day": 1, "label": "Daily note written", "src": "obsidian", "why": "A daily note for that date in the Obsidian vault (cached on this phone)"},
+    "kalshi_day":  {"xp": 10,  "cap_day": 1, "label": "Kalshi bot ran", "src": "kalshi", "why": "The Kalshi bot's own feed lists the day (kalshi.json days); its P&L never counts"},
+    "quest":       {"xp": 15,  "cap_day": 3, "label": "Daily quest", "src": "quest", "why": "Verified on this phone from the quest's own source"},
+    "quest_sweep": {"xp": 25,  "cap_day": 1, "label": "All 3 quests", "src": "quest", "why": "All three of the day's quests verified"},
+    "boss":        {"xp": 100, "cap_day": 4, "label": "Weekly boss slain", "src": "quest", "why": "A discipline boss beaten for the finished week (follow the plan, no revenge trade, journal, daily goal), checked on this phone from the week's events; $, size and R never count"}
+  },
+  "ranks": [
+    {"id": "mortal",   "name": "Mortal",   "xp": 0,     "glyph": "M", "color": "#9aa4b2"},
+    {"id": "hero",     "name": "Hero",     "xp": 1000,  "glyph": "H", "color": "#e0a060"},
+    {"id": "demigod",  "name": "Demigod",  "xp": 3000,  "glyph": "D", "color": "#dfe7f5"},
+    {"id": "olympian", "name": "Olympian", "xp": 7000,  "glyph": "O", "color": "#ffcf5a"},
+    {"id": "titan",    "name": "Titan",    "xp": 15000, "glyph": "T", "color": "#ff9d3a"}
+  ],
+  "streaks": [
+    {"id": "uptime",     "name": "Bot uptime",  "unit": "market days", "type": "seq",   "kinds": ["bot_day"],     "breaks": ["bot_down"]},
+    {"id": "discipline", "name": "Hands off",   "unit": "trades",      "type": "seq",   "kinds": ["clean_trade"], "breaks": ["rule_broken"]},
+    {"id": "planner",    "name": "Daily goal",  "unit": "days",        "type": "daily", "kinds": ["goal_day"],    "breaks": []},
+    {"id": "journal",    "name": "Daily note",  "unit": "days",        "type": "daily", "kinds": ["journal"],     "breaks": []},
+    {"id": "quests",     "name": "Quest sweep", "unit": "days",        "type": "daily", "kinds": ["quest_sweep"], "breaks": []}
+  ],
+  "labours": [
+    {"id": "lion",     "n": 1,  "name": "The Nemean Lion",              "task": "Pass your first eval",                      "metric": {"count": "eval_passed"}, "goal": 1},
+    {"id": "hydra",    "n": 2,  "name": "The Lernaean Hydra",           "task": "30-day bot uptime: 21 market days in a row", "metric": {"best": "uptime"},       "goal": 21},
+    {"id": "hind",     "n": 3,  "name": "The Ceryneian Hind",           "task": "First payout",                              "metric": {"count": "payout"},      "goal": 1},
+    {"id": "boar",     "n": 4,  "name": "The Erymanthian Boar",         "task": "4 green weeks inside the rules",            "metric": {"count": "green_week"},  "goal": 4},
+    {"id": "stables",  "n": 5,  "name": "The Augean Stables",           "task": "Meet the daily goal 7 days in a row",       "metric": {"best": "planner"},      "goal": 7},
+    {"id": "birds",    "n": 6,  "name": "The Stymphalian Birds",        "task": "25 trades inside every rule",               "metric": {"count": "clean_trade"}, "goal": 25},
+    {"id": "bull",     "n": 7,  "name": "The Cretan Bull",              "task": "Hands off: 10 clean trades in a row",       "metric": {"best": "discipline"},   "goal": 10},
+    {"id": "mares",    "n": 8,  "name": "The Mares of Diomedes",        "task": "4 plan weeks (2-4 clean trades)",           "metric": {"count": "plan_week"},   "goal": 4},
+    {"id": "belt",     "n": 9,  "name": "The Belt of Hippolyta",        "task": "100 Planner tasks done",                    "metric": {"count": "task_done"},   "goal": 100},
+    {"id": "geryon",   "n": 10, "name": "The Cattle of Geryon",         "task": "30 daily notes in Obsidian",                "metric": {"count": "journal"},     "goal": 30},
+    {"id": "apples",   "n": 11, "name": "The Apples of the Hesperides", "task": "All 3 daily quests, 7 days in a row",       "metric": {"best": "quests"},       "goal": 7},
+    {"id": "cerberus", "n": 12, "name": "Cerberus",                     "task": "Reach the Olympian rank",                   "metric": {"rank": "olympian"},     "goal": 1}
+  ],
+  "quests": [
+    {"id": "bots_watch",    "title": "Bots on watch",            "text": "The PC bot's heartbeat is fresh today",                       "needs": "market",   "lane": "trade", "src": "live.json / data.json"},
+    {"id": "hands_off",     "title": "Hands off",                "text": "No manual order or exit today, checked after the 15:55 flat", "needs": "market",   "lane": "trade", "src": "data.json trades"},
+    {"id": "clear_tasks",   "title": "Clear {n} Planner tasks",  "text": "Tick {n} of today's tasks done",                              "needs": "planner",  "lane": "life",  "src": "Planner"},
+    {"id": "habit",         "title": "Check in a habit",         "text": "Log one habit in the Planner",                                "needs": "habits",   "lane": "life",  "src": "Planner"},
+    {"id": "daily_note",    "title": "Write today's daily note", "text": "A daily note dated today in your vault",                      "needs": "vault",    "lane": "life",  "src": "Obsidian"},
+    {"id": "plan_tomorrow", "title": "Plan tomorrow",            "text": "At least one task dated tomorrow",                            "needs": "planner",  "lane": "life",  "src": "Planner"},
+    {"id": "kalshi_up",     "title": "Kalshi bot running",       "text": "The Kalshi feed says running, updated today",                 "needs": "kalshi",   "lane": "life",  "src": "kalshi.json"},
+    {"id": "link_planner",  "title": "Link the Planner",         "text": "Open the Planner once on this phone",                         "needs": "!planner", "lane": "setup", "src": "Planner"},
+    {"id": "link_vault",    "title": "Connect Obsidian",         "text": "In Jarvis: Obsidian, connect your vault",                     "needs": "!vault",   "lane": "setup", "src": "Obsidian"}
+  ]
+}

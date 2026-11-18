@@ -1,0 +1,218 @@
+{
+ "demo": true,
+ "note": "Example businesses, not real: every number is a fictional 555-01xx number (never dialed) and every web address is example.com. Shown until you import your own leads; nothing here is saved.",
+ "settings": {
+  "me": "Sam Rivera",
+  "biz": "Bright Sites",
+  "city": "Tampa",
+  "phone": "(813) 555-0100",
+  "address": "PO Box 100, Tampa, FL 33601",
+  "price": "$499",
+  "defaultState": "FL"
+ },
+ "leads": [
+  {
+   "id": "d-taco",
+   "name": "Taco Town",
+   "phone": "(813) 555-0142",
+   "contact": "Maria Lopez",
+   "city": "Tampa",
+   "state": "FL",
+   "category": "restaurant",
+   "demo": "https://example.com/demo/taco-town",
+   "issue": "your menu is a PDF that is hard to read on a phone",
+   "source": "Google Maps",
+   "dnc": "clear",
+   "dncChecked": "2026-11-10",
+   "lineConfirmed": "2026-11-10"
+  },
+  {
+   "id": "d-smile",
+   "name": "Bright Smile Dental",
+   "phone": "(512) 555-0117",
+   "contact": "Dr. Anita Patel",
+   "city": "Austin",
+   "state": "TX",
+   "category": "dentist",
+   "demo": "https://example.com/demo/bright-smile",
+   "issue": "new patients cannot book online",
+   "stage": "calling",
+   "lineConfirmed": "2026-11-10"
+  },
+  {
+   "id": "d-acme",
+   "name": "Acme Plumbing & Heating",
+   "phone": "(614) 555-0123",
+   "city": "Columbus",
+   "state": "OH",
+   "category": "plumber",
+   "lineType": "mobile",
+   "demo": "https://example.com/demo/acme-plumbing",
+   "source": "Google Maps"
+  },
+  {
+   "id": "d-glow",
+   "name": "Glow Nail Studio",
+   "phone": "(213) 555-0181",
+   "contact": "Kim",
+   "city": "Los Angeles",
+   "state": "CA",
+   "category": "nail salon",
+   "demo": "https://example.com/demo/glow-nails",
+   "lineConfirmed": "2026-11-12"
+  },
+  {
+   "id": "d-main",
+   "name": "Main Street Auto",
+   "phone": "(412) 555-0166",
+   "contact": "Dave",
+   "city": "Pittsburgh",
+   "state": "PA",
+   "category": "auto repair",
+   "stage": "calling",
+   "lineConfirmed": "2026-11-12"
+  },
+  {
+   "id": "d-iron",
+   "name": "Iron Temple Gym",
+   "phone": "(303) 555-0190",
+   "contact": "Chris",
+   "city": "Denver",
+   "state": "CO",
+   "category": "gym",
+   "stage": "callback",
+   "callbackIn": 60,
+   "lineConfirmed": "2026-11-12"
+  },
+  {
+   "id": "d-lake",
+   "name": "Lakeside Law",
+   "phone": "(312) 555-0135",
+   "contact": "Jordan Lee",
+   "city": "Chicago",
+   "state": "IL",
+   "category": "law firm",
+   "stage": "interested",
+   "consentText": {
+    "on": "2026-11-12",
+    "how": "said yes on the call"
+   },
+   "demo": "https://example.com/demo/lakeside-law",
+   "lineConfirmed": "2026-11-12"
+  },
+  {
+   "id": "d-books",
+   "name": "Corner Books",
+   "phone": "(401) 555-0158",
+   "city": "Providence",
+   "state": "RI",
+   "category": "bookstore",
+   "lineConfirmed": "2026-11-12"
+  },
+  {
+   "id": "d-sun",
+   "name": "Sunset Diner",
+   "phone": "(602) 555-0144",
+   "city": "Phoenix",
+   "state": "AZ",
+   "category": "diner",
+   "stage": "calling",
+   "lineConfirmed": "2026-11-12"
+  },
+  {
+   "id": "d-hill",
+   "name": "Hilltop Roofing",
+   "phone": "(615) 555-0172",
+   "city": "Nashville",
+   "state": "TN",
+   "category": "roofing",
+   "dnc": "listed",
+   "dncChecked": "2026-11-10"
+  },
+  {
+   "id": "d-bayou",
+   "name": "Bayou Bistro",
+   "phone": "(504) 555-0129",
+   "city": "New Orleans",
+   "state": "LA",
+   "category": "restaurant",
+   "optout": true
+  }
+ ],
+ "log": [
+  {
+   "id": "d-lake",
+   "k": "dial",
+   "ago": 2885,
+   "o": "interested"
+  },
+  {
+   "id": "d-lake",
+   "k": "interested",
+   "ago": 2880,
+   "dial": true
+  },
+  {
+   "id": "d-smile",
+   "k": "dial",
+   "ago": 4325,
+   "o": "voicemail"
+  },
+  {
+   "id": "d-smile",
+   "k": "voicemail",
+   "ago": 4320,
+   "dial": true
+  },
+  {
+   "id": "d-smile",
+   "k": "email",
+   "ago": 4310,
+   "key": "e1"
+  },
+  {
+   "id": "d-main",
+   "k": "dial",
+   "ago": 1505,
+   "o": "noanswer"
+  },
+  {
+   "id": "d-main",
+   "k": "noanswer",
+   "ago": 1500,
+   "dial": true
+  },
+  {
+   "id": "d-iron",
+   "k": "dial",
+   "ago": 1450,
+   "o": "callback"
+  },
+  {
+   "id": "d-iron",
+   "k": "callback",
+   "ago": 1445,
+   "dial": true
+  },
+  {
+   "id": "d-sun",
+   "k": "dial",
+   "ago": 50,
+   "o": "noanswer"
+  },
+  {
+   "id": "d-sun",
+   "k": "noanswer",
+   "ago": 45,
+   "dial": true
+  },
+  {
+   "id": "d-bayou",
+   "k": "dnc",
+   "ago": 10080
+  }
+ ],
+ "optouts": [
+  "(504) 555-0129"
+ ]
+}

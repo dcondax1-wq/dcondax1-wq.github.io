@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AGORA v2 lab</title>
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<!-- AGORA v2 lab (2026-11-11, docs/DESIGN_AGORA.md "v2"): every component of olympus/agora.css + olympus/agora-ui.js on one page, with
+     example numbers only. Open /olympus/agora-lab.html at 390 x 844 to check a change to the design system before it reaches 60 apps. -->
+<link rel="stylesheet" href="olympus.css?v=o7">
+<link rel="stylesheet" href="agora.css?v=a4">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; min-height: 100dvh; }
+  main#app { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px calc(176px + env(safe-area-inset-bottom, 0px)); }
+  .brand { display: flex; align-items: center; gap: 14px; } .brand img { flex: none; } .tags { display: flex; gap: 6px; }
+  .tag { display: inline-flex; } .sub { margin: 0; }
+  .lab-h { margin: 18px 0 0; font: 600 12px/1.2 var(--ag-sans); letter-spacing: .04em; color: var(--ag-gold); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ics { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px 6px; }
+  .ics figure { margin: 0; display: grid; justify-items: center; gap: 4px; color: var(--ag-soft); font: 400 11px var(--ag-sans); }
+  .ics .ag-ic { width: 24px; height: 24px; color: var(--ag-text); }
+</style>
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="../jarvis/icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Agora</h1><p class="sub">The design system, every piece</p></div></div>
+    <div class="tags"><span class="tag demo">DEMO</span></div>
+  </header>
+  <p class="note" id="status">Example numbers only: this page shows how each piece looks.</p>
+
+  <section class="ag-card ag-hero">
+    <p class="ag-hero-label">Drawdown left</p>
+    <p class="ag-hero-num" id="heroNum">$1,420</p>
+    <p class="ag-hero-sub" id="heroSub">of $2,000 max loss · Zlarior 50K · example</p>
+    <div class="ag-bar" style="margin-top:12px"><i id="heroBar" style="width:71%"></i></div>
+  </section>
+
+  <section class="ag-card">
+    <div class="ag-cardhead"><h2 class="ag-h3">Stats</h2><span class="ag-badge ok">Safe distance</span></div>
+    <div class="ag-stats">
+      <div class="ag-stat"><span class="ag-stat-label">Today</span><span class="ag-stat-value ag-good">+$312</span><span class="ag-stat-sub">+0.8R</span></div>
+      <div class="ag-stat"><span class="ag-stat-label">This month</span><span class="ag-stat-value">$2,670</span><span class="ag-delta up">▲ 12%</span></div>
+      <div class="ag-stat"><span class="ag-stat-label">Worst day</span><span class="ag-stat-value ag-bad">-$402</span><span class="ag-stat-sub">-1.0R</span></div>
+      <div class="ag-stat"><span class="ag-stat-label">Trades</span><span class="ag-stat-value">40</span><span class="ag-stat-sub">2-4 a week</span></div>
+    </div>
+  </section>
+
+  <section class="ag-card ag-chartcard">
+    <div class="ag-cardhead"><h2 class="ag-h3">Balance</h2><span class="ag-foot">example, last 12 days</span></div>
+    <div id="cLine"></div>
+  </section>
+  <section class="ag-card ag-chartcard">
+    <div class="ag-cardhead"><h2 class="ag-h3">$ by weekday</h2><span class="ag-foot">example</span></div>
+    <div id="cBar"></div>
+  </section>
+
+  <section class="ag-card ag-listcard">
+    <div class="ag-cardhead"><h2 class="ag-h3">List</h2></div>
+    <ul class="ag-list">
+      <li><a class="ag-row has-icon" href="#"><span class="ag-row-ic" data-ag-icon="column"></span><span class="ag-row-main"><span class="ag-row-title">Zlarior</span><span class="ag-row-sub">LIT 50K · running</span></span><span class="ag-row-end ag-good">+$312<span data-ag-icon="chevron" class="ag-chev"></span></span></a></li>
+      <li><a class="ag-row has-icon" href="#"><span class="ag-row-ic" data-ag-icon="shield"></span><span class="ag-row-main"><span class="ag-row-title">ATLAS</span><span class="ag-row-sub">25K · done for today</span></span><span class="ag-row-end ag-bad">-$60<span data-ag-icon="chevron" class="ag-chev"></span></span></a></li>
+      <li><a class="ag-row has-icon" href="#"><span class="ag-row-ic" data-ag-icon="bolt"></span><span class="ag-row-main"><span class="ag-row-title">BLITZ</span><span class="ag-row-sub">25K · paper only</span></span><span class="ag-row-end">$0<span data-ag-icon="chevron" class="ag-chev"></span></span></a></li>
+    </ul>
+  </section>
+
+  <p class="lab-h">Controls</p>
+  <div class="ag-seg" role="group" aria-label="Range"><button type="button" aria-pressed="false">1W</button><button type="button" aria-pressed="true">1M</button><button type="button" aria-pressed="false">3M</button><button type="button" aria-pressed="false">All</button></div>
+  <div class="row"><button type="button" class="ag-btn primary" id="tBtn">Show a toast</button><button type="button" class="ag-btn" id="sBtn">Open a sheet</button><button type="button" class="ag-btn ghost">Ghost</button></div>
+  <div class="row"><span class="ag-chip on">All 7</span><span class="ag-chip">Market 2</span><span class="ag-chip">Money 2</span><span class="ag-badge warn">Watch</span><span class="ag-badge bad">Near floor</span><span class="ag-badge info">Info</span><span class="ag-badge demo">Demo</span></div>
+  <input class="ag-field" placeholder="Search tables, apps, fields">
+  <div class="ag-banner"><span data-ag-icon="warn"></span><b>Feeds are old: open the PC and run STATUS.bat</b><p>The page is still showing the last numbers it heard.</p></div>
+
+  <p class="lab-h">States</p>
+  <section class="ag-card" id="sEmpty"></section>
+  <section class="ag-card" id="sErr"></section>
+  <section class="ag-card" id="sLoad"></section>
+
+  <p class="lab-h">Icons</p>
+  <section class="ag-card"><div class="ics" id="ics"></div></section>
+</main>
+<script src="agora-ui.js?v=3"></script>
+<script>
+(function () {
+  var A = window.AGORA;
+  A.chart(document.getElementById('cLine'), { type: 'area', values: [48200, 48420, 48310, 48760, 49020, 48880, 49140, 49330, 49210, 49480, 49650, 49314], labels: ['Oct 30', '', '', '', '', 'Nov 5', '', '', '', '', '', 'Nov 11'], fmt: function (v) { return '$' + Math.round(v / 100) / 10 + 'k'; } });
+  A.chart(document.getElementById('cBar'), { type: 'bar', values: [-623, 7388, 4639, 2192, 1020], labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], fmt: function (v) { var a = Math.abs(v); return (v < 0 ? '-' : '') + '$' + (a >= 1000 ? (a / 1000).toFixed(1) + 'k' : a); } });
+  A.state(document.getElementById('sEmpty'), { kind: 'empty', title: 'No trades yet today', text: 'The bot looks for one trade between 02:00 and 15:30 ET.', action: 'Open the plan' });
+  A.state(document.getElementById('sErr'), { kind: 'error', title: 'Could not read the feed', text: 'The page keeps the last numbers it heard. Try again in a minute.', action: 'Try again' });
+  A.state(document.getElementById('sLoad'), { kind: 'loading' });
+  document.getElementById('tBtn').addEventListener('click', function () { A.toast('Saved on this phone', { kind: 'ok' }); });
+  document.getElementById('sBtn').addEventListener('click', function () { var p = document.createElement('p'); p.className = 'ag-body'; p.textContent = 'A bottom sheet: drag the grabber down, tap outside or press Escape to close it.'; A.sheet({ title: 'How a sheet feels', body: p }); });
+  var box = document.getElementById('ics');
+  A.ICONS.forEach(function (n) { var f = document.createElement('figure'); f.appendChild(A.icon(n)); var c = document.createElement('figcaption'); c.textContent = n; f.appendChild(c); box.appendChild(f); });
+  A.pull(function () { return new Promise(function (r) { setTimeout(function () { A.toast('Up to date'); r(); }, 600); }); });
+})();
+</script>
+<script type="module">
+// QA round 6: the hero card shows the REAL Zlarior drawdown when the site has home.json (olympus/truth.js, the same number as Home, NQ,
+// Aegis and Helios); without it the example stays, labelled. The rest of the page keeps its example numbers: it shows how each piece looks.
+import * as T from './truth.js?v=r8';
+(async () => {
+  let home = null;
+  try { const r = await fetch('../home.json', { cache: 'no-cache' }); home = r.ok ? await r.json() : null; } catch (_) { home = null; }
+  const a = home ? T.accountsOf(home).lit : null;
+  if (!a || !a.has || a.room == null) return;
+  const ages = T.agesOf(home);
+  document.getElementById('heroNum').textContent = T.money(a.room);
+  document.getElementById('heroSub').textContent = `of ${T.money(a.mll)} max loss · Zlarior 50K · real, PC report ${ages.pc.words} ago`;
+  document.getElementById('heroBar').style.width = Math.round(Math.max(0, Math.min(1, a.room / a.mll)) * 100) + '%';
+  document.getElementById('status').textContent = 'The top card is the real Zlarior number (home.json). The rest are example numbers that show how each piece looks.';
+})();
+</script>
+</body>
+</html>

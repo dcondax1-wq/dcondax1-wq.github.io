@@ -1,0 +1,50 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: an invented Kalshi book, scan and what-if, shown until the real feed and the site's own files are there.",
+  "feed": {
+    "v": 3, "name": "Kalshi bot (example)", "mode": "demo", "status": "Running", "running": true, "t": 1793671200,
+    "balance": 170.26, "today_pnl": 3.4, "week_pnl": -18.6, "total_pnl": -89.74,
+    "positions": [
+      { "title": "Bitcoin above target at 10 PM ET", "side": "yes", "contracts": 8, "avg_price": 0.96, "price": 0.97 },
+      { "title": "Ethereum above target at 10 PM ET", "side": "no", "contracts": 6, "avg_price": 0.95, "price": 0.95 }
+    ],
+    "trades": [
+      { "t": 1793668000, "title": "Bitcoin above target at 9 PM ET", "side": "yes", "contracts": 10, "price": 0.96, "pnl": 0.4, "strategy": "Late favourite" },
+      { "t": 1793664000, "title": "S&P above target at close", "side": "yes", "contracts": 9, "price": 0.94, "pnl": -8.46, "strategy": "Late favourite" },
+      { "t": 1793660000, "title": "Gold above target at 5 PM ET", "side": "no", "contracts": 12, "price": 0.97, "pnl": 0.36, "strategy": "15-min favourites" },
+      { "t": 1793650000, "title": "Bitcoin above target at 7 PM ET", "side": "yes", "contracts": 10, "price": 0.96, "pnl": 0.4, "strategy": "Late favourite" },
+      { "t": 1793640000, "title": "Ethereum above target at 6 PM ET", "side": "yes", "contracts": 8, "price": 0.95, "pnl": 0.4, "strategy": "Late favourite" }
+    ],
+    "days": [["2026-10-27", 6.1], ["2026-10-28", -12.4], ["2026-10-29", 4.2], ["2026-10-30", 2.9], ["2026-10-31", -9.7], ["2026-11-01", -3.3], ["2026-11-02", 0.6], ["2026-11-03", -4.8], ["2026-11-04", 3.4]],
+    "stats": { "trades": 1513, "wins": 1315, "losses": 198, "staked": 15142.16, "pnl": -89.74 },
+    "strategies": [{ "name": "Late favourite", "total_pnl": 16.27, "trades": 140 }, { "name": "15-min favourites", "total_pnl": -48.82, "trades": 630 }]
+  },
+  "edges": {
+    "v": 1, "t": 1793671200,
+    "regime": { "state": "rain", "paused": false, "why": "the last 7 days lost $6.70", "pnl7": -6.7 },
+    "counts": { "edges": 49, "proven": 18 },
+    "headline": "Learned: at 95-97c: EV +$0.01 per $1 over 715 bets: DO MORE",
+    "lists": { "do_more": ["a"], "stop": ["b"], "watch": ["c", "d"] },
+    "edges": [
+      { "id": "a", "label": "at 95-97c", "n": 715, "ev": 0.0149, "pnl": 137.2, "status": "HOLDING", "w": 0.978, "p": 0.961 },
+      { "id": "b", "label": "at 90-95c", "n": 581, "ev": -0.0111, "pnl": -248.3, "status": "DECAYING", "w": 0.922, "p": 0.928 },
+      { "id": "c", "label": "at 97-99c", "n": 360, "ev": 0.0081, "pnl": 42.1, "status": "NEW", "w": 0.986, "p": 0.977 },
+      { "id": "d", "label": "Hourly BTC", "n": 291, "ev": 0.0089, "pnl": 30.3, "status": "HOLDING", "w": 0.952, "p": 0.944 }
+    ]
+  },
+  "whatif": {
+    "v": 1,
+    "what_if": {
+      "n": 1836, "min": 100, "enough": true, "balance": 170.26,
+      "sets": [
+        { "id": "asis", "name": "The bot as it is", "bets": 1836, "net": -62.82, "dip": 32.36, "ruin": 0.1325, "half": 0.365 },
+        { "id": "A", "name": "A · skip the 90–95¢ band", "bets": 1255, "net": 185.48, "dip": 17.5, "ruin": 0.0025, "half": 0.035 },
+        { "id": "B", "name": "B · only 95¢ and up, 2% bets", "bets": 1075, "net": 16.46, "dip": 1.64, "ruin": 0.0, "half": 0.0 }
+      ],
+      "typical_bet": 9.65, "pick": "A",
+      "recommend": "The data supports A: +$185.48 after fees on the past bets and a 0% chance of ruin, against -$62.82 and 13% as the bot is. The band was picked after looking at these bets: try it on paper first."
+    },
+    "why": { "n": 1836, "enough": true, "total": -81.77, "text": "You are down $81.77 mostly because 90–95¢ bets lost $248.30 on 581 bets and XRP bets lost $106.63 on 192 bets. These overlap, so do not add them up." }
+  }
+}

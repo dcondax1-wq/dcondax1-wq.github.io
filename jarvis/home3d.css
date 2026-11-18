@@ -1,0 +1,53 @@
+/* Jarvis home, deeper (2026-11-04): the glass dock, the orbs' badges and constellation canvas, the morning briefing card and the
+   quiet-hours row. Loaded after jarvis.css; every rule only adds to it (a missing file leaves Jarvis as it was). */
+
+/* ---------------------------------------------------------------- the constellation lines from the core to its orbs (home3d.js) */
+.jconst { position: absolute; left: -30%; top: -30%; width: 160%; height: 160%; pointer-events: none; z-index: 2; }
+
+/* ---------------------------------------------------------------- live status badges on the orbs */
+.sat { overflow: visible; } .sat i { position: relative; overflow: visible; }
+.sat i .sb { position: absolute; right: -7px; top: -7px; min-width: 13px; height: 13px; padding: 0 2px; box-sizing: border-box; border-radius: 7px; font: 700 12px/11px var(--fh); text-align: center;
+  background: var(--oly-th-n2, #110e0c); border: 1px solid var(--ok); color: var(--ok); pointer-events: none; box-shadow: 0 4px 14px rgba(var(--oly-th-n3-rgb, 21,20,17),.32); }
+.sat.warn i .sb { border-color: var(--warn); color: var(--warn); }
+.sat.bad i .sb { border-color: var(--bad); color: var(--oly-th-n37, #efeeeb); background: var(--bad); }
+.sat.off i .sb { border-color: var(--oly-th-n18, #78726c); color: var(--oly-th-n26, #aaa59c); }
+.sat.bad::after, .sat.warn::after { content: ""; position: absolute; inset: 1px; border-radius: 50%; border: 1.5px solid currentColor; opacity: 0; pointer-events: none; }
+.sat.bad { color: var(--bad); } .sat.warn { color: var(--warn); }
+html[data-fx="high"] .sat.bad::after, html[data-fx="ultra"] .sat.bad::after, html[data-fx="high"] .sat.warn::after, html[data-fx="ultra"] .sat.warn::after { animation: satPing 2.4s ease-out infinite; }
+@keyframes satPing { 0% { transform: scale(.7); opacity: .8; } 100% { transform: scale(1.9); opacity: 0; } }
+html:not([data-fx-set]) .sat::after { animation: none !important; }
+
+/* ---------------------------------------------------------------- the dock: a solid marble bar (AGORA: no glass blur, no sheen) */
+.dock { background: rgb(var(--pr)); border: 1px solid var(--dim2); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.dock::before, .dock::after { content: none; }
+.dock .ask input { background: var(--bg); box-shadow: none; }
+.dock .key { background: var(--dim); border-color: var(--dim2); box-shadow: none; }
+.dock .key:active { box-shadow: none; transform: scale(.97); }
+.fab, .nextchip { border: 1px solid var(--dim2); }
+
+/* ---------------------------------------------------------------- Settings → Jarvis: quiet hours */
+.qh { display: flex; gap: 8px; }
+.qh input[type="time"] { flex: 1; min-width: 0; height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid rgba(var(--cr), .4); background: rgba(var(--oly-th-n3-rgb, 21,20,17),.35); color: var(--txt); font: 600 16px var(--fm); }
+#setQuietRow[hidden] { display: none; }
+
+/* ---------------------------------------------------------------- the morning briefing card (briefing.js) */
+.jbrief { position: relative; width: 100%; box-sizing: border-box; margin: 6px 0; padding: 12px 14px 12px; white-space: normal; border: 1px solid rgba(var(--cr), .45); border-radius: 14px;
+  background: linear-gradient(180deg, rgba(var(--cr2), .16), rgba(var(--pr), .6)); box-shadow: 0 4px 14px rgba(var(--oly-th-n3-rgb, 21,20,17),.32); color: var(--oly-th-n37, #f3ece0); }
+.jbrief::before { content: "Morning briefing"; display: block; margin-bottom: 3px; font: 600 12px var(--fh); letter-spacing: .02em; color: var(--c); }
+.bf-h { margin: 0 0 6px; display: flex; flex-direction: column; gap: 2px; }
+.bf-h b { font: 600 17px var(--fh); letter-spacing: 0; color: var(--oly-th-n37, #efeeeb); }
+.bf-h small { display: none; }
+.bf-r { display: grid; grid-template-columns: 92px 1fr; gap: 8px; padding: 6px 0; border-top: 1px solid rgba(var(--cr), .16); align-items: start; }
+.bf-r span, .bf-one span { font: 600 12px/1.5 var(--fh); letter-spacing: .02em; color: var(--c3); text-transform: none; padding-top: 2px; }
+.bf-r p, .bf-one p { margin: 0; font: 500 14px/1.4 var(--fb); color: var(--oly-th-n37, #f6f1e7); overflow-wrap: anywhere; }
+.bf-one { margin-top: 6px; padding: 9px 11px; border-radius: 12px; border: 1px solid rgba(var(--cr), .5); background: rgba(var(--cr), .12); display: grid; gap: 3px; }
+.bf-one p { font-weight: 600; color: var(--oly-th-n37, #efeeeb); }
+.bf-b { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.bf-b button { min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(var(--cr), .6); background: rgba(var(--pr), .7); color: var(--c3); font: 600 15px var(--fb); letter-spacing: 0; text-transform: none; cursor: pointer; }
+.bf-b button.ghost { border-color: rgba(var(--cr), .28); color: var(--mut); }
+.bf-q { margin-top: 10px; padding: 9px 11px; border-radius: 12px; border: 1px dashed rgba(var(--cr), .45); }
+.bf-q p { margin: 0; font: 500 13.5px/1.4 var(--fb); color: var(--oly-th-n37, #f6f1e7); }
+@media (max-width: 380px) { .bf-r { grid-template-columns: 1fr; gap: 1px; } }
+html[data-oly-scheme="light"] .bf-r p, html[data-oly-scheme="light"] .bf-one p, html[data-oly-scheme="light"] .bf-q p, html[data-oly-scheme="light"] .bf-h b { color: var(--txt); }
+.bf-one span, .bf-r span { text-transform: lowercase; } .bf-one span::first-letter, .bf-r span::first-letter { text-transform: uppercase; }
+.jbrief::before { font: 600 14px var(--fb); }

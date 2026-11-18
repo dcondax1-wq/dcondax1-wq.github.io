@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OLYMPUS accessibility demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="olympus.css?v=o7">
+<script src="themes.js"></script>
+<style>
+  body { margin: 0; padding: calc(var(--oly-st) + 16px) 16px 24px; background: var(--oly-bg); color: var(--oly-text); font: 500 1rem/1.4 var(--oly-ui); }
+  h1 { font: 700 1.25rem/1.2 var(--oly-display); margin: 0 0 12px; }
+  .row { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; align-items: center; }
+  button { min-width: 44px; min-height: 44px; border-radius: 12px; border: 1px solid var(--oly-line); background: var(--oly-glass); color: var(--oly-text); font: 600 1rem var(--oly-ui); outline: none; }
+  p.dim { color: var(--oly-dim); margin: 6px 0; }
+  .toast { position: static; padding: 8px 12px; border: 1px solid var(--oly-line); border-radius: 12px; margin: 8px 0; }
+  .spin { width: 24px; height: 24px; border-radius: 50%; border: 3px solid var(--oly-accent); border-top-color: transparent; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  input { font-size: 16px; min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--oly-line); background: var(--oly-glass); color: var(--oly-text); }
+</style>
+</head>
+<body>
+<h1>Accessibility demo</h1>
+<p id="rem">Body text in rem units.</p>
+<p class="dim" id="dim">Muted text (the --oly-dim ink).</p>
+<div class="row">
+  <button id="close" class="close">&times;</button>
+  <button id="gear" type="button">&#9881;</button>
+  <button id="srch" class="btn-search" type="button"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="8" cy="8" r="5" fill="none" stroke="currentColor"/></svg></button>
+  <button id="own" type="button" data-oly-label="Open the chart"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 14L8 6l4 4 4-8" fill="none" stroke="currentColor"/></svg></button>
+  <button id="skipme" class="menu" type="button" data-oly-skip>&#9776;</button>
+  <button id="named" type="button" title="Share it"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="5"/></svg></button>
+  <button id="words" type="button">Save</button>
+  <button id="mystery" type="button"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="3" y="3" width="12" height="12"/></svg></button>
+</div>
+<div class="row"><input id="field" placeholder="Search the notes" type="text"><div class="spin" id="spin" aria-hidden="true"></div></div>
+<div class="row"><button id="big" type="button" data-oly-a11y="big-text">Aa Big text</button><button id="hc" type="button" data-oly-a11y="more-contrast">More contrast</button></div>
+<div id="toast" class="toast">Saved.</div>
+<div id="etoast" class="toast err">Something failed.</div>
+<script src="a11y.js" defer></script>
+</body>
+</html>

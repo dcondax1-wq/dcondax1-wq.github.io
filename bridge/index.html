@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bridge">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<title>Bridge · OLYMPUS</title>
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<!-- BRIDGE (2026-11-03, owner: "a clear way we can connect you and ChatGPT"): every job for ChatGPT as a card with a ready
+     prompt (Copy) and where its result goes (handoff/inbox/<id>/ in nq-liquidity-engine, by Codex PR or a GitHub upload).
+     Claude then builds the results in. Static: no network, nothing stored but which cards are ticked (localStorage). -->
+<style>
+/* Bridge in AGORA (docs/DESIGN_AGORA.md, owner 2026-11-09): marble, bronze, gold, olive, terracotta; serif headings; no neon, no glow, no aurora. */
+:root { --bg: #14110e; --panel: #1d1914; --raise: #26211b; --card: #1d1914; --line: #3a3228; --ink: #f3ece0; --soft: #cfc4b2; --mut: #a39883; --vio: #e0c27a; --gold: #c8a24a; --bronze: #9c6b3c; --ok: #9aa664; --bad: #d97a58; --aegean: #4b7a99;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; --sans: -apple-system, 'SF Pro Text', system-ui, 'Helvetica Neue', Arial, sans-serif; --num: 'SF Pro Rounded', -apple-system, system-ui, sans-serif; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: radial-gradient(120% 70% at 50% -10%, #2a2118 0%, var(--bg) 62%) fixed, var(--bg); color: var(--ink);
+  font: 400 17px/1.5 var(--sans); -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; }
+body > .w { max-width: 760px; margin: 0 auto; padding: calc(env(safe-area-inset-top, 0px) + 18px) 16px calc(env(safe-area-inset-bottom, 0px) + 180px); display: grid; gap: 16px; }
+h1 { margin: 0; font: 600 clamp(30px, 9vw, 38px)/1.05 var(--serif); letter-spacing: .01em; color: var(--ink); }
+h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 10px; background: linear-gradient(90deg, var(--gold), transparent); }
+.e { font: 600 14px/1.3 var(--sans); letter-spacing: .01em; color: var(--gold); margin-bottom: 6px; }
+.how, .card, .wiz { background: linear-gradient(180deg, var(--raise), var(--panel)); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: 0 6px 18px rgba(0, 0, 0, .35); position: relative; }
+.how ol { margin: 8px 0 0; padding-left: 22px; display: grid; gap: 8px; }
+.bar { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.prog { font: 600 15px var(--num); color: var(--soft); }
+.card { display: grid; gap: 10px; }
+#list, #libList, #delList, #nextList { display: grid; gap: 12px; }
+.card.done { opacity: .7; }
+.top { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; }
+.t { font: 600 18px/1.25 var(--serif); letter-spacing: .005em; }
+.tag { font: 600 13px/1 var(--sans); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--soft); white-space: nowrap; background: transparent; }
+.tag.codex { color: var(--gold); border-color: rgba(200, 162, 74, .45); }
+.tag.easy { color: var(--ok); } .tag.hard { color: var(--bad); }
+.why { color: var(--mut); }
+.to { font-size: 15px; }
+.to code, .files code { font-size: 14px; color: var(--gold); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+button { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--raise); color: var(--ink); font: 600 15px var(--sans); cursor: pointer; transition: border-color .2s, background .2s; }
+button:active { background: var(--panel); }
+button.copied { background: rgba(127, 138, 82, .22); border-color: var(--ok); }
+details summary { cursor: pointer; color: var(--gold); min-height: 44px; display: flex; align-items: center; }
+pre { white-space: pre-wrap; word-break: break-word; margin: 6px 0 0; padding: 12px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); font: 14px/1.5 ui-monospace, Menlo, monospace; color: var(--soft); }
+a { color: var(--gold); }
+.wiz { display: grid; gap: 16px; }
+.wh { display: flex; gap: 14px; align-items: center; }
+.big { font: 600 24px/1.2 var(--serif); }
+.ring circle { transition: stroke-dashoffset .4s; }
+.step { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 10px; }
+.step p, .tstep p { margin: 0; color: var(--soft); }
+.tk { display: flex; gap: 12px; align-items: center; min-height: 48px; cursor: pointer; }
+.tk input { width: 28px; height: 28px; accent-color: var(--gold); flex: none; }
+.n, .n2, .num { font: 700 15px var(--num); color: #1b1610; background: var(--gold); border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; flex: none; }
+.st { font: 600 19px/1.25 var(--serif); }
+.step.ok .st { color: var(--ok); }
+.big-btn, .btn { min-height: 56px; width: 100%; font-size: 18px; background: linear-gradient(180deg, #d4b05a, var(--gold)); color: #1b1610; border: 1px solid #e2c47a; border-radius: 14px; font-weight: 700; }
+.btn { display: grid; place-items: center; text-decoration: none; font: 700 18px var(--sans); }
+.big-btn:active, .btn:active { background: var(--bronze); }
+.live { color: var(--ok); font-weight: 600; }
+.live.q { color: var(--gold); }
+.live.w { color: var(--mut); font-weight: 400; }
+.live:not(.q):not(.w)::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: var(--ok); vertical-align: 1px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.stages button { min-height: 48px; font-size: 15px; padding: 0 4px; white-space: nowrap; }
+.stages button b { display: inline-grid; place-items: center; width: 24px; height: 24px; margin-right: 6px; border-radius: 50%; background: var(--bronze); color: var(--ink); font: 700 13px var(--num); }
+.stages button b { background: #7a5230; color: #f3ece0; }
+.stages button[aria-pressed="true"], .tabs button[aria-selected="true"] { background: var(--gold); color: #1b1610; border-color: var(--gold); }
+.stages button[aria-pressed="true"] b { background: #1b1610; color: var(--gold); }
+.tstep { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 10px; }
+#linkIn { width: 100%; min-height: 52px; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: 600 17px var(--sans); }
+#linkIn:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.res { min-height: 24px; font-size: 18px; font-weight: 600; }
+.res.ok { color: var(--ok); } .res.bad { color: var(--bad); } .res.warn { color: var(--gold); }
+details.fc summary { color: var(--mut); font-size: 15px; }
+details.fc .to, details.fc .files, details.fc .ingest { margin-top: 6px; }
+.ring { width: 64px; height: 64px; }
+.ring circle#ringArc { stroke-linecap: round; }
+[hidden] { display: none !important; }
+
+/* tabs (Jobs / Library / Deliveries / What next), the job library, delivered files, the weekly suggestions */
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; position: sticky; top: 0; z-index: 5; padding: 8px 0; background: linear-gradient(var(--bg) 78%, transparent); }
+.tabs button { padding: 0 2px; font-size: 14px; min-height: 44px; }
+.stack { display: grid; gap: 12px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 10px; }
+.chips button { min-height: 44px; padding: 0 14px; font-size: 14px; border-radius: 999px; }
+.chips button[aria-pressed="true"] { background: var(--gold); color: #1b1610; border-color: var(--gold); }
+.meta { display: flex; gap: 8px; flex-wrap: wrap; color: var(--mut); font-size: 14px; }
+.meta b { color: var(--gold); font-weight: 600; }
+.files { font-size: 14px; color: var(--mut); word-break: break-word; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.thumbs figure { margin: 0; display: grid; gap: 4px; }
+.thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: repeating-conic-gradient(#26211b 0 25%, #1d1914 0 50%) 0 0 / 14px 14px; cursor: zoom-in; }
+.thumbs figure.big { grid-column: 1 / -1; }
+.thumbs figure.big img { aspect-ratio: auto; max-height: 70vh; object-fit: contain; cursor: zoom-out; }
+.thumbs figcaption { font-size: 13px; color: var(--mut); word-break: break-all; }
+.md { display: grid; gap: 6px; margin-top: 6px; padding: 12px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); font-size: 15px; }
+.md .mh { font: 600 16px var(--serif); color: var(--gold); margin-top: 4px; }
+.md .ml { padding-left: 4px; }
+.rej { color: var(--bad); font-size: 14px; }
+.okmsg { color: var(--ok); font-weight: 600; }
+.empty { text-align: center; padding: 24px 14px; color: var(--mut); border: 1px dashed var(--line); border-radius: 16px; }
+.nx { display: flex; gap: 10px; align-items: center; }
+.home { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 4px; color: var(--gold); text-decoration: none; font: 600 15px var(--sans); }
+.framed .home { display: none; }
+
+/* the courier: a short marble bridge between two towns, one scroll crossing it (still for reduced motion) */
+.courier { display: grid; gap: 12px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, var(--raise), var(--panel)); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.portal-scene { position: relative; height: 96px; min-width: 0; }
+.courier-copy { display: grid; gap: 10px; }
+.courier-copy h2 { margin: 0; font: 600 21px/1.25 var(--serif); letter-spacing: .005em; }
+.courier-copy p { margin: 0; color: var(--soft); }
+.arch { position: absolute; left: 50%; bottom: 8px; width: 120px; height: 62px; transform: translateX(-50%); border: 3px solid var(--bronze); border-bottom: 0; border-radius: 60px 60px 0 0; }
+.gate { position: absolute; inset: 0; border-radius: 56px 56px 0 0; background: linear-gradient(180deg, rgba(224, 176, 96, .22), rgba(156, 107, 60, .08)); overflow: hidden; }
+.gate i { display: none; }
+.bridge-line { position: absolute; left: 4%; right: 4%; bottom: 8px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #5a4d3a, var(--bronze) 20%, var(--gold) 50%, var(--bronze) 80%, #5a4d3a); }
+.packet { position: absolute; left: 12%; bottom: 18px; width: 14px; height: 18px; border-radius: 3px; background: var(--ink); border: 1px solid var(--gold); }
+.city-a, .city-b { position: absolute; bottom: 8px; display: flex; align-items: end; gap: 4px; height: 58px; }
+.city-a { left: 0; } .city-b { right: 0; }
+.city-a i, .city-b i { display: block; width: 10px; height: var(--h); background: linear-gradient(180deg, #d9cfbd, #8d8472); border-radius: 2px 2px 0 0; }
+.safe { display: flex; flex-wrap: wrap; gap: 8px; }
+.safe span { min-height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--soft); font: 600 13px/1.2 var(--sans); }
+.safe span i { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+.glossary { border: 1px solid var(--line); border-radius: 12px; background: rgba(200, 162, 74, .05); padding: 0 12px; }
+.glossary summary { min-height: 44px; display: flex; align-items: center; color: var(--gold); font-weight: 600; }
+.glossary p { margin: 0 0 12px; color: var(--soft); font-size: 15px; }
+@media (max-width: 560px) { body > .w { padding-left: 14px; padding-right: 14px; } .tabs { gap: 4px; } }
+@media (prefers-reduced-motion: reduce) { .packet { animation: none !important; } }
+@media (prefers-reduced-motion: no-preference) { .packet { animation: courierRun 5s ease-in-out infinite; } }
+@keyframes courierRun { 0%, 8% { left: 12%; opacity: 0; } 18% { opacity: 1; } 82% { opacity: 1; } 92%, 100% { left: 84%; opacity: 0; } }
+</style>
+<script>(function () { try { if (window.top !== window) document.documentElement.classList.add('framed'); } catch (e) { document.documentElement.classList.add('framed'); } })();</script>
+</head>
+<body>
+<div class="w">
+  <a class="home" href="../jarvis/" id="homeLink">&#8592; Back to Olympus</a>
+  <div><div class="e">Olympus · Claude and ChatGPT</div><h1>Bridge</h1></div>
+  <section class="courier" aria-labelledby="courierH">
+    <div class="portal-scene" aria-hidden="true">
+      <div class="city-a"><i style="--h:28px"></i><i style="--h:46px"></i><i style="--h:34px"></i></div><div class="city-b"><i style="--h:26px"></i><i style="--h:50px"></i><i style="--h:37px"></i></div>
+      <div class="arch"><div class="gate"><i></i><i></i></div></div><div class="bridge-line"></div><div class="packet"></div>
+    </div>
+    <div class="courier-copy"><div class="e">The courier</div><h2 id="courierH">Give ChatGPT a job; its work comes back checked.</h2><p>Connect once (3 steps below). Then pick a ready job. ChatGPT sends the result back through GitHub, and Claude checks it before using it.</p>
+      <div class="safe" aria-label="Bridge safety"><span><i></i>No passwords</span><span><i></i>No live orders</span><span><i></i>Files checked</span></div>
+      <details class="glossary"><summary>Plain word: liquidity</summary><p><b>Liquidity</b> means how much money is available and moving in a market. More liquidity usually makes buying and selling easier. Bridge only mentions it inside the Pantheon story-writing job.</p></details>
+    </div>
+  </section>
+  <nav class="stages" id="stages" aria-label="Where you are">
+    <button type="button" data-stage="connect" aria-pressed="true"><b>1</b> Connect</button>
+    <button type="button" data-stage="test" aria-pressed="false"><b>2</b> Test</button>
+    <button type="button" data-stage="use" aria-pressed="false"><b>3</b> Use</button>
+  </nav>
+  <section class="wiz" id="wiz" data-stage="connect" aria-label="Connect ChatGPT">
+    <div class="wh">
+      <svg class="ring" viewBox="0 0 44 44" width="64" height="64" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(200,162,74,.22)" stroke-width="5"/><circle id="ringArc" cx="22" cy="22" r="18" fill="none" stroke="#c8a24a" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" transform="rotate(-90 22 22)"/></svg>
+      <div><div class="e">Connect ChatGPT (once)</div><div class="big" id="ringTxt">Connected 0/3</div></div>
+    </div>
+    <div class="step" id="s1">
+      <label class="tk"><input type="checkbox" data-step="1"><span class="n">1</span><span class="st">Let ChatGPT see your GitHub</span></label>
+      <p>Tap the button. In ChatGPT tap <b>Connect to GitHub</b>, sign in, and say yes to the folder named <code>nq-liquidity-engine</code>. ChatGPT signs in by itself: never give anyone a password or a key. Cannot find it? In ChatGPT tap <b>Settings</b>, then <b>Apps</b> (also called Connectors), then <b>GitHub</b>.</p>
+      <div class="row"><a class="btn" id="open1" href="https://chatgpt.com/codex" target="_blank" rel="noopener">Open ChatGPT</a></div>
+    </div>
+    <div class="step" id="s2">
+      <label class="tk"><input type="checkbox" data-step="2"><span class="n">2</span><span class="st">Give ChatGPT the rules</span></label>
+      <p>Tap the big button. Then paste it into a new ChatGPT chat and send it. You only do this once.</p>
+      <div class="row"><button id="copySync" class="big-btn" type="button" data-oly-cue="success">Copy the rules for ChatGPT</button></div>
+    </div>
+    <div class="step" id="s3">
+      <label class="tk"><input type="checkbox" data-step="3"><span class="n">3</span><span class="st">Send your first job</span></label>
+      <p>Tap the button. It copies your first job and opens ChatGPT. Paste it there and send.</p>
+      <div class="row"><button id="firstJob" class="big-btn" type="button" data-oly-cue="open">Send first job</button></div>
+    </div>
+    <button id="toTest" class="big-btn" type="button">Next: test the link</button>
+  </section>
+  <section class="wiz" id="testlink" data-stage="test" aria-label="Test the link" hidden>
+    <div class="wh"><div><div class="e">Test the link</div><div class="big" id="linkTxt">Not tested yet</div></div></div>
+    <div class="tstep" id="t1">
+      <div class="tk"><span class="n2">1</span><span class="st">Copy the test message</span></div>
+      <p>It asks ChatGPT to read one line in your GitHub and answer with one short line.</p>
+      <div class="row"><button id="copyTest" class="big-btn" type="button" data-oly-cue="success">Copy the test message</button></div>
+    </div>
+    <div class="tstep" id="t2">
+      <div class="tk"><span class="n2">2</span><span class="st">Paste it into ChatGPT</span></div>
+      <p>Send it. ChatGPT should answer with one line that starts with <b>LINK OK</b>.</p>
+      <div class="row"><a class="btn" id="open2" href="https://chatgpt.com/codex" target="_blank" rel="noopener">Open ChatGPT</a></div>
+    </div>
+    <div class="tstep" id="t3">
+      <div class="tk"><span class="n2">3</span><span class="st">Paste its answer here</span></div>
+      <label class="vh" for="linkIn">ChatGPT's one-line answer</label>
+      <input id="linkIn" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="300" placeholder="LINK OK ...">
+      <div class="row"><button id="checkLink" class="big-btn" type="button" data-oly-cue="open">Check the link</button></div>
+      <p id="linkRes" class="res" role="status" aria-live="polite"></p>
+    </div>
+    <button id="toUse" class="big-btn" type="button" hidden>Next: use the Bridge</button>
+  </section>
+  <section class="how" id="how" data-stage="use" aria-label="How to use the Bridge" hidden>
+    <b>Every time you want something made</b>
+    <ol>
+      <li><b>Pick a job</b> and tap <b>Copy for ChatGPT</b>.</li>
+      <li><b>Paste it into ChatGPT</b> and send. ChatGPT saves its answer in your GitHub by itself.</li>
+      <li>When ChatGPT says it is finished, tap <b>Tell Claude</b> and paste that into your Claude chat.</li>
+    </ol>
+    <button id="pickJob" class="big-btn" type="button">Pick a job</button>
+  </section>
+  <script type="text/plain" id="onboardText">You are my build partner for OLYMPUS, my trading dashboards and Jarvis assistant. Claude (in Claude Code) does the
+engine, tests and publishing. You do creative and bulk work. We stay synced through one GitHub repo:
+demetrades2000-coder/nq-liquidity-engine (connect GitHub in ChatGPT / use Codex).
+
+Every time before you start:
+1. Read `handoff/SYNC.md` (the shared board: what is done, what is yours, what is Claude's, what is blocked).
+2. Read `handoff/inbox/README.md` and the newest job on https://demetrades2000-coder.github.io/nq-dashboard/bridge/ .
+
+Rules:
+- Only add files under `handoff/inbox/<task-id>/` (open a pull request on branch `chatgpt/<task-id>`). Never edit the bots,
+  `live_model*.json`, `engine/`, `.github/`, or any existing app.
+- No secrets, keys or logins anywhere. Plain files only: images (png/webp), JSON, SVG, text, small JS modules.
+- Paper trading only. Never anything that places or arms real orders.
+- When you finish, add one line to `handoff/inbox/<task-id>/DONE.md`: what you made, file list, anything Claude must wire.
+- If blocked, write `handoff/inbox/<task-id>/QUESTION.md` instead of guessing.
+
+Style of the owner: 18, iPhone, wants it premium and calm (classical Greece: marble, bronze, gold, olive; serif headings; NO neon, NO glow, NO sci-fi / cyber look), plain words.</script>
+  <nav class="tabs" role="tablist" aria-label="Bridge">
+    <button type="button" role="tab" id="tab-jobs" data-tab="jobs" aria-selected="true">Jobs</button>
+    <button type="button" role="tab" id="tab-lib" data-tab="lib" aria-selected="false">Library</button>
+    <button type="button" role="tab" id="tab-del" data-tab="del" aria-selected="false">Deliveries</button>
+    <button type="button" role="tab" id="tab-next" data-tab="next" aria-selected="false">What next</button>
+  </nav>
+  <div id="p-jobs" role="tabpanel">
+    <div class="bar"><span class="prog" id="prog"></span><button id="reset" type="button" data-oly-cue="warning">Clear my ticks</button></div>
+    <div id="list"></div>
+  </div>
+  <div id="p-lib" role="tabpanel" hidden>
+    <p class="why" id="libNote">Ready-made jobs. Tap one, tap <b>Copy for ChatGPT</b>, and paste it into ChatGPT. ChatGPT saves its answer for Claude.</p>
+    <div class="chips" id="libCats"></div>
+    <div id="libList" class="stack"></div>
+  </div>
+  <div id="p-del" role="tabpanel" hidden>
+    <p class="why">What ChatGPT sent back. Every file is checked first, and nothing is ever opened as a program. Tap the green button to tell Claude to use it.</p>
+    <div id="delList" class="stack"></div>
+  </div>
+  <div id="p-next" role="tabpanel" hidden>
+    <p class="why" id="nextNote">What to ask ChatGPT next. The list changes every week.</p>
+    <div id="nextList" class="stack"></div>
+  </div>
+</div>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script src="../olympus/intro-app.js?v=i7" data-app="bridge" data-name="Bridge" data-glyph="&#914;" data-color="#8c7a5a" defer></script>
+<script src="status-line.js?v=1"></script>
+<script>
+if (!window.BRIDGE_STATUS_LINE) window.BRIDGE_STATUS_LINE = function () {
+  return { className: 'live q', text: 'Job status display unavailable · refresh to retry' };
+};
+</script>
+<script>
+(function () {
+  var REPO = 'demetrades2000-coder/nq-liquidity-engine';
+  var CTX = 'Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e, no neon, no sci-fi). ';
+  // the jobs: id, title, tool (chatgpt = images / writing; codex = a pull request on the repo), why it matters, where it goes, the prompt
+  var JOBS = [
+    { id: 'icons', t: '14 app icons', tool: 'chatgpt', why: 'One look for the orb, the grid and the home screen.',
+      to: 'handoff/inbox/icons/ (1024x1024 PNGs, named jarvis.png, zenith.png, ...)',
+      p: CTX + 'Make 14 square app icons, 1024x1024, one consistent style: a single Greek emblem in matte gold and bronze on a warm near-black (#14110e) marble background, soft light, no glow, no neon, no text, crisp, premium and calm. One per app: Jarvis (a bronze orb), Zenith (a rising star over a chart), Oracle (an eye in a bronze ring), Odeon (a film reel as a Greek theatre), Fates (three threads and a spindle), Data City (a skyline of marble towers), Daphne (a laurel tree), Prometheus (a torch flame), Pantheon (a temple with columns), Mind (an owl on a library shelf), Arena (a colosseum with a laurel crown), Kalshi (a K coin), Tyche (a wheel of fortune), Hermes (a winged helmet). Give each as its own image.' },
+    { id: 'skies', t: '8 sky backgrounds', tool: 'chatgpt', why: 'Real depth in the 3D apps instead of flat colour.',
+      to: 'handoff/inbox/skies/ (the widest size it can make, PNG)',
+      p: CTX + 'Make 8 ultra-wide (as wide as you can) seamless dawn and dusk sky panoramas for 3D backgrounds: 1) dawn of gold and rose clouds, 2) Mount Olympus above the clouds at dusk, 3) deep blue storm with lightning far away, 4) calm sea at sunset, 5) warm ember underworld haze, 6) moonlit silver sky, 7) a sunrise of gold clouds, 8) a clear indigo evening with a few soft stars. No text, no foreground objects, soft, cinematic, high detail.' },
+    { id: 'textures', t: 'Material textures', tool: 'chatgpt', why: 'Marble, gold and glass that look real, not like Play-Doh.',
+      to: 'handoff/inbox/textures/ (square, seamless/tileable PNG)',
+      p: 'Make 8 square seamless tileable textures, each 1024x1024, photo-real: 1) white Greek marble with grey veins, 2) black marble with gold veins, 3) brushed gold, 4) aged bronze, 5) obsidian stone, 6) warm travertine stone, 7) weathered terracotta, 8) olive-wood grain. Flat, evenly lit, no shadows, no text.' },
+    { id: 'me', t: 'Your "Me" note', tool: 'chatgpt', why: 'Jarvis learns how you think.',
+      to: 'your Obsidian vault as Jarvis/Me.md (or paste it to Claude)',
+      p: 'Interview me with 25 short questions, one at a time, about my goals, daily routine, gym, school, money, trading rules, what I like and hate, how I want to be talked to. Then write a note called "Me" in Markdown: short bullet sections (Goals, Routine, Trading rules, Money, Health, Likes, Dislikes, How to talk to me). Plain words, no fluff.' },
+    { id: 'persona', t: 'Jarvis personality', tool: 'chatgpt', why: 'How she talks to you.',
+      to: 'paste into the Claude chat',
+      p: CTX + 'Write the personality for my assistant Jarvis (female voice): warm, sharp, loyal, money-first, short answers unless I want to chat, a little witty, never fake. Give: 1) a one-page persona description, 2) 10 rules she always follows, 3) 30 sample replies in her voice to things like "good morning", "I failed my eval", "should I trade today", "I am tired", "how are the bots", "I made money today".' },
+    { id: 'labours', t: 'Arena text', tool: 'chatgpt', why: 'The 12 Labours and daily quests with Greek myth lines.',
+      to: 'paste into the Claude chat',
+      p: 'For a gamified discipline app called Arena (ranks Mortal, Hero, Demigod, Olympian, Titan): write 12 achievements named after the Labours of Heracles, each with a one-line myth quote and what earns it (trading discipline, bots running, evals passed, payouts, gym, study, notes). Then write 30 daily quests (trading process, gym, study, sleep, money), each one short line. Reward process, never risk.' },
+    { id: 'lore', t: 'Pantheon lore', tool: 'chatgpt', why: 'Each data god gets a story line.',
+      to: 'paste into the Claude chat',
+      p: 'Two lines of lore each, in a cinematic tone, for 8 Greek gods who each watch one market force: Poseidon (Fed liquidity), Zeus (interest rates), Ares (volatility / fear), Athena (economic calendar), Demeter (big-money positioning), Helios (the dollar), Nyx (credit stress), Artemis (Bitcoin / risk appetite). Plus one line for "the Council of the Gods" that combines them.' },
+    { id: 'deals', t: 'Prop firm deals', tool: 'chatgpt', why: 'Cheaper evals = more money.',
+      to: 'paste into the Claude chat',
+      p: 'Search the web for the current discount codes and prices this week for futures prop firms: MyFundedFutures (Builder 25K / 50K), Lucid Trading, FundedNext Futures, Apex Trader Funding, Topstep, Take Profit Trader. For each: plan, list price, best code, price after code, one-time or monthly, activation fee, and the source link. Table only.' },
+    { id: 'obsidian', t: 'Obsidian setup guide', tool: 'chatgpt', why: 'So Jarvis can write into your vault.',
+      to: 'follow it, then tell Claude "vault ready"',
+      p: 'Give me exact step-by-step instructions (for someone who is not a coder) to sync my Obsidian vault to a PRIVATE GitHub repo called obsidian-vault using the Obsidian Git community plugin, on both iPhone and Windows. Then suggest a folder layout: Daily, Notes, Trading, Gym, Goals, OLYMPUS. Then how to make a fine-grained GitHub token with Contents read/write on only that repo.' },
+    { id: 'ascend', t: 'Finish Ascend', tool: 'chatgpt', why: 'Your looksmaxing dashboard, inside Jarvis.',
+      to: 'send the live link to Claude',
+      p: 'Finish my Ascend (looksmaxing / self-improvement) dashboard and host it free (Netlify or Vercel). Follow this spec for it to plug into my hub app: https://github.com/' + REPO + '/blob/main/docs/JARVIS_APPS.md . Calm classical Greek AGORA look (marble, bronze, gold, olive; no neon), phone first, a jarvis.json live card with a theme colour.' },
+    { id: 'codex-portal', t: 'Polish one app with ChatGPT', tool: 'codex', why: 'More apps upgraded without spending Claude usage.',
+      to: 'a pull request on ' + REPO + ' (branch chatgpt/<app>)',
+      p: 'Repo ' + REPO + '. Read docs/OLYMPUS_RENDER.md and docs/OLYMPUS_DESIGN.md. Pick ONE app folder under tools/web_public/ (start with tyche/, then oracle/, fates/, mind/, arena/) and move its three.js scene onto the shared render core in tools/web_public/olympus/render.js and materials.js (tone mapping, environment light, bloom, real materials). Keep the app working on iPhone at 60 fps, keep its tests passing (tests/test_<app>*.py), touch only that app folder and its test, and open a pull request on a branch chatgpt/<app>. Do not touch engine/, live_model*.json or anything trading-related.' },
+  ];
+  window.BRIDGE_JOBS = JOBS;
+  var STATUS = null;
+  var KEY = 'bridge.done', done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { done = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) { /* private mode */ } }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function render() {
+    var list = document.getElementById('list'); list.textContent = '';
+    var n = 0;
+    JOBS.forEach(function (j) {
+      if (done[j.id]) n++;
+      var c = el('article', 'card' + (done[j.id] ? ' done' : '')); c.id = 'job-' + j.id;
+      var top = el('div', 'top'); top.appendChild(el('span', 't', j.t)); top.appendChild(el('span', 'tag' + (j.tool === 'codex' ? ' codex' : ''), j.tool === 'codex' ? 'CHATGPT + GITHUB' : 'CHATGPT'));
+      c.appendChild(top);
+      c.appendChild(el('div', 'why', j.why));
+      var st = STATUS && STATUS.jobs && STATUS.jobs[j.id], lv = el('div', 'live w', 'Waiting for ChatGPT');
+      if (st) {
+        var line = window.BRIDGE_STATUS_LINE(st); lv.className = line.className; lv.textContent = line.text;
+      }
+      c.appendChild(lv);
+      var d = el('details'); d.appendChild(el('summary', '', 'Show the words I paste')); d.appendChild(el('pre', '', j.p)); c.appendChild(d);
+      var fc = el('details', 'fc'); fc.appendChild(el('summary', '', 'For Claude'));
+      var to = el('div', 'to'); to.appendChild(document.createTextNode('Result goes to: ')); to.appendChild(el('code', '', j.to)); fc.appendChild(to); c.appendChild(fc);
+      var row = el('div', 'row');
+      var cp = el('button', '', 'Copy for ChatGPT'); cp.type = 'button'; cp.setAttribute('data-oly-cue', 'success');
+      cp.onclick = function () {
+        var ok = function () { cp.textContent = 'Copied ✓'; cp.classList.add('copied'); setTimeout(function () { cp.textContent = 'Copy for ChatGPT'; cp.classList.remove('copied'); }, 1600); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(j.p).then(ok, function () { d.open = true; });
+        else d.open = true;
+      };
+      var tick = el('button', '', done[j.id] ? 'Done ✓' : 'Mark done'); tick.type = 'button';
+      tick.onclick = function () { done[j.id] = !done[j.id]; save(); render(); };
+      row.appendChild(cp); row.appendChild(tick);
+      {                                          // always there: when ChatGPT says it is finished, the owner does not have to wait for the page to refresh
+        var msg = 'Bridge: ' + j.id + (st && st.state === 'question' ? ' question' : ' done');
+        var tc = el('button', '', 'Tell Claude'); tc.type = 'button'; tc.setAttribute('data-say', msg);
+        tc.onclick = function () {
+          var ok = function () { tc.textContent = 'Copied \u2713'; setTimeout(function () { tc.textContent = 'Tell Claude'; }, 1600); };
+          try { navigator.clipboard.writeText(msg).then(ok, function () { prompt('Send this to Claude:', msg); }); } catch (e) { prompt('Send this to Claude:', msg); }
+        };
+        row.appendChild(tc);
+      }
+      c.appendChild(row);
+      list.appendChild(c);
+    });
+    document.getElementById('prog').textContent = n + ' / ' + JOBS.length + ' DONE';
+  }
+  document.getElementById('reset').onclick = function () { done = {}; save(); render(); };
+  render();
+  try { fetch('status.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) { if (j && j.jobs) { STATUS = j; window.BRIDGE_STATUS = j; render(); document.dispatchEvent(new Event('bridge-status')); } }, function () {}); } catch (e) { /* offline: no live state */ }
+})();
+</script>
+
+<script>
+(function () {
+  var WK = 'bridge.wizard', W = {};
+  try { W = JSON.parse(localStorage.getItem(WK) || '{}') || {}; } catch (e) { W = {}; }
+  function wsave() { try { localStorage.setItem(WK, JSON.stringify(W)); } catch (e) { /* private mode */ } }
+  W.seen = 1; wsave();                       // Jarvis reads this: the owner has opened the wizard
+  var PROMPT = document.getElementById('onboardText').textContent.trim();
+  function copy(text, btn, label, after) {
+    var ok = function () { btn.textContent = 'Copied \u2713'; btn.classList.add('copied'); setTimeout(function () { btn.textContent = label; btn.classList.remove('copied'); }, 1600); if (after) after(); };
+    try { navigator.clipboard.writeText(text).then(ok, function () { prompt('Copy this:', text); if (after) after(); }); }
+    catch (e) { prompt('Copy this:', text); if (after) after(); }
+  }
+  function paint() {
+    var n = 0;
+    ['1', '2', '3'].forEach(function (k) {
+      var on = !!W['s' + k], box = document.querySelector('input[data-step="' + k + '"]');
+      box.checked = on; document.getElementById('s' + k).classList.toggle('ok', on); if (on) n++;
+    });
+    document.getElementById('ringTxt').textContent = 'Connected ' + n + '/3';
+    document.getElementById('ringArc').setAttribute('stroke-dashoffset', String(113.1 * (1 - n / 3)));
+    W.n = n; wsave();
+  }
+  function setStep(k, v) { W['s' + k] = v ? 1 : 0; wsave(); paint(); }
+  [].forEach.call(document.querySelectorAll('input[data-step]'), function (b) { b.addEventListener('change', function () { setStep(b.getAttribute('data-step'), b.checked); }); });
+  document.getElementById('open1').addEventListener('click', function () { setStep(1, true); });
+  var sync = document.getElementById('copySync');
+  sync.addEventListener('click', function () { copy(PROMPT, sync, 'Copy the rules for ChatGPT', function () { setStep(2, true); }); });
+  var fj = document.getElementById('firstJob');
+  fj.addEventListener('click', function () {
+    var job = (window.BRIDGE_JOBS || []).filter(function (j) { return j.id === 'icons'; })[0];
+    copy(job ? job.p : '', fj, 'Send first job', function () { setStep(3, true); window.open('https://chatgpt.com/codex', '_blank', 'noopener'); });
+  });
+  paint();
+
+  /* ---- the three stages (Connect / Test / Use): one screen shows at most three steps ---- */
+  var STAGES = ['connect', 'test', 'use'], SEC = { connect: 'wiz', test: 'testlink', use: 'how' };
+  function stage(name) {
+    if (STAGES.indexOf(name) < 0) name = 'connect';
+    STAGES.forEach(function (k) {
+      document.getElementById(SEC[k]).hidden = k !== name;
+      document.querySelector('#stages [data-stage="' + k + '"]').setAttribute('aria-pressed', k === name ? 'true' : 'false');
+    });
+    window.BRIDGE_STAGE = name;
+  }
+  [].forEach.call(document.querySelectorAll('#stages [data-stage]'), function (b) { b.addEventListener('click', function () { stage(b.getAttribute('data-stage')); }); });
+  document.getElementById('toTest').addEventListener('click', function () { stage('test'); });
+  document.getElementById('toUse').addEventListener('click', function () { stage('use'); });
+  document.getElementById('pickJob').addEventListener('click', function () { var t = document.getElementById('tab-lib'); if (t) { t.click(); t.scrollIntoView({ block: 'start' }); } });
+
+  /* ---- Test the link: everything here stays on the phone. ChatGPT is asked to read the LINK WORD line of handoff/SYNC.md in the repo and answer
+     "LINK OK <word>"; only a ChatGPT that can really see the repo knows the word. The check is a pure function (no request, nothing sent). ---- */
+  var WORD = 'KESTREL';                           // must be the LINK WORD line of handoff/SYNC.md (tests/test_bridge_page.py checks it)
+  var TEST_MSG = 'Link test. Please open my GitHub repo demetrades2000-coder/nq-liquidity-engine, read the file handoff/SYNC.md, and find the line that starts with LINK WORD. ' +
+    'Then answer with ONE line only, exactly: LINK OK followed by that word. Nothing else, no other words.';
+  var SECRET = /gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|\bsk-[A-Za-z0-9_-]{16,}|-----BEGIN|AKIA[0-9A-Z]{12,}|password\s*[:=]|\btoken\s*[:=]/i;
+  function checkLink(raw) {
+    var t = String(raw == null ? '' : raw).trim();
+    if (!t) return { ok: false, kind: 'warn', title: 'Not yet', msg: 'Paste ChatGPT\'s answer into the box first.' };
+    if (SECRET.test(t)) return { ok: false, kind: 'bad', title: 'Stop', msg: 'That looks like a key or a password. Never paste those here. Clear the box and paste only the one-line answer.', clear: true };
+    if (t.length > 200) return { ok: false, kind: 'warn', title: 'Not yet', msg: 'That is too long. Paste only the one short line ChatGPT sent back.' };
+    var clean = t.replace(/[*_`"'\u201c\u201d\u2018\u2019]/g, ' ').replace(/\s+/g, ' ').toUpperCase();
+    var m = /LINK\s*OK\s*[:\-\u2013\u2014]?\s*([A-Z0-9]+)/.exec(clean);
+    if (m) {
+      if (m[1] === WORD) return { ok: true, kind: 'ok', title: 'Pass', msg: 'It works! ChatGPT read your GitHub and gave the right word. The link is ready.' };
+      return { ok: false, kind: 'bad', title: 'Try again', msg: 'ChatGPT answered, but with the wrong word. It may not be able to see your GitHub. Go back to Connect, check step 1, then run the test again.' };
+    }
+    if (/CAN\s*NOT|CAN\s*T\b|UNABLE|NOT ABLE|NO ACCESS|DON\s*T HAVE ACCESS|DO NOT HAVE ACCESS|SORRY/.test(clean)) {
+      return { ok: false, kind: 'bad', title: 'Try again', msg: 'ChatGPT says it cannot see your GitHub. Go back to Connect, tap Connect to GitHub, allow the folder, then run the test again.' };
+    }
+    return { ok: false, kind: 'warn', title: 'Try again', msg: 'That is not the answer I was waiting for. It should start with LINK OK and one word. Copy the test message again and send it to ChatGPT.' };
+  }
+  window.BRIDGE_CHECK_LINK = checkLink;
+  var linkTxt = document.getElementById('linkTxt'), linkRes = document.getElementById('linkRes'), linkIn = document.getElementById('linkIn'), toUse = document.getElementById('toUse');
+  function linkPaint() {
+    linkTxt.textContent = W.link ? 'Link works \u2713' : 'Not tested yet';
+    toUse.hidden = !W.link;
+  }
+  var ct = document.getElementById('copyTest');
+  ct.addEventListener('click', function () { copy(TEST_MSG, ct, 'Copy the test message'); });
+  document.getElementById('checkLink').addEventListener('click', function () {
+    var r = checkLink(linkIn.value);
+    linkRes.className = 'res ' + r.kind;
+    linkRes.textContent = r.title + ': ' + r.msg;
+    try { linkRes.scrollIntoView({ block: 'nearest' }); } catch (e) { /* older browser: the text is still there */ }
+    if (r.clear) linkIn.value = '';
+    if (r.ok) { W.link = 1; wsave(); }
+    linkPaint();
+  });
+  linkPaint();
+  stage(W.link ? 'use' : W.n >= 3 ? 'test' : 'connect');
+})();
+</script>
+
+<script>
+/* JOB 24: tabs, the job library (jobs.json), Deliveries (deliveries.json, checked by tools/bridge_ingest.py), Ask next (status.json "next").
+   Everything delivered is shown as text (textContent) or as an <img>; ids and file names are validated; nothing delivered is ever run. */
+(function () {
+  var ID_RE = /^[a-z0-9][a-z0-9-]{0,60}$/, FILE_RE = /^[A-Za-z0-9][A-Za-z0-9._ +()-]{0,79}$/;
+  var LIB = [], CATS = [], catSel = 'all', libP = null, DEL = null, delP = null, CUR = 'jobs';
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function str(v, n) { return typeof v === 'string' ? v.slice(0, n) : ''; }
+  function copyText(text, btn, label) {
+    var ok = function () { btn.textContent = 'Copied ✓'; btn.classList.add('copied'); setTimeout(function () { btn.textContent = label; btn.classList.remove('copied'); }, 1600); };
+    try { navigator.clipboard.writeText(text).then(ok, function () { prompt('Copy this:', text); }); } catch (e) { prompt('Copy this:', text); }
+  }
+  function stateOf(id) { var s = window.BRIDGE_STATUS; return s && s.jobs && s.jobs[id] ? s.jobs[id] : null; }
+  function liveLine(id) {
+    var st = stateOf(id), lv = el('div', 'live w', 'Waiting for ChatGPT');
+    if (st) {
+      var line = window.BRIDGE_STATUS_LINE(st); lv.className = line.className; lv.textContent = line.text;
+    }
+    return lv;
+  }
+  function tellBtn(id, label, msg) {
+    var b = el('button', '', label); b.type = 'button'; b.setAttribute('data-say', msg);
+    b.onclick = function () { copyText(msg, b, label); };
+    return b;
+  }
+  function title(id) {
+    for (var i = 0; i < LIB.length; i++) if (LIB[i].id === id) return LIB[i].title;
+    var J = window.BRIDGE_JOBS || [];
+    for (var k = 0; k < J.length; k++) if (J[k].id === id) return J[k].t;
+    return id;
+  }
+  function promptOf(id) {
+    for (var i = 0; i < LIB.length; i++) if (LIB[i].id === id) return LIB[i].prompt;
+    return '';
+  }
+  function promptBlock(j) {          // the prompt is put in the page only when its details opens
+    var d = el('details'); d.appendChild(el('summary', '', 'Show the words I paste'));
+    d.addEventListener('toggle', function () { if (d.open && !d.querySelector('pre')) d.appendChild(el('pre', '', j.prompt)); });
+    return d;
+  }
+
+  /* ---- tabs ---- */
+  var TABS = ['jobs', 'lib', 'del', 'next'], HASH = { library: 'lib', deliveries: 'del', next: 'next', jobs: 'jobs' };
+  function show(name) {
+    if (TABS.indexOf(name) < 0) name = 'jobs';
+    CUR = name;
+    TABS.forEach(function (t) {
+      document.getElementById('p-' + t).hidden = t !== name;
+      document.getElementById('tab-' + t).setAttribute('aria-selected', t === name ? 'true' : 'false');
+    });
+    if (name === 'lib') loadLib().then(renderLib);
+    if (name === 'del') { renderDel(); loadDel().then(renderDel); }
+    if (name === 'next') loadLib().then(renderNext);
+  }
+  TABS.forEach(function (t) { document.getElementById('tab-' + t).addEventListener('click', function () { show(t); }); });
+
+  /* ---- library ---- */
+  function loadLib() {
+    if (libP) return libP;
+    libP = fetch('jobs.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (!d || !d.jobs) return;
+      CATS = (d.cats || []).filter(function (c) { return c && ID_RE.test(c.id || ''); }).map(function (c) { return { id: c.id, name: str(c.name, 60) }; });
+      LIB = d.jobs.filter(function (j) { return j && ID_RE.test(j.id || '') && typeof j.prompt === 'string'; }).map(function (j) {
+        return { id: j.id, cat: str(j.cat, 40), title: str(j.title, 90), makes: str(j.makes, 300), prompt: j.prompt.slice(0, 6000),
+                 files: (j.files || []).filter(function (f) { return FILE_RE.test(f); }).slice(0, 30), minutes: +j.minutes || 10, difficulty: str(j.difficulty, 10), ingest: str(j.ingest || '', 400) };
+      });
+      window.BRIDGE_LIB = LIB;
+      document.getElementById('tab-lib').textContent = 'Library ' + LIB.length;
+    }).catch(function () { libP = null; });
+    return libP;
+  }
+  function catName(id) { for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i].name; return id; }
+  function libCard(j) {
+    var c = el('article', 'card'); c.id = 'lib-' + j.id;
+    var top = el('div', 'top'); top.appendChild(el('span', 't', j.title)); top.appendChild(el('span', 'tag ' + j.difficulty, j.difficulty.toUpperCase())); c.appendChild(top);
+    c.appendChild(el('div', 'why', j.makes));
+    var m = el('div', 'meta'); m.appendChild(el('span', '', catName(j.cat))); var mb = el('span'); mb.appendChild(el('b', '', '~' + j.minutes + ' min')); m.appendChild(mb); c.appendChild(m);
+    c.appendChild(liveLine(j.id));
+    c.appendChild(promptBlock(j));
+    var fc = el('details', 'fc'); fc.appendChild(el('summary', '', 'For Claude'));
+    var to = el('div', 'to'); to.appendChild(document.createTextNode('Result goes to: ')); to.appendChild(el('code', '', 'handoff/inbox/' + j.id + '/')); fc.appendChild(to);
+    var fl = el('div', 'files'); fl.appendChild(document.createTextNode('Files: ')); fl.appendChild(el('code', '', j.files.join(', '))); fc.appendChild(fl);
+    if (j.ingest) fc.appendChild(el('div', 'why ingest', 'Then Claude: ' + j.ingest));
+    c.appendChild(fc);
+    var row = el('div', 'row'), cp = el('button', '', 'Copy for ChatGPT'); cp.type = 'button'; cp.setAttribute('data-oly-cue', 'success'); cp.onclick = function () { copyText(j.prompt, cp, 'Copy for ChatGPT'); };
+    row.appendChild(cp);
+    var st = stateOf(j.id);
+    row.appendChild(tellBtn(j.id, 'Tell Claude', 'Bridge: ' + j.id + (st && st.state === 'question' ? ' question' : ' done')));
+    c.appendChild(row);
+    return c;
+  }
+  function renderLib() {
+    var chips = document.getElementById('libCats'), list = document.getElementById('libList');
+    chips.textContent = ''; list.textContent = '';
+    if (!LIB.length) { list.appendChild(el('div', 'empty', 'The job library could not load. Check your connection and reopen this tab.')); return; }
+    var all = [{ id: 'all', name: 'All ' + LIB.length }].concat(CATS.map(function (c) {
+      return { id: c.id, name: c.name + ' ' + LIB.filter(function (j) { return j.cat === c.id; }).length };
+    }));
+    all.forEach(function (c) {
+      var b = el('button', '', c.name); b.type = 'button'; b.setAttribute('data-cat', c.id); b.setAttribute('aria-pressed', c.id === catSel ? 'true' : 'false');
+      b.onclick = function () { catSel = c.id; renderLib(); };
+      chips.appendChild(b);
+    });
+    LIB.filter(function (j) { return catSel === 'all' || j.cat === catSel; }).forEach(function (j) { list.appendChild(libCard(j)); });
+  }
+
+  /* ---- deliveries ---- */
+  function loadDel() {
+    if (delP) return delP;
+    delP = fetch('deliveries.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { if (d && d.jobs) DEL = d; })
+      .catch(function () {}).then(function () { delP = null; });
+    return delP;
+  }
+  function fromBrief() {          // status.json carries a small version (names and counts) if deliveries.json is not there
+    var s = window.BRIDGE_STATUS, out = {};
+    if (!s || !s.deliveries) return null;
+    Object.keys(s.deliveries).forEach(function (id) {
+      var b = s.deliveries[id];
+      out[id] = { approved: b.approved || 0, rejected: b.rejected || 0, images: (b.images || []).map(function (n) { return { name: n }; }),
+                  text: (b.texts || []).map(function (n) { return { name: n, text: '' }; }), done: b.done || '', rejects: [], issues: [] };
+    });
+    return { jobs: out };
+  }
+  function md(text) {             // a few lines of markdown as plain DOM text: # headings, - bullets, paragraphs
+    var box = el('div', 'md');
+    String(text).split('\n').slice(0, 120).forEach(function (line) {
+      if (!line.trim()) return;
+      var clean = line.replace(/\*\*|__|`/g, ''), h = /^#{1,4}\s+(.*)$/.exec(clean);
+      if (h) box.appendChild(el('div', 'mh', h[1]));
+      else if (/^\s*[-*]\s+/.test(clean)) box.appendChild(el('div', 'ml', clean.replace(/^\s*[-*]\s+/, '• ')));
+      else box.appendChild(el('div', 'mp', clean));
+    });
+    return box;
+  }
+  function delCard(id, d) {
+    var c = el('article', 'card'); c.id = 'del-' + id;
+    var top = el('div', 'top'); top.appendChild(el('span', 't', title(id))); top.appendChild(el('span', 'tag', id)); c.appendChild(top);
+    var ok = el('div', 'okmsg', d.approved + ' file' + (d.approved === 1 ? '' : 's') + ' checked and safe' + (d.rejected ? ', ' + d.rejected + ' not used' : '')); c.appendChild(ok);
+    if (d.done) c.appendChild(el('div', 'why', d.done));
+    if (d.images && d.images.length) {
+      var th = el('div', 'thumbs');
+      d.images.forEach(function (im) {
+        if (!FILE_RE.test(im.name || '')) return;
+        var f = el('figure'), img = document.createElement('img');
+        img.loading = 'lazy'; img.alt = im.name; img.src = 'deliveries/' + id + '/' + encodeURIComponent(im.name);
+        img.onerror = function () { img.style.display = 'none'; };
+        img.onclick = function () { f.classList.toggle('big'); };
+        f.appendChild(img); f.appendChild(el('figcaption', '', im.name + (im.w ? ' · ' + im.w + 'x' + im.h : '')));
+        th.appendChild(f);
+      });
+      c.appendChild(th);
+    }
+    (d.text || []).forEach(function (t) {
+      var det = el('details'); det.appendChild(el('summary', '', t.name + (t.truncated ? ' (first part)' : '')));
+      if (t.text) det.appendChild(t.kind === 'md' || t.kind === 'txt' ? md(t.text) : el('pre', '', t.text));
+      c.appendChild(det);
+    });
+    (d.rejects || []).forEach(function (r) { c.appendChild(el('div', 'rej', 'Not used: ' + str(r.name, 80) + '. ' + (str(r.plain, 160) || 'It did not pass the safety check, so I did not use it.'))); });
+    var row = el('div', 'row');
+    var ub = tellBtn(id, 'Tell Claude to use this', 'Bridge: ' + id + ' done'); ub.className = 'big-btn'; row.appendChild(ub);
+    c.appendChild(row);
+    return c;
+  }
+  function renderDel() {
+    var list = document.getElementById('delList'), d = DEL || fromBrief(), ids = d ? Object.keys(d.jobs).filter(function (i) { return ID_RE.test(i); }).sort() : [];
+    list.textContent = '';
+    var tabBtn = document.getElementById('tab-del'); tabBtn.textContent = ids.length ? 'Deliveries ' + ids.length : 'Deliveries';
+    if (!ids.length) { list.appendChild(el('div', 'empty', 'Nothing delivered yet. Pick a job in the Library, paste it into ChatGPT, and when it finishes it shows up here.')); return; }
+    ids.forEach(function (i) { list.appendChild(delCard(i, d.jobs[i])); });
+  }
+
+  /* ---- ask next ---- */
+  function renderNext() {
+    var list = document.getElementById('nextList'), s = window.BRIDGE_STATUS, items = s && Array.isArray(s.next) ? s.next.slice(0, 5) : [];
+    list.textContent = '';
+    if (!items.length) {            // no status yet (offline / first publish): the five shortest jobs
+      items = LIB.slice().sort(function (a, b) { return a.minutes - b.minutes; }).slice(0, 5).map(function (j) { return { id: j.id, title: j.title, minutes: j.minutes, difficulty: j.difficulty, why: 'A quick one to start with' }; });
+    }
+    if (!items.length) { list.appendChild(el('div', 'empty', 'The suggestions could not load. Open the Library tab.')); return; }
+    items.forEach(function (n, k) {
+      if (!ID_RE.test(n.id || '')) return;
+      var c = el('article', 'card'); c.id = 'next-' + n.id;
+      var top = el('div', 'nx'); top.appendChild(el('span', 'num', String(k + 1))); top.appendChild(el('span', 't', str(n.title, 90) || title(n.id))); c.appendChild(top);
+      c.appendChild(el('div', 'why', str(n.why, 160)));
+      c.appendChild(el('div', 'meta', '~' + (+n.minutes || 10) + ' min · ' + str(n.difficulty, 10)));
+      var row = el('div', 'row'), p = promptOf(n.id);
+      if (p) { var cp = el('button', '', 'Copy for ChatGPT'); cp.type = 'button'; cp.setAttribute('data-oly-cue', 'success'); cp.onclick = function () { copyText(p, cp, 'Copy for ChatGPT'); }; row.appendChild(cp); }
+      var lb = el('button', '', 'See this job'); lb.type = 'button';
+      lb.onclick = function () { catSel = 'all'; show('lib'); setTimeout(function () { var t = document.getElementById('lib-' + n.id); if (t) { t.scrollIntoView({ block: 'center' }); var dd = t.querySelector('details'); if (dd) dd.open = true; } }, 60); };
+      row.appendChild(lb);
+      c.appendChild(row); list.appendChild(c);
+    });
+  }
+
+  document.addEventListener('bridge-status', function () {
+    renderDel();
+    if (CUR === 'lib') renderLib();
+    if (CUR === 'next') renderNext();
+  });
+  loadLib().then(function () { if (CUR === 'lib') renderLib(); });     // the Library count on the tab
+  show(HASH[(location.hash || '').slice(1)] || 'jobs');
+})();
+</script>
+</body>
+</html>

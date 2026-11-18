@@ -1,0 +1,133 @@
+/* POLIS (AGORA look, docs/DESIGN_AGORA.md): the painted city on top (edge to edge), marble cards below. Only layout lives here; colours are --ag-* tokens.
+   Safe areas on every edge; the page ends 176px above the bottom (Jarvis's orb owns the bottom-right corner); every tap target is at least 44 px; no sideways page scroll. */
+:root { --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px)); --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px)); --heroH: 74vh; }
+@supports (height: 1svh) { :root { --heroH: 74svh; } }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--ag-night, var(--oly-th-n3, #14110e)); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); overflow-x: hidden; font: 500 15px/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-text, var(--oly-th-n37, #f3ece0)); background: var(--ag-night, var(--oly-th-n3, #14110e)); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ag-gold, var(--oly-th-a8, #c8a24a)); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.skip { position: absolute; left: 12px; top: -80px; z-index: 30; min-height: 44px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 12px; background: var(--ag-raise); color: var(--ag-text); border: 1px solid var(--ag-gold); text-decoration: none; }
+.skip:focus { top: calc(var(--st) + 8px); }
+#app { position: relative; z-index: 1; margin: 0; padding: 0; }
+
+/* ---- the painted city */
+.hero { position: relative; height: var(--heroH); min-height: 470px; max-height: 760px; overflow: hidden; background: var(--oly-th-n6, #1b1d2c); isolation: isolate; }
+.polis-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.pan { position: absolute; inset: 0; z-index: 1; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; cursor: grab; }
+.pan::-webkit-scrollbar { display: none; }
+.pan.drag { cursor: grabbing; }
+.world { position: relative; height: 100%; }
+.spot { position: absolute; min-width: 44px; min-height: 44px; padding: 0; margin: 0; border: 0; border-radius: 12px; background: transparent; color: transparent; font-size: 1px; }
+.spot:focus-visible { outline: 2px solid var(--ag-gold); outline-offset: 0; background: rgba(var(--oly-th-a8-rgb, 200, 162, 74), .12); }
+.spot.boat { border-radius: 16px; }
+.top { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; min-height: 52px;
+  padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) 40px calc(var(--sl) + 16px); pointer-events: none;
+  background: linear-gradient(180deg, rgba(var(--oly-th-n3-rgb, 20, 17, 14), .58) 0%, rgba(var(--oly-th-n3-rgb, 20, 17, 14), .30) 58%, rgba(var(--oly-th-n3-rgb, 20, 17, 14), 0) 100%); }
+html.framed .top { padding-top: 12px; }
+html.framed .districts { top: 100px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
+.brand h1 { margin: 0; font: 600 30px/1.05 var(--ag-serif); letter-spacing: .04em; color: var(--oly-th-n37, #f3ece0); text-shadow: 0 1px 0 rgba(var(--oly-th-n37-rgb, 255, 244, 222), .18), 0 2px 6px rgba(var(--oly-th-n3-rgb, 20, 17, 14), .55); }
+.brand .sub { margin: 4px 0 0; font-size: 13px; color: var(--oly-th-n34, #e8dfcf); text-shadow: 0 1px 3px rgba(var(--oly-th-n3-rgb, 20, 17, 14), .7); }
+.tags { display: flex; gap: 6px; align-items: center; flex: none; pointer-events: auto; }
+.tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .72); }
+.tag.demo { color: var(--oly-th-n3, #1b1610); background: var(--ag-sun); border-color: transparent; }
+.districts { position: absolute; z-index: 3; left: calc(var(--sl) + 10px); right: calc(var(--sr) + 10px); top: calc(var(--st) + 104px); display: flex; gap: 6px; justify-content: center; flex-wrap: nowrap; pointer-events: none; }
+.dist { pointer-events: auto; min-height: 44px; min-width: 44px; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(var(--oly-th-a8-rgb, 200, 162, 74), .35); background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .74); color: var(--ag-text);
+  font: 600 13px/1.1 var(--ag-serif); display: inline-flex; flex-direction: column; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.dist small { font: 600 11px/1.1 var(--ag-sans); color: var(--ag-soft); margin-top: 2px; }
+.dist.on { border-color: var(--ag-gold); color: var(--ag-gold); }
+.plaque { position: absolute; z-index: 4; width: min(280px, calc(100% - 24px)); padding: 12px 14px; border-radius: 16px; background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .94); border: 1px solid var(--oly-th-a2, #5a4a30); box-shadow: var(--ag-shadow);
+  transition: opacity .25s ease-out, transform .25s ease-out; }
+.plaque::after { content: ''; position: absolute; left: var(--tip, 50%); bottom: -7px; width: 12px; height: 12px; margin-left: -6px; transform: rotate(45deg); background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .94); border-right: 1px solid var(--oly-th-a2, #5a4a30); border-bottom: 1px solid var(--oly-th-a2, #5a4a30); }
+.plaque.below::after { bottom: auto; top: -7px; transform: rotate(225deg); }
+.plaque .pk { margin: 0; font: 600 12px var(--ag-sans); color: var(--ag-gold); }
+.plaque h2 { margin: 2px 0 4px; font: 600 21px/1.15 var(--ag-serif); }
+.plaque .pp { margin: 0; font-size: 14px; color: var(--ag-soft); }
+.plaque .pf { margin: 6px 0 0; font-size: 13px; color: var(--ag-muted); }
+.plaque .pf.on { color: var(--ag-sun); }
+.pkrow { display: flex; gap: 8px; margin-top: 10px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); text-decoration: none; }
+.btn.enter { flex: 1; border-color: var(--ag-gold); color: var(--oly-th-n3, #1b1610); background: var(--ag-gold); }
+.btn.more { justify-self: start; }
+
+/* ---- the cards */
+.wrap { max-width: 680px; margin: 4px auto 0; position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px;
+  padding: 0 calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+.status { margin: 0; }
+.band { position: relative; height: 22px; margin: 0 -4px; opacity: .85; }
+.ag-eyebrow .ic { display: inline-flex; width: 18px; height: 18px; margin-right: 6px; vertical-align: -3px; color: var(--ag-gold); }
+.ag-eyebrow .ic svg { width: 18px; height: 18px; }
+#harbourCard { position: relative; }
+.potmark { position: absolute; right: 14px; top: 12px; width: 64px; height: 64px; pointer-events: none; }
+.potmark svg { width: 64px; height: 64px; }
+#harH, #harLead { padding-right: 74px; }
+.treasury { display: flex; align-items: center; gap: 12px; }
+.treasury .coin { flex: none; }
+.record { display: flex; align-items: center; gap: 10px; }
+.record .wreath:empty { display: none; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.card > h2 { margin: 0; }
+.lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
+.note { margin: 0; font-size: 13px; color: var(--ag-muted); }
+.h3 { margin: 4px 0 6px; font: 600 16px var(--ag-serif); }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--oly-th-n4, #211c16); white-space: nowrap; }
+.pill.ok { color: var(--ag-olive-text, var(--oly-th-g8, #a9b46e)); border-color: var(--oly-th-n10, #4c5530); } .pill.warn { color: var(--ag-sun); border-color: var(--oly-th-a3, #6e5424); } .pill.bad { color: var(--ag-terra-text, var(--oly-th-r10, #e08a6e)); border-color: var(--oly-th-r3, #6e3424); } .pill.info { color: #8fb4cc; border-color: #2f4a5c; }
+.pos { color: var(--ag-olive-text, var(--oly-th-g8, #a9b46e)); } .neg { color: var(--ag-terra-text, var(--oly-th-r10, #e08a6e)); }
+.ships, .motions, .raised, .consts, .rolls, .dlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ship { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 60px; padding: 8px 12px 8px 8px; border-radius: 12px; background: var(--oly-th-n4, #211c16); border: 1px solid var(--ag-line); color: inherit; text-decoration: none; }
+.ship svg { width: 52px; height: 40px; }
+.ship b { display: block; font: 600 16px var(--ag-serif); }
+.ship span { display: block; font-size: 13px; color: var(--ag-soft); }
+.ship .usd { font: 700 16px var(--ag-num); font-variant-numeric: tabular-nums; text-align: right; }
+.treasury { margin: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--oly-th-a2, #5a4a30); background: var(--oly-th-n4, #241d14); font-size: 14px; color: var(--ag-text); }
+.motion { padding: 10px 12px; border-radius: 12px; background: var(--oly-th-n4, #211c16); border: 1px solid var(--ag-line); display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 4px 10px; }
+.motion svg { width: 26px; height: 26px; grid-row: span 3; }
+.motion b { font: 600 15px/1.3 var(--ag-serif); }
+.motion .mv { font-size: 13px; color: var(--ag-sun); }
+.motion ul { margin: 2px 0 0; padding: 0 0 0 16px; font-size: 13px; color: var(--ag-soft); }
+.motion .usd { font: 700 13px var(--ag-num); font-variant-numeric: tabular-nums; }
+.raised li { font-size: 14px; color: var(--ag-soft); padding: 8px 12px; border-radius: 12px; background: var(--oly-th-n4, #1f1a14); border: 1px solid var(--ag-line); }
+.consts { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.consts li { padding: 8px 10px; border-radius: 12px; background: var(--oly-th-n6, #1b1d2c); border: 1px solid var(--oly-th-n10, #343650); }
+.consts b { display: block; font: 600 15px var(--ag-serif); color: var(--oly-th-n34, #efe4c8); }
+.consts span { display: block; font-size: 12px; color: var(--oly-th-n31, #c4c0d0); }
+.how summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--ag-gold); font-weight: 600; }
+.rolls { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.roll { padding: 10px 12px; border-radius: 12px; background: var(--oly-th-n4, #211c16); border: 1px solid var(--ag-line); display: grid; gap: 2px; min-width: 0; }
+.roll b { font: 600 17px var(--ag-serif); }
+.roll .rr { font-size: 13px; color: var(--ag-soft); overflow-wrap: anywhere; }
+.roll .rd { font-size: 12px; color: var(--ag-gold); }
+.dgroup { display: grid; gap: 6px; margin-top: 6px; }
+.dgroup h3 { margin: 6px 0 2px; font: 600 16px var(--ag-serif); }
+.dl { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 48px; padding: 4px 12px 4px 6px; border-radius: 12px; background: var(--oly-th-n4, #211c16); border: 1px solid var(--ag-line); color: inherit; text-decoration: none; }
+.dl i { font-style: normal; width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font: 700 19px/1 var(--ag-serif); color: #1b1610; }   /* 19 px bold: large text, so the dark glyph reads on every app colour (in every look: the tile is the app's own colour) */
+.dl b { display: block; font: 600 15px var(--ag-serif); }
+.dl span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; font-size: 12px; line-height: 1.35; color: var(--ag-soft); overflow: hidden; }   /* what each app does, on up to two lines (no cut-off line) */
+.dl em { font-style: normal; font-size: 12px; color: var(--ag-sun); }
+.foot { text-align: center; }
+@media (min-width: 900px) { .hero { --heroH: 80vh; } .brand h1 { font-size: 36px; } .districts { justify-content: flex-start; left: calc(var(--sl) + 24px); } }
+@media (max-width: 370px) { .dist { padding: 4px 7px; font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .plaque { transition: none; } .pan { scroll-behavior: auto; } }
+html[data-oly-lite="1"] .dist { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .9); }
+html[data-oly-lite="1"] .plaque { transition: none; }
+
+/* ---- life in the city (QA round 6): right under the skyline, each piece one card of the page (same radius, edge and shadow as the cards below) */
+.lifesec { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; margin-top: 4px; }
+.lifesec > h2 { margin: 0 0 2px; font: 600 var(--ag-fs-h2, 22px)/1.2 var(--ag-serif); }
+.lifesec > .ag-eyebrow { margin: 0; }
+.polis-life-host { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
+.polis-life-host > .pl-piece { margin: 0; border-radius: 20px; border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .075); box-shadow: var(--ag-e2); padding: 16px 16px 14px; }
+.polis-life-host > .pl-herald { border-color: rgba(var(--oly-th-a8-rgb, 200, 162, 74), .32); }
+.polis-life-host > .pl-stoic { padding: 12px; }
+.polis-life-host > [hidden] { display: none !important; }
+.lifelamp { display: flex; justify-content: center; min-height: 120px; }
+.lifedemo { color: var(--ag-sun); }
+/* the harbour card: the red-figure tondo and the text keep clear of each other at phone size */
+@media (max-width: 420px) { .potmark { width: 56px; height: 56px; right: 12px; top: 12px; } .potmark svg { width: 56px; height: 56px; } #harH, #harLead { padding-right: 64px; } }
+/* light looks (T2 2026-11-14; AGORA is dark: never the default): the district buttons stay solid enough that the 3D scene under their blur
+   does not take the chosen one's accent ink under 4.5:1 */
+html[data-oly-scheme="light"] .dist { background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .92); }

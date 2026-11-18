@@ -1,0 +1,17 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "DEMO harbour and assembly for an empty site: made-up example numbers so the city is never empty. These are not real numbers and not real proposals.",
+  "ships": [
+    {"key": "lit", "running": true, "today": 0, "age_s": 240},
+    {"key": "atlas", "running": false, "today": 0, "age_s": 900},
+    {"key": "blitz", "running": true, "today": 186, "age_s": 300},
+    {"key": "kalshi", "running": true, "today": 0, "age_s": 420}
+  ],
+  "motions": [
+    {"id": "demo-1", "title": "Example: half size on the bot's trades after a buildup sweep", "bot": "lit", "status": "testing", "stone": "grey", "verdict": "Still being tested",
+     "lines": ["2026 H2 (check): example numbers only", "2021-25 (reference): example numbers only"], "usd_month": -120},
+    {"id": "demo-2", "title": "Example: skip the ATLAS longs when VIX is under 15", "bot": "atlas", "status": "rejected", "stone": "black", "verdict": "Rejected by the numbers",
+     "lines": ["2026 H1 (pick): example numbers only"], "usd_month": -300}
+  ]
+}

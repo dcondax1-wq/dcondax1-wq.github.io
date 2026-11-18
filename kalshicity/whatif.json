@@ -1,0 +1,74 @@
+{
+ "v": 1,
+ "kind": "kalshi-whatif",
+ "t": 1793759943,
+ "label": "A backtest of past bets, suggestions only: nothing here places or changes a bet",
+ "what_if": {
+  "n": 1836,
+  "min": 100,
+  "enough": true,
+  "balance": 55.8136,
+  "sets": [
+   {
+    "id": "asis",
+    "name": "The bot as it is",
+    "bets": 1836,
+    "net": -62.82,
+    "dip": 32.36,
+    "ruin": 0.1325,
+    "half": 0.365
+   },
+   {
+    "id": "A",
+    "name": "A · skip the 90–95¢ band",
+    "bets": 1255,
+    "net": 185.48,
+    "dip": 17.5,
+    "ruin": 0.0025,
+    "half": 0.035
+   },
+   {
+    "id": "B",
+    "name": "B · only 95¢ and up, 2% bets",
+    "bets": 1075,
+    "net": 16.46,
+    "dip": 1.64,
+    "ruin": 0.0,
+    "half": 0.0
+   },
+   {
+    "id": "C",
+    "name": "C · skip 90–95¢, 2% bets",
+    "bets": 1255,
+    "net": 5.67,
+    "dip": 3.78,
+    "ruin": 0.0,
+    "half": 0.0
+   }
+  ],
+  "cap_dollars": 1.12,
+  "typical_bet": 9.65,
+  "pick": "A",
+  "recommend": "The data supports A: +$185.48 after fees on the past bets and a 0% chance of ruin, against −$62.82 and 13% as the bot is. The band was picked after looking at these bets: try it on paper first."
+ },
+ "why": {
+  "n": 1836,
+  "enough": true,
+  "total": -81.77,
+  "leaks": [
+   {
+    "kind": "band",
+    "usd": -248.3,
+    "label": "90–95¢ bets",
+    "n": 581
+   },
+   {
+    "kind": "coin",
+    "usd": -106.63,
+    "label": "XRP bets",
+    "n": 192
+   }
+  ],
+  "text": "You are down $81.77 mostly because 90–95¢ bets lost $248.30 on 581 bets and XRP bets lost $106.63 on 192 bets. These overlap, so do not add them up."
+ }
+}

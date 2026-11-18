@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dionysus</title>
+<meta name="description" content="OLYMPUS DIONYSUS: the Kalshi desk. The Kalshi bot's balance and results, the guard, a what-if of past bets and the scan of where the money is. Suggestions only.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dionysus">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- DIONYSUS (OLYMPUS, AGORA look, 2026-11-09): The Kalshi desk: the bot's numbers (kalshi.json feed shape, with the site's kalshicity mirror and a demo behind it), the guard, the what-if and the scan highlights. Suggestions only. dionysuscore.js = the pure maths (node-tested); dionysus.js = the page (ES module). Read only: it reads published JSON of this site
+     and fixture.json (DEMO, never blank) and sends nothing anywhere. Text only through textContent / createElementNS (no markup is built from data). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="dionysus"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b77a8a'); r.setProperty('--oly-accent-rgb', '183, 122, 138'); })();</script>
+<link rel="stylesheet" href="dionysus.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Dionysus</h1><p class="sub">Kalshi bets (prediction markets). Paused now: nothing to do here. Look only.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" aria-labelledby="botName">
+    <div class="row"><h2 id="botName">Kalshi bot</h2><span class="pill" id="botPill">...</span></div>
+    <p class="big ag-num" id="bal">$0.00</p>
+    <p class="note">Balance</p>
+    <div class="tiles" id="heroTiles"></div>
+    <p class="note" id="srcNote"></p>
+    <p class="banner">Suggestions only. Nothing on this page places, changes or stops a bet.</p>
+  </section>
+  <section class="ag-card card" id="guardCard" aria-labelledby="guardH">
+    <div class="row"><h2 id="guardH">The guard</h2><span class="pill" id="guardPill">...</span></div>
+    <p class="gt" id="guardTitle"></p>
+    <p class="lead" id="guardText"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="betsH">
+    <h2 id="betsH">Bets</h2>
+    <h3 class="sub3">Open now</h3><ul class="plain" id="open"></ul>
+    <h3 class="sub3">Settled lately</h3><ul class="plain" id="recent"></ul>
+    <p class="note" id="betsNote"></p>
+  </section>
+  <section class="ag-card card" id="wiCard" aria-labelledby="wiH">
+    <h2 id="wiH">What if the bot bet differently?</h2>
+    <p class="note">A backtest of past bets. Looking back, not a promise.</p>
+    <div class="seg" id="sets" role="group" aria-label="Rule sets"></div>
+    <h3 class="sub3" id="wiName"></h3>
+    <div class="tiles" id="wiTiles"></div>
+    <p class="lead" id="wiText"></p>
+    <p class="note" id="wiWhy"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="scanH">
+    <h2 id="scanH">Where the money is</h2>
+    <div id="scan"></div>
+  </section>
+
+  <p class="foot" id="foot">Dionysus reads the public Kalshi feed and the site's own Kalshi study files, read only. It sends nothing and cannot place or change a bet. Kalshi runs on real money: the study looks back, it is not a promise.</p>
+</main>
+<script type="module" src="dionysus.js?v=a1"></script>
+</body>
+</html>

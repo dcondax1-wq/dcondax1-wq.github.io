@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Taxes</title>
+<meta name="description" content="How prop-firm payouts are taxed in the US, what you can deduct, the quarterly dates and how much of each payout to set aside. Education, not tax advice.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- TAXES (2026-11-17, owner wants to "study taxes"): read only, no data leaves the phone. Federal rules checked on IRS.gov
+     2026-11-17 (research/writeups/taxes-2026-11-17.md). taxes.js = the next 4 quarterly dates (from today's date) and the
+     set-aside calculator, drawn with textContent. The 30% default matches Oikos and the Ledger. Education, not tax advice. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=3">
+<style>
+  .tx h2 { margin: 0; }
+  .tx p, .tx li { font-size: .95rem; }
+  .tx ul, .tx ol { margin: 0; padding-left: 20px; } .tx li { margin: 5px 0; }
+  .tx .big { margin: 0; }
+  dl.rules { display: grid; grid-template-columns: minmax(0, 7.5em) minmax(0, 1fr); gap: 8px 12px; margin: 0; font-size: .9rem; } dl.rules dt { opacity: .75; } dl.rules dd { margin: 0; overflow-wrap: anywhere; }
+  .calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .calc label { display: grid; gap: 4px; font-size: .85rem; color: var(--ag-soft); }
+  .calc input { min-height: 44px; width: 100%; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ag-line); background: var(--ag-raise); font-variant-numeric: tabular-nums; }
+  .out { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .out div { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--ag-line); min-width: 0; }
+  .out b { display: block; font: 700 1.5rem/1.1 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-gold); overflow-wrap: anywhere; }
+  .out span { font-size: .8rem; color: var(--ag-soft); }
+  ol.dates { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  ol.dates li { display: flex; justify-content: space-between; gap: 10px; margin: 0; padding: 8px 0; border-bottom: 1px solid var(--ag-line); }
+  ol.dates b { font-family: var(--ag-num); white-space: nowrap; }
+  .src a { overflow-wrap: anywhere; min-height: 32px; display: inline-block; }
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+</style>
+</head>
+<body>
+<main id="app" class="tx">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">Taxes</h1><p class="sub">US federal rules for 2026, in plain words</p></div></div></header>
+
+  <section class="ag-card card" id="s-min" aria-labelledby="minH">
+    <div class="row"><h2 id="minH">In one minute</h2><span class="pill warn">NOT ADVICE</span></div>
+    <ul>
+      <li>MFFU payouts are pay for a service, so they are <b>self-employment income</b>. Nobody takes tax out for you.</li>
+      <li>You pay <b>income tax</b> plus <b>15.3% self-employment tax</b> on 92.35% of your profit (about 14% of profit).</li>
+      <li>Eval fees, resets, data, platform and a business share of the PC and internet <b>lower the profit</b>.</li>
+      <li>Pay four times a year. Next date: <b id="nextDue">Jan 15, 2027</b>.</li>
+      <li><b>The rule: move 30% of every payout to a separate tax pot the day it lands.</b></li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" id="s-how" aria-labelledby="howH">
+    <h2 id="howH">How your payouts are taxed</h2>
+    <dl class="rules">
+      <dt>The form</dt><dd>A 1099 (normally 1099-NEC) in late January or February. Paid through Rise: Rise mails it. Paid by bank (Plaid/ACH): MFFU mails it.</dd>
+      <dt>No form?</dt><dd>From 2026 a firm only has to send one at $2,000 or more. The money is taxable either way.</dd>
+      <dt>Where it goes</dt><dd>Schedule C (profit or loss) and Schedule SE (self-employment tax) with your Form 1040.</dd>
+      <dt>SE tax</dt><dd>15.3% = 12.4% Social Security + 2.9% Medicare, on 92.35% of profit. Half of it is deducted from your income.</dd>
+      <dt>Not 60/40</dt><dd>The futures 60/40 rule is for your own contracts. A payout is the firm paying you, so treat it as normal income.</dd>
+      <dt>QBI</dt><dd>Likely up to 20% of the profit off your income tax (Form 8995). It does not lower SE tax.</dd>
+      <dt>Losing year</dt><dd>If fees beat payouts and you run it like a business, the loss can lower other income. Ask a pro.</dd>
+    </dl>
+  </section>
+
+  <section class="ag-card card" id="s-ded" aria-labelledby="dedH">
+    <h2 id="dedH">What you can deduct</h2>
+    <ul>
+      <li><b>Eval fees, resets, activation fees</b> (Builder 50K $91.80, 25K $63 / $43). Keep each receipt email.</li>
+      <li><b>Market data, NinjaTrader, VPS</b> and other trading tools.</li>
+      <li><b>The PC</b>: the business share. Up to $2,500 an item can usually be written off at once.</li>
+      <li><b>Internet and phone</b>: the business share only (say 40%). Write down how you picked it.</li>
+      <li><b>Home office</b>: only a space used regularly and only for the business. Simple way: $5 a square foot, up to 300 sq ft ($1,500).</li>
+      <li><b>Agency costs</b> if you start it: domain, hosting, software, ads.</li>
+    </ul>
+    <p class="note">Not deductible: personal costs and the private share of anything.</p>
+  </section>
+
+  <section class="ag-card card" id="s-dates" aria-labelledby="datesH">
+    <div class="row"><h2 id="datesH">Quarterly dates</h2><span class="pill info">1040-ES</span></div>
+    <ol class="dates" id="dates">
+      <li><span>Sep - Dec 2026</span><b>Jan 15, 2027</b></li>
+      <li><span>Jan - Mar 2027</span><b>Apr 15, 2027</b></li>
+      <li><span>Apr - May 2027</span><b>Jun 15, 2027</b></li>
+      <li><span>Jun - Aug 2027</span><b>Sep 15, 2027</b></li>
+    </ol>
+    <ul>
+      <li>Needed if you expect to owe $1,000 or more for the year.</li>
+      <li><b>No penalty</b> if on time you paid 90% of this year's tax, or 100% of last year's (110% if last year's income was over $150,000).</li>
+      <li>Pay free at IRS Direct Pay or your IRS online account: pick "estimated tax, 1040-ES" and the right year.</li>
+    </ul>
+    <p class="note" id="datesNote">A date on a weekend or holiday moves to the next business day. 2027 dates follow the usual IRS schedule; check the 2027 Form 1040-ES.</p>
+  </section>
+
+  <section class="ag-card card" id="s-pot" aria-labelledby="potH">
+    <div class="row"><h2 id="potH">Set aside per payout</h2><span class="pill warn">ESTIMATE</span></div>
+    <div class="calc">
+      <label>Payout received ($)<input id="pay" type="number" inputmode="decimal" min="0" step="1" value="1000"></label>
+      <label>Tax pot (%)<input id="pct" type="number" inputmode="numeric" min="0" max="60" step="1" value="30"></label>
+    </div>
+    <div class="out" aria-live="polite">
+      <div><span>To the tax pot</span><b id="pot">$300</b></div>
+      <div><span>Yours to keep</span><b id="mine">$700</b></div>
+    </div>
+    <p class="note" id="month">At $2,800 a month: $840 to the pot, $1,960 yours, about $2,520 ready each quarter.</p>
+    <p class="note">Why 30%: on $2,800 a month with no other job the federal tax is roughly 18%; with a day job it is closer to 30%, and most states add more. 30% covers both. Leftover pot money after you file is yours.</p>
+  </section>
+
+  <section class="ag-card card" id="s-kalshi" aria-labelledby="kalH">
+    <div class="row"><h2 id="kalH">Kalshi</h2><span class="pill">paused</span></div>
+    <ul>
+      <li>Kalshi sends a 1099-INT (interest), 1099-MISC (rewards), 1099-B or 1099-DA only for some items. Your trading profit is usually <b>not</b> on a form.</li>
+      <li>Download the yearly profit and loss file (Account, Tax Info / Documents) and keep it.</li>
+      <li><b>Unclear:</b> the IRS has not said how event contracts are taxed (capital gain, 60/40 or ordinary income). Ask a pro before a year with real Kalshi profit.</li>
+      <li>It is separate from the MFFU income.</li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" id="s-state" aria-labelledby="stH">
+    <h2 id="stH">Your state</h2>
+    <p class="lead">Most states tax this too and many want their own quarterly payments. No personal income tax: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, Wyoming (New Hampshire and Washington can still tax business receipts above a size). Check your state's revenue website.</p>
+  </section>
+
+  <section class="ag-card card" id="s-rec" aria-labelledby="recH">
+    <h2 id="recH">Records to keep</h2>
+    <ul>
+      <li>Every payout: date, account, amount, the Rise or bank statement.</li>
+      <li>Every fee, reset, data and platform receipt.</li>
+      <li>PC receipt, internet bills and the business % you used; home office size.</li>
+      <li>Your 1099s and each estimated payment's confirmation number.</li>
+      <li>Last year's return (for the no-penalty rule) and the Kalshi yearly file.</li>
+    </ul>
+    <p class="note">Keep them at least 3 years after you file. The Ledger app already holds your fees and payouts.</p>
+  </section>
+
+  <section class="ag-card card" id="s-help" aria-labelledby="helpH">
+    <h2 id="helpH">Get help free</h2>
+    <ul>
+      <li><b>VITA</b>: free IRS volunteers, usually for income around $70,000 or less. Some do not take business returns with many costs, so ask when you book. Find one with the VITA locator on IRS.gov.</li>
+      <li><b>IRS Free File</b>: free guided software if your income qualifies.</li>
+      <li>Above that, one visit a year to a tax preparer or enrolled agent is usually worth it for a business return with quarterly payments.</li>
+    </ul>
+  </section>
+
+  <footer class="ag-card card src" aria-labelledby="srcH">
+    <h2 id="srcH">Education, not tax advice</h2>
+    <p class="note">General US federal rules checked on IRS.gov on Nov 17, 2026. Your own numbers, state and situation can change the answer. Sources:</p>
+    <ul class="note">
+      <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estimated-taxes" rel="noopener" target="_blank">IRS: Estimated taxes</a></li>
+      <li><a href="https://www.irs.gov/publications/p505" rel="noopener" target="_blank">IRS: Publication 505 (dates, 110% rule)</a></li>
+      <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes" rel="noopener" target="_blank">IRS: Self-employment tax</a></li>
+      <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/self-employed-individuals-tax-center" rel="noopener" target="_blank">IRS: Self-employed tax center</a></li>
+      <li><a href="https://www.irs.gov/faqs/small-business-self-employed-other-business/form-1099-nec-independent-contractors/form-1099-nec-independent-contractors" rel="noopener" target="_blank">IRS: Form 1099-NEC FAQ ($2,000 from 2026)</a></li>
+      <li><a href="https://www.irs.gov/newsroom/qualified-business-income-deduction" rel="noopener" target="_blank">IRS: QBI deduction</a></li>
+      <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/simplified-option-for-home-office-deduction" rel="noopener" target="_blank">IRS: Home office, simplified</a></li>
+      <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/how-long-should-i-keep-records" rel="noopener" target="_blank">IRS: How long to keep records</a></li>
+      <li><a href="https://www.irs.gov/individuals/free-tax-return-preparation-for-qualifying-taxpayers" rel="noopener" target="_blank">IRS: Free help (VITA)</a></li>
+      <li><a href="https://help.myfundedfutures.com/en/articles/13337287-your-1099-tax-documents" rel="noopener" target="_blank">MFFU: Your 1099 tax documents</a></li>
+      <li><a href="https://help.kalshi.com/en/articles/13823849-what-tax-documentation-does-kalshi-provide" rel="noopener" target="_blank">Kalshi: Tax documentation</a></li>
+    </ul>
+  </footer>
+</main>
+<script src="taxes.js?v=1"></script>
+</body>
+</html>

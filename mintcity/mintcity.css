@@ -1,0 +1,56 @@
+/* AGORA app base (docs/DESIGN_AGORA.md, olympus/agora.css): marble cards, serif headings, gold rule. Only layout lives here; every colour is an --ag-* token.
+   Safe areas on every edge; the page ends 176 px above the bottom (Jarvis's orb owns the bottom-right corner); every tap target is at least 44 px; no sideways scroll at 375 px. */
+:root { --acc: var(--oly-accent, #c8a24a); --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px)); --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px)); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--ag-night, #14110e); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); overflow-x: hidden; font: 500 15px/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-text, #f3ece0); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ag-gold, #c8a24a); outline-offset: 2px; }
+[hidden] { display: none !important; }
+#app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+html.framed #app { padding-top: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
+.brand h1 { margin: 0; }
+.brand .sub { margin: 6px 0 0; font-size: 13px; color: var(--ag-soft); }
+.tags { display: flex; gap: 6px; align-items: center; flex: none; }
+.tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); }
+.tag.demo { color: #1b1610; background: var(--ag-sun); border-color: transparent; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.card > h2 { margin: 0; }
+.lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
+.note { margin: 0; font-size: 13px; color: var(--ag-muted); }
+.pos { color: var(--ag-olive); } .neg { color: var(--ag-terra); }
+.kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; margin: 0; font-size: 14px; }
+.kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: #211c16; white-space: nowrap; }
+.pill.ok { color: var(--ag-olive); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); }
+.btn[aria-expanded="true"] { border-color: var(--ag-gold); color: var(--ag-gold); background: #2a2217; }
+svg text { font-family: var(--ag-sans); }
+.foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; } .row h2 { margin: 0; }
+
+/* MINT CITY */
+.hero { border-color: #4a3d28; }
+.big { margin: 0; font: 700 clamp(36px, 12vw, 48px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-gold); }
+.city { position: relative; width: 100%; height: min(68vh, 520px); min-height: 360px; border-radius: var(--ag-radius-s, 12px); overflow: hidden; background: linear-gradient(180deg, #5a4430, #2a2016); border: 1px solid var(--ag-line); touch-action: pan-y; }
+.s3d { position: absolute; inset: 0; } .s3d canvas { width: 100% !important; height: 100% !important; display: block; touch-action: none; }
+.mapwrap { position: absolute; inset: 0; display: grid; place-items: center; }
+.map { width: 100%; height: 100%; display: block; } .map g { cursor: pointer; } .map g:focus-visible { outline: 2px solid var(--ag-gold); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-height: 44px; padding: 0 14px; font-size: 14px; }
+.chip[aria-pressed="true"] { border-color: var(--ag-gold); color: var(--ag-gold); background: #2a2217; }
+.sheet { display: grid; gap: 8px; border-color: #4a3d28; } .sheet h2 { margin: 0; font-size: 19px; }
+.sheet .acts { display: flex; gap: 8px; }
+a.btn { text-decoration: none; }
+a.btn.go { background: #2a2217; border-color: var(--ag-gold); color: var(--ag-gold); }
+.dlist { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.dlist li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-height: 44px; }
+.dlist li > div { min-width: 0; display: grid; } .dlist .rt { display: flex; align-items: center; gap: 10px; flex: none; text-align: right; }
+.hint { margin: 0; font-size: 12px; color: var(--ag-muted); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+html[data-oly-lite="1"] .ag-card { box-shadow: none; }
+.ag-tab, .ag-chip, summary { min-height: 44px; }

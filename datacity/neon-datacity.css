@@ -1,0 +1,64 @@
+/* Data City, the NEON NIGHT look (its default again, owner 2026-11-18: "our Data City we had that looked techy"; look-mode.js).
+   The night metropolis of 2026-11-07: deep navy glass, cyan / violet / gold data light, Orbitron names and Rajdhani text, spaced capitals.
+   Only under html[data-dc-look=neon] (set in index.html's head before the first paint); the AGORA sheet is switched off then.
+   Reported by tools/agora_audit.py as the owner's own look (OWNER_LOOKS), never a hard FAIL. Text stays AA on the navy panels. */
+@font-face{font-family:"Orbitron";src:url("../jarvis/orbitron.woff2") format("woff2");font-weight:400 900;font-display:swap}
+@font-face{font-family:"Rajdhani";src:url("../jarvis/rajdhani-500.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Rajdhani";src:url("../jarvis/rajdhani-600.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Rajdhani";src:url("../jarvis/rajdhani-700.woff2") format("woff2");font-weight:700 900;font-display:swap}
+html[data-dc-look=neon]{--bg:#05060f;--panel:rgba(10,14,32,.88);--line:rgba(127,233,255,.16);--text:#f4f4f6;--sub:#b4bad0;--gold:#ffc94a;--green:#39e59a;
+--amber:#ff9f43;--grey:#7c8299;--red:#ff6b7f;--cyan:#3fd8ff;--violet:#a68bff;--accent:#4f8cff;--oly-accent:#4f8cff;
+--oly-display:"Orbitron","Rajdhani",-apple-system,system-ui,sans-serif;--oly-ui:"Rajdhani",-apple-system,"SF Pro Text",system-ui,sans-serif;
+--neon-glow:0 0 0 1px rgba(63,216,255,.10),0 8px 26px rgba(0,0,0,.55)}
+html[data-dc-look=neon],html[data-dc-look=neon] body{background:#05060f;font-family:var(--oly-ui)}
+html[data-dc-look=neon] body::before{background:radial-gradient(130% 100% at 50% 40%,transparent 60%,rgba(2,3,12,.55))}
+/* the top bar: navy glass, the name in Orbitron with the old gold-to-cyan light */
+html[data-dc-look=neon] .top{background:linear-gradient(180deg,rgba(10,12,28,.84),rgba(10,12,28,.6));border:1px solid rgba(127,233,255,.18);box-shadow:var(--neon-glow)}
+html[data-dc-look=neon] .top h1{font:800 15px/1.2 var(--oly-display);letter-spacing:.22em;text-transform:uppercase;background:linear-gradient(90deg,#fff,#ffd987 45%,#7fe9ff);
+-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+html[data-dc-look=neon] .ic{color:#dfe6ff}
+html[data-dc-look=neon] .ic.on{color:#7fe9ff;border-color:rgba(63,216,255,.5);background:rgba(63,216,255,.1)}
+html[data-dc-look=neon] .chip{font:600 13px/1.3 var(--oly-ui);background:rgba(127,233,255,.05);border-color:rgba(127,233,255,.16);color:#c3c9de}
+html[data-dc-look=neon] .chip b{color:#fff}
+html[data-dc-look=neon] .chip.clock{font:600 11px/1.4 var(--oly-display);letter-spacing:.06em;color:#f4f4f6;border-color:rgba(255,201,74,.35)}
+html[data-dc-look=neon] .chip.demo{color:#111;background:#ff9f43}
+html[data-dc-look=neon] .city-network-label{color:#9da9c7;font:800 9px/1.15 var(--oly-display);letter-spacing:.13em;text-transform:uppercase}
+html[data-dc-look=neon] .city-network a{border:1px solid rgba(127,233,255,.14);border-radius:10px;background:rgba(5,8,19,.6);color:#c3c9de;font:800 9.5px/1.1 var(--oly-display);letter-spacing:.06em;text-transform:uppercase}
+html[data-dc-look=neon] .city-network a[aria-current=page]{border-color:rgba(255,201,74,.55);background:linear-gradient(135deg,rgba(255,201,74,.14),rgba(63,216,255,.08));color:#ffe1a1;box-shadow:inset 0 0 16px rgba(255,201,74,.07)}
+@media (max-width:430px){html[data-dc-look=neon] .top h1{font-size:13px;letter-spacing:.12em}html[data-dc-look=neon] .city-network a{font-size:8.5px;letter-spacing:.03em}}
+/* the mini map, the sheet, the dock, the camera column */
+html[data-dc-look=neon] .mini{border-color:rgba(127,233,255,.28);background:rgba(5,8,19,.82);box-shadow:0 0 18px rgba(63,216,255,.12),0 6px 18px rgba(0,0,0,.5)}
+html[data-dc-look=neon] .sheet{background:linear-gradient(180deg,rgba(12,16,36,.95),rgba(8,10,24,.95));border:1px solid rgba(127,233,255,.18);box-shadow:0 -6px 30px rgba(0,0,0,.55)}
+html[data-dc-look=neon] .sheet header{background:linear-gradient(rgba(12,16,36,.98) 80%,transparent)}
+html[data-dc-look=neon] .sheet h2{font:700 17px/1.25 var(--oly-ui);letter-spacing:.01em;text-transform:none;color:#fff}
+html[data-dc-look=neon] .sheet h3{font:700 11px/1.3 var(--oly-display);letter-spacing:.12em;text-transform:uppercase;color:#7fe9ff}
+html[data-dc-look=neon] .x,html[data-dc-look=neon] .xs{border-color:rgba(127,233,255,.2)}
+html[data-dc-look=neon] .pill{border-color:rgba(127,233,255,.2);background:rgba(15,20,44,.9);font:700 15px var(--oly-ui)}
+html[data-dc-look=neon] .pill.on{border-color:#3fd8ff;color:#7fe9ff;background:rgba(63,216,255,.1)}
+html[data-dc-look=neon] .seg button{border-color:rgba(127,233,255,.2);background:rgba(15,20,44,.9);color:#c3c9de}
+html[data-dc-look=neon] .seg button.on{background:#3fd8ff;color:#06101c}
+html[data-dc-look=neon] .grid4 div{background:rgba(127,233,255,.05);border-color:rgba(127,233,255,.16)}
+html[data-dc-look=neon] .list li,html[data-dc-look=neon] th,html[data-dc-look=neon] td,html[data-dc-look=neon] .lift li{border-bottom-color:rgba(127,233,255,.12)}
+html[data-dc-look=neon] input[type=search]{background:#070a18;border-color:rgba(127,233,255,.25);color:#fff}
+html[data-dc-look=neon] .tab{background:linear-gradient(180deg,rgba(14,18,40,.92),rgba(8,10,24,.92));border:1px solid rgba(127,233,255,.18);color:#dfe6ff;
+font:700 10px/1 var(--oly-display);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+html[data-dc-look=neon] .tab.on{border-color:#3fd8ff;color:#7fe9ff;background:rgba(63,216,255,.12)}
+html[data-dc-look=neon] .cams button,html[data-dc-look=neon] .cams a{background:rgba(10,14,32,.88);border-color:rgba(127,233,255,.18);color:#c3c9de;font:700 10px/1 var(--oly-display);letter-spacing:.1em;text-transform:uppercase}
+html[data-dc-look=neon] .cams a{border-color:rgba(255,201,74,.55);color:#ffc94a}
+html[data-dc-look=neon] .cams button.on{color:#06101c;background:#7fe9ff;border-color:#bff4ff}
+html[data-dc-look=neon] .tag{background:rgba(8,10,24,.9);border-color:rgba(63,216,255,.55)}
+html[data-dc-look=neon] .tag::after{background:rgba(63,216,255,.7)}
+html[data-dc-look=neon] .caption{color:#fff}
+html[data-dc-look=neon] .caption small{font:700 10px/1 var(--oly-display);letter-spacing:.2em;color:#ffc94a}
+html[data-dc-look=neon] .caption.on{padding:10px 14px;border:1px solid rgba(63,216,255,.35);border-radius:14px;background:rgba(6,9,22,.86)}
+html[data-dc-look=neon] .toast{background:rgba(12,16,36,.95);border-color:rgba(127,233,255,.25);color:#e6ecff}
+html[data-dc-look=neon] .loading{color:#9da9c7;font:600 12px/1.5 var(--oly-display);letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:0 24px}
+html[data-dc-look=neon] .loading a{background:#141a3a;border-color:#ffc94a;color:#ffe0a0;text-transform:none;letter-spacing:0}
+html[data-dc-look=neon] .mi{background:linear-gradient(180deg,rgba(15,20,44,.95),rgba(9,12,28,.95));border-color:rgba(127,233,255,.18);border-radius:14px}
+html[data-dc-look=neon] .mi b{font:700 15px/1.2 var(--oly-ui);color:#fff}
+html[data-dc-look=neon] .mi[data-key=look] b{color:#ffc94a}
+html[data-dc-look=neon] .mi:active{border-color:#3fd8ff}
+html[data-dc-look=neon] .badge{border-radius:6px}
+html[data-dc-look=neon] .b-today{background:#3fd8ff;color:#06101c}
+html[data-dc-look=neon] .cmpname.a{border-color:rgba(63,216,255,.5)}html[data-dc-look=neon] .cmpname.b{border-color:rgba(166,139,255,.5)}
+html[data-dc-look=neon] :focus-visible{outline-color:#7fe9ff}

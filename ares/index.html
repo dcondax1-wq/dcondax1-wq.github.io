@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ares</title>
+<meta name="description" content="ARES, the war room: the pre-trade checklist and the risk calculator for NQ / MNQ sized to your stop and the MFFU drawdown left, with a GO / WAIT / HALT verdict.">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ares">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../jarvis/icon-192.png?v=j5">
+<!-- ARES (tools/web_public/ares/, 2026-11-03): the war room. Rules as numbers: rules.json (tools/ares_plutus_build.py from
+     research/lit/mffu_rules.json; an embedded copy in arescore.js when it is missing). Look: ares.css; the rules and the sizing:
+     arescore.js (pure functions); the 3D room + the UI: ares.js (three.js from ../jarvis/). The only other data it reads is the
+     site's own ../data.json (the eval account's balance + floor, the bot's real stops), when it is there. A calculator for the
+     human: it never places or changes an order. Bump ?v= on all of them when one changes. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="ares"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8402e'); r.setProperty('--oly-accent-rgb', '200, 64, 46'); })();</script>
+<link rel="stylesheet" href="ares.css?v=r3">
+</head>
+<body>
+<canvas id="room" aria-label="The war room: the account as a tower from the max-loss floor up to the target, your balance as an orb and the stop-out you are about to risk as a red slab" role="img"></canvas>
+<div id="nogl" class="nogl" hidden>3D is not available here. Everything works below.</div>
+<header class="hud">
+  <div class="title"><h1>ARES</h1><span class="tag" id="demo" hidden>OFFLINE RULES</span><span class="tag live" id="livetag" hidden>LIVE ACCOUNT</span></div>
+  <p class="sub" id="sub">Check a trade before you take it: type entry and stop, get GO, WAIT or HALT and the $ at risk.</p>
+  <div class="dd" id="dd" role="img" data-tone="calm"><span class="ddk">DRAWDOWN LEFT</span><b class="ddv"></b><span class="ddb"><i></i></span></div>
+</header>
+<section class="sheet" id="sheet" aria-live="polite">
+  <div class="pane" id="p-trade" role="tabpanel" aria-label="Trade">
+    <div class="row seg" role="group" aria-label="Instrument and side">
+      <button type="button" data-set="inst" data-v="MNQ">MNQ</button><button type="button" data-set="inst" data-v="NQ">NQ</button>
+      <button type="button" data-set="side" data-v="long" class="long">Long</button><button type="button" data-set="side" data-v="short" class="short">Short</button>
+    </div>
+    <div class="grid2">
+      <label>Entry<input id="entry" inputmode="decimal" autocomplete="off" placeholder="21500.00"></label>
+      <label>Stop (1 tick past the sweep high/low)<input id="stop" inputmode="decimal" autocomplete="off" placeholder="21480.00"></label>
+    </div>
+    <label class="slide">Risk this much of the $ room left: <b id="riskPctV">40%</b>
+      <input id="riskPct" type="range" min="10" max="90" step="5" value="40"></label>
+    <div class="out" id="out"></div>
+    <section class="plus" aria-label="The money maths">
+      <details class="pd" open><summary><b>What a win must be worth</b><span id="plusOddsS"></span></summary><div id="plusOdds"></div></details>
+      <details class="pd"><summary><b>Stop ladder: wide stop, fewer micros</b><span id="plusLadderS"></span></summary><div id="plusLadder"></div></details>
+      <details class="pd"><summary><b>If I lose in a row</b><span id="plusStreakS"></span></summary><div id="plusStreak"></div></details>
+    </section>
+    <button type="button" class="wide" id="shareBtn">Share this check as a card</button>
+  </div>
+  <div class="pane" id="p-account" role="tabpanel" aria-label="Account" hidden>
+    <p class="hint">Scenarios: set the account to a moment of its life.</p>
+    <div class="scen" id="scen"></div>
+    <div class="row seg" role="group" aria-label="Plan and stage">
+      <button type="button" data-set="plan" data-v="50k">Builder 50K</button><button type="button" data-set="plan" data-v="25k">Builder 25K</button>
+      <button type="button" data-set="stage" data-v="eval">Eval</button><button type="button" data-set="stage" data-v="funded">Funded</button>
+    </div>
+    <div class="grid2">
+      <label>Balance now (open trade in)<input id="balance" inputmode="decimal" autocomplete="off"></label>
+      <label>Best end-of-day balance<input id="peak" inputmode="decimal" autocomplete="off"></label>
+      <label>Today's P&amp;L<input id="today" inputmode="decimal" autocomplete="off" placeholder="0"></label>
+      <label>Risk cap per trade ($, optional)<input id="riskCap" inputmode="decimal" autocomplete="off" placeholder="none"></label>
+      <label>My max trades today<input id="maxTrades" inputmode="numeric" autocomplete="off"></label>
+      <label>Stop for the day after<input id="stopAfter" inputmode="numeric" autocomplete="off"></label>
+      <label>Trades taken today<input id="tradesToday" inputmode="numeric" autocomplete="off"></label>
+      <label>Stop-outs today<input id="lossesToday" inputmode="numeric" autocomplete="off"></label>
+    </div>
+    <div class="out" id="acct"></div>
+    <section class="plus" aria-label="Today and the pass">
+      <details class="pd" open><summary><b>Today's loss budget</b><span id="plusDayS"></span></summary><div id="plusDay"></div></details>
+      <details class="pd"><summary><b>Pace to pass</b><span id="plusPaceS"></span></summary><div id="plusPace"></div></details>
+      <details class="pd"><summary><b>Payout check</b><span id="plusPayS"></span></summary><div id="plusPay"></div></details>
+    </section>
+    <button type="button" class="wide" id="fromBot" hidden>Use the bot's eval account</button>
+  </div>
+  <div class="pane" id="p-why" role="tabpanel" aria-label="Why" hidden>
+    <div id="why"></div>
+    <label class="tog"><input type="checkbox" id="news"><span>High-impact news in the next 15 minutes</span></label>
+    <label class="tog"><input type="checkbox" id="hedge"><span>I hold the opposite side in another account</span></label>
+  </div>
+  <div class="pane" id="p-list" role="tabpanel" aria-label="Checklist" hidden>
+    <p class="hint"><b id="chkN">0/8</b> ticked. GO needs all eight.</p>
+    <div id="checks"></div>
+    <button type="button" class="wide" id="resetChecks">New trade: clear the list</button>
+    <section class="xbox" aria-label="Pre-trade ritual"><h3>Pre-trade ritual</h3><div class="ritual"><div class="ringhost" id="ritualRing" role="img" aria-label="Ritual timer"><b id="ritualN">60</b></div><p class="line" id="ritualTxt"></p></div><button type="button" class="wide" id="ritualBtn">Start the ritual</button></section>
+    <section class="xbox" aria-label="Journal of checks"><h3>Journal of past checks</h3>
+      <button type="button" class="wide" id="logCheck" disabled>Log this check</button>
+      <div class="ask" id="logAsk" hidden><span>Did you take this trade?</span><button type="button" id="logTook">I took it</button><button type="button" id="logPassed">I passed</button></div>
+      <div id="journal"></div><button type="button" class="wide ghost" id="clearJournal">Clear the journal</button></section>
+    <section class="xbox" aria-label="Rules you broke"><h3>Rules you broke</h3><div id="broken"></div></section>
+  </div>
+  <div class="pane" id="p-rules" role="tabpanel" aria-label="Rules" hidden>
+    <div id="rules"></div>
+    <div id="botstops"></div>
+  </div>
+</section>
+<footer class="dock">
+  <button type="button" class="verdict" id="verdict" aria-controls="p-why" aria-label="Verdict">
+    <span class="vk" id="vk">HALT</span><span class="vs" id="vs"></span>
+  </button>
+  <p class="vline" id="vline"></p>
+  <nav class="tabs" id="tabs" aria-label="Ares">
+    <button type="button" data-tab="trade" aria-pressed="true">Trade</button><button type="button" data-tab="account" aria-pressed="false">Account</button>
+    <button type="button" data-tab="why" aria-pressed="false">Why <b id="whyN">0</b></button><button type="button" data-tab="list" aria-pressed="false">List</button>
+    <button type="button" data-tab="rules" aria-pressed="false">Rules</button>
+  </nav>
+</footer>
+<script type="module" src="ares.js?v=r4"></script>
+<script type="module" src="glossary.js"></script>
+</body>
+</html>

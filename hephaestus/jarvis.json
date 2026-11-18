@@ -1,0 +1,30 @@
+{
+ "v": 1,
+ "name": "Hephaestus",
+ "status": {
+  "level": "ok",
+  "label": "Read-only workshop"
+ },
+ "kpis": [
+  {
+   "label": "2026 net (live)",
+   "value": "$43,820"
+  },
+  {
+   "label": "Jul-Oct PF",
+   "value": "2.91"
+  },
+  {
+   "label": "Trades / week",
+   "value": "2.91"
+  }
+ ],
+ "lines": [
+  "Turn a dial: stored 2026 results, Jan-Jun against Jul-Oct.",
+  "It changes nothing in the bot."
+ ],
+ "t": 1793750528,
+ "open": "#dials",
+ "theme": "#14110e",
+ "stale_after": 2592000
+}

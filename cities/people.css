@@ -1,0 +1,12 @@
+/* PEOPLE chat card (our own fallback when the shared People kit is not loaded), AGORA look. Used by Hellas and Athens. */
+.ppl-chat{--ppl-line:var(--oly-th-n8, #3a3228);--ppl-gold:var(--oly-th-a8, #c8a24a);font-family:-apple-system,'SF Pro Text',system-ui,sans-serif;color:var(--oly-th-n37, #f3ece0)}
+.ppl-head{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.ppl-head svg,.ppl-face{flex:none;width:44px;height:44px;border-radius:50%}
+.ppl-face{display:grid;place-items:center;border:3px solid var(--oly-th-a8, #c8a24a);color:var(--oly-th-n5, #2a2018);font:700 15px/1 system-ui,sans-serif;padding-top:8px;overflow:hidden}
+.ppl-who b{display:block;font:700 15px/1.2 var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif)}
+.ppl-who small{display:block;color:var(--oly-th-n22, #9a8f7d);font-size:12px;line-height:1.3;margin-top:2px}
+.ppl-answer{margin:0 0 10px;padding:10px 12px;border-radius:14px 14px 14px 4px;border:1px solid var(--ppl-line);background:var(--oly-th-n5, #26211b);color:var(--oly-th-n37, #f3ece0);font-size:14px;line-height:1.4}
+.ppl-qs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ppl-qs button{min-height:44px;padding:6px 8px;border-radius:12px;border:1px solid var(--ppl-line);background:var(--oly-th-n4, #1d1914);color:var(--oly-th-n37, #f3ece0);font:600 12.5px/1.2 -apple-system,system-ui,sans-serif;text-align:left;cursor:pointer}
+.ppl-qs button.on{border-color:var(--ppl-gold);color:var(--oly-th-a14, #ffe9b0)}
+.ppl-fine{margin:8px 0 0;color:var(--oly-th-n22, #9a8f7d);font-size:12px;line-height:1.35}

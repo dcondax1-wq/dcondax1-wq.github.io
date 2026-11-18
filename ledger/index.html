@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ledger</title>
+<meta name="description" content="LEDGER: your real money, tracked. Eval fees, resets, payouts requested and received, Kalshi deposits and balance, expenses and a tax set-aside, on your phone only. Net profit, per-account payback, a monthly waterfall, a break-even tracker, a payout calendar, a cash heat map and a CSV for your accountant. Records what happened; plans live in Plutus.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ledger">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- LEDGER (OLYMPUS, 2026-11-04): the owner's REAL money. What he enters on his phone is kept in localStorage 'ledger.v1' and never leaves it (export / import JSON,
+     CSV for an accountant are downloads he starts). It also reads what the site already knows: ../home.json (the accounts), rules.json (his real eval prices and MFFU's
+     payout rules, tools/ledger_rules.py) and the public Kalshi feed (read only). ledgercore.js = the numbers (pure), ledgerscene.js = the 3D vault on the OLYMPUS render
+     core, ledger.js = the page. Plutus projects; Ledger records. Nothing here is tax advice and nothing here moves money. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="ledger"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c2b280'); r.setProperty('--oly-accent-rgb', '194, 178, 128'); })();</script>
+<link rel="stylesheet" href="ledger.css?v=s2">
+</head>
+<body>
+<canvas id="vault" aria-label="A golden vault with a pile of coins that grows with your net profit" role="img"></canvas>
+<main id="app">
+  <header class="top">
+    <div class="brand"><h1>LEDGER</h1><p class="sub">Real $ in and out: fees, payouts, what you kept</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <section class="hero" id="hero" aria-live="polite">
+    <p class="k" id="heroK">Net profit, all time</p>
+    <p class="big" id="net" data-oly-fx="odometer">$0.00</p>
+    <p class="sub2" id="netNote">Loading...</p>
+    <div class="pair"><div><span>This month</span><b id="mNet">-</b></div><div><span>Break-even</span><b id="beChip">-</b></div></div>
+    <p class="coin" id="coinNote"></p>
+  </section>
+  <div class="demo-banner" id="demoBanner" hidden><b>DEMO</b> Example numbers, not yours. Tap the gold + to add your first real entry.</div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Ledger sections">
+    <button type="button" role="tab" id="t-over" data-tab="over" aria-selected="true" aria-controls="p-over">Overview</button>
+    <button type="button" role="tab" id="t-acct" data-tab="acct" aria-selected="false" aria-controls="p-acct" tabindex="-1">Accounts</button>
+    <button type="button" role="tab" id="t-cash" data-tab="cash" aria-selected="false" aria-controls="p-cash" tabindex="-1">Cash</button>
+    <button type="button" role="tab" id="t-tax" data-tab="tax" aria-selected="false" aria-controls="p-tax" tabindex="-1">Taxes</button>
+    <button type="button" role="tab" id="t-list" data-tab="list" aria-selected="false" aria-controls="p-list" tabindex="-1">Entries</button>
+  </nav>
+  <section class="panel" id="p-over" role="tabpanel" aria-labelledby="t-over"></section>
+  <section class="panel" id="p-acct" role="tabpanel" aria-labelledby="t-acct" hidden></section>
+  <section class="panel" id="p-cash" role="tabpanel" aria-labelledby="t-cash" hidden></section>
+  <section class="panel" id="p-tax" role="tabpanel" aria-labelledby="t-tax" hidden></section>
+  <section class="panel" id="p-list" role="tabpanel" aria-labelledby="t-list" hidden></section>
+  <p class="foot" id="foot">What you enter stays on this phone. Ledger reads the site's accounts file and the public Kalshi feed; it never sends anything.</p>
+</main>
+<button type="button" class="fab" id="add" aria-label="Add an entry" data-oly-fx="ripple" data-oly-cue="open">+</button>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toastText"></span><button type="button" id="toastUndo" data-oly-cue="tap">Undo</button></div>
+<section class="sheet" id="sheet" hidden aria-labelledby="sheetTitle" role="dialog" aria-modal="true">
+  <header><h2 id="sheetTitle">Add</h2><button type="button" class="oly-close" id="sheetClose" aria-label="Close" data-oly-cue="close">×</button></header>
+  <form id="form" autocomplete="off" novalidate>
+    <label class="f amt"><span>Amount ($)</span><input id="fAmount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-describedby="fErr"></label>
+    <label class="f"><span>What</span><select id="fKind"></select></label>
+    <label class="f"><span>Date</span><input id="fDate" type="date"></label>
+    <details class="more" id="more"><summary>More: category, account, note, repeats</summary>
+      <label class="f"><span>Category</span><select id="fCat"></select></label>
+      <label class="f"><span>Account</span><select id="fAcct"></select></label>
+      <label class="f"><span>Note</span><input id="fNote" type="text" maxlength="160" autocomplete="off" placeholder="optional"></label>
+      <div class="two"><label class="f"><span>Repeats</span><select id="fRec"><option value="">Once</option><option value="week">Every week</option><option value="month">Every month</option><option value="year">Every year</option></select></label>
+        <label class="f"><span>Until</span><input id="fUntil" type="date"></label></div>
+    </details>
+    <p class="err" id="fErr" role="alert" hidden></p>
+    <div class="row-b"><button type="submit" class="go" id="fSave" data-oly-cue="success">Save</button><button type="button" class="del" id="fDelete" data-oly-cue="warning" hidden>Delete</button></div>
+  </form>
+</section>
+<script type="module" src="ledger.js?v=s2"></script>
+</body>
+</html>

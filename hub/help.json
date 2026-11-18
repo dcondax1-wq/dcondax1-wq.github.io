@@ -1,0 +1,438 @@
+{
+ "v": 1,
+ "updated": "2026-11-18",
+ "note": "How do I... (hub/help.html). Each answer is 2-4 plain steps, where to click, at most one line to copy, and the page where it is done. Facts from the docs named in src, checked against the code 2026-11-18. The lead keeps it current.",
+ "items": [
+  {
+   "id": "add-account",
+   "q": "Add a new MFFU account",
+   "words": "new account buy eval builder 25k 50k rapid add_account bat start page one tap name ninjatrader arm",
+   "where": "At the PC: the LE START icon (Start page), or ADD_ACCOUNT.bat in the bot folder",
+   "steps": [
+    "Buy it at MFFU with the CLUB code. Open NinjaTrader: the new account shows in the Accounts tab.",
+    "At the PC open LE START. On the Start page the new account has a card: tap its first button (\"Zlarior trades it\" for a Builder, \"Zlarior + ATLAS\" for a Rapid). Or double-click ADD_ACCOUNT.bat, type 1-5 and paste the Name.",
+    "It is added NOT armed. When the bot is flat: LE STOP BOT, then LE START > Start trading, and type the live phrase yourself."
+   ],
+   "copy": "python -X utf8 -m engine.accounts status",
+   "copy_note": "Check (at the PC): one line per account, armed or not, and your MFFU slots.",
+   "link": {
+    "href": "../business/mffu.html",
+    "label": "My accounts (MFFU view)"
+   },
+   "src": "docs/NEW_ACCOUNT.md, engine/onboard.py, ADD_ACCOUNT.bat"
+  },
+  {
+   "id": "eval-passed",
+   "q": "My eval passed: what now?",
+   "words": "passed pass funded upgrade sim name move atlas zlarior start bot target",
+   "where": "MFFU dashboard (Upgrade), then the PC's Start page (LE START)",
+   "steps": [
+    "MFFU dashboard > Stats > the passed eval > Upgrade. One tap, $0, reviewed within 24 h.",
+    "The funded account appears in NinjaTrader (Accounts tab) with a NEW Name that contains SIM. Your phone says New MFFU account.",
+    "Bot flat: LE STOP BOT. Open LE START and tap \"Move ATLAS here (funded)\" (or \"Move Zlarior here (funded)\") on the new account's card. It is added NOT armed.",
+    "LE START > Start trading and type the live phrase yourself. From now on the Payout coach tells you when to ask for money."
+   ],
+   "copy": "python -X utf8 -m engine.lit25 --funded \"PASTE-THE-SIM-NAME\" --start YYYY-MM-DD",
+   "copy_note": "The same as the Start page button for ATLAS's 25K (bot stopped). Put the new Name and the first funded day in.",
+   "link": {
+    "href": "../business/mffu.html",
+    "label": "My accounts (MFFU view)"
+   },
+   "src": "docs/FUNDED_25K_PLAYBOOK.md, docs/LIT25_FUNDED.md, engine/onboard.py"
+  },
+  {
+   "id": "payout",
+   "q": "Request a payout",
+   "words": "payout payouts withdraw money cash request when how much 27100 1000 coach tax pot split 80%",
+   "where": "Business > My Accounts > Payout coach card, then the MFFU dashboard",
+   "steps": [
+    "When: ATLAS's funded 25K at $27,100 or more, 2+ traded days this cycle, best day no more than half the cycle's profit. The Payout coach card shows the exact $ for today.",
+    "In the MFFU dashboard request $1,000, after the close with no open trade. The bot never asks MFFU for you.",
+    "You keep 80% = $800. The day it lands, move 30% ($240) to the tax pot: about $560 is yours.",
+    "Tell the PC (line below, your date). The next cycle counts from $26,100."
+   ],
+   "copy": "python -X utf8 -m engine.account_b --payout YYYY-MM-DD=1000",
+   "copy_note": "At the PC, after MFFU paid. Put the payout day in.",
+   "link": {
+    "href": "../business/accounts.html#coach",
+    "label": "Payout coach"
+   },
+   "src": "docs/FUNDED_25K_PLAYBOOK.md, engine/payout_coach.py"
+  },
+  {
+   "id": "safety",
+   "q": "Pause or flatten ZEUS from my phone",
+   "words": "pause resume flatten kill stop emergency phone safety tailscale private link close position",
+   "where": "Your PC's private Tailscale link + /safety/ (never on this public site)",
+   "steps": [
+    "First time only, at the PC: run the line below. It turns the phone buttons on.",
+    "On the phone: Tailscale on, open your PC's private link (the LIVE_LINK.bat address) and add /safety/ at the end. Add it to the Home Screen.",
+    "PAUSE = no new trades until the next 4 PM ET; RESUME undoes it. FLATTEN all now and KILL (flatten + stop) need a second tap.",
+    "It can never arm a bot or place a trade. Only the PC and your own Tailscale devices can press it."
+   ],
+   "copy": "python -X utf8 -m engine.phone_safety --on",
+   "copy_note": "Once, at the PC. Off again: the same line with --off.",
+   "link": {
+    "href": "zeus.html#safety",
+    "label": "ZEUS: Safety"
+   },
+   "src": "docs/ZEUS_FEATURES.md, engine/phone_safety.py"
+  },
+  {
+   "id": "restart",
+   "q": "Restart the bot safely",
+   "words": "restart reboot stop start bot rearm arm phrase flat 17:00 load fixes",
+   "where": "At the PC: the LE STOP BOT icon, then LE START > Start trading",
+   "steps": [
+    "Only when flat: no open trade and no setup waiting (Bots right now shows it).",
+    "Best time: 17:00-18:00 ET (the daily break) or after the close. Never with a trade open.",
+    "At the PC: LE STOP BOT, then LE START > Start trading (or START_BOT.bat in the bot folder).",
+    "When it asks, type I ACCEPT LIVE RISK yourself. It must be running again before Sunday 18:00 ET."
+   ],
+   "copy": "python -X utf8 -m engine.accounts status",
+   "copy_note": "Check after the start: each account armed or not.",
+   "link": {
+    "href": "../nq/",
+    "label": "Bots right now"
+   },
+   "src": "docs/DAILY_CHECKLIST.md, docs/NEW_ACCOUNT.md, engine/go.py"
+  },
+  {
+   "id": "update",
+   "q": "Update the PC",
+   "words": "update upgrade new code version update.bat fix ok red auto update backup",
+   "where": "Nothing (it updates itself); by hand: UPDATE.bat in the bot folder",
+   "steps": [
+    "Nothing to do: the PC updates itself from the backup when it is flat (the 17:02 ET break; a live eval only on Friday or Saturday). Never in trading hours or with a trade open.",
+    "To update now (after 16:00 ET, bot flat): double-click UPDATE.bat. LE START also takes the newest code first. Tonight's cross-account hedge fix (25K #2 eval vs ATLAS's funded 25K) reaches evals Fri/Sat by itself: run UPDATE.bat when flat (17:00-18:00 ET best) to get it sooner.",
+    "[OK] = fine. [FIX] = that step needs you, and the line says what (for example: a trade is open, run UPDATE after it closes). The old version keeps running.",
+    "Still red? Take a photo of the window and send it to Claude."
+   ],
+   "copy": "python -X utf8 -m engine.autoupdate --source-status",
+   "copy_note": "Read only: says whether the PC is connected to the backup.",
+   "link": {
+    "href": "../board/",
+    "label": "Board (the PC's last report)"
+   },
+   "src": "docs/AUTO_UPDATE.md, UPDATE.bat, engine/autoupdate.py, engine/multi_account.py"
+  },
+  {
+   "id": "pc-silent",
+   "q": "The PC went silent",
+   "words": "pc silent offline no report quiet red not reporting ntfy doctor heartbeat",
+   "where": "At the PC: PC_DOCTOR.bat in the bot folder",
+   "steps": [
+    "The ZEUS page shows PC SILENT in red when the PC has not reported.",
+    "At the PC double-click PC_DOCTOR.bat. It only looks: nothing is started, stopped, armed or sent.",
+    "Read MOST LIKELY CAUSE, then copy the line under NEXT STEP (copy this line) and run it.",
+    "Still silent 20 minutes later? Send Claude a photo of the PC_DOCTOR window."
+   ],
+   "copy": "http://127.0.0.1:8766/api/pc/doctor?text=1",
+   "copy_note": "The same check in the PC's own browser.",
+   "link": {
+    "href": "zeus.html",
+    "label": "ZEUS (PC status)"
+   },
+   "src": "docs/PC_DOCTOR.md, tools/pc_doctor.py"
+  },
+  {
+   "id": "limit-0",
+   "q": "An order was rejected: \"Limit 0\"",
+   "words": "order rejected limit 0 max order quantity scope mnq refused blocked error",
+   "where": "The MFFU dashboard (the account's status)",
+   "steps": [
+    "\"Max order quantity, Limit 0\" = MFFU lets this account hold 0 contracts right now. It is not a bot bug.",
+    "Between 16:10 and 18:00 ET (and Friday 16:10 to Sunday 18:00) every account is at 0: wait for 18:00 ET.",
+    "Still 0 after 18:00 ET: the daily loss limit was hit, or the account failed or passed. Read its status in the MFFU dashboard (Active, Failed, Passed, Pending activation).",
+    "Passed? See \"My eval passed: what now?\". The bot stays off a Limit 0 account by itself."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../trading/#helpCard",
+    "label": "Trades: why was my order rejected"
+   },
+   "src": "tools/web_public/trading/index.html (helpCard), engine/board_events.py"
+  },
+  {
+   "id": "accounts",
+   "q": "Where are my accounts?",
+   "words": "accounts where balance floor target eval funded mffu view board find list status",
+   "where": "Business > My accounts (MFFU view), the Board, or the ZEUS page",
+   "steps": [
+    "Business > My accounts (MFFU view): every account the way MFFU shows it (balance, floor and $ left, target, days, payout).",
+    "Board: what the bot, you and Claude know, newest first.",
+    "ZEUS page: the PC's last report, each account's balance, $ to pass and today's $."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../business/mffu.html",
+    "label": "My accounts (MFFU view)"
+   },
+   "src": "docs/BOARD.md, business/mffu.html, hub/zeus.html"
+  },
+  {
+   "id": "lab",
+   "q": "What is ZEUS Lab?",
+   "words": "zeus lab ideas learn learning stronger adopt improve test backtest shadow paper",
+   "where": "Business > ZEUS Lab, or the ZEUS page > ZEUS Lab",
+   "steps": [
+    "One list of ideas to make Zlarior (LIT) and ATLAS stronger, re-tested every night on the real backtests with costs in.",
+    "Nothing live changes by itself. An idea must pass both 2026 halves, then 4 weeks on paper.",
+    "Then ZEUS Lab ASKS FIRST: one push, \"X passed. Reply yes to adopt\". Only your yes changes anything; Claude does the rest."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../business/lab.html",
+    "label": "ZEUS Lab"
+   },
+   "src": "docs/ZEUS_LAB.md, tools/zeus_lab.py"
+  },
+  {
+   "id": "taxes",
+   "q": "Taxes on payouts",
+   "words": "taxes tax irs pot 30% set aside quarterly estimated 1040-es self employment",
+   "where": "Business > Taxes",
+   "steps": [
+    "MFFU payouts are self-employment income: nobody takes tax out for you.",
+    "The day a payout lands, move 30% to a separate savings account (the tax pot). $800 lands from a $1,000 request: $240 to the pot.",
+    "Next federal estimated payment: Jan 15, 2027 (IRS Direct Pay, \"estimated tax, 1040-ES\").",
+    "Keep each payout's date and amount. Education, not tax advice: a tax preparer once a year is usually worth it."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../business/taxes.html",
+    "label": "Taxes"
+   },
+   "src": "business/taxes.html, research/writeups/taxes-2026-11-17.md"
+  },
+  {
+   "id": "holidays",
+   "q": "Holidays and early closes",
+   "words": "holiday holidays thanksgiving christmas new year early close halt closed mlk",
+   "where": "Nothing to do: the bot handles it. See the Risk calendar.",
+   "steps": [
+    "The bot stops new trades 15 min before each early close and is flat 5 min before it.",
+    "Thu Nov 26 halt 13:00 ET; Fri Nov 27 and Thu Dec 24 close 13:15 ET; Dec 25 and Jan 1 closed; Mon Jan 18 halt 13:00 ET.",
+    "Never trade by hand after the bot's last entry on those days. MFFU does not flatten you: open at the halt = the account fails.",
+    "Holiday weeks and the 7-day rule: if the phone warns, place 1 MNQ in and out by hand before 12:59 ET."
+   ],
+   "copy": "python -m engine.cme_calendar 2026-11-20",
+   "copy_note": "At the PC: the next closures and early closes.",
+   "link": {
+    "href": "../pythia/",
+    "label": "Risk calendar"
+   },
+   "src": "docs/DAILY_CHECKLIST.md (Holiday plan), engine/cme_calendar.py"
+  },
+  {
+   "id": "buy-next",
+   "q": "Buy the next account",
+   "words": "buy next account price prices club code checkout budget 150 rapid builder cost",
+   "where": "Business > Goals (which one and when), then MFFU checkout",
+   "steps": [
+    "Prices with the CLUB code at checkout: Builder 25K $63, Builder 50K $91.80, Rapid EOD 25K $97.20, Rapid EOD 50K $165.",
+    "Budget rule: at most $150 from your own pocket for new evals. After that a new account is paid from a payout (after the 30% tax pot).",
+    "MFFU limits: 10 evals, 5 funded. Goals shows which one is next and when.",
+    "Then add it: see \"Add a new MFFU account\"."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../business/goals.html",
+    "label": "Goals"
+   },
+   "src": "docs/NEW_ACCOUNT.md, tools/money/goals_build.py (BUDGET, PRICE)"
+  },
+  {
+   "id": "kalshi",
+   "q": "Is Kalshi on?",
+   "words": "kalshi status paused paper rewards bets on off prediction k1 rewards card paper test",
+   "where": "The Kalshi page (the Kalshi door)",
+   "steps": [
+    "Kalshi is PAUSED for real money: no real bets (\"Kalshi paused for now\").",
+    "Two paper tests run and never place an order: the rewards card (9 rewarded markets, shows net $ and its age) and the K1 rules card. The PC's 15-minute report keeps both going.",
+    "Real bets come back only with your yes: tell Claude."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../kalshi/",
+    "label": "Kalshi"
+   },
+   "src": "STATE.md (Kalshi), tools/kalshi_rewards_paper.py, tools/kalshi_paper.py"
+  },
+  {
+   "id": "cloudflare",
+   "q": "Move the phone site to Cloudflare (no badge)",
+   "words": "cloudflare hosting netlify badge site host pages free move dashboard cloudflare_setup bat token account id",
+   "where": "dash.cloudflare.com (the key), then CLOUDFLARE_SETUP.bat in the bot folder on the PC",
+   "steps": [
+    "dash.cloudflare.com (free) > your picture > Profile > API Tokens > Create Token > Custom token > Account / Cloudflare Pages / Edit > Create. Copy the key and your Account ID (Workers & Pages page).",
+    "At the PC: Double-click CLOUDFLARE_SETUP.bat. Paste the key (you only see *) and the Account ID. It installs Node.js, saves both in Windows and publishes once.",
+    "It shows the address, normally https://olympus-dash.pages.dev: add it to your Home Screen. A problem shows one [FIX] line. Never paste the key in a chat."
+   ],
+   "copy": "CLOUDFLARE_SETUP.bat",
+   "copy_note": "At the PC, in the bot folder: double-click it (no typing).",
+   "link": {
+    "href": "https://dash.cloudflare.com/",
+    "label": "Cloudflare dashboard"
+   },
+   "src": "docs/HOSTING.md, CLOUDFLARE_SETUP.bat, scripts/cloudflare_setup.ps1"
+  },
+  {
+   "id": "address-check",
+   "q": "MFFU address verification",
+   "words": "mffu address verification verify check bank statement pdf kyc identity upload",
+   "where": "The MFFU dashboard, signed in",
+   "steps": [
+    "Why: so the funded 25K's first payout (about late December) is not blocked.",
+    "Download a recent bank statement as a PDF from your bank's app or website. Your name and home address must be on it.",
+    "MFFU dashboard > the address verification request > upload the PDF. Wait for MFFU's email that it is approved.",
+    "Never send the statement to Claude or put it in the bot folder: it stays between you and MFFU."
+   ],
+   "copy": "",
+   "link": {
+    "href": "https://myfundedfutures.com/",
+    "label": "MFFU"
+   },
+   "src": "tools/money/goals_build.py (WEEK), business/goals.html"
+  },
+  {
+   "id": "decide",
+   "q": "Answer a Decide card (Yes / No / Later)",
+   "words": "decide card yes no later decision question answer board waiting owner note",
+   "where": "The Board or the ZEUS page, opened on your PC's private link (the LIVE_LINK.bat address)",
+   "steps": [
+    "A Decide card shows each open question with a one-line why and the $ impact.",
+    "On your PC's private link it has Yes / No / Later buttons. One tap sends one note to Claude. On the public site there are no buttons, only the question.",
+    "A tap never changes anything live by itself: Claude reads your note next session and applies it by the rules."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../board/",
+    "label": "Board"
+   },
+   "src": "business/decide.js, docs/BOARD.md, business/decisions.json"
+  },
+  {
+   "id": "morning-brief",
+   "q": "The morning brief (07:30 ET push)",
+   "words": "morning brief push 07:30 daily summary overnight today edge needs notification",
+   "where": "Your phone: one ZEUS push on trading days, also one line on the Board",
+   "steps": [
+    "About 07:30 ET on CME trading days (not on a full closure) you get 4 short lines: each account's $ and $ to pass or payout, overnight trades, today's windows and big news, edge light and what needs you.",
+    "It is in your important-only notifications, on by default. Names only, no account numbers.",
+    "No push by 09:30 ET? Open the Board or run PC_DOCTOR.bat at the PC."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../board/",
+    "label": "Board"
+   },
+   "src": "tools/morning_brief.py, notify_settings.json"
+  },
+  {
+   "id": "weekly-review",
+   "q": "The weekly review (Fridays)",
+   "words": "weekly review week friday this week report pace on track behind ahead",
+   "where": "Business > ZEUS this week (business/week.html)",
+   "steps": [
+    "The PC builds it on Fridays from 16:15 ET: $ per account this week, Zlarior and ATLAS trades vs the 2-4 a week target and vs the 2026 expectation (on track, behind or ahead).",
+    "It also lists what changed in the code, next week's big-news days and early closes, the decisions waiting on you, and one honest pace-per-month line (an estimate).",
+    "A missing source is named on the page, never guessed."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../business/week.html",
+    "label": "ZEUS this week"
+   },
+   "src": "tools/weekly_review.py, business/week.html"
+  },
+  {
+   "id": "mffu-view",
+   "q": "See my accounts the way MFFU shows them",
+   "words": "mffu view accounts balance drawdown profit target consistency payout cards equity",
+   "where": "Business > My accounts (business/mffu.html), or ZEUS > My accounts",
+   "steps": [
+    "One card per account like MFFU's own dashboard: balance, profit and target, drawdown left, consistency and payout status, an equity line.",
+    "It only reads. Account numbers show as the last 4 digits.",
+    "Numbers look old? Open the Board: it says when the PC last reported."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../business/mffu.html",
+    "label": "My accounts (MFFU view)"
+   },
+   "src": "engine/mffu_view.py, business/mffu.html"
+  },
+  {
+   "id": "live-trades",
+   "q": "See my live trades",
+   "words": "live trades trading page today open trade last trades every account twin backtest calendar",
+   "where": "The Trading page (the Trading door)",
+   "steps": [
+    "Trading shows, per account, $ today, the open trade, drawdown left and $ to pass, plus a calendar of daily $.",
+    "Today's and the last few LIVE trades of every real account come from the PC's 5-minute report. Paper and BLITZ rows are never in it.",
+    "Further down, each live trade sits next to the same trade in the backtest (the twin)."
+   ],
+   "copy": "",
+   "link": {
+    "href": "../trading/",
+    "label": "Trading"
+   },
+   "src": "engine/feed_trades.py, tools/web_public/trading/"
+  },
+  {
+   "id": "circuit-breaker",
+   "q": "The runaway-order alarm (circuit breaker)",
+   "words": "circuit breaker runaway orders alarm throttle too many messages block gap twin size down worse than backtest",
+   "where": "Your phone (a push and a Board line); the block switch at the PC",
+   "steps": [
+    "Two watchers, both advice only by default. The circuit breaker compares live trades with the backtest twin: WATCH is a Board line; SIZE DOWN or PAUSE is one push saying what to do yourself.",
+    "The message throttle flags an account sending a runaway burst of orders. By default it only warns.",
+    "To make a tripped account take no new entries until tomorrow, run the line below at the PC. Off again: --block-off."
+   ],
+   "copy": "python -X utf8 -m engine.msg_throttle --block-on",
+   "copy_note": "Once, at the PC. Nothing is blocked until you run it.",
+   "link": {
+    "href": "../board/",
+    "label": "Board"
+   },
+   "src": "engine/circuit_breaker.py, engine/msg_throttle.py"
+  },
+  {
+   "id": "other-markets",
+   "q": "Test gold, crude or Russell",
+   "words": "gold crude russell mgc mcl m2k other markets micro export ninjatrader data test lit",
+   "where": "NinjaTrader at the PC, then the bot folder (docs/OTHER_MARKETS.md)",
+   "steps": [
+    "Paper research only: Zlarior on markets that do not move with NQ could add winning days. Nothing live changes without your yes.",
+    "In NinjaTrader export 1-minute history from 01/01/2021 for MGC, MCL and M2K into the bot's data folder (full clicks in docs/OTHER_MARKETS.md, about 10 min each).",
+    "Run the line below per market and send Claude the last lines (VERDICT)."
+   ],
+   "copy": "python -X utf8 tools/other_markets.py MGC",
+   "copy_note": "At the PC, after the export. Swap MGC for MCL or M2K.",
+   "link": {
+    "href": "../business/lab.html",
+    "label": "ZEUS Lab"
+   },
+   "src": "docs/OTHER_MARKETS.md, tools/other_markets.py, engine/lit_markets.py"
+  },
+  {
+   "id": "rapid-lit-bank",
+   "q": "Rapid 25K: LIT banks at the room (option, OFF)",
+   "words": "rapid 25k lit bank room option micro eod",
+   "where": "At the PC, after your yes",
+   "steps": [
+    "It is OFF. On the Rapid EOD 25K only, it makes LIT take 1 micro and bank at the day's 30% room.",
+    "Tell Claude yes first. Then, at the PC, run the line below.",
+    "Off again: the same line with off."
+   ],
+   "copy": "python -X utf8 -m engine.rapid --lit-bank on",
+   "copy_note": "At the PC, only after your yes. Refuses if there is no Rapid 25K.",
+   "link": {
+    "href": "../business/mffu.html",
+    "label": "My accounts (MFFU view)"
+   },
+   "src": "engine/rapid.py (lit_bank)"
+  }
+ ]
+}

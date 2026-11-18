@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Call copilot</title>
+<meta name="description" content="OLYMPUS Agency, Call mode: the cold-call copilot for selling websites to local businesses. Who to call now (their local time, the legal window, the best time for their trade), what to say (opener, 3 questions, objection answers, voicemail), one-tap outcomes and a 7-day follow-up plan. A human makes every call; nothing is sent from this page.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calls">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="call-icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="call.webmanifest">
+<!-- CALL COPILOT (OLYMPUS Agency, team B2, 2026-11-14): Call mode of the agency app (team B1's CRM is index.html in this folder when it lands).
+     callcore.js = the pure part (call windows by state / time zone / trade, Do Not Call locks, the script filled from the lead, outcomes, the 7-day plan,
+     the funnel, import / export; its PC twin is agency/calls/core.py). call.js = the page. It reads only callrules.json, callscript.json,
+     call_fixture.json (DEMO, fictional numbers) and team B1's published leads.json (when it exists, not its sample) from this folder; it honours B1's CRM 'Do not contact' / 'Won' stages
+     (localStorage['agency.crm.v1'], read-only). Everything the owner types stays in localStorage['agency.calls.v1'] on this phone
+     (JSON / CSV export): it never goes on the network. Calls, emails and texts open the phone's own apps (tel: / mailto: / sms:), tapped by a human.
+     No AI voice, no autodialer, no recording. The law behind every limit: docs/COLD_CALLING_RULES.md (not legal advice). Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="agency"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="call.css?v=c1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="call-icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Call copilot</h1><p class="sub">Cold calls the legal way: who now, what to say, what next</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading the call list...</p>
+  <p id="demoNote" class="ag-banner note" hidden>Example businesses with fictional numbers. Nothing is saved until you import your own leads (Your data, below).</p>
+
+  <section class="ag-card card hero" id="today" aria-labelledby="todayH">
+    <div class="row"><h2 id="todayH">Today</h2><span class="pill" id="nowPill">...</span></div>
+    <p class="big" id="nowLine"></p>
+    <div class="tiles" id="goals"></div>
+    <svg id="funnel" class="funnel" viewBox="0 0 320 156" role="img" aria-label="This week: dials, conversations, interested, demos, closes"></svg>
+    <p class="note" id="funnelNote"></p>
+    <button type="button" class="btn primary block lg" id="startBtn" data-oly-cue="open">Start calling</button>
+  </section>
+
+  <section class="ag-card card" id="planCard" aria-labelledby="planH">
+    <h2 id="planH">Your call plan today</h2>
+    <p class="note" id="planNote">Each trade has its own best hours, always inside the legal window. Times shown in your time zone.</p>
+    <ul class="plan" id="plan"></ul>
+  </section>
+
+  <section class="ag-card card" id="queueCard" aria-labelledby="qH">
+    <div class="row"><h2 id="qH">Who to call</h2><span class="pill" id="qCount"></span></div>
+    <div class="seg" id="filters" role="group" aria-label="Show which businesses">
+      <button type="button" class="ag-chip" data-f="now" aria-pressed="true">Call now</button>
+      <button type="button" class="ag-chip" data-f="all" aria-pressed="false">All</button>
+      <button type="button" class="ag-chip" data-f="locked" aria-pressed="false">Locked</button>
+    </div>
+    <ul class="leads" id="leads"></ul>
+  </section>
+
+  <section class="ag-card card" id="followCard" aria-labelledby="fH">
+    <h2 id="fH">Follow-ups due</h2>
+    <p class="note">The 7-day plan: call, voicemail and email; call; email; call and voicemail; text (only if they said yes) or email; last call and goodbye email.</p>
+    <ul class="leads" id="follow"></ul>
+  </section>
+
+  <section class="ag-card card" id="rulesCard" aria-labelledby="rH">
+    <h2 id="rH">The rules in 5 lines</h2>
+    <ol class="plain" id="rules5"></ol>
+    <p class="note">Not legal advice. The full rules with their sources and dates: docs/COLD_CALLING_RULES.md.</p>
+  </section>
+
+  <section class="ag-card card" id="dataCard" aria-labelledby="dH">
+    <h2 id="dH">Your data</h2>
+    <p class="note">Kept only on this phone. Nothing is sent anywhere: calls, emails and texts open your own phone apps.</p>
+    <div class="row wrap">
+      <label class="btn filebtn" for="importFile" id="importLbl">Import a file<input type="file" id="importFile" accept=".json,.csv,application/json,text/csv"></label>
+      <button type="button" class="btn" id="fromApp" hidden>Load from the Agency app</button>
+      <button type="button" class="btn" id="exportJson">Export JSON</button>
+      <button type="button" class="btn" id="exportCsv">Export CSV</button>
+    </div>
+    <label class="area" for="box"><span>Paste leads (CSV with a header row, or JSON), or see an export here</span><textarea id="box" rows="5" spellcheck="false" autocapitalize="off"></textarea></label>
+    <div class="row wrap"><button type="button" class="btn" id="importBox">Import what is in the box</button><button type="button" class="btn danger" id="wipe">Erase everything</button></div>
+    <p class="note" id="dataNote"></p>
+  </section>
+
+  <section class="ag-card card" id="setCard" aria-labelledby="sH">
+    <h2 id="sH">You (for the script and emails)</h2>
+    <div class="fields">
+      <label class="fld">Your name<input id="setMe" autocomplete="name" maxlength="80"></label>
+      <label class="fld">Your business<input id="setBiz" autocomplete="organization" maxlength="80"></label>
+      <label class="fld">Your city<input id="setCity" autocomplete="address-level2" maxlength="80"></label>
+      <label class="fld">Your phone<input id="setPhone" type="tel" autocomplete="tel" maxlength="30"></label>
+      <label class="fld">Your email<input id="setEmail" type="email" autocomplete="email" maxlength="120"></label>
+      <label class="fld">Postal address (needed in every sales email)<input id="setAddress" autocomplete="street-address" maxlength="200"></label>
+      <label class="fld">Starting price (optional, e.g. $499)<input id="setPrice" maxlength="40"></label>
+      <label class="fld">Your state (for leads without one)<input id="setState" maxlength="20"></label>
+    </div>
+    <h3 class="sub3">Daily targets</h3>
+    <div class="fields four">
+      <label class="fld">Dials a day<input id="tDials" type="number" inputmode="numeric" min="1" max="500"></label>
+      <label class="fld">Conversations<input id="tConv" type="number" inputmode="numeric" min="1" max="200"></label>
+      <label class="fld">Demos a day<input id="tDemos" type="number" inputmode="numeric" min="0" max="50"></label>
+      <label class="fld">Closes a week<input id="tCloses" type="number" inputmode="numeric" min="0" max="50"></label>
+    </div>
+    <button type="button" class="btn primary" id="saveSet" data-oly-cue="success">Save</button>
+  </section>
+  <p class="foot" id="foot">A human makes every call. No robocalls, no AI voice, no recording, nothing sent from this page. Not legal advice.</p>
+</main>
+
+<div class="sheet" id="call" hidden>
+  <div class="scrim" id="callScrim"></div>
+  <div class="panel" id="callPanel" role="dialog" aria-modal="true" aria-labelledby="cName">
+    <div class="chead">
+      <div class="cid"><h2 id="cName" tabindex="-1" data-oly-skip></h2><p class="note" id="cSub"></p></div><!-- focused on open so VoiceOver reads the business; data-oly-skip: no keyboard ring on a heading -->
+      <button type="button" class="btn quiet" id="cClose" data-oly-cue="close">Close</button>
+    </div>
+    <p class="win" id="cWin" role="status" aria-live="polite"></p>
+    <p class="note" id="cLaw"></p>
+    <p class="note" id="cFinder" hidden></p>
+    <a class="btn" id="cDemo" target="_blank" rel="noopener noreferrer" hidden>Open their preview site</a>
+    <div class="confirm" id="cConfirm" hidden>
+      <p><b>Not checked against the Do Not Call list yet.</b> Is this number the business's own line (from their listing or website), not someone's personal cell?</p>
+      <div class="row wrap"><button type="button" class="btn primary" id="cConfYes">Yes, it is their business line</button><button type="button" class="btn" id="cConfNo">Not sure: skip it</button></div>
+      <p class="note">Not sure? Check it first: download your area codes from the National Do Not Call list (free for 5) and run the PC call list builder with --dnc.</p>
+    </div>
+    <a class="btn dial" id="cDial" role="button">Call</a>
+    <button type="button" class="btn dial locked" id="cLocked" disabled hidden>Locked</button>
+    <div class="tabs" role="tablist" aria-label="Call screen">
+      <button type="button" role="tab" id="tabScript" data-tab="script" aria-controls="pScript" aria-selected="true">Script</button>
+      <button type="button" role="tab" id="tabObj" data-tab="obj" aria-controls="pObj" aria-selected="false">Objections</button>
+      <button type="button" role="tab" id="tabVm" data-tab="vm" aria-controls="pVm" aria-selected="false">Voicemail</button>
+      <button type="button" role="tab" id="tabNext" data-tab="next" aria-controls="pNext" aria-selected="false">Follow up</button>
+    </div>
+    <div class="tpanel" role="tabpanel" id="pScript" aria-labelledby="tabScript">
+      <p class="say opener" id="sOpener"></p>
+      <p class="say" id="sWhy"></p>
+      <h3 class="sub3">The 3 questions</h3>
+      <ol class="qs" id="sQs"></ol>
+      <p class="say" id="sClose"></p>
+      <p class="say small" id="sConsent"></p>
+      <p class="say small" id="sBook"></p>
+    </div>
+    <div class="tpanel" role="tabpanel" id="pObj" aria-labelledby="tabObj" hidden>
+      <div class="chips" id="objChips"></div>
+      <div class="answer" id="objAnswer" aria-live="polite"></div>
+    </div>
+    <div class="tpanel" role="tabpanel" id="pVm" aria-labelledby="tabVm" hidden>
+      <h3 class="sub3">Voicemail 1</h3><p class="say" id="vm1"></p>
+      <h3 class="sub3">Voicemail 2</h3><p class="say" id="vm2"></p>
+      <p class="note" id="vmRule"></p>
+    </div>
+    <div class="tpanel" role="tabpanel" id="pNext" aria-labelledby="tabNext" hidden>
+      <p class="note" id="nPlan"></p>
+      <ul class="steps" id="nSteps"></ul>
+      <h3 class="sub3">Emails (open your mail app)</h3>
+      <div class="row wrap" id="nEmails"></div>
+      <p class="note" id="nEmailWhy"></p>
+      <h3 class="sub3">Texts (only after they said yes)</h3>
+      <div class="row wrap" id="nTexts"></div>
+      <p class="note" id="nTextWhy"></p>
+      <div class="row wrap"><button type="button" class="btn" id="consentBtn" aria-pressed="false">They said I can text</button><button type="button" class="btn" id="emailStop">They asked: no more emails</button></div>
+    </div>
+    <h3 class="oh">After the call: one tap</h3>
+    <div class="outs" id="outs"></div>
+    <div class="more" id="moreOuts" hidden></div>
+    <div class="pick" id="cbBox" hidden>
+      <p class="note" id="cbHint">When did they ask you to call back? Their time.</p>
+      <div class="chips" id="cbChips"></div>
+      <div class="row wrap"><label class="fld">Day<input type="date" id="cbDate"></label><label class="fld">Time (their time)<input type="time" id="cbTime" step="900"></label></div>
+      <div class="row wrap"><button type="button" class="btn primary" id="cbSave">Save the time</button><button type="button" class="btn" id="cbCancel">Cancel</button></div>
+    </div>
+    <div class="pick" id="intBox" hidden>
+      <p class="note">Interested: get the email for the preview link, and ask before you text.</p>
+      <label class="fld">Their email<input type="email" id="intEmail" autocomplete="off" maxlength="120"></label>
+      <button type="button" class="btn" id="intText" aria-pressed="false">They said I can text them the link</button>
+      <div class="row wrap"><button type="button" class="btn primary" id="intSave">Save: interested</button><button type="button" class="btn" id="intCancel">Cancel</button></div>
+    </div>
+    <label class="fld">Note (optional, saved with the next tap)<input id="cNote" maxlength="300"></label>
+    <div class="row nav"><button type="button" class="btn" id="cPrev">Previous</button><button type="button" class="btn primary" id="cNextLead">Next business</button></div>
+  </div>
+</div>
+<script type="module" src="call.js?v=c1"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Polis life lab</title>
+<meta name="description" content="OLYMPUS POLIS life: the herald, the oracle, the festivals, the torch relay, the olive grove, the amphora storeroom, the hall of statues and the stoic line, drawn from olympus/polis.json.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<!-- POLIS life lab (docs/POLIS_25.md items 11-18, 2026-11-11): every piece of olympus/polis-life.js on one page.
+     It reads polis.json (the real published file, built by tools/polis_build.py) and polis-demo.json (made-up example numbers, labelled DEMO).
+     The POLIS kit (polis.js / polis.css) gives the meander bands, the laurels and the loading lamp when it is there.
+     ?demo=1 opens the demo, ?lite=1 draws without any animation. window.POLIS_LIFE_LAB.ready() is true once everything is drawn (tests).
+     Read only: it fetches nothing but those two files of this site and sends nothing anywhere. -->
+<link rel="stylesheet" href="olympus.css?v=o7">
+<link rel="stylesheet" href="agora.css?v=a4">
+<link rel="stylesheet" href="polis.css?v=p3">
+<script src="themes.js?v=o6"></script>
+<script src="olympus.js?v=o10"></script>
+<script src="polis.js?v=p1"></script>
+<script src="polis-life.js?v=pl4"></script>
+<style>
+  html, body { margin: 0; }
+  body { padding: calc(10px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  .lab-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 4px 0 12px; }
+  .lab-top h1 { margin: 0; flex: 1 1 auto; font: 600 24px/1.15 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; color: #f3ece0; }
+  .lab-top p { margin: 2px 0 0; color: #cfc4b2; font-size: 13.5px; }
+  .seg { display: inline-flex; border: 1px solid #3a3228; border-radius: 12px; overflow: hidden; }
+  .seg button { min-height: 44px; min-width: 72px; padding: 0 14px; border: 0; background: #221c16; color: #cfc4b2; font: 600 14px -apple-system, system-ui, sans-serif; cursor: pointer; touch-action: manipulation; }
+  .seg button[aria-pressed="true"] { background: linear-gradient(135deg, #f1d58a, #c8a24a); color: #14110e; }
+  .seg button:focus-visible { outline: 2px solid #c8a24a; outline-offset: -2px; }
+  .label { margin: 0 0 14px; padding: 10px 12px; border-radius: 12px; border: 1px solid #3a3228; background: #1d1914; color: #cfc4b2; font-size: 13px; line-height: 1.4; }
+  .label.demo { border-color: #9c6b3c; color: #e0b060; }
+  main { max-width: 720px; margin: 0 auto; }
+</style>
+</head>
+<body>
+<main>
+  <header class="lab-top">
+    <div><h1>Polis life</h1><p>The civic life of the city, from the published files</p></div>
+    <div class="seg" role="group" aria-label="Which file">
+      <button type="button" id="bReal" aria-pressed="false">Live file</button><button type="button" id="bDemo" aria-pressed="false">Demo</button>
+    </div>
+  </header>
+  <p id="label" class="label" role="status" aria-live="polite">Loading...</p>
+  <div id="polis"></div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var P = window.OLYMPUS_POLIS_LIFE, q = location.search, done = false, wantDemo = /[?&]demo=1/.test(q), opts = { lite: /[?&]lite=1/.test(q) };
+  var box = document.getElementById('polis'), label = document.getElementById('label'), bReal = document.getElementById('bReal'), bDemo = document.getElementById('bDemo');
+  window.POLIS_LIFE_LAB = { ready: function () { return done; }, demo: function () { return wantDemo; } };
+  function draw(doc, demo) {
+    bReal.setAttribute('aria-pressed', demo ? 'false' : 'true');
+    bDemo.setAttribute('aria-pressed', demo ? 'true' : 'false');
+    label.className = 'label' + (demo ? ' demo' : '');
+    label.textContent = doc ? (doc.label + (doc.date ? ' Day: ' + doc.date + '.' : '') + (doc.sources && doc.sources.missing && doc.sources.missing.length && !demo ? ' Not published yet: ' + doc.sources.missing.join(', ') + '.' : ''))
+      : 'The file could not be read. Showing empty parts.';
+    P.all(box, doc || {}, opts);
+    done = true;
+    try { if (window.OLYMPUS && OLYMPUS.ready) OLYMPUS.ready(); } catch (e) {}
+  }
+  function open(demo) {
+    done = false; wantDemo = demo;
+    var K = window.OLYMPUS_POLIS;                  // the POLIS kit's oil lamp while the file loads (the kit is optional)
+    if (K && K.lamp && !box.firstChild) { try { K.lamp(box, { label: 'Lighting the city' }); } catch (e) {} }
+    P.load(demo ? 'polis-demo.json' : 'polis.json', function (doc) {
+      if (!doc && !demo) { P.load('polis-demo.json', function (d2) { draw(d2, true); }); return; }   // never blank: the labelled demo
+      draw(doc, demo);
+    });
+  }
+  bReal.onclick = function () { open(false); };
+  bDemo.onclick = function () { open(true); };
+  open(wantDemo);
+})();
+</script>
+</body>
+</html>

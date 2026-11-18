@@ -1,0 +1,18 @@
+{"v":1,"demo":true,"about":"EXAMPLE numbers (not yours): the recorded demo shown until your first entry. Days are offsets from today.","accounts":[{"id":"demo50k","name":"Example eval 50K","stage":"eval","status":"open","profit":1240.5},{"id":"demo25k","name":"Example eval 25K","stage":"funded","status":"open","profit":310.2}],
+"entries":[
+{"off":-95,"kind":"fee","amount":91.8,"cat":"Eval fees","acct":"demo50k","note":"Example eval fee"},
+{"off":-90,"kind":"expense","amount":12,"cat":"VPS / Azure","acct":"general","note":"Example VPS","rec":{"every":"month"}},
+{"off":-90,"kind":"expense","amount":29,"cat":"Data feeds","acct":"general","note":"Example data feed","rec":{"every":"month"}},
+{"off":-88,"kind":"expense","amount":15,"cat":"Voice keys","acct":"general","note":"Example voice key","rec":{"every":"month"}},
+{"off":-85,"kind":"expense","amount":380,"cat":"Mini PC / hardware","acct":"general","note":"Example mini PC"},
+{"off":-70,"kind":"reset","amount":55,"cat":"Resets","acct":"demo50k","note":"Example reset"},
+{"off":-60,"kind":"fee","amount":43,"cat":"Eval fees","acct":"demo25k","note":"Example eval fee"},
+{"off":-45,"kind":"payout_req","amount":1000,"cat":"Payouts","acct":"demo50k","note":"Example request"},
+{"off":-40,"kind":"payout_in","amount":800,"cat":"Payouts","acct":"demo50k","note":"Example payout (80%)"},
+{"off":-30,"kind":"payout_req","amount":600,"cat":"Payouts","acct":"demo25k","note":"Example request"},
+{"off":-25,"kind":"payout_in","amount":480,"cat":"Payouts","acct":"demo25k","note":"Example payout (80%)"},
+{"off":-20,"kind":"deposit","amount":200,"cat":"Kalshi","acct":"kalshi","note":"Example deposit"},
+{"off":-10,"kind":"withdrawal","amount":40,"cat":"Kalshi","acct":"kalshi","note":"Example withdrawal"},
+{"off":-5,"kind":"payout_req","amount":900,"cat":"Payouts","acct":"demo50k","note":"Example request, waiting"}
+],
+"kalshi":{"balance":188.4,"total_pnl":28.4,"days":[[-18,4.2],[-14,-3.1],[-12,6.8],[-9,2.5],[-6,-1.4],[-3,5.9],[-1,1.3]]}}

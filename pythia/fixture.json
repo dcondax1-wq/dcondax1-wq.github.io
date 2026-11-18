@@ -1,0 +1,25 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE dates, not real: an invented fortnight of events shown only if the bundled events.json cannot be read.",
+  "today": "2026-11-10",
+  "now": "2026-11-10T14:35:00Z",
+  "events": {
+    "v": 1,
+    "updated": "2026-11-10",
+    "weekly": [
+      { "kind": "claims", "title": "Example: jobless claims", "dow": 3, "time": "08:30", "impact": "low", "verify": true, "skip": [] }
+    ],
+    "events": [
+      { "date": "2026-11-10", "time": "08:30", "kind": "cpi", "title": "Example: inflation report", "impact": "high", "verify": true, "src": "Example only" },
+      { "date": "2026-11-13", "time": "08:30", "kind": "ppi", "title": "Example: producer prices", "impact": "med", "verify": true, "src": "Example only" },
+      { "date": "2026-11-17", "time": "14:00", "kind": "fomc", "title": "Example: Fed decision", "impact": "high", "verify": true, "src": "Example only" },
+      { "date": "2026-11-20", "time": "09:30", "kind": "opex", "title": "Example: options expiration", "impact": "low", "verify": true, "src": "Example only" },
+      { "date": "2026-11-23", "time": null, "kind": "holiday", "title": "Example: market closed", "impact": "low", "closed": true, "verify": true, "src": "Example only" }
+    ],
+    "undated": [
+      { "kind": "retail", "title": "Example: retail sales", "approx": "mid-month, 8:30 AM ET", "impact": "med", "src": "Example only" }
+    ]
+  },
+  "home": { "live": { "brief": { "day": "2026-11-10", "news": [ { "time": "08:30", "title": "Example: core inflation", "kind": "Inflation", "blackout": "08:25-08:40" } ] } } }
+}

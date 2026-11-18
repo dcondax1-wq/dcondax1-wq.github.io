@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110e">
+<title>Data City · Map View</title>
+<style>
+:root{color-scheme:dark;--ink:#f5f4ee;--muted:#d7cec0;--gold:#f6ca77;--line:#8c795c}
+*{box-sizing:border-box}
+html{background:#120f0c}
+body{margin:0;min-height:100vh;min-height:100dvh;color:var(--ink);font:500 15px/1.45 system-ui,-apple-system,sans-serif;background:radial-gradient(ellipse at 50% 25%,#382e23 0%,#1b1611 42%,#120f0c 90%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.7;background:radial-gradient(circle at 9% 19%,#bdaa7f 1px,transparent 2px),radial-gradient(circle at 78% 13%,#ffe2a9 1px,transparent 2px),radial-gradient(circle at 61% 41%,#bdaa7f 1px,transparent 2px);background-size:183px 211px,257px 223px,319px 281px}
+main{position:relative;max-width:800px;margin:auto;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(44px + env(safe-area-inset-bottom,0px))}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.eyebrow{font:800 11px/1.3 system-ui;letter-spacing: .05em;text-transform:uppercase;color:var(--gold)}
+.city-network{display:grid;grid-template-columns:85px repeat(3,minmax(0,1fr));gap:6px;align-items:center;margin:15px 0 18px;padding:9px;border:1px solid #5f4e3d;border-radius:16px;background:linear-gradient(130deg,#231d17,#262019 55%,#2a231b);box-shadow:0 8px 28px #08070580}
+.city-network strong{color:#c3b5a1;font-size:9px;letter-spacing: .05em}
+.city-network a{display:grid;place-items:center;min-width:0;min-height:44px;padding:4px;border:1px solid #62543f;border-radius:11px;background:#1c1712;color:#d9d1c5;text-decoration:none;font-size:9px;letter-spacing:.05em}
+.city-network a[aria-current=page]{border-color:#7d6a44;background:linear-gradient(145deg,#3a3025,#30271e);color:#ffd36b}
+h1{font-size:clamp(30px,8vw,48px);line-height:1.05;margin:15px 0 8px;letter-spacing:-.035em}
+p{color:var(--muted);margin:7px 0}
+a,.district,input{min-height:44px}
+a{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border:1px solid #a88960;border-radius:12px;color:#ffe3ae;background:#3b3125;text-decoration:none;font-weight:750}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #ffe1a0;outline-offset:3px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:20px 0}
+.fact{padding:12px 9px;border:1px solid #78664c;border-radius:13px;background:#2b241cb8}
+.fact b{display:block;font-size:clamp(17px,5vw,25px);color:#f3ece0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fact small{color:var(--muted);font-size:11px}
+.map{position:relative;overflow:hidden;margin:18px 0 24px;padding:16px 9px 11px;border:1px solid #9d8766;border-radius:20px;background:radial-gradient(ellipse at 50% 96%,#261f18 0%,#392e24 37%,#1e1813 72%,#100d0a 100%);box-shadow:0 20px 55px #0c0a07b0,inset 0 0 38px #dabf801c}
+.map:before{content:"";position:absolute;inset:8% -20% 18%;border-top:1px solid #ffca7980;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
+.map-title{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 5px 12px}
+.metropolis{position:relative;height:260px;margin:0 -4px 13px;overflow:hidden;border-radius:15px;background:radial-gradient(circle at 50% 72%,#fe96362e 0 10%,transparent 31%),radial-gradient(ellipse at 50% 100%,#4a3d30 0 16%,#1f1a14 57%,transparent 78%),linear-gradient(#120f0c,#231d17 62%,#18140f);perspective:420px;box-shadow:inset 0 -28px 55px #0c0a08,0 12px 32px #0008}
+.metropolis:before{content:"";position:absolute;inset:43% -18% -35%;transform:rotateX(62deg);transform-origin:50% 100%;background:linear-gradient(90deg,transparent 49.6%,#d9bd7b40 50%,transparent 50.4%),linear-gradient(0deg,transparent 49.6%,#ff8f4336 50%,transparent 50.4%);background-size:28px 28px;box-shadow:inset 0 42px 45px #1b1611}
+.metropolis:after{content:"";position:absolute;left:5%;right:5%;bottom:21%;height:45%;border:1px solid #d6b77088;border-left-color:transparent;border-right-color:transparent;border-radius:50%;transform:rotate(-5deg);box-shadow:0 0 14px #d6b77080,inset 0 0 20px #d6b77024}
+.orbit{position:absolute;left:50%;top:51%;width:90%;height:43%;border:1px solid #ff8d3f9c;border-left-color:transparent;border-radius:50%;transform:translate(-50%,-50%) rotate(10deg);box-shadow:0 0 11px #ff743c6b}
+.orbit.b{width:72%;height:58%;top:54%;border-color:#d6ab858c;border-right-color:transparent;transform:translate(-50%,-50%) rotate(-11deg);box-shadow:0 0 12px #d5a98261}
+.town-ring{position:absolute;inset:0;z-index:2}
+.town{position:absolute;width:16px;height:22px;transform:translate(-50%,-50%);filter:drop-shadow(0 0 4px #ff8a3d)}
+.town i{position:absolute;bottom:0;width:4px;border:1px solid #ffd0789c;background:repeating-linear-gradient(0deg,#ff9a3d 0 2px,#4c2030 2px 4px);box-shadow:0 0 6px #ff743d}
+.town i:nth-child(1){left:1px;height:11px}.town i:nth-child(2){left:6px;height:20px}.town i:nth-child(3){left:11px;height:14px}
+.hq{position:absolute;left:50%;bottom:26px;z-index:4;width:98px;height:146px;transform:translateX(-50%);filter:drop-shadow(0 0 18px #8b7259)}
+.hq-base{position:absolute;bottom:0;left:7px;width:84px;height:19px;border:1px solid #bdaa7f;border-radius:50%;background:#44382c;box-shadow:0 0 18px #8b7259,inset 0 0 14px #ff9e4744}
+.hq-core{position:absolute;bottom:11px;left:31px;width:36px;height:111px;clip-path:polygon(30% 0,70% 0,100% 93%,76% 100%,24% 100%,0 93%);border:1px solid #bdaa7f;background:repeating-linear-gradient(0deg,transparent 0 7px,#e5d3a799 7px 9px),linear-gradient(90deg,#342b22,#927739 50%,#342b22);box-shadow:0 0 24px #8b7259,inset 0 0 16px #ffd26855}
+.hq-spire{position:absolute;left:46px;bottom:119px;width:6px;height:24px;background:#efe3c8;clip-path:polygon(50% 0,100% 100%,0 100%);box-shadow:0 0 16px #fff}
+.hq-ring{position:absolute;left:13px;bottom:70px;width:72px;height:18px;border:2px solid #ffd16e;border-radius:50%;box-shadow:0 0 14px #ffbd44;transform:rotateX(62deg)}
+.hq-label{position:absolute;left:50%;bottom:151px;transform:translateX(-50%);white-space:nowrap;color:#efe3c8;font:900 10px/1.2 system-ui;letter-spacing: .05em;text-shadow: none}
+.district-prompt{position:relative;display:flex;align-items:center;justify-content:space-between;margin:0 3px 9px;color:#ede2ca;font-size:10px;letter-spacing: .05em}
+.districts{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.district{min-width:0;min-height:124px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;border:1px solid #bba77882;border-radius:12px;padding:9px 3px 7px;color:#f8f7ef;background:linear-gradient(180deg,#44382b80,#342c22df);box-shadow:inset 0 -10px 20px #1d1813}
+.district[aria-pressed=true]{border-color:#ffda91;box-shadow:0 0 19px #edb96077,inset 0 -9px 18px #403529}
+.skyline{height:var(--height);max-height:72px;min-height:22px;display:flex;align-items:flex-end;gap:2px}
+.tower{display:block;width:15px;height:100%;transform:skewY(-8deg);border:1px solid #e2cea19e;background:repeating-linear-gradient(90deg,transparent 0 4px,#ffe3a267 4px 6px,transparent 6px 9px),repeating-linear-gradient(0deg,transparent 0 8px,#dcc28672 8px 10px),linear-gradient(115deg,#3c3127,#957a3b);box-shadow:0 0 14px #caa34885}
+.tower:nth-child(2){height:70%;background-color:#5a6240}.tower:nth-child(3){height:45%;background-color:#8d5732}
+.district strong{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;letter-spacing:.04em}
+.district small{color:#e1dacf;font-size:10px}
+section.results{margin-top:12px}
+h2{font-size:20px;margin:22px 0 10px;color:#f8dfaa}
+input{width:100%;padding:11px 13px;border:1px solid #a39278;border-radius:12px;background:#272019;color:#f3ece0;font:16px system-ui}
+.items{display:grid;gap:8px;margin-top:12px}
+.item{padding:13px;border:1px solid #6d5d46;border-radius:13px;background:#2a221b}
+.item strong{display:block;overflow-wrap:anywhere;margin:5px 0}
+.item small{color:var(--muted)}
+.grade{font-size:10px;letter-spacing: .05em;font-weight:800;text-transform:uppercase;color:#ffda87}
+.grade.green{color:#7f8a52}.grade.amber{color:#ffb885}.grade.grey{color:#d4cabb}
+.empty{border:1px dashed #a38f71;border-radius:12px;padding:18px;color:var(--muted)}
+@media(max-width:350px){.metropolis{height:235px}.districts{gap:4px}.district strong{font-size:9px}.bar a{padding:7px 9px}}
+@media(max-width:430px){.city-network{grid-template-columns:68px repeat(3,minmax(0,1fr));gap:4px;padding:7px}.city-network a{font-size:8px;letter-spacing:.02em}.city-network strong{font-size:8px}}
+</style>
+</head>
+<body>
+<main>
+  <div class="bar"><span class="eyebrow">DATA CITY · 2D MAP VIEW</span><a href="./" id="back3d">Try 3D city</a></div>
+  <nav class="city-network" aria-label="City network"><strong>CITY NETWORK</strong><a href="../cities/">ARENA</a><a href="./" aria-current="page">DATA CITY</a><a href="../kalshicity/">KALSHI CITY</a></nav>
+  <h1>The city is still here.</h1>
+  <p>Explore the research districts without a graphics processor. This map is read-only and does not trade.</p>
+  <div class="facts" id="facts" aria-label="Research counts"></div>
+  <section class="map" aria-label="Research district skyline">
+    <div class="map-title"><span class="eyebrow">EXPLORE THE DISTRICTS</span><small id="stamp">Loading data…</small></div>
+    <div class="metropolis" aria-hidden="true">
+      <span class="orbit"></span><span class="orbit b"></span><span class="town-ring" id="town-ring"></span>
+      <span class="hq"><span class="hq-label">DATA HQ</span><span class="hq-spire"></span><span class="hq-core"></span><span class="hq-ring"></span><span class="hq-base"></span></span>
+    </div>
+    <div class="district-prompt"><span>SELECT A DISTRICT</span><span>tap again to show all</span></div>
+    <div class="districts" id="districts"></div>
+  </section>
+  <section class="results"><h2>Explore ideas</h2><input id="search" type="search" aria-label="Search research ideas" placeholder="Search an idea or district"><div class="items" id="items" aria-live="polite"></div></section>
+</main>
+<script>
+'use strict';
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n || 0).toLocaleString();
+const names = { times:'TIMES', confluences:'CONFLUENCES', week:'THE WEEK', seasons:'SEASONS', volatility:'VOLATILITY', gaps:'GAPS', orange:'OPENING RANGE', esnq:'ES-NQ', while:'WHILE-STATES' };
+const grades = ['gold', 'green', 'amber', 'grey'];
+function buildTownRing() {
+  const ring = $('town-ring');
+  if (!ring) return;
+  for (let i = 0; i < 36; i++) {
+    const a = (i / 36) * Math.PI * 2, radiusX = 42 + (i % 3) * 2.4, radiusY = 28 + (i % 4) * 1.4;
+    const town = node('span', '', 'town');
+    town.style.left = (50 + Math.cos(a) * radiusX) + '%';
+    town.style.top = (58 + Math.sin(a) * radiusY) + '%';
+    town.style.opacity = String(0.58 + (i % 5) * 0.08);
+    for (let k = 0; k < 3; k++) town.append(node('i', ''));
+    ring.append(town);
+  }
+}
+function districtView(city) {
+  const guard = city.summary?.guard?.districts || {};
+  const meta = city.sections?.length ? city.sections : Object.keys(names).map((key) => ({ key, name: names[key] }));
+  return meta.map((s) => ({ key: s.key, name: s.name || names[s.key] || s.key.toUpperCase(), tested: Number(guard[s.key]?.tested || 0), gold: Number(guard[s.key]?.gold || 0) }));
+}
+function comboLabel(D, row, ix) {
+  const trig = D.trigs?.[row[ix.t]] || [];
+  const w = row[ix.w], where = w >= 100 ? 'time slot ' + (w - 100) : w < 0 ? D.any : D.win_lab?.[w];
+  const side = trig[2] > 0 ? 'long' : 'short';
+  const conds = [row[ix.k1], row[ix.k2]].filter((k) => k >= 0).map((k) => D.fams?.[k >> 4]?.[1]?.[k & 15]).filter(Boolean);
+  return (where || 'NQ') + ' ' + side + ' after ' + (trig[1] || trig[0] || 'market setup') + (conds.length ? ' while ' + conds.join(' and ') : '');
+}
+function results(city, district, term) {
+  const q = term.trim().toLowerCase(), out = [];
+  const add = (b) => { if (district && b.d !== district) return; if (q && !(b.lab + ' ' + b.d).toLowerCase().includes(q)) return; out.push(b); };
+  const rich = (city.buildings || []).map((b) => ({ d:b.d, lab:b.lab || b.id || 'Research idea', cls:b.cls || 'grey', e:b.e, n:b.n }));
+  if (!q) rich.sort((a,b) => Number(b.cls === 'gold') - Number(a.cls === 'gold') || Number(b.cls === 'green') - Number(a.cls === 'green') || (Number(b.e) || 0) - (Number(a.e) || 0));
+  for (const b of rich) { add(b); if (out.length >= 30) return out; }
+  const D = city.dict, rows = city.skyline?.rows;
+  if (!D || !Array.isArray(rows)) return out;
+  const ix = Object.fromEntries((city.skyline.cols || D.cols || []).map((key,i) => [key,i]));
+  for (const row of rows) {
+    const d = D.districts?.[row[ix.d]];
+    if (district && d !== district) continue;
+    const b = { d, lab: comboLabel(D,row,ix), cls: grades[row[ix.cls]] || 'grey', e: row[ix.e], n: row[ix.n] };
+    add(b); if (out.length >= 30) break;
+  }
+  return out;
+}
+async function readCity(fetcher, demo) {
+  async function get(path) { const response = await fetcher(path, { cache:'no-cache' }); if (!response.ok) throw Error('Data unavailable'); return response.json(); }
+  if (!demo) { try { return { city: await get('./city.json'), demo:false }; } catch (_) { /* use bundled sample */ } }
+  return { city: await get('./fixture.json'), demo:true };
+}
+function node(tag, text, cls) { const e = document.createElement(tag); if (cls) e.className = cls; e.textContent = String(text); return e; }
+async function boot() {
+  buildTownRing();
+  const search = $('search'), items = $('items'), districts = $('districts');
+  let loaded;
+  try { loaded = await readCity(fetch, new URLSearchParams(location.search).has('demo')); }
+  catch (_) { $('stamp').textContent = 'Data unavailable'; items.append(node('p', 'Research data could not load. Try again when connected.', 'empty')); return; }
+  const { city, demo } = loaded, sections = districtView(city), total = city.summary?.guard || {};
+  const current = new URL(location.href); current.pathname = current.pathname.replace(/map\.html$/, ''); current.searchParams.delete('demo'); $('back3d').href = current.href;
+  $('stamp').textContent = (demo ? 'SAMPLE · ' : '') + (city.last_day ? 'DATA THROUGH ' + city.last_day : 'READ-ONLY MAP');
+  for (const [value,label] of [[total.tried,'ideas tried'],[total.tested,'tested records'],[sections.length,'districts']]) {
+    const fact = node('div','', 'fact'); fact.append(node('b',fmt(value)),node('small',label)); $('facts').append(fact);
+  }
+  let chosen = '';
+  const max = Math.max(1,...sections.map((s) => s.tested));
+  for (const s of sections) {
+    const button = node('button','', 'district'); button.type='button'; button.setAttribute('aria-pressed','false');
+    button.setAttribute('aria-label', s.name + ' district, ' + fmt(s.tested) + ' tested records');
+    button.style.setProperty('--height', (25 + Math.round(45 * Math.sqrt(s.tested / max))) + 'px');
+    const skyline = node('span','', 'skyline'); skyline.setAttribute('aria-hidden','true');
+    for (let k=0;k<3;k++) skyline.append(node('span','', 'tower'));
+    button.append(skyline,node('strong',s.name),node('small',fmt(s.tested) + ' tested'));
+    button.addEventListener('click', () => { chosen = chosen === s.key ? '' : s.key; for (const b of districts.children) b.setAttribute('aria-pressed', String(b === button && !!chosen)); render(); });
+    districts.append(button);
+  }
+  function render() {
+    items.replaceChildren();
+    const rows = results(city, chosen, search.value);
+    if (!rows.length) { items.append(node('p','No matching research ideas. Try another search or district.','empty')); return; }
+    for (const b of rows) {
+      const card = node('article','', 'item'), grade = node('span', b.cls, 'grade ' + (grades.includes(b.cls) ? b.cls : 'grey'));
+      const label = node('strong', b.lab), detail = node('small', (names[b.d] || b.d || 'Research') + ' · ' + fmt(b.n) + ' samples');
+      card.append(grade,label,detail);
+      if (Number.isFinite(Number(b.e))) card.append(node('small', ' · Historical $' + Number(b.e).toFixed(1) + ' per trade per micro'));
+      items.append(card);
+    }
+  }
+  let timer; search.addEventListener('input', () => { clearTimeout(timer); timer=setTimeout(render,120); });
+  render();
+}
+if (typeof document !== 'undefined') boot();
+</script>
+</body>
+</html>

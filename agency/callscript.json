@@ -1,0 +1,69 @@
+{
+  "v": 1,
+  "about": "Call copilot script (team B2, 2026-11-14): the words for a HUMAN caller. The slots in curly braces are filled from the lead, your settings and the trade (callcore.js fill() / agency/calls/core.py fill()); a slot with no value gets a plain fallback, never a blank or a brace. Honest by design: say who you are and that it is a sales call, never invent clients, reviews or results, stop at once when asked.",
+  "opener": "Hi, {contactAsk} This is {me} with {myBiz}, a small web studio in {myCity}. It is a sales call, so I will be quick: I build websites for {plural}, and I already made a free preview of a new site for {biz}. Can I take 30 seconds to tell you why?",
+  "why": "Thanks. I called because {issue}. The preview fixes that: {hook}.",
+  "questions": [
+    "How do most new customers find {biz} right now: Google, word of mouth, or social media?",
+    "When someone finds you on their phone, what do you want them to do: {ask}?",
+    "If the new site brought you {goal}, would it be worth 10 minutes to look at the preview together?"
+  ],
+  "close": "Great. Can I send you the link so you can look at it today? Is a text or an email better for you?",
+  "consent": "So it is OK if I text the link to this number? (They said yes: tap 'They said I can text'.)",
+  "book": "When could we look at it together for 10 minutes: {day} at 10, or {day} at 2?",
+  "objections": [
+    { "key": "have_site", "title": "I already have a site", "lines": [
+      "That is great, most of my clients had one too.",
+      "Quick question: when did you last open it on your phone?",
+      "I made the preview because {issue}. Let me send you both side by side: if yours is better, you lost one minute." ] },
+    { "key": "expensive", "title": "Too expensive", "lines": [
+      "Fair question. What did you expect a website to cost?",
+      "{priceLine}",
+      "You can look at the preview first and decide after. There is no contract to see it." ] },
+    { "key": "not_interested", "title": "Not interested", "lines": [
+      "No problem. Can I ask one thing: is it the timing, or are you happy with how customers find you now?",
+      "If it is the timing: can I send you the preview so you have it when you are ready?",
+      "Still no: thank them and tap Not interested. If they say 'do not call me', tap Do not call." ] },
+    { "key": "email", "title": "Send me an email", "lines": [
+      "Happy to. What is the best email for you?",
+      "I will send the preview link and three lines, no attachments.",
+      "When can I call to hear what you think: {day} afternoon?" ] },
+    { "key": "who", "title": "Who are you with?", "lines": [
+      "Yes, it is a sales call, I will be honest. I am {me}, I run {myBiz}, a small web studio in {myCity}.",
+      "I build websites for {plural}. I am not a big agency and I am not selling ads or long contracts.",
+      "I made the preview for {biz} before I called, so you can see exactly what you would get." ] },
+    { "key": "gatekeeper", "title": "Front desk (gatekeeper)", "lines": [
+      "Hi, this is {me} with {myBiz}. Who looks after your website?",
+      "Could you tell me the best time to reach {contactOrOwner}?",
+      "Could you pass on a message? I made a free preview of a new site for {biz}. What is the best email to send it to?" ] },
+    { "key": "how_number", "title": "How did you get my number?", "lines": [
+      "From your business listing online ({source}). I only call businesses, about their website.",
+      "If you would rather I did not call this number, I will take it off my list right now." ] },
+    { "key": "remove", "title": "Take me off your list", "lines": [
+      "Of course. I have taken your number off my list: you will not hear from me again. Have a good day.",
+      "Then tap Do not call. Never argue, never call back." ] }
+  ],
+  "voicemail": {
+    "vm1": "Hi {contactName}, this is {me} with {myBiz} in {myCity}. I made a free preview of a new website for {biz}, and I think you will like it. You can call or text me back at {myPhone}, that is {myPhone}. I will also try you again {day}. Thanks, have a great day.",
+    "vm2": "Hi {contactName}, it is {me} again from {myBiz}, about the free website preview for {biz}. If now is not the time, no problem at all. My number is {myPhone}. Thanks!",
+    "rule": "Leave it live, in your own voice, under 25 seconds. Never a recorded, AI or 'ringless' voicemail drop: those need written consent."
+  },
+  "emails": {
+    "e1": { "subject": "Preview of a new website for {biz}", "body": "Hi {contactName},\n\nI am {me} from {myBiz} in {myCity}. I build websites for {plural}, and I made a free preview of a new site for {biz}:\n\n{demoOrOffer}\n\nIt shows {hook}. If you like it, it can be live within a week. If not, no hard feelings.\n\nCan I call you {day} to hear what you think?\n\n{me}\n{myPhone}" },
+    "e2": { "subject": "3 quick fixes for the {biz} website", "body": "Hi {contactName},\n\nThree things the preview fixes for {biz}:\n1. It works well on a phone, where most people find you.\n2. One tap to {ask}.\n3. Your hours, address and reviews are on the first screen.\n\nThe preview: {demoOrOffer}\n\n{me}\n{myPhone}" },
+    "e3": { "subject": "Quick question about {biz}", "body": "Hi {contactName},\n\nDid you get a chance to look at the preview? I am happy to change the colours, photos or words so it feels like {biz}.\n\n{demoOrOffer}\n\nWould a 10-minute call this week help?\n\n{me}\n{myPhone}" },
+    "e4": { "subject": "Should I close your file?", "body": "Hi {contactName},\n\nI have not heard back, so I will assume now is not the right time and stop following up. If that changes, the preview is still there for you: {demoOrOffer}\n\nAll the best with {biz},\n{me}\n{myPhone}" }
+  },
+  "emailFooter": "\n\n--\n{me}, {myBiz}\n{myAddress}\nReply \"no thanks\" and I will not email you again.",
+  "texts": {
+    "t1": "Hi {contactName}, it is {me} from {myBiz}. Here is the preview of the new {biz} site you asked for: {demoOrOffer}",
+    "t2": "Hi {contactName}, {me} from {myBiz} here. Did you get a chance to look at the website preview? Happy to change anything: {demoOrOffer}"
+  },
+  "textFooter": " Reply STOP to opt out.",
+  "fallback": {
+    "me": "[your name]", "myBiz": "[your business]", "myCity": "your area", "myPhone": "[your number]", "myAddress": "[your postal address]",
+    "contactName": "there", "contactOrOwner": "the owner", "city": "your area", "source": "Google Maps", "day": "tomorrow",
+    "demoOrOffer": "(reply to this and I will send you the link)",
+    "priceLine": "It costs less than what one new customer a month brings you."
+  }
+}

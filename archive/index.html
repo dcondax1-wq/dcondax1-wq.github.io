@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Archive</title>
+<meta name="description" content="OLYMPUS ARCHIVE: the library of everything we ever tested. Search and filter every research run, every write-up, the tested-and-rejected list and the datasets, with net dollars and dollars a month next to every result.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Archive">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- ARCHIVE (OLYMPUS, AGORA look, 2026-11-10): the library of everything we ever tested. archivecore.js = the pure logic (node-tested); archive.js = the page (ES module); archivestage.js = the marble library in 3D (its own module tag: if it fails the page draws the flat twin).
+     Reads ./index.json (+ runs-<k>.json shards; built offline by tools/archive_build.py from research/runs, research/writeups, docs/CLAUDE_REFERENCE.md and data/) and fixture.json (DEMO, never blank); sends nothing. Text only through textContent / createElementNS. HISTORY ONLY: no forecast. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="archive"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="archive.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Archive</h1><p class="sub">Every idea we tested and the $ it made or lost. Search here before testing anything again.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <h2 id="heroH">What we tested</h2>
+    <p class="lead big" id="head"></p>
+    <div class="tiles" id="tiles"></div>
+    <div class="ballbox">
+      <canvas id="stage" role="img" aria-label="A marble library of two bookcases. Each shelf is one strategy family and holds three books: gold for adopted runs, olive for open ones, terracotta for rejected ones. A taller book means more runs. Tap a book to filter the list to that shelf."></canvas>
+      <svg id="flat" viewBox="0 0 320 180" role="img" aria-label="A flat drawing of the library: one row for each strategy family with three bars for adopted, open and rejected runs" hidden></svg>
+    </div>
+    <p class="note" id="cov"></p>
+    <p class="banner">History only. The Archive shows what was tested and how it came out, with the number of trades behind every result. It predicts nothing and changes nothing the bots do.</p>
+  </section>
+  <section class="ag-card card" aria-labelledby="findH">
+    <h2 id="findH">Find a test</h2>
+    <label class="field"><span class="note">Search by idea, name or family</span><input id="q" type="search" inputmode="search" autocomplete="off" enterkeyhint="search" placeholder="Try: wider stop at night, breakeven, VIX"></label>
+    <div id="redo" class="redo" role="alert" hidden></div>
+    <div class="seg" id="verdicts" role="group" aria-label="Verdict"></div>
+    <div class="seg" id="years" role="group" aria-label="Years judged"></div>
+    <label class="field"><span class="note">Family</span><select id="family"></select></label>
+    <label class="field"><span class="note">Sort</span><select id="sort"></select></label>
+    <details class="nums"><summary>Filter by the numbers</summary>
+      <div class="grid2">
+        <label class="field"><span class="note">PF (win $ / loss $) at least</span><input id="min_pf" type="number" inputmode="decimal" step="0.1" placeholder="1.5"></label>
+        <label class="field"><span class="note">Net $ at least</span><input id="min_net" type="number" inputmode="numeric" step="500" placeholder="5000"></label>
+        <label class="field"><span class="note">$ a month at least</span><input id="min_pm" type="number" inputmode="numeric" step="100" placeholder="1000"></label>
+        <label class="field"><span class="note">Trades a week at least</span><input id="min_tpw" type="number" inputmode="decimal" step="0.5" placeholder="2"></label>
+        <label class="field"><span class="note">Pass in 10 sessions %, at least</span><input id="min_p10" type="number" inputmode="numeric" step="5" placeholder="30"></label>
+        <label class="field"><span class="note">Fail in 10 sessions %, at most</span><input id="max_f10" type="number" inputmode="numeric" step="5" placeholder="5"></label>
+      </div>
+      <p class="note">The numbers use the years you chose (2026 first when it is "Any years"). A run with no result for that period is left out.</p>
+    </details>
+    <button id="reset" class="btn" type="button">Clear every filter</button>
+  </section>
+  <section class="ag-card card" aria-labelledby="resH">
+    <div class="row"><h2 id="resH">Runs</h2></div>
+    <p class="note" id="count" aria-live="polite"></p>
+    <div id="compare" class="compare" hidden></div>
+    <ul class="runs" id="results"></ul>
+    <button id="more" class="btn wide" type="button" hidden>Show 30 more</button>
+  </section>
+  <section class="ag-card card" aria-labelledby="wuH">
+    <div class="row"><h2 id="wuH">Write-ups</h2><span class="pill info" id="wuCount">...</span></div>
+    <p class="note">The plain-language story of each study. Tap "See the story" to read it.</p>
+    <ul class="plain" id="writeups"></ul>
+  </section>
+  <section class="ag-card card" aria-labelledby="rjH">
+    <div class="row"><h2 id="rjH">Tested and rejected</h2><span class="pill warn" id="rejCount">...</span></div>
+    <p class="note">Ideas we already tried that did not hold in both periods. Don't redo them without a new idea.</p>
+    <ul class="plain" id="rejected"></ul>
+  </section>
+  <section class="ag-card card" aria-labelledby="dsH">
+    <div class="row"><h2 id="dsH">The data</h2><span class="pill info" id="dsCount">...</span></div>
+    <table class="lad" id="dsTable"><caption class="note">Every dataset under data/ (futures only: TradingView CME NQ1! and ES1!, CBOE's own volatility files)</caption><thead><tr><th scope="col">Name</th><th scope="col">Span</th><th scope="col">Rows</th><th scope="col">Source</th></tr></thead><tbody id="dsRows"></tbody></table>
+  </section>
+  <p class="foot" id="foot">Archive reads its own numbers file (built offline from the saved research) and sends nothing. A run is one stored backtest. Money is after costs; 1 MNQ micro = $2 a point.</p>
+</main>
+<script type="module" src="archive.js?v=a1"></script>
+<script type="module" src="archivestage.js?v=a1" onerror="window.ARCHIVE_LIB_FAIL = 1"></script>
+</body>
+</html>

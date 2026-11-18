@@ -1,0 +1,134 @@
+{
+ "v": 1,
+ "kind": "olympus-decisions",
+ "updated": "2026-11-18",
+ "note": "The Decide card (business/decide.js on the Board + ZEUS pages). Claude keeps this list. A tap only posts an owner note (POST /inbox/board on the PC link); Claude applies it next session by the CLAUDE.md rules, then sets status to yes / no / later / done. Nothing here changes a live setting.",
+ "items": [
+  {
+   "id": "payout-ping-1000",
+   "question": "Funded 25K: ask for the full $1,000 payout (at balance $27,100) instead of pinging you at $750?",
+   "why": "Tested 8 payout habits on the same 600 paths: $1,000 asks lose fewer accounts and pay the same or a bit more.",
+   "impact": "About +$1 to +$2 a month, accounts lost 5.3% / 6.3% vs 5.7% / 7.3%; each payout comes 1-2 days later.",
+   "impact_usd": 1,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/payout-policy-funded25-2026-11-17.md",
+   "applies": "engine/funded_life builder25k ask_above 750 -> 1000 (push line only)",
+   "added": "2026-11-17"
+  },
+  {
+   "id": "zlarior-funded25",
+   "question": "Funded 25K: Zlarior (LIT) trades it too, next to ATLAS?",
+   "why": "First payout comes sooner (14 / 18 sessions vs 18 / 26) and a bit more $ a month, but more 6-month runs end with no payout and 2021-25 is a bit worse.",
+   "impact": "+$7 / +$32 a month ($599 / $529 vs $592 / $497); no payout in 6 months 7.5% / 12.2% vs 5.0% / 5.5%.",
+   "impact_usd": 32,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/funded25-lit-atlas-2026-11-17.md",
+   "applies": "python -X utf8 -m engine.lit25 --funded \"<Name>\" --start <day> (added DISARMED; you arm it)",
+   "added": "2026-11-17"
+  },
+  {
+   "id": "rapid25-lit-bank",
+   "question": "Rapid 25K: Zlarior trades 1 micro and takes profit at the day's room (instead of skipping most trades)?",
+   "why": "Today the 30% best-day guard skips 60-65% of Zlarior's trades there. Banking at the room passes and pays sooner, but fails a little more.",
+   "impact": "+$5 / +$66 a month ($2,317 / $1,038 vs $2,312 / $972); fails in 60 sessions 1.3% / 1.4% vs 0.3% / 0.7%. Only matters once a Rapid 25K is bought.",
+   "impact_usd": 66,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/rapid25-lit-lane-2026-11-18.md",
+   "applies": "python -X utf8 -m engine.rapid --lit-bank on (built OFF)",
+   "added": "2026-11-18"
+  },
+  {
+   "id": "atlas-on-50k-funded",
+   "question": "Zlarior's 50K: ATLAS trades it too once it is funded (the eval stays Zlarior alone)?",
+   "why": "Two strategies give about 2 winning days a week instead of 1, which the payout rules need. ATLAS in the eval fails more, so funded only.",
+   "impact": "About +$420 / +$450 a month ($1,202 / $1,205 vs $779 / $753); first payout 17 / 15 sessions vs 26 / 23.5.",
+   "impact_usd": 452,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/stack-one-account-2026-11-16.md",
+   "applies": "add the ATLAS $500 lane to the 50K's funded account once MFFU funds it (lead wires, Sim first)",
+   "added": "2026-11-16"
+  },
+  {
+   "id": "atlas-on-rapid",
+   "question": "Rapid EOD: ATLAS trades it next to Zlarior from day one?",
+   "why": "Zlarior alone takes about 40 sessions to pass a Rapid EOD 50K; with ATLAS about 22, and the first payout comes about twice as fast.",
+   "impact": "About $5,022 / $2,301 a month vs $815 / $799 with Zlarior alone (per Rapid 50K, after the fee).",
+   "impact_usd": 1500,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/stack-one-account-2026-11-16.md",
+   "applies": "Rapid preset already built LIT + ATLAS $500; a no turns ATLAS off there",
+   "added": "2026-11-16"
+  },
+  {
+   "id": "keep-1000-rapid",
+   "question": "Rapid funded payouts: always leave $1,000 above the buffer in each Rapid?",
+   "why": "More room means Zlarior trades its full size more often, so the account earns more; accounts lost: 0% either way.",
+   "impact": "+$992 / +$523 a month per Rapid 50K ($6,014 / $2,824 vs $5,022 / $2,301); first payout 2-4 sessions later.",
+   "impact_usd": 523,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/rapid-levers-2026-11-16.md",
+   "applies": "Rapid funded payout rule keep $1,000 (preset already uses it; a no lowers it)",
+   "added": "2026-11-16"
+  },
+  {
+   "id": "ask-mffu-parallel",
+   "question": "Ask MFFU to say yes in writing: a 2nd Builder 50K and a 2nd 25K eval while the current ones run?",
+   "why": "Their rules allow 10 evals, but a written yes protects the payouts if they ever question it.",
+   "impact": "No $ now; protects every future payout from a rules dispute.",
+   "impact_usd": 0,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/mffu-rules-audit-2026-11-17.md",
+   "applies": "Claude drafts the message to MFFU support; you send it",
+   "added": "2026-11-17"
+  },
+  {
+   "id": "cloud-alerts",
+   "question": "Let the cloud watch your PC (a tiny free check every 30 min on the backup GitHub repo) so you get a push if the PC goes silent?",
+   "why": "The PC-silent alert is built but needs a cloud runner; the old GitHub account's Actions are off since the suspension. The backup repo's free minutes cover it (~700 of 2,000 a month).",
+   "impact": "$0 (free minutes). Catches a dead PC within 30 min instead of days (it was silent Nov 7-17 unnoticed).",
+   "impact_usd": 0,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "tools/pc_silent_check.py, docs/BOTS_BACK.md"
+  }
+ ]
+}

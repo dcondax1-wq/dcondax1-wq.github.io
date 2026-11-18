@@ -1,0 +1,44 @@
+/* OLYMPUS accessibility + readability rules (2026-11-04, docs/OLYMPUS_A11Y.md), the CSS half of olympus/a11y.js. Link it after the
+   page's own sheets (a11y.js also adds it when it is missing). Opt out for one element or a whole part of a page: data-oly-skip. */
+
+/* ---------------------------------------------------------------- text size: rem / em follow --oly-text-scale (Dynamic Type x big text) */
+/* (the root size itself is set by a11y.js, inline, only when the scale is not 1: an app's own root size is never touched otherwise) */
+/* (the growing itself: a11y.js, inline: iOS text-size-adjust on a touch phone, the root font size elsewhere: never both) */
+/* nothing may be wider than the phone because the text grew: long words and URLs wrap */
+html[data-oly-text="big"] :where(p, li, td, th, label, button, a, span, div, h1, h2, h3, h4, small, summary) { overflow-wrap: anywhere; }
+html[data-oly-text="big"] :where(button, [role="button"], input, select, textarea) { min-height: 44px; }
+html[data-oly-text="big"] :where(.oly-chip) { min-height: 36px; }
+
+/* ---------------------------------------------------------------- focus: a ring that shows on dark glass AND on light marble, for the keyboard / VoiceOver only
+   (!important: several apps set outline: none on their buttons; an element that must not have it says data-oly-skip) */
+html body :where(a, button, input, select, textarea, summary, [tabindex], [role="button"], [role="tab"], [role="link"], [role="switch"], [role="checkbox"]):focus-visible:not([data-oly-skip]):not([data-oly-skip] *) {
+  outline: 3px solid var(--oly-th-ring, var(--oly-accent, #9c6b3c)) !important; outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px var(--oly-bg, #04050c) !important; border-radius: max(var(--oly-focus-r, 0px), 4px); }
+:where(a, button, [role="button"], summary):focus:not(:focus-visible) { outline-width: 0; }
+
+/* ---------------------------------------------------------------- toasts: a polite voice for the news, an assertive one for errors (the roles are set by a11y.js) */
+[role="status"], [role="alert"] { overflow-wrap: anywhere; }
+
+/* ---------------------------------------------------------------- prefers-contrast: more (or the contrast choice): stronger ink and lines, no translucency on text */
+@media (prefers-contrast: more) {
+  :root:not([data-oly-contrast="off"]) { --oly-dim: var(--oly-text, #f3f5fb); --oly-line: rgba(255, 255, 255, .5); --oly-edge: rgba(255, 255, 255, .7); }
+}
+html[data-oly-contrast="more"] { --oly-dim: var(--oly-text, #f3f5fb); --oly-line: rgba(255, 255, 255, .5); --oly-edge: rgba(255, 255, 255, .7); }
+html[data-oly-contrast="more"][data-oly-scheme="light"] { --oly-line: rgba(0, 0, 0, .55); --oly-edge: rgba(0, 0, 0, .7); }
+html[data-oly-contrast="more"] :where(button, input, select, textarea, [role="button"], .oly-chip, .oly-card, .oly-close) { border-color: var(--oly-edge); }
+html[data-oly-contrast="more"] :where(.oly-glass, .oly-card, .oly-chip, .oly-err) { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--oly-bg2, #0d0620); }
+html[data-oly-contrast="more"] :where(a):not([class]) { text-decoration: underline; }
+
+/* ---------------------------------------------------------------- prefers-reduced-motion (or the motion choice): loops stop, moves become cuts */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-oly-motion="off"]) :where(*, *::before, *::after):not([data-oly-skip]):not([data-oly-skip] *) {
+    animation-duration: .001s !important; animation-delay: 0s !important; animation-iteration-count: 1 !important;
+    transition-duration: .001s !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
+}
+html[data-oly-motion="reduce"] :where(*, *::before, *::after):not([data-oly-skip]):not([data-oly-skip] *) {
+  animation-duration: .001s !important; animation-delay: 0s !important; animation-iteration-count: 1 !important;
+  transition-duration: .001s !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
+
+/* ---------------------------------------------------------------- the ready-made toggle button (any element with data-oly-a11y="big-text" | "more-contrast" | "reduce-motion") */
+[data-oly-a11y="big-text"], [data-oly-a11y="more-contrast"], [data-oly-a11y="reduce-motion"] { cursor: pointer; touch-action: manipulation; }
+[data-oly-a11y][aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--oly-accent, #9c6b3c); }

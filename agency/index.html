@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agency</title>
+<meta name="description" content="OLYMPUS AGENCY: the website-agency pipeline. Local businesses that need a website, their demo sites, the 30-second opener and the email, and every stage from new lead to won, with the dollars. Your notes stay in this browser.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Agency">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- AGENCY (OLYMPUS, AGORA look, 2026-11-14): the website-machine CRM. agencycore.js = the pure pipeline maths (node-tested); agency.js = the page (ES module).
+     Reads only its own published leads.json (built by `python -m agency.run` from OpenStreetMap) and fixture.json (DEMO, never blank). The owner's stages, notes,
+     call-back days and prices stay in this browser (localStorage, export / import as JSON, download as CSV). It sends nothing: Call / Email open the phone's own apps. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="agency"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d08c4a'); r.setProperty('--oly-accent-rgb', '208, 140, 74'); })();</script>
+<link rel="stylesheet" href="agency.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Agency</h1><p class="sub">Websites for local businesses</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="sample" class="tag" hidden>SAMPLE CITY</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">This month</h2><span class="pill" id="goalPill">...</span></div>
+    <p class="big ag-num" id="heroNum">$0</p>
+    <p class="lead" id="heroSub"></p>
+    <div id="goalBar" class="ag-bar green" role="img"><i></i></div>
+    <div class="tiles">
+      <div class="tile"><small>Open deals</small><b id="tOpen">$0</b><span>first-year value</span></div>
+      <div class="tile"><small>Likely</small><b id="tWeighted">$0</b><span>at usual close rates</span></div>
+      <div class="tile"><small>Care plans</small><b id="tMrr">$0</b><span>a month</span></div>
+      <div class="tile"><small>Calls</small><b id="tCalls">0</b><span>this week</span></div>
+    </div>
+    <p class="note" id="sampleNote" hidden></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="todayH">
+    <div class="row"><h2 id="todayH">Call today</h2><span class="pill info" id="todayCount">0</span></div>
+    <p class="note">Call-backs that are due first, then the best leads nobody has called yet. Search the name on Google before you dial: the map data can miss a website.</p>
+    <div id="today" class="list"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="pipeH">
+    <h2 id="pipeH">Pipeline</h2>
+    <div id="stages" class="chips" role="group" aria-label="Show a stage"></div>
+    <div class="flds three">
+      <label class="fld"><span>Search</span><input id="q" type="search" placeholder="Name, trade, street, note" autocomplete="off"></label>
+      <label class="fld"><span>Trade</span><select id="trade"></select></label>
+      <label class="fld"><span>Sort</span><select id="sort"><option value="score">Best lead first</option><option value="value">Biggest deal first</option><option value="near">Nearest first</option><option value="name">A to Z</option></select></label>
+    </div>
+    <div id="list" class="list"></div>
+  </section>
+
+  <section class="ag-card card" id="detail" aria-labelledby="detH" hidden>
+    <div class="row"><h2 id="detH">Lead</h2><span class="pill" id="detTier">...</span></div>
+    <p class="selt" id="detName"></p>
+    <p class="note" id="detMeta"></p>
+    <p class="why" id="detWhy"></p>
+    <ul class="plain" id="detReasons"></ul>
+    <div class="seg" id="detActions"></div>
+    <h3 class="sub3">Stage</h3>
+    <div class="seg" id="detStages" role="group" aria-label="Stage of this lead"></div>
+    <div class="flds two">
+      <label class="fld"><span>Call back on</span><input id="detCallback" type="date"></label>
+      <label class="fld"><span>Package</span><select id="detPackage"></select></label>
+      <label class="fld"><span>Price to start ($)</span><input id="detPrice" type="number" inputmode="decimal" min="0" step="1"></label>
+      <label class="fld"><span>Each month ($)</span><input id="detMonthly" type="number" inputmode="decimal" min="0" step="1"></label>
+    </div>
+    <label class="fld"><span>Demo link (after you drop the folder on Netlify)</span><input id="detDemo" type="url" inputmode="url" placeholder="https://name-demo.netlify.app"></label>
+    <label class="fld"><span>Notes</span><textarea id="detNotes" rows="3" placeholder="Who you spoke to, what they said"></textarea></label>
+    <p class="note" id="detValue"></p>
+    <details id="detOpener" open><summary>The 30-second opener</summary><p class="script" id="detOpenerText"></p><p class="note" id="detVoicemail"></p><div class="seg"><button class="btn" id="copyOpener" type="button">Copy the opener</button></div></details>
+    <details id="detEmail"><summary>The email</summary><p class="note" id="detReady"></p><p class="script" id="detSubject"></p><pre class="mail" id="detEmailText"></pre><div class="seg"><button class="btn" id="copyEmail" type="button">Copy the email</button><a class="btn" id="mailBtn" href="#">Open in Mail</a></div></details>
+    <p class="note" id="detMsg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="planH">
+    <h2 id="planH">The plan to $5,000 a month</h2>
+    <p class="lead" id="planLead"></p>
+    <div class="tablewrap"><table class="plan" id="planTable"><caption class="sr">New clients a month and what they add up to</caption><thead><tr><th scope="col">New clients a month</th><th scope="col">Month 6</th><th scope="col">Month 12</th><th scope="col">Months to goal</th></tr></thead><tbody></tbody></table></div>
+    <p class="note" id="planNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="ioH">
+    <h2 id="ioH">Your notes</h2>
+    <p class="note">Stages, notes, call-back days and prices are yours and stay in this browser. Export them to keep a copy or to move to another phone.</p>
+    <div class="seg"><button class="btn" id="csvBtn" type="button">Download CSV</button><button class="btn" id="exportBtn" type="button">Export</button></div>
+    <details id="io">
+      <summary>Import a saved export (JSON)</summary>
+      <label class="fld"><span>Export text</span><textarea id="ioText" rows="6" spellcheck="false"></textarea></label>
+      <div class="seg"><button class="btn" id="importBtn" type="button">Import</button><button class="btn" id="clearBtn" type="button">Start over</button></div>
+    </details>
+    <p class="note" id="ioMsg" role="status" aria-live="polite"></p>
+  </section>
+
+  <p class="foot" id="foot">Agency reads the lead list the website machine published (business data from OpenStreetMap contributors, ODbL) and keeps your notes in this browser. It sends nothing and calls no one: Call and Email open your phone's own apps, and you press send. Money figures are estimates from your packages, not cash until a client pays.</p>
+</main>
+<script type="module" src="agency.js?v=a1"></script>
+</body>
+</html>

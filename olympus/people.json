@@ -1,0 +1,3091 @@
+{
+ "v": 1,
+ "asof": "2026-11-17",
+ "note": "The people of OLYMPUS: one named character per real worker. Built by tools/people_build.py from handoff/agents_now.json, the Archive, the app list and git (when present). A person only says what that worker's own files say. Nothing here is a trade.",
+ "git": false,
+ "people": [
+  {
+   "id": "scanner:chrysos",
+   "name": "Chrysanthe",
+   "meaning": "golden flower",
+   "title": "Prop-firm planner",
+   "kind": "scanner",
+   "area": "money",
+   "app": "chrysos",
+   "seed": 2433986502,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.07,
+    "rate": 1.08
+   },
+   "sources": [
+    "../money/index.json",
+    "../money/chrysos.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "chrysos"
+   },
+   "bio": "Counts what each eval account costs and what it could pay back. Estimates only.",
+   "aliases": [
+    "chrysos"
+   ]
+  },
+  {
+   "id": "scanner:mercury",
+   "name": "Hermolaos",
+   "meaning": "of the people of Hermes",
+   "title": "Deal finder",
+   "kind": "scanner",
+   "area": "money",
+   "app": "mercury",
+   "seed": 3408401734,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.08,
+    "rate": 1.01
+   },
+   "sources": [
+    "../money/index.json",
+    "../money/mercury.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "mercury"
+   },
+   "bio": "Watches prop-firm sales and discount codes so you never pay list price.",
+   "aliases": [
+    "mercury"
+   ]
+  },
+  {
+   "id": "scanner:sibyl",
+   "name": "Manto",
+   "meaning": "the seer",
+   "title": "Prediction-market pick finder",
+   "kind": "scanner",
+   "area": "money",
+   "app": "sibyl",
+   "seed": 1183754172,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.86,
+    "rate": 0.97
+   },
+   "sources": [
+    "../money/index.json",
+    "../money/sibyl.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "sibyl"
+   },
+   "bio": "Reads public prediction markets and writes down paper picks, with what could go wrong.",
+   "aliases": [
+    "sibyl"
+   ]
+  },
+  {
+   "id": "scanner:oikos",
+   "name": "Pheidon",
+   "meaning": "the thrifty one",
+   "title": "Household savings finder",
+   "kind": "scanner",
+   "area": "money",
+   "app": "oikos",
+   "seed": 3362749548,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.13,
+    "rate": 1.02
+   },
+   "sources": [
+    "../money/index.json",
+    "../money/oikos.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "oikos"
+   },
+   "bio": "Looks for money the household already has and is not keeping.",
+   "aliases": [
+    "oikos"
+   ]
+  },
+  {
+   "id": "scanner:arbiter",
+   "name": "Dikaios",
+   "meaning": "the fair one",
+   "title": "Price-gap checker",
+   "kind": "scanner",
+   "area": "money",
+   "app": "arbiter",
+   "seed": 1409725534,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.87,
+    "rate": 1.07
+   },
+   "sources": [
+    "../money/index.json",
+    "../money/arbiter.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "arbiter"
+   },
+   "bio": "Checks price gaps after fees. Most gaps are not there once the costs are in.",
+   "aliases": [
+    "arbiter"
+   ]
+  },
+  {
+   "id": "bot:lit",
+   "name": "Phoibos",
+   "meaning": "the bright one",
+   "title": "The LIT bot (Zlarior 50K, paper)",
+   "kind": "bot",
+   "area": "trading",
+   "app": "hestia",
+   "seed": 92503117,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.11,
+    "rate": 0.97
+   },
+   "sources": [
+    "../home.json",
+    "../odeon/trades.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "lit"
+   },
+   "bio": "Trades the LIT plan on NQ: one trade a day, the stop behind the sweep, size follows the stop.",
+   "aliases": [
+    "lit"
+   ]
+  },
+  {
+   "id": "bot:atlas",
+   "name": "Telamon",
+   "meaning": "the bearer",
+   "title": "The ATLAS bot (25K, paper)",
+   "kind": "bot",
+   "area": "trading",
+   "app": "hestia",
+   "seed": 3144434299,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.05,
+    "rate": 0.96
+   },
+   "sources": [
+    "../home.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "atlas"
+   },
+   "bio": "Carries the second NQ strategy on the 25K account. Paper only.",
+   "aliases": [
+    "atlas"
+   ]
+  },
+  {
+   "id": "bot:blitz",
+   "name": "Asterope",
+   "meaning": "lightning",
+   "title": "The BLITZ bot (25K, paper)",
+   "kind": "bot",
+   "area": "trading",
+   "app": "hestia",
+   "seed": 3137146127,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.88,
+    "rate": 1.02
+   },
+   "sources": [
+    "../home.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "blitz"
+   },
+   "bio": "The quick third NQ strategy on its own 25K account. Paper only.",
+   "aliases": [
+    "blitz"
+   ]
+  },
+  {
+   "id": "bot:kalshi",
+   "name": "Eutychos",
+   "meaning": "the fortunate",
+   "title": "The Kalshi bot (paper)",
+   "kind": "bot",
+   "area": "money",
+   "app": "kalshi",
+   "seed": 524726478,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.04,
+    "rate": 0.97
+   },
+   "sources": [
+    "../kalshi.json",
+    "../kalshicity/learned.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "kalshi"
+   },
+   "bio": "Paper-trades prediction markets and keeps score of what it learned.",
+   "aliases": [
+    "kalshi"
+   ]
+  },
+  {
+   "id": "mind",
+   "name": "Metis",
+   "meaning": "wise counsel",
+   "title": "The Mind: nightly self-research",
+   "kind": "mind",
+   "area": "research",
+   "app": "mind",
+   "seed": 2139746121,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.95,
+    "rate": 1.02
+   },
+   "sources": [
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "mind"
+   },
+   "bio": "Thinks at night about recent trades and tests ideas. She only suggests; she never changes a rule.",
+   "aliases": []
+  },
+  {
+   "id": "job:prometheus",
+   "name": "Pyrrhos",
+   "meaning": "flame-coloured",
+   "title": "Prometheus: breeds LIT settings",
+   "kind": "mind",
+   "area": "research",
+   "app": "prometheus",
+   "seed": 2772506166,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.8,
+    "rate": 1.06
+   },
+   "sources": [
+    "../prometheus/forge.json",
+    "../cronos/status.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "prometheus"
+   },
+   "bio": "Breeds LIT settings on Jan-Jun and checks them on Jul-Oct. Says so when nothing holds.",
+   "aliases": [
+    "prometheus"
+   ]
+  },
+  {
+   "id": "job:hephaestus",
+   "name": "Chalkeus",
+   "meaning": "the bronze-smith",
+   "title": "Hephaestus: stored LIT results",
+   "kind": "mind",
+   "area": "research",
+   "app": "hephaestus",
+   "seed": 3711708228,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.16,
+    "rate": 0.94
+   },
+   "sources": [
+    "../hephaestus/data.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "hephaestus"
+   },
+   "bio": "Keeps the stored result of every LIT setting that was really run. Read-only.",
+   "aliases": [
+    "hephaestus"
+   ]
+  },
+  {
+   "id": "job:cronos",
+   "name": "Horaios",
+   "meaning": "the timely one",
+   "title": "Cronos: the night clock",
+   "kind": "mind",
+   "area": "research",
+   "app": "kronos",
+   "seed": 3394696368,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.25,
+    "rate": 0.97
+   },
+   "sources": [
+    "../cronos/status.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "cronos"
+   },
+   "bio": "Runs the nightly jobs and tells you which ones failed or are late.",
+   "aliases": [
+    "cronos"
+   ]
+  },
+  {
+   "id": "job:queue",
+   "name": "Kalamos",
+   "meaning": "the reed pen",
+   "title": "Scribe of the task queue",
+   "kind": "mind",
+   "area": "factory",
+   "app": "ergasterion",
+   "seed": 3968134709,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.27,
+    "rate": 1.03
+   },
+   "sources": [
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "queue"
+   },
+   "bio": "Keeps the list of open tasks and write-ups, and the ideas that were tested and rejected.",
+   "aliases": [
+    "queue"
+   ]
+  },
+  {
+   "id": "job:dev",
+   "name": "Epistates",
+   "meaning": "the overseer",
+   "title": "Foreman of the coding agents",
+   "kind": "mind",
+   "area": "factory",
+   "app": "ergasterion",
+   "seed": 1279485801,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.25,
+    "rate": 1.0
+   },
+   "sources": [
+    "../ergasterion/builders.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "Watches over the coding agents in the builders' camp: who is building what, and what was merged.",
+   "aliases": [
+    "dev"
+   ]
+  },
+  {
+   "id": "keeper:market",
+   "name": "Agoraios",
+   "meaning": "of the marketplace",
+   "title": "Keeper of the Market district",
+   "kind": "keeper",
+   "area": "market",
+   "app": "atlas",
+   "seed": 3559340683,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.2,
+    "rate": 0.95
+   },
+   "sources": [
+    "../oracle/jarvis.json",
+    "../ares/jarvis.json",
+    "../forum/jarvis.json",
+    "../chronos/jarvis.json",
+    "../cities/jarvis.json",
+    "../odeon/jarvis.json",
+    "../pantheon/jarvis.json",
+    "../delphi/jarvis.json",
+    "../kronos/jarvis.json"
+   ],
+   "home": {
+    "scene": "hellas",
+    "place": "market"
+   },
+   "bio": "Looks after the 10 apps of the Market district and knows which ones need you.",
+   "aliases": [],
+   "district": {
+    "id": "market",
+    "title": "Market",
+    "colour": "#c8a24a",
+    "apps": [
+     "zenith",
+     "oracle",
+     "ares",
+     "forum",
+     "chronos",
+     "cities",
+     "odeon",
+     "pantheon",
+     "delphi",
+     "kronos"
+    ]
+   }
+  },
+  {
+   "id": "keeper:research",
+   "name": "Zetes",
+   "meaning": "the seeker",
+   "title": "Keeper of the Research district",
+   "kind": "keeper",
+   "area": "research",
+   "app": "atlas",
+   "seed": 3201345270,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.25,
+    "rate": 0.95
+   },
+   "sources": [
+    "../datacity/jarvis.json",
+    "../observatory/jarvis.json",
+    "../tree/jarvis.json",
+    "../prometheus/jarvis.json",
+    "../hephaestus/jarvis.json",
+    "../nemesis/jarvis.json",
+    "../clio/jarvis.json",
+    "../fates/jarvis.json",
+    "../moirai/jarvis.json"
+   ],
+   "home": {
+    "scene": "hellas",
+    "place": "research"
+   },
+   "bio": "Looks after the 9 apps of the Research district and knows which ones need you.",
+   "aliases": [],
+   "district": {
+    "id": "research",
+    "title": "Research",
+    "colour": "#4b7a99",
+    "apps": [
+     "datacity",
+     "observatory",
+     "tree",
+     "prometheus",
+     "hephaestus",
+     "nemesis",
+     "clio",
+     "fates",
+     "moirai"
+    ]
+   }
+  },
+  {
+   "id": "keeper:money",
+   "name": "Tamias",
+   "meaning": "the treasurer",
+   "title": "Keeper of the Money district",
+   "kind": "keeper",
+   "area": "money",
+   "app": "atlas",
+   "seed": 3872632197,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.13,
+    "rate": 0.94
+   },
+   "sources": [
+    "../ledger/jarvis.json",
+    "../hera/jarvis.json",
+    "../plutus/jarvis.json",
+    "../pnyx/jarvis.json",
+    "../demeter/jarvis.json",
+    "../labyrinth/jarvis.json",
+    "../kalshicity/jarvis.json",
+    "../tyche/jarvis.json",
+    "../dionysus/jarvis.json",
+    "../hermes/jarvis.json",
+    "../mint/jarvis.json",
+    "../mintcity/jarvis.json",
+    "../mercury/jarvis.json",
+    "../chrysos/jarvis.json",
+    "../sibyl/jarvis.json",
+    "../oikos/jarvis.json",
+    "../arbiter/jarvis.json",
+    "../aegis/jarvis.json"
+   ],
+   "home": {
+    "scene": "hellas",
+    "place": "money"
+   },
+   "bio": "Looks after the 19 apps of the Money district and knows which ones need you.",
+   "aliases": [],
+   "district": {
+    "id": "money",
+    "title": "Money",
+    "colour": "#7f8a52",
+    "apps": [
+     "ledger",
+     "hera",
+     "plutus",
+     "pnyx",
+     "demeter",
+     "labyrinth",
+     "kalshi",
+     "kalshicity",
+     "tyche",
+     "dionysus",
+     "hermes",
+     "mint",
+     "mintcity",
+     "mercury",
+     "chrysos",
+     "sibyl",
+     "oikos",
+     "arbiter",
+     "aegis"
+    ]
+   }
+  },
+  {
+   "id": "keeper:command",
+   "name": "Hegemon",
+   "meaning": "the leader",
+   "title": "Keeper of the Command district",
+   "kind": "keeper",
+   "area": "command",
+   "app": "atlas",
+   "seed": 2289063516,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.98,
+    "rate": 1.03
+   },
+   "sources": [
+    "../hestia/jarvis.json",
+    "../inbox/jarvis.json",
+    "../argus/jarvis.json",
+    "../bridge/jarvis.json",
+    "../settings/jarvis.json",
+    "../atlas/jarvis.json",
+    "../stoa/jarvis.json",
+    "../kratos/jarvis.json",
+    "../argo/jarvis.json"
+   ],
+   "home": {
+    "scene": "hellas",
+    "place": "command"
+   },
+   "bio": "Looks after the 9 apps of the Command district and knows which ones need you.",
+   "aliases": [],
+   "district": {
+    "id": "command",
+    "title": "Command",
+    "colour": "#c96a4a",
+    "apps": [
+     "hestia",
+     "inbox",
+     "argus",
+     "bridge",
+     "settings",
+     "atlas",
+     "stoa",
+     "kratos",
+     "argo"
+    ]
+   }
+  },
+  {
+   "id": "keeper:life",
+   "name": "Eirene",
+   "meaning": "peace",
+   "title": "Keeper of the Life district",
+   "kind": "keeper",
+   "area": "life",
+   "app": "atlas",
+   "seed": 3057491253,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.25,
+    "rate": 1.01
+   },
+   "sources": [
+    "../planner/jarvis.json",
+    "../mind/jarvis.json",
+    "../arena/jarvis.json",
+    "../journal/jarvis.json",
+    "../athena/jarvis.json",
+    "../apollo/jarvis.json",
+    "../lyceum/jarvis.json",
+    "../nike/jarvis.json",
+    "../epilogue/jarvis.json",
+    "../gallery/jarvis.json"
+   ],
+   "home": {
+    "scene": "hellas",
+    "place": "life"
+   },
+   "bio": "Looks after the 10 apps of the Life district and knows which ones need you.",
+   "aliases": [],
+   "district": {
+    "id": "life",
+    "title": "Life",
+    "colour": "#9c6b3c",
+    "apps": [
+     "planner",
+     "mind",
+     "arena",
+     "journal",
+     "athena",
+     "apollo",
+     "lyceum",
+     "nike",
+     "epilogue",
+     "gallery"
+    ]
+   }
+  },
+  {
+   "id": "builder:a8fa04fb",
+   "name": "Ergane",
+   "meaning": "the worker",
+   "title": "Theme finisher builder",
+   "kind": "builder",
+   "area": "design",
+   "app": "ergasterion",
+   "seed": 3422551442,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.21,
+    "rate": 1.06
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "One calm AGORA look in every app; a unique accent per app",
+   "aliases": [
+    "worktree-agent-a8fa04fb59e01df25",
+    "builder:theme-finisher"
+   ],
+   "job": "One calm AGORA look in every app; a unique accent per app",
+   "branch": "worktree-agent-a8fa04fb59e01df25",
+   "agent": "Theme finisher"
+  },
+  {
+   "id": "builder:a43a2dae",
+   "name": "Kallias",
+   "meaning": "beauty",
+   "title": "Jarvis home builder",
+   "kind": "builder",
+   "area": "jarvis",
+   "app": "ergasterion",
+   "seed": 3606793779,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.13,
+    "rate": 1.08
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "A clean, beautiful Jarvis first screen with a golden-hour courtyard",
+   "aliases": [
+    "worktree-agent-a43a2daec19cf8666",
+    "builder:jarvis-home"
+   ],
+   "job": "A clean, beautiful Jarvis first screen with a golden-hour courtyard",
+   "branch": "worktree-agent-a43a2daec19cf8666",
+   "agent": "Jarvis home"
+  },
+  {
+   "id": "builder:ab25b5ae",
+   "name": "Pelagia",
+   "meaning": "of the sea",
+   "title": "Jarvis brain builder",
+   "kind": "builder",
+   "area": "jarvis",
+   "app": "ergasterion",
+   "seed": 2229312911,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.24,
+    "rate": 0.95
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "Search everything, follow-up questions, briefings, tours",
+   "aliases": [
+    "worktree-agent-ab25b5ae6ac17c255",
+    "builder:jarvis-brain"
+   ],
+   "job": "Search everything, follow-up questions, briefings, tours",
+   "branch": "worktree-agent-ab25b5ae6ac17c255",
+   "agent": "Jarvis brain"
+  },
+  {
+   "id": "builder:a802da40",
+   "name": "Ariston",
+   "meaning": "the best",
+   "title": "Hellas builder",
+   "kind": "builder",
+   "area": "cities",
+   "app": "ergasterion",
+   "seed": 2610172730,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.03,
+    "rate": 1.08
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "A world of 200+ cities built from the real research data",
+   "aliases": [
+    "worktree-agent-a802da4078c305b1b",
+    "builder:hellas"
+   ],
+   "job": "A world of 200+ cities built from the real research data",
+   "branch": "worktree-agent-a802da4078c305b1b",
+   "agent": "Hellas"
+  },
+  {
+   "id": "builder:a1d36b03",
+   "name": "Phaidon",
+   "meaning": "the shining one",
+   "title": "Ergasterion builder",
+   "kind": "builder",
+   "area": "factory",
+   "app": "ergasterion",
+   "seed": 3285423084,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.04,
+    "rate": 1.01
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "The agent factory: watch every worker and what it learned",
+   "aliases": [
+    "worktree-agent-a1d36b031da943214",
+    "builder:ergasterion"
+   ],
+   "job": "The agent factory: watch every worker and what it learned",
+   "branch": "worktree-agent-a1d36b031da943214",
+   "agent": "Ergasterion"
+  },
+  {
+   "id": "builder:a545b014",
+   "name": "Philon",
+   "meaning": "the loving one",
+   "title": "NQ bot builder",
+   "kind": "builder",
+   "area": "trading",
+   "app": "ergasterion",
+   "seed": 2696376868,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.14,
+    "rate": 1.07
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "The NQ page and the kit that updates the PC's bot folder",
+   "aliases": [
+    "worktree-agent-a545b014870ea708c",
+    "builder:nq-bot"
+   ],
+   "job": "The NQ page and the kit that updates the PC's bot folder",
+   "branch": "worktree-agent-a545b014870ea708c",
+   "agent": "NQ bot"
+  },
+  {
+   "id": "builder:afc68d30",
+   "name": "Myron",
+   "meaning": "sweet oil",
+   "title": "Pinakes builder",
+   "kind": "builder",
+   "area": "data",
+   "app": "ergasterion",
+   "seed": 3743078863,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.9,
+    "rate": 0.99
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "A browser for every table of data OLYMPUS has",
+   "aliases": [
+    "worktree-agent-afc68d30fdf5b4f1b",
+    "builder:pinakes"
+   ],
+   "job": "A browser for every table of data OLYMPUS has",
+   "branch": "worktree-agent-afc68d30fdf5b4f1b",
+   "agent": "Pinakes"
+  },
+  {
+   "id": "builder:aa29a7de",
+   "name": "Thalia",
+   "meaning": "the blooming one",
+   "title": "Kalshi team C builder",
+   "kind": "builder",
+   "area": "research",
+   "app": "ergasterion",
+   "seed": 4033582370,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.0,
+    "rate": 0.95
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "Hunting for a real Kalshi edge in weather and index markets",
+   "aliases": [
+    "worktree-agent-aa29a7ded798881ae",
+    "builder:kalshi-team-c"
+   ],
+   "job": "Hunting for a real Kalshi edge in weather and index markets",
+   "branch": "worktree-agent-aa29a7ded798881ae",
+   "agent": "Kalshi team C"
+  },
+  {
+   "id": "builder:a9fa9fcc",
+   "name": "Nikias",
+   "meaning": "of victory",
+   "title": "Colosseum builder",
+   "kind": "builder",
+   "area": "arena",
+   "app": "ergasterion",
+   "seed": 3852347068,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.81,
+    "rate": 0.92
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "A 3D arena where two strategies duel on real numbers",
+   "aliases": [
+    "worktree-agent-a9fa9fcc5a553e79b",
+    "builder:colosseum"
+   ],
+   "job": "A 3D arena where two strategies duel on real numbers",
+   "branch": "worktree-agent-a9fa9fcc5a553e79b",
+   "agent": "Colosseum"
+  },
+  {
+   "id": "builder:aa54c210",
+   "name": "Xenon",
+   "meaning": "the guest",
+   "title": "Fixer builder",
+   "kind": "builder",
+   "area": "quality",
+   "app": "ergasterion",
+   "seed": 3520402889,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.12,
+    "rate": 0.93
+   },
+   "sources": [
+    "../ergasterion/builders.json",
+    "../ergasterion/queue.json"
+   ],
+   "home": {
+    "scene": "ergasterion",
+    "place": "dev"
+   },
+   "bio": "Fixing the broken tests and phone-layout bugs in old apps",
+   "aliases": [
+    "worktree-agent-aa54c21090a103d33",
+    "builder:fixer"
+   ],
+   "job": "Fixing the broken tests and phone-layout bugs in old apps",
+   "branch": "worktree-agent-aa54c21090a103d33",
+   "agent": "Fixer"
+  },
+  {
+   "id": "champion:lit_big_scale_cisd",
+   "name": "Kallinikos",
+   "meaning": "fair victory",
+   "title": "Champion: cisd pb0.25 rat add 1.0",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 1813661593,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.81,
+    "rate": 0.93
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "lit_big_scale_cisd"
+   },
+   "bio": "An adopted run of the Archive. History, not a forecast.",
+   "aliases": [
+    "lit_big_scale_cisd"
+   ],
+   "fallen": false,
+   "run": {
+    "id": "lit_big_scale_cisd",
+    "title": "cisd pb0.25 rat add 1.0",
+    "family": "management",
+    "verdict": "adopted",
+    "status": "adopt-candidate",
+    "built": "26-10-19",
+    "m26": {
+     "n": 120,
+     "tpw": 2.91,
+     "pf": 3.6,
+     "net": 75220,
+     "per_month": 7668,
+     "p10": 51.5,
+     "f10": 11.7
+    },
+    "mold": null,
+    "note": "Scale-in: after breakeven, the first 1m pullback = 0.25R then a 1m CISD close - add int(1.0 x micros) at the…"
+   }
+  },
+  {
+   "id": "champion:hq_lit_sw_scale_eval",
+   "name": "Nikephoros",
+   "meaning": "bringer of victory",
+   "title": "Champion: LIT + scale-in after BE (scalein) (eval path, twowe…",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 2201177544,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.8,
+    "rate": 0.96
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "hq_lit_sw_scale_eval"
+   },
+   "bio": "An adopted run of the Archive. History, not a forecast.",
+   "aliases": [
+    "hq_lit_sw_scale_eval"
+   ],
+   "fallen": false,
+   "run": {
+    "id": "hq_lit_sw_scale_eval",
+    "title": "LIT + scale-in after BE (scalein) (eval path, twoweek sizing)",
+    "family": "LIT headquarters",
+    "verdict": "adopted",
+    "status": "adopt-candidate",
+    "built": "26-10-23",
+    "m26": {
+     "n": 120,
+     "tpw": 2.91,
+     "pf": 4.05,
+     "net": 70421,
+     "per_month": 7179,
+     "p10": 42.2,
+     "f10": 1.0
+    },
+    "mold": null,
+    "note": "HQ switch re-score: scale-in after BE (scalein). Eval path: H1 (pick) PF 4.86 net +53,159 ($8,721/mo) DD -3,0…"
+   }
+  },
+  {
+   "id": "champion:lit_idm_eval_all3",
+   "name": "Stephanos",
+   "meaning": "the crown",
+   "title": "Champion: tcheck + scalein + beoff on the eval path",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 640606186,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.11,
+    "rate": 0.93
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "lit_idm_eval_all3"
+   },
+   "bio": "An adopted run of the Archive. History, not a forecast.",
+   "aliases": [
+    "lit_idm_eval_all3"
+   ],
+   "fallen": false,
+   "run": {
+    "id": "lit_idm_eval_all3",
+    "title": "tcheck + scalein + beoff on the eval path",
+    "family": "risk",
+    "verdict": "adopted",
+    "status": "adopt-candidate",
+    "built": "26-10-23",
+    "m26": {
+     "n": 120,
+     "tpw": 2.91,
+     "pf": 4.05,
+     "net": 70421,
+     "per_month": 7179,
+     "p10": 42.2,
+     "f10": 1.0
+    },
+    "mold": null,
+    "note": "Eval path (live twoweek 10 sessions then safeeval, no reset, $1.90, true 1m). 2026 H1 (pick) n=80 PF 4.86 net…"
+   }
+  },
+  {
+   "id": "champion:lit_fc_stack_current",
+   "name": "Eunike",
+   "meaning": "good victory",
+   "title": "Champion: LIT combo stack: current: B50+Lucid+FN",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 401459104,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.87,
+    "rate": 0.92
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "lit_fc_stack_current"
+   },
+   "bio": "An adopted run of the Archive. History, not a forecast.",
+   "aliases": [
+    "lit_fc_stack_current"
+   ],
+   "fallen": false,
+   "run": {
+    "id": "lit_fc_stack_current",
+    "title": "LIT combo stack: current: B50+Lucid+FN",
+    "family": "risk",
+    "verdict": "adopted",
+    "status": "adopt-candidate",
+    "built": "26-10-20",
+    "m26": {
+     "n": 274,
+     "tpw": 6.65,
+     "pf": 3.76,
+     "net": 68864,
+     "per_month": 7020,
+     "p10": 41.3,
+     "f10": 11.7
+    },
+    "mold": {
+     "n": 481,
+     "tpw": 2.24,
+     "pf": 0.86,
+     "net": -6596,
+     "per_month": -129,
+     "p10": 2.1,
+     "f10": 4.6
+    },
+    "note": "current: B50+Lucid+FN: 6 months from buying, net of fees $2530 / $2530 a month (H1 / H2), months 4-6 $3214 /…"
+   }
+  },
+  {
+   "id": "champion:hq_lit_sw_scale_r55_wk12_eval",
+   "name": "Andronikos",
+   "meaning": "victory of a man",
+   "title": "Champion: LIT + scale-in after BE (scalein) + twoweek room ca…",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 2397027937,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.2,
+    "rate": 1.03
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "hq_lit_sw_scale_r55_wk12_eval"
+   },
+   "bio": "An adopted run of the Archive. History, not a forecast.",
+   "aliases": [
+    "hq_lit_sw_scale_r55_wk12_eval"
+   ],
+   "fallen": false,
+   "run": {
+    "id": "hq_lit_sw_scale_r55_wk12_eval",
+    "title": "LIT + scale-in after BE (scalein) + twoweek room cap 55% (roomf 0.55) + eval we…",
+    "family": "LIT headquarters",
+    "verdict": "adopted",
+    "status": "adopt-candidate",
+    "built": "26-10-23",
+    "m26": {
+     "n": 117,
+     "tpw": 2.84,
+     "pf": 4.35,
+     "net": 68305,
+     "per_month": 6963,
+     "p10": 39.8,
+     "f10": 0.0
+    },
+    "mold": null,
+    "note": "HQ switch re-score: scale-in after BE (scalein) + twoweek room cap 55% (roomf 0.55) + eval weekly loss stop -…"
+   }
+  },
+  {
+   "id": "champion:lit_edge_eval_scale_in_s5",
+   "name": "Berenike",
+   "meaning": "she who brings victory",
+   "title": "Champion: LIT eval path: scale-in, no adds before eval sessio…",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 2835047760,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.19,
+    "rate": 1.02
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "lit_edge_eval_scale_in_s5"
+   },
+   "bio": "An adopted run of the Archive. History, not a forecast.",
+   "aliases": [
+    "lit_edge_eval_scale_in_s5"
+   ],
+   "fallen": false,
+   "run": {
+    "id": "lit_edge_eval_scale_in_s5",
+    "title": "LIT eval path: scale-in, no adds before eval session 5",
+    "family": "management",
+    "verdict": "adopted",
+    "status": "adopt-candidate",
+    "built": "26-10-29",
+    "m26": {
+     "n": 114,
+     "tpw": 2.77,
+     "pf": 3.39,
+     "net": 63629,
+     "per_month": 6486,
+     "p10": 53.9,
+     "f10": 13.1
+    },
+    "mold": null,
+    "note": "Eval path, live twoweek sizing ($1.90). 2026 H1 (pick) PF 3.46 net +38,736 ($6,355/mo) DD -3,915; 2-week pass…"
+   }
+  },
+  {
+   "id": "champion:lit_tight_cap30_tap",
+   "name": "Niobe",
+   "meaning": "who boasted too soon",
+   "title": "Rejected idea: LIT, 1m protected-swing stop when the sweep-extreme…",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 1180398356,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.21,
+    "rate": 0.96
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "lit_tight_cap30_tap"
+   },
+   "bio": "A run that looked good in 2026 and was still rejected. Ask why.",
+   "aliases": [
+    "lit_tight_cap30_tap"
+   ],
+   "fallen": true,
+   "run": {
+    "id": "lit_tight_cap30_tap",
+    "title": "LIT, 1m protected-swing stop when the sweep-extreme stop is wider than 30 pts (…",
+    "family": "LIT research",
+    "verdict": "rejected",
+    "status": "rejected",
+    "built": "26-10-18",
+    "m26": {
+     "n": 114,
+     "tpw": 2.77,
+     "pf": 3.38,
+     "net": 92213,
+     "per_month": 9400,
+     "p10": 44.2,
+     "f10": 35.9
+    },
+    "mold": {
+     "n": 436,
+     "tpw": 2.03,
+     "pf": 0.97,
+     "net": -5216,
+     "per_month": -102,
+     "p10": 12.9,
+     "f10": 42.9
+    },
+    "note": "Keeps 2.8 trades a week, but at equal risk H2 is below the live stop. 2026 H1 (pick) n=76 2.97/wk win 18.4% P…"
+   }
+  },
+  {
+   "id": "champion:lit_tight_tap_lit",
+   "name": "Phaethon",
+   "meaning": "who shone, then fell",
+   "title": "Rejected idea: LIT, stop beyond the 1m protected swing (+1 tick),…",
+   "kind": "champion",
+   "area": "archive",
+   "app": "archive",
+   "seed": 2382679726,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.96,
+    "rate": 1.04
+   },
+   "sources": [
+    "../archive/index.json"
+   ],
+   "home": {
+    "scene": "colosseum",
+    "place": "lit_tight_tap_lit"
+   },
+   "bio": "A run that looked good in 2026 and was still rejected. Ask why.",
+   "aliases": [
+    "lit_tight_tap_lit"
+   ],
+   "fallen": true,
+   "run": {
+    "id": "lit_tight_tap_lit",
+    "title": "LIT, stop beyond the 1m protected swing (+1 tick), LIT size rule",
+    "family": "LIT research",
+    "verdict": "rejected",
+    "status": "rejected",
+    "built": "26-10-18",
+    "m26": {
+     "n": 120,
+     "tpw": 2.91,
+     "pf": 3.22,
+     "net": 87684,
+     "per_month": 8939,
+     "p10": 35.0,
+     "f10": 41.3
+    },
+    "mold": {
+     "n": 510,
+     "tpw": 2.38,
+     "pf": 0.84,
+     "net": -30338,
+     "per_month": -594,
+     "p10": 12.3,
+     "f10": 46.0
+    },
+    "note": "Median stop 14-17 pts, so the LIT rule puts ~$740 at risk instead of ~$270: the H1 $ come from 2.7x the risk.…"
+   }
+  }
+ ],
+ "villagers": [
+  {
+   "id": "villager:zenith",
+   "name": "Sotiris",
+   "title": "Lives in Zenith",
+   "kind": "villager",
+   "area": "trading",
+   "app": "zenith",
+   "seed": 405602787,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.22,
+    "rate": 0.94
+   },
+   "sources": [],
+   "home": {
+    "scene": "athens",
+    "place": "zenith"
+   },
+   "bio": "NQ bots · Zlarior · ATLAS",
+   "appName": "Zenith"
+  },
+  {
+   "id": "villager:oracle",
+   "name": "Petros",
+   "title": "Lives in Oracle",
+   "kind": "villager",
+   "area": "trading",
+   "app": "oracle",
+   "seed": 3437653809,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.13,
+    "rate": 0.93
+   },
+   "sources": [
+    "../oracle/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "oracle"
+   },
+   "bio": "The market radar, live",
+   "appName": "Oracle"
+  },
+  {
+   "id": "villager:odeon",
+   "name": "Myrto",
+   "title": "Lives in Odeon",
+   "kind": "villager",
+   "area": "trading",
+   "app": "odeon",
+   "seed": 2424629938,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.05,
+    "rate": 0.92
+   },
+   "sources": [
+    "../odeon/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "odeon"
+   },
+   "bio": "Every trade, replayed in 3D",
+   "appName": "Odeon"
+  },
+  {
+   "id": "villager:fates",
+   "name": "Yannis",
+   "title": "Lives in Fates",
+   "kind": "villager",
+   "area": "trading",
+   "app": "fates",
+   "seed": 722290418,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.91,
+    "rate": 0.99
+   },
+   "sources": [
+    "../fates/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "fates"
+   },
+   "bio": "Pass odds for each eval",
+   "appName": "Fates"
+  },
+  {
+   "id": "villager:datacity",
+   "name": "Leda",
+   "title": "Lives in Data City",
+   "kind": "villager",
+   "area": "trading",
+   "app": "datacity",
+   "seed": 4088500284,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.92,
+    "rate": 0.95
+   },
+   "sources": [
+    "../datacity/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "datacity"
+   },
+   "bio": "Every combo tested, as a city",
+   "appName": "Data City"
+  },
+  {
+   "id": "villager:observatory",
+   "name": "Orestes",
+   "title": "Lives in Observatory",
+   "kind": "villager",
+   "area": "trading",
+   "app": "observatory",
+   "seed": 3821005085,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.97,
+    "rate": 0.97
+   },
+   "sources": [
+    "../observatory/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "observatory"
+   },
+   "bio": "Data health and research evidence",
+   "appName": "Observatory"
+  },
+  {
+   "id": "villager:tree",
+   "name": "Theano",
+   "title": "Lives in Daphne",
+   "kind": "villager",
+   "area": "trading",
+   "app": "tree",
+   "seed": 1559642007,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.22,
+    "rate": 1.02
+   },
+   "sources": [
+    "../tree/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "tree"
+   },
+   "bio": "The strategy tree search",
+   "appName": "Daphne"
+  },
+  {
+   "id": "villager:prometheus",
+   "name": "Filippos",
+   "title": "Lives in Prometheus",
+   "kind": "villager",
+   "area": "trading",
+   "app": "prometheus",
+   "seed": 1974583939,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.87,
+    "rate": 1.04
+   },
+   "sources": [
+    "../prometheus/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "prometheus"
+   },
+   "bio": "The Forge: strategies tested",
+   "appName": "Prometheus"
+  },
+  {
+   "id": "villager:pantheon",
+   "name": "Linos",
+   "title": "Lives in Pantheon",
+   "kind": "villager",
+   "area": "trading",
+   "app": "pantheon",
+   "seed": 3161029924,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.26,
+    "rate": 1.02
+   },
+   "sources": [
+    "../pantheon/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "pantheon"
+   },
+   "bio": "The data gods: rates, liquidity, fear",
+   "appName": "Pantheon"
+  },
+  {
+   "id": "villager:ares",
+   "name": "Maia",
+   "title": "Lives in Ares",
+   "kind": "villager",
+   "area": "trading",
+   "app": "ares",
+   "seed": 2545190576,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.09,
+    "rate": 0.98
+   },
+   "sources": [
+    "../ares/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "ares"
+   },
+   "bio": "The war room: GO, WAIT or HALT",
+   "appName": "Ares"
+  },
+  {
+   "id": "villager:forum",
+   "name": "Pyrrha",
+   "title": "Lives in Forum",
+   "kind": "villager",
+   "area": "trading",
+   "app": "forum",
+   "seed": 2655966484,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.9,
+    "rate": 0.99
+   },
+   "sources": [
+    "../forum/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "forum"
+   },
+   "bio": "Morning briefing at the real NY hour",
+   "appName": "Forum"
+  },
+  {
+   "id": "villager:labyrinth",
+   "name": "Basileios",
+   "title": "Lives in Labyrinth",
+   "kind": "villager",
+   "area": "trading",
+   "app": "labyrinth",
+   "seed": 2839441390,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.99,
+    "rate": 0.94
+   },
+   "sources": [
+    "../labyrinth/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "labyrinth"
+   },
+   "bio": "The risk maze: size your eval",
+   "appName": "Labyrinth"
+  },
+  {
+   "id": "villager:argus",
+   "name": "Hektor",
+   "title": "Lives in Argus",
+   "kind": "villager",
+   "area": "trading",
+   "app": "argus",
+   "seed": 2011707589,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.23,
+    "rate": 1.08
+   },
+   "sources": [
+    "../argus/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "argus"
+   },
+   "bio": "The hundred eyes: what to fix",
+   "appName": "Argus"
+  },
+  {
+   "id": "villager:nemesis",
+   "name": "Nestor",
+   "title": "Lives in Nemesis",
+   "kind": "villager",
+   "area": "trading",
+   "app": "nemesis",
+   "seed": 1532868933,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.1,
+    "rate": 1.04
+   },
+   "sources": [
+    "../nemesis/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "nemesis"
+   },
+   "bio": "The fallen trades: what went wrong",
+   "appName": "Nemesis"
+  },
+  {
+   "id": "villager:chronos",
+   "name": "Anthea",
+   "title": "Lives in Chronos",
+   "kind": "villager",
+   "area": "trading",
+   "app": "chronos",
+   "seed": 523377641,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.15,
+    "rate": 0.98
+   },
+   "sources": [
+    "../chronos/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "chronos"
+   },
+   "bio": "Time and the session clock",
+   "appName": "Chronos"
+  },
+  {
+   "id": "villager:hephaestus",
+   "name": "Daphne",
+   "title": "Lives in Hephaestus",
+   "kind": "villager",
+   "area": "trading",
+   "app": "hephaestus",
+   "seed": 367403869,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.02,
+    "rate": 1.06
+   },
+   "sources": [
+    "../hephaestus/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "hephaestus"
+   },
+   "bio": "The forge: tune the dials",
+   "appName": "Hephaestus"
+  },
+  {
+   "id": "villager:cities",
+   "name": "Simon",
+   "title": "Lives in Cities",
+   "kind": "villager",
+   "area": "trading",
+   "app": "cities",
+   "seed": 4040132800,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.9,
+    "rate": 0.97
+   },
+   "sources": [
+    "../cities/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "cities"
+   },
+   "bio": "A world of city islands",
+   "appName": "Cities"
+  },
+  {
+   "id": "villager:kalshicity",
+   "name": "Helene",
+   "title": "Lives in Kalshi City",
+   "kind": "villager",
+   "area": "money",
+   "app": "kalshicity",
+   "seed": 2679938938,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.96,
+    "rate": 1.05
+   },
+   "sources": [
+    "../kalshicity/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "kalshicity"
+   },
+   "bio": "The Kalshi bot's edges as a night city",
+   "appName": "Kalshi City"
+  },
+  {
+   "id": "villager:journal",
+   "name": "Timaios",
+   "title": "Lives in Mnemosyne",
+   "kind": "villager",
+   "area": "trading",
+   "app": "journal",
+   "seed": 781079530,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.26,
+    "rate": 1.08
+   },
+   "sources": [
+    "../journal/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "journal"
+   },
+   "bio": "A 10-second trade journal: what your habits cost, in dollars",
+   "appName": "Mnemosyne"
+  },
+  {
+   "id": "villager:ledger",
+   "name": "Pallas",
+   "title": "Lives in Ledger",
+   "kind": "villager",
+   "area": "money",
+   "app": "ledger",
+   "seed": 2469412538,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.15,
+    "rate": 0.94
+   },
+   "sources": [
+    "../ledger/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "ledger"
+   },
+   "bio": "Your real money: fees, payouts, net profit",
+   "appName": "Ledger"
+  },
+  {
+   "id": "villager:inbox",
+   "name": "Glauke",
+   "title": "Lives in Inbox",
+   "kind": "villager",
+   "area": "life",
+   "app": "inbox",
+   "seed": 830917345,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.29,
+    "rate": 1.03
+   },
+   "sources": [
+    "../inbox/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "inbox"
+   },
+   "bio": "Everything that needs a look, in one place",
+   "appName": "Inbox"
+  },
+  {
+   "id": "villager:settings",
+   "name": "Phoebe",
+   "title": "Lives in Settings",
+   "kind": "villager",
+   "area": "life",
+   "app": "settings",
+   "seed": 103272102,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.89,
+    "rate": 1.05
+   },
+   "sources": [
+    "../settings/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "settings"
+   },
+   "bio": "Look, voice, storage and the tour",
+   "appName": "Settings"
+  },
+  {
+   "id": "villager:bridge",
+   "name": "Chloe",
+   "title": "Lives in Bridge",
+   "kind": "villager",
+   "area": "trading",
+   "app": "bridge",
+   "seed": 2556512610,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.92,
+    "rate": 1.08
+   },
+   "sources": [
+    "../bridge/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "bridge"
+   },
+   "bio": "Link ChatGPT: 3 steps, live job status",
+   "appName": "Bridge"
+  },
+  {
+   "id": "villager:planner",
+   "name": "Theron",
+   "title": "Lives in Planner",
+   "kind": "villager",
+   "area": "life",
+   "app": "planner",
+   "seed": 243416153,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.18,
+    "rate": 0.92
+   },
+   "sources": [
+    "../planner/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "planner"
+   },
+   "bio": "Day and week plan: session windows, tasks, habits, notes",
+   "appName": "Planner"
+  },
+  {
+   "id": "villager:mind",
+   "name": "Ploutos",
+   "title": "Lives in Mind",
+   "kind": "villager",
+   "area": "life",
+   "app": "mind",
+   "seed": 84260267,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.85,
+    "rate": 0.96
+   },
+   "sources": [
+    "../mind/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "mind"
+   },
+   "bio": "Your vault as a living 3D brain",
+   "appName": "Mind"
+  },
+  {
+   "id": "villager:arena",
+   "name": "Markos",
+   "title": "Lives in Arena",
+   "kind": "villager",
+   "area": "life",
+   "app": "arena",
+   "seed": 2921856802,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.23,
+    "rate": 1.01
+   },
+   "sources": [
+    "../arena/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "arena"
+   },
+   "bio": "Olympian ranks: XP for discipline",
+   "appName": "Arena"
+  },
+  {
+   "id": "villager:hestia",
+   "name": "Lampros",
+   "title": "Lives in Hestia",
+   "kind": "villager",
+   "area": "trading",
+   "app": "hestia",
+   "seed": 3289236349,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.99,
+    "rate": 1.05
+   },
+   "sources": [
+    "../hestia/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "hestia"
+   },
+   "bio": "Today at home: what to do right now",
+   "appName": "Hestia"
+  },
+  {
+   "id": "villager:demeter",
+   "name": "Isidoros",
+   "title": "Lives in Demeter",
+   "kind": "villager",
+   "area": "trading",
+   "app": "demeter",
+   "seed": 1772049449,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.12,
+    "rate": 1.0
+   },
+   "sources": [
+    "../demeter/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "demeter"
+   },
+   "bio": "Account health: drawdown dials, payout rules",
+   "appName": "Demeter"
+  },
+  {
+   "id": "villager:apollo",
+   "name": "Olympia",
+   "title": "Lives in Apollo",
+   "kind": "villager",
+   "area": "trading",
+   "app": "apollo",
+   "seed": 2676675648,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.92,
+    "rate": 1.08
+   },
+   "sources": [
+    "../apollo/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "apollo"
+   },
+   "bio": "Your weekly review and the one rule for next week",
+   "appName": "Apollo"
+  },
+  {
+   "id": "villager:hera",
+   "name": "Tryphon",
+   "title": "Lives in Hera",
+   "kind": "villager",
+   "area": "money",
+   "app": "hera",
+   "seed": 3270380409,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.83,
+    "rate": 0.93
+   },
+   "sources": [
+    "../hera/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "hera"
+   },
+   "bio": "The 12-month money plan, payouts, what to buy next",
+   "appName": "Hera"
+  },
+  {
+   "id": "villager:dionysus",
+   "name": "Selene",
+   "title": "Lives in Dionysus",
+   "kind": "villager",
+   "area": "money",
+   "app": "dionysus",
+   "seed": 2272535689,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.96,
+    "rate": 1.07
+   },
+   "sources": [
+    "../dionysus/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "dionysus"
+   },
+   "bio": "The Kalshi desk: guard, what-if, scan. Suggestions only",
+   "appName": "Dionysus"
+  },
+  {
+   "id": "villager:delphi",
+   "name": "Xanthe",
+   "title": "Lives in Delphi",
+   "kind": "villager",
+   "area": "trading",
+   "app": "delphi",
+   "seed": 3461880567,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.86,
+    "rate": 1.06
+   },
+   "sources": [
+    "../delphi/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "delphi"
+   },
+   "bio": "The oracle's briefing: plan, target, go / no-go",
+   "appName": "Delphi"
+  },
+  {
+   "id": "villager:pnyx",
+   "name": "Xenia",
+   "title": "Lives in Pnyx",
+   "kind": "villager",
+   "area": "money",
+   "app": "pnyx",
+   "seed": 4114900108,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.23,
+    "rate": 0.97
+   },
+   "sources": [
+    "../pnyx/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "pnyx"
+   },
+   "bio": "Prop-firm rules and risk calculator: stop to micros",
+   "appName": "Pnyx"
+  },
+  {
+   "id": "villager:mint",
+   "name": "Nikon",
+   "title": "Lives in Mint",
+   "kind": "villager",
+   "area": "money",
+   "app": "mint",
+   "seed": 352702171,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.23,
+    "rate": 1.03
+   },
+   "sources": [
+    "../mint/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "mint"
+   },
+   "bio": "The money machine: five streams, one honest estimate",
+   "appName": "Mint"
+  },
+  {
+   "id": "villager:mintcity",
+   "name": "Evander",
+   "title": "Lives in Mint City",
+   "kind": "villager",
+   "area": "money",
+   "app": "mintcity",
+   "seed": 771491732,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.24,
+    "rate": 1.07
+   },
+   "sources": [
+    "../mintcity/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "mintcity"
+   },
+   "bio": "The five money machines as a marble city",
+   "appName": "Mint City"
+  },
+  {
+   "id": "villager:mercury",
+   "name": "Galene",
+   "title": "Lives in Mercury",
+   "kind": "villager",
+   "area": "money",
+   "app": "mercury",
+   "seed": 1340377044,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.22,
+    "rate": 0.92
+   },
+   "sources": [
+    "../mercury/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "mercury"
+   },
+   "bio": "Deal watcher: sales, codes, free resets, rule changes",
+   "appName": "Mercury"
+  },
+  {
+   "id": "villager:chrysos",
+   "name": "Ophelia",
+   "title": "Lives in Chrysos",
+   "kind": "villager",
+   "area": "money",
+   "app": "chrysos",
+   "seed": 2874634980,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.19,
+    "rate": 1.07
+   },
+   "sources": [
+    "../chrysos/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "chrysos"
+   },
+   "bio": "Prop-firm fleet planner: fees against payouts, break-even (estimate)",
+   "appName": "Chrysos"
+  },
+  {
+   "id": "villager:sibyl",
+   "name": "Kleon",
+   "title": "Lives in Sibyl",
+   "kind": "villager",
+   "area": "money",
+   "app": "sibyl",
+   "seed": 981490486,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.05,
+    "rate": 0.97
+   },
+   "sources": [
+    "../sibyl/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "sibyl"
+   },
+   "bio": "Prediction-market edges after fees: paper picks, ruin odds, what could go wrong",
+   "appName": "Sibyl"
+  },
+  {
+   "id": "villager:oikos",
+   "name": "Agne",
+   "title": "Lives in Oikos",
+   "kind": "villager",
+   "area": "money",
+   "app": "oikos",
+   "seed": 456599422,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.23,
+    "rate": 0.94
+   },
+   "sources": [
+    "../oikos/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "oikos"
+   },
+   "bio": "The household: where money leaks, tax set-aside, buckets, reinvest or withdraw",
+   "appName": "Oikos"
+  },
+  {
+   "id": "villager:arbiter",
+   "name": "Melina",
+   "title": "Lives in Arbiter",
+   "kind": "villager",
+   "area": "money",
+   "app": "arbiter",
+   "seed": 1421600436,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.98,
+    "rate": 1.0
+   },
+   "sources": [
+    "../arbiter/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "arbiter"
+   },
+   "bio": "Paper-only spreads and funding: net yearly return after costs",
+   "appName": "Arbiter"
+  },
+  {
+   "id": "villager:stoa",
+   "name": "Zenon",
+   "title": "Lives in Stoa",
+   "kind": "villager",
+   "area": "trading",
+   "app": "stoa",
+   "seed": 742984752,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.04,
+    "rate": 1.02
+   },
+   "sources": [
+    "../stoa/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "stoa"
+   },
+   "bio": "The colonnade: what needs you right now",
+   "appName": "Stoa"
+  },
+  {
+   "id": "villager:aegis",
+   "name": "Korax",
+   "title": "Lives in Aegis",
+   "kind": "villager",
+   "area": "trading",
+   "app": "aegis",
+   "seed": 753730086,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.95,
+    "rate": 1.03
+   },
+   "sources": [
+    "../aegis/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "aegis"
+   },
+   "bio": "Risk guard: drawdown left, a full-stop what-if, when to stop for the day",
+   "appName": "Aegis"
+  },
+  {
+   "id": "villager:lyceum",
+   "name": "Roxane",
+   "title": "Lives in Lyceum",
+   "kind": "villager",
+   "area": "life",
+   "app": "lyceum",
+   "seed": 3354015942,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.04,
+    "rate": 1.05
+   },
+   "sources": [
+    "../lyceum/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "lyceum"
+   },
+   "bio": "The school: daily rules quiz, ranks, habits costing money",
+   "appName": "Lyceum"
+  },
+  {
+   "id": "villager:nike",
+   "name": "Ione",
+   "title": "Lives in Nike",
+   "kind": "villager",
+   "area": "life",
+   "app": "nike",
+   "seed": 4282146874,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.9,
+    "rate": 0.95
+   },
+   "sources": [
+    "../nike/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "nike"
+   },
+   "bio": "The trophy hall: milestones and wins from real numbers",
+   "appName": "Nike"
+  },
+  {
+   "id": "villager:kronos",
+   "name": "Dion",
+   "title": "Lives in Kronos",
+   "kind": "villager",
+   "area": "money",
+   "app": "kronos",
+   "seed": 2389995417,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.92,
+    "rate": 1.04
+   },
+   "sources": [
+    "../kronos/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "kronos"
+   },
+   "bio": "The calendar of money: daily P&L, best weekday and hour, a bad week",
+   "appName": "Kronos"
+  },
+  {
+   "id": "villager:moirai",
+   "name": "Rhea",
+   "title": "Lives in Moirai",
+   "kind": "villager",
+   "area": "trading",
+   "app": "moirai",
+   "seed": 1939603798,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.81,
+    "rate": 0.92
+   },
+   "sources": [
+    "../moirai/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "moirai"
+   },
+   "bio": "The three fates: pass, bust and time of an eval, simulated",
+   "appName": "Moirai"
+  },
+  {
+   "id": "villager:epilogue",
+   "name": "Kyros",
+   "title": "Lives in Epilogue",
+   "kind": "villager",
+   "area": "life",
+   "app": "epilogue",
+   "seed": 2969755035,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.25,
+    "rate": 1.01
+   },
+   "sources": [
+    "../epilogue/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "epilogue"
+   },
+   "bio": "Your week in 60 seconds: the Sunday review",
+   "appName": "Epilogue"
+  },
+  {
+   "id": "villager:argo",
+   "name": "Zosime",
+   "title": "Lives in Argo",
+   "kind": "villager",
+   "area": "money",
+   "app": "argo",
+   "seed": 2478477458,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.91,
+    "rate": 0.93
+   },
+   "sources": [
+    "../argo/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "argo"
+   },
+   "bio": "The voyage: your money goals as islands, honest ETA ranges",
+   "appName": "Argo"
+  },
+  {
+   "id": "villager:kratos",
+   "name": "Arion",
+   "title": "Lives in Kratos",
+   "kind": "villager",
+   "area": "trading",
+   "app": "kratos",
+   "seed": 39901237,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.9,
+    "rate": 1.0
+   },
+   "sources": [
+    "../kratos/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "kratos"
+   },
+   "bio": "Discipline score 0-100 per day: plan, stop, size, hours, flat",
+   "appName": "Kratos"
+  },
+  {
+   "id": "villager:pythia",
+   "name": "Delia",
+   "title": "Lives in Pythia",
+   "kind": "villager",
+   "area": "trading",
+   "app": "pythia",
+   "seed": 2101665186,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.95,
+    "rate": 0.98
+   },
+   "sources": [
+    "../pythia/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "pythia"
+   },
+   "bio": "The risk calendar: the next 14 days, and what the bots do around each event",
+   "appName": "Pythia"
+  },
+  {
+   "id": "villager:gallery",
+   "name": "Nikolaos",
+   "title": "Lives in Agora Gallery",
+   "kind": "villager",
+   "area": "life",
+   "app": "gallery",
+   "seed": 2530853895,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.89,
+    "rate": 0.94
+   },
+   "sources": [
+    "../gallery/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "gallery"
+   },
+   "bio": "Every 3D shape of the Agora on a turning pedestal",
+   "appName": "Agora Gallery"
+  },
+  {
+   "id": "villager:kairos",
+   "name": "Eleni",
+   "title": "Lives in Kairos",
+   "kind": "villager",
+   "area": "trading",
+   "app": "kairos",
+   "seed": 3902694630,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.86,
+    "rate": 1.06
+   },
+   "sources": [
+    "../kairos/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "kairos"
+   },
+   "bio": "The right moment: the bots' day on a 24-hour ring, what they do now",
+   "appName": "Kairos"
+  },
+  {
+   "id": "villager:compass",
+   "name": "Pavlos",
+   "title": "Lives in Compass",
+   "kind": "villager",
+   "area": "trading",
+   "app": "compass",
+   "seed": 2249740945,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.08,
+    "rate": 0.94
+   },
+   "sources": [
+    "../compass/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "compass"
+   },
+   "bio": "The next best action: at most five things for today, with why",
+   "appName": "Compass"
+  },
+  {
+   "id": "villager:pheme",
+   "name": "Briseis",
+   "title": "Lives in Pheme",
+   "kind": "villager",
+   "area": "trading",
+   "app": "pheme",
+   "seed": 33358192,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.9,
+    "rate": 0.92
+   },
+   "sources": [
+    "../pheme/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "pheme"
+   },
+   "bio": "The word on the street: releases, and NQ's past moves on them",
+   "appName": "Pheme"
+  },
+  {
+   "id": "villager:harmonia",
+   "name": "Alexios",
+   "title": "Lives in Harmonia",
+   "kind": "villager",
+   "area": "money",
+   "app": "harmonia",
+   "seed": 275927858,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.88,
+    "rate": 1.01
+   },
+   "sources": [
+    "../harmonia/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "harmonia"
+   },
+   "bio": "The balance: what leans on the NQ bots, and what is left",
+   "appName": "Harmonia"
+  },
+  {
+   "id": "villager:helios",
+   "name": "Stavros",
+   "title": "Lives in Helios",
+   "kind": "villager",
+   "area": "trading",
+   "app": "helios",
+   "seed": 2587889973,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.13,
+    "rate": 1.06
+   },
+   "sources": [
+    "../helios/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "helios"
+   },
+   "bio": "The morning briefing: today, drawdown, deals, plan",
+   "appName": "Helios"
+  },
+  {
+   "id": "villager:ergasterion",
+   "name": "Thais",
+   "title": "Lives in Ergasterion",
+   "kind": "villager",
+   "area": "trading",
+   "app": "ergasterion",
+   "seed": 4288090710,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.8,
+    "rate": 1.08
+   },
+   "sources": [
+    "../ergasterion/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "ergasterion"
+   },
+   "bio": "The workshop: every AI worker, what it does and learns",
+   "appName": "Ergasterion"
+  },
+  {
+   "id": "villager:archive",
+   "name": "Charis",
+   "title": "Lives in Archive",
+   "kind": "villager",
+   "area": "trading",
+   "app": "archive",
+   "seed": 144478627,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.93,
+    "rate": 0.95
+   },
+   "sources": [
+    "../archive/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "archive"
+   },
+   "bio": "The library of everything we ever tested, searchable",
+   "appName": "Archive"
+  },
+  {
+   "id": "villager:pinakes",
+   "name": "Damon",
+   "title": "Lives in Pinakes",
+   "kind": "villager",
+   "area": "trading",
+   "app": "pinakes",
+   "seed": 3754457726,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.88,
+    "rate": 0.93
+   },
+   "sources": [
+    "../pinakes/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "pinakes"
+   },
+   "bio": "The catalogue: browse and query every table OLYMPUS keeps",
+   "appName": "Pinakes"
+  },
+  {
+   "id": "villager:colosseum",
+   "name": "Kyra",
+   "title": "Lives in Colosseum",
+   "kind": "villager",
+   "area": "trading",
+   "app": "colosseum",
+   "seed": 1932641631,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.28,
+    "rate": 0.96
+   },
+   "sources": [
+    "../colosseum/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "colosseum"
+   },
+   "bio": "Where strategies fight: seven rounds on real stored numbers",
+   "appName": "Colosseum"
+  },
+  {
+   "id": "villager:nq",
+   "name": "Sophia",
+   "title": "Lives in NQ",
+   "kind": "villager",
+   "area": "trading",
+   "app": "nq",
+   "seed": 2126488794,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.16,
+    "rate": 0.97
+   },
+   "sources": [
+    "../nq/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "nq"
+   },
+   "bio": "The NQ bots, right now: status, drawdown left, last trades",
+   "appName": "NQ"
+  },
+  {
+   "id": "villager:symposium",
+   "name": "Thekla",
+   "title": "Lives in Symposium",
+   "kind": "villager",
+   "area": "life",
+   "app": "symposium",
+   "seed": 1792090213,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.2,
+    "rate": 0.99
+   },
+   "sources": [
+    "../symposium/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "symposium"
+   },
+   "bio": "Meet everyone who works for you, and talk to them",
+   "appName": "Symposium"
+  },
+  {
+   "id": "villager:herald",
+   "name": "Kosmas",
+   "title": "Lives in Herald",
+   "kind": "villager",
+   "area": "life",
+   "app": "herald",
+   "seed": 4111801969,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.81,
+    "rate": 0.99
+   },
+   "sources": [
+    "../herald/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "herald"
+   },
+   "bio": "The daily paper: who built what, the day, the verdicts, all sourced",
+   "appName": "Herald"
+  },
+  {
+   "id": "villager:polis",
+   "name": "Hero",
+   "title": "Lives in Polis",
+   "kind": "villager",
+   "area": "life",
+   "app": "polis",
+   "seed": 3539234790,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.1,
+    "rate": 0.96
+   },
+   "sources": [
+    "../polis/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "polis"
+   },
+   "bio": "The city of OLYMPUS: every app a building under the real New York sky",
+   "appName": "Polis"
+  },
+  {
+   "id": "villager:agency",
+   "name": "Nike",
+   "title": "Lives in Agency",
+   "kind": "villager",
+   "area": "money",
+   "app": "agency",
+   "seed": 235825068,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.28,
+    "rate": 1.04
+   },
+   "sources": [
+    "../agency/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "agency"
+   },
+   "bio": "Website agency: leads, demo sites, calls and the $ pipeline",
+   "appName": "Agency"
+  },
+  {
+   "id": "villager:business",
+   "name": "Ourania",
+   "title": "Lives in Business",
+   "kind": "villager",
+   "area": "money",
+   "app": "business",
+   "seed": 2264793805,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.14,
+    "rate": 1.08
+   },
+   "sources": [
+    "../business/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "business"
+   },
+   "bio": "Every money model: next step, what is missing, $ estimate",
+   "appName": "Business"
+  },
+  {
+   "id": "villager:trading",
+   "name": "Kalliope",
+   "title": "Lives in Trading",
+   "kind": "villager",
+   "area": "trading",
+   "app": "trading",
+   "seed": 1373103416,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.0,
+    "rate": 1.07
+   },
+   "sources": [
+    "../trading/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "trading"
+   },
+   "bio": "Every trade: today, calendar, stats, payout rules",
+   "appName": "Trading"
+  },
+  {
+   "id": "villager:board",
+   "name": "Lykos",
+   "title": "Lives in Board",
+   "kind": "villager",
+   "area": "trading",
+   "app": "board",
+   "seed": 4262917137,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.07,
+    "rate": 1.02
+   },
+   "sources": [
+    "../board/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "board"
+   },
+   "bio": "What the bot, you and Claude know: accounts, events, notes",
+   "appName": "Board"
+  },
+  {
+   "id": "villager:clio",
+   "name": "Galene Γ",
+   "title": "Lives in Clio",
+   "kind": "villager",
+   "area": "trading",
+   "app": "clio",
+   "seed": 3492331088,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.88,
+    "rate": 1.05
+   },
+   "sources": [
+    "../clio/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "clio"
+   },
+   "bio": "The research library: every study in plain words",
+   "appName": "Clio"
+  },
+  {
+   "id": "villager:atlas",
+   "name": "Myrto Α",
+   "title": "Lives in Atlas",
+   "kind": "villager",
+   "area": "life",
+   "app": "atlas",
+   "seed": 2815697666,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 0.88,
+    "rate": 0.98
+   },
+   "sources": [
+    "../atlas/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "atlas"
+   },
+   "bio": "A fast map of every Olympus dashboard",
+   "appName": "Atlas"
+  },
+  {
+   "id": "villager:athena",
+   "name": "Thais Θ",
+   "title": "Lives in Athena",
+   "kind": "villager",
+   "area": "life",
+   "app": "athena",
+   "seed": 3144180704,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 0.82,
+    "rate": 1.08
+   },
+   "sources": [
+    "../athena/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "athena"
+   },
+   "bio": "The library: strategy, rules, quiz",
+   "appName": "Athena"
+  },
+  {
+   "id": "villager:kalshi",
+   "name": "Petros Β",
+   "title": "Lives in Kalshi",
+   "kind": "villager",
+   "area": "money",
+   "app": "kalshi",
+   "seed": 230157117,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.13,
+    "rate": 0.98
+   },
+   "sources": [],
+   "home": {
+    "scene": "athens",
+    "place": "kalshi"
+   },
+   "bio": "Kalshi bot · from your PC",
+   "appName": "Kalshi"
+  },
+  {
+   "id": "villager:tyche",
+   "name": "Thekla Θ",
+   "title": "Lives in Tyche",
+   "kind": "villager",
+   "area": "money",
+   "app": "tyche",
+   "seed": 763055358,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.19,
+    "rate": 0.98
+   },
+   "sources": [
+    "../tyche/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "tyche"
+   },
+   "bio": "The Kalshi bets as a 3D fortune wheel",
+   "appName": "Tyche"
+  },
+  {
+   "id": "villager:hermes",
+   "name": "Briseis Γ",
+   "title": "Lives in Hermes",
+   "kind": "villager",
+   "area": "money",
+   "app": "hermes",
+   "seed": 427910465,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 0.94,
+    "rate": 0.92
+   },
+   "sources": [
+    "../hermes/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "hermes"
+   },
+   "bio": "OLYMPUS Wrapped: your money",
+   "appName": "Hermes"
+  },
+  {
+   "id": "villager:plutus",
+   "name": "Timaios Ζ",
+   "title": "Lives in Plutus",
+   "kind": "villager",
+   "area": "money",
+   "app": "plutus",
+   "seed": 3895664558,
+   "temperament": "curious",
+   "voice": {
+    "pitch": 1.09,
+    "rate": 1.0
+   },
+   "sources": [
+    "../plutus/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "plutus"
+   },
+   "bio": "The money plan: accounts and payouts",
+   "appName": "Plutus"
+  }
+ ]
+}

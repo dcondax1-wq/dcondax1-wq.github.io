@@ -1,0 +1,80 @@
+{
+ "ashlar": {
+  "author": "Rob Tuytel",
+  "color": "#b3a490",
+  "rough": 0.529,
+  "src": "https://polyhaven.com/a/white_sandstone_blocks_02"
+ },
+ "cloth": {
+  "author": "colormass, Rico Cilliers",
+  "color": "#91abcd",
+  "rough": 0.659,
+  "src": "https://polyhaven.com/a/rough_linen"
+ },
+ "cobble": {
+  "author": "Rob Tuytel",
+  "color": "#8f826e",
+  "rough": 0.731,
+  "src": "https://polyhaven.com/a/cobblestone_floor_01"
+ },
+ "grass": {
+  "author": "Amal Kumar",
+  "color": "#4f3d15",
+  "rough": 0.943,
+  "src": "https://polyhaven.com/a/sparse_grass"
+ },
+ "ground": {
+  "author": "Rob Tuytel",
+  "color": "#726a5f",
+  "rough": 0.825,
+  "src": "https://polyhaven.com/a/rock_ground"
+ },
+ "marble": {
+  "author": "Rob Tuytel",
+  "color": "#b19d79",
+  "rough": 0.506,
+  "src": "https://polyhaven.com/a/marble_01"
+ },
+ "mosaic": {
+  "author": "Amal Kumar",
+  "color": "#816d5e",
+  "rough": 0.727,
+  "src": "https://polyhaven.com/a/marble_mosaic_tiles"
+ },
+ "paving": {
+  "author": "Dimitrios Savva",
+  "color": "#877a6b",
+  "rough": 0.785,
+  "src": "https://polyhaven.com/a/seaworn_stone_tiles"
+ },
+ "plaster": {
+  "author": "Amal Kumar",
+  "color": "#aba3a0",
+  "rough": 0.919,
+  "src": "https://polyhaven.com/a/painted_plaster_wall"
+ },
+ "roof": {
+  "author": "Amal Kumar",
+  "color": "#91502b",
+  "rough": 0.915,
+  "src": "https://polyhaven.com/a/clay_roof_tiles_02"
+ },
+ "sand": {
+  "author": "Rob Tuytel",
+  "color": "#a5956f",
+  "rough": 0.988,
+  "src": "https://polyhaven.com/a/sand_01"
+ },
+ "terracotta": {
+  "author": "Dimitrios Savva",
+  "color": "#4d271a",
+  "rough": 0.751,
+  "src": "https://polyhaven.com/a/terracotta_floor_tiles"
+ },
+ "wood": {
+  "author": "Dimitrios Savva",
+  "color": "#a27553",
+  "rough": 0.442,
+  "src": "https://polyhaven.com/a/oak_wood_planks"
+ }
+}

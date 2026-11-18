@@ -1,0 +1,531 @@
+{
+ "v": 1,
+ "src": "STRATEGY.md",
+ "strategy": "LIT",
+ "head": "Market: NQ futures, traded as MNQ micros ($2 per point). Setups on 5-minute candles, entry and trade management on 1-minute candles. All times are New York (ET); the trading day runs 18:00 to 17:00.",
+ "sections": [
+  {
+   "n": 1,
+   "title": "Liquidity levels",
+   "lines": [
+    "Session highs and lows: Asia (from 18:00, 19:00 or 20:00 to midnight), London (02:00-05:00, 03:00-04:00, 02:00-03:00), New York (08:00-09:00, 08:30-09:30, 09:30-10:00, 09:30-10:30) and the premarket (04:00-09:30). A box is a level only after its last candle has closed.",
+    "Previous day, week and month: high and low of each (PDH/PDL, PWH/PWL, PMH/PML).",
+    "Opening gaps: both edges of the weekly (NWOG) and the daily (NDOG) opening gap.",
+    "Build-ups: equal lows or highs, i.e. two 5m swings within 0.15 ATR, 3+ candles apart, untouched in between."
+   ]
+  },
+  {
+   "n": 2,
+   "title": "The sweep",
+   "lines": [
+    "A new 2-hour low (the extreme) takes out a level nobody had traded through yet, within the 2 hours before the extreme.",
+    "It has to run at least half an ATR (14 bars, 5m) past the nearest level it took.",
+    "A swept low sets up a long, a swept high a short (shorts are the mirror image of everything here)."
+   ]
+  },
+  {
+   "n": 3,
+   "title": "The inducement",
+   "lines": [
+    "Before the sweep, at least one small 5m swing low sat above the swept level, no more than 1 ATR above it and at most 36 candles (3 hours) old.",
+    "Nothing touched it until the final push into the extreme ran through it: the early buyers got trapped."
+   ]
+  },
+  {
+   "n": 4,
+   "title": "Displacement and the shift",
+   "lines": [
+    "CISD level = the open of the first candle in the last run of down-close 5m candles into the extreme.",
+    "Trigger: the first 5m close above the CISD level.",
+    "Somewhere between the extreme and the trigger, one candle body must reach 0.8 ATR or more.",
+    "The candle after the trigger has to open between 02:00 and 15:30 ET."
+   ]
+  },
+  {
+   "n": 5,
+   "title": "Entry",
+   "lines": [
+    "A limit order at the CISD level works for 30 minutes.",
+    "Once price taps it, the bot gives it up to 20 one-minute candles to print a 1m CISD (a 1m close back above the open of the last run of 1m down-closes into the low since the tap), then buys at the next 1m open (+1 tick slippage).",
+    "The setup is dropped if the sweep extreme breaks, the target trades before the tap, 30 minutes pass without a tap, 20 minutes pass without the confirmation, or it is 15:55.",
+    "A day without clean 1m bars runs the same rules on 5m candles (4 five-minute candles for the confirmation)."
+   ]
+  },
+  {
+   "n": 6,
+   "title": "Stop",
+   "lines": [
+    "1 tick (0.25 pt) beyond the sweep extreme. Never a fixed distance.",
+    "Planned stop (limit to stop) under 8 or over 80 points: no trade. The size uses the real stop at the fill."
+   ]
+  },
+  {
+   "n": 7,
+   "title": "Target: the VIX band",
+   "lines": [
+    "One VIX move = yesterday's VIX close / 100 / sqrt 252 x the 18:00 open.",
+    "Longs aim at the 18:00 open plus one move, shorts at the 18:00 open minus one move.",
+    "It has to be 1.5R or more from the fill, else no trade. Further than 8R: profit is banked at 8R."
+   ]
+  },
+  {
+   "n": 8,
+   "title": "Managing the trade",
+   "lines": [
+    "Stop to breakeven at +1R: since 2026-10-20 the stop goes to entry + 1.25 points (5 ticks: the commission and the exit tick), so a breakeven exit no longer loses the costs (rule 11).",
+    "15-minute check (1m days, since 2026-10-20, rule 11): 15 minutes after the fill, a trade that never reached +0.5R and closes more than 0.3R under water is closed at the next 1m open.",
+    "Scale-in after breakeven: OFF (built, rule 11; switched on only after the Sim roundtrip passes): one add on the first pullback after breakeven, then the stop moves up to the add once the add is +1 of its own risk.",
+    "Flat by 15:55 ET (the live bot flattens on the clock too). On a CME early-close day (US holidays 13:00 ET, the day after Thanksgiving and Christmas Eve 13:15 ET) the NinjaTrader route stops new entries 15 minutes and flattens 5 minutes before the halt (execution safety, 2026-10-18;",
+    "One trade a day, never two at once."
+   ]
+  },
+  {
+   "n": 9,
+   "title": "Size",
+   "lines": [
+    "$800 risk up to a 20-point stop, then 800 x 20 / stop (a 40-pt stop risks $400, an 80-pt stop $200).",
+    "Micros = risk / (stop x $2), rounded down, at most 40; under 1 micro means no trade.",
+    "2026 median stop 47 points to 3 micros, about $290 at risk.",
+    "Weekly stop (rule 10): after 2 stop-outs in the week, the micros are halved (rounded down once, at least 1 micro).",
+    "No cold-streak filter, no late-entry rule. Eval-safe switch, off: how_out: 0.5 (half size when the sweep extreme falls outside Tuesday 03:00 - Wednesday 11:30; LIT final numbers): 2026 +$27.8k instead of +$38.9k, max DD −$2.3k, no eval failed within 2 weeks.",
+    "Two-week eval sizing (ON since 2026-10-18, \"lit_sizing\": {\"mode\": \"two_week\"}, config C of research/writeups/lit-two-week-eval.md, run lit_2wk_rec). Owner's order: an eval must be passed within 2 weeks (10 sessions). In plain words: \"one winner passes\". 1.",
+    "Eval sizing (on 2026-10-18 until the two-week mode replaced it; \"mode\": \"eval\" switches back): $800 up to a 25-point stop, then 800 x 25 / stop (times the weekly stop's half, rounded down once), then never more than 60% of the room between the eval balance and the trailing max-loss floor.",
+    "Other sizing switches , off unless chosen: The PC bot and the cloud monitor's paper ledger apply them , with one rounding: \"fast_eval\": $800 up to a 40-point stop, then 800 x 40 / stop (times the weekly stop's half, rounded down once)."
+   ]
+  },
+  {
+   "n": 10,
+   "title": "Loss rules",
+   "lines": [
+    "Monday rule: on Monday, once the session (from Sunday 18:00) has taken Friday's high, take only shorts; once it has taken Friday's low, take only longs. Both taken, or neither: no side rule. A skipped setup leaves the day free for a later one.",
+    "Weekly stop: after 2 STOP exits in the current calendar week (ET, Monday to Friday, by trading day), the rest of that week trades at half size (micros rounded down once, at least 1). Breakeven and end-of-day exits do not count. Monday starts at full size again."
+   ]
+  },
+  {
+   "n": 11,
+   "title": "Upgrades of 2026-10-20",
+   "lines": [
+    "15-minute check: ON : 15 minutes after the fill, if the trade never reached +0.5R, the stop is still the original one and the 1m candle closes more than 0.3R under water, close it at the next 1m open. A trade that never got going costs about −0.4R instead of a full −1R. 2026: 13 trades cut.",
+    "Breakeven + costs: ON : the breakeven stop sits at entry + 1.25 points (5 ticks: the commission, $1.40 in the backtest / $1.90 real, and the exit tick), so a breakeven exit ends about flat instead of a small loss.",
+    "Scale-in after breakeven: OFF . It goes on only after the owner runs python -m engine.ninjatrader --sim-roundtrip-add on Sim101 with the market open and NinjaTrader's Orders tab shows the stop and the target at quantity 2 at unchanged prices: the quantity-only OIF CHANGE line is unconfirmed on a…"
+   ]
+  }
+ ],
+ "terms": {
+  "15-minute check": {
+   "def": "",
+   "src": "",
+   "rules": [
+    8
+   ],
+   "live": true,
+   "prev": false
+  },
+  "ATR": {
+   "def": "Average true range: the average size of a candle, a measure of how much the price is moving.",
+   "src": "Jarvis' word list",
+   "live": true,
+   "prev": false
+  },
+  "breakeven": {
+   "def": "Moving the stop to the entry price (plus costs) once the trade is in profit, so the trade can no longer lose money.",
+   "src": "Jarvis' word list",
+   "rules": [
+    8
+   ],
+   "live": true,
+   "prev": true
+  },
+  "CISD": {
+   "def": "Change in state of delivery: price stops pushing one way and closes back through the last opposite candle. The first sign of a turn.",
+   "src": "the site glossary",
+   "rules": [
+    4,
+    5
+   ],
+   "live": true,
+   "prev": true
+  },
+  "confluence": {
+   "def": "Several reasons lining up at the same time.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": true
+  },
+  "displacement": {
+   "def": "A fast, strong move in one direction (big candles, hardly any pullback).",
+   "src": "the site glossary",
+   "rules": [
+    4
+   ],
+   "live": true,
+   "prev": false
+  },
+  "DLL": {
+   "def": "Daily loss limit: the most the account may lose in one day.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "drawdown": {
+   "def": "How far the account fell from its best point.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": true
+  },
+  "entry": {
+   "def": "",
+   "src": "",
+   "rules": [
+    5
+   ],
+   "live": true,
+   "prev": true
+  },
+  "EV": {
+   "def": "Expected value: what a bet is worth on average.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "eval": {
+   "def": "A prop-firm evaluation account: reach the profit target before touching the max loss limit and the firm funds you.",
+   "src": "Jarvis' word list",
+   "live": true,
+   "prev": true
+  },
+  "expectancy": {
+   "def": "The average money made per trade.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "f10": {
+   "def": "The chance an eval is FAILED within 10 trading sessions.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "FDR": {
+   "def": "False discovery rate: a guard that stops flukes from looking like finds. \"Survives\" means the idea passed it.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "flat": {
+   "def": "",
+   "src": "",
+   "rules": [
+    8
+   ],
+   "live": true,
+   "prev": false
+  },
+  "FVG": {
+   "def": "Fair-value gap: a three-candle gap that the price jumped over, leaving an area with little trading.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "IFVG": {
+   "def": "Inverse fair-value gap: a gap in price that price later runs back through, after which the gap pushes the other way.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": true
+  },
+  "inducement": {
+   "def": "A small move that tempts traders in early, just before the real move the other way.",
+   "src": "the site glossary",
+   "rules": [
+    3
+   ],
+   "live": true,
+   "prev": true
+  },
+  "Kelly": {
+   "def": "The Kelly fraction: the share of a bankroll that a bet's edge and odds say to stake for the fastest long-run growth. Staking more than Kelly loses money over time, so careful bettors use a fraction of it.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "killzone": {
+   "def": "A time window in the day when a strategy is allowed to take entries.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": true
+  },
+  "liquidity": {
+   "def": "The orders (and stop losses) parked at obvious highs and lows. Price is drawn to them.",
+   "src": "the site glossary",
+   "rules": [
+    1
+   ],
+   "live": true,
+   "prev": true
+  },
+  "MAE": {
+   "def": "Worst move against you while the trade was open.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "MFE": {
+   "def": "Best move in your favour while the trade was open.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "micro": {
+   "def": "One MNQ micro contract: $2 for each point the NQ moves.",
+   "src": "Jarvis' word list",
+   "live": true,
+   "prev": true
+  },
+  "MLL": {
+   "def": "Max loss limit: the floor your account must never touch.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "Monday rule": {
+   "def": "",
+   "src": "",
+   "rules": [
+    10
+   ],
+   "live": true,
+   "prev": false
+  },
+  "one trade a day": {
+   "def": "",
+   "src": "",
+   "rules": [
+    8
+   ],
+   "live": true,
+   "prev": false
+  },
+  "OOS": {
+   "def": "Out of sample: data the idea never saw while it was being built.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "p10": {
+   "def": "The chance an eval is PASSED within 10 trading sessions.",
+   "src": "the site glossary",
+   "live": false,
+   "prev": false
+  },
+  "paper trading": {
+   "def": "Trading with pretend money to test a strategy: the fills are simulated and nothing real is at risk.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "payout": {
+   "def": "Money a prop firm pays you from a funded account's profit.",
+   "src": "Jarvis' word list",
+   "live": true,
+   "prev": false
+  },
+  "PF": {
+   "def": "Profit factor: money won divided by money lost. Above 1 means it made money.",
+   "src": "the site glossary",
+   "live": true,
+   "prev": true
+  },
+  "profit target": {
+   "def": "The profit an eval account has to reach to pass.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "R": {
+   "def": "One R is the money a trade risks: the distance from the entry to the stop, times the size. A +2R trade made twice what it risked.",
+   "src": "Jarvis' word list",
+   "live": true,
+   "prev": true
+  },
+  "sample size": {
+   "def": "How many trades or bets a number is based on (n). A small n means the number can be luck.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "scale-in": {
+   "def": "",
+   "src": "",
+   "rules": [
+    8
+   ],
+   "live": true,
+   "prev": false
+  },
+  "size": {
+   "def": "",
+   "src": "",
+   "rules": [
+    9
+   ],
+   "live": true,
+   "prev": true
+  },
+  "slippage": {
+   "def": "The gap between the price you expected and the price you got.",
+   "src": "the site glossary",
+   "live": true,
+   "prev": true
+  },
+  "stop": {
+   "def": "The price where a trade is closed at a loss, so one wrong idea costs a known amount.",
+   "src": "Jarvis' word list",
+   "rules": [
+    6
+   ],
+   "live": true,
+   "prev": true
+  },
+  "sweep": {
+   "def": "Price pokes through an obvious high or low to grab the orders waiting there, then turns back.",
+   "src": "the site glossary",
+   "rules": [
+    2
+   ],
+   "live": true,
+   "prev": true
+  },
+  "target": {
+   "def": "The price where a trade takes its profit.",
+   "src": "Jarvis' word list",
+   "rules": [
+    7
+   ],
+   "live": true,
+   "prev": true
+  },
+  "VIX": {
+   "def": "The market's fear gauge: how big a daily move the options market expects.",
+   "src": "Jarvis' word list",
+   "live": true,
+   "prev": false
+  },
+  "VIX band": {
+   "def": "",
+   "src": "",
+   "rules": [
+    7
+   ],
+   "live": true,
+   "prev": false
+  },
+  "walk-forward": {
+   "def": "Testing an idea on data that comes after the data it was built on, step by step, the way it would have been traded.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": false
+  },
+  "weekly stop": {
+   "def": "",
+   "src": "",
+   "rules": [
+    10
+   ],
+   "live": true,
+   "prev": false
+  },
+  "win rate": {
+   "def": "The share of trades that made money. On its own it says little: a low win rate with big winners can still make money.",
+   "src": "Jarvis' word list",
+   "live": false,
+   "prev": true
+  }
+ },
+ "aliases": {
+  "15 minute check": "15-minute check",
+  "15 minute cut": "15-minute check",
+  "15-minute cut": "15-minute check",
+  "1r": "R",
+  "an r": "R",
+  "average true range": "ATR",
+  "be": "breakeven",
+  "break even": "breakeven",
+  "break-even": "breakeven",
+  "change in state of delivery": "CISD",
+  "daily loss": "DLL",
+  "daily loss limit": "DLL",
+  "dd": "drawdown",
+  "displacement candle": "displacement",
+  "draw down": "drawdown",
+  "entries": "entry",
+  "entry rule": "entry",
+  "evaluation": "eval",
+  "expected value": "EV",
+  "f10": "f10",
+  "fair value gap": "FVG",
+  "false discovery rate": "FDR",
+  "fifteen minute check": "15-minute check",
+  "flat by": "flat",
+  "flat rule": "flat",
+  "flat time": "flat",
+  "hit rate": "win rate",
+  "inverse fair value gap": "IFVG",
+  "inverse fvg": "IFVG",
+  "inversion fair value gap": "IFVG",
+  "kelly bet": "Kelly",
+  "kelly criterion": "Kelly",
+  "kelly fraction": "Kelly",
+  "kelly sizing": "Kelly",
+  "kill zone": "killzone",
+  "liquidity level": "liquidity",
+  "liquidity levels": "liquidity",
+  "liquidity sweep": "sweep",
+  "mae": "MAE",
+  "max drawdown": "drawdown",
+  "max loss": "MLL",
+  "max loss limit": "MLL",
+  "maximum loss limit": "MLL",
+  "mfe": "MFE",
+  "micros": "micro",
+  "mnq": "micro",
+  "monday": "Monday rule",
+  "n": "sample size",
+  "one r": "R",
+  "one trade a day": "one trade a day",
+  "out of sample": "OOS",
+  "p10": "p10",
+  "paper": "paper trading",
+  "paper trade": "paper trading",
+  "payouts": "payout",
+  "position size": "size",
+  "position sizing": "size",
+  "profit factor": "PF",
+  "r multiple": "R",
+  "risk per trade": "size",
+  "risk unit": "R",
+  "scale in": "scale-in",
+  "scaling in": "scale-in",
+  "size rule": "size",
+  "sizing": "size",
+  "stop hunt": "sweep",
+  "stop loss": "stop",
+  "stop rule": "stop",
+  "stop run": "sweep",
+  "stoploss": "stop",
+  "sweeps": "sweep",
+  "take profit": "target",
+  "target rule": "target",
+  "the entry": "entry",
+  "the stop": "stop",
+  "the target": "target",
+  "tp": "target",
+  "trades a day": "one trade a day",
+  "vix band": "VIX band",
+  "vix move": "VIX band",
+  "vix target": "VIX band",
+  "walk forward": "walk-forward",
+  "weekly loss stop": "weekly stop",
+  "winrate": "win rate"
+ },
+ "sha": "a4bbd891ca21"
+}

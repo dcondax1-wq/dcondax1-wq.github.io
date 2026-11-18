@@ -1,0 +1,49 @@
+{
+ "v": 1,
+ "kind": "le-edge",
+ "src": "tools/edge_health.py",
+ "built": "2026-11-18T02:10:30+00:00",
+ "eh": {
+  "d": "2026-11-06",
+  "z": [
+   "G",
+   3.8,
+   3.9
+  ],
+  "a": [
+   "A",
+   1.9,
+   2.8,
+   "2026-10-16"
+  ],
+  "t": 1794967830
+ },
+ "bots": {
+  "lit": {
+   "name": "Zlarior",
+   "sessions": 40,
+   "to": "2026-11-06",
+   "n": 20,
+   "tpw": 2.5,
+   "win": 55.0,
+   "pf": 3.84,
+   "pf_r": 3.16,
+   "usd_month": 3440,
+   "light": "GREEN",
+   "basis": "backtest of the live settings on the newest bars (LIT size rule)"
+  },
+  "atlas": {
+   "name": "ATLAS",
+   "sessions": 40,
+   "to": "2026-10-16",
+   "n": 24,
+   "tpw": 3.0,
+   "win": 58.3,
+   "pf": 1.41,
+   "pf_r": 1.89,
+   "usd_month": 411,
+   "light": "AMBER",
+   "basis": "the stored ATLAS run at eval size (not re-run on the newest bars)"
+  }
+ }
+}

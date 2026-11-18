@@ -1,0 +1,1 @@
+{"v":1,"name":"Archive","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Runs","value":"2,273"},{"label":"Adopted","value":"94"},{"label":"Rejected","value":"1,665"}],"lines":["2,273 tested runs, 143 write-ups.","Don't redo what was rejected."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

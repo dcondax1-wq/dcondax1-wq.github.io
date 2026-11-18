@@ -1,0 +1,30 @@
+{
+ "v": 1,
+ "name": "Ares",
+ "status": {
+  "level": "ok",
+  "label": "Rules: Builder 50K"
+ },
+ "kpis": [
+  {
+   "label": "Max loss",
+   "value": "$2,000"
+  },
+  {
+   "label": "Daily loss",
+   "value": "$1,000"
+  },
+  {
+   "label": "Flat by",
+   "value": "16:10 ET"
+  }
+ ],
+ "lines": [
+  "Size follows the stop. The war room says GO, WAIT or HALT before you click.",
+  "Stop beyond the sweep extreme; a wide stop means fewer micros."
+ ],
+ "t": 1793700000,
+ "open": "#size",
+ "theme": "#0b0608",
+ "stale_after": 2592000
+}

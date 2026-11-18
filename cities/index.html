@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OLYMPUS Cities</title>
+<meta name="description" content="One connected night metropolis: orbit from Olympus HQ through six data-rich city districts and all 173 cities.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cities">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="cities"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/sfx.js?v=s4" async></script>
+<script src="../olympus/fx-core.js?v=f1" defer></script>
+<script src="../olympus/fx-burst.js?v=f1" defer></script><!-- QA round 6: deferred (only app.js uses them, after the paint) -->
+<style>
+:root{--bg:#050814;--panel:rgba(9,13,30,.9);--line:rgba(170,182,224,.2);--text:#f4f4f8;--sub:#b0b3c8;--gold:#ffc94a;--green:#7f8a52;--red:#ff6b7f;--cyan:#4b7a99;
+--accent:var(--oly-accent,#c9a06a);--st:env(safe-area-inset-top,0px);--sr:env(safe-area-inset-right,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);
+--top-h:92px;--dock-h:44px;--sheet-bottom:168px;-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:500 15px/1.35 var(--oly-ui,-apple-system,system-ui,"Segoe UI",Roboto,sans-serif);
+overflow:hidden;overscroll-behavior:none;touch-action:none;color-scheme:dark}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+button{font-family:inherit;color:inherit}
+/* --- the one top bar */
+.top{position:fixed;left:calc(10px + var(--sl));right:calc(10px + var(--sr));top:calc(8px + var(--st));z-index:4;pointer-events:none;padding:6px 8px 6px 10px;
+border-radius:var(--oly-r-card,16px);background:linear-gradient(180deg,rgba(10,8,26,.8),rgba(10,8,26,.54));border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .row{display:flex;align-items:center;gap:6px;min-height:44px}
+.top h1{margin:0;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:800 14px/1.2 var(--oly-display,sans-serif);
+letter-spacing: .05em;text-transform:uppercase;background:linear-gradient(90deg,#fff,#c9a06a 45%,#7fa6bd);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ic{width:44px;height:44px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--text);display:grid;place-items:center;cursor:pointer;
+font:700 11px/1 var(--oly-ui,inherit);padding:0;pointer-events:auto;flex:0 0 auto}
+.ic svg{width:20px;height:20px}
+.ic.on{color:var(--gold);border-color:rgba(255,201,74,.35);background:rgba(255,201,74,.08)}
+#nightB[hidden]{display:none}
+#backB[hidden],#readB[hidden]{display:none}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;pointer-events:auto;touch-action:pan-x;padding-top:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:12px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--sub);white-space:nowrap}
+.chip b{color:var(--text);font-weight:700}
+.chip.demo{color:#111;background:#ff9f43;border-color:transparent;font-weight:700}
+.chip.live{color:#02210f;background:var(--green);border-color:transparent;font-weight:700}
+button.chip{cursor:pointer;min-height:30px}
+/* The district/app rail keeps the same city reachable while users are inside any district. */
+.network-bar{position:fixed;left:calc(10px + var(--sl));right:calc(10px + var(--sr));top:calc(var(--top-h) + 8px + var(--st));z-index:4;
+  display:none;align-items:center;gap:5px;min-width:0;height:48px;padding:3px 5px;border:1px solid rgba(170,182,224,.22);border-radius:15px;
+  background:linear-gradient(180deg,rgba(8,10,25,.94),rgba(7,9,22,.82));box-shadow:0 9px 28px rgba(0,0,0,.38);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:auto}
+.network-key,.network-apps,.network-strip button{flex:0 0 auto;min-height:44px;border:1px solid rgba(176,187,226,.19);border-radius:12px;
+  color:#d4d8e8;background:rgba(255,255,255,.035);font:800 9px/1 var(--oly-display,sans-serif);letter-spacing: .05em;cursor:pointer;touch-action:manipulation}
+.network-key{width:44px;color:#ffe1a1;border-color:rgba(255,201,74,.45);background:linear-gradient(145deg,rgba(255,201,74,.17),rgba(255,201,74,.04))}
+.network-apps{width:54px;color:#7fa6bd}
+.network-strip{display:flex;align-items:center;gap:4px;min-width:0;flex:1;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x}
+.network-strip::-webkit-scrollbar{display:none}
+.network-strip button{min-width:44px;padding:0 11px}
+.network-bar button[aria-pressed=true]{color:#f3ece0;border-color:rgba(255,201,74,.65);background:linear-gradient(145deg,rgba(255,201,74,.16),rgba(35,38,60,.62));box-shadow:0 0 14px rgba(255,190,75,.1)}
+.network-bar button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.actions a{display:inline-flex;align-items:center;text-decoration:none}
+.city-network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 12px}
+.city-network-destination{display:flex;min-width:0;min-height:64px;flex-direction:column;justify-content:center;gap:3px;padding:10px 11px;border:1px solid rgba(127,166,189,.22);border-radius:13px;
+  color:#f2f5ff;text-decoration:none;background:linear-gradient(145deg,rgba(61,75,120,.23),rgba(8,11,26,.72));touch-action:manipulation}
+.city-network-destination b{font:800 11px/1.1 var(--oly-display,sans-serif);letter-spacing: .05em;text-transform:uppercase}
+.city-network-destination small{color:#aeb8d2;font:600 11px/1.2 var(--oly-ui,sans-serif)}
+.city-network-destination[aria-current=page]{border-color:rgba(255,201,74,.58);box-shadow:inset 0 0 20px rgba(255,201,74,.07)}
+.city-network-destination:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media(max-width:600px){.network-bar{left:calc(8px + var(--sl));right:calc(8px + var(--sr));gap:4px;height:50px;padding:2px 4px;border-radius:14px}
+  .network-key{width:44px}.network-apps{width:50px}.network-strip{gap:3px}.network-strip button{padding:0 9px;font-size:8px;letter-spacing:.06em}}
+@media(max-width:350px){.city-network-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.network-bar{scroll-behavior:auto}}
+/* --- the minimap (a city only) */
+.mini{position:fixed;right:calc(12px + var(--sr));top:calc(var(--top-h) + 62px + var(--st));z-index:3;width:108px;height:108px;border-radius:14px;border:1px solid var(--line);
+background:rgba(8,6,18,.6);box-shadow:0 6px 24px rgba(0,0,0,.4);cursor:pointer;touch-action:manipulation;display:none}
+body[data-mode=city] .mini{display:block}
+/* --- the one bottom sheet */
+.sheet{position:fixed;left:calc(10px + var(--sl));right:calc(10px + var(--sr));bottom:calc(var(--sheet-bottom) + var(--sb));z-index:5;display:none;
+max-height:min(calc(100% - var(--sheet-bottom) - var(--top-h) - 26px - var(--st) - var(--sb)),46vh);overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;
+background:var(--panel);border:1px solid var(--line);border-radius:var(--oly-r-card,16px);padding:0 14px 12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.sheet.on{display:block;animation:rise .2s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sheet header{position:sticky;top:0;display:flex;align-items:center;gap:8px;padding:10px 0 6px;background:linear-gradient(var(--panel) 80%,transparent);z-index:1}
+.sheet h2{margin:0;flex:1;min-width:0;font:700 var(--oly-t-title,16px)/1.3 var(--oly-display,inherit);letter-spacing:.04em;overflow-wrap:anywhere}
+.sheet h3{margin:14px 0 4px;font:700 13px/1.3 var(--oly-display,inherit);letter-spacing:.06em;color:#e3d6ff;text-transform:uppercase}
+.x{flex:0 0 44px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font-size:18px;line-height:1;cursor:pointer}
+@media (orientation:landscape) and (max-height:520px){
+  :root{--top-h:58px}
+  .chips{display:none}
+  .sheet{right:auto;width:min(420px,48vw);top:calc(var(--top-h) + 16px + var(--st));bottom:calc(66px + var(--sb));max-height:none}
+}
+/* --- the dock (never under the orb: it keeps the bottom-right 104 px free) */
+.dock{position:fixed;left:calc(10px + var(--sl));bottom:calc(10px + var(--sb));right:calc(104px + var(--sr));display:flex;gap:8px;z-index:4;flex-wrap:nowrap}
+.tab{width:48px;height:var(--dock-h);border-radius:var(--oly-r-btn,12px);border:1px solid var(--line);background:var(--panel);color:var(--text);font:700 10.5px/1 var(--oly-ui,inherit);
+display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:2px 0 0;letter-spacing:.02em;flex:0 0 auto}
+.tab svg{width:19px;height:19px;display:block;margin:0 auto 1px}
+.tab.on{border-color:var(--gold);color:var(--gold);box-shadow:0 0 14px rgba(255,201,74,.25)}
+/* --- sheet content */
+.badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin:0 6px 4px 0;background:#3b4057;color:#e6e8f0}
+.badge.live{background:var(--green);color:#00210f}.badge.demo{background:#ff9f43;color:#2a1300}
+.big{display:flex;gap:14px;align-items:baseline;margin:8px 0 6px;flex-wrap:wrap}
+.big .v{font:800 var(--oly-t-num,26px)/1.1 var(--oly-display,inherit);font-variant-numeric:tabular-nums}
+.big .u{font-size:12px;color:var(--sub)}
+.pos{color:var(--green)}.neg{color:var(--red)}
+.grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}
+.grid4 div{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:6px 8px;min-width:0}
+.grid4 small{display:block;font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid4 b{font-size:15px;overflow-wrap:anywhere}
+.note{font-size:12.5px;color:var(--sub);margin:8px 0 0}
+.list{list-style:none;margin:4px 0 0;padding:0}
+.list li{display:flex;gap:10px;align-items:center;padding:8px 2px;border-bottom:1px solid var(--line);cursor:pointer;min-height:44px}
+.list li.count{cursor:default;color:var(--sub);font-size:12px;min-height:0}
+.list li.more{display:block;padding:8px 0;border-bottom:0}.list li.more .pill{width:100%}
+.list li .k{flex:0 0 auto;width:22px;height:22px;border-radius:6px;font-size:11px;font-weight:800;display:grid;place-items:center;color:#111}
+.list li .t{flex:1;min-width:0;font-size:13px;overflow:hidden;text-overflow:ellipsis}
+.list li .t small{display:block;color:var(--sub);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list li .m{flex:0 0 auto;font-size:13px;font-weight:700;text-align:right}
+.actions{display:flex;gap:8px;margin:10px 0 2px;flex-wrap:wrap}
+.pill{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font-weight:700;cursor:pointer}
+.pill.go{background:var(--gold);color:#241a00;border-color:transparent}
+.pill.on{border-color:var(--gold);color:var(--gold);background:rgba(255,201,74,.08)}
+input[type=search]{width:100%;font-size:16px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--text);outline:none;margin-top:2px}
+.seg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:8px 0;touch-action:pan-x}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:0 0 auto;font-size:12px;padding:7px 11px;min-height:44px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--sub);cursor:pointer}
+.seg button.on{color:#111;background:var(--gold);border-color:transparent;font-weight:700}
+/* --- cameras (a city), labels, tag, caption, toast, veil */
+.cams{position:fixed;left:calc(10px + var(--sl));top:calc(var(--top-h) + 62px + var(--st));z-index:3;display:none;flex-direction:column;gap:6px}
+body[data-mode=city] .cams{display:flex}
+.cams button{width:56px;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--sub);font:700 10px/1 var(--oly-display,inherit);letter-spacing: .05em;cursor:pointer;touch-action:manipulation}
+.cams button.on{color:var(--gold);border-color:rgba(255,201,74,.45);background:rgba(255,201,74,.10)}
+#labels{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+body[data-mode=hub] #labels{display:none}
+#labels i{position:absolute;left:0;top:0;font:700 11.5px/1.2 var(--oly-display,inherit);letter-spacing: .05em;text-transform:uppercase;padding:4px 8px;border-radius:8px;background:rgba(7,5,15,.62);
+border:1px solid rgba(255,255,255,.18);color:#f3ece0;white-space:nowrap;display:none;text-shadow:0 1px 6px #000;font-style:normal;will-change:transform}
+#labels i.sel{border-color:var(--gold);color:var(--gold)}
+.tag{position:fixed;left:0;top:0;z-index:3;pointer-events:none;display:none;padding:5px 9px;border-radius:10px;background:rgba(8,6,20,.84);border:1px solid rgba(255,201,74,.45);
+font:600 12px/1.25 var(--oly-ui,inherit);color:var(--text);white-space:nowrap;max-width:220px;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+.tag b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis}
+.caption{position:fixed;left:50%;bottom:calc(var(--sheet-bottom) + 10px + var(--sb));transform:translateX(-50%);width:min(560px,calc(100% - 28px));z-index:4;pointer-events:none;opacity:0;
+text-align:center;font:600 15px/1.35 var(--oly-ui,inherit);color:#f3ece0;text-shadow:0 2px 12px rgba(0,0,0,.9);transition:opacity .4s}
+.caption small{display:block;font:700 10px/1 var(--oly-display,inherit);letter-spacing: .05em;color:var(--gold);margin-bottom:6px}
+.caption.on{opacity:1}
+body[data-mode=city] .caption.on{padding:10px 14px;border:1px solid rgba(255,201,74,.27);border-radius:15px;background:linear-gradient(150deg,rgba(5,9,22,.92),rgba(9,14,31,.84));box-shadow:0 12px 30px rgba(0,0,0,.46);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+body[data-mode=hub] .caption{bottom:calc(252px + var(--sb));font-size:12px;max-width:350px}
+.toast{position:fixed;left:50%;top:calc(var(--top-h) + 18px + var(--st));transform:translateX(-50%);background:var(--panel);border:1px solid var(--line);padding:8px 12px;
+border-radius:12px;font-size:12.5px;color:var(--sub);z-index:6;display:none;max-width:calc(100% - 140px);text-align:center}
+.toast.on{display:block}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.5))}
+.veil{position:fixed;inset:0;z-index:7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;pointer-events:none;opacity:0;
+background:radial-gradient(90% 70% at 50% 45%,rgba(24,14,52,.94),#05030c);transition:opacity .38s ease}
+.veil.on{opacity:1}
+.veil b{font:800 20px/1.2 var(--oly-display,inherit);letter-spacing: .05em;text-transform:uppercase;color:#f3ece0}
+.veil small{font-size:13px;color:var(--sub);max-width:320px}
+.loading{position:fixed;inset:0;display:grid;place-items:center;color:var(--sub);font:600 13px var(--oly-display,inherit);letter-spacing: .05em;z-index:2;pointer-events:none}
+.err{position:fixed;left:16px;right:16px;top:30%;z-index:9;text-align:center;color:var(--sub)}
+.fallback{position:fixed;inset:calc(var(--top-h) + 20px + var(--st)) 12px calc(110px + var(--sb)) 12px;overflow:auto;z-index:3;touch-action:pan-y}
+.oly-fx-toasts{top:calc(var(--top-h) + 16px + var(--st))!important}
+.badge.seen{background:#2c4b3b;color:#c8f5dc}
+.say{font:600 14.5px/1.4 var(--oly-ui,inherit);color:#f3ece0;margin:8px 0 4px;padding:8px 10px;border-left:3px solid var(--gold);background:rgba(255,201,74,.07);border-radius:0 10px 10px 0}
+.bars{margin:4px 0}.barrow{display:grid;grid-template-columns:minmax(0,92px) minmax(0,1fr) auto;gap:8px;align-items:center;padding:5px 0;font-size:12.5px}
+.barrow span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sub)}.barrow .track{height:8px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden}.barrow .track i{display:block;height:100%;border-radius:4px}
+.cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cmpcol h3{margin:6px 0 4px;font-size:12px}.cmpcol canvas{width:100%;aspect-ratio:1;border-radius:10px;border:1px solid var(--line);display:block}
+.cmpcol .say{font-size:12px}.cmpcol .grid4{grid-template-columns:1fr}.cmpcol .pill{width:100%}
+#labels i.cont{font-size:13px;letter-spacing: .05em;padding:6px 12px;background:rgba(7,5,15,.7);border-width:1.5px}
+.photobar{position:fixed;left:calc(10px + var(--sl));bottom:calc(14px + var(--sb));right:calc(104px + var(--sr));z-index:6;display:none;gap:8px}
+body.photo .photobar{display:flex}
+body[data-ready=true] .network-bar,body[data-ready=fallback] .network-bar{display:flex}
+body.photo .top,body.photo .dock,body.photo .mini,body.photo .cams,body.photo .sheet,body.photo #labels,body.photo .tag,body.photo .network-bar{display:none!important}
+body.photo .photobar .pill{flex:1}
+@media (prefers-reduced-motion:reduce){.sheet.on{animation:none}.veil,.caption{transition:none}}
+
+/* An immediate, readable atlas over the navigable 3D world. The world stays visible above it. */
+.atlas{position:fixed;z-index:4;left:calc(10px + var(--sl));right:calc(10px + var(--sr));bottom:calc(74px + var(--sb));max-width:620px;
+  padding:12px;border:1px solid rgba(201,160,106,.3);border-radius:20px;background:linear-gradient(145deg,rgba(19,17,43,.94),rgba(7,10,27,.91));
+  box-shadow:0 18px 55px rgba(0,0,0,.5),inset 0 1px rgba(255,255,255,.1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+/* The mounted world lobby owns hub navigation; do not stack this early boot atlas over its portals. */
+body[data-mode=hub][data-ready=true] .atlas,body[data-mode=city] .atlas,body[data-ready=fallback] .atlas,.atlas.behind{display:none}
+.atlas-kicker{display:flex;align-items:center;gap:7px;color:#c9a06a;font:800 10px/1.2 var(--oly-display,inherit);letter-spacing: .05em;text-transform:uppercase}
+.atlas-kicker:before{content:"";height:7px;width:7px;border-radius:50%;background:#a0ac6e;box-shadow:0 0 13px #7f8a52}
+.atlas-head{display:flex;align-items:center;gap:10px;margin:4px 0 9px}
+.atlas-head strong{font:800 clamp(18px,5vw,25px)/1.1 var(--oly-display,inherit);letter-spacing:.015em}
+.atlas-head span{font-size:11px;color:#d0cce2;margin-left:auto;text-align:right;max-width:110px}
+.atlas-rail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.atlas-card{position:relative;min-width:0;min-height:91px;padding:11px 8px 8px;text-align:left;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,.15);
+  border-radius:13px;background:radial-gradient(circle at 75% -10%,color-mix(in srgb,var(--city) 32%,transparent),transparent 70%),linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
+  color:#f3ece0;box-shadow:inset 0 1px rgba(255,255,255,.1)}
+.atlas-card:before{content:"";position:absolute;right:11px;bottom:0;width:30px;height:37px;border:2px solid var(--city);border-bottom:0;opacity:.42;
+  box-shadow:-13px 8px 0 -4px var(--city),11px 10px 0 -3px var(--city);transform:skewY(-6deg)}
+.atlas-card b,.atlas-card small{position:relative;z-index:1;display:block;text-shadow:0 2px 8px #05050c}
+.atlas-card b{font-size:12px;line-height:1.14}.atlas-card small{font-size:10px;color:#dad7e8;margin-top:5px;line-height:1.2}
+.atlas-card:hover,.atlas-card:focus-visible{border-color:var(--city);transform:translateY(-2px);outline:none}
+.atlas-actions{display:flex;gap:7px;margin-top:9px}
+.atlas-actions button{flex:1;min-height:44px;border-radius:11px;border:1px solid rgba(201,160,106,.26);background:rgba(156,107,60,.15);
+  color:#f5efff;font:750 12px/1 var(--oly-ui,inherit);cursor:pointer}
+.atlas-actions button:first-child{background:linear-gradient(110deg,#e6c77a,#c9a06a);color:#151126;border:0}
+@media (min-width:720px){.atlas{left:24px;bottom:24px;width:440px;right:auto}}
+@media (max-height:650px){.atlas{bottom:calc(63px + var(--sb));padding:8px}.atlas-card{min-height:58px;padding:8px}.atlas-card small{display:none}.atlas-head{margin:2px 0 5px}}
+@media (prefers-reduced-motion:reduce){.atlas-card{transition:none}}
+/* Night observatory chrome: the data skyline remains the focal point. */
+body[data-mode=city] .top{background:linear-gradient(145deg,rgba(7,10,26,.94),rgba(13,17,39,.86));
+  border-color:rgba(167,179,223,.27);box-shadow:0 16px 40px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.08)}
+body[data-mode=city] .top h1{background:linear-gradient(90deg,#fff 5%,#e4e9ff 52%,#f4c867);
+  -webkit-background-clip:text;background-clip:text;letter-spacing: .05em}
+body[data-mode=city] .top .row{min-height:48px}
+body[data-mode=city] .chip{background:rgba(92,106,148,.14);border-color:rgba(175,187,225,.18)}
+body[data-mode=city] .chip:first-child{border-color:rgba(255,201,74,.44);color:#ffe3a1}
+body[data-mode=city] .mini{width:112px;height:112px;border-color:rgba(75,122,153,.35);
+  background:rgba(3,9,24,.82);box-shadow:0 12px 36px rgba(0,0,0,.62),0 0 22px rgba(75,122,153,.14),inset 0 0 0 5px rgba(5,9,24,.45)}
+body[data-mode=city] .cams button{width:62px;min-height:46px;border-radius:13px;background:rgba(9,13,30,.9);
+  box-shadow:0 9px 22px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.05);letter-spacing: .05em}
+body[data-mode=city] .cams button.on{background:linear-gradient(150deg,rgba(255,199,78,.2),rgba(39,38,64,.88));
+  border-color:rgba(255,201,74,.7);box-shadow:0 0 20px rgba(255,180,53,.18),inset 0 1px rgba(255,241,194,.18)}
+body[data-mode=city] .tab{background:rgba(9,13,30,.92);border-color:rgba(127,166,189,.25);
+  box-shadow:0 8px 20px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.07)}
+body[data-mode=city] .tab.on{background:linear-gradient(145deg,rgba(255,198,74,.2),rgba(9,13,30,.94))}
+@media (max-width:360px){body[data-mode=city] .mini{width:96px;height:96px}}
+</style>
+<link rel="stylesheet" href="./world.css?v=w3">
+<link rel="stylesheet" href="./agora-cities.css?v=g4">
+</head>
+<body data-mode="hub" data-ready="false">
+<canvas id="amap" aria-label="The Olympus archipelago: six district islands with 173 cities. Tap a city to open it, or use Find."></canvas>
+<canvas id="c" aria-label="Olympus Cities: one connected night metropolis centered on Olympus HQ with six navigable city districts. Browse 173 source-backed city records, or open Data City and Kalshi City."></canvas>
+<div id="labels" aria-hidden="true"></div>
+<aside class="atlas" id="atlas" aria-label="City atlas">
+  <div class="atlas-kicker">Olympus world map</div>
+  <div class="atlas-head"><strong>Your numbers as cities: tap one to open it</strong><span id="atlasCount">173 cities · 1 network · 6 districts</span></div>
+  <div class="atlas-rail">
+    <button class="atlas-card" style="--city:#7fa6bd" data-city="trades-city"><b>Trades City</b><small>Each trade becomes a tower</small></button>
+    <button class="atlas-card" style="--city:#c9a06a" data-city="sessions-city"><b>Sessions City</b><small>Fly through trading days</small></button>
+    <button class="atlas-card" style="--city:#ffb67f" data-city="canyon"><b>Drawdown Canyon</b><small>See the shape of risk</small></button>
+  </div>
+  <div class="atlas-actions"><button data-atlas="tour">Fly the world</button><button data-atlas="find">Find a city</button></div>
+</aside>
+<div class="loading" id="loading">Building the world…</div>
+<header class="top" id="top">
+  <div class="row">
+    <button class="ic" id="backB" aria-label="Back to the world map" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <h1 id="title">Olympus Cities</h1>
+    <button class="ic" id="photoB" aria-label="Photo mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+    <button class="ic on" id="nightB" aria-label="Night view on; switch to original sky" aria-pressed="true" title="Night view">☾</button>
+    <button class="ic" id="qB" aria-label="Quality">HD</button>
+    <button class="ic" id="readB" aria-label="How to read this"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
+  </div>
+  <div class="chips" id="chips"></div>
+</header>
+<nav class="network-bar" id="cityNetwork" aria-label="City network">
+  <button class="network-key" id="networkHQ" type="button" aria-label="Fly to the Olympus headquarters capital" aria-pressed="true">HQ</button>
+  <div class="network-strip" role="group" aria-label="Choose a city district">
+    <button type="button" data-network-district="trading" aria-pressed="false">Trade</button>
+    <button type="button" data-network-district="research" aria-pressed="false">Research</button>
+    <button type="button" data-network-district="money" aria-pressed="false">Money</button>
+    <button type="button" data-network-district="kalshi" aria-pressed="false">Kalshi</button>
+    <button type="button" data-network-district="life" aria-pressed="false">Life</button>
+    <button type="button" data-network-district="obsidian" aria-pressed="false">Obsidian</button>
+  </div>
+  <button class="network-apps" id="networkApps" type="button" aria-label="Open City Network" aria-haspopup="dialog">Cities</button>
+</nav>
+<canvas class="mini" id="mini" width="216" height="216" aria-label="Minimap: tap to fly there"></canvas>
+<section class="sheet" id="sheet" role="dialog" aria-labelledby="sheetTitle">
+  <header><h2 id="sheetTitle"></h2><button class="x" id="sheetX" aria-label="Close">×</button></header>
+  <div id="sheetBody"></div>
+</section>
+<div class="cams" id="cams" role="group" aria-label="Camera mode">
+  <button data-cam="orbit" class="on" aria-label="Orbit camera">ORBIT</button>
+  <button data-cam="skim" aria-label="Fly low through the districts">SKIM</button>
+  <button data-cam="drone" aria-label="Drone loop over the city">DRONE</button>
+  <button data-cam="grand" aria-label="Grand tour of the landmarks">GRAND</button>
+</div>
+<div class="tag" id="tag" aria-hidden="true"></div>
+<div class="photobar" id="photoBar"><button class="pill go" id="photoTake">Take photo</button><button class="pill" id="photoDone">Done</button></div>
+<nav class="dock" id="dock" aria-label="Views"></nav>
+<div class="maphint" id="maphint" aria-hidden="true"><b>Tap a city</b> to open it<small>Drag to look around, pinch to zoom</small></div>
+<div class="caption" id="caption" aria-live="polite"></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="veil" id="veil" aria-hidden="true"><b id="veilName"></b><small id="veilSub"></small></div>
+<script type="module">
+let recovering = false;
+async function recover() {
+  if (recovering || document.body.dataset.ready === 'true' || document.body.dataset.ready === 'fallback') return;
+  recovering = true;
+  window.__citiesImportAbandoned = true;
+  const loading = document.querySelector('#loading');
+  if (loading) { loading.style.pointerEvents = 'auto'; loading.textContent = 'Opening the city atlas…'; }
+  try { const recovery = await import('./atlas-entry.js?v=a5'); await recovery.recoverAtlas(); }
+  catch (_) {
+    if (loading) { loading.textContent = 'City files could not load. Check your connection and reload Cities.'; const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'Reload Cities'; retry.style.cssText = 'display:block;min-height:48px;padding:12px;margin:16px auto;font:inherit'; retry.onclick = () => location.reload(); loading.append(retry); }
+    window.OLYMPUS?.ready?.();
+  }
+}
+// Module import settles before its asynchronous boot does. Watch readiness itself.
+setTimeout(recover, 18000);
+import('./app.js?v=o24').catch(recover);
+</script>
+<script type="module" src="./athens-entry.js?v=t5"></script>
+<script type="module" src="./hellas-entry.js?v=h1"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Labyrinth</title>
+<meta name="description" content="LABYRINTH: the risk maze of a prop-firm eval. Your balance runs a corridor between the floor wall (max loss) and the target gate; slide the size and see how many runs pass or bust. A what-if on the trades the site shows, never an order.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Labyrinth">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- LABYRINTH (OLYMPUS, 2026-11-03): a what-if on the LIT trades the site already publishes (../odeon/trades.json: usd, risk, day)
+     and the live eval of ../home.json (balance, floor, target). labcore.js = the maths (pure), scene.js = the 3D maze on the
+     OLYMPUS render core, labyrinth.js = the page. Nothing here writes anywhere: no orders, no bot setting. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="labyrinth"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="labyrinth.css?v=l4">
+</head>
+<body>
+<canvas id="maze" aria-label="The risk maze: a corridor between the red floor wall and the gold target gate, with your balance as a light trail" role="img"></canvas>
+<main id="ui">
+  <header class="top">
+    <div class="brand"><h1>Labyrinth</h1><p class="sub">Pick a trade size: see your odds to pass the eval and the $ you could lose. Tap Best size.</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <nav class="mazes" id="mazes" role="tablist" aria-label="Maze"></nav>
+  <section class="verdict" id="verdict" aria-live="polite">
+    <p class="v" id="vText">Reading the trades...</p>
+    <div class="odds">
+      <div class="odd pass"><span class="k">Reach the target</span><b id="oPass">-</b></div>
+      <div class="odd bust"><span class="k">Hit the floor</span><b id="oBust">-</b></div>
+      <div class="odd"><span class="k">Trades to pass</span><b id="oMed">-</b></div>
+    </div>
+    <div class="money" id="money" aria-label="What this size means in dollars">
+      <div><span class="k">Drawdown left</span><b id="mRoom">-</b><small id="mRoomOf"></small></div>
+      <div><span class="k">Worst trade</span><b id="mWorst">-</b><small id="mWorstOf"></small></div>
+      <div><span class="k">Fees to pass</span><b id="mFee">-</b><small id="mFeeOf"></small></div>
+    </div>
+    <div class="ruin" id="ruin" aria-live="polite">
+      <svg class="gauge" viewBox="0 0 120 70" role="img" aria-label="Risk of ruin gauge" id="ruinSvg">
+        <path class="trk" d="M10 62 A50 50 0 0 1 110 62" pathLength="100"/>
+        <path class="arc" id="ruinArc" d="M10 62 A50 50 0 0 1 110 62" pathLength="100"/>
+        <line class="needle" id="ruinNeedle" x1="60" y1="62" x2="60" y2="22"/>
+        <circle cx="60" cy="62" r="4" class="hub"/>
+      </svg>
+      <div class="rt"><span class="k">Risk of ruin</span><b id="ruinV">-</b><span class="lv" id="ruinL">-</span><p id="ruinT"></p></div>
+      <button type="button" id="bestUse" class="bestbtn" aria-describedby="bestT"><span class="k">Best size</span><b id="bestV">-</b></button>
+      <span id="bestT" class="sr"></span>
+    </div>
+    <p class="live" id="live" hidden></p>
+  </section>
+  <nav class="pills" id="pills" aria-label="Views">
+    <button type="button" data-view="sizes" aria-pressed="false">Sizes</button>
+    <button type="button" data-view="danger" aria-pressed="false">Danger</button>
+    <button type="button" data-view="march" aria-pressed="false">The march</button>
+    <button type="button" data-view="rules" aria-pressed="false">Rules</button>
+    <button type="button" id="walkBtn" class="go" aria-pressed="false">Walk it</button>
+  </nav>
+  <p class="walkline" id="walkLine" hidden aria-live="polite"></p>
+</main>
+<section class="sheet" id="sheet" hidden aria-labelledby="sheetTitle">
+  <header><h2 id="sheetTitle"></h2><button type="button" class="oly-close" id="close" aria-label="Close">×</button></header>
+  <div class="body" id="sheetBody"></div>
+</section>
+<section class="dock" id="dock" aria-label="What-if controls">
+  <div class="row size">
+    <label for="mult">Size <b id="multV">1.00x</b></label>
+    <input id="mult" type="range" min="0.25" max="2" step="0.05" value="1" aria-describedby="multHelp">
+  </div>
+  <div class="row chips" id="presets" role="group" aria-label="Size presets">
+    <button type="button" data-m="0.5">0.5x</button>
+    <button type="button" data-m="1">1x</button>
+    <button type="button" data-m="1.5">1.5x</button>
+    <button type="button" data-m="sweet" id="sweetBtn">Sweet spot</button>
+  </div>
+  <div class="row sel">
+    <label>Risk cap per trade
+      <select id="cap"><option value="0">Off</option><option value="150">$150</option><option value="300">$300</option><option value="500">$500</option><option value="750">$750</option><option value="1000">$1,000</option></select>
+    </label>
+    <label>Look ahead
+      <select id="hor"><option value="8">8 trades</option><option value="15" selected>15 trades</option><option value="30">30 trades</option></select>
+    </label>
+  </div>
+  <p class="help" id="multHelp">Size multiplies every trade's $ (1x = what the bot sized). The cap ceilings the $ at risk on a trade: a wide stop gets fewer micros.</p>
+</section>
+<script type="module" src="labyrinth.js?v=l4"></script>
+</body>
+</html>

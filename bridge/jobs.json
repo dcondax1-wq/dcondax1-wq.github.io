@@ -1,0 +1,1359 @@
+{
+ "v": 1,
+ "kind": "olympus-bridge-jobs",
+ "cats": [
+  {
+   "id": "textures",
+   "name": "Textures and skies"
+  },
+  {
+   "id": "art",
+   "name": "App icons and splash art"
+  },
+  {
+   "id": "logo",
+   "name": "Logos and glyphs"
+  },
+  {
+   "id": "sound",
+   "name": "Sound-design briefs"
+  },
+  {
+   "id": "copy",
+   "name": "Copywriting"
+  },
+  {
+   "id": "lore",
+   "name": "Lore and story"
+  },
+  {
+   "id": "obsidian",
+   "name": "Obsidian vault"
+  },
+  {
+   "id": "strategy",
+   "name": "Strategy brainstorms"
+  },
+  {
+   "id": "research",
+   "name": "Research summaries"
+  },
+  {
+   "id": "fixtures",
+   "name": "Test data"
+  },
+  {
+   "id": "docs",
+   "name": "Docs polish"
+  },
+  {
+   "id": "mockup",
+   "name": "UI mockups"
+  },
+  {
+   "id": "names",
+   "name": "Names and taglines"
+  },
+  {
+   "id": "money",
+   "name": "Money and prop firms"
+  }
+ ],
+ "jobs": [
+  {
+   "id": "tex-marble-white",
+   "cat": "textures",
+   "title": "White marble look",
+   "makes": "Four 1024 px pictures that make white Greek marble look real on a 3D surface",
+   "tool": "chatgpt",
+   "prompt": "Job tex-marble-white. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake a seamless tileable PBR texture set of polished white Greek marble with soft grey veins, 1024x1024 each: albedo (colour), normal (tangent space, the usual blue-purple look, gentle), roughness (greyscale, polished = dark), ambient occlusion (greyscale, subtle). No text, no logo, evenly lit, no baked shadows.\n\nFiles to deliver (exact names): marble-white-albedo.png, marble-white-normal.png, marble-white-roughness.png, marble-white-ao.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-marble-white/ (open a pull request on branch chatgpt/tex-marble-white); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-marble-white/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-marble-white/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "marble-white-albedo.png",
+    "marble-white-normal.png",
+    "marble-white-roughness.png",
+    "marble-white-ao.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-marble-white/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "tex-marble-black-gold",
+   "cat": "textures",
+   "title": "Black marble with gold veins",
+   "makes": "Four pictures that make black marble with thin gold veins look real",
+   "tool": "chatgpt",
+   "prompt": "Job tex-marble-black-gold. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake a seamless tileable PBR set of black marble with thin branching gold veins, 1024x1024: albedo, normal, roughness (veins slightly rougher), ambient occlusion. Evenly lit, no text, no baked shadows.\n\nFiles to deliver (exact names): marble-black-albedo.png, marble-black-normal.png, marble-black-roughness.png, marble-black-ao.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-marble-black-gold/ (open a pull request on branch chatgpt/tex-marble-black-gold); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-marble-black-gold/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-marble-black-gold/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "marble-black-albedo.png",
+    "marble-black-normal.png",
+    "marble-black-roughness.png",
+    "marble-black-ao.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-marble-black-gold/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "tex-gold-brushed",
+   "cat": "textures",
+   "title": "Brushed gold",
+   "makes": "Brushed gold metal maps with a long horizontal grain",
+   "tool": "chatgpt",
+   "prompt": "Job tex-gold-brushed. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake a seamless tileable brushed gold metal set, 1024x1024: albedo (warm #e0b030 tones), normal (fine horizontal brushing), roughness (greyscale, medium-low). Evenly lit, no text, no reflections of a room.\n\nFiles to deliver (exact names): gold-albedo.png, gold-normal.png, gold-roughness.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-gold-brushed/ (open a pull request on branch chatgpt/tex-gold-brushed); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-gold-brushed/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-gold-brushed/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "gold-albedo.png",
+    "gold-normal.png",
+    "gold-roughness.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-gold-brushed/",
+   "minutes": 7,
+   "difficulty": "easy"
+  },
+  {
+   "id": "tex-bronze-aged",
+   "cat": "textures",
+   "title": "Aged bronze",
+   "makes": "Bronze with green-blue patina in the cracks",
+   "tool": "chatgpt",
+   "prompt": "Job tex-bronze-aged. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake a seamless tileable aged bronze set, 1024x1024: albedo (warm bronze with verdigris in the recesses), normal (hammered, shallow), roughness (greyscale, patina rougher). Evenly lit, no text.\n\nFiles to deliver (exact names): bronze-albedo.png, bronze-normal.png, bronze-roughness.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-bronze-aged/ (open a pull request on branch chatgpt/tex-bronze-aged); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-bronze-aged/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-bronze-aged/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "bronze-albedo.png",
+    "bronze-normal.png",
+    "bronze-roughness.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-bronze-aged/",
+   "minutes": 7,
+   "difficulty": "easy"
+  },
+  {
+   "id": "tex-parchment",
+   "cat": "textures",
+   "title": "Parchment and scroll paper",
+   "makes": "Parchment paper that repeats smoothly, plus a scroll edge strip",
+   "tool": "chatgpt",
+   "prompt": "Job tex-parchment. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake a seamless tileable parchment paper texture 1024x1024 (warm cream, faint fibres, a few tiny stains, no writing), and a 1024x256 strip of burnt, torn parchment edge on a transparent background (PNG with alpha).\n\nFiles to deliver (exact names): parchment-albedo.png, parchment-edge.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-parchment/ (open a pull request on branch chatgpt/tex-parchment); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-parchment/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-parchment/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "parchment-albedo.png",
+    "parchment-edge.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-parchment/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "tex-fire-sheet",
+   "cat": "textures",
+   "title": "Flame animation sheet",
+   "makes": "A 4 x 4 grid of flame pictures on a see-through background",
+   "tool": "chatgpt",
+   "prompt": "Job tex-fire-sheet. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake one PNG sprite sheet 2048x2048, a 4 x 4 grid of 512x512 frames of a single torch flame burning (loops from the last frame back to the first), orange-yellow core fading to deep red at the tips, transparent background (alpha), no smoke, no torch, no text. Add the frame order (left to right, top to bottom) to DONE.md.\n\nFiles to deliver (exact names): fire-sheet-4x4.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-fire-sheet/ (open a pull request on branch chatgpt/tex-fire-sheet); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-fire-sheet/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-fire-sheet/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "fire-sheet-4x4.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-fire-sheet/",
+   "minutes": 9,
+   "difficulty": "hard"
+  },
+  {
+   "id": "tex-water-caustics",
+   "cat": "textures",
+   "title": "Water caustics and ripples",
+   "makes": "A repeating pattern of light under water, and a ripple picture for water",
+   "tool": "chatgpt",
+   "prompt": "Job tex-water-caustics. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake two seamless tileable 1024x1024 textures: (1) underwater caustics, bright light net on pure black, (2) a gentle water ripple normal map (tangent space). No text.\n\nFiles to deliver (exact names): caustics.png, water-normal.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-water-caustics/ (open a pull request on branch chatgpt/tex-water-caustics); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-water-caustics/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-water-caustics/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "caustics.png",
+    "water-normal.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-water-caustics/",
+   "minutes": 7,
+   "difficulty": "medium"
+  },
+  {
+   "id": "tex-lava-cracks",
+   "cat": "textures",
+   "title": "Lava and hot cracks",
+   "makes": "Dark crust with orange cracks, colour and emissive maps",
+   "tool": "chatgpt",
+   "prompt": "Job tex-lava-cracks. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake a seamless tileable 1024x1024 pair: albedo of dark cooled lava crust, and an emissive map (cracks orange-yellow on pure black, same layout). No text.\n\nFiles to deliver (exact names): lava-albedo.png, lava-emissive.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/tex-lava-cracks/ (open a pull request on branch chatgpt/tex-lava-cracks); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/tex-lava-cracks/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/tex-lava-cracks/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "lava-albedo.png",
+    "lava-emissive.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/tex-lava-cracks/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "sky-time-of-day",
+   "cat": "textures",
+   "title": "Four times of day skies",
+   "makes": "Four ultra-wide sky pictures with no visible seam: dawn, noon, dusk, storm",
+   "tool": "chatgpt",
+   "prompt": "Job sky-time-of-day. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake four seamless equirectangular-style sky panoramas, 4096x2048 if you can (otherwise as wide as possible, 2:1): dawn (gold and pink over layered clouds), noon (clear deep blue with few thin clouds), dusk (soft indigo fading to amber with a first star), storm (dark green-grey cloud wall with a distant lightning). No ground, no sun disc detail, no text.\n\nFiles to deliver (exact names): sky-dawn.png, sky-noon.png, sky-dusk.png, sky-storm.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/sky-time-of-day/ (open a pull request on branch chatgpt/sky-time-of-day); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/sky-time-of-day/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/sky-time-of-day/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "sky-dawn.png",
+    "sky-noon.png",
+    "sky-dusk.png",
+    "sky-storm.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/sky-time-of-day/",
+   "minutes": 10,
+   "difficulty": "medium"
+  },
+  {
+   "id": "sky-olympus-cube",
+   "cat": "textures",
+   "title": "Mount Olympus sky box",
+   "makes": "Six square faces for a skybox of Mount Olympus above the clouds at night",
+   "tool": "chatgpt",
+   "prompt": "Job sky-olympus-cube. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake six 1024x1024 images that form a seamless skybox (faces px, nx, py, ny, pz, nz) of a night sky above a sea of clouds with the peak of Mount Olympus lit faintly by warm gold dawn light on one horizon. The edges of neighbouring faces must match. No text.\n\nFiles to deliver (exact names): px.png, nx.png, py.png, ny.png, pz.png, nz.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/sky-olympus-cube/ (open a pull request on branch chatgpt/sky-olympus-cube); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/sky-olympus-cube/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/sky-olympus-cube/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "px.png",
+    "nx.png",
+    "py.png",
+    "ny.png",
+    "pz.png",
+    "nz.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/sky-olympus-cube/",
+   "minutes": 12,
+   "difficulty": "hard"
+  },
+  {
+   "id": "icons-new-apps",
+   "cat": "art",
+   "title": "Icons for the newer apps",
+   "makes": "Ten 1024 px icons in the same Greek emblem style",
+   "tool": "chatgpt",
+   "prompt": "Job icons-new-apps. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake 10 square app icons, 1024x1024, one consistent style: a single Greek emblem in matte gold and bronze on a warm near-black (#14110e) marble background, soft light, no glow, no neon, no text, crisp, premium and calm. Ares (a spear and shield, terracotta), Plutus (a gold coin vault), Athena (an owl), Forum (a marble tablet with a laurel), Labyrinth (a spiral maze), Argus (a many-eyed peacock feather), Nemesis (a balance scale), Chronos (an hourglass wrapped in a serpent), Hephaestus (an anvil with sparks), Bridge (a stone arch bridge). Each as its own file.\n\nFiles to deliver (exact names): ares.png, plutus.png, athena.png, forum.png, labyrinth.png, argus.png, nemesis.png, chronos.png, hephaestus.png, bridge.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/icons-new-apps/ (open a pull request on branch chatgpt/icons-new-apps); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/icons-new-apps/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/icons-new-apps/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "ares.png",
+    "plutus.png",
+    "athena.png",
+    "forum.png",
+    "labyrinth.png",
+    "argus.png",
+    "nemesis.png",
+    "chronos.png",
+    "hephaestus.png",
+    "bridge.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/icons-new-apps/",
+   "minutes": 10,
+   "difficulty": "medium"
+  },
+  {
+   "id": "icons-mono",
+   "cat": "art",
+   "title": "One-colour icon set",
+   "makes": "Monochrome SVG icons for small sizes",
+   "tool": "chatgpt",
+   "prompt": "Job icons-mono. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nDesign a set of 24 simple one-colour line icons (one per OLYMPUS app: Jarvis, Zenith, Oracle, Odeon, Fates, Data City, Daphne, Prometheus, Pantheon, Mind, Arena, Kalshi, Tyche, Hermes, Plutus, Ares, Athena, Forum, Labyrinth, Argus, Nemesis, Chronos, Hephaestus, Bridge) as ONE SVG file with a <symbol id=\"app-name\"> for each, 24x24 viewBox, 1.75 stroke, currentColor, round caps, no fills except small dots, no text. In README.md list the symbol ids. No scripts, no external references.\n\nFiles to deliver (exact names): icons-mono-sheet.svg, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/icons-mono/ (open a pull request on branch chatgpt/icons-mono); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/icons-mono/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/icons-mono/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "icons-mono-sheet.svg",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/icons-mono/",
+   "minutes": 9,
+   "difficulty": "medium"
+  },
+  {
+   "id": "splash-1",
+   "cat": "art",
+   "title": "Splash screens 1 of 4",
+   "makes": "Five portrait splash screens",
+   "tool": "chatgpt",
+   "prompt": "Job splash-1. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake 5 portrait splash screens, 1170x2532, cinematic and minimal: the app's emblem in gold and bronze in the centre on a calm dusk gradient (indigo to amber) with a faint marble floor reflection, no text. Apps: Jarvis (a bronze orb), Zenith (rising sun, gold), Oracle (an eye in a bronze ring), Odeon (Greek theatre of film, terracotta), Fates (three threads, amber).\n\nFiles to deliver (exact names): jarvis.png, zenith.png, oracle.png, odeon.png, fates.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/splash-1/ (open a pull request on branch chatgpt/splash-1); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/splash-1/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/splash-1/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "jarvis.png",
+    "zenith.png",
+    "oracle.png",
+    "odeon.png",
+    "fates.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/splash-1/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "splash-2",
+   "cat": "art",
+   "title": "Splash screens 2 of 4",
+   "makes": "Five portrait splash screens",
+   "tool": "chatgpt",
+   "prompt": "Job splash-2. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake 5 portrait splash screens, 1170x2532, cinematic and minimal: the app's emblem in gold and bronze in the centre on a calm dusk gradient (indigo to amber), no text. Apps: Data City (skyline of marble towers, aegean blue), Daphne (a laurel tree, olive green), Prometheus (a torch flame, amber), Pantheon (a temple with columns, gold), Mind (an owl-lit library, aegean blue).\n\nFiles to deliver (exact names): datacity.png, daphne.png, prometheus.png, pantheon.png, mind.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/splash-2/ (open a pull request on branch chatgpt/splash-2); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/splash-2/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/splash-2/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "datacity.png",
+    "daphne.png",
+    "prometheus.png",
+    "pantheon.png",
+    "mind.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/splash-2/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "splash-3",
+   "cat": "art",
+   "title": "Splash screens 3 of 4",
+   "makes": "Five portrait splash screens",
+   "tool": "chatgpt",
+   "prompt": "Job splash-3. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake 5 portrait splash screens, 1170x2532, cinematic and minimal: the app's emblem in gold and bronze in the centre on a calm dusk gradient (indigo to amber), no text. Apps: Arena (colosseum with a laurel crown, amber), Kalshi (a K coin, green), Tyche (a wheel of fortune, bronze), Hermes (a winged helmet, gold), Plutus (a vault of coins, gold).\n\nFiles to deliver (exact names): arena.png, kalshi.png, tyche.png, hermes.png, plutus.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/splash-3/ (open a pull request on branch chatgpt/splash-3); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/splash-3/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/splash-3/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "arena.png",
+    "kalshi.png",
+    "tyche.png",
+    "hermes.png",
+    "plutus.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/splash-3/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "splash-4",
+   "cat": "art",
+   "title": "Splash screens 4 of 4",
+   "makes": "Eight portrait splash screens",
+   "tool": "chatgpt",
+   "prompt": "Job splash-4. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake 8 portrait splash screens, 1170x2532, cinematic and minimal: the app's emblem in gold and bronze in the centre on a calm dusk gradient (indigo to amber), no text. Apps: Ares (spear and shield, terracotta), Athena (owl, aegean blue), Forum (marble tablets, olive), Labyrinth (spiral maze, terracotta), Argus (many eyes, aegean blue), Nemesis (scale, bronze), Chronos (hourglass and serpent, bronze), Hephaestus (anvil, bronze).\n\nFiles to deliver (exact names): ares.png, athena.png, forum.png, labyrinth.png, argus.png, nemesis.png, chronos.png, hephaestus.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/splash-4/ (open a pull request on branch chatgpt/splash-4); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/splash-4/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/splash-4/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "ares.png",
+    "athena.png",
+    "forum.png",
+    "labyrinth.png",
+    "argus.png",
+    "nemesis.png",
+    "chronos.png",
+    "hephaestus.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/splash-4/",
+   "minutes": 16,
+   "difficulty": "hard"
+  },
+  {
+   "id": "art-hero-banners",
+   "cat": "art",
+   "title": "Hero banners per area",
+   "makes": "Wide banners for the dashboard sections",
+   "tool": "chatgpt",
+   "prompt": "Job art-hero-banners. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMake 4 wide banners 2400x800, subtle and calm (warm dark tones) so text can sit on top: Trading (storm and lightning over a marble harbour), Money (gold coins on a marble table in warm morning haze), Mind (a quiet marble library at dusk), Life (sunrise over a Greek hillside). No text, nothing busy in the middle.\n\nFiles to deliver (exact names): banner-trading.png, banner-money.png, banner-mind.png, banner-life.png.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/art-hero-banners/ (open a pull request on branch chatgpt/art-hero-banners); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/art-hero-banners/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/art-hero-banners/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "banner-trading.png",
+    "banner-money.png",
+    "banner-mind.png",
+    "banner-life.png",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/art-hero-banners/",
+   "minutes": 9,
+   "difficulty": "easy"
+  },
+  {
+   "id": "logo-olympus-variants",
+   "cat": "logo",
+   "title": "OLYMPUS mark variants",
+   "makes": "Ten variants of the O / laurel / temple logo as SVG",
+   "tool": "chatgpt",
+   "prompt": "Job logo-olympus-variants. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nDesign 10 different logo marks for OLYMPUS as separate SVG files (viewBox 0 0 256 256, gold and bronze flat fills (no gradients, no glow), a transparent background, no text, no raster images, no scripts). Ideas: an O made of a laurel wreath, an O with a temple pediment inside, an O ring with a lightning bolt, a column capital as an O, an eye in an O, and five more of your own. Keep them simple enough to read at 32 px.\n\nFiles to deliver (exact names): olympus-01.svg, olympus-02.svg, olympus-03.svg, olympus-04.svg, olympus-05.svg, olympus-06.svg, olympus-07.svg, olympus-08.svg, olympus-09.svg, olympus-10.svg.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/logo-olympus-variants/ (open a pull request on branch chatgpt/logo-olympus-variants); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/logo-olympus-variants/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/logo-olympus-variants/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "olympus-01.svg",
+    "olympus-02.svg",
+    "olympus-03.svg",
+    "olympus-04.svg",
+    "olympus-05.svg",
+    "olympus-06.svg",
+    "olympus-07.svg",
+    "olympus-08.svg",
+    "olympus-09.svg",
+    "olympus-10.svg",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/logo-olympus-variants/",
+   "minutes": 10,
+   "difficulty": "medium"
+  },
+  {
+   "id": "glyph-greek-letters",
+   "cat": "logo",
+   "title": "Greek letter set",
+   "makes": "Twenty-four gold Greek letters as SVG",
+   "tool": "chatgpt",
+   "prompt": "Job glyph-greek-letters. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nDesign the 24 Greek capital letters (Alpha to Omega) as ONE SVG sprite with a <symbol id=\"alpha\"> ... <symbol id=\"omega\"> each, 64x64 viewBox, bold classical carved-capital style, filled with currentColor, no text elements (draw the shapes as paths), no scripts. README.md lists the ids.\n\nFiles to deliver (exact names): greek-glyphs.svg, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/glyph-greek-letters/ (open a pull request on branch chatgpt/glyph-greek-letters); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/glyph-greek-letters/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/glyph-greek-letters/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "greek-glyphs.svg",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/glyph-greek-letters/",
+   "minutes": 8,
+   "difficulty": "easy"
+  },
+  {
+   "id": "logo-wordmarks",
+   "cat": "logo",
+   "title": "OLYMPUS name logos",
+   "makes": "Six wordmark styles in SVG",
+   "tool": "chatgpt",
+   "prompt": "Job logo-wordmarks. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nDesign 6 wordmarks of the word OLYMPUS as SVG outlines (letters drawn as paths, not text elements, no fonts needed), viewBox 0 0 640 128: wide classical caps, carved marble caps, thin gold line caps, bronze plaque caps, laurel-decorated caps, minimal monoline. No scripts, no raster images.\n\nFiles to deliver (exact names): wordmark-01.svg, wordmark-02.svg, wordmark-03.svg, wordmark-04.svg, wordmark-05.svg, wordmark-06.svg.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/logo-wordmarks/ (open a pull request on branch chatgpt/logo-wordmarks); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/logo-wordmarks/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/logo-wordmarks/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "wordmark-01.svg",
+    "wordmark-02.svg",
+    "wordmark-03.svg",
+    "wordmark-04.svg",
+    "wordmark-05.svg",
+    "wordmark-06.svg",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/logo-wordmarks/",
+   "minutes": 9,
+   "difficulty": "medium"
+  },
+  {
+   "id": "emblem-ranks",
+   "cat": "logo",
+   "title": "Rank emblems",
+   "makes": "Five rank emblems: Mortal, Hero, Demigod, Olympian, Titan",
+   "tool": "chatgpt",
+   "prompt": "Job emblem-ranks. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nDesign 5 rank emblems for a discipline app as SVG (viewBox 0 0 256 256, no text, no scripts, no raster): Mortal (a plain bronze ring), Hero (a shield with a laurel), Demigod (a winged shield with a small star), Olympian (a golden laurel crown with columns), Titan (a huge bronze crown with a lightning bolt). Each clearly grander than the last.\n\nFiles to deliver (exact names): mortal.svg, hero.svg, demigod.svg, olympian.svg, titan.svg.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/emblem-ranks/ (open a pull request on branch chatgpt/emblem-ranks); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/emblem-ranks/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/emblem-ranks/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "mortal.svg",
+    "hero.svg",
+    "demigod.svg",
+    "olympian.svg",
+    "titan.svg",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/emblem-ranks/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "sound-ui-sfx",
+   "cat": "sound",
+   "title": "Button and screen sound ideas",
+   "makes": "Short written recipes for the six button and screen sounds",
+   "tool": "chatgpt",
+   "prompt": "Job sound-ui-sfx. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite sound-design briefs (TEXT ONLY, do not make audio) for these UI sounds of a calm classical Greek app (wood, bronze, lyre, soft air; nothing synthetic or sci-fi): tick, tap, portal, thunder, rankup, pad. In ui-sounds.json give for each sound an object with: feel (one plain sentence), oscillators (type, frequency in Hz, detune), envelope (attack, decay, sustain, release in seconds), filter (type, cutoff Hz, resonance, any sweep), noise (type, level), reverb (size, mix), lfo (target, rate, depth), length in ms, and a note on how it must stay quiet and soft on a phone. README.md explains the file in plain words.\n\nFiles to deliver (exact names): ui-sounds.json, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/sound-ui-sfx/ (open a pull request on branch chatgpt/sound-ui-sfx); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/sound-ui-sfx/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/sound-ui-sfx/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "ui-sounds.json",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/sound-ui-sfx/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "sound-ambient",
+   "cat": "sound",
+   "title": "Ambient drone briefs",
+   "makes": "Per-app ambient pad descriptions",
+   "tool": "chatgpt",
+   "prompt": "Job sound-ambient. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite ambient background sound briefs (TEXT ONLY, no audio) for 12 apps (Jarvis, Zenith, Oracle, Odeon, Fates, Data City, Daphne, Prometheus, Pantheon, Mind, Arena, Tyche). For each app give: mood in 5 words, root note and scale, 3 oscillator layers (waveform, octave, detune cents), a slow filter movement (cutoff range Hz, rate), a noise bed (type, level), reverb size, a quiet loudness target in dB, and one 'event' sound idea. Must be very soft: it plays under speech.\n\nFiles to deliver (exact names): ambient.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/sound-ambient/ (open a pull request on branch chatgpt/sound-ambient); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/sound-ambient/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/sound-ambient/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "ambient.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/sound-ambient/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "sound-jarvis-fx",
+   "cat": "sound",
+   "title": "Jarvis voice effects brief",
+   "makes": "How to make her voice feel warm and calm without hurting clarity",
+   "tool": "chatgpt",
+   "prompt": "Job sound-jarvis-fx. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite a short brief (Markdown, plain words) for the effects chain on Jarvis's female voice in a phone web app (Web Audio API): a gentle formant lift, a very light chorus, a short plate reverb, a soft high shelf, a ducking rule for background music. Give each effect as a Web Audio node with exact starting parameter values, and say what to change if the voice sounds metallic or muddy.\n\nFiles to deliver (exact names): jarvis-voice-fx.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/sound-jarvis-fx/ (open a pull request on branch chatgpt/sound-jarvis-fx); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/sound-jarvis-fx/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/sound-jarvis-fx/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "jarvis-voice-fx.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/sound-jarvis-fx/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "sound-win-loss",
+   "cat": "sound",
+   "title": "Win and loss jingles",
+   "makes": "Briefs for celebration and calm 'bad day' sounds",
+   "tool": "chatgpt",
+   "prompt": "Job sound-win-loss. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite synth briefs (TEXT ONLY) for 6 short stingers: green day, red day (calm, never mocking), eval passed, payout received, streak extended, rank up. In stingers.json give for each: length ms, the notes (MIDI numbers) and rhythm, waveform per layer, envelope, filter, reverb, and loudness. Reward process, never risk.\n\nFiles to deliver (exact names): stingers.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/sound-win-loss/ (open a pull request on branch chatgpt/sound-win-loss); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/sound-win-loss/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/sound-win-loss/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "stingers.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/sound-win-loss/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "copy-tooltips",
+   "cat": "copy",
+   "title": "Plain-words tooltips",
+   "makes": "A glossary of trading and app terms in one sentence each",
+   "tool": "chatgpt",
+   "prompt": "Job copy-tooltips. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite plain-words tooltips (max 140 characters each, an 18-year-old with no finance background must get it) for these terms used in my trading dashboards: R multiple, stop, target, breakeven, drawdown, trailing floor, eval, funded account, payout, profit factor, win rate, expectancy, micro contract, MNQ, NQ, sweep, CISD, FVG, VIX, session, paper trading, slippage, commission, Kelly. Output tooltips.json as an object {term: text}. No advice words like 'buy' or 'sell'.\n\nFiles to deliver (exact names): tooltips.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/copy-tooltips/ (open a pull request on branch chatgpt/copy-tooltips); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/copy-tooltips/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/copy-tooltips/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "tooltips.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/copy-tooltips/",
+   "minutes": 9,
+   "difficulty": "easy"
+  },
+  {
+   "id": "copy-empty-states",
+   "cat": "copy",
+   "title": "Empty-state copy per app",
+   "makes": "A title and a helpful line for when an app has no data yet",
+   "tool": "chatgpt",
+   "prompt": "Job copy-empty-states. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nFor each of these apps write the text shown when there is no data yet: Jarvis, Zenith, Oracle, Odeon, Fates, Data City, Daphne, Prometheus, Pantheon, Mind, Arena, Kalshi, Tyche, Hermes, Plutus, Ares, Athena, Forum, Labyrinth, Argus, Nemesis, Chronos, Hephaestus, Bridge. In empty-states.json give for each app: title (max 28 characters), line (max 90 characters, says what will appear and what to do, warm, a little Greek), and button (max 18 characters). Never say 'error'.\n\nFiles to deliver (exact names): empty-states.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/copy-empty-states/ (open a pull request on branch chatgpt/copy-empty-states); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/copy-empty-states/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/copy-empty-states/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "empty-states.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/copy-empty-states/",
+   "minutes": 9,
+   "difficulty": "easy"
+  },
+  {
+   "id": "copy-onboarding",
+   "cat": "copy",
+   "title": "First-run onboarding text",
+   "makes": "Three short onboarding screens per app",
+   "tool": "chatgpt",
+   "prompt": "Job copy-onboarding. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite first-run onboarding for these apps: Jarvis, Zenith, Oracle, Fates, Data City, Arena, Tyche, Hermes, Plutus, Ares, Forum, Bridge. For each: 3 screens, each with a headline (max 24 characters) and one line (max 80 characters). Plain words, no jargon, a bit of epic Greek flavour. Output onboarding.json as {app: [{h, t}, ...]}.\n\nFiles to deliver (exact names): onboarding.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/copy-onboarding/ (open a pull request on branch chatgpt/copy-onboarding); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/copy-onboarding/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/copy-onboarding/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "onboarding.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/copy-onboarding/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "copy-friendly-errors",
+   "cat": "copy",
+   "title": "Friendly messages",
+   "makes": "Offline, stale, loading and stopped messages",
+   "tool": "chatgpt",
+   "prompt": "Job copy-friendly-errors. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite friendly one-line messages (max 80 characters) for these states in my phone apps: offline, data is stale, loading, the bot is stopped, the PC is off, market closed, weekend, no trades today, feed not linked yet, saved, copied. Give 3 variants of each. Output messages.json as {state: [variants]}. Calm and kind, never scary, never blame the user.\n\nFiles to deliver (exact names): messages.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/copy-friendly-errors/ (open a pull request on branch chatgpt/copy-friendly-errors); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/copy-friendly-errors/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/copy-friendly-errors/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "messages.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/copy-friendly-errors/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "copy-notifications",
+   "cat": "copy",
+   "title": "Push notification texts",
+   "makes": "Short push texts for key moments",
+   "tool": "chatgpt",
+   "prompt": "Job copy-notifications. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite push notification texts (title max 30 characters, body max 80) for: trade opened, trade closed in profit, trade closed at the stop, daily loss limit near, eval target reached, eval failed, payout available, bot stopped, morning briefing ready, oath not sealed by 9 am, streak at risk. Three variants each, output notifications.json. Paper trading wording; no hype, no 'guaranteed'.\n\nFiles to deliver (exact names): notifications.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/copy-notifications/ (open a pull request on branch chatgpt/copy-notifications); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/copy-notifications/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/copy-notifications/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "notifications.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/copy-notifications/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "lore-olympians",
+   "cat": "lore",
+   "title": "The twelve Olympians as characters",
+   "makes": "A profile for each of the 12 gods as a guide in the apps",
+   "tool": "chatgpt",
+   "prompt": "Job lore-olympians. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite profiles for the 12 Olympians as characters that guide a trading-discipline app: Zeus, Hera, Poseidon, Demeter, Athena, Apollo, Artemis, Ares, Aphrodite, Hephaestus, Hermes, Hestia. For each: domain in the app (what they watch over), a 2-sentence story, a signature line (max 90 characters), an element and a colour (hex), and one 'warning' line they say when the user is about to break a rule. Output olympians.json as an array. Tone: epic, short, never mystical advice about markets.\n\nFiles to deliver (exact names): olympians.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/lore-olympians/ (open a pull request on branch chatgpt/lore-olympians); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/lore-olympians/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/lore-olympians/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "olympians.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/lore-olympians/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "lore-arenas",
+   "cat": "lore",
+   "title": "Each app as a place",
+   "makes": "A short origin story for every app as a Greek location",
+   "tool": "chatgpt",
+   "prompt": "Job lore-arenas. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nFor each app (Jarvis, Zenith, Oracle, Odeon, Fates, Data City, Daphne, Prometheus, Pantheon, Mind, Arena, Kalshi, Tyche, Hermes, Plutus, Ares, Athena, Forum, Labyrinth, Argus, Nemesis, Chronos, Hephaestus, Bridge) write a place in the OLYMPUS world: name (a Greek-style place name), a 3-sentence origin story, who guards it, and one line that appears when you open it (max 80 characters). Output places.json as {app: {...}}.\n\nFiles to deliver (exact names): places.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/lore-arenas/ (open a pull request on branch chatgpt/lore-arenas); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/lore-arenas/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/lore-arenas/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "places.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/lore-arenas/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "lore-ranks",
+   "cat": "lore",
+   "title": "The road from Mortal to Titan",
+   "makes": "Story beats and quotes for the five ranks",
+   "tool": "chatgpt",
+   "prompt": "Job lore-ranks. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite the story of the five ranks Mortal, Hero, Demigod, Olympian, Titan: for each a 3-sentence chapter, the quote shown when you earn it (max 100 characters), the unlock teaser line, and a rank-up fanfare description in words (no audio). Output ranks.json. It rewards discipline and process, never profit or risk.\n\nFiles to deliver (exact names): ranks.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/lore-ranks/ (open a pull request on branch chatgpt/lore-ranks); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/lore-ranks/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/lore-ranks/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "ranks.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/lore-ranks/",
+   "minutes": 7,
+   "difficulty": "easy"
+  },
+  {
+   "id": "lore-daily-lines",
+   "cat": "lore",
+   "title": "Sixty daily lines",
+   "makes": "Short motivational lines for the Forum morning briefing",
+   "tool": "chatgpt",
+   "prompt": "Job lore-daily-lines. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite 60 one-line morning sayings (max 100 characters) in the voice of the Greek gods for a trading-discipline briefing: patience, process, small size, calm after a loss, rest. Output daily-lines.json as an array of {line, god}. No promises of profit, no market predictions.\n\nFiles to deliver (exact names): daily-lines.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/lore-daily-lines/ (open a pull request on branch chatgpt/lore-daily-lines); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/lore-daily-lines/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/lore-daily-lines/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "daily-lines.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/lore-daily-lines/",
+   "minutes": 8,
+   "difficulty": "easy"
+  },
+  {
+   "id": "obs-daily-template",
+   "cat": "obsidian",
+   "title": "Daily note template",
+   "makes": "A Markdown daily note with a morning oath and evening review",
+   "tool": "chatgpt",
+   "prompt": "Job obs-daily-template. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite an Obsidian daily-note template (Markdown, Templater-free so it works in plain Obsidian with the Daily Notes core plugin) with: a morning section (date, mood 1-5, sleep hours, the oath of three pledges as tick boxes: follow the plan, no revenge trade, write the journal), top 3 tasks, a trading section (bot status, trades reviewed, rules kept), gym, study, money, an evening review with 3 questions, and tags. README.md says where to put it.\n\nFiles to deliver (exact names): Daily.md, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/obs-daily-template/ (open a pull request on branch chatgpt/obs-daily-template); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/obs-daily-template/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/obs-daily-template/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "Daily.md",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/obs-daily-template/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "obs-trading-journal",
+   "cat": "obsidian",
+   "title": "Trading journal templates",
+   "makes": "Trade review and weekly review templates",
+   "tool": "chatgpt",
+   "prompt": "Job obs-trading-journal. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite three Obsidian templates in Markdown for reviewing a futures trading process (paper and eval accounts): a Trade review (setup, entry, stop beyond the sweep, target, result in R and dollars, rules kept yes/no, what I would repeat), a Weekly review (numbers, rule breaks, best and worst trade, one goal for next week), a Monthly review (pass-rate of the checklist, drawdown, money per month, lessons). Each with YAML properties at the top. README.md explains the folders.\n\nFiles to deliver (exact names): Trade review.md, Weekly review.md, Monthly review.md, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/obs-trading-journal/ (open a pull request on branch chatgpt/obs-trading-journal); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/obs-trading-journal/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/obs-trading-journal/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "Trade review.md",
+    "Weekly review.md",
+    "Monthly review.md",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/obs-trading-journal/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "obs-weekly-review",
+   "cat": "obsidian",
+   "title": "Life weekly review",
+   "makes": "A weekly review across trading, gym, study and money",
+   "tool": "chatgpt",
+   "prompt": "Job obs-weekly-review. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite one Obsidian note template for a weekly life review: wins, misses, trading discipline score out of 10, gym sessions, study hours, money in and out, sleep average, one thing to stop, one to start, one goal. Markdown only, short, with a checklist.\n\nFiles to deliver (exact names): Life weekly.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/obs-weekly-review/ (open a pull request on branch chatgpt/obs-weekly-review); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/obs-weekly-review/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/obs-weekly-review/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "Life weekly.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/obs-weekly-review/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "obs-starter-vault",
+   "cat": "obsidian",
+   "title": "Starter notes for Jarvis",
+   "makes": "Ten starter notes Jarvis can read and write to",
+   "tool": "chatgpt",
+   "prompt": "Job obs-starter-vault. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite 10 starter Obsidian notes as separate Markdown files that my assistant Jarvis will read and update: Me, Trading rules (LIT strategy basics: sweep, CISD, stop beyond the sweep, 8R target, one trade a day, paper only), Goals, Routine, Money, Gym, Study, Likes and dislikes, Talk to me (how she should speak to me), Inbox. Fill each with sensible placeholders marked [fill in] and short example lines. Plain words.\n\nFiles to deliver (exact names): Me.md, Trading rules.md, Goals.md, Routine.md, Money.md, Gym.md, Study.md, Likes and dislikes.md, Talk to me.md, Inbox.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/obs-starter-vault/ (open a pull request on branch chatgpt/obs-starter-vault); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/obs-starter-vault/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/obs-starter-vault/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "Me.md",
+    "Trading rules.md",
+    "Goals.md",
+    "Routine.md",
+    "Money.md",
+    "Gym.md",
+    "Study.md",
+    "Likes and dislikes.md",
+    "Talk to me.md",
+    "Inbox.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/obs-starter-vault/",
+   "minutes": 12,
+   "difficulty": "medium"
+  },
+  {
+   "id": "strat-ideas-nq",
+   "cat": "strategy",
+   "title": "Fifteen NQ idea sketches",
+   "makes": "Text-only hypotheses to test in the backtester, with how to test each",
+   "tool": "chatgpt",
+   "prompt": "Job strat-ideas-nq. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nBrainstorm 15 hypotheses for an NQ futures day-trading bot that trades liquidity sweeps then a change-in-state-of-delivery entry with the stop beyond the sweep extreme. TEXT ONLY (no code, no signals, no advice): for each: the idea in 2 sentences, why it might work, how to test it on 5-minute NQ data in 2021-2026 (what to measure: trades per week, profit factor, max drawdown), and one way it could fail. Mark which are NEW and which sound like standard ICT teaching. Paper research only.\n\nFiles to deliver (exact names): ideas.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/strat-ideas-nq/ (open a pull request on branch chatgpt/strat-ideas-nq); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/strat-ideas-nq/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/strat-ideas-nq/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "ideas.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/strat-ideas-nq/",
+   "minutes": 12,
+   "difficulty": "hard"
+  },
+  {
+   "id": "strat-risk-sizing",
+   "cat": "strategy",
+   "title": "Position-sizing ideas",
+   "makes": "Ideas for sizing that follow the stop, text only",
+   "tool": "chatgpt",
+   "prompt": "Job strat-risk-sizing. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite 10 position-sizing ideas for a prop-firm eval (MFFU Builder 50K: 2,000 dollar trailing drawdown, 1,000 daily loss, up to 40 micros) where size follows the stop: for each, a plain formula, a worked example in dollars, when it helps, when it hurts, and what to measure in a backtest. Text only, no advice, paper only.\n\nFiles to deliver (exact names): sizing.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/strat-risk-sizing/ (open a pull request on branch chatgpt/strat-risk-sizing); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/strat-risk-sizing/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/strat-risk-sizing/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "sizing.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/strat-risk-sizing/",
+   "minutes": 9,
+   "difficulty": "medium"
+  },
+  {
+   "id": "strat-regimes",
+   "cat": "strategy",
+   "title": "Market regime ideas",
+   "makes": "Ways to tell a trend day from a range day",
+   "tool": "chatgpt",
+   "prompt": "Job strat-regimes. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nList 12 ways to describe the market regime of an NQ day from data available by 09:30 ET (overnight range, gap, VIX level and change, 18:00 open vs previous close, news day, expiry day...). For each: how to compute it, what it might predict, how to test it honestly (train on one half, check on the other), and the main risk of fooling yourself. Text only, no signals.\n\nFiles to deliver (exact names): regimes.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/strat-regimes/ (open a pull request on branch chatgpt/strat-regimes); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/strat-regimes/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/strat-regimes/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "regimes.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/strat-regimes/",
+   "minutes": 9,
+   "difficulty": "medium"
+  },
+  {
+   "id": "res-prop-rules",
+   "cat": "research",
+   "title": "Prop firm rules summary",
+   "makes": "A sourced table of the rules of six futures prop firms",
+   "tool": "chatgpt",
+   "prompt": "Job res-prop-rules. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nSearch the web and summarise the CURRENT rules of futures prop firms (MyFundedFutures, Lucid Trading, FundedNext Futures, Apex Trader Funding, Topstep, Take Profit Trader): account sizes, profit target, max loss (trailing or end-of-day), daily loss, contract limits, consistency rule, payout rules (minimum, split, buffer), news trading, bots/automation allowed or not, activation fee. Table in rules-table.md; every row has the source link and the date you read it in sources.md. Mark anything you could not confirm as UNCONFIRMED.\n\nFiles to deliver (exact names): rules-table.md, sources.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/res-prop-rules/ (open a pull request on branch chatgpt/res-prop-rules); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/res-prop-rules/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/res-prop-rules/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "rules-table.md",
+    "sources.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/res-prop-rules/",
+   "minutes": 15,
+   "difficulty": "hard"
+  },
+  {
+   "id": "res-nq-calendar",
+   "cat": "research",
+   "title": "Recurring NQ market events",
+   "makes": "A list of recurring events that move NQ with typical times (ET)",
+   "tool": "chatgpt",
+   "prompt": "Job res-nq-calendar. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nList the recurring US events that move Nasdaq futures, with the usual time in New York time: CPI, jobs report, FOMC statement and press conference, PPI, retail sales, jobless claims, ISM, quad witching, monthly opex, MNQ/NQ rollover, the 08:30 and 10:00 data prints, Treasury auctions. For each: how often, usual time, why it matters in one plain sentence, source link. Put sources in sources.md.\n\nFiles to deliver (exact names): events.md, sources.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/res-nq-calendar/ (open a pull request on branch chatgpt/res-nq-calendar); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/res-nq-calendar/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/res-nq-calendar/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "events.md",
+    "sources.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/res-nq-calendar/",
+   "minutes": 10,
+   "difficulty": "medium"
+  },
+  {
+   "id": "res-kalshi-markets",
+   "cat": "research",
+   "title": "Kalshi market types",
+   "makes": "How the main Kalshi market families work",
+   "tool": "chatgpt",
+   "prompt": "Job res-kalshi-markets. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nExplain in plain words how Kalshi's main market families work (15-minute crypto up/down, hourly and daily crypto ranges, gold and silver, S&P and Nasdaq ranges, weather, economics): what a contract is, price vs probability, fees, how settlement works, typical liquidity, and the common ways people lose money. Source links in sources.md. Education only, no advice.\n\nFiles to deliver (exact names): kalshi-markets.md, sources.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/res-kalshi-markets/ (open a pull request on branch chatgpt/res-kalshi-markets); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/res-kalshi-markets/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/res-kalshi-markets/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "kalshi-markets.md",
+    "sources.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/res-kalshi-markets/",
+   "minutes": 10,
+   "difficulty": "medium"
+  },
+  {
+   "id": "fx-demo-trades",
+   "cat": "fixtures",
+   "title": "Practice trade history",
+   "makes": "200 made-up trades the apps can read",
+   "tool": "chatgpt",
+   "prompt": "Job fx-demo-trades. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nGenerate a SYNTHETIC (clearly fake) list of 200 NQ/MNQ trades over the last 120 weekdays as trades.json: an array of {id, day (YYYY-MM-DD), time (HH:MM, between 02:00 and 15:30 ET), side (long/short), qty, entry, stop, target, exit, risk_pts, pnl (dollars after 1.25 points of costs), r (R multiple), exit_reason (target/stop/breakeven/time)}. Make it realistic: about 1 trade a day, a win rate near 45 percent, a few 8R winners, stop 8-60 points. README.md says it is fake test data.\n\nFiles to deliver (exact names): trades.json, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/fx-demo-trades/ (open a pull request on branch chatgpt/fx-demo-trades); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/fx-demo-trades/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/fx-demo-trades/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "trades.json",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/fx-demo-trades/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "fx-demo-kalshi",
+   "cat": "fixtures",
+   "title": "Practice Kalshi feed",
+   "makes": "A fake Kalshi data file the apps can read",
+   "tool": "chatgpt",
+   "prompt": "Job fx-demo-kalshi. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nGenerate a SYNTHETIC kalshi.json for testing an app: {v: 3, t (unix), name, running, balance, today_pnl, week_pnl, total_pnl, positions: [...6 open bets...], trades: [...80 settled bets with ticker, title, side, contracts, price, pnl, t, category, strategy...], days: [[YYYY-MM-DD, pnl]...30], strategies: [{name, wins, losses, total_pnl}...3]}. Crypto 15-minute markets, gold, S&P. Realistic numbers, balance near 2,400 dollars. README.md says it is fake.\n\nFiles to deliver (exact names): kalshi.json, README.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/fx-demo-kalshi/ (open a pull request on branch chatgpt/fx-demo-kalshi); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/fx-demo-kalshi/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/fx-demo-kalshi/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "kalshi.json",
+    "README.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/fx-demo-kalshi/",
+   "minutes": 7,
+   "difficulty": "medium"
+  },
+  {
+   "id": "fx-demo-weeks",
+   "cat": "fixtures",
+   "title": "Practice weekly recaps",
+   "makes": "Eight weeks of fake wrapped data",
+   "tool": "chatgpt",
+   "prompt": "Job fx-demo-weeks. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nGenerate SYNTHETIC weekly recap data for 8 weeks as weeks.json: [{from, to, net, trades, wins, losses, best_trade: {day, pnl, r}, worst_trade: {...}, discipline: score 0-100, rules_broken: [..]}]. Include one red week and one 8R week. Fake numbers only.\n\nFiles to deliver (exact names): weeks.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/fx-demo-weeks/ (open a pull request on branch chatgpt/fx-demo-weeks); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/fx-demo-weeks/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/fx-demo-weeks/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "weeks.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/fx-demo-weeks/",
+   "minutes": 7,
+   "difficulty": "medium"
+  },
+  {
+   "id": "fx-demo-planner",
+   "cat": "fixtures",
+   "title": "Practice planner data",
+   "makes": "Fake tasks, events and habits for tests",
+   "tool": "chatgpt",
+   "prompt": "Job fx-demo-planner. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nGenerate SYNTHETIC planner data as planner-demo.json: {tasks: 30 [{id, title, date, done, p (0-3), est (minutes), proj}], events: 20 [{id, title, date, start, end}], habits: 5 [{id, name, color, done: [dates over 90 days]}]}. Dates within 2026-09-01 to 2026-11-30. Normal student/trader life, nothing private.\n\nFiles to deliver (exact names): planner-demo.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/fx-demo-planner/ (open a pull request on branch chatgpt/fx-demo-planner); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/fx-demo-planner/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/fx-demo-planner/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "planner-demo.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/fx-demo-planner/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "docs-readme-plain",
+   "cat": "docs",
+   "title": "A plain-words README",
+   "makes": "A friendly intro page for the front of the project",
+   "tool": "chatgpt",
+   "prompt": "Job docs-readme-plain. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nRead README.md and STRATEGY.md in the repo. Write README-plain.md: what this project is in 5 plain sentences, the three things the owner looks at every day, a picture-free map of the apps (one line each), and how to ask for changes. No jargon, no secrets, do not change the existing README.\n\nFiles to deliver (exact names): README-plain.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/docs-readme-plain/ (open a pull request on branch chatgpt/docs-readme-plain); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/docs-readme-plain/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/docs-readme-plain/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "README-plain.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/docs-readme-plain/",
+   "minutes": 9,
+   "difficulty": "easy"
+  },
+  {
+   "id": "docs-faq",
+   "cat": "docs",
+   "title": "Owner FAQ",
+   "makes": "Thirty questions the owner asks, answered",
+   "tool": "chatgpt",
+   "prompt": "Job docs-faq. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nRead docs/CLAUDE_REFERENCE.md and STRATEGY.md. Write faq.md with 30 questions an 18-year-old trader would ask about this system (what is an eval, why paper only, what does GO/WAIT/HALT mean, what is R, how do I know the bot is alive, what if the PC is off...) and short plain answers, each ending with where to look in the apps. Only state what the docs say; mark guesses as GUESS.\n\nFiles to deliver (exact names): faq.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/docs-faq/ (open a pull request on branch chatgpt/docs-faq); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/docs-faq/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/docs-faq/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "faq.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/docs-faq/",
+   "minutes": 10,
+   "difficulty": "medium"
+  },
+  {
+   "id": "docs-glossary",
+   "cat": "docs",
+   "title": "Glossary",
+   "makes": "One-page glossary of every term in the apps",
+   "tool": "chatgpt",
+   "prompt": "Job docs-glossary. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite glossary.md: 80 terms used across the OLYMPUS apps (trading, prop firms, Kalshi, the planner, the Greek theme), alphabetical, one plain sentence each, no jargon inside the definitions.\n\nFiles to deliver (exact names): glossary.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/docs-glossary/ (open a pull request on branch chatgpt/docs-glossary); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/docs-glossary/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/docs-glossary/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "glossary.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/docs-glossary/",
+   "minutes": 8,
+   "difficulty": "easy"
+  },
+  {
+   "id": "docs-release-notes",
+   "cat": "docs",
+   "title": "Release notes in plain words",
+   "makes": "What changed this month, for the owner",
+   "tool": "chatgpt",
+   "prompt": "Job docs-release-notes. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nRead the git log of the repo (last 60 commits). Write release-notes.md for the owner: 10 bullets grouped under New, Better, Fixed, each one plain sentence about what he can see or do now. Skip anything about tests or internals.\n\nFiles to deliver (exact names): release-notes.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/docs-release-notes/ (open a pull request on branch chatgpt/docs-release-notes); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/docs-release-notes/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/docs-release-notes/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "release-notes.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/docs-release-notes/",
+   "minutes": 7,
+   "difficulty": "easy"
+  },
+  {
+   "id": "ui-mock-home",
+   "cat": "mockup",
+   "title": "Home screen redesign brief",
+   "makes": "Three written mockups of the Jarvis home",
+   "tool": "chatgpt",
+   "prompt": "Job ui-mock-home. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite three alternative designs for the Jarvis home screen (phone portrait, iPhone 390x844, calm classical Greek AGORA look, dark warm): for each, a layout described top to bottom with sizes in px, the colours (hex), the type (Iowan Old Style / Palatino serif for headings, system sans for text, SF Pro Rounded for numbers), what animates and how (duration, easing), what a tap does, and what shows when there is no data. Words only, no images.\n\nFiles to deliver (exact names): home-mockups.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/ui-mock-home/ (open a pull request on branch chatgpt/ui-mock-home); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/ui-mock-home/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/ui-mock-home/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "home-mockups.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/ui-mock-home/",
+   "minutes": 9,
+   "difficulty": "medium"
+  },
+  {
+   "id": "ui-mock-cards",
+   "cat": "mockup",
+   "title": "Card system brief",
+   "makes": "A written design system for cards, chips and buttons",
+   "tool": "chatgpt",
+   "prompt": "Job ui-mock-cards. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite a one-page design brief for a set of reusable phone UI parts (marble card, chip, big button, ring gauge, tab bar, toast, bottom sheet): sizes, radii, borders, shadows, colours (hex) for the AGORA theme (ivory #f3ece0, gold #c8a24a, bronze #9c6b3c, olive #7f8a52, terracotta #c96a4a), states (idle, pressed, disabled, loading), and motion. Include exact CSS custom properties as a small code block.\n\nFiles to deliver (exact names): cards.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/ui-mock-cards/ (open a pull request on branch chatgpt/ui-mock-cards); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/ui-mock-cards/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/ui-mock-cards/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "cards.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/ui-mock-cards/",
+   "minutes": 8,
+   "difficulty": "medium"
+  },
+  {
+   "id": "ui-mock-onboarding",
+   "cat": "mockup",
+   "title": "Onboarding flow brief",
+   "makes": "A three-screen wizard for a new user",
+   "tool": "chatgpt",
+   "prompt": "Job ui-mock-onboarding. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nWrite a design brief for a three-screen onboarding wizard of a phone app (connect, teach, first job): screen by screen layout, copy (max 12 words per line), the one big button each, what the progress ring does, the success moment (confetti? sparks? sound?) and how it fails gently.\n\nFiles to deliver (exact names): onboarding-flow.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/ui-mock-onboarding/ (open a pull request on branch chatgpt/ui-mock-onboarding); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/ui-mock-onboarding/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/ui-mock-onboarding/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "onboarding-flow.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/ui-mock-onboarding/",
+   "minutes": 7,
+   "difficulty": "easy"
+  },
+  {
+   "id": "names-taglines",
+   "cat": "names",
+   "title": "App taglines",
+   "makes": "Three taglines per app",
+   "tool": "chatgpt",
+   "prompt": "Job names-taglines. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nFor each app (Jarvis, Zenith, Oracle, Odeon, Fates, Data City, Daphne, Prometheus, Pantheon, Mind, Arena, Kalshi, Tyche, Hermes, Plutus, Ares, Athena, Forum, Labyrinth, Argus, Nemesis, Chronos, Hephaestus, Bridge) write 3 taglines (max 40 characters, plain words, a little epic). Output taglines.json as {app: [3 strings]}.\n\nFiles to deliver (exact names): taglines.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/names-taglines/ (open a pull request on branch chatgpt/names-taglines); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/names-taglines/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/names-taglines/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "taglines.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/names-taglines/",
+   "minutes": 6,
+   "difficulty": "easy"
+  },
+  {
+   "id": "names-bots",
+   "cat": "names",
+   "title": "Bot and strategy names",
+   "makes": "Greek names for bots, strategies and accounts",
+   "tool": "chatgpt",
+   "prompt": "Job names-bots. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nSuggest 40 names for trading bots, strategies and accounts in a Greek-myth style (short, easy to say, no existing company names), each with a one-line meaning. Output bot-names.json as [{name, meaning, fits}] where fits is one of: bot, strategy, account, app.\n\nFiles to deliver (exact names): bot-names.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/names-bots/ (open a pull request on branch chatgpt/names-bots); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/names-bots/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/names-bots/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "bot-names.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/names-bots/",
+   "minutes": 5,
+   "difficulty": "easy"
+  },
+  {
+   "id": "names-features",
+   "cat": "names",
+   "title": "Feature names",
+   "makes": "Catchy names for new dashboard features",
+   "tool": "chatgpt",
+   "prompt": "Job names-features. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nSuggest 40 names for dashboard features (a replay of past trades, a risk calculator, a pre-trade checklist, a weekly recap, a streak tracker, a sound mixer, ...), classical Greek, max 14 characters, each with what it is in one line. Output feature-names.json as [{name, for}].\n\nFiles to deliver (exact names): feature-names.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/names-features/ (open a pull request on branch chatgpt/names-features); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/names-features/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/names-features/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "feature-names.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/names-features/",
+   "minutes": 5,
+   "difficulty": "easy"
+  },
+  {
+   "id": "money-prop-compare",
+   "cat": "money",
+   "title": "Prop-firm rule comparison",
+   "makes": "A side-by-side table of the main futures prop firms' evaluation rules",
+   "tool": "chatgpt",
+   "prompt": "Job money-prop-compare. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Compare the futures prop firms I could use for a 50K evaluation: MyFundedFutures (Builder 50K, what I use), Topstep, Apex Trader Funding, TakeProfitTrader, Tradeify, Alpha Futures, Bulenox, FundingTicks. For each: evaluation fee (one-time or monthly), activation fee, profit target, max loss type (trailing, end-of-day, static) and amount, daily loss limit, max contracts (minis / micros), consistency rule, minimum trading days, news-trading rule, profit split, minimum payout, payout frequency, and scaling. prop-firms.md = one table (firms across, rules down) + 10 plain-words takeaways for a 18-year-old who trades NQ / MNQ day trades only. prop-firms.json = the same as [{firm, plan, fee, target, max_loss_type, max_loss, daily_loss, contracts, consistency, min_days, news_rule, split, min_payout, source, checked_on, verified}] with verified = true only when you read it on the firm's own page.\n\nFiles to deliver (exact names): prop-firms.md, prop-firms.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-prop-compare/ (open a pull request on branch chatgpt/money-prop-compare); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-prop-compare/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-prop-compare/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "prop-firms.md",
+    "prop-firms.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-prop-compare/",
+   "minutes": 14,
+   "difficulty": "hard",
+   "ingest": "python tools/bridge_ingest.py lists prop-firms.md and prop-firms.json under Deliveries (text only, never run). Claude reads the json, checks each row against the firm's page, and updates the prop-firm prices and rules in docs/ (the owner's real prices stay as they are)."
+  },
+  {
+   "id": "money-discount-codes",
+   "cat": "money",
+   "title": "Prop-firm discount codes",
+   "makes": "Which public discount codes or promos exist right now for those firms, and what each really costs",
+   "tool": "chatgpt",
+   "prompt": "Job money-discount-codes. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Find the public discount codes and promotions that are live today for MyFundedFutures, Topstep, Apex, TakeProfitTrader, Tradeify, Alpha Futures and Bulenox 50K evaluations. Never invent a code: only list a code you saw on the firm's own page, its official social account or its official newsletter, with the page name and the date you checked, and mark every other code UNVERIFIED. For each firm: list price, best verified code, price after the code, whether the code works on resets and activation fees, expiry if stated. Then one line on which firm is cheapest to try for 3 attempts. My real prices are Builder 25K $63 and Builder 50K $91.80 (one-time, $0 activation): compare against those. discount-codes.md = a table + a 'how I would double-check a code before paying' list.\n\nFiles to deliver (exact names): discount-codes.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-discount-codes/ (open a pull request on branch chatgpt/money-discount-codes); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-discount-codes/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-discount-codes/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "discount-codes.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-discount-codes/",
+   "minutes": 10,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews discount-codes.md. Claude re-checks every code that is not marked UNVERIFIED and quotes only checked ones, next to the owner's real prices."
+  },
+  {
+   "id": "money-payout-rules",
+   "cat": "money",
+   "title": "Payout rule digest",
+   "makes": "The payout rules of five prop firms in plain words, with the traps",
+   "tool": "chatgpt",
+   "prompt": "Job money-payout-rules. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Write a payout rule digest for MyFundedFutures (Builder and Core plans), Topstep, Apex, TakeProfitTrader and Tradeify: when the first payout is possible (minimum days, minimum profit, buffer above the starting balance), the consistency or best-day rule, maximum payout per request, how often, the split, fees on withdrawal, how long the money takes to arrive, what resets the account after a payout, and what makes a payout get denied. payout-rules.md = one section per firm with the exact wording of each rule (short quote) and the source page. payout-checklist.md = a 15-line checklist I can tick before I ask for my first payout, written so it works for any firm.\n\nFiles to deliver (exact names): payout-rules.md, payout-checklist.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-payout-rules/ (open a pull request on branch chatgpt/money-payout-rules); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-payout-rules/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-payout-rules/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "payout-rules.md",
+    "payout-checklist.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-payout-rules/",
+   "minutes": 12,
+   "difficulty": "hard",
+   "ingest": "python tools/bridge_ingest.py previews both files. Claude compares them with the MFFU payout rules already in docs/ and turns the checklist into the pre-payout checklist."
+  },
+  {
+   "id": "money-payout-plan",
+   "cat": "money",
+   "title": "First payout plan template",
+   "makes": "A worked template that turns a firm's rules into a day-by-day plan to the first payout",
+   "tool": "chatgpt",
+   "prompt": "Job money-payout-plan. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Make a planning template for getting from the start of a 50K evaluation to the first payout on a funded account: the steps (pass the evaluation, activate, trade the minimum days, build the buffer, request), the numbers each step needs as placeholders to fill from the firm's own rules (target, max loss, buffer, minimum days, consistency), and a worked example that uses clearly marked ILLUSTRATIVE numbers (not the firm's real rules). payout-plan.json = {steps: [{name, rule_needed, how_to_check, typical_days}], inputs: {target, max_loss, buffer, min_days, consistency_pct}, formulas: {...}} so a script could fill it later. Say plainly that I must copy the real numbers from my firm's dashboard.\n\nFiles to deliver (exact names): payout-plan.md, payout-plan.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-payout-plan/ (open a pull request on branch chatgpt/money-payout-plan); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-payout-plan/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-payout-plan/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "payout-plan.md",
+    "payout-plan.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-payout-plan/",
+   "minutes": 10,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews the plan; the json is read as data. Claude fills the inputs from the owner's real MFFU dashboard numbers and keeps the plan in docs/."
+  },
+  {
+   "id": "money-tax-setaside",
+   "cat": "money",
+   "title": "Tax set-aside questions",
+   "makes": "Questions for a CPA and a safe way to set money aside, for an 18-year-old US prop-firm trader",
+   "tool": "chatgpt",
+   "prompt": "Job money-tax-setaside. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nTax topics: I am a US person; rules differ by state and by year, so say which tax year you mean and give the question to ask a CPA wherever the answer depends on my situation.\n\nThe task: I am 18, a US resident, and I may receive payouts from a futures prop firm and trading income of my own. Explain in plain words the ideas I should know BEFORE I see a CPA (how a payout is usually reported to the IRS, what self-employment tax is, what estimated quarterly tax payments are, why many people set money aside from every payout, what the tax year and the quarter dates are) and then write the 25 best questions to ask a CPA, grouped: payouts and evaluation fees, trading business or hobby, deductions I may be able to claim (data, platform, education), futures contracts and how gains are treated, state tax, being claimed as a dependent, and paperwork. tax-questions-for-cpa.md = the explainer + the questions. setaside-worksheet.json = {inputs: [...], rows: [{payout, set_aside_pct_placeholder, note}], disclaimer} with the percentage left as a placeholder the CPA fills in. Do NOT give me a tax percentage as if it were advice.\n\nFiles to deliver (exact names): tax-questions-for-cpa.md, setaside-worksheet.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-tax-setaside/ (open a pull request on branch chatgpt/money-tax-setaside); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-tax-setaside/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-tax-setaside/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "tax-questions-for-cpa.md",
+    "setaside-worksheet.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-tax-setaside/",
+   "minutes": 12,
+   "difficulty": "hard",
+   "ingest": "python tools/bridge_ingest.py previews the questions. Claude saves them as a 'questions for my CPA' page; the owner brings them to a CPA. The set-aside percentage stays blank until a CPA gives one."
+  },
+  {
+   "id": "money-tax-dependent",
+   "cat": "money",
+   "title": "Dependent and parent questions",
+   "makes": "What changes if my parents still claim me, as questions for a CPA",
+   "tool": "chatgpt",
+   "prompt": "Job money-tax-dependent. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nTax topics: I am a US person; rules differ by state and by year, so say which tax year you mean and give the question to ask a CPA wherever the answer depends on my situation.\n\nThe task: I am 18 and my parents may still claim me as a dependent. Write a plain-words list of the questions to ask a CPA together with my parents about: how my trading or payout income interacts with being a dependent, filing my own return, whether I need to file, any special rule for young people with unearned income, health insurance and student aid (FAFSA) effects, and what records my parents and I should each keep. dependent-questions.md = 20 questions, each with one line on why it matters. No answers presented as fact.\n\nFiles to deliver (exact names): dependent-questions.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-tax-dependent/ (open a pull request on branch chatgpt/money-tax-dependent); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-tax-dependent/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-tax-dependent/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "dependent-questions.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-tax-dependent/",
+   "minutes": 8,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews the list. Claude adds it to the CPA question page for the owner and a parent to read together."
+  },
+  {
+   "id": "money-tax-records",
+   "cat": "money",
+   "title": "Trading records checklist",
+   "makes": "What to save and how, so tax time is easy",
+   "tool": "chatgpt",
+   "prompt": "Job money-tax-records. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nTax topics: I am a US person; rules differ by state and by year, so say which tax year you mean and give the question to ask a CPA wherever the answer depends on my situation.\n\nThe task: Write a record-keeping checklist for a young futures trader: what to save every month (payout statements, evaluation and reset fees, data and platform subscriptions, broker or Kalshi year-end forms, bank transfers), where to keep it, a 10-minute monthly routine, and a yearly routine. records-template.json = {months: [{month, payouts: [], fees: [], subscriptions: [], notes}]} as an empty example with 2 filled sample rows marked ILLUSTRATIVE. Never put an account number, login, SSN or ID in anything.\n\nFiles to deliver (exact names): records-checklist.md, records-template.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-tax-records/ (open a pull request on branch chatgpt/money-tax-records); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-tax-records/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-tax-records/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "records-checklist.md",
+    "records-template.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-tax-records/",
+   "minutes": 7,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews both files. Claude turns the json into the monthly records template the owner fills in (no account numbers)."
+  },
+  {
+   "id": "money-nq-events",
+   "cat": "money",
+   "title": "NQ scheduled-news calendar",
+   "makes": "Which scheduled US events move NQ, at what time, how often",
+   "tool": "chatgpt",
+   "prompt": "Job money-nq-events. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Make a calendar guide for NQ futures: the scheduled US releases and events that usually move the Nasdaq-100 (CPI, PPI, jobs report, FOMC decision and minutes and press conference, jobless claims, ISM, GDP, retail sales, consumer confidence, Fed speeches, big-tech earnings weeks, quad witching and monthly options expiry, index rebalances) with the usual release time in New York time, how often, and what is usually different about that day for a short-term trader (wider ranges, spikes at the release, quieter afterwards). Be honest about what is common knowledge and what you could not verify; no invented statistics. nq-events.md = a table + the 6 events that matter most + 'how a rule-based bot should treat each' as a suggestion. nq-events.json = [{event, time_et, frequency, usual_effect, source, verified}].\n\nFiles to deliver (exact names): nq-events.md, nq-events.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-nq-events/ (open a pull request on branch chatgpt/money-nq-events); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-nq-events/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-nq-events/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "nq-events.md",
+    "nq-events.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-nq-events/",
+   "minutes": 12,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews the table; the json is read as data. Claude compares it with data/news/events.csv (the calendar the bot already uses) and lists what is missing, never changing the bot."
+  },
+  {
+   "id": "money-news-rules",
+   "cat": "money",
+   "title": "Prop-firm news rules",
+   "makes": "What each firm says about trading during news, with the exact windows",
+   "tool": "chatgpt",
+   "prompt": "Job money-news-rules. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: For MyFundedFutures, Topstep, Apex, TakeProfitTrader and Tradeify: what the firm's rules say about trading around scheduled news (restricted windows before and after releases, whether holding through is allowed, penalties). Quote the rule in a few words and give the page. news-rules.md = a table (firm, rule, window, penalty, source, checked date) and a 'what this means for a bot that trades 02:00-15:30 New York time' paragraph for each firm, marked as my reading, not the firm's.\n\nFiles to deliver (exact names): news-rules.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-news-rules/ (open a pull request on branch chatgpt/money-news-rules); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-news-rules/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-news-rules/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "news-rules.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-news-rules/",
+   "minutes": 9,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews the table. Claude compares it with the bot's news rules and reports differences to the owner (paper only, no bot change)."
+  },
+  {
+   "id": "money-cme-holidays",
+   "cat": "money",
+   "title": "CME holiday and early-close calendar",
+   "makes": "The next 12 months of CME equity-index futures holidays and early closes",
+   "tool": "chatgpt",
+   "prompt": "Job money-cme-holidays. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: From CME Group's own holiday calendar, list the next 12 months of holidays and early closes that affect CME equity index futures (NQ, MNQ, ES): the date, the day name, whether the market is closed, closes early (at what New York time) or has a trading halt, and when the next session reopens. Mark any date you could only infer as UNVERIFIED. cme-holidays.json = [{date, name, effect, close_et, reopen_et, source, verified}]. cme-holidays.md = the same as a table plus 5 plain lines on what a day-trading bot should do on a short day.\n\nFiles to deliver (exact names): cme-holidays.md, cme-holidays.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-cme-holidays/ (open a pull request on branch chatgpt/money-cme-holidays); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-cme-holidays/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-cme-holidays/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "cme-holidays.md",
+    "cme-holidays.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-cme-holidays/",
+   "minutes": 9,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews the table; the json is read as data. Claude checks each date against CME's page and the data/ calendar and reports gaps."
+  },
+  {
+   "id": "money-nq-roll",
+   "cat": "money",
+   "title": "NQ contract roll dates",
+   "makes": "The quarterly NQ / MNQ roll for the next four contracts",
+   "tool": "chatgpt",
+   "prompt": "Job money-nq-roll. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: List the next four quarterly NQ / MNQ contracts (month codes H M U Z): last trading day, usual volume-roll date (when most volume moves to the next contract), and the New York time of settlement, from CME Group's pages. Explain in plain words what a roll does to a chart and to a bot (the gap between contracts, why back-adjusting matters, what to do on roll day). nq-roll.json = [{contract, last_trade, usual_roll, settlement_et, source}].\n\nFiles to deliver (exact names): nq-roll.md, nq-roll.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-nq-roll/ (open a pull request on branch chatgpt/money-nq-roll); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-nq-roll/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-nq-roll/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "nq-roll.md",
+    "nq-roll.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-nq-roll/",
+   "minutes": 8,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews the table. Claude checks it against data/NQ_rolls.json and notes the next roll in docs/."
+  },
+  {
+   "id": "money-kalshi-fees",
+   "cat": "money",
+   "title": "Kalshi fee digest",
+   "makes": "How Kalshi charges, with worked examples",
+   "tool": "chatgpt",
+   "prompt": "Job money-kalshi-fees. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: From Kalshi's own help center and fee schedule: how trading fees are calculated for event contracts, whether they differ by market type, settlement and withdrawal costs, and any minimum. Then work out the fee for buying 1, 10 and 100 contracts at 10, 25, 50, 75 and 90 cents and show the break-even win rate after fees at each price. fee-table.json = [{price_cents, contracts, fee, break_even_win_pct}] with your formula written in the markdown. kalshi-fees.md = the rules in plain words + the table + 5 things a new user gets wrong. State that rules can change and that I must check the app. This is about understanding costs only.\n\nFiles to deliver (exact names): kalshi-fees.md, fee-table.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-kalshi-fees/ (open a pull request on branch chatgpt/money-kalshi-fees); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-kalshi-fees/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-kalshi-fees/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "kalshi-fees.md",
+    "fee-table.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-kalshi-fees/",
+   "minutes": 10,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews the digest. Claude recomputes the fee table from the formula and, if it matches, keeps it with the Kalshi notes."
+  },
+  {
+   "id": "money-kalshi-scan",
+   "cat": "money",
+   "title": "Kalshi market-type scan",
+   "makes": "Which kinds of Kalshi markets could have an edge after fees, and how to measure it",
+   "tool": "chatgpt",
+   "prompt": "Job money-kalshi-scan. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Do NOT give live prices or tell me what to bet. Describe the TYPES of Kalshi markets (economic releases such as CPI and jobs numbers, the Fed decision, daily index ranges, weather, others you find) and for each: how its price relates to something I can measure (a consensus forecast, a historical distribution, an index level), how fast the market usually resolves, how big the fee is relative to a typical edge, and what data I would need to test whether any edge survives fees. kalshi-watchlist.json = [{market_type, measurable_anchor, resolves, data_needed, fee_drag_note, difficulty}]. kalshi-scan-method.md = a step-by-step method to test one market type on past data (paper only, with a table of the results I should record) and the three most common mistakes.\n\nFiles to deliver (exact names): kalshi-scan-method.md, kalshi-watchlist.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-kalshi-scan/ (open a pull request on branch chatgpt/money-kalshi-scan); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-kalshi-scan/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-kalshi-scan/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "kalshi-scan-method.md",
+    "kalshi-watchlist.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-kalshi-scan/",
+   "minutes": 12,
+   "difficulty": "hard",
+   "ingest": "python tools/bridge_ingest.py previews the method. Claude turns one market type into a paper test on past data; nothing is traded."
+  },
+  {
+   "id": "money-kalshi-vs-futures",
+   "cat": "money",
+   "title": "Kalshi against futures",
+   "makes": "How event contracts and NQ futures differ as places to put risk money",
+   "tool": "chatgpt",
+   "prompt": "Job money-kalshi-vs-futures. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Compare Kalshi event contracts with NQ / MNQ futures for a small account: how profit and loss work (capped payoff against open-ended), cost per trade, leverage and margin, trading hours, how much a bad day can cost, what a beginner can lose fastest, how each fits a rule-based bot, and what each needs from me (age, identity checks, tax forms: as questions for a CPA). kalshi-vs-futures.md = a table + 8 plain lines + 5 questions to ask before using either.\n\nFiles to deliver (exact names): kalshi-vs-futures.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-kalshi-vs-futures/ (open a pull request on branch chatgpt/money-kalshi-vs-futures); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-kalshi-vs-futures/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-kalshi-vs-futures/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "kalshi-vs-futures.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-kalshi-vs-futures/",
+   "minutes": 9,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews the comparison. Claude keeps it as a read-only note next to the Kalshi City data."
+  },
+  {
+   "id": "money-content-ideas",
+   "cat": "money",
+   "title": "Trading journey content ideas",
+   "makes": "30 honest content ideas for an 18-year-old documenting a prop-firm journey",
+   "tool": "chatgpt",
+   "prompt": "Job money-content-ideas. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Give me 30 short-video / post ideas for an 18-year-old documenting a futures prop-firm journey with a rule-based paper-trading bot, in an honest, no-hype style: each with a hook line (max 12 words), what to show on screen, and what NOT to say. Mix: process (building the bot, what a loss taught me), numbers (always with the risk and the sample size), explainers (what is a trailing drawdown), behind the scenes. No income claims, no 'guaranteed', no get-rich promises. content-calendar.json = a 4-week plan [{week, day, idea_number, format, minutes_to_make}] with 3 posts a week.\n\nFiles to deliver (exact names): content-ideas.md, content-calendar.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-content-ideas/ (open a pull request on branch chatgpt/money-content-ideas); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-content-ideas/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-content-ideas/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "content-ideas.md",
+    "content-calendar.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-content-ideas/",
+   "minutes": 9,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews both files. Claude copies the calendar into the owner's notes; the owner picks and posts himself."
+  },
+  {
+   "id": "money-content-risk-kit",
+   "cat": "money",
+   "title": "Safe-language kit for posts",
+   "makes": "What not to say, and the disclosure lines to use",
+   "tool": "chatgpt",
+   "prompt": "Job money-content-risk-kit. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Write a plain-words safe-language kit for someone posting about futures trading and prop firms: the phrases to avoid (income claims, guarantees, 'passive income', screenshots without context), a short risk line to put on posts, how to disclose an affiliate or discount code, how to show results honestly (period, sample size, costs, max drawdown), and the platform rules in general terms for TikTok, YouTube and X. Mark clearly that this is general guidance and not legal advice, and list 5 questions to ask a lawyer or the platform's help center. risk-language-kit.md = checklists and ready-to-paste lines.\n\nFiles to deliver (exact names): risk-language-kit.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-content-risk-kit/ (open a pull request on branch chatgpt/money-content-risk-kit); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-content-risk-kit/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-content-risk-kit/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "risk-language-kit.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-content-risk-kit/",
+   "minutes": 7,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews the kit. Claude keeps it as the safe-language page the owner checks before posting."
+  },
+  {
+   "id": "money-eval-traps",
+   "cat": "money",
+   "title": "Evaluation and payout traps",
+   "makes": "The top ways traders lose an evaluation or a payout, and how a bot avoids each",
+   "tool": "chatgpt",
+   "prompt": "Job money-eval-traps. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: List the 25 most common ways traders fail an evaluation or lose a payout at futures prop firms (trailing drawdown misunderstandings, the daily loss limit, consistency rules, news windows, copy trading and hedging bans, holding past the close, scaling limits, inactivity, using the wrong account) with one plain sentence each and, for each, how a rule-based bot with a position-size cap, a flat time and a weekly stop could be built to avoid it (as a suggestion only). eval-traps.json = [{trap, rule_type, how_to_avoid, bot_guard_idea}]. eval-traps.md = the same grouped by type with the 5 worst first.\n\nFiles to deliver (exact names): eval-traps.md, eval-traps.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-eval-traps/ (open a pull request on branch chatgpt/money-eval-traps); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-eval-traps/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-eval-traps/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "eval-traps.md",
+    "eval-traps.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-eval-traps/",
+   "minutes": 11,
+   "difficulty": "medium",
+   "ingest": "python tools/bridge_ingest.py previews both files. Claude maps each trap to a guard the bot already has or does not have, and reports the gaps (no bot change without the owner)."
+  },
+  {
+   "id": "money-risk-budget",
+   "cat": "money",
+   "title": "Risk budget worksheet",
+   "makes": "What several evaluation attempts cost, as a simple worksheet",
+   "tool": "chatgpt",
+   "prompt": "Job money-risk-budget. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Make a worksheet that answers: if each 50K evaluation costs a fee and I may need several attempts, what is the expected cost to reach a funded account and a first payout? Inputs as placeholders I fill with my own honest numbers (fee, pass rate, reset fee, payout size, split); formulas written out in words and in json; and a worked example with clearly ILLUSTRATIVE numbers (including the $91.80 Builder 50K price). Add a table of how the expected cost changes if the pass rate is 20%, 35%, 50% and 65%. Say plainly that a pass rate is a guess until I have many attempts. risk-budget.json = {inputs: {...}, formulas: {...}, table: [...]}.\n\nFiles to deliver (exact names): risk-budget.md, risk-budget.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-risk-budget/ (open a pull request on branch chatgpt/money-risk-budget); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-risk-budget/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-risk-budget/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "risk-budget.md",
+    "risk-budget.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-risk-budget/",
+   "minutes": 8,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews both files. Claude recomputes the table from the formulas and keeps the worksheet; the owner enters his real numbers."
+  },
+  {
+   "id": "money-futures-costs",
+   "cat": "money",
+   "title": "All-in cost of trading NQ and MNQ",
+   "makes": "The real cost per contract round trip at prop firms and brokers",
+   "tool": "chatgpt",
+   "prompt": "Job money-futures-costs. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nThe task: Work out the all-in cost of one round trip of 1 NQ and 1 MNQ contract: the exchange fee, the clearing and NFA fees, the broker or prop-platform commission, and typical slippage in ticks, for MyFundedFutures, Topstep, Apex, TakeProfitTrader and a typical discount futures broker; plus monthly data (CME non-professional) and platform fees. Sources for every number. Compare my bot's cost model of 1.90 dollars commission plus 2 ticks slippage per micro round trip (about 2.90 dollars all-in) against what you found and say if it looks too low or too high. futures-costs.json = [{firm_or_broker, product, commission_rt, exchange_nfa_rt, total_rt, source, verified}].\n\nFiles to deliver (exact names): futures-costs.md, futures-costs.json.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-futures-costs/ (open a pull request on branch chatgpt/money-futures-costs); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-futures-costs/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-futures-costs/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "futures-costs.md",
+    "futures-costs.json",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-futures-costs/",
+   "minutes": 11,
+   "difficulty": "hard",
+   "ingest": "python tools/bridge_ingest.py previews both files. Claude compares the totals with the cost model in the backtests and reports whether the costs are too low (no change without the owner)."
+  },
+  {
+   "id": "money-business-setup",
+   "cat": "money",
+   "title": "Business setup questions",
+   "makes": "Do I need an LLC, an EIN or a separate bank account? Questions for a CPA",
+   "tool": "chatgpt",
+   "prompt": "Job money-business-setup. Context: I am building OLYMPUS, a set of phone web apps (three.js, calm classical Greek AGORA look: marble, bronze, gold #c8a24a, olive and terracotta on warm near-black #14110e; no neon, no sci-fi). I am 18 and use an iPhone. Use plain words.\n\nMoney job. Rules: research and plain-words explanation only; this is not financial, tax or legal advice. Where it touches taxes, law, accounts or a firm's decision, write 'ask a CPA' or 'ask the firm' and give me the QUESTIONS to ask instead of answers. Use only public, official sources (the firm's own pages, CME Group, IRS.gov, Kalshi's help center), list every source (name and web address) and the date you checked it, mark anything you could not verify as UNVERIFIED, and never invent a number, a code or a rule. Never ask me for passwords, API keys, account numbers, SSN, ID or bank details, and never put any in a file. Nothing here places or arms an order (paper only). Plain words, short sentences, tables where they help.\n\nTax topics: I am a US person; rules differ by state and by year, so say which tax year you mean and give the question to ask a CPA wherever the answer depends on my situation.\n\nThe task: I am 18 and may earn payouts from prop firms. Write a plain-words guide to the questions to ask a CPA (and, where it fits, a lawyer) about: whether to keep trading income as a sole proprietor, when an LLC or an EIN could make sense, a separate bank account for payouts and fees, how a firm usually pays and what form it sends, state registration, and what to do about estimated taxes. business-setup-questions.md = 20 questions with a one-line 'why this matters' each and a 'what to bring to the CPA' checklist. Never ask me for or write my SSN, ID or bank details.\n\nFiles to deliver (exact names): business-setup-questions.md.\n\nHow to deliver (the OLYMPUS sync rules): only add files under handoff/inbox/money-business-setup/ (open a pull request on branch chatgpt/money-business-setup); never edit the bots, live_model*.json, engine/, .github/ or any existing app; no secrets, keys, tokens or logins anywhere; plain files only (PNG / WebP, SVG, JSON, Markdown, text; no scripts); paper trading only, nothing that places or arms real orders. When finished, add one line to handoff/inbox/money-business-setup/DONE.md: what you made, the file list, and anything Claude must wire. If you are blocked, write handoff/inbox/money-business-setup/QUESTION.md instead of guessing. File limits: PNG / WebP up to 5 MB each, SVG up to 200 KB, JSON up to 1 MB, Markdown / text up to 200 KB, JS up to 100 KB.",
+   "files": [
+    "business-setup-questions.md",
+    "DONE.md"
+   ],
+   "lands": "handoff/inbox/money-business-setup/",
+   "minutes": 8,
+   "difficulty": "easy",
+   "ingest": "python tools/bridge_ingest.py previews the questions. Claude adds them to the CPA question page; the owner decides after he has talked to a CPA."
+  }
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE questions and topics, not real data: the people themselves come from olympus/people.json, and each one labels sample numbers as sample.",
+ "questions": ["How did yesterday go?", "Are you stuck?", "What did you learn?", "What do you need from me?", "Give me a number", "Good news first", "What could go wrong?"],
+ "topics": ["Who makes more money?", "What could go wrong?", "How sure are you?", "How did the earlier years go?", "What did you learn?"]
+}

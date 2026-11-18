@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Polis</title>
+<meta name="description" content="OLYMPUS POLIS: the city of OLYMPUS. Every app is a building on the hills under the real New York sky: the Acropolis for trading, the harbour and the mint for money, the gardens for life. The bots are ships, the citizens are listed, the assembly shows open motions. Read only.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Polis">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- POLIS (OLYMPUS, AGORA look, 2026-11-11, POLIS_25 items 19-25): the city home. A painted 2.5D skyline (olympus/polis-skyline.js + polis-skyline-sky.js) under the real sky over New York,
+     every app a building (tap shows its name, tap again enters), glows for fresh published data, gold motes over the mint when today's money is up, the bots as ships in the harbour,
+     the citizens' rolls, the assembly board, the night sky of myths. poliscore.js = the pure maths (node-tested); polis.js = the page. Read only: published JSON of this site and
+     fixture.json (DEMO, never blank); it sends nothing anywhere. Text only through textContent / createElementNS. window.POLIS is the test hook. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="../olympus/polis.css?v=p3">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="polis"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#e0b060'); r.setProperty('--oly-accent-rgb', '224, 176, 96'); })();</script>
+<link rel="stylesheet" href="polis.css?v=p3">
+<!-- QA round 6 (real-phone pass): the POLIS libraries are deferred (they ran in order before the first paint) -->
+<script src="../olympus/apps-list.js" defer></script>
+<script src="../olympus/polis.js?v=p1" defer></script>
+<script src="../olympus/polis-skyline-sky.js?v=p1" defer></script>
+<script src="../olympus/polis-skyline.js?v=q6e" defer></script>
+<script src="poliscore.js?v=p1" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script>(function () {
+  // the life of the city right under the skyline: every piece with something to say (an empty piece stays out of the way);
+  // no polis.json on this site = the labelled DEMO file, so the street is never empty
+  function draw(el, L, d, demo) {
+    el.textContent = '';
+    var out = L.all(el, d), k, shown = 0;
+    for (k in out) if (out.hasOwnProperty(k) && out[k]) { if (L.has && !L.has(k, d)) out[k].hidden = true; else shown++; }
+    if (demo) { var p = document.createElement('p'); p.className = 'note lifedemo'; p.textContent = 'DEMO: no city file is published on this site yet, so these are made-up example numbers.'; el.insertBefore(p, el.firstChild); }
+    if (!shown) el.parentNode.hidden = true;
+  }
+  function go() {
+    var el = document.getElementById('polisLife'), L = window.OLYMPUS_POLIS_LIFE; if (!el || !L) return;
+    try { L.load('../olympus/polis.json', function (d) { if (d) draw(el, L, d, false); else L.load('../olympus/polis-demo.json', function (d2) { draw(el, L, d2, true); }); }); }
+    catch (e) { el.textContent = 'City life could not be drawn.'; }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+})();</script>
+</head>
+<body>
+<a class="skip" href="#directory">Skip the map: the list of every app</a>
+<main id="app">
+  <section class="hero" id="hero" aria-label="The city of OLYMPUS: every app is a building. Swipe sideways to walk the city, tap a building to see its name, tap again to enter.">
+    <div class="pan" id="pan"><div class="world" id="world" role="group" aria-label="Buildings of the city"></div></div>
+    <header class="top">
+      <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Polis</h1><p class="sub" id="clock">The city of OLYMPUS</p></div></div>
+      <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+    </header>
+    <nav class="districts" aria-label="Walk to a district">
+      <button type="button" class="dist" data-go="life">Gardens <small>Life</small></button>
+      <button type="button" class="dist on" data-go="trading">Acropolis <small>Trading</small></button>
+      <button type="button" class="dist" data-go="money">Mint <small>Money</small></button>
+      <button type="button" class="dist" data-go="harbour">Harbour <small>Bots</small></button>
+    </nav>
+    <div class="plaque" id="plaque" hidden>
+      <p class="pk" id="pkDistrict"></p>
+      <h2 id="pkName">Building</h2>
+      <p class="pp" id="pkPurpose"></p>
+      <p class="pf" id="pkFresh"></p>
+      <div class="pkrow"><a class="btn enter" id="pkEnter" href="#">Enter</a><button type="button" class="btn close" id="pkClose" aria-label="Close">Close</button></div>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="band" id="band" aria-hidden="true"></div>
+    <p id="status" class="note status" role="status" aria-live="polite">Raising the city...</p>
+
+    <section class="lifesec" id="lifeCard" aria-labelledby="lifeH">
+      <p class="ag-eyebrow"><span class="ic" data-ag-icon="amphora"></span>From today's published files</p>
+      <h2 id="lifeH">Life in the city</h2>
+      <div id="polisLife" class="polis-life-host"><span class="lifelamp" data-polis-lamp="Lighting the lamps of the city"></span></div>
+    </section>
+
+    <section class="ag-card card" id="harbourCard" aria-labelledby="harH">
+      <p class="ag-eyebrow"><span class="ic" data-ag-icon="wave"></span>The harbour of the bots</p>
+      <span class="potmark" data-polis-pottery="trireme red tondo" data-size="64" aria-hidden="true"></span>
+      <h2 id="harH">Ships in the harbour</h2>
+      <p class="lead" id="harLead"></p>
+      <ul class="ships" id="ships"></ul>
+      <p class="treasury"><span class="coin" id="coin"></span><span id="treasury"></span></p>
+      <p class="note" id="harNote">A ship is in port when its bot is off or silent, under sail when it runs, and comes back with cargo when it closed a trade today. Read only: nothing here controls a bot.</p>
+    </section>
+
+    <section class="ag-card card" id="assemblyCard" aria-labelledby="asmH">
+      <p class="ag-eyebrow"><span class="ic" data-ag-icon="column"></span>The assembly (ekklesia)</p>
+      <h2 id="asmH">Open motions</h2>
+      <p class="lead" id="asmLead"></p>
+      <ol class="motions" id="motions"></ol>
+      <div id="raisedBox" hidden><h3 class="h3">Matters raised by the Mind</h3><ul class="raised" id="raised"></ul></div>
+      <p class="note" id="asmNote">Read only: a motion only shows the proposal and its numbers. Nothing is adopted here.</p>
+    </section>
+
+    <section class="ag-card card" id="skyCard" aria-labelledby="skyH">
+      <p class="ag-eyebrow"><span class="ic" data-ag-icon="star"></span>The night sky of myths</p>
+      <h2 id="skyH">Tonight's sky over New York</h2>
+      <p class="lead" id="skyLead"></p>
+      <ul class="consts" id="consts"></ul>
+      <p class="note record"><span class="wreath" id="wreath"></span><span id="recordLine"></span></p>
+      <details class="how"><summary>How the sky is drawn</summary>
+        <p class="note">The stars are real: each one's right ascension and declination (J2000, from the Bright Star catalogue) is turned into height and compass direction for New York (40.71 N, 74.01 W) at this minute, using sidereal time. The Sun and the Moon use the standard almanac formulas. The picture faces south-south-east over the Acropolis; walking the city turns the sky with you (left is east, right is west). A shooting star crosses the sky when today is a new best day.</p>
+      </details>
+    </section>
+
+    <section class="ag-card card" id="rollsCard" aria-labelledby="rollH">
+      <p class="ag-eyebrow"><span class="ic" data-ag-icon="users"></span>The citizens' rolls</p>
+      <h2 id="rollH">Citizens of OLYMPUS</h2>
+      <p class="lead" id="rollLead"></p>
+      <ul class="rolls" id="rolls"></ul>
+      <button type="button" class="btn more" id="rollMore" aria-expanded="false">Show every citizen</button>
+    </section>
+
+    <section class="ag-card card" id="directory" aria-labelledby="dirH" tabindex="-1">
+      <p class="ag-eyebrow"><span class="ic" data-ag-icon="map"></span>The city directory</p>
+      <h2 id="dirH">Every building, as a list</h2>
+      <p class="lead" id="dirLead">The same apps as the map, in a plain list.</p>
+      <div id="dirList"></div>
+    </section>
+    <p class="note foot" id="foot"></p>
+  </div>
+</main>
+<script type="module" src="polis.js?v=p1"></script>
+<script type="module" src="../olympus/polis-citizens.js?v=q6d"></script>
+</body>
+</html>

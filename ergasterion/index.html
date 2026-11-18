@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ergasterion</title>
+<meta name="description" content="OLYMPUS ERGASTERION: the workshop where every worker is visible. A marble factory floor with a station for each AI agent and automated job: what it is doing, its last outputs, what it learned, its health.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ergasterion">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- ERGASTERION (OLYMPUS, AGORA look, 2026-11-10): the AI agent factory where you can see, first person, what every worker is doing, and what was learned from it. Outside the front door is the Builders' camp (builders.json: the build agents working right now, joined with git by the builder). Reads only published JSON (../home.json, ../money/index.json, the public kalshi.json feed, ../cronos/status.json, ../prometheus/forge.json, ../hephaestus/data.json and its own queue.json built by tools/ergasterion_build.py) and fixture.json (DEMO, never blank).
+     Read only, paper only: it sends nothing and starts nothing. Text only through textContent / createElementNS. ergasterioncore.js = the pure rules (node-tested); ergasterion.js = the page; floor.js = the optional 3D floor (a separate module, so a device without WebGL keeps the flat plan). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="ergasterion"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script src="../olympus/fx-core.js?v=f1" defer></script>
+<script src="../olympus/fx-burst.js?v=f1" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="ergasterion.css?v=a6">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Ergasterion</h1><p class="sub">Every AI helper: what it is doing now and what it made. Tap a worker to see its work.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" id="hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">The helpers today</h2><span class="pill" id="heroPill">...</span></div>
+    <p class="big" id="heroTitle">Loading...</p>
+    <p class="lead" id="heroLine"></p>
+  </section>
+
+  <section class="ag-card card" id="floorCard" aria-labelledby="floorH">
+    <div class="row"><h2 id="floorH">The floor</h2><span class="pill info" id="hallNow" hidden>Library</span></div>
+    <div class="stage" id="stage" hidden>
+      <canvas id="floor3d" tabindex="0" aria-label="The factory in first person: four halls with a worker at every station. Drag to look around, use the joystick or the arrow keys to walk, tap a worker, a crate or a wall board."></canvas>
+      <p class="hint" id="hint">Drag to look. Joystick to walk. Tap a worker or a crate.</p>
+      <svg id="mini" class="mini" viewBox="0 0 360 292" aria-hidden="true"></svg>
+      <div class="joy" id="joy" aria-hidden="true"><i id="knob"></i></div>
+      <button class="btn talk" id="talkBtn" type="button" hidden>Talk</button>
+      <button class="btn talk lead" id="leadBtn" type="button" hidden>Show me your work</button>
+    </div>
+    <svg id="plan" class="plan" viewBox="0 0 360 292" role="group" aria-label="Plan of the factory: four halls, one button for each worker with its job and its status lamp"></svg>
+    <p class="say" id="planSay"></p>
+    <div class="work" id="workCard" aria-live="polite" hidden></div>
+    <div class="bar">
+      <button class="btn" id="viewBtn" type="button" hidden>Plan view</button>
+      <button class="btn" id="tourBtn" type="button" hidden aria-pressed="false">Calm tour</button>
+      <button class="btn" id="resetBtn" type="button" hidden>Back to the door</button>
+      <label class="note" for="follow">Follow</label>
+      <select id="follow" aria-label="Follow a worker with the camera"><option value="">Nobody</option></select>
+      <button class="btn" id="refresh" type="button">Refresh</button>
+    </div>
+    <ul class="legend" id="legend" aria-label="What the lamps mean"></ul>
+    <p class="note" id="sceneNote"></p>
+  </section>
+
+  <section class="ag-card card" id="peopleCard" aria-labelledby="peopleH">
+    <div class="row"><h2 id="peopleH">People here</h2><button class="btn" id="standBtn" type="button">Stand-up</button></div>
+    <div class="chips" id="places" role="group" aria-label="Which hall to look into"></div>
+    <ul class="workers" id="peopleList"></ul>
+    <ol class="list stand" id="standList" aria-live="polite"></ol>
+  </section>
+
+  <section class="ag-card card sheet chat" id="chatCard" aria-labelledby="chatH" hidden>
+    <div class="row"><div class="who"><span class="face" id="chatFace"></span><h3 id="chatH">Talk</h3></div><span class="pill" id="chatPill">...</span></div>
+    <p class="note" id="chatWho"></p>
+    <ul class="list chatlog" id="chatLog" aria-live="polite"></ul>
+    <div class="chips" id="chatQs" role="group" aria-label="Questions you can ask"></div>
+    <div class="acts"><button class="btn" id="chatLead" type="button" hidden>Show me your work</button><button class="btn" id="chatClose" type="button">End the chat</button></div>
+  </section>
+
+  <section class="ag-card card sheet" id="sheet" aria-labelledby="sheetH" hidden>
+    <div class="row"><div class="who"><span class="face" id="sheetFace"></span><h3 id="sheetH">Worker</h3></div><span class="pill" id="sheetPill">...</span></div>
+    <p class="lead" id="sheetRole"></p>
+    <p class="say" id="sheetSay"></p>
+    <h4>Doing now</h4><p class="lead" id="sheetDoing"></p>
+    <h4>On its conveyor (tap a crate)</h4><ul id="sheetOut" class="crates"></ul>
+    <h4>What it learned</h4><ul id="sheetLearn"></ul>
+    <h4>Health</h4><p class="lead" id="sheetHealth"></p>
+    <div class="acts"><button class="btn" id="sheetTalk" type="button">Talk</button><button class="btn" id="sheetFollow" type="button">Follow this worker</button><button class="btn" id="sheetWalk" type="button" hidden>Walk to it</button><button class="btn" id="sheetClose" type="button">Close</button></div>
+  </section>
+
+  <section class="ag-card card camp" id="campCard" aria-labelledby="campH">
+    <div class="row"><h2 id="campH">The Builders' camp</h2><span class="pill" id="campPill">...</span></div>
+    <p class="lead" id="handsLine"></p>
+    <svg id="campMap" class="plan campmap" viewBox="0 0 360 250" role="group" aria-label="Map of the builders' camp outside the factory door: one tent for each build agent, with its status"></svg>
+    <p class="say scroll" id="campScroll"></p>
+    <div class="bar"><button class="btn" id="campGo" type="button" hidden>Walk to the camp</button></div>
+    <h3>All hands</h3>
+    <ul class="workers" id="hands"></ul>
+    <p class="note" id="campNote"></p>
+  </section>
+
+  <section class="ag-card card sheet" id="bsheet" aria-labelledby="bsheetH" hidden>
+    <div class="row"><div class="who"><span class="face" id="bsheetFace"></span><h3 id="bsheetH">Builder</h3></div><span class="pill" id="bsheetPill">...</span></div>
+    <p class="lead" id="bsheetJob"></p>
+    <p class="lead" id="bsheetLine"></p>
+    <h4>Last commits</h4><ul id="bsheetCommits"></ul>
+    <h4>Folders touched</h4><ul id="bsheetFolders"></ul>
+    <h4>What it shipped</h4><ul id="bsheetShipped"></ul>
+    <div class="acts"><button class="btn" id="bsheetTalk" type="button">Talk</button><button class="btn" id="bsheetWalk" type="button" hidden>Walk to its tent</button><button class="btn" id="bsheetClose" type="button">Close</button></div>
+  </section>
+
+  <section class="ag-card card" id="replayCard" aria-labelledby="replayH">
+    <h2 id="replayH">Replay the day</h2>
+    <div class="chips" role="group" aria-label="How far back to replay"><button class="ag-chip chip" id="r24" type="button" aria-pressed="true">Last 24 hours</button><button class="ag-chip chip" id="r7" type="button" aria-pressed="false">Last 7 days</button></div>
+    <p class="note" id="replayNote"></p>
+    <svg id="lanes" class="lanes" viewBox="0 0 340 60" role="img" aria-label="Who ran when: one row per worker, one mark per event, red marks failed"></svg>
+    <input id="scrub" class="scrub" type="range" min="0" max="1000" step="1" value="1000" aria-label="Replay position in the window">
+    <p class="now" id="replayNow"></p>
+    <div class="bar">
+      <button class="btn" id="playBtn" type="button" aria-pressed="false">Play</button>
+      <button class="btn" id="speedBtn" type="button">Speed 1x</button>
+      <button class="btn" id="failBtn" type="button">Jump to last failure</button>
+    </div>
+    <ul class="list ticker" id="replayList" aria-live="off"></ul>
+  </section>
+
+  <section class="ag-card card" id="workersCard" aria-labelledby="workersH">
+    <h2 id="workersH">Every worker</h2>
+    <ul class="workers" id="workers"></ul>
+  </section>
+
+  <section class="ag-card card" id="tickerCard" aria-labelledby="tickerH">
+    <h2 id="tickerH">Just happened</h2>
+    <ul class="list ticker" id="ticker" aria-live="off"></ul>
+  </section>
+
+  <section class="ag-card card" id="pipeCard" aria-labelledby="pipeH">
+    <h2 id="pipeH">Research pipeline</h2>
+    <p class="lead" id="pipeLine"></p>
+    <div class="pipe" id="pipeLanes" role="group" aria-label="Idea, testing, verdict: tap a lane to open the Archive on it"></div>
+    <ul class="fams" id="pipeFams" aria-label="By strategy family"></ul>
+    <details id="movesBox"><summary>Newest 20 moves</summary><ul class="moves" id="pipeMoves"></ul></details>
+    <p class="note" id="pipeNote"></p>
+  </section>
+
+  <section class="ag-card card" id="boardCard" aria-labelledby="boardH">
+    <h2 id="boardH">Learning board</h2>
+    <p class="note" id="boardNote"></p>
+    <div class="chips" id="cats" role="group" aria-label="Show lessons of one kind"></div>
+    <h3>Top lessons of the week</h3>
+    <ol class="list lessons" id="lessons"></ol>
+    <h3>What changed our mind</h3>
+    <ul class="list lessons flips" id="changed"></ul>
+    <h3>Strongest overall</h3>
+    <ol class="list lessons" id="strong"></ol>
+  </section>
+
+  <section class="ag-card card" id="nextCard" aria-labelledby="nextH">
+    <h2 id="nextH">What next?</h2>
+    <p class="note">Ranked research suggestions. "Worth it" says how much a fix can change what we know, in plain words; no dollar figure is guessed.</p>
+    <ol class="list next" id="next"></ol>
+  </section>
+
+  <p class="foot" id="foot">Ergasterion reads the site's own published files and sends nothing. It never starts a worker, never trades and never moves money: paper and suggestions only. A lamp is honest: green ran recently, blue is quiet, amber is old or missing data, red failed, grey is sample data. Every lesson is a sentence lifted from a file, with that file named.</p>
+</main>
+<!-- the shared people kit (docs/PERSONA_API.md) is optional: without it Ergasterion uses its own built-in chat card -->
+<script type="module" src="../olympus/people.js?v=p3"></script>
+<script type="module" src="floorload.js?v=a5"></script>
+<script type="module" src="ergasterion.js?v=r7"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"v":1,"name":"Aegis","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Drawdown left","value":"$1,420"},{"label":"Max loss","value":"$2,000"},{"label":"Next stop","value":"-$425"}],"lines":["Drawdown left $1,420 of $2,000 max loss on Zlarior 50K.","If the next trade is a full stop you keep $995."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

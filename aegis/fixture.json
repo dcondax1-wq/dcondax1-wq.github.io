@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: the three accounts as they might look mid-eval, shown until the site's own home.json has the live accounts.",
+  "accounts": [
+    { "key": "zlarior", "kind": "eval", "balance": 50420, "floor": 49000, "room": 1420, "mll": 2000, "dll": 1000, "dllUsed": 0, "today": 312, "week": 640, "risk": 425, "toTarget": 2580, "connected": true },
+    { "key": "atlas", "kind": "eval", "balance": 25210, "floor": 24160, "room": 840, "mll": 1000, "dll": 600, "dllUsed": 360, "today": -360, "week": 140, "risk": 150, "toTarget": 1365, "connected": true },
+    { "key": "blitz", "kind": "eval", "balance": 24860, "floor": 24300, "room": 560, "mll": 1000, "dll": 600, "dllUsed": 0, "today": 0, "week": -90, "risk": 120, "toTarget": 1640, "connected": true }
+  ]
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trading</title>
+<meta name="description" content="OLYMPUS Trading: every trade in one place. Today per account ($ today, open trade, drawdown left, $ to pass, the 16:10 ET flat time), a calendar of daily $, the last 30 trades, 2026 H1 vs H2 stats, the payout rules check, time-of-day and weekday edges, live vs backtest twin, the equity curve, and why an order gets rejected.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Trading">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- TRADING (OLYMPUS, AGORA look, 2026-11-17, owner: "make a page on Olympus dedicated to trading"). Read only, paper only: it reads ./trades.json (tools/trading_export.py: the 2026
+     BACKTEST, PAPER and LIVE trades of Zlarior / LIT and ATLAS), ../home.json (the PC's newest numbers, with the 15-minute PC feed laid over by olympus/truth.js),
+     ../ledger/rules.json (the MFFU limits), ../business/accounts.json (the plain-words rules) and ./fixture.json (DEMO, never blank). Every number says its source.
+     The hidden bot (owner 2026-11-15) is never shown. Text only through textContent / createElementNS. tradingcore.js = the pure rules (node-tested); trading.js = the page. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="../olympus/a11y.css?v=a2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="trading"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script>
+<link rel="prefetch" href="../olympus/sfx.js?v=s4" as="script"><!-- the sound engine (32 KB gzipped) is not in the deferred chain the page waits on: olympus.js loads it after the page has loaded (its sound bed) or on the first cue -->
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="trading.css?v=2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Trading</h1><p class="sub">Every trade in one place: today's $, the calendar, the stats, and the payout rules.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="banner" id="banner" data-level="warn" aria-labelledby="bannerTitle">
+    <p class="btitle" id="bannerTitle">Last live data: loading...</p>
+    <p class="btext" id="bannerText"></p>
+  </section>
+  <!-- ZEUS edge chip (../edge_chip.js): LIT + ATLAS last 40 sessions vs 2026, from the PC status (pc_feed.js via truth.js) or ../edge.json -->
+  <div id="zeusEdge" data-edge-chip data-edge-src="../edge.json" data-edge-feed></div>
+
+  <section class="ag-card card" id="todayCard" aria-labelledby="todayH">
+    <h2 id="todayH">1. Today</h2>
+    <p class="clock" id="clock"></p>
+    <p class="note">MFFU rule: be flat by 16:10 ET; no orders 16:10-18:00 ET. LIT itself is flat by 15:55 ET. Holidays can close earlier.</p>
+    <div class="accts" id="accts"></div>
+    <p class="note" id="todaySrc"></p>
+  </section>
+
+  <section class="ag-card card filters" id="filterCard" aria-label="What to show">
+    <div class="fgroup"><p class="flabel">Bot</p><div class="seg" id="fBot" role="group" aria-label="Bot"></div></div>
+    <div class="fgroup"><p class="flabel">Data</p><div class="seg" id="fSrc" role="group" aria-label="Data source"></div></div>
+    <div class="fgroup" id="fAcctBox" hidden><p class="flabel">Account</p><div class="seg" id="fAcct" role="group" aria-label="LIVE account"></div></div>
+    <p class="note" id="srcNote"></p>
+  </section>
+
+  <section class="ag-card card" id="calCard" aria-labelledby="calH">
+    <div class="row"><h2 id="calH">2. Calendar</h2><span class="pill" id="calSrc"></span></div>
+    <div class="calnav">
+      <button type="button" class="btn icon" id="calPrev" aria-label="Previous month">&#8249;</button>
+      <p class="calmonth" id="calMonth"></p>
+      <button type="button" class="btn icon" id="calNext" aria-label="Next month">&#8250;</button>
+    </div>
+    <p class="note" id="calSum"></p>
+    <div class="calhead" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div>
+    <div class="cal" id="cal" role="grid" aria-label="Daily $ this month"></div>
+    <p class="note">Swipe or use the arrows for another month. Tap a day for its trades. Green = a winning day, red = a losing day; darker = bigger.</p>
+  </section>
+
+  <section class="ag-card card" id="tradesCard" aria-labelledby="tradesH">
+    <div class="row"><h2 id="tradesH">3. Recent trades</h2><span class="pill" id="tradesSrc"></span></div>
+    <p class="note" id="tradesNote"></p>
+    <ol class="trades" id="trades"></ol>
+  </section>
+
+  <section class="ag-card card" id="statsCard" aria-labelledby="statsH">
+    <div class="row"><h2 id="statsH">4. Stats: LIVE per account, then 2026 H1 vs H2</h2><span class="pill warn">Backtest, not a promise</span></div>
+    <h3 class="sub3">LIVE per account</h3>
+    <div id="liveStats" class="livestats"></div>
+    <h3 class="sub3">Backtest per bot</h3>
+    <p class="note">H1 = Jan-Jun 2026 (LIT's settings were picked on it). H2 = Jul on (the check). Costs are in.</p>
+    <div id="stats" class="stats"></div>
+  </section>
+
+  <section class="ag-card card" id="rulesCard" aria-labelledby="rulesH">
+    <h2 id="rulesH">5. Rules check</h2>
+    <p class="note">Payout consistency: your best day must not be too big a share of the total profit. Builder funded: at most 50%. Rapid EOD: at most 30%.</p>
+    <div id="rules" class="rulesl"></div>
+    <p class="note" id="rapidText"></p>
+  </section>
+
+  <section class="ag-card card" id="edgeCard" aria-labelledby="edgeH">
+    <div class="row"><h2 id="edgeH">6. Time of day and weekday</h2><span class="pill" id="edgeSrc"></span></div>
+    <p class="note">Net $ by the hour the trade started (ET) and by weekday. A bar on few trades is luck as much as edge.</p>
+    <h3 class="sub3">By hour (ET)</h3>
+    <div class="bars" id="hours"></div>
+    <h3 class="sub3">By weekday</h3>
+    <div class="bars" id="wdays"></div>
+  </section>
+
+  <section class="ag-card card" id="twinCard" aria-labelledby="twinH">
+    <h2 id="twinH">7. Live vs backtest twin</h2>
+    <p class="note" id="twinNote">Does the live bot do what the backtest says? Each LIVE trade next to the same trade in the backtest (or, after the backtest file ends, the cloud's paper twin). A different size is normal: the eval sizes each trade to the room left.</p>
+    <ol class="twins" id="twins"></ol>
+  </section>
+
+  <section class="ag-card card" id="equityCard" aria-labelledby="equityH">
+    <div class="row"><h2 id="equityH">8. Equity curve</h2><span class="pill" id="eqSrc"></span></div>
+    <svg class="eq" id="eq" viewBox="0 0 320 150" role="img" aria-label="The running $ per bot"></svg>
+    <div class="eqleg" id="eqLeg"></div>
+  </section>
+
+  <section class="ag-card card help" id="helpCard" aria-labelledby="helpH">
+    <h2 id="helpH">Why was my order rejected?</h2>
+    <p class="lead">"Max order quantity, Limit 0, Scope MNQ" on MFFU / Tradovate means: this account may hold 0 contracts right now. It is not a bug in the bot. Usually one of three things:</p>
+    <ol class="plain">
+      <li><b>After the 16:10 ET flat time.</b> From 16:10 to 18:00 ET (and from Friday 16:10 to Sunday 18:00 ET) every account is set to 0. Try again after 18:00 ET.</li>
+      <li><b>The daily loss limit was hit.</b> The account is blocked until the next session opens at 18:00 ET.</li>
+      <li><b>The account failed (max loss) or passed.</b> A failed eval stays at 0. A passed eval waits at 0 until the funded account is activated.</li>
+    </ol>
+    <p class="lead">How to tell which: if it is between 16:10 and 18:00 ET, wait for 18:00 ET and try again. If it still says Limit 0 after 18:00 ET, open the MFFU dashboard and read the account's status (Active, Failed, Passed or Pending activation).</p>
+  </section>
+
+  <p class="foot" id="foot">Trading reads the site's own published files and sends nothing. It cannot start, stop or change a bot, and it never places an order. LIVE = the PC's real MFFU trades per account (Zlarior 50K, Zlarior 25K #2, ATLAS funded 25K, later the Rapid 25K; last 4 digits only), from the daily upload and the PC's 15-minute report; PAPER = the cloud's practice twin; BACKTEST = a replay of the rules on past NQ futures bars, not money made. 1R = the $ one trade risks.</p>
+</main>
+
+<div class="veil" id="veil" hidden></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetH" hidden>
+  <div class="row sheethead"><h2 id="sheetH">The day</h2><button type="button" class="btn" id="sheetClose" aria-label="Close the day">Close</button></div>
+  <div class="sheetbody" id="sheetBody"></div>
+</section>
+<script src="../edge_chip.js?v=1"></script>
+<script type="module" src="trading.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Call copilot",
+  "short_name": "Calls",
+  "description": "OLYMPUS Agency: the cold-call copilot. Who to call now, what to say, what to do next. A human makes every call.",
+  "id": "./call.html",
+  "start_url": "./call.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14110e",
+  "theme_color": "#14110e",
+  "icons": [
+    { "src": "call-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "../jarvis/icon-192.png?v=j5", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "../jarvis/icon-512.png?v=j5", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

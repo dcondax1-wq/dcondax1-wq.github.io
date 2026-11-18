@@ -1,0 +1,1 @@
+{"v":1,"name":"Compass","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Top action","value":"Deal ends"},{"label":"Open","value":"5"},{"label":"Cost","value":"free to $60"}],"lines":["A deal ends in 5 h; feeds are old; 3 trades are unrated.","Compass only suggests: it never trades or buys."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

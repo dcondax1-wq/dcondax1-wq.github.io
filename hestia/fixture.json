@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: the three accounts and a few trades shown until the site's own files are there. Offsets are days back from today.",
+  "accounts": [
+    { "key": "zlarior", "room": 1420, "mll": 2000, "floor": 48580, "balance": 50420, "today": 312, "week": 640, "progress": 0.14, "toTarget": 2580, "dllUsed": 0, "risk": 425, "est": false, "connected": true, "status": "Session 4 of 10, on pace", "kind": "eval", "stage": "eval", "session": 4, "sessions": 10 },
+    { "key": "atlas", "room": 840, "mll": 1000, "floor": 24160, "balance": 25210, "today": -60, "week": 140, "progress": 0.09, "toTarget": 1365, "dllUsed": 60, "risk": 150, "est": true, "connected": true, "status": "Session 3 of 10", "kind": "eval", "stage": "eval", "session": 3, "sessions": 10 },
+    { "key": "blitz", "room": 560, "mll": 1000, "floor": 24300, "balance": 24860, "today": 0, "week": -90, "progress": 0, "toTarget": 1640, "dllUsed": 0, "risk": 120, "est": true, "connected": true, "status": "Waiting for a setup", "kind": "eval", "stage": "eval", "session": 5, "sessions": 10 }
+  ],
+  "trades": [
+    { "off": 0, "side": "LONG", "qty": 6, "usd": 312, "r": 0.73, "risk_usd": 425, "exit": "TARGET", "bot": "LIT" },
+    { "off": 1, "side": "SHORT", "qty": 5, "usd": -437, "r": -1.03, "risk_usd": 425, "exit": "STOP", "bot": "LIT" },
+    { "off": 2, "side": "LONG", "qty": 7, "usd": 566, "r": 1.33, "risk_usd": 425, "exit": "TARGET", "bot": "LIT" }
+  ]
+}

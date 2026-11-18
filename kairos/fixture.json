@@ -1,0 +1,367 @@
+{
+"v": 1,
+"demo": true,
+"note": "EXAMPLE trades, not real: a made-up week of LIT-style entries so Kairos is never empty. Days are offsets back from today, times are New York minutes of the day.",
+"trades": [
+{
+"off": 0,
+"mod": 192,
+"usd": 612,
+"r": 2.0,
+"risk": 306,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 0,
+"mod": 580,
+"usd": -280,
+"r": -1.0,
+"risk": 280,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 3,
+"mod": 151,
+"usd": 0,
+"r": 0.0,
+"risk": 300,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 4,
+"mod": 125,
+"usd": -260,
+"r": -1.0,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 6,
+"mod": 168,
+"usd": 1428,
+"r": 4.2,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 9,
+"mod": 228,
+"usd": 0,
+"r": 0.0,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 12,
+"mod": 185,
+"usd": 1066,
+"r": 4.1,
+"risk": 260,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 13,
+"mod": 194,
+"usd": -306,
+"r": -0.9,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 16,
+"mod": 211,
+"usd": 390,
+"r": 1.5,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 18,
+"mod": 228,
+"usd": 0,
+"r": 0.0,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 20,
+"mod": 185,
+"usd": -306,
+"r": -0.9,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 21,
+"mod": 185,
+"usd": -340,
+"r": -1.0,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 22,
+"mod": 211,
+"usd": -340,
+"r": -1.0,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 23,
+"mod": 185,
+"usd": -300,
+"r": -1.0,
+"risk": 300,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 25,
+"mod": 254,
+"usd": 936,
+"r": 3.6,
+"risk": 260,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 28,
+"mod": 254,
+"usd": 540,
+"r": 1.8,
+"risk": 300,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 30,
+"mod": 271,
+"usd": 0,
+"r": 0.0,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 31,
+"mod": 262,
+"usd": 1690,
+"r": 6.5,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 32,
+"mod": 288,
+"usd": 1190,
+"r": 3.5,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 33,
+"mod": 262,
+"usd": -306,
+"r": -0.9,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 35,
+"mod": 288,
+"usd": 680,
+"r": 2.0,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 36,
+"mod": 331,
+"usd": -340,
+"r": -1.0,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 38,
+"mod": 340,
+"usd": 598,
+"r": 2.3,
+"risk": 260,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 41,
+"mod": 314,
+"usd": 1768,
+"r": 5.2,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 43,
+"mod": 340,
+"usd": -234,
+"r": -0.9,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 44,
+"mod": 391,
+"usd": -340,
+"r": -1.0,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 47,
+"mod": 374,
+"usd": 1326,
+"r": 5.1,
+"risk": 260,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 49,
+"mod": 485,
+"usd": 0,
+"r": 0.0,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 50,
+"mod": 511,
+"usd": -270,
+"r": -0.9,
+"risk": 300,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 51,
+"mod": 520,
+"usd": 720,
+"r": 2.4,
+"risk": 300,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 52,
+"mod": 528,
+"usd": 0,
+"r": 0.0,
+"risk": 300,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 55,
+"mod": 588,
+"usd": 480,
+"r": 1.6,
+"risk": 300,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 56,
+"mod": 545,
+"usd": 1410,
+"r": 4.7,
+"risk": 300,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 58,
+"mod": 580,
+"usd": 570,
+"r": 1.9,
+"risk": 300,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 61,
+"mod": 588,
+"usd": 2108,
+"r": 6.2,
+"risk": 340,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 63,
+"mod": 545,
+"usd": -300,
+"r": -1.0,
+"risk": 300,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 66,
+"mod": 640,
+"usd": 1440,
+"r": 4.8,
+"risk": 300,
+"side": "LONG",
+"bot": "LIT"
+},
+{
+"off": 69,
+"mod": 622,
+"usd": 520,
+"r": 2.0,
+"risk": 260,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 72,
+"mod": 640,
+"usd": 2108,
+"r": 6.2,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+},
+{
+"off": 74,
+"mod": 785,
+"usd": -340,
+"r": -1.0,
+"risk": 340,
+"side": "SHORT",
+"bot": "LIT"
+}
+]
+}

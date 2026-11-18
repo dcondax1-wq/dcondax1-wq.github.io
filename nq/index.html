@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ</title>
+<meta name="description" content="OLYMPUS NQ: the NQ bots, right now. Zlarior (LIT 50K), ATLAS 25K and BLITZ 25K: status with the exact age of the last report, drawdown left, today's P&L in $ with R, eval progress, the last 10 trades and the rule that closed each, and how to bring reporting back.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NQ">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- NQ (OLYMPUS, AGORA look, 2026-11-11): "the NQ bots, right now", one page built for trust. Per bot (Zlarior / LIT 50K, ATLAS 25K, BLITZ 25K): running / waiting for the PC / stale with the exact age,
+     "Drawdown left $X of $max loss", the day's P&L in $ with R, the eval progress; the last 10 trades with the rule that closed each; the plan in one sentence; the backtest facts with their dates
+     ("backtest, not a promise"); a big honest banner when the PC is silent and the five steps that bring reporting back (howto.json = docs/NQ_BOT_BACK.md, bundled by tools/nq_howto_build.py).
+     Read only, paper only: it reads ../home.json, howto.json and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent / createElementNS.
+     nqcore.js = the pure rules (node-tested); nq.js = the page; nqscene.js = the optional 3D columns (a separate module, so a device without WebGL keeps the 2D columns). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="nq"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="nq.css?v=a3">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ</h1><p class="sub">Are the bots on, and how much $ each account can still lose before it fails.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <p id="src" class="note" data-truth="source"></p>
+
+  <section class="banner" id="banner" data-level="bad" aria-labelledby="bannerTitle" hidden>
+    <p class="btitle" id="bannerTitle">Last report from your PC: unknown.</p>
+    <p class="btext" id="bannerText">The bots may still be trading; this page just is not hearing from them.</p>
+    <button type="button" class="btn primary" id="bannerBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
+  </section>
+
+  <section class="ag-card card" id="sceneCard" aria-labelledby="sceneH">
+    <h2 id="sceneH">The bots</h2>
+    <div class="scene" id="scene" role="img" aria-label="One marble column per bot">
+      <div id="scene3d" class="s3d" hidden></div>
+      <svg id="fallback" class="s2d" viewBox="0 0 360 160" aria-hidden="true"></svg>
+    </div>
+    <div class="legend" id="legend"></div>
+    <p class="note" id="sceneNote"></p>
+  </section>
+
+  <section class="ag-card card" id="planCard" aria-labelledby="planH">
+    <h2 id="planH">The plan for today</h2>
+    <p class="plan" id="planRule">LIT looks for one trade between 02:00 and 15:30 ET and is flat by 15:55 ET.</p>
+    <p class="lead" id="planNow" hidden></p>
+    <p class="note" id="planNote" hidden></p>
+  </section>
+
+  <section id="bots" class="cards" aria-label="Each account"></section>
+
+  <section class="ag-card card" id="tradesCard" aria-labelledby="tradesH">
+    <h2 id="tradesH">The last 10 trades</h2>
+    <p class="note" id="tradesNote"></p>
+    <ol class="trades" id="trades"></ol>
+  </section>
+
+  <section class="ag-card card" id="factsCard" aria-labelledby="factsH">
+    <div class="row"><h2 id="factsH">What the testing says</h2><span class="pill warn" id="factsPill">Backtest, not a promise</span></div>
+    <div class="facts" id="facts"></div>
+    <p class="note">These are replays of the LIT rules on past NQ futures data, not money made. Real trading will differ. 1R is the money risked on one trade.</p>
+  </section>
+
+  <section class="ag-card card" id="moreCard" aria-labelledby="moreH">
+    <h2 id="moreH">More</h2>
+    <div class="acts">
+      <button type="button" class="btn" id="howBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
+      <a class="btn" id="fullLink" href="../">Open the full NQ BOT dashboard</a>
+    </div>
+  </section>
+
+  <p class="foot" id="foot">NQ reads the site's own published files and sends nothing. It cannot start, stop or change a bot, and it never places an order. The eval accounts are MyFundedFutures practice evals (simulated money). A flame burns only when that bot reported in the last 20 minutes. A ~ means an estimate; R = the $ one trade risks.</p>
+</main>
+
+<div class="veil" id="veil" hidden></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetH" hidden>
+  <div class="row sheethead"><h2 id="sheetH">How to bring reporting back</h2><button type="button" class="btn" id="sheetClose" aria-label="Close the steps">Close</button></div>
+  <div class="sheetbody" id="sheetBody"></div>
+</section>
+<script type="module" src="nq.js?v=r7"></script>
+<!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
+<script src="../olympus/lazy3d.js?v=l1" data-src="nqscene.js?v=q6c" data-skip="lite" data-event="nq3d" defer></script>
+</body>
+</html>

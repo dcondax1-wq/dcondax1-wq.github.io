@@ -1,0 +1,101 @@
+{
+ "v": 1,
+ "updated": "2026-11-18",
+ "note": "Live numbers come from your PC. The rest is the plan. Every $ a month is an ESTIMATE from the Jul-Oct 2026 trades, after fees. In the 2021-25 test it made about $0, so treat it as a maybe. Prices with the CLUB code (40% off): Builder 25K $63, Builder 50K $91.80, Rapid EOD 50K $165 ($275 list).",
+ "accounts": [
+  {
+   "key": "zlarior",
+   "pc": [
+    "mffu50k_eval",
+    "lit"
+   ],
+   "match": "builder50k",
+   "name": "Zlarior",
+   "plan": "MFFU Builder 50K",
+   "stage": "eval",
+   "status": "live",
+   "bots": "Zlarior only (eval). Once funded: Zlarior + ATLAS + BLITZ (if you say yes)",
+   "next": "Balance $49,192.78 (owner, Nov 17): about $3,807 to pass, about $1,025 of room left (if the floor is still $48,168). Room under $1,200: a fresh Builder 50K next to it is the faster horse",
+   "payout": "about early Jan (with ATLAS once funded)",
+   "usd_month": "$1,200",
+   "cost": "paid"
+  },
+  {
+   "key": "atlas",
+   "pc": [
+    "atlas",
+    "acct_b"
+   ],
+   "match": "builder25k",
+   "name": "ATLAS",
+   "plan": "MFFU Builder 25K (funded)",
+   "stage": "funded",
+   "status": "live",
+   "bots": "ATLAS",
+   "next": "Funded since Nov 17 night. Payout: ask the full $1,000 when the balance is $27,100 (payout coach)",
+   "payout": "first ask ~late Dec (estimate)",
+   "usd_month": "$500",
+   "cost": "paid",
+   "funded": {
+    "as_of": "2026-11-17",
+    "balance": null,
+    "cycle_start_balance": 25000,
+    "best_day": 0,
+    "cycle_days": 0,
+    "first_trade": null,
+    "last_trade": null,
+    "payouts_n": 0
+   }
+  },
+  {
+   "key": "rapid1",
+   "name": "Rapid EOD 25K (next)",
+   "plan": "MFFU Rapid EOD 25K",
+   "stage": "eval",
+   "status": "waiting",
+   "bots": "Zlarior + ATLAS from day one (passes in ~4-5 weeks instead of ~2 months)",
+   "next": "Next buy when budget allows; the bot support is being built",
+   "payout": "eval ~4-5 weeks, then daily; first payout about mid-late Jan",
+   "usd_month": "~$970",
+   "cost": "$97.20 (CLUB)"
+  },
+  {
+   "key": "fresh25",
+   "pc": [
+    "b25k_2"
+   ],
+   "name": "Zlarior 25K #2",
+   "plan": "MFFU Builder 25K",
+   "stage": "eval",
+   "status": "live",
+   "bots": "Zlarior (LIT) at 40% of room",
+   "next": "Pass: $1,500 profit, $1,000 max loss. Started Nov 18",
+   "payout": "pass ~12 trading days, 1st payout ~Jan 5 (estimate)",
+   "usd_month": "$456",
+   "cost": "paid",
+   "match": "builder25k"
+  }
+ ],
+ "decisions": [
+  "Yes/no: ATLAS trades on Zlarior's 50K once it is funded",
+  "Yes/no: ATLAS trades on the Rapid EOD accounts",
+  "Yes/no: keep $1,000 in each Rapid when taking payouts",
+  "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
+ ],
+ "limits": "MFFU lets you hold 5 funded accounts: 1 Builder 50K, 2 Builder 25K, 3 Rapid EOD 50K. Up to 10 evals.",
+ "rules": [
+  [
+   "Builder 50K",
+   "Pass: make $3,000. Max loss $2,000, measured from your best close. Funded: first payout after $2,600 profit; no single day may be half of it; you keep 80%."
+  ],
+  [
+   "Builder 25K",
+   "Pass: make $1,500. Max loss $1,000. Funded: same rules at half the size."
+  ],
+  [
+   "Rapid EOD 50K",
+   "Pass: make $3,000 in at least 4 days; no single day over 30% of it. Funded: payouts every day after $2,100; you keep 90%; no open trade 2 min before and after big news (CPI, jobs, Fed)."
+  ]
+ ],
+ "about_pc": "pc = the PC's own ids of this account (accounts / board cards in the PC feed). Pages and tools/board.py match live numbers by these ids or the Name, never by plan size."
+}

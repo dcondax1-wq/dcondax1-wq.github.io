@@ -1,0 +1,30 @@
+{
+ "v": 1,
+ "name": "Argus",
+ "status": {
+  "level": "ok",
+  "label": "Watching every light"
+ },
+ "kpis": [
+  {
+   "label": "Lights",
+   "value": "25"
+  },
+  {
+   "label": "Eyes",
+   "value": "100"
+  },
+  {
+   "label": "Inactivity",
+   "value": "7 days"
+  }
+ ],
+ "lines": [
+  "One screen for every health light: bots, prices, NinjaTrader, cloud, apps, MFFU clocks.",
+  "Open it to see All clear or Look at this, with what to fix first."
+ ],
+ "t": 1793700000,
+ "open": "#fix",
+ "theme": "#050912",
+ "stale_after": 1209600
+}

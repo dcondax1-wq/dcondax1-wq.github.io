@@ -1,0 +1,396 @@
+{
+ "v": 1,
+ "kind": "olympus-polis",
+ "date": "2026-11-18",
+ "built": "2026-11-18T15:48:49Z",
+ "demo": false,
+ "paper": true,
+ "label": "Written from the published files. Nothing is invented. Paper only.",
+ "herald": [
+  {
+   "kind": "money",
+   "day": "2026-11-18",
+   "cry": "The 5 money machines reckon about $1,493.81 a month. An estimate, not a promise.",
+   "plain": "Money machines (paper): an estimate of about $1,493.81 a month. Not a promise.",
+   "usd": 1493.81,
+   "r": null,
+   "src": "money/index.json",
+   "by": {
+    "id": "keeper:money",
+    "name": "Tamias"
+   },
+   "facts": [
+    {
+     "t": "$1,493.81",
+     "src": "money/index.json",
+     "at": "total/base"
+    },
+    {
+     "t": "5",
+     "src": "money/index.json",
+     "at": "counts/streams"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "kalshi",
+   "day": "2026-11-02",
+   "cry": "From the Kalshi paper book: Late favourite (BTC hourly) on Bitcoin settled -$5.89.",
+   "plain": "Kalshi paper trade settled -$5.89 (Late favourite (BTC hourly)). Paper only, no real bet.",
+   "usd": -5.89,
+   "r": null,
+   "src": "kalshicity/ledger.json",
+   "by": {
+    "id": "bot:kalshi",
+    "name": "Eutychos"
+   },
+   "facts": [
+    {
+     "t": "-$5.89",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/pnl"
+    },
+    {
+     "t": "Late favourite (BTC hourly)",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/s"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  },
+  {
+   "kind": "kalshi",
+   "day": "2026-11-02",
+   "cry": "From the Kalshi paper book: Late favourite (BTC hourly) on Bitcoin settled +$0.11.",
+   "plain": "Kalshi paper trade settled +$0.11 (Late favourite (BTC hourly)). Paper only, no real bet.",
+   "usd": 0.11,
+   "r": null,
+   "src": "kalshicity/ledger.json",
+   "by": {
+    "id": "bot:kalshi",
+    "name": "Eutychos"
+   },
+   "facts": [
+    {
+     "t": "+$0.11",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/pnl"
+    },
+    {
+     "t": "Late favourite (BTC hourly)",
+     "src": "kalshicity/ledger.json",
+     "at": "trades/s"
+    }
+   ],
+   "crier": {
+    "id": "villager:herald",
+    "name": "Kosmas"
+   }
+  }
+ ],
+ "oracle": {
+  "src": "home.json",
+  "day": "2026-10-16",
+  "stale": true,
+  "speaker": {
+   "id": "villager:pythia",
+   "name": "Delia"
+  },
+  "verse": "Watch the swept high and the swept low. The one that fails points the way.",
+  "plain": [],
+  "facts": []
+ },
+ "festivals": {
+  "src": "pythia/events.json",
+  "label": "From the published calendar (pythia/events.json). Confirm times on the official page.",
+  "items": [
+   {
+    "id": "nfp:2026-12-04",
+    "kind": "nfp",
+    "festival": "Thesmophoria",
+    "god": "Demeter",
+    "glyph": "wheat",
+    "meaning": "Demeter's harvest feast. The jobs count shows how the fields of work are growing.",
+    "event": "Jobs report (NFP)",
+    "title": "Jobs report (NFP, November data)",
+    "date": "2026-12-04",
+    "date_words": "Fri 4 Dec",
+    "time": "08:30",
+    "days_left": 16,
+    "when": "in 16 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "fomc:2026-12-09",
+    "kind": "fomc",
+    "festival": "Panathenaia",
+    "god": "Athena",
+    "glyph": "owl",
+    "meaning": "The city's greatest feast, for Athena. The Fed sets the price of money.",
+    "event": "FOMC rate decision",
+    "title": "FOMC decision 2:00 PM with projections, press conference 2:30 PM",
+    "date": "2026-12-09",
+    "date_words": "Wed 9 Dec",
+    "time": "14:00",
+    "days_left": 21,
+    "when": "in 21 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "roll:2026-12-09",
+    "kind": "roll",
+    "festival": "Synoikia",
+    "god": "Athena Polias",
+    "glyph": "walls",
+    "meaning": "The feast of the joining of the city. The bot moves to the next NQ contract.",
+    "event": "Contract roll week",
+    "title": "Your roll step: switch the NinjaTrader chart to MNQ 03-27",
+    "date": "2026-12-09",
+    "date_words": "Wed 9 Dec",
+    "time": "16:00",
+    "days_left": 21,
+    "when": "in 21 days",
+    "verify": false,
+    "week_of": "2026-12-07"
+   },
+   {
+    "id": "fomc:2027-01-27",
+    "kind": "fomc",
+    "festival": "Panathenaia",
+    "god": "Athena",
+    "glyph": "owl",
+    "meaning": "The city's greatest feast, for Athena. The Fed sets the price of money.",
+    "event": "FOMC rate decision",
+    "title": "FOMC decision 2:00 PM, press conference 2:30 PM",
+    "date": "2027-01-27",
+    "date_words": "Wed 27 Jan",
+    "time": "14:00",
+    "days_left": 70,
+    "when": "in 70 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "nfp:2027-02-05",
+    "kind": "nfp",
+    "festival": "Thesmophoria",
+    "god": "Demeter",
+    "glyph": "wheat",
+    "meaning": "Demeter's harvest feast. The jobs count shows how the fields of work are growing.",
+    "event": "Jobs report (NFP)",
+    "title": "Jobs report (NFP, January data)",
+    "date": "2027-02-05",
+    "date_words": "Fri 5 Feb",
+    "time": "08:30",
+    "days_left": 79,
+    "when": "in 79 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "nfp:2027-03-05",
+    "kind": "nfp",
+    "festival": "Thesmophoria",
+    "god": "Demeter",
+    "glyph": "wheat",
+    "meaning": "Demeter's harvest feast. The jobs count shows how the fields of work are growing.",
+    "event": "Jobs report (NFP)",
+    "title": "Jobs report (NFP, February data)",
+    "date": "2027-03-05",
+    "date_words": "Fri 5 Mar",
+    "time": "08:30",
+    "days_left": 107,
+    "when": "in 107 days",
+    "verify": true,
+    "week_of": null
+   },
+   {
+    "id": "roll:2027-03-10",
+    "kind": "roll",
+    "festival": "Synoikia",
+    "god": "Athena Polias",
+    "glyph": "walls",
+    "meaning": "The feast of the joining of the city. The bot moves to the next NQ contract.",
+    "event": "Contract roll week",
+    "title": "Your roll step: switch the NinjaTrader chart to MNQ 06-27",
+    "date": "2027-03-10",
+    "date_words": "Wed 10 Mar",
+    "time": "16:00",
+    "days_left": 112,
+    "when": "in 112 days",
+    "verify": false,
+    "week_of": "2027-03-08"
+   },
+   {
+    "id": "fomc:2027-03-17",
+    "kind": "fomc",
+    "festival": "Panathenaia",
+    "god": "Athena",
+    "glyph": "owl",
+    "meaning": "The city's greatest feast, for Athena. The Fed sets the price of money.",
+    "event": "FOMC rate decision",
+    "title": "FOMC decision 2:00 PM with projections, press conference 2:30 PM",
+    "date": "2027-03-17",
+    "date_words": "Wed 17 Mar",
+    "time": "14:00",
+    "days_left": 119,
+    "when": "in 119 days",
+    "verify": true,
+    "week_of": null
+   }
+  ],
+  "builtin": false
+ },
+ "torch": {
+  "weeks": {
+   "streak": 0,
+   "best": 0,
+   "rows": [],
+   "current": null
+  },
+  "days": {
+   "streak": 0,
+   "best": 0,
+   "rows": []
+  },
+  "flame": "unlit",
+  "src": null,
+  "rule": "A runner takes the torch for every finished week that closed green with every trade inside the rules (weeks without a trade are skipped), and for every trading day where each trade kept the rules (1 trade a day, stop beyond the sweep, entries 02:00-15:30, flat by 15:55, hands off). One break puts the flame out."
+ },
+ "grove": {
+  "src": "data.json",
+  "trees": [
+   {
+    "id": "mffu50k_eval",
+    "name": "MFFU 50K Eval",
+    "stage": "eval",
+    "bot": "Zlarior",
+    "balance": 49900.0,
+    "profit": -100.0,
+    "target": 3000.0,
+    "progress": 0.0,
+    "growth": 0.12,
+    "rings": 0,
+    "olives": 0,
+    "thirsty": true,
+    "room": 1900.0,
+    "mll": 2000.0,
+    "payouts": null,
+    "line": "Below its start by $100: a thirsty tree.",
+    "facts": [
+     {
+      "t": "$49,900",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/balance"
+     },
+     {
+      "t": "-$100",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/profit"
+     },
+     {
+      "t": "$3,000",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/target_balance - start_balance",
+      "how": "target minus start"
+     },
+     {
+      "t": "Drawdown left $1,900 of $2,000 max loss",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/room, mll"
+     },
+     {
+      "t": "$100",
+      "src": "data.json",
+      "at": "accounts/mffu50k_eval/eval/profit",
+      "how": "minus the profit"
+     }
+    ]
+   },
+   {
+    "id": "cloud_paper",
+    "name": "Paper (cloud)",
+    "stage": "paper",
+    "bot": "Paper twin",
+    "balance": 49900.0,
+    "profit": -100.0,
+    "target": 3000.0,
+    "progress": 0.0,
+    "growth": 0.12,
+    "rings": 0,
+    "olives": 0,
+    "thirsty": true,
+    "room": 1900.0,
+    "mll": 2000.0,
+    "payouts": null,
+    "line": "A paper sapling: the cloud's twin, not real money.",
+    "facts": [
+     {
+      "t": "$49,900",
+      "src": "data.json",
+      "at": "accounts/cloud_paper/eval/balance"
+     },
+     {
+      "t": "-$100",
+      "src": "data.json",
+      "at": "accounts/cloud_paper/eval/profit"
+     },
+     {
+      "t": "$3,000",
+      "src": "data.json",
+      "at": "accounts/cloud_paper/eval/target_balance - start_balance",
+      "how": "target minus start"
+     },
+     {
+      "t": "Drawdown left $1,900 of $2,000 max loss",
+      "src": "data.json",
+      "at": "accounts/cloud_paper/eval/room, mll"
+     }
+    ]
+   }
+  ],
+  "rule": "One olive tree per account. It grows with the eval's progress to the target (a funded account is a full tree), one ring per $500 of profit, one olive per winning trade. A tree below its start balance looks thirsty."
+ },
+ "amphorae": {
+  "src": null,
+  "n": 0,
+  "shelves": [],
+  "rule": "One amphora per closed trade. Long = a horse rising, short = a dolphin diving. Bright clay = win, dark clay = loss, pale clay = a scratch (under $5 either way)."
+ },
+ "statues": {
+  "src": "data.json",
+  "items": [],
+  "rule": "The best winning trades (biggest $ first; the first is the record) and every eval pass and payout stand in the hall."
+ },
+ "stoic": {
+  "mood": "quiet",
+  "why": "A quiet day with no fresh trade: a line on today's task.",
+  "text": "Everywhere means nowhere.",
+  "author": "Seneca",
+  "work": "Moral Letters 2",
+  "translator": "R. M. Gummere",
+  "public_domain": true
+ },
+ "sources": {
+  "read": [
+   "data.json",
+   "home.json",
+   "kalshicity/ledger.json",
+   "money/index.json",
+   "olympus/people.json",
+   "pythia/events.json"
+  ],
+  "missing": [],
+  "trades": null,
+  "accounts": "data.json"
+ }
+}

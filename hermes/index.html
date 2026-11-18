@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110e">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HERMES">
+<meta name="description" content="OLYMPUS Wrapped: the week of the bots as stories. Net $, $ a month, the best and worst trade, evals, discipline.">
+<title>HERMES · OLYMPUS Wrapped</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/quiet-net.js?v=q6a"></script>
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="hermes"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
+<link rel="stylesheet" href="hermes.css?v=h7">
+</head>
+<body class="loading">
+<canvas id="bg" aria-hidden="true"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<!-- the one top bar: the stories' progress (tap a segment to jump), the name, the period -->
+<header class="top">
+  <div id="prog" class="prog" role="presentation" title="Jump to a story"></div>
+  <div class="bar">
+    <span class="brand"><svg viewBox="0 0 32 20" aria-hidden="true"><path d="M2 14c6-1 9-5 12-12-1 6 0 9 2 11 2-2 3-5 2-11 3 7 6 11 12 12-7 2-11 1-14-2-3 3-7 4-14 2z"/></svg>Hermes</span>
+    <span id="demo" class="demo" hidden>Demo</span>
+    <nav id="periods" class="periods" aria-label="Period"></nav>
+  </div>
+</header>
+<main id="stage" class="stage" aria-live="polite">
+  <div class="splash"><span>Hermes</span><small>OLYMPUS Wrapped</small></div>
+</main>
+<!-- the one bottom sheet: pause, where you are, share (left of the orb's corner) -->
+<footer class="foot">
+  <button id="play" type="button" class="btn icon play" aria-pressed="false" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M8 5v14M16 5v14"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg></button>
+  <span id="pos" class="pos"></span>
+  <button id="share" type="button" class="btn share" aria-label="Share this card as an image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Share</button>
+</footer>
+<div id="toast" class="toast" role="status"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

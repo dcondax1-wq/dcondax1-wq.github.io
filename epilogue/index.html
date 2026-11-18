@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Epilogue</title>
+<meta name="description" content="OLYMPUS EPILOGUE: the Sunday review. Your week in 60 seconds: profit and loss in dollars with R for each account, the best and worst trade and the rule it followed or broke, drawdown used and left, money-machine highlights, three lessons, one goal for next week and a text summary to copy.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Epilogue">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- EPILOGUE (OLYMPUS, AGORA look, 2026-11-10): the weekly review, "Oracle of Weeks". epiloguecore.js = the pure model (node-tested); epilogue.js = the page (ES module); epilogue3d.js = the marble scroll with a gold timeline (optional).
+     Read only: it reads the site's published files (../home.json, ../odeon/trades.json, ../money/index.json), the Journal's ratings on this phone (read only) and fixture.json (DEMO, never blank). It keeps only its own history ('epilogue.v1') on this phone and sends nothing. Text only through textContent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="epilogue"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="epilogue.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Epilogue</h1><p class="sub">Your week in 60 seconds: $ won or lost per account. Read it on Sunday.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <h2 id="heroH">The week</h2>
+    <div class="stage"><canvas id="stage" width="360" height="200" role="img" aria-label="A marble scroll unrolling with a gold ribbon timeline, one knot for each day of the week"></canvas></div>
+    <p class="big ag-num" id="headline">...</p>
+    <p class="note" id="rnote"></p>
+  </section>
+
+  <section class="ag-card card" id="accCard" aria-labelledby="accH">
+    <h2 id="accH">Profit and loss by account</h2>
+    <ul class="list" id="accts"></ul>
+  </section>
+
+  <section class="ag-card card" id="tradeCard" aria-labelledby="trH">
+    <h2 id="trH">Best and worst trade</h2>
+    <ul class="list" id="trades"></ul>
+  </section>
+
+  <section class="ag-card card" id="ddCard" aria-labelledby="ddH">
+    <h2 id="ddH">Drawdown: used and left</h2>
+    <ul class="list" id="dd"></ul>
+  </section>
+
+  <section class="ag-card card" id="moneyCard" aria-labelledby="mnH">
+    <h2 id="mnH">Money machines</h2>
+    <ul class="list" id="machines"></ul>
+    <p class="note" id="mnNote"></p>
+  </section>
+
+  <section class="ag-card card" id="lessonCard" aria-labelledby="lsH">
+    <h2 id="lsH">Three lessons</h2>
+    <ol class="list ol" id="lessons"></ol>
+  </section>
+
+  <section class="ag-card card" id="goalCard" aria-labelledby="glH">
+    <h2 id="glH">Goals</h2>
+    <p class="ag-eyebrow">Last week's goal</p>
+    <div id="lastGoal" class="goalrow"></div>
+    <p class="ag-eyebrow">One goal for next week</p>
+    <div id="goal" class="goalrow"></div>
+    <div class="chips" id="goalChips" role="group" aria-label="Other goals"></div>
+  </section>
+
+  <section class="ag-card card" id="shareCard" aria-labelledby="shH">
+    <h2 id="shH">Share it</h2>
+    <button class="btn primary" id="copyBtn" type="button">Copy the summary</button>
+    <details id="textBox"><summary>Show the text</summary><textarea id="shareText" readonly rows="9" aria-label="The week as plain text"></textarea></details>
+    <p class="note">The text stays on this phone until you paste it somewhere. Nothing is sent.</p>
+  </section>
+
+  <section class="ag-card card" id="histCard" aria-labelledby="hiH">
+    <h2 id="hiH">Past weeks</h2>
+    <ul class="list" id="hist"></ul>
+  </section>
+
+  <p class="foot" id="foot">Epilogue reads the site's own files and your Journal's ratings (without changing them), and keeps only its own history on this phone. It never places or changes an order. Every dollar result is shown with its R (1R = the trade's own risk, or the account's usual risk and marked ~ when it is an estimate). Paper and real trades only: backtests are left out. Habit costs are estimates from your own ratings. Money-machine lines are estimates, not income.</p>
+</main>
+<script type="module" src="epilogue.js?v=a1"></script>
+<script type="module" src="epilogue3d.js?v=q6c"></script>
+</body>
+</html>

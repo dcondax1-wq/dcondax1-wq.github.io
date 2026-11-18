@@ -1,0 +1,185 @@
+/* SETTINGS: the control room. The kit (../olympus/olympus.css) gives fonts, tokens, chips and the veil; every colour here is a kit token, so a theme
+   change repaints the page live. Jarvis's orb owns the bottom-right 80 x 160 px: the page ends 176 px above the bottom. Safe areas on every
+   edge; no sideways scroll at 375 px. Every animation sits behind prefers-reduced-motion and the LITE / Still tiers. */
+:root {
+  --s-acc: var(--oly-accent, var(--oly-th-a8, #c8a24a)); --s-rgb: var(--oly-accent-rgb, 200, 162, 74);
+  --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px));
+  --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px));
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--oly-bg, var(--oly-th-n3, #15120f)); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); color: var(--oly-text, var(--oly-th-n36, #f3e7d6)); background: radial-gradient(ellipse at 50% -10%, rgba(var(--s-rgb), .16), transparent 60%), var(--oly-bg, var(--oly-th-n3, #15120f));
+  font: 500 var(--oly-t-body, 15px)/1.4 var(--oly-ui, -apple-system, system-ui, sans-serif); overflow-x: hidden; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--s-acc); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.aurora { position: fixed; inset: -20% -20% auto -20%; height: 70vh; pointer-events: none; z-index: 0; overflow: hidden; opacity: .75;
+  -webkit-mask-image: linear-gradient(var(--oly-th-n3, #161310) 30%, transparent); mask-image: linear-gradient(var(--oly-th-n3, #161310) 30%, transparent); }
+.aurora i { position: absolute; width: 70%; height: 70%; border-radius: 50%; filter: blur(60px); }
+.aurora i:nth-child(1) { left: 0; top: 0; background: rgba(var(--s-rgb), .5); }
+.aurora i:nth-child(2) { right: 0; top: 10%; background: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .22); }
+.aurora i:nth-child(3) { left: 25%; top: 30%; background: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .22); }
+html[data-lite] .aurora i { filter: blur(40px); }
+#app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px;
+  padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+html.framed #app { padding-top: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; }
+.brand h1 { margin: 0; font: 800 20px/1 var(--oly-display, sans-serif); letter-spacing: .01em; color: var(--s-acc);  }
+.brand .sub { margin: 4px 0 0; font-size: var(--oly-t-micro, 10.5px); letter-spacing: .01em; text-transform: none; color: var(--oly-dim); }
+.tags { display: flex; gap: 8px; align-items: center; }
+.tag { padding: 4px 9px; border-radius: 999px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; border: 1px solid var(--oly-line); color: var(--oly-dim); }
+.tourbtn { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(var(--s-rgb), .7); background: rgba(var(--s-rgb), .14); color: var(--oly-text);
+  font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; box-shadow: none; }
+.card { position: relative; padding: 14px 14px 16px; border-radius: var(--oly-r-card, 16px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0;
+  background: var(--oly-glass, rgba(var(--oly-th-n3-rgb, 25, 21, 18), .74));
+  border: 1px solid var(--oly-line, rgba(var(--oly-th-n37-rgb, 255,255,255),.12)); border-top-color: rgba(var(--oly-th-n37-rgb, 255,255,255),.22);
+  box-shadow: inset 0 1px 0 rgba(var(--oly-th-n37-rgb, 255,255,255),.12), inset 0 -24px 32px -22px rgba(0,0,0,.55), 0 14px 34px rgba(0,0,0,.35);
+  /* perf v2: no live backdrop blur on the cards (the page behind them is the still, already-blurred aurora: the blur showed nothing and was
+     redone on every frame for every card); the sticky tab bar keeps its blur (the page scrolls under it) */ }
+.card.oly-fx-glass { -webkit-backdrop-filter: none; backdrop-filter: none; }   /* the effects library's glass (glassSpecular) too: the same pre-blurred sky */
+.card h2 { margin: 0; font: 700 12px/1.3 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--s-acc); }
+.card h2::before { content: "\25C6"; margin-right: 8px; font-size: 12px; }
+.hint, .note { margin: 0; color: var(--oly-dim); font-size: 14px; }
+.note:empty { display: none; }
+.lead { margin: 0; font-size: 15.5px; }
+.tabs { position: -webkit-sticky; position: sticky; top: calc(var(--st) + 4px); z-index: 6; display: flex; gap: 3px; padding: 3px; border-radius: 999px;
+  background: var(--oly-glass2, rgba(var(--oly-th-n5-rgb, 36, 30, 25), .92)); border: 1px solid rgba(var(--s-rgb), .3); box-shadow: 0 10px 26px rgba(0,0,0,.5);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+html.framed .tabs { top: 4px; }
+.tabs button { flex: 1 1 0; min-width: 0; min-height: 44px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--oly-dim);
+  font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.tabs button[aria-selected="true"] { color: var(--oly-text); border-color: rgba(var(--s-rgb), .7); background: rgba(var(--s-rgb), .2); box-shadow: none; }
+.panel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
+.seg { display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: rgba(var(--oly-th-n1-rgb, 0,0,0),.28); border: 1px solid var(--oly-line); }
+.seg.wrap { flex-wrap: wrap; border-radius: 22px; }
+.seg button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 4px 3px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--oly-dim);
+  font: 700 12px/1.1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.seg button[aria-checked="true"] { color: var(--oly-text); border-color: rgba(var(--s-rgb), .75); background: rgba(var(--s-rgb), .2); box-shadow: none; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 6px 0; border-top: 1px solid rgba(var(--oly-th-n37-rgb, 255,255,255),.07); margin: 0; }
+.row:first-of-type { border-top: 0; }
+.row > span { min-width: 0; display: grid; gap: 1px; }
+.row b { font-weight: 700; font-size: 15.5px; }
+.row small { color: var(--oly-dim); font-size: 13.5px; line-height: 1.3; overflow-wrap: anywhere; }
+.sw { -webkit-appearance: none; appearance: none; flex: none; width: 52px; height: 30px; border-radius: 999px; position: relative; margin: 0; cursor: pointer;
+  background: rgba(var(--oly-th-n37-rgb, 255,255,255),.14); border: 1px solid var(--oly-line); transition: background .2s; }
+.sw::after { content: ""; position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--oly-th-n36, #f3e7d6); box-shadow: 0 2px 6px rgba(0,0,0,.4); transition: transform .2s; }
+.sw:checked { background: rgba(var(--s-rgb), .85); border-color: var(--s-acc); }
+.sw:checked::after { transform: translateX(22px); }
+label.row { cursor: pointer; }
+.sw { box-shadow: 0 0 0 0 transparent; }
+.rng { -webkit-appearance: none; appearance: none; flex: 1 1 120px; min-width: 0; height: 44px; background: transparent; margin: 0; }
+.rng::-webkit-slider-runnable-track { height: 6px; border-radius: 6px; background: rgba(var(--oly-th-n37-rgb, 255,255,255),.18); }
+.rng::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; margin-top: -10px; border-radius: 50%; background: var(--s-acc); border: 2px solid var(--oly-th-n36, #f3e7d6); box-shadow: none; }
+.rng::-moz-range-track { height: 6px; border-radius: 6px; background: rgba(var(--oly-th-n37-rgb, 255,255,255),.18); }
+.rng::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--s-acc); border: 2px solid var(--oly-th-n36, #f3e7d6); }
+.mini, .go { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid rgba(var(--s-rgb), .7); background: rgba(var(--s-rgb), .16); color: var(--oly-text);
+  font: 700 12px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; text-align: center; }
+.go { width: 100%; }
+.go.ghost { background: transparent; border-color: var(--oly-line); }
+.go.danger { border-color: rgba(var(--oly-th-r7-rgb, 192, 96, 63),.7); background: rgba(var(--oly-th-r7-rgb, 192, 96, 63),.16); }
+.mini { flex: none; }
+.filebtn { cursor: pointer; }
+.ro .mini { margin-left: auto; }
+.st { flex: none; padding: 5px 11px; border-radius: 999px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; border: 1px solid var(--oly-line); color: var(--oly-dim); }
+.st.on { color: var(--oly-th-a8, #c8a24a); border-color: rgba(var(--oly-th-a8-rgb, 200, 162, 74),.55); background: rgba(var(--oly-th-a8-rgb, 200, 162, 74),.1); }
+.themes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.theme { position: relative; display: grid; gap: 6px; min-height: 76px; padding: 10px; text-align: left; border-radius: 14px; border: 1px solid var(--oly-line); overflow: hidden; }
+.theme .sw3 { display: flex; gap: 4px; }
+.theme .sw3 i { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(var(--oly-th-n37-rgb, 255,255,255),.35); }
+.theme b { font: 700 12px/1.1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.theme small { font-size: 12.5px; opacity: .8; }
+.theme[aria-checked="true"] { border-color: var(--oly-th-n36, #f3e7d6); box-shadow: 0 0 0 1px var(--oly-th-n36, #f3e7d6); }
+.theme[aria-checked="true"]::after { content: "\2713"; position: absolute; right: 9px; top: 7px; font-weight: 800; }
+.prev { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--oly-line); background: rgba(var(--oly-th-n1-rgb, 0,0,0),.35); height: 96px; }
+.prev canvas { display: block; width: 100%; height: 96px; }
+.pv { position: absolute; right: 8px; top: 8px; padding: 3px 8px; border-radius: 999px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; background: rgba(var(--oly-th-n1-rgb, 0,0,0),.55); border: 1px solid rgba(var(--s-rgb), .6); }
+.intro-prev { display: flex; align-items: center; justify-content: center; gap: 12px; height: 54px; border-radius: 12px; border: 1px solid var(--oly-line); background: rgba(var(--oly-th-n1-rgb, 0,0,0),.35); overflow: hidden; }
+.intro-prev i { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--s-acc); box-shadow: none; }
+.intro-prev span { font: 800 13px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; color: var(--s-acc); }
+.intro-prev.off { opacity: .35; filter: grayscale(1); }
+.times { justify-content: flex-start; gap: 18px; flex-wrap: wrap; }
+.times label { display: flex; align-items: center; gap: 8px; color: var(--oly-dim); }
+.tm { min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--oly-line); background: rgba(var(--oly-th-n1-rgb, 0,0,0),.3); color: var(--oly-text); font-size: 16px; }
+.big { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.big b { font: 800 30px/1 var(--oly-display, sans-serif); letter-spacing: .01em;  }
+.big span { color: var(--oly-dim); font-size: 14px; }
+.bar { height: 8px; border-radius: 8px; background: rgba(var(--oly-th-n37-rgb, 255,255,255),.1); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; border-radius: 8px; background: linear-gradient(90deg, var(--s-acc), var(--oly-th-a8, #c8a24a)); box-shadow: none; transition: width .6s var(--oly-ease, ease); }
+.apps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.apps li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; padding: 8px 0; border-top: 1px solid rgba(var(--oly-th-n37-rgb, 255,255,255),.07); }
+.apps li:first-child { border-top: 0; }
+.apps li b { font-size: 15.5px; overflow-wrap: anywhere; }
+.apps li small { color: var(--oly-dim); font-size: 13.5px; grid-column: 1; }
+.apps li .mini { grid-column: 2; grid-row: 1 / span 2; }
+.apps li .kept { grid-column: 1 / -1; color: var(--oly-th-warn, #e0b060); font-size: 13px; }
+.link { display: grid; gap: 1px; min-height: 56px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--oly-line); text-decoration: none; color: var(--oly-text); background: rgba(var(--oly-th-n37-rgb, 255,255,255),.04); }
+.link b { font: 700 14px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.link span { color: var(--oly-dim); font-size: 14px; }
+.foot { text-align: center; color: var(--oly-dim); font-size: 13px; margin: 4px 0 0; }
+.sheet { position: fixed; inset: 0; z-index: 40; display: grid; align-items: end; padding: 0 12px calc(var(--sb) + 12px); background: rgba(0,0,0,.6); }
+.sheet-box { display: grid; gap: 10px; padding: 16px; border-radius: 18px; background: var(--oly-glass2, var(--oly-th-n5, #28221c)); border: 1px solid rgba(var(--s-rgb), .4); max-width: 520px; width: 100%; margin: 0 auto; }
+.sheet-box h2 { margin: 0; font: 700 14px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.sheet-box p { margin: 0; color: var(--oly-dim); }
+.kept { list-style: none; margin: 0; padding: 0; color: var(--oly-th-warn, #e0b060); font-size: 13.5px; }
+.sheet-a { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tour { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: calc(var(--st) + 12px) 16px calc(var(--sb) + 12px); background: radial-gradient(ellipse at 50% 0%, rgba(var(--s-rgb), .3), rgba(var(--oly-th-n3-rgb, 21, 18, 15),.96) 70%); }
+.tour-box { position: relative; width: 100%; max-width: 440px; display: grid; gap: 10px; justify-items: center; text-align: center; padding: 22px 18px 18px; border-radius: 22px;
+  background: var(--oly-glass2, rgba(var(--oly-th-n5-rgb, 36, 30, 25), .92)); border: 1px solid rgba(var(--s-rgb), .45); border-top-color: rgba(var(--oly-th-n37-rgb, 255,255,255),.3);
+  box-shadow: inset 0 1px 0 rgba(var(--oly-th-n37-rgb, 255,255,255),.15), 0 24px 60px rgba(0,0,0,.6); }
+.skip { position: absolute; right: 8px; top: 6px; min-height: 44px; min-width: 56px; padding: 0 12px; border: 0; background: transparent; color: var(--oly-dim); font: 600 13px var(--oly-ui, sans-serif); }
+.glyph { width: 96px; height: 96px; display: grid; place-items: center; }
+.glyph svg { width: 96px; height: 96px; overflow: visible; filter: none; }
+.step { margin: 0; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; color: var(--oly-dim); text-transform: none; }
+.tour h2 { margin: 0; font: 800 20px/1.2 var(--oly-display, sans-serif); letter-spacing: .01em; color: var(--oly-text); }
+.tt { margin: 0; font-size: 16px; line-height: 1.45; color: var(--oly-text); opacity: .92; }
+.tl { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.tl a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(var(--s-rgb), .6); color: var(--oly-text); text-decoration: none; font: 700 12px var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; background: rgba(var(--s-rgb), .12); }
+.dots { display: flex; gap: 8px; margin: 4px 0; }
+.dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(var(--oly-th-n37-rgb, 255,255,255),.25); transition: all .25s; }
+.dots i.on { width: 24px; border-radius: 8px; background: var(--s-acc); box-shadow: none; }
+.tour-a { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; width: 100%; }
+/* the quality explainer, the reading card, the storage explainer (round 2) */
+.why { margin: 0; padding: 8px 10px; border-radius: 10px; background: rgba(var(--s-rgb), .1); border: 1px solid rgba(var(--s-rgb), .35); font-size: 14px; }
+.sub3 { margin: 4px 0 0; font: 700 12px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; color: var(--oly-dim); }
+.levels { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.levels li { display: grid; gap: 2px; padding: 9px 10px; border-radius: 12px; border: 1px solid var(--oly-line); background: rgba(var(--oly-th-n37-rgb, 255,255,255),.04); }
+.levels li.now { border-color: rgba(var(--s-rgb), .8); background: rgba(var(--s-rgb), .14); }
+.levels li b { font: 700 13px/1.2 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; text-transform: none; }
+.levels li b em { font-style: normal; margin-left: 8px; font-size: 12px; letter-spacing: .01em; color: var(--s-acc); }
+.levels li span { font-size: 14px; }
+.levels li small { color: var(--oly-dim); font-size: 13.5px; line-height: 1.3; }
+.sample { margin: 0; padding: 10px; border-radius: 10px; border: 1px dashed var(--oly-line); font-size: 16px; }
+.tog[aria-pressed="true"] { background: rgba(var(--s-rgb), .4); border-color: var(--s-acc); box-shadow: none; }
+.apps li small.about { color: var(--oly-text); opacity: .8; }
+.go.danger-line { border-color: rgba(var(--oly-th-r7-rgb, 192, 96, 63),.6); color: var(--oly-th-r8, #c96a4a); margin-top: 8px; }
+/* Big text (the kit's html[data-oly-text="big"]): tabs and the segmented pickers keep whole words (no mid-word breaks), the pickers wrap into rows */
+html[data-oly-text="big"] .tabs button { letter-spacing: .01em; padding: 0 2px; font-size: 12px; }
+html[data-oly-text="big"] .seg { flex-wrap: wrap; border-radius: 22px; }
+html[data-oly-text="big"] .seg button { flex: 1 1 28%; letter-spacing: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-lite]) .aurora i:nth-child(1) { animation: drift1 18s ease-in-out infinite alternate; }
+  html:not([data-lite]) .aurora i:nth-child(2) { animation: drift2 22s ease-in-out infinite alternate; }
+  html:not([data-lite]) .aurora i:nth-child(3) { animation: drift1 26s ease-in-out infinite alternate-reverse; }
+  .intro-prev:not(.off) i { animation: seal 2.4s ease-in-out infinite; }
+  .intro-prev:not(.off) span { animation: pulse 2.4s ease-in-out infinite; }
+  .tour-box { animation: rise .45s var(--oly-ease, ease-out) both; }
+  .glyph svg .gr { transform-origin: 48px 48px; animation: spin 14s linear infinite; }
+  .glyph svg .gp { animation: pulse 2.2s ease-in-out infinite; }
+  .panel:not([hidden]) > .card { animation: rise .4s var(--oly-ease, ease-out) both; }
+  .panel:not([hidden]) > .card:nth-child(2) { animation-delay: .05s; } .panel:not([hidden]) > .card:nth-child(3) { animation-delay: .1s; } .panel:not([hidden]) > .card:nth-child(4) { animation-delay: .15s; }
+}
+@keyframes drift1 { from { transform: translate(-6%, 0) scale(1); } to { transform: translate(8%, 12%) scale(1.2); } }
+@keyframes drift2 { from { transform: translate(6%, 4%) scale(1.1); } to { transform: translate(-10%, 0) scale(.9); } }
+@keyframes seal { 0%, 100% { transform: scale(.85); opacity: .7; } 50% { transform: scale(1.15); opacity: 1; } }
+@keyframes pulse { 0%, 100% { opacity: .65; } 50% { opacity: 1; } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (min-width: 520px) { .themes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.intro-prev.flip i { transform: scale(1.35); border-color: var(--oly-th-n36, #f3e7d6); }
+.seg.wrap button { flex: 1 1 30%; }
+
+/* AGORA: how to read the money numbers */
+.moneyread h2 { font: 600 18px var(--ag-serif, Georgia, serif); margin: 0 0 6px; }
+.mr { list-style: none; margin: 0; padding: 0; } .mr li { display: grid; gap: 2px; padding: 10px 0; border-top: 1px solid var(--oly-th-n8, #3a3228); } .mr li:first-child { border-top: 0; }
+.mr b { font: 700 16px var(--ag-num, system-ui); color: var(--oly-th-n37, #f3ece0); } .mr span { font-size: 14px; line-height: 1.4; color: var(--oly-th-n30, #cfc4b2); }

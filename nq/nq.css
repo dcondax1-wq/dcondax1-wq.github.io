@@ -1,0 +1,117 @@
+/* AGORA app base (docs/DESIGN_AGORA.md, olympus/agora.css): marble cards, serif headings, gold rule. Only layout lives here; every colour is an --ag-* token.
+   Safe areas on every edge; the page ends 176 px above the bottom (Jarvis's orb owns the bottom-right corner); every tap target is at least 44 px; no sideways scroll at 375 px. */
+:root { --acc: var(--oly-accent, var(--oly-th-a8, #c8a24a)); --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px)); --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px)); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--ag-night, var(--oly-th-n3, #14110e)); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); overflow-x: hidden; font: 500 15px/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-text, var(--oly-th-n37, #f3ece0)); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ag-gold, var(--oly-th-a8, #c8a24a)); outline-offset: 2px; }
+[hidden] { display: none !important; }
+#app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+html.framed #app { padding-top: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
+.brand h1 { margin: 0; }
+.brand .sub { margin: 6px 0 0; font-size: 13px; color: var(--ag-soft); }
+.tags { display: flex; gap: 6px; align-items: center; flex: none; }
+.tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); }
+.tag.demo { color: var(--oly-th-n3, #1b1610); background: var(--ag-sun); border-color: transparent; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.card > h2 { margin: 0; }
+.lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
+.note { margin: 0; font-size: 13px; color: var(--ag-muted); }
+.pos { color: var(--ag-olive-text, var(--oly-th-g8, #a0ac6e)); } .neg { color: var(--ag-terra-text, var(--oly-th-r10, #e08a6b)); } .soft { color: var(--ag-soft); }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; margin: 0; font-size: 14px; }
+.kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--oly-th-n4, #211c16); white-space: nowrap; }
+.pill.ok { color: var(--ag-olive-text, var(--oly-th-g8, #a0ac6e)); border-color: var(--oly-th-n10, #4c5530); } .pill.warn { color: var(--ag-sun); border-color: var(--oly-th-a3, #6e5424); } .pill.bad { color: var(--ag-terra-text, var(--oly-th-r10, #e08a6b)); border-color: var(--oly-th-r3, #6e3424); }
+.btn { display: inline-flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; min-height: 44px; min-width: 44px; padding: 8px 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px/1.25 var(--ag-sans); }
+.btn.primary { background: linear-gradient(180deg, var(--oly-th-a9, #d4b05a), var(--ag-gold)); color: var(--oly-th-n3, #1b1610); border-color: var(--oly-th-a11, #e2c47a); }
+.btn[aria-expanded="true"] { border-color: var(--ag-gold); }
+svg text { font-family: var(--ag-sans); }
+.foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; } .row h2, .row h3 { margin: 0; }
+.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; color: var(--ag-soft); }
+
+/* NQ: the honest banner */
+.banner { display: grid; gap: 8px; padding: 16px 18px; border-radius: var(--ag-radius, 16px); border: 1px solid var(--oly-th-r3, #6e3424); border-left: 5px solid var(--ag-terra); background: linear-gradient(180deg, var(--oly-th-n5, #2c1d16), var(--oly-th-n4, #221812)); box-shadow: var(--ag-shadow); }
+.banner[data-level="warn"] { border-color: var(--oly-th-a3, #6e5424); border-left-color: var(--ag-sun); background: linear-gradient(180deg, var(--oly-th-n5, #2b2416), var(--oly-th-n4, #211c13)); }
+.banner p { margin: 0; }
+.btitle { font: 700 clamp(20px, 6vw, 25px)/1.2 var(--ag-serif); color: var(--ag-text); }
+.btext { font-size: 15px; color: var(--ag-soft); }
+.banner .btn { justify-self: start; margin-top: 4px; min-height: 44px; }
+
+/* the three columns */
+.scene { position: relative; width: 100%; aspect-ratio: 2 / 1; border-radius: var(--ag-radius-s, 12px); overflow: hidden; background: linear-gradient(180deg, var(--oly-th-n7, #3b2c1e), var(--oly-th-n4, #1d1914)); border: 1px solid var(--ag-line); }
+.s3d, .s2d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.s3d canvas { width: 100% !important; height: 100% !important; display: block; }
+.s2d .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: nq-flame 2.6s ease-in-out infinite alternate; }
+@keyframes nq-flame { from { transform: scaleY(.92); } to { transform: scaleY(1.06); } }
+.legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.leg { display: grid; gap: 4px; justify-items: center; text-align: center; min-width: 0; }
+.leg b { font: 600 15px var(--ag-serif); } .leg[data-lit="1"] b { color: var(--ag-sun); }
+.leg .pill { white-space: normal; text-align: center; min-height: 26px; padding: 3px 8px; line-height: 1.2; }
+
+/* plan, bots */
+.plan { margin: 0; font: 600 18px/1.35 var(--ag-serif); color: var(--ag-text); }
+.cards { display: grid; gap: 12px; }
+.bot { border-left: 4px solid var(--ag-line); }
+.bot[data-level="ok"] { border-left-color: var(--ag-olive); } .bot[data-level="warn"] { border-left-color: var(--ag-sun); } .bot[data-level="bad"] { border-left-color: var(--ag-terra); }
+.bot h3 { margin: 0; font: 700 19px/1.2 var(--ag-serif); } .bot h3 small { font: 600 13px var(--ag-sans); color: var(--ag-muted); }
+.dd { margin: 0; font-size: 17px; line-height: 1.3; color: var(--ag-text); }
+.meter { height: 8px; } .meter > i { transition: width .35s ease-out; }
+.meter > i.ok { background: var(--ag-olive); } .meter > i.warn { background: var(--ag-sun); } .meter > i.bad { background: var(--ag-terra); }
+
+/* trades */
+.trades { margin: 0; padding: 0; list-style: none; display: grid; }
+.trade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--ag-line); }
+.trade:first-child { border-top: 0; padding-top: 2px; }
+.tl, .tr { display: grid; gap: 2px; min-width: 0; align-content: start; } .tr { text-align: right; }
+.tl b { font: 600 15px var(--ag-serif); } .tr b { font-size: 15px; }
+.rule { color: var(--ag-soft); }
+
+/* facts */
+.facts { display: grid; gap: 10px; }
+.fact { display: grid; gap: 3px; padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--oly-th-n4, #1f1a15); }
+.fact p { margin: 0; } .fact.main { border-color: var(--oly-th-a3, #6e5424); }
+.fline { font-size: 16px; color: var(--ag-text); } .fact.main .fline { font-size: 18px; color: var(--ag-sun); }
+.acts { display: grid; gap: 8px; }
+.acts .btn { min-height: 44px; width: 100%; }
+
+/* the how-to sheet */
+.veil { position: fixed; inset: 0; z-index: 40; background: rgba(var(--oly-th-n2-rgb, 12, 10, 8), .62); }
+.sheet { position: fixed; z-index: 41; left: 0; right: 0; bottom: 0; margin: 0 auto; max-width: 640px; max-height: 88vh; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding: 16px calc(var(--sr) + 18px) calc(var(--sb) + 18px) calc(var(--sl) + 18px);
+  border-radius: 20px 20px 0 0; border: 1px solid var(--oly-th-n9, #4a3d28); border-bottom: 0; background: linear-gradient(180deg, var(--ag-raise, var(--oly-th-n5, #26211b)), var(--ag-panel, var(--oly-th-n4, #1d1914))); box-shadow: 0 -10px 30px rgba(0, 0, 0, .45); animation: nq-up .32s ease-out; }
+@keyframes nq-up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheethead { flex-wrap: nowrap; align-items: flex-start; } .sheethead h2 { font-size: 19px; line-height: 1.25; }
+.sheethead .btn { flex: none; min-height: 44px; }
+.sheetbody { overflow-y: auto; -webkit-overflow-scrolling: touch; display: grid; gap: 10px; align-content: start; padding-bottom: 8px; }
+.sheetbody p { margin: 0; }
+.steps { margin: 0; padding-left: 22px; display: grid; gap: 12px; }
+.steps li::marker { color: var(--ag-gold); font-weight: 700; }
+.steps b { font: 600 16px/1.3 var(--ag-serif); } .steps p { margin: 4px 0 0; font-size: 14px; color: var(--ag-soft); }
+.cmd { display: block; margin-top: 6px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--ag-line); background: var(--oly-th-n3, #17130f); color: var(--ag-text); font: 500 13px/1.4 ui-monospace, Menlo, Consolas, monospace; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all; }
+html.sheet-open, html.sheet-open body { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+html[data-oly-lite="1"] .ag-card, html[data-oly-lite="1"] .banner { box-shadow: none; }
+html[data-oly-lite="1"] .s2d .flame, html[data-oly-lite="1"] .sheet { animation: none; }
+
+/* ---- AGORA v2 (2026-11-11): each bot card leads with one hero number (the $ of drawdown left), the status line is quiet,
+   the trade list reads like a statement (serif name, rounded $ on the right), the facts are a stat stack ---- */
+#app .bot { gap: 8px; border-left-width: 3px; }
+#app .bot h3 { font: 600 20px/1.2 var(--ag-serif); } #app .bot h3 small { font: 600 13px var(--ag-sans); color: var(--ag-muted); margin-left: 2px; }
+#app .bot .when { margin-top: -4px; }
+#app .dd { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; row-gap: 0; margin: 4px 0 2px; font-family: var(--ag-sans); }
+#app .dd .ddl { flex-basis: 100%; font: 600 13px/1.3 var(--ag-sans); color: var(--ag-muted); }
+#app .dd .ddv { font: 700 clamp(30px, 9vw, 36px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ag-text); }
+#app .dd .ddo { font: 400 14px/1.3 var(--ag-sans); color: var(--ag-soft); }
+#app .bot[data-level="bad"] .dd .ddv { color: var(--ag-terra-text); } #app .bot[data-level="warn"] .dd .ddv { color: var(--ag-sun); }
+#app .kv { row-gap: 8px; padding-top: 4px; }
+#app .trade { padding: 12px 0; border-top-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .07); }
+#app .tl b { font: 600 16px var(--ag-serif); } #app .tr b { font: 700 16px var(--ag-num); font-variant-numeric: tabular-nums; }
+#app .fact { border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .08); background: rgba(var(--oly-th-n4-rgb, 27, 23, 19), .8); padding: 12px 14px; }
+#app .fact.main { border-color: var(--ag-line-gold, rgba(var(--oly-th-a8-rgb, 200, 162, 74), .32)); background: linear-gradient(180deg, rgba(var(--oly-th-a8-rgb, 200, 162, 74), .08), rgba(var(--oly-th-n4-rgb, 27, 23, 19), .8)); }
+#app .plan { font-size: 19px; }

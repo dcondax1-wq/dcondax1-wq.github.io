@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sibyl</title>
+<meta name="description" content="OLYMPUS SIBYL: the prophetess. Today's best prediction-market odds ranked by the edge left after fees, with a small Kelly-sized paper stake, the chance of ruin, a forward test scoreboard and what could go wrong. Suggestions only: it never places a bet.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sibyl">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- SIBYL (OLYMPUS, AGORA look, 2026-11-10): money machine #3. Ranks the Kalshi study's kinds of bet by edge after fees on a cautious win rate, sizes a paper stake (quarter Kelly, capped), shows ruin odds, the forward paper tally with its n, and what could go wrong.
+     sibylcore.js = the pure logic (node-tested); sibyl.js = the page (ES module); sibylball.js = the marble ball in 3D (its own module tag: if it fails the page draws the flat twin). Reads ../money/sibyl.json (written by tools/money/sibyl.py) and fixture.json (DEMO, never blank); sends nothing. Text only through textContent / createElementNS. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="sibyl"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="sibyl.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Sibyl</h1><p class="sub">Kalshi bet ideas on paper, best first after fees. Kalshi is paused: look only.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">Today</h2><span class="pill" id="srcPill">...</span></div>
+    <div class="ballbox">
+      <canvas id="stage" role="img" aria-label="A marble ball on a bronze stand with gold odds tokens floating around it, one for each ranked pick. Tap a token to open that pick."></canvas>
+      <svg id="flat" viewBox="0 0 320 232" role="img" aria-label="A flat drawing of the marble ball with the odds tokens around it" hidden></svg>
+    </div>
+    <p class="lead" id="head"></p>
+    <div class="tiles" id="heroTiles"></div>
+    <p class="note" id="srcNote"></p>
+    <p class="banner">Suggestions only. Sibyl never places or arms a bet, and the Kalshi bot is untouched. Every dollar is an estimate from past bets.</p>
+  </section>
+  <section class="ag-card card" aria-labelledby="picksH">
+    <h2 id="picksH">Best paper picks</h2>
+    <label class="fld"><span>Your bankroll $ (sizes follow it)</span><input id="bank" type="number" inputmode="decimal" min="1" step="1" value="100"></label>
+    <p class="note" id="bankNote"></p>
+    <ul class="plain" id="picks"></ul>
+    <p class="note" id="picksNote"></p>
+  </section>
+  <section class="ag-card card" aria-labelledby="listH">
+    <h2 id="listH">Every kind of bet, ranked</h2>
+    <div class="seg" id="types" role="group" aria-label="Filter by type"></div>
+    <ul class="plain" id="list"></ul>
+    <p class="note" id="listNote"></p>
+  </section>
+  <section class="ag-card card" id="sbCard" aria-labelledby="sbH">
+    <div class="row"><h2 id="sbH">Forward test scoreboard</h2><span class="pill" id="sbPill">...</span></div>
+    <p class="lead" id="sbText"></p>
+    <table class="lad" id="sbTable"><caption class="note">Paper results of each rule on bets placed after the start date</caption><thead><tr><th scope="col">Rule</th><th scope="col">Bets</th><th scope="col">Net</th><th scope="col">Vs bot</th></tr></thead><tbody id="sbRows"></tbody></table>
+    <p class="note" id="sbNote"></p>
+  </section>
+  <section class="ag-card card" id="ownCard" aria-labelledby="ownH">
+    <div class="row"><h2 id="ownH">Sibyl's own paper picks</h2><span class="pill" id="ownPill">...</span></div>
+    <p class="lead" id="ownText"></p>
+    <div class="tiles" id="ownTiles"></div>
+    <ul class="plain" id="ownRows"></ul>
+    <p class="note" id="ownNote"></p>
+  </section>
+  <section class="ag-card card" id="stopCard" aria-labelledby="stopH">
+    <div class="row"><h2 id="stopH">What your Kalshi bot should stop doing</h2><span class="pill" id="stopPill">...</span></div>
+    <p class="lead" id="stopText">Suggestions only, the bot is untouched.</p>
+    <ul class="plain" id="stopRows"></ul>
+    <p class="note" id="stopNote"></p>
+  </section>
+  <section class="ag-card card" id="riskCard" aria-labelledby="riskH">
+    <h2 id="riskH">What could go wrong</h2>
+    <ul class="plain" id="risks"></ul>
+  </section>
+  <section class="ag-card card" aria-labelledby="howH">
+    <h2 id="howH">How to read this</h2>
+    <ul class="plain" id="notes"></ul>
+  </section>
+
+  <p class="foot" id="foot">Sibyl reads the Kalshi study files the site already publishes (through tools/money/sibyl.py) and sends nothing. It cannot place, change or stop a bet. Kalshi runs on real money: the study looks back, it is not a promise, and a small sample can be pure luck.</p>
+</main>
+<script type="module" src="sibyl.js?v=a1"></script>
+<script type="module" src="sibylball.js?v=q6c" onerror="window.SIBYL_BALL_FAIL = 1"></script>
+</body>
+</html>

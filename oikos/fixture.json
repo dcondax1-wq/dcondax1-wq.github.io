@@ -1,0 +1,22 @@
+{"v":1,"app":"ledger","demo":true,"note":"EXAMPLE numbers, not real: a made-up household ledger so OIKOS is never empty. Days are offsets from today.",
+"accounts":[{"id":"demo50k","name":"Example eval 50K"},{"id":"demo25k","name":"Example eval 25K"},{"id":"demoB","name":"Example eval 50K (second try)"},{"id":"demoC","name":"Example eval 25K (never paid)"}],
+"settings":{"taxPct":30},"opts":{"em_saved":1800,"living":2500},
+"entries":[
+{"id":"s01","off":-120,"kind":"fee","amount":91.8,"cat":"Eval fees","acct":"demo50k","note":"Example eval fee"},
+{"id":"s02","off":-110,"kind":"fee","amount":43,"cat":"Eval fees","acct":"demo25k","note":"Example eval fee"},
+{"id":"s03","off":-100,"kind":"expense","amount":12,"cat":"VPS / Azure","acct":"general","note":"Example VPS","rec":{"every":"month"}},
+{"id":"s04","off":-100,"kind":"expense","amount":29,"cat":"Data feeds","acct":"general","note":"Example data feed","rec":{"every":"month"}},
+{"id":"s05","off":-100,"kind":"expense","amount":15,"cat":"Voice keys","acct":"general","note":"Example voice key","rec":{"every":"month"}},
+{"id":"s06","off":-95,"kind":"expense","amount":24,"cat":"Subscriptions","acct":"general","note":"Example charting plan","rec":{"every":"month"}},
+{"id":"s07","off":-80,"kind":"fee","amount":91.8,"cat":"Eval fees","acct":"demoB","note":"Example eval fee"},
+{"id":"s08","off":-70,"kind":"reset","amount":55,"cat":"Resets","acct":"demoB","note":"Example reset"},
+{"id":"s09","off":-55,"kind":"reset","amount":55,"cat":"Resets","acct":"demoB","note":"Example reset"},
+{"id":"s10","off":-60,"kind":"payout_in","amount":800,"cat":"Payouts","acct":"demo50k","note":"Example payout (80%)"},
+{"id":"s11","off":-45,"kind":"payout_in","amount":480,"cat":"Payouts","acct":"demo25k","note":"Example payout (80%)"},
+{"id":"s12","off":-36,"kind":"fee","amount":43,"cat":"Eval fees","acct":"demoC","note":"Example eval fee"},
+{"id":"s13","off":-30,"kind":"payout_in","amount":650,"cat":"Payouts","acct":"demo50k","note":"Example payout (80%)"},
+{"id":"s14","off":-20,"kind":"payout_in","amount":320,"cat":"Payouts","acct":"demo25k","note":"Example payout (80%)"},
+{"id":"s15","off":-12,"kind":"payout_in","amount":900,"cat":"Payouts","acct":"demo50k","note":"Example payout (80%)"},
+{"id":"s16","off":-40,"kind":"tax","amount":150,"cat":"Tax","acct":"general","note":"Example set-aside moved"},
+{"id":"s17","off":-65,"kind":"expense","amount":380,"cat":"Mini PC / hardware","acct":"general","note":"Example mini PC"}
+]}

@@ -1,0 +1,71 @@
+/* ODEON: the trade library, the numbers on the stage, the comparison (2026-11-04). Same tokens as odeon.css; every tap is 44 px. */
+.reel-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+.reel-actions .btn { flex: 1 1 0; min-width: 96px; }
+.reel-actions .btn[aria-pressed='true'] { background: rgba(255, 181, 71, 0.18); border-color: rgba(255, 181, 71, 0.6); color: #f3ece0; }
+.more { display: grid; gap: 2px; }
+.chips.mini { gap: 6px; margin-bottom: 4px; align-items: center; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chips.mini::-webkit-scrollbar { display: none; }
+.chip-k { flex: none; width: 58px; color: var(--dim); font: 700 11px var(--display); text-transform: none; }
+.chip.sm { flex: none; padding: 0 12px; border-radius: 18px; font-size: 13px; white-space: nowrap; }
+.stat-line { margin: 6px 0 8px; color: var(--dim); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+/* the R-multiple histogram: eight tappable columns, losses red, breakeven violet, wins green */
+.hist { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; margin: 0 0 12px; }
+.hb { position: relative; display: grid; grid-template-rows: 14px 64px auto; gap: 2px; min-height: 44px; padding: 2px 0 4px; border: 1px solid transparent; border-radius: 10px; background: rgba(255, 255, 255, 0.03); cursor: pointer; color: var(--text); }
+.hb b { text-align: center; font: 700 11px var(--display); color: var(--dim); }
+.hb i { align-self: end; justify-self: center; width: 62%; min-height: 2px; border-radius: 4px 4px 1px 1px; background: var(--c, #8a9a5a);  opacity: 0.85; }
+.hb span { text-align: center; font: 600 9.5px/1.15 var(--ui, system-ui); color: var(--dim); overflow-wrap: anywhere; }
+.hb.t-loss { --c: #d06a48; } .hb.t-be { --c: #b8a07c; } .hb.t-win { --c: #8a9a5a; }
+.hb[aria-pressed='true'] { border-color: var(--c); background: rgba(255, 255, 255, 0.08); }
+.hb:focus-visible { outline: 2px solid var(--cyan, #7fa6bd); outline-offset: 1px; }
+.reels.comparing .reel { outline: 1px dashed rgba(255, 181, 71, 0.5); outline-offset: -3px; }
+.reel[data-pick] { outline: 2px solid #ffb547; outline-offset: -2px; }
+.reel[data-pick='A'] { outline-color: #c8a24a; }
+.reel[data-pick]::after { content: attr(data-pick); position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 800 13px var(--display); color: #07060c; background: #ffb547; z-index: 3; }
+.reel[data-pick='A']::after { background: #c8a24a; }
+/* the trade's numbers on the stage */
+.onstage { display: flex; gap: 6px; margin-top: 6px; max-width: 100%; }
+.onstage .os-c { flex: 1 1 0; min-width: 0; display: grid; gap: 0; padding: 3px 8px; border-radius: 10px; border: 1px solid var(--line); background: rgba(20, 17, 14, 0.62);
+  }
+.onstage i { font: 700 9.5px var(--display); text-transform: none; color: var(--dim); font-style: normal; }
+.onstage b { font: 700 14px var(--display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.onstage[data-sign='up'] .os-c:first-child b { color: #8a9a5a; } .onstage[data-sign='down'] .os-c:first-child b { color: #d06a48; }
+.onstage[data-live='true'] .os-c:first-child { border-color: rgba(200, 162, 74, 0.55);  }
+/* the comparison sheet */
+.compare { inset: 0; padding: calc(var(--sat) + 12px) calc(var(--gut) + var(--sar)) calc(var(--sab) + 24px) calc(var(--gut) + var(--sal)); z-index: 35; animation: sheetin 0.3s ease-out; }
+.cmp-heads { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.cmp-h { display: grid; gap: 2px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); }
+.cmp-h b { font: 800 14px var(--display); } .cmp-h span { color: var(--dim); font-size: 13px; }
+.cmp-h.a { border-color: rgba(200, 162, 74, 0.6); } .cmp-h.a b { color: #c8a24a; }
+.cmp-h.b { border-color: rgba(255, 181, 71, 0.6); } .cmp-h.b b { color: #ffb547; }
+.cmp-canvas { width: 100%; height: 180px; display: block; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); }
+.cmp-table { width: 100%; border-collapse: collapse; margin: 10px 0 4px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.cmp-table th { text-align: left; font-weight: 600; color: var(--dim); padding: 7px 4px; width: 38%; }
+.cmp-table td { padding: 7px 4px; font-weight: 700; border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.cmp-table tr { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.cmp-table td.win { color: #8a9a5a;  }
+@media (prefers-reduced-motion: reduce) { .compare { animation: none; } }
+
+/* touch targets (bug hunt 2026-11-04): the trade strip's arrows are 44 px wide; the scrubber's tick marks sit in their own row ABOVE the bar,
+   so a finger on the bar never lands on a tick (the ticks stay tappable for a jump, in their row only) */
+.strip button { width: 44px; }
+@media (min-height: 501px) {
+  .scrub-wrap { height: 62px; align-items: flex-end; }
+  .ticks { top: 0; bottom: auto; height: 18px; }
+  .tick { top: 2px; }
+  .tick::after { width: 30px; height: 18px; }
+  /* 2026-11-04 (tap-target crawl): the entry and exit marks are real 44 x 44 px targets, the dot drawn exactly as before; entry sits above exit above the rest so a click on its dot always lands on it */
+  .tick.k-entry, .tick.k-exit { width: 44px; height: 44px; margin-left: -22px; top: -13px; z-index: 2; }
+  .tick.k-entry { z-index: 3; }
+  .tick.k-entry::before, .tick.k-exit::before { left: 50%; top: 50%; margin: -3px 0 0 -3px; }
+  .tick.k-entry::before { margin: -4px 0 0 -4px; }
+  .tick.k-entry::after, .tick.k-exit::after { display: none; }
+}
+
+/* the money hero of the reels sheet and the left-on-the-table line */
+.reel-hero { display: flex; flex-direction: column; gap: 2px; margin: 4px 0 10px; }
+.reel-hero .rh-net { font: 700 40px/1.05 var(--num); color: var(--green); }
+.reel-hero .rh-net.neg { color: var(--red); }
+.reel-hero .rh-sub { font-size: 15px; color: var(--dim); }
+.reel-hero .rh-split { font-size: 13px; color: #9a8f7d; }
+.stats .left { margin: 8px 0 0; font-size: 14px; color: var(--dim); }
+.stats .left:empty { display: none; }

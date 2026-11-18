@@ -1,0 +1,1 @@
+{"v": 1, "name": "Ergasterion", "status": {"level": "off", "label": "Demo data"}, "kpis": [{"label": "Working", "value": "8"}, {"label": "Need a look", "value": "2"}, {"label": "Open tasks", "value": "4"}], "lines": ["The workshop: what every worker is doing and learning."], "t": 1793394000, "open": "#", "theme": "#14110e", "stale_after": 86400}

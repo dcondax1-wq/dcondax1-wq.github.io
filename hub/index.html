@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus hub</title>
+<meta name="description" content="An OLYMPUS hub: one of the owner's jobs on one page. A tab per job, the best app for it first with its live status, the others below, duplicates folded under 'Other views of the same'.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<!-- OLYMPUS HUB PAGE (2026-11-14, docs/OLYMPUS_IA_V2.md). hub/?h=<hub>&t=<tab>: today | me | bots | kalshi | money | plan | research | jarvis | worlds | settings.
+     me = the Me hub (docs/ME_HUB.md), a PAGE hub: me.js draws its 4 status tiles and 8 areas from the PC's private me/me.json instead of tabs.
+     The hubs and their tabs are DATA in olympus/gate-catalog.js (HUBS + each app's hub / section / fold); the live lines come from olympus/hub-status.js.
+     Each tab: the job in one line, the BEST app for it as a big card (its live status from its jarvis.json, "Open", and "Show it here" = the app embedded
+     in a frame), the other apps for that job as rows, and the duplicates folded under "Other views of the same" (nothing removed: every old app URL works).
+     Breadcrumb Home > Hub and "Go to" come from olympus/gate-nav.js. Read only: home.json (through truth.js), kalshi.json, money/scoreboard.json,
+     the hub's apps' jarvis.json, the Planner's summary on this phone. It sends nothing. Text only through textContent / createElementNS. -->
+<style>html, body { background: var(--oly-th-n3, #14110e); color: var(--oly-th-n37, #f3ece0); margin: 0; }</style>
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.className += ' framed'; } catch (e) { d.className += ' framed'; }
+  /* this hub's page id for the theme engine ('hub-<id>': the Gate's Mix maps it to its hub, olympus/themes.js pageId) */
+  var m = /[?&]h=([a-z]+)/.exec(location.search || ''); if (!m) return;
+  d.setAttribute('data-oly-district', m[1]); d.setAttribute('data-oly-page', 'hub-' + m[1]);
+})();</script>
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT: the look this hub gets, from the engine's copy) */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  if (c.jarvis && P === 'jarvis') for (k in c.jarvis) { d.style.setProperty(k, c.jarvis[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="hub.css?v=h4">
+<link rel="stylesheet" href="me.css?v=m2">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/gate-catalog.js?v=nv3"></script>
+<script src="../olympus/hub-status.js?v=h2"></script>
+<script src="../olympus/gate-nav.js?v=g5" data-app="hub" defer></script>
+<script src="me.js?v=m2" defer></script>
+<script src="hub.js?v=h4" defer></script>
+</head>
+<body>
+<main id="hub" class="hb-main">
+  <header class="hb-head" id="hubHead">
+    <h1 class="hb-title" id="hubName">Your hubs</h1>
+    <p class="hb-q" id="hubQ">Pick the job you want to do.</p>
+  </header>
+
+  <section class="hb-now" id="hubNow" aria-label="Right now in this hub" hidden>
+    <div class="hb-facts" id="hubFacts" role="status" aria-live="polite"></div>
+    <p class="hb-nowfoot" id="hubFoot"></p>
+  </section>
+
+  <div class="hb-tabs" id="tabs" role="tablist" aria-label="Jobs in this hub" hidden></div>
+  <section class="hb-panel" id="panel" role="tabpanel" hidden></section>
+
+  <section class="hb-see" id="see" aria-labelledby="seeH" hidden>
+    <h2 class="hb-h2" id="seeH">Also useful here, from other hubs</h2>
+    <div class="hb-list" id="seeList"></div>
+  </section>
+
+  <nav class="hb-index" id="hubIndex" aria-labelledby="indexH">
+    <h2 class="hb-h2" id="indexH">All hubs</h2>
+    <div class="hb-chips" id="hubChips">
+      <a class="hb-chip" data-hub="today" href="index.html?h=today">Today</a>
+      <a class="hb-chip" data-hub="me" href="index.html?h=me">Me</a>
+      <a class="hb-chip" data-hub="bots" href="index.html?h=bots">Bots &amp; Evals</a>
+      <a class="hb-chip" data-hub="kalshi" href="index.html?h=kalshi">Kalshi</a>
+      <a class="hb-chip" data-hub="money" href="index.html?h=money">My Money</a>
+      <a class="hb-chip" data-hub="plan" href="index.html?h=plan">Plan &amp; Day</a>
+      <a class="hb-chip" data-hub="research" href="index.html?h=research">Research</a>
+      <a class="hb-chip" data-hub="jarvis" href="index.html?h=jarvis">Jarvis</a>
+      <a class="hb-chip" data-hub="worlds" href="index.html?h=worlds">Worlds</a>
+      <a class="hb-chip" data-hub="settings" href="index.html?h=settings">Settings &amp; Help</a>
+      <a class="hb-chip hb-home" href="../gate/index.html">Home</a>
+    </div>
+  </nav>
+
+  <footer class="hb-foot"><p>Read only: nothing here can trade or change a bot.</p></footer>
+</main>
+</body>
+</html>

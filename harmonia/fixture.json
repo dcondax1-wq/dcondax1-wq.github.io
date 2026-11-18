@@ -1,0 +1,78 @@
+{
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE numbers, not real: three accounts and five money streams as they might look, shown until the site's own home.json and money/index.json are there.",
+ "accounts": [
+  {
+   "key": "zlarior",
+   "kind": "eval",
+   "room": 1420,
+   "mll": 2000,
+   "risk": 425
+  },
+  {
+   "key": "atlas",
+   "kind": "eval",
+   "room": 840,
+   "mll": 1000,
+   "risk": 150
+  },
+  {
+   "key": "blitz",
+   "kind": "eval",
+   "room": 560,
+   "mll": 1000,
+   "risk": 120
+  }
+ ],
+ "money": {
+  "v": 1,
+  "streams": [
+   {
+    "id": "chrysos",
+    "status": "sample",
+    "usd_month": {
+     "low": -42.01,
+     "base": 1339.01,
+     "high": 2234.78
+    }
+   },
+   {
+    "id": "mercury",
+    "status": "sample",
+    "usd_month": {
+     "low": null,
+     "base": null,
+     "high": null
+    }
+   },
+   {
+    "id": "sibyl",
+    "status": "sample",
+    "usd_month": {
+     "low": 0.0,
+     "base": 8.0,
+     "high": 16.0
+    }
+   },
+   {
+    "id": "oikos",
+    "status": "sample",
+    "usd_month": {
+     "low": 0.0,
+     "base": 111.0,
+     "high": 222.0
+    }
+   },
+   {
+    "id": "arbiter",
+    "status": "sample",
+    "usd_month": {
+     "low": 0.0,
+     "base": 37.0,
+     "high": 74.0
+    }
+   }
+  ]
+ }
+}

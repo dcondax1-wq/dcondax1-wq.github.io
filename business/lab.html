@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZEUS Lab</title>
+<meta name="description" content="ZEUS Lab: every idea to make Zlarior and ATLAS stronger, re-tested every night on the real backtests, then traded on paper before you are asked. Nothing changes without your yes.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- ZEUS LAB (2026-11-18, night-lab; docs/ZEUS_LAB.md): read only. ./lab_pc.json = the PC's nightly run (tools/zeus_lab.py, gitignored),
+     else ./lab.json = the published copy (python -X utf8 tools/zeus_lab.py publish). Text only through textContent. lab.js = the page. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=4">
+<style>
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+  .seg .btn { min-height: 44px; padding: 0 12px; font-size: 14px; }
+  .seg .btn[aria-pressed="true"] { border-color: var(--ag-gold, #c8a24a); color: var(--ag-gold, #c8a24a); }
+  .exps { display: grid; gap: 10px; }
+  .exp { border-top: 1px solid var(--ag-line, #3a3226); padding-top: 10px; }
+  .exp:first-child { border-top: 0; padding-top: 0; }
+  .exp h3 { margin: 0 0 4px; font-size: 15px; overflow-wrap: anywhere; }
+  .exp .what { margin: 0 0 6px; font-size: 14px; }
+  .exp .why { margin: 4px 0 0; font-size: 13px; opacity: .85; overflow-wrap: anywhere; }
+  .st { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; margin: 0 6px 4px 0; }
+  .st.ready { color: #9fcf8a; font-weight: 700; } .st.shadow { color: #e0b85a; } .st.testing { color: #a9c4e0; }
+  .st.rejected, .st.blocked, .st.error { color: #c98a7a; } .st.parked, .st.adopted { color: #a9a9b3; }
+  .who { font-size: 12px; opacity: .8; }
+  .mt { width: 100%; border-collapse: collapse; font-size: 13px; margin: 4px 0; }
+  .mt th, .mt td { padding: 4px 4px; text-align: right; border-bottom: 1px solid var(--ag-line, #3a3226); }
+  .mt th:first-child, .mt td:first-child { text-align: left; }
+  .pos { color: #9fcf8a; } .neg { color: #c98a7a; }
+  details summary { min-height: 44px; line-height: 44px; cursor: pointer; }
+  .safe { font-size: 15px; } .safe.red { color: #e07a6a; font-weight: 700; } .safe.green { color: #9fcf8a; }
+  ul.plain { margin: 0; padding-left: 18px; } ul.plain li { margin: 4px 0; font-size: 14px; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main id="app">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">ZEUS Lab</h1><p class="sub">Ideas to make Zlarior and ATLAS stronger, tested every night</p></div></div></header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card" aria-labelledby="sumH">
+    <h2 id="sumH">Right now</h2>
+    <p class="big" id="big">-</p>
+    <p class="safe" id="safe"></p>
+    <p class="note" id="sumNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="expH">
+    <h2 id="expH">The ideas</h2>
+    <div class="seg" id="flt" role="group" aria-label="Show"></div>
+    <div class="exps" id="exps"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="howH">
+    <h2 id="howH">How an idea gets to you</h2>
+    <ul class="plain" id="how"></ul>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="forH">
+    <details><summary id="forH">Already rejected, never re-tested (<span id="forN">0</span>)</summary><ul class="plain" id="forever"></ul></details>
+  </section>
+  <p class="note" id="foot"></p>
+</main>
+<script src="lab.js?v=1"></script>
+</body>
+</html>

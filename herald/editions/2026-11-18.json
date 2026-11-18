@@ -1,0 +1,1157 @@
+{
+ "v": 1,
+ "date": "2026-11-18",
+ "number": 2,
+ "built": "2026-11-18T15:48:49Z",
+ "demo": false,
+ "masthead": {
+  "title": "The Olympus Herald",
+  "motto": "Only what the files say",
+  "date_words": "Wednesday, 18 November 2026"
+ },
+ "label": "Some stories rest on sample data and say so.",
+ "lead": {
+  "id": "bots",
+  "kicker": "The floor",
+  "headline": "The day so far: $0 across the accounts",
+  "standfirst": "Each account's day and how much drawdown is left, from the live summary.",
+  "body": [
+   "Across the 2 accounts that reported, the day stands at $0.",
+   "MFFU 50K Eval is $0 on the day, with drawdown left $1,900 of $2,000 max loss.",
+   "Paper (cloud) is $0 on the day, with drawdown left $1,900 of $2,000 max loss.",
+   "The file gives the day in dollars; where it also gives R, the R is printed next to its dollars.",
+   "These are the figures the phone's home page reads; the bots trade on paper or on an eval the owner arms himself."
+  ],
+  "facts": [
+   {
+    "t": "MFFU 50K Eval",
+    "src": "home.json",
+    "quote": true
+   },
+   {
+    "t": "$0",
+    "src": "home.json",
+    "at": "accounts/0/pnl/today",
+    "raw": 0.0
+   },
+   {
+    "t": "$1,900",
+    "src": "home.json",
+    "at": "accounts/0/eval/room",
+    "raw": 1900.0
+   },
+   {
+    "t": "$2,000",
+    "src": "home.json",
+    "at": "accounts/0/eval/mll",
+    "raw": 2000.0
+   },
+   {
+    "t": "Paper (cloud)",
+    "src": "home.json",
+    "quote": true
+   },
+   {
+    "t": "$0",
+    "src": "home.json",
+    "at": "accounts/1/pnl/today",
+    "raw": 0.0
+   },
+   {
+    "t": "$1,900",
+    "src": "home.json",
+    "at": "accounts/1/eval/room",
+    "raw": 1900.0
+   },
+   {
+    "t": "$2,000",
+    "src": "home.json",
+    "at": "accounts/1/eval/mll",
+    "raw": 2000.0
+   },
+   {
+    "t": "$0",
+    "src": "home.json",
+    "calc": "sum of pnl/today over the accounts named",
+    "raw": 0.0
+   },
+   {
+    "t": "2",
+    "src": "home.json",
+    "calc": "count of accounts with a P&L today",
+    "raw": 2
+   }
+  ],
+  "sources": [
+   "home.json"
+  ],
+  "sample": false
+ },
+ "articles": [
+  {
+   "id": "kalshi-research",
+   "kicker": "Kalshi desk",
+   "headline": "3 Kalshi edge hunts report: no edge found",
+   "standfirst": "The research teams' verdicts, one honest sentence each, copied from their write-ups.",
+   "body": [
+    "Kalshi edge, team A (calibration / base rate): NO EDGE FOUND (dated 2026-11-10).",
+    "In its own words: No edge found. Out of the 38 cells that were big enough to test (and 7 pre-written textbook ideas), none beat the noise on training data, and none is positive with a confidence interval above zero on the held-out last 14 days.",
+    "Kalshi edge, team B (structure and behaviour): NO EDGE FOUND (dated 2026-11-10).",
+    "In its own words: None gives an edge that survives fees, a held-out block and a second asset.",
+    "Kalshi edge, team C (weather, economics, daily index, other daily series): NO EDGE FOUND (dated 2026-11-11).",
+    "In its own words: No edge found. I looked at 262 cells in three families."
+   ],
+   "facts": [
+    {
+     "t": "Kalshi edge, team A (calibration / base rate): NO EDGE FOUND",
+     "src": "research/writeups/kalshi_edge_A.md",
+     "quote": true
+    },
+    {
+     "t": "2026-11-10",
+     "src": "research/writeups/kalshi_edge_A.md",
+     "quote": true
+    },
+    {
+     "t": "No edge found. Out of the 38 cells that were big enough to test (and 7 pre-written textbook ideas), none beat the noise on training data, and none is positive with a confidence interval above zero on the held-out last 14 days.",
+     "src": "research/writeups/kalshi_edge_A.md",
+     "quote": true
+    },
+    {
+     "t": "Kalshi edge, team B (structure and behaviour): NO EDGE FOUND",
+     "src": "research/writeups/kalshi_edge_B.md",
+     "quote": true
+    },
+    {
+     "t": "2026-11-10",
+     "src": "research/writeups/kalshi_edge_B.md",
+     "quote": true
+    },
+    {
+     "t": "None gives an edge that survives fees, a held-out block and a second asset.",
+     "src": "research/writeups/kalshi_edge_B.md",
+     "quote": true
+    },
+    {
+     "t": "Kalshi edge, team C (weather, economics, daily index, other daily series): NO EDGE FOUND",
+     "src": "research/writeups/kalshi_edge_C.md",
+     "quote": true
+    },
+    {
+     "t": "2026-11-11",
+     "src": "research/writeups/kalshi_edge_C.md",
+     "quote": true
+    },
+    {
+     "t": "No edge found. I looked at 262 cells in three families.",
+     "src": "research/writeups/kalshi_edge_C.md",
+     "quote": true
+    },
+    {
+     "t": "3",
+     "src": "research/writeups/kalshi_edge_A.md",
+     "calc": "count of kalshi_edge_*.md write-ups read",
+     "raw": 3
+    }
+   ],
+   "sources": [
+    "research/writeups/kalshi_edge_A.md",
+    "research/writeups/kalshi_edge_B.md",
+    "research/writeups/kalshi_edge_C.md"
+   ],
+   "sample": false
+  },
+  {
+   "id": "builders",
+   "kicker": "The workshop",
+   "headline": "10 builders at work in the workshop",
+   "standfirst": "Who is building what today, straight from the lead's roster.",
+   "body": [
+    "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
+    "On the bench today: Pinakes: A browser for every table of data OLYMPUS has.",
+    "Next to it: Fixer: Fixing the broken tests and phone-layout bugs in old apps.",
+    "And a third: Jarvis brain: Search everything, follow-up questions, briefings, tours.",
+    "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
+    "The roster was last updated at 2026-11-11T01:10:00Z."
+   ],
+   "facts": [
+    {
+     "t": "10",
+     "src": "handoff/agents_now.json",
+     "calc": "count of agents",
+     "raw": 10
+    },
+    {
+     "t": "Pinakes",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "A browser for every table of data OLYMPUS has",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "Fixer",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "Fixing the broken tests and phone-layout bugs in old apps",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "Jarvis brain",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "Search everything, follow-up questions, briefings, tours",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "9",
+     "src": "handoff/agents_now.json",
+     "calc": "count of different areas",
+     "raw": 9
+    },
+    {
+     "t": "arena",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "cities",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "data",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "design",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "factory",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "jarvis",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "quality",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "research",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "trading",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "2026-11-11T01:10:00Z",
+     "src": "handoff/agents_now.json",
+     "at": "asof",
+     "raw": "2026-11-11T01:10:00Z"
+    }
+   ],
+   "sources": [
+    "handoff/agents_now.json"
+   ],
+   "sample": false
+  },
+  {
+   "id": "kalshi-stop",
+   "kicker": "Kalshi desk",
+   "headline": "Kalshi stop list: 3 habits to drop",
+   "standfirst": "What the bot's own settled bets say it should stop doing. Suggestions only.",
+   "body": [
+    "The Kalshi review sorts the bot's habits into 3 to stop, 1 to pause, 9 to watch and 5 to keep.",
+    "Stop: Buying at 90 to 95 cents, 581 bets for -$248.30 after fees (-4.7% per dollar staked).",
+    "Stop: XRP bets, 192 bets for -$106.63 after fees (-6.1% per dollar staked).",
+    "Stop: Strategy: 15-min favourites, 1,131 bets for -$88.77 after fees.",
+    "The rule as written: Do not buy any contract priced 90 to 95 cents. Wins 92.3% but needs 93.2% to break even, and the losses are bigger bets.",
+    "What it rests on: The bot's own 1,836 settled buys (feed of 2026-11-04, 41 days, Kalshi fees already inside the dollars)."
+   ],
+   "facts": [
+    {
+     "t": "3",
+     "src": "kalshicity/suggestions.json",
+     "at": "counts/stop",
+     "raw": 3
+    },
+    {
+     "t": "1",
+     "src": "kalshicity/suggestions.json",
+     "at": "counts/pause",
+     "raw": 1
+    },
+    {
+     "t": "9",
+     "src": "kalshicity/suggestions.json",
+     "at": "counts/watch",
+     "raw": 9
+    },
+    {
+     "t": "5",
+     "src": "kalshicity/suggestions.json",
+     "at": "counts/keep",
+     "raw": 5
+    },
+    {
+     "t": "Buying at 90 to 95 cents",
+     "src": "kalshicity/suggestions.json",
+     "quote": true
+    },
+    {
+     "t": "581",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/0/n",
+     "raw": 581
+    },
+    {
+     "t": "-$248.30",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/0/net_usd",
+     "raw": -248.3
+    },
+    {
+     "t": "-4.7%",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/0/roi_pct",
+     "raw": -4.7
+    },
+    {
+     "t": "XRP bets",
+     "src": "kalshicity/suggestions.json",
+     "quote": true
+    },
+    {
+     "t": "192",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/1/n",
+     "raw": 192
+    },
+    {
+     "t": "-$106.63",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/1/net_usd",
+     "raw": -106.63
+    },
+    {
+     "t": "-6.1%",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/1/roi_pct",
+     "raw": -6.1
+    },
+    {
+     "t": "Strategy: 15-min favourites",
+     "src": "kalshicity/suggestions.json",
+     "quote": true
+    },
+    {
+     "t": "1,131",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/2/n",
+     "raw": 1131
+    },
+    {
+     "t": "-$88.77",
+     "src": "kalshicity/suggestions.json",
+     "at": "items/2/net_usd",
+     "raw": -88.77
+    },
+    {
+     "t": "Do not buy any contract priced 90 to 95 cents. Wins 92.3% but needs 93.2% to break even, and the losses are bigger bets.",
+     "src": "kalshicity/suggestions.json",
+     "quote": true
+    },
+    {
+     "t": "The bot's own 1,836 settled buys (feed of 2026-11-04, 41 days, Kalshi fees already inside the dollars).",
+     "src": "kalshicity/suggestions.json",
+     "quote": true
+    },
+    {
+     "t": "Suggestions only: nothing here changes or places a bet. The bot is untouched.",
+     "src": "kalshicity/suggestions.json",
+     "quote": true
+    },
+    {
+     "t": "3",
+     "src": "kalshicity/suggestions.json",
+     "calc": "count of items with verdict stop",
+     "raw": 3
+    }
+   ],
+   "sources": [
+    "kalshicity/suggestions.json"
+   ],
+   "sample": false
+  },
+  {
+   "id": "money",
+   "kicker": "Money",
+   "headline": "Money machines put a month at $1,493.81 (sample data)",
+   "standfirst": "What the five paper money machines add up to, by their own count.",
+   "body": [
+    "The money machines' own estimate for a month is $1,493.81, between -$42.01 on a bad month and $2,544.38 on a good one.",
+    "5 streams report in; 5 of them are still running on sample data.",
+    "The part of that estimate that rests on real finds, not samples, is $0.",
+    "Chrysos says: Estimate: the fleet of 4 accounts nets about $16,068 over 12 months (stress case -$504, cautious $3,045, best case $26,817); break-even in about 1.2 months. Not a promise.",
+    "Mercury says: Best deal now: 30% off at MyFundedFutures, about $27.54 saved (estimate).",
+    "It is an estimate on paper, not a promise, and no machine here places an order."
+   ],
+   "facts": [
+    {
+     "t": "$1,493.81",
+     "src": "money/index.json",
+     "at": "total/base",
+     "raw": 1493.81
+    },
+    {
+     "t": "-$42.01",
+     "src": "money/index.json",
+     "at": "total/low",
+     "raw": -42.01
+    },
+    {
+     "t": "$2,544.38",
+     "src": "money/index.json",
+     "at": "total/high",
+     "raw": 2544.38
+    },
+    {
+     "t": "5",
+     "src": "money/index.json",
+     "at": "counts/streams",
+     "raw": 5
+    },
+    {
+     "t": "5",
+     "src": "money/index.json",
+     "at": "counts/sample",
+     "raw": 5
+    },
+    {
+     "t": "$0",
+     "src": "money/index.json",
+     "at": "total/real_base",
+     "raw": 0.0
+    },
+    {
+     "t": "Chrysos",
+     "src": "money/index.json",
+     "quote": true
+    },
+    {
+     "t": "Estimate: the fleet of 4 accounts nets about $16,068 over 12 months (stress case -$504, cautious $3,045, best case $26,817); break-even in about 1.2 months. Not a promise.",
+     "src": "money/index.json",
+     "quote": true
+    },
+    {
+     "t": "Mercury",
+     "src": "money/index.json",
+     "quote": true
+    },
+    {
+     "t": "Best deal now: 30% off at MyFundedFutures, about $27.54 saved (estimate).",
+     "src": "money/index.json",
+     "quote": true
+    }
+   ],
+   "sources": [
+    "money/index.json"
+   ],
+   "sample": true
+  },
+  {
+   "id": "archive",
+   "kicker": "Research",
+   "headline": "Archive: 98 adopted, 1,712 rejected",
+   "standfirst": "What the research library holds and its newest batch.",
+   "body": [
+    "The Archive now holds 2,344 research runs: 98 adopted, 1,712 rejected and 534 still open.",
+    "The newest batch in the index is stamped 26-11-15: 7 runs kept there, 1 adopted, 6 open.",
+    "Adopted, from the risk family: ATLAS zombie-eval rule: give an eval up under $200 of room + 1 micro 'last bull…",
+    "Still open, from the LIT research family: LIT deep edge (2026-11-15): base.",
+    "On the rejected shelf, so nobody redoes it: New-strategy hunt.",
+    "181 write-ups explain the results in plain language."
+   ],
+   "facts": [
+    {
+     "t": "2,344",
+     "src": "archive/index.json",
+     "at": "counts/runs",
+     "raw": 2344
+    },
+    {
+     "t": "98",
+     "src": "archive/index.json",
+     "at": "counts/adopted",
+     "raw": 98
+    },
+    {
+     "t": "1,712",
+     "src": "archive/index.json",
+     "at": "counts/rejected",
+     "raw": 1712
+    },
+    {
+     "t": "534",
+     "src": "archive/index.json",
+     "at": "counts/open",
+     "raw": 534
+    },
+    {
+     "t": "26-11-15",
+     "src": "archive/index.json",
+     "quote": true
+    },
+    {
+     "t": "7",
+     "src": "archive/index.json",
+     "calc": "count of runs in the index with the newest built stamp",
+     "raw": 7
+    },
+    {
+     "t": "1",
+     "src": "archive/index.json",
+     "calc": "count of those with verdict adopted",
+     "raw": 1
+    },
+    {
+     "t": "6",
+     "src": "archive/index.json",
+     "calc": "count of those with verdict open",
+     "raw": 6
+    },
+    {
+     "t": "risk",
+     "src": "archive/index.json",
+     "quote": true
+    },
+    {
+     "t": "ATLAS zombie-eval rule: give an eval up under $200 of room + 1 micro 'last bull…",
+     "src": "archive/index.json",
+     "quote": true
+    },
+    {
+     "t": "LIT research",
+     "src": "archive/index.json",
+     "quote": true
+    },
+    {
+     "t": "LIT deep edge (2026-11-15): base",
+     "src": "archive/index.json",
+     "quote": true
+    },
+    {
+     "t": "New-strategy hunt",
+     "src": "archive/index.json",
+     "quote": true
+    },
+    {
+     "t": "181",
+     "src": "archive/index.json",
+     "at": "counts/writeups",
+     "raw": 181
+    },
+    {
+     "t": "98",
+     "src": "archive/index.json",
+     "at": "counts/adopted",
+     "raw": 98
+    },
+    {
+     "t": "1,712",
+     "src": "archive/index.json",
+     "at": "counts/rejected",
+     "raw": 1712
+    }
+   ],
+   "sources": [
+    "archive/index.json"
+   ],
+   "sample": false
+  },
+  {
+   "id": "calendar",
+   "kicker": "Market calendar",
+   "headline": "Next on the calendar: Fed meeting minutes (Oct 27-28)",
+   "standfirst": "The next dated market events, from Pythia's calendar.",
+   "body": [
+    "Fed meeting minutes (Oct 27-28): 2026-11-18 at 14:00 New York time, impact med, to be confirmed on the official page.",
+    "Monthly options expiration (third Friday): 2026-11-20 at 09:30 New York time, impact low.",
+    "Jobless claims (moved to Wednesday for the holiday): 2026-11-25 at 08:30 New York time, impact low, to be confirmed on the official page.",
+    "Thanksgiving: US markets closed: 2026-11-26, impact low, to be confirmed on the official page.",
+    "Nothing on this short list is rated high impact.",
+    "The calendar was last rebuilt on 2026-11-10; agencies move dates, so check the official page."
+   ],
+   "facts": [
+    {
+     "t": "Fed meeting minutes (Oct 27-28)",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "2026-11-18",
+     "src": "pythia/events.json",
+     "at": "events/16/date",
+     "raw": "2026-11-18"
+    },
+    {
+     "t": "14:00",
+     "src": "pythia/events.json",
+     "at": "events/16/time",
+     "raw": "14:00"
+    },
+    {
+     "t": "med",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "Monthly options expiration (third Friday)",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "2026-11-20",
+     "src": "pythia/events.json",
+     "at": "events/17/date",
+     "raw": "2026-11-20"
+    },
+    {
+     "t": "09:30",
+     "src": "pythia/events.json",
+     "at": "events/17/time",
+     "raw": "09:30"
+    },
+    {
+     "t": "low",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "Jobless claims (moved to Wednesday for the holiday)",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "2026-11-25",
+     "src": "pythia/events.json",
+     "at": "events/18/date",
+     "raw": "2026-11-25"
+    },
+    {
+     "t": "08:30",
+     "src": "pythia/events.json",
+     "at": "events/18/time",
+     "raw": "08:30"
+    },
+    {
+     "t": "low",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "Thanksgiving: US markets closed",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "2026-11-26",
+     "src": "pythia/events.json",
+     "at": "events/19/date",
+     "raw": "2026-11-26"
+    },
+    {
+     "t": "low",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "2026-11-10",
+     "src": "pythia/events.json",
+     "at": "updated",
+     "raw": "2026-11-10"
+    },
+    {
+     "t": "Fed meeting minutes (Oct 27-28)",
+     "src": "pythia/events.json",
+     "quote": true
+    }
+   ],
+   "sources": [
+    "pythia/events.json"
+   ],
+   "sample": false
+  },
+  {
+   "id": "queue",
+   "kicker": "The workshop",
+   "headline": "67 tasks open, 0 done",
+   "standfirst": "The state of the build queue and the newest lesson written down.",
+   "body": [
+    "The build queue holds 67 tasks: 67 open and 0 done.",
+    "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
+    "The research shelf now counts 184 write-ups.",
+    "The newest lesson on file, dated 2026-11-18, reads: (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost…",
+    "It was filed under \"done\" and comes from research/writeups/rapid25-lit-lane-2026-11-18.md."
+   ],
+   "facts": [
+    {
+     "t": "67",
+     "src": "ergasterion/queue.json",
+     "at": "queue/open",
+     "raw": 67
+    },
+    {
+     "t": "67",
+     "src": "ergasterion/queue.json",
+     "at": "queue/total",
+     "raw": 67
+    },
+    {
+     "t": "0",
+     "src": "ergasterion/queue.json",
+     "at": "queue/done",
+     "raw": 0
+    },
+    {
+     "t": "P0",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "184",
+     "src": "ergasterion/queue.json",
+     "at": "writeups/count",
+     "raw": 184
+    },
+    {
+     "t": "2026-11-18",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost…",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "done",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "research/writeups/rapid25-lit-lane-2026-11-18.md",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    }
+   ],
+   "sources": [
+    "ergasterion/queue.json"
+   ],
+   "sample": false
+  },
+  {
+   "id": "mind",
+   "kicker": "The Mind",
+   "headline": "The Mind's notebook: 14 of the last 20 Zlarior losses came after a buildup level sweep (22…",
+   "standfirst": "What the nightly self-research wrote down. Context only.",
+   "body": [
+    "The Mind has tested 22 of its own ideas; its notes are dated 2026-10-29.",
+    "It noticed: 14 of the last 20 Zlarior losses came after a buildup level sweep (22 of its last 40 trades, history + live, were there).",
+    "It noticed: 14 of the last 17 ATLAS losses came with VIX under 15.8 (24 of its last 40 trades, history + live, were there).",
+    "It noticed: 9 of the last 17 ATLAS losses came on longs (19 of its last 40 trades, history + live, were there).",
+    "These are observations for context, not rules: the Mind never changes a setting on its own."
+   ],
+   "facts": [
+    {
+     "t": "22",
+     "src": "ergasterion/queue.json",
+     "at": "mind/tested",
+     "raw": 22
+    },
+    {
+     "t": "2026-10-29",
+     "src": "ergasterion/queue.json",
+     "at": "mind/date",
+     "raw": "2026-10-29"
+    },
+    {
+     "t": "14 of the last 20 Zlarior losses came after a buildup level sweep (22 of its last 40 trades, history + live, were there)",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "14 of the last 17 ATLAS losses came with VIX under 15.8 (24 of its last 40 trades, history + live, were there)",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "9 of the last 17 ATLAS losses came on longs (19 of its last 40 trades, history + live, were there)",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    },
+    {
+     "t": "14 of the last 20 Zlarior losses came after a buildup level sweep (22…",
+     "src": "ergasterion/queue.json",
+     "quote": true
+    }
+   ],
+   "sources": [
+    "ergasterion/queue.json"
+   ],
+   "sample": false,
+   "by": "mind"
+  }
+ ],
+ "numbers": [
+  {
+   "value": "$0",
+   "label": "The day so far: $0 across the accounts",
+   "src": "home.json",
+   "article": "bots"
+  },
+  {
+   "value": "3",
+   "label": "3 Kalshi edge hunts report: no edge found",
+   "src": "research/writeups/kalshi_edge_A.md",
+   "article": "kalshi-research"
+  },
+  {
+   "value": "10",
+   "label": "10 builders at work in the workshop",
+   "src": "handoff/agents_now.json",
+   "article": "builders"
+  },
+  {
+   "value": "3",
+   "label": "Kalshi stop list: 3 habits to drop",
+   "src": "kalshicity/suggestions.json",
+   "article": "kalshi-stop"
+  },
+  {
+   "value": "$1,493.81",
+   "label": "Money machines put a month at $1,493.81 (sample data)",
+   "src": "money/index.json",
+   "article": "money"
+  },
+  {
+   "value": "2,344",
+   "label": "Archive: 98 adopted, 1,712 rejected",
+   "src": "archive/index.json",
+   "article": "archive"
+  },
+  {
+   "value": "2026-11-18",
+   "label": "Next on the calendar: Fed meeting minutes (Oct 27-28)",
+   "src": "pythia/events.json",
+   "article": "calendar"
+  }
+ ],
+ "corrections": [
+  {
+   "was": "The Kalshi bot kept doing this: Buying at 90 to 95 cents.",
+   "now": "Do not buy any contract priced 90 to 95 cents. Wins 92.3% but needs 93.2% to break even, and the losses are bigger bets.",
+   "src": "kalshicity/suggestions.json",
+   "proof": "581 bets, -$248.30 after fees."
+  },
+  {
+   "was": "The Kalshi bot kept doing this: XRP bets.",
+   "now": "Turn off XRP bets. The loss is large enough to be real, not luck.",
+   "src": "kalshicity/suggestions.json",
+   "proof": "192 bets, -$106.63 after fees."
+  },
+  {
+   "was": "The Kalshi bot kept doing this: Strategy: 15-min favourites.",
+   "now": "Keep the 15-minute favourites strategy off. It wins 95.0% of the time but needs 96.6% to break even.",
+   "src": "kalshicity/suggestions.json",
+   "proof": "1,131 bets, -$88.77 after fees."
+  },
+  {
+   "was": "The Kalshi bot kept doing this: Strategy: Value.",
+   "now": "Pause the Value strategy. It wins 75% and is losing; only 40 bets, so not proven.",
+   "src": "kalshicity/suggestions.json",
+   "proof": "40 bets, -$13.04 after fees."
+  },
+  {
+   "was": "We hoped a Kalshi edge was hiding in the data.",
+   "now": "No edge found. Out of the 38 cells that were big enough to test (and 7 pre-written textbook ideas), none beat the noise on training data, and none is positive with a confidence interval above zero on the held-out last 14 days.",
+   "src": "research/writeups/kalshi_edge_A.md"
+  }
+ ],
+ "classifieds": {
+  "sample": true,
+  "src": "money/mercury.json",
+  "items": [
+   {
+    "title": "Free reset at MyFundedFutures",
+    "detail": "A free reset is worth about $22.95, an estimate: a reset only helps if an eval fails, so it is valued at a quarter of 50K at $91.80. Until 2026-11-30.",
+    "usd": 22.95,
+    "expires": "2026-11-30"
+   },
+   {
+    "title": "20% off at NinjaTrader",
+    "detail": "20% off, with code NTHOLIDAY. About $20.00 saved on about $100 for one purchase (estimate, edit ref_usd in the config), an estimate. It ends in 25 days (2026-12-05).",
+    "usd": 20.0,
+    "expires": "2026-12-05"
+   },
+   {
+    "title": "15% off at Topstep",
+    "detail": "15% off, no code needed. About $13.77 saved on 50K at $91.80 (reference price, not yours), an estimate. Not a firm you use now: switching has its own cost and rules.",
+    "usd": 13.77
+   },
+   {
+    "title": "16% off at TradingView",
+    "detail": "16% off (up to, the real cut may be smaller), no code on the page, check the checkout. About $4.80 saved on about $30 for one purchase (estimate, edit ref_usd in the config), an estimate.",
+    "usd": 4.8
+   },
+   {
+    "title": "Rule change at Apex Trader Funding",
+    "detail": "A firm you do not use now. Only matters if you switch. The page says: New rule: trailing drawdown now freezes at the starting balance plus $100."
+   }
+  ],
+  "note": "Savings are estimates. Sample offers, not real ones."
+ },
+ "weather": {
+  "level": "busy",
+  "text": "Busy: a medium-impact release is on today's calendar.",
+  "src": "pythia/events.json",
+  "events": [
+   {
+    "time": "14:00",
+    "title": "Fed meeting minutes (Oct 27-28)",
+    "impact": "med"
+   }
+  ],
+  "note": "From the saved calendar. It is not a forecast of price."
+ },
+ "quiz": [
+  {
+   "id": "t2",
+   "topic": "target",
+   "q": "Price reaches the target. You",
+   "o": [
+    "Bank it",
+    "Wait for a bit more",
+    "Move the target up"
+   ],
+   "a": 0,
+   "why": "The target is the plan. Bank it and the trade is done."
+  },
+  {
+   "id": "g4",
+   "topic": "greed",
+   "q": "You missed a big move and feel FOMO. You",
+   "o": [
+    "Let it go: no chase outside the plan",
+    "Chase it",
+    "Chase it with bigger size"
+   ],
+   "a": 0,
+   "why": "No setup, no trade. The next valid setup comes; chasing costs money."
+  },
+  {
+   "id": "s2",
+   "topic": "stop",
+   "q": "You are long. The sweep made its low at 21,480.00. The stop goes at",
+   "o": [
+    "21,479.75, one tick below it",
+    "21,500.00, closer to the entry",
+    "The entry price"
+   ],
+   "a": 0,
+   "why": "One tick (0.25) beyond the sweep extreme. If price takes that low, the idea was wrong."
+  }
+ ],
+ "interviews": [
+  {
+   "id": "mind",
+   "name": "The Mind",
+   "title": "Nightly self-research",
+   "src": "ergasterion/queue.json",
+   "qa": [
+    {
+     "q": "How many of your own ideas have you tested?",
+     "a": "22. I keep the count in my notes."
+    },
+    {
+     "q": "What is the clearest thing you noticed?",
+     "a": "14 of the last 20 Zlarior losses came after a buildup level sweep (22 of its last 40 trades, history + live, were there)."
+    },
+    {
+     "q": "Do you change the bot when you notice something?",
+     "a": "No. I write it down. I never change anything myself."
+    }
+   ]
+  },
+  {
+   "id": "scanner:mercury",
+   "name": "Mercury",
+   "title": "Deal scanner (sample data)",
+   "src": "money/mercury.json",
+   "sample": true,
+   "qa": [
+    {
+     "q": "How many offers are on your desk?",
+     "a": "5 that have not run out, in the list I publish."
+    },
+    {
+     "q": "Which one comes first?",
+     "a": "Free reset at MyFundedFutures, ending 2026-11-30."
+    },
+    {
+     "q": "Can you buy it for me?",
+     "a": "No. I only read public pages and write a list. I can't place orders."
+    }
+   ]
+  },
+  {
+   "id": "builder:aa29a7de",
+   "name": "Kalshi team C",
+   "title": "Build agent, research",
+   "src": "handoff/agents_now.json",
+   "qa": [
+    {
+     "q": "What are you building?",
+     "a": "Hunting for a real Kalshi edge in weather and index markets."
+    },
+    {
+     "q": "Where does your work live?",
+     "a": "On my own branch, worktree-agent-aa29a7ded798881ae. The lead merges it when it is ready."
+    },
+    {
+     "q": "Which part of OLYMPUS is yours?",
+     "a": "The research area."
+    }
+   ]
+  }
+ ],
+ "sources": {
+  "read": [
+   "archive/index.json",
+   "ergasterion/queue.json",
+   "handoff/agents_now.json",
+   "home.json",
+   "jarvis/apps.js",
+   "kalshicity/suggestions.json",
+   "lyceum/lyceumcore.js",
+   "money/index.json",
+   "money/mercury.json",
+   "pythia/events.json",
+   "research/writeups/kalshi_edge_A.md",
+   "research/writeups/kalshi_edge_B.md",
+   "research/writeups/kalshi_edge_C.md"
+  ],
+  "missing": []
+ },
+ "skipped": [
+  {
+   "article": "new-apps",
+   "why": "no app was added since the last edition"
+  }
+ ],
+ "apps": [
+  "aegis",
+  "agency",
+  "apollo",
+  "arbiter",
+  "archive",
+  "arena",
+  "ares",
+  "argo",
+  "argus",
+  "athena",
+  "atlas",
+  "board",
+  "bridge",
+  "business",
+  "chronos",
+  "chrysos",
+  "cities",
+  "clio",
+  "colosseum",
+  "compass",
+  "datacity",
+  "delphi",
+  "demeter",
+  "dionysus",
+  "epilogue",
+  "ergasterion",
+  "fates",
+  "forum",
+  "gallery",
+  "harmonia",
+  "helios",
+  "hephaestus",
+  "hera",
+  "herald",
+  "hermes",
+  "hestia",
+  "inbox",
+  "journal",
+  "kairos",
+  "kalshi",
+  "kalshicity",
+  "kratos",
+  "kronos",
+  "labyrinth",
+  "ledger",
+  "lyceum",
+  "mercury",
+  "mind",
+  "mint",
+  "mintcity",
+  "moirai",
+  "nemesis",
+  "nike",
+  "nq",
+  "observatory",
+  "odeon",
+  "oikos",
+  "oracle",
+  "pantheon",
+  "pheme",
+  "pinakes",
+  "planner",
+  "plutus",
+  "pnyx",
+  "polis",
+  "prometheus",
+  "pythia",
+  "settings",
+  "sibyl",
+  "stoa",
+  "symposium",
+  "trading",
+  "tree",
+  "tyche",
+  "zenith"
+ ],
+ "press": {
+  "available": false,
+  "shipped": []
+ }
+}

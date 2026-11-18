@@ -1,0 +1,43 @@
+/* Kalshi City in the AGORA look (docs/DESIGN_AGORA.md): marble panels, bronze lines, serif headings, warm lantern gold. The edges, Lab, what-if and lessons cards are unchanged. */
+:root{--k-bg:#14110e;--k-mint:#d8b25a;--k-mint-rgb:216,178,90;--k-good:#9bab62;--k-bad:#d0714f;--k-warn:#e0b060;--k-gold:#e0b060;--k-dim2:#9d8aae;
+--oly-display:var(--ag-serif);--oly-ui:var(--ag-sans);--oly-accent:#c8a24a;--oly-text:#f3ece0;--oly-dim:#cfc4b2;--oly-line:#3a3228;--oly-glass:rgba(29,25,20,.93);--oly-glass2:rgba(33,28,22,.96)}
+html,body{background:#14110e;font-family:var(--ag-sans)}
+html[data-noscene] body{background:radial-gradient(ellipse at 50% 60%,#2a2118 0%,#14110e 62%)}
+*{letter-spacing:.005em!important;text-shadow:none!important}
+.brand h1{font:600 24px/1.1 var(--ag-serif);color:#f3ece0;text-transform:none}
+.brand .sub{font:500 13px/1.2 var(--ag-sans);text-transform:none;color:#cfc4b2}
+.tag{font:600 12px/1 var(--ag-sans);text-transform:none;background:rgba(29,25,20,.93)}
+.tag.demo{color:#1b1610;background:#e0b060;border-color:#e0b060}
+.help-btn{font:700 17px/1 var(--ag-serif);color:#e0b060;border-color:#3a3228;background:rgba(29,25,20,.93)}
+.verdict,.city-insights,.network-panel,.district-control,.city-mini,.pair,.sheet,.dock,.ticker{background:linear-gradient(180deg,#26211b,#1d1914)!important;border-color:#3a3228!important;box-shadow:0 6px 18px rgba(0,0,0,.4)!important}
+.network-panel-head h2,.world-card strong{font:600 16px/1.25 var(--ag-serif);text-transform:none}
+.sheet h3{font:600 15px/1.3 var(--ag-serif);text-transform:none;color:#e0b060}
+.mini-title,.district-control label{font:600 13px/1.3 var(--ag-serif);text-transform:none;color:#e0b060}
+.odd .k,.pcard .k{text-transform:none;font:600 13px/1.2 var(--ag-sans);color:#cfc4b2}
+.odd b,.verdict .v{font-family:var(--ag-num)}
+.chip,.dock button,.network-toggle,.network-links a{text-transform:none;font:600 14px/1.2 var(--ag-sans);border-color:#3a3228}
+.dock button[aria-pressed="true"],.chip.ico[aria-pressed="true"]{background:#c8a24a!important;color:#1b1610!important;border-color:#e2c47a!important;box-shadow:none!important}
+.network-links a[aria-current="page"]{border-color:#c8a24a;color:#e0b060}
+.world-card{background:linear-gradient(180deg,#2a241c,#211c16)!important;border-color:#3a3228!important}
+button:focus-visible{outline-color:#e0b060}
+
+.dock .cams button,.dock .pills button,.district-control select,.city-mapbar button{background:#2a241c!important;border-color:#3a3228!important;color:#f3ece0!important}
+.dock .cams button[aria-pressed="true"]{background:#c8a24a!important;color:#1b1610!important}
+.city-mini svg{background:radial-gradient(circle,#2a2118,#1a1510)}
+.sheet h2{font:600 19px/1.25 var(--ag-serif);text-transform:none}
+@media (max-width:480px){.district-control p{display:none}}
+.world-card[hidden]{display:none}
+.world-find{width:100%;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #3a3228;background:#14110e;color:#f3ece0;font:16px var(--ag-sans);margin:6px 0 4px}
+.world-key{margin:4px 0 8px;font-size:13px;line-height:1.4;color:#cfc4b2}
+.world-bands{color:#cfc4b2}
+/* cities pass 2026-11-18: on a phone the panels left the city a thin strip. The district switcher and the network map share one
+   short row (the map a small tile), so the 3D city gets about 90 px more of the screen; every tap target stays 44 px. */
+@media (max-width:480px){
+  .city-mapbar{grid-template-columns:minmax(0,1fr) 92px;gap:6px}
+  .district-control{min-height:0;padding:7px 9px;gap:4px}
+  .district-control label{font-size:12px}
+  .city-mini{width:92px;min-height:0;padding:5px;gap:2px;align-self:stretch}
+  .city-mini svg{width:66px;height:50px}
+  .city-mini .mini-count{display:none}
+  .mini-title{font-size:11px}
+}

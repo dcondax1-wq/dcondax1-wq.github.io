@@ -1,0 +1,62 @@
+/* AGORA app base (docs/DESIGN_AGORA.md, olympus/agora.css): marble cards, serif headings, gold rule. Only layout lives here; every colour is an --ag-* token.
+   Safe areas on every edge; the page ends 176 px above the bottom (Jarvis's orb owns the bottom-right corner); every tap target is at least 44 px; no sideways scroll at 375 px. */
+:root { --acc: var(--oly-accent, #c8a24a); --st: var(--oly-st, env(safe-area-inset-top, 0px)); --sr: var(--oly-sr, env(safe-area-inset-right, 0px)); --sb: var(--oly-sb, env(safe-area-inset-bottom, 0px)); --sl: var(--oly-sl, env(safe-area-inset-left, 0px)); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { background: var(--ag-night, #14110e); }
+body { margin: 0; min-height: var(--oly-vh, 100vh); overflow-x: hidden; font: 500 15px/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-text, #f3ece0); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ag-gold, #c8a24a); outline-offset: 2px; }
+[hidden] { display: none !important; }
+#app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+html.framed #app { padding-top: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
+.brand h1 { margin: 0; }
+.brand .sub { margin: 6px 0 0; font-size: 13px; color: var(--ag-soft); }
+.tags { display: flex; gap: 6px; align-items: center; flex: none; }
+.tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); }
+.tag.demo { color: #1b1610; background: var(--ag-sun); border-color: transparent; }
+.card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.card > h2, .row > h2 { margin: 0; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
+.note { margin: 0; font-size: 13px; color: var(--ag-muted); }
+.big { margin: 0; font-size: clamp(20px, 6vw, 25px); line-height: 1.2; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: #211c16; white-space: nowrap; }
+.pill.ok { color: var(--ag-olive); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra); border-color: #6e3424; } .pill.gold { color: var(--ag-gold); border-color: #5a4825; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); text-align: center; }
+.btn.primary { background: linear-gradient(180deg, #d4b05a, var(--ag-gold)); color: #1b1610; border-color: #e2c47a; }
+.btn[aria-pressed="true"] { border-color: var(--ag-olive); color: var(--ag-olive); background: #232617; }
+.hero { border-color: #5a4825; }
+.stage { width: 100%; height: 200px; border-radius: var(--ag-radius-s, 12px); background: radial-gradient(90% 90% at 50% 20%, #2a2118 0%, #1a1611 100%); border: 1px solid var(--ag-line); overflow: hidden; }
+.stage canvas { width: 100%; height: 100%; display: block; }
+.stage.off { display: none; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.list li { display: grid; gap: 6px; padding: 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-width: 0; }
+.list li.empty { color: var(--ag-muted); font-size: 14px; }
+.ol { counter-reset: n; }
+.ol li { counter-increment: n; }
+.ol li h3::before { content: counter(n) ". "; color: var(--ag-gold); }
+.it-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.it-top h3 { margin: 0; font-size: 17px; overflow-wrap: anywhere; }
+.it-usd { font: 700 17px var(--ag-num); font-variant-numeric: tabular-nums; text-align: right; }
+.it-detail { margin: 0; font-size: 14px; color: var(--ag-soft); overflow-wrap: anywhere; }
+.it-detail.followed { color: var(--ag-olive); } .it-detail.broke { color: var(--ag-terra); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.pos { color: var(--ag-olive); } .neg { color: var(--ag-terra); }
+.goalrow { display: grid; gap: 8px; padding: 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); }
+.goalrow p { margin: 0; font: 600 16px/1.3 var(--ag-serif); }
+.ag-bar { height: 10px; } .ag-bar.red > i { background: linear-gradient(90deg, #7a3a24, var(--ag-terra)); } .ag-bar.green > i { background: linear-gradient(90deg, #5a6338, var(--ag-olive)); } .ag-bar.amber > i { background: linear-gradient(90deg, #9c6b3c, var(--ag-sun)); }
+.ag-bar > i { transition: width .45s ease-out; }
+textarea { width: 100%; min-height: 44px; padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: #211c16; font: 16px/1.4 var(--ag-sans); resize: none; }
+details > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--ag-soft); }
+.foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+html[data-oly-lite="1"] .ag-card { box-shadow: none; }
+html[data-oly-lite="1"] .stage { height: 150px; }
+
+/* phone-fit 2026-11-10 (tools/phone_fit_audit.py): gain / loss words at least 4.5:1 on the raised panels */
+.pos, .ag-good, .pill.ok { color: #a0ac6e; } .neg, .ag-bad, .pill.bad { color: #e08a6b; }
+.btn[aria-pressed="true"] { color: #a0ac6e; }

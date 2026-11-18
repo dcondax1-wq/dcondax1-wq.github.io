@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>POLIS lab</title>
+<meta name="description" content="OLYMPUS POLIS kit: meander borders, column frames, carved inscriptions, painted pottery, mosaics, owl coins, the Attic calendar, a sundial, an oil-lamp loader and gold laurels.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<!-- The POLIS kit's lab (docs/POLIS_KIT.md): every piece of olympus/polis.js + polis.css on one page, phone first.
+     ?lite=1 shows the LITE tier (no animation, smaller canvases), ?still=1 = reduced motion, ?t=<ISO time> pins the sundial's clock,
+     ?style=red starts the pottery in red-figure. tests/test_polis_kit.py drives it through window.__polisLab. Nothing is fetched. -->
+<script>window.__polisLab = { ready: false, errors: [] }; window.addEventListener('error', function (e) { window.__polisLab.errors.push(String(e.message || e)); });</script>
+<link rel="stylesheet" href="agora.css?v=a4">
+<link rel="stylesheet" href="polis.css?v=p3">
+<script src="polis.js?v=p1"></script>
+<style>
+  html, body { margin: 0; }
+  body { min-height: 100vh; min-height: 100dvh; padding-bottom: calc(48px + env(safe-area-inset-bottom)); overflow-x: hidden; }
+  * { box-sizing: border-box; }
+  .hero { position: relative; padding: calc(28px + env(safe-area-inset-top)) 16px 30px; overflow: hidden; }
+  .hero-in { max-width: 980px; margin: 0 auto; display: grid; gap: 14px; justify-items: start; }
+  .hero h1 { margin: 0; font-size: clamp(30px, 9vw, 52px); padding: 14px 26px 10px; }
+  .hero-glass { padding: 12px 14px; display: grid; gap: 10px; max-width: 36em; }
+  .hero .sub { margin: 0; max-width: 34em; color: var(--ag-soft); font: 400 15px/1.45 var(--ag-sans); }
+  .today { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--ag-text); font: 600 14px var(--ag-sans); }
+  .today .polis-attic { margin-left: 0; }
+  main { max-width: 980px; margin: 0 auto; padding: 0 16px; display: grid; gap: 18px; }
+  .sec { padding: 18px 16px 18px; }
+  .sec > h2 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 4px; font-size: 21px; }
+  .gnum { font: 600 15px var(--ag-serif); color: var(--ag-gold); min-width: 28px; }
+  .note { margin: 0 0 14px; color: var(--ag-soft); font: 400 14px/1.45 var(--ag-sans); }
+  .note b { color: var(--ag-text); font-weight: 600; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { position: relative; border-radius: 14px; background: linear-gradient(180deg, var(--ag-raise), var(--ag-panel)); border: 1px solid var(--ag-line); padding: 34px 32px; min-height: 150px; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: var(--ag-soft); font: 400 14px/1.4 var(--ag-sans); }
+  .big { font: 700 26px/1.1 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-text); }
+  .good { color: var(--ag-olive-text); } .bad { color: var(--ag-terra-text); }
+  .colcard h3 { font-size: 15px; color: var(--ag-gold); margin: 0 0 4px; }
+  .colcard .k { color: var(--ag-muted); font: 600 12px var(--ag-sans); letter-spacing: .04em; }
+  .pots { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .pot { display: grid; justify-items: center; gap: 6px; margin: 0; }
+  .pot figcaption { color: var(--ag-soft); font: 500 13px var(--ag-sans); text-transform: capitalize; }
+  .pot svg { width: 100%; max-width: 132px; height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.45)); }
+  .icons { display: grid; grid-template-columns: repeat(6, minmax(0, 56px)); gap: 8px; margin-top: 14px; }
+  .icons svg { width: 100%; height: auto; filter: drop-shadow(0 3px 5px rgba(0,0,0,.4)); }
+  .mos { position: relative; height: 170px; border-radius: 14px; overflow: hidden; border: 1px solid var(--ag-line); display: flex; align-items: flex-end; padding: 12px; }
+  .mos .polis-glass { padding: 8px 12px; font: 600 14px var(--ag-sans); color: var(--ag-text); }
+  .coins { display: flex; flex-wrap: wrap; gap: 14px 10px; align-items: flex-end; }
+  .coinbox { display: grid; justify-items: center; gap: 4px; min-width: 72px; }
+  .coinbox small { color: var(--ag-muted); font: 500 12px var(--ag-sans); }
+  table.attic { width: 100%; border-collapse: collapse; font: 400 14px/1.3 var(--ag-sans); }
+  table.attic th, table.attic td { text-align: left; padding: 9px 6px; border-bottom: 1px solid var(--ag-line); vertical-align: top; }
+  table.attic th { color: var(--ag-muted); font-weight: 600; font-size: 12px; letter-spacing: .03em; }
+  table.attic td.a { color: #e2c47a; font-family: var(--ag-serif); font-size: 15px; }
+  table.attic td.g { color: var(--ag-soft); font-family: var(--ag-serif); }
+  .field { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 4px; }
+  .field input[type=date] { min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ag-line); background: var(--ag-panel); color: var(--ag-text); font: 500 16px var(--ag-sans); color-scheme: dark; }
+  .out { color: var(--ag-text); font: 600 16px var(--ag-serif); }
+  .dialwrap { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: center; }
+  .legend { display: grid; gap: 8px; font: 400 14px/1.35 var(--ag-sans); color: var(--ag-soft); }
+  .legend i { display: inline-block; width: 22px; height: 8px; border-radius: 4px; margin-right: 8px; vertical-align: middle; }
+  .lamps { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .lampbox { border-radius: 14px; border: 1px solid var(--ag-line); background: radial-gradient(120% 90% at 70% 30%, #2a2118, #17130f); padding: 14px; min-height: 190px; display: grid; align-content: center; gap: 8px; }
+  input[type=range] { width: 100%; min-height: 44px; accent-color: #c8a24a; }
+  .laurels { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .lbox { display: grid; justify-items: center; gap: 6px; text-align: center; padding: 12px 8px; border-radius: 14px; border: 1px solid var(--ag-line); background: linear-gradient(180deg, var(--ag-raise), var(--ag-panel)); }
+  .lbox b { font: 600 15px var(--ag-serif); color: var(--ag-text); }
+  .lbox span.t { font: 400 13px/1.3 var(--ag-sans); color: var(--ag-soft); }
+  .insc { display: grid; gap: 16px; }
+  .insc .polis-plaque { font-size: clamp(18px, 5.4vw, 26px); text-align: center; }
+  .gilthead { margin: 0; font-size: clamp(22px, 7vw, 34px); }
+  .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+  footer { max-width: 980px; margin: 22px auto 0; padding: 0 16px; color: var(--ag-muted); font: 400 13px/1.45 var(--ag-sans); }
+</style>
+</head>
+<body class="agora">
+<header class="hero" id="hero">
+  <div class="hero-in">
+    <h1 id="title" class="polis-plaque">Polis</h1>
+    <div class="hero-glass polis-glass">
+      <p class="sub">The look of a modern Greek city-state: marble, bronze, gold leaf and painted clay, lit like now. Every piece on this page is drawn in code.</p>
+      <p class="today"><span id="today-date"></span><span id="today-attic"></span></p>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="sec polis-glass" id="s-meander">
+    <h2><span class="gnum" data-n="1"></span>Meander borders</h2>
+    <p class="note">The Greek key draws itself when a card appears. On a <b>live</b> card it runs slowly round the edge, like a ticker.</p>
+    <div class="grid">
+      <div class="card" id="mz1"><h3>Week so far</h3><p><span class="big good">+$1,240</span> &nbsp;2.1R</p><p>Drawn once in gold leaf.</p></div>
+      <div class="card" id="mz2"><h3>Live: paper trade open</h3><p><span class="big">+$310</span> &nbsp;0.6R</p><p>The key runs while the trade is live.</p></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <div class="card" id="mz3" style="min-height:0;padding:34px 18px 14px;flex:1 1 220px"><p>A bronze band over a section.</p></div>
+      <div class="card" id="mz4" style="min-height:0;padding:34px 18px 14px;flex:1 1 220px"><p>A quiet ink band.</p></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="ag-btn" id="m-redraw" type="button">Draw again</button></div>
+  </section>
+
+  <section class="sec polis-glass" id="s-columns">
+    <h2><span class="gnum" data-n="2"></span>Column frames</h2>
+    <p class="note">The order shows the rank: <b>Doric</b> is a normal result, <b>Ionic</b> a good one, <b>Corinthian</b> (with gold acanthus) a record.</p>
+    <div class="grid">
+      <div class="colcard" id="col1"><div class="k">NORMAL WEEK</div><h3>Doric</h3><div class="big">+$420</div><p class="note" style="margin:4px 0 0">0.8R, 3 trades</p></div>
+      <div class="colcard" id="col2"><div class="k">GOOD WEEK</div><h3>Ionic</h3><div class="big good">+$1,240</div><p class="note" style="margin:4px 0 0">2.1R, 4 trades</p></div>
+      <div class="colcard" id="col3"><div class="k">RECORD WEEK</div><h3>Corinthian</h3><div class="big good">+$2,980</div><p class="note" style="margin:4px 0 0">4.9R, 4 trades</p></div>
+    </div>
+  </section>
+
+  <section class="sec polis-glass" id="s-inscribe">
+    <h2><span class="gnum" data-n="3"></span>Carved inscriptions</h2>
+    <p class="note">Titles cut into veined marble, or gilded on dark stone. Hover or tap a number to read it in Greek numerals.</p>
+    <div class="insc">
+      <div class="polis-plaque" id="ins1">Treasury of the year 2026</div>
+      <h3 class="gilthead" id="ins2">Hall of records · 43,820</h3>
+    </div>
+  </section>
+
+  <section class="sec polis-glass" id="s-pottery">
+    <h2><span class="gnum" data-n="4"></span>Painted pottery</h2>
+    <p class="note">Twelve original figures in the two Athenian styles: <b>black-figure</b> (figures in black glaze, details scratched through to the clay, added red and white) and <b>red-figure</b> (the clay figure left bare on black, details painted in fine lines).</p>
+    <div class="tabs" role="tablist">
+      <button class="ag-tab" role="tab" id="t-black" aria-selected="true" type="button">Black-figure</button>
+      <button class="ag-tab" role="tab" id="t-red" aria-selected="false" type="button">Red-figure</button>
+    </div>
+    <div class="pots" id="pots"></div>
+    <div class="icons" id="icons" aria-label="Tile icons for empty states"></div>
+  </section>
+
+  <section class="sec polis-glass" id="s-mosaic">
+    <h2><span class="gnum" data-n="5"></span>Mosaic backdrops</h2>
+    <p class="note">Tesserae laid by code, quiet enough to sit behind text; denser under a hero (like the top of this page).</p>
+    <div class="grid">
+      <div class="mos" id="mo1"><span class="polis-glass">Waves</span></div>
+      <div class="mos" id="mo2"><span class="polis-glass">Rosettes</span></div>
+      <div class="mos" id="mo3"><span class="polis-glass">Dolphins</span></div>
+      <div class="mos" id="mo4"><span class="polis-glass">Meander</span></div>
+    </div>
+  </section>
+
+  <section class="sec polis-glass" id="s-coins">
+    <h2><span class="gnum" data-n="6"></span>Owl coins</h2>
+    <p class="note">Dollars are minted as Athenian owl tetradrachms. A win flips a bright silver coin; a loss dulls it to bronze.</p>
+    <div class="coins">
+      <div class="coinbox"><div id="c1"></div><small>Win</small></div>
+      <div class="coinbox"><div id="c2"></div><small>Loss</small></div>
+      <div class="coinbox"><div id="c3"></div><small>Flat</small></div>
+      <div class="coinbox"><div id="c4"></div><small>Try it</small></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="ag-btn primary" id="c-win" type="button">Mint a win</button>
+      <button class="ag-btn" id="c-loss" type="button">Book a loss</button>
+    </div>
+  </section>
+
+  <section class="sec polis-glass" id="s-attic">
+    <h2><span class="gnum" data-n="7"></span>Attic calendar</h2>
+    <p class="note">Every date can carry its Athenian month and day. Worked out from the real sky: each month starts the day after the first crescent moon can be seen at Athens, the year at the first new moon after the summer solstice. An estimate, not a record (see the notes).</p>
+    <table class="attic" id="attic-table"><thead><tr><th>Date</th><th>Attic</th><th>In Greek</th></tr></thead><tbody></tbody></table>
+    <div class="field"><label for="attic-in" class="ag-muted" style="font:600 14px var(--ag-sans)">Any date</label><input type="date" id="attic-in"><span class="out" id="attic-out"></span></div>
+  </section>
+
+  <section class="sec polis-glass" id="s-sundial">
+    <h2><span class="gnum" data-n="8"></span>Sundial</h2>
+    <div class="dialwrap">
+      <div id="dial"></div>
+      <div class="legend">
+        <p class="note" style="margin:0">The shadow turns with the <b>real sun over New York</b>: 15&deg; an hour, noon at the top (today's solar noon, not 12:00 on the clock). The hour marks are New York clock times for today. At night the sun casts no shadow, so a silver moon hand keeps the hour.</p>
+        <div><i style="background:linear-gradient(90deg,#a97a26,#fff1c4,#9c6f22)"></i>New York session (RTH) 09:30 to 16:00</div>
+        <div><i style="background:#4b7a99"></i>Asia 18:00 to 24:00</div>
+        <div><i style="background:#9aa565"></i>London 02:00 to 05:00</div>
+        <div><i style="background:#25324a"></i>Night (sunset to sunrise)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec polis-glass" id="s-lamp">
+    <h2><span class="gnum" data-n="9"></span>Oil-lamp loader</h2>
+    <p class="note">Loading is a clay lamp whose flame grows. No spinners.</p>
+    <div class="lamps">
+      <div class="lampbox" id="lamp1"></div>
+      <div class="lampbox"><div id="lamp2"></div><label class="ag-muted" for="lamp-p" style="font:600 13px var(--ag-sans)">Progress</label><input type="range" id="lamp-p" min="0" max="100" value="35"></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="ag-btn" id="lamp-replay" type="button">Light it again</button></div>
+  </section>
+
+  <section class="sec polis-glass" id="s-laurel">
+    <h2><span class="gnum" data-n="10"></span>Laurel and olive</h2>
+    <p class="note">Laurel wreaths for passes and records, olive sprigs for steady weeks. A new record gets its wreath in gold leaf.</p>
+    <div class="laurels">
+      <div class="lbox"><div id="l1"></div><b>New record</b><span class="t">Gold laurel wreath</span></div>
+      <div class="lbox"><div id="l2"></div><b>Eval passed</b><span class="t">Laurel wreath</span></div>
+      <div class="lbox"><div id="l3"></div><b>Steady week</b><span class="t">Olive sprig</span></div>
+      <div class="lbox"><div id="l4"></div><b>Steady month</b><span class="t">Gold olive sprig</span></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button class="ag-btn" id="l-replay" type="button">Gild again</button></div>
+  </section>
+</main>
+<footer>
+  <p>POLIS kit: <code>olympus/polis.js</code> + <code>olympus/polis.css</code>. Original art, drawn in code, nothing downloaded. LITE and reduced motion stop every animation. Docs: <code>docs/POLIS_KIT.md</code>.</p>
+</footer>
+<script>
+(function () {
+  'use strict';
+  var P = window.OLYMPUS_POLIS, L = window.__polisLab;
+  function $(id) { return document.getElementById(id); }
+  function q(name) { var m = new RegExp('[?&]' + name + '=([^&]*)').exec(location.search); return m ? decodeURIComponent(m[1]) : null; }
+  var tPin = q('t'), now = tPin ? new Date(tPin).getTime() : Date.now();
+  L.parts = {};
+  try {
+    var nums = document.querySelectorAll('.gnum'), i;
+    for (i = 0; i < nums.length; i++) nums[i].textContent = P.greekNumeral(+nums[i].getAttribute('data-n'));
+    L.parts.hero = P.mosaic($('hero'), { pattern: 'waves', dense: true });
+    P.inscribe($('title'), { plaque: true });
+    var dt = new Date(now);
+    $('today-date').textContent = dt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' });
+    L.parts.today = P.atticStamp($('today-attic'), { date: now });
+
+    /* 1 */
+    L.parts.m1 = P.meander($('mz1'), { color: 'gold' });
+    L.parts.m2 = P.meander($('mz2'), { color: 'gold', live: true });
+    L.parts.m3 = P.meander($('mz3'), { color: 'bronze', sides: 'band' });
+    L.parts.m4 = P.meander($('mz4'), { color: 'ink', sides: 'band', size: 14 });
+    $('m-redraw').addEventListener('click', function () { L.parts.m1.redraw(); L.parts.m2.redraw(); L.parts.m3.redraw(); L.parts.m4.redraw(); });
+
+    /* 2 */
+    L.parts.c1 = P.columnFrame($('col1'), { order: 'doric' });
+    L.parts.c2 = P.columnFrame($('col2'), { order: 'ionic' });
+    L.parts.c3 = P.columnFrame($('col3'), { rank: 'record' });
+
+    /* 3 */
+    P.inscribe($('ins1'), { plaque: true });
+    P.inscribe($('ins2'), { gild: true });
+
+    /* 4 */
+    var style = q('style') === 'red' ? 'red' : 'black';
+    function pots() {
+      var box = $('pots'), html = '', icons = '';
+      P.potteryNames.forEach(function (n) { html += '<figure class="pot">' + P.pottery(n, { style: style }) + '<figcaption>' + n + '</figcaption></figure>'; });
+      ['owl', 'amphora', 'trireme', 'lyre', 'scales', 'olive'].forEach(function (n) { icons += P.pottery(n, { style: style, frame: 'tile', size: 52 }); });
+      box.innerHTML = html;                      // the kit's own generated SVG and fixed names only
+      $('icons').innerHTML = icons;
+      $('t-black').setAttribute('aria-selected', style === 'black' ? 'true' : 'false');
+      $('t-red').setAttribute('aria-selected', style === 'red' ? 'true' : 'false');
+    }
+    pots();
+    $('t-black').addEventListener('click', function () { style = 'black'; pots(); });
+    $('t-red').addEventListener('click', function () { style = 'red'; pots(); });
+
+    /* 5 */
+    P.mosaic($('mo1'), { pattern: 'waves' });
+    P.mosaic($('mo2'), { pattern: 'rosettes' });
+    P.mosaic($('mo3'), { pattern: 'dolphins' });
+    P.mosaic($('mo4'), { pattern: 'meander' });
+
+    /* 6 */
+    var csz = window.innerWidth < 420 ? 70 : 84;
+    P.coin($('c1'), { value: 1240, seed: 'a', size: csz });
+    P.coin($('c2'), { value: -380, seed: 'b', size: csz });
+    P.coin($('c3'), { value: 0, seed: 'c', size: csz });
+    var c4 = P.coin($('c4'), { value: 615, seed: 'd', animate: false, size: csz }), c4v = 615;
+    L.parts.coin = c4;
+    $('c-win').addEventListener('click', function () { c4v = Math.abs(c4v) + 125; c4.set({ value: c4v }); });
+    $('c-loss').addEventListener('click', function () { c4v = -Math.abs(c4v) + 40; c4.set({ value: c4v }); });
+
+    /* 7 */
+    var rows = '', base = new Date(now);
+    function addRow(label, d) {
+      var a = P.atticDate(d);
+      rows += '<tr><td>' + label + '</td><td class="a">' + a.label + (a.dayName ? ' <span class="ag-muted" style="font:400 12px var(--ag-sans)">(' + a.dayName + ')</span>' : '') + '</td><td class="g">' + a.monthGreek + ' ' + a.greekDay + '</td></tr>';
+    }
+    function fmt(ms) { return new Date(ms).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' }); }
+    addRow('Today, ' + fmt(now), now);
+    addRow('In a week, ' + fmt(now + 7 * 864e5), now + 7 * 864e5);
+    addRow('Dec 18, 2026 (FOMC)', '2026-12-18');
+    addRow('Mar 20, 2027 (equinox)', '2027-03-20');
+    addRow('Jul 4, 2027', '2027-07-04');
+    $('attic-table').tBodies[0].innerHTML = rows;          // fixed labels and the calendar's own month names only
+    var yr = P.atticDate(now).year;
+    var cap = document.createElement('caption');
+    cap.style.cssText = 'caption-side:bottom;text-align:left;padding-top:8px;color:#9a8f7d;font:400 13px/1.4 var(--ag-sans)';
+    cap.textContent = 'This Attic year (' + yr.label + ') runs ' + yr.start + ' to ' + yr.end + ': ' + yr.months + ' months' + (yr.leap ? ', with the extra month Poseideon II.' : '.');
+    $('attic-table').appendChild(cap);
+    var inp = $('attic-in');
+    inp.value = new Date(now).toISOString().slice(0, 10);
+    function upd() { var a = inp.value ? P.atticDate(inp.value) : null; $('attic-out').textContent = a ? a.label + ' · ' + a.year.label : ''; }
+    inp.addEventListener('change', upd); inp.addEventListener('input', upd); upd();
+
+    /* 8 */
+    L.parts.dial = P.sundial($('dial'), tPin ? { now: now } : {});
+
+    /* 9 */
+    L.parts.lamp1 = P.lamp($('lamp1'), { label: 'Reading the ledger…' });
+    L.parts.lamp2 = P.lamp($('lamp2'), { label: 'Loading trades: 35%', progress: 0.35 });
+    $('lamp-p').addEventListener('input', function () { var v = +this.value; L.parts.lamp2.set(v / 100); L.parts.lamp2.label('Loading trades: ' + v + '%'); });
+    $('lamp-replay').addEventListener('click', function () { L.parts.lamp1 = P.lamp($('lamp1'), { label: 'Reading the ledger…' }); });
+
+    /* 10 */
+    function laurels() {
+      L.parts.l1 = P.laurel($('l1'), { kind: 'laurel', gold: true, size: 112 });
+      L.parts.l2 = P.laurel($('l2'), { kind: 'laurel', size: 112 });
+      L.parts.l3 = P.laurel($('l3'), { kind: 'olive', size: 112 });
+      L.parts.l4 = P.laurel($('l4'), { kind: 'olive', gold: true, size: 112 });
+    }
+    laurels();
+    $('l-replay').addEventListener('click', function () { L.parts.l1.replay(); L.parts.l4.replay(); });
+  } catch (e) { L.errors.push(String(e && e.stack || e)); }
+  L.ready = true;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"v":1,"name":"Argo","status":{"level":"off","label":"Demo data"},"kpis":[{"label":"Islands","value":"2 of 5"},{"label":"Next","value":"$5,000 paid out"},{"label":"Progress","value":"66%"}],"lines":["2 of 5 islands reached. Next: $5,000 paid out.","Base ETA about Feb 2027 (estimate, not a promise)."],"t":1793394000,"open":"#","theme":"#14110e","stale_after":604800}

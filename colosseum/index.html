@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Colosseum</title>
+<meta name="description" content="OLYMPUS COLOSSEUM: where strategies fight. Pick any two stored runs of the Archive and watch them duel over seven rounds on their real numbers, money first: net dollars, dollars a month, profit factor, max drawdown, trades a week, MFFU eval speed and holding in both periods. A tournament of the top adopted runs, the league of the three bots, the hall of champions and the fallen. History, not a promise.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Colosseum">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- COLOSSEUM (OLYMPUS, AGORA look, 2026-11-11): where strategies fight. colosseumcore.js = the pure duel maths and words (node-tested, deterministic); colosseum.js = the page (ES module);
+     arena.js = the marble amphitheatre in 3D (its own module tag: if it fails, or on LITE, the page draws the flat SVG arena).
+     Reads ../archive/index.json (+ its runs-<k>.json shards after the first paint), ./extra.json (max drawdown, dec10, pass_med: built offline by tools/colosseum_build.py), ../home.json (the three bots)
+     and fixture.json (DEMO, never blank); sends nothing, stores nothing. Text only through textContent / createElementNS. A number that is not stored is "no contest",      A number that is not stored is "no contest", never guessed. Every champion is a person (docs/PERSONA_API.md): tap a name plate, then Talk. With the shared kit loaded (window.OLYMPUS_PEOPLE; its script tag is added by the lead once olympus/people.js exists: a missing file would raise the kit's 'could not load' banner) that opens its chat;
+     without it the page answers five questions from the run's stored numbers. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="colosseum"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/polis-life.js?v=pl4" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="colosseum.css?v=c1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Colosseum</h1><p class="sub">Two strategies on the same real trades: see which makes more $, round by round.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" aria-labelledby="duelH">
+    <div class="row"><h2 id="duelH">The duel</h2><span class="pill info" id="periodPill">...</span></div>
+    <div class="stage">
+      <canvas id="arena" role="img" aria-label="A marble amphitheatre with seven tiers of round-headed spectators who cheer the winner of a round, a sand floor, a low warm sun and banners in the colours of the two fighters. Two friendly round-headed champions with a crested bronze cap and a shield stand in the middle: the left one is fighter A, the right one fighter B. They clash once for every round."></canvas>
+      <svg id="flat" viewBox="0 0 320 240" role="img" aria-label="A flat drawing of the arena: tiers of seats, a sand floor and the two champions, A on the left and B on the right" hidden></svg>
+    </div>
+    <div class="board" id="board">
+      <button class="plate a" id="plateA" type="button" aria-expanded="false" aria-controls="person"><span class="crest" id="crestA"></span><b id="nameA">...</b><small id="famA"></small></button>
+      <div class="score" aria-label="Rounds won"><b class="ag-num" id="score">0 - 0</b><small>rounds</small></div>
+      <button class="plate b" id="plateB" type="button" aria-expanded="false" aria-controls="person"><span class="crest" id="crestB"></span><b id="nameB">...</b><small id="famB"></small></button>
+    </div>
+    <div class="person" id="person" hidden>
+      <div class="who"><svg id="face" viewBox="0 0 48 48" role="img" aria-label="The champion's face"></svg><div><b id="pName"></b><small id="pPlate"></small></div><button class="btn" id="pClose" type="button" aria-label="Close this champion's card">Close</button></div>
+      <button class="btn gold" id="talk" type="button">Talk</button>
+      <div id="askBox" hidden><p class="note">Ask a question. Every answer comes from the stored numbers of this run, nothing else.</p><div class="seg" id="asks" role="group" aria-label="Questions"></div><p class="lead" id="answer" aria-live="polite"></p></div>
+    </div>
+    <ol class="pips" id="pips" aria-label="The seven rounds"></ol>
+    <div class="round" id="roundBox" aria-live="polite">
+      <p class="ag-eyebrow" id="roundNo">Seven rounds, money first</p>
+      <p class="note" id="roundPlain">Net dollars, dollars a month, profit factor, max drawdown, trades a week, eval speed, and holding in both periods.</p>
+      <div class="vs" id="vs" hidden>
+        <div class="num a"><b class="ag-num" id="numA"></b><small id="subA"></small></div>
+        <span class="mid">vs</span>
+        <div class="num b"><b class="ag-num" id="numB"></b><small id="subB"></small></div>
+      </div>
+      <p class="lead" id="roundLine"></p>
+    </div>
+    <div class="seg ctl">
+      <button class="btn gold" id="fight" type="button">Start the duel</button>
+      <button class="btn" id="next" type="button">One round</button>
+      <button class="btn" id="skip" type="button">To the verdict</button>
+    </div>
+    <p class="banner">Every number is a stored backtest of the Archive, after costs. A number that is not stored makes the round "no contest": nothing is guessed. A duel changes nothing the bots do.</p>
+  </section>
+
+  <section class="ag-card card" id="verdict" aria-labelledby="verH" hidden>
+    <div class="row"><h2 id="verH">The verdict</h2><span class="pill ok" id="verPill">...</span></div>
+    <p class="lead big" id="verHead"></p>
+    <ol class="plain" id="why"></ol>
+    <div class="says" id="says"></div>
+    <table class="lad" id="roundsTable"><caption class="note">The seven rounds</caption><thead><tr><th scope="col">Round</th><th scope="col">A</th><th scope="col">B</th><th scope="col">Won by</th></tr></thead><tbody id="roundRows"></tbody></table>
+    <h3>Read this before you trust it</h3>
+    <ul class="plain cav" id="caveats"></ul>
+    <p class="sharetext" id="shareText"></p>
+    <div class="seg">
+      <button class="btn" id="share" type="button">Copy the result</button>
+      <button class="btn" id="copyLink" type="button">Copy the link</button>
+      <a class="btn" id="openA" href="../archive/">A in the Archive</a>
+      <a class="btn" id="openB" href="../archive/">B in the Archive</a>
+    </div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="pickH">
+    <h2 id="pickH">Pick the fighters</h2>
+    <div class="seg" id="modes" role="group" aria-label="Kind of duel"></div>
+    <p class="note" id="modeNote"></p>
+    <div class="slots">
+      <button class="slot" id="slotA" type="button" aria-pressed="true"><span class="crest" id="sCrestA"></span><span class="sl"><small>Fighter A (left)</small><b id="sNameA">...</b><span class="note" id="sPlateA"></span></span></button>
+      <button class="slot" id="slotB" type="button" aria-pressed="false"><span class="crest" id="sCrestB"></span><span class="sl"><small>Fighter B (right)</small><b id="sNameB">...</b><span class="note" id="sPlateB"></span></span></button>
+    </div>
+    <div id="finder">
+      <label class="field"><span class="note" id="qLabel">Search the Archive: the pick goes to the gold slot</span><input id="q" type="search" inputmode="search" autocomplete="off" enterkeyhint="search" placeholder="Try: scale, monday, atlas, wider stop"></label>
+      <p class="note" id="count" aria-live="polite"></p>
+      <ul class="runs" id="results"></ul>
+    </div>
+    <div class="seg" id="botPick" role="group" aria-label="The three bots" hidden></div>
+    <button class="btn" id="swap" type="button">Swap A and B</button>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="tourH">
+    <div class="row"><h2 id="tourH">The tournament</h2><span class="pill info" id="tPill">...</span></div>
+    <p class="note" id="tNote"></p>
+    <button class="btn gold wide" id="tGo" type="button">Play the tournament</button>
+    <div class="champ" id="champ" hidden>
+      <svg class="laurel" id="laurel" viewBox="0 0 120 96" role="img" aria-label="A laurel wreath"></svg>
+      <p class="ag-eyebrow">Champion</p>
+      <p class="champname" id="champName"></p>
+      <p class="lead" id="champNums"></p>
+    </div>
+    <div id="bracket"></div>
+    <p class="sharetext" id="tShareText" hidden></p>
+    <div class="seg" id="tBtns" hidden>
+      <button class="btn" id="tShare" type="button">Copy the result</button>
+      <button class="btn" id="tFinal" type="button">Watch the final</button>
+    </div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="botH">
+    <div class="row"><h2 id="botH">My bots</h2><span class="pill info" id="botPill">...</span></div>
+    <table class="lad" id="league"><caption class="note" id="botNote">The league of the three bots</caption><thead><tr><th scope="col">Bot</th><th scope="col">Net $</th><th scope="col">PF</th><th scope="col">Trades</th><th scope="col">Worst drop</th></tr></thead><tbody id="leagueRows"></tbody></table>
+    <p class="note" id="botFoot"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="hallH">
+    <div class="row"><h2 id="hallH">Hall of champions</h2><span class="pill ok" id="hallPill">...</span></div>
+    <p class="note">The adopted runs, best dollars a month first. Runs with identical numbers stand once. Send a statue into the arena as A or B.</p>
+    <ul class="arcade" id="hall"></ul>
+  </section>
+  <section class="pl-place" data-polis-life="statues" aria-label="The hall of statues" hidden></section>
+
+  <section class="ag-card card" aria-labelledby="fallH">
+    <div class="row"><h2 id="fallH">The fallen</h2><span class="pill warn" id="fallPill">...</span></div>
+    <p class="note">Ideas that were tested and rejected, with the reason. Don't redo them without a new idea.</p>
+    <ul class="fallen" id="fallen"></ul>
+    <a class="btn" id="allFallen" href="../archive/">All of them in the Archive</a>
+  </section>
+
+  <p class="foot" id="foot">Colosseum reads the Archive's own files (built offline from the saved research) and the published account numbers; it sends nothing and stores nothing. Stored backtests are history, not a forecast and not a promise. Money is after costs; 1 MNQ micro = $2 a point.</p>
+</main>
+<script type="module" src="arena.js?v=c1" onerror="window.COLOSSEUM_ARENA_FAIL = 1"></script>
+<script type="module" src="colosseum.js?v=c1"></script>
+</body>
+</html>

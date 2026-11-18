@@ -1,0 +1,30 @@
+{
+ "v": 1,
+ "name": "Athena",
+ "status": {
+  "level": "ok",
+  "label": "192 entries, offline"
+ },
+ "kpis": [
+  {
+   "label": "Entries",
+   "value": "192"
+  },
+  {
+   "label": "Words",
+   "value": "38"
+  },
+  {
+   "label": "Playbooks",
+   "value": "10"
+  }
+ ],
+ "lines": [
+  "Your library: the strategy, the MFFU rules, Kalshi, what failed, what we learned and what to do when.",
+  "Ask it, bookmark it, flip the cards. A new lesson every day."
+ ],
+ "t": 1793700000,
+ "open": "#library",
+ "theme": "#070b14",
+ "stale_after": 2592000
+}

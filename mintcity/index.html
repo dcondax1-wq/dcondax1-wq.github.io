@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mint City</title>
+<meta name="description" content="OLYMPUS MINT CITY: the money machines as a giant marble city. Five districts (treasury tower, market stalls, oracle temple, household quarter, harbour with scales) round a golden pillar. Heights follow each estimate.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mint City">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- MINT CITY (OLYMPUS, AGORA look, 2026-11-10): the five money machines as a marble city. Reads ../money/index.json (tools/money_engine.py) and fixture.json (DEMO, never blank). Read only, paper only: it sends nothing.
+     mintcitycore.js = the pure city plan and camera maths (node-tested); mintcity.js = the page; mintcityscene.js = the optional 3D city (instanced, with a LOD; a separate module, so a device without WebGL or on LITE keeps the 2D map and the list). -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/olympus.js?v=o10" data-app="mintcity"></script>
+<script src="../olympus/intro-app.js?v=i7" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script>
+<script src="../olympus/sfx.js?v=s4" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="mintcity.css?v=a1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Mint City</h1><p class="sub">Your 5 ways to earn as a 3D city. Taller building = more $ a month (ESTIMATE). Tap one.</p></div></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card hero" id="hero" aria-labelledby="heroH">
+    <div class="row"><h2 id="heroH">The golden pillar</h2><span class="pill" id="heroPill">ESTIMATE</span></div>
+    <p class="big ag-num" id="heroBase">-</p>
+    <p class="lead" id="heroText"></p>
+    <p class="note" id="heroWhy"></p>
+    <p class="note">The pillar is as tall as the combined estimate. An estimate is not income. Paper only: nothing here moves money.</p>
+  </section>
+
+  <section class="ag-card card" id="cityCard" aria-labelledby="cityH">
+    <h2 id="cityH">The city</h2>
+    <div class="city" id="city" role="group" aria-label="The money city. Five districts round a golden pillar. The list below has the same five districts.">
+      <div id="scene3d" class="s3d" hidden></div>
+      <div class="mapwrap" id="mapWrap"><svg id="map" class="map" viewBox="0 0 360 300" role="group" aria-label="Map of the five districts"></svg></div>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Tours and districts"></div>
+    <p class="hint">Drag to turn the city, pinch or scroll to zoom, tap a district to fly there. A building's height follows its stream's estimate.</p>
+  </section>
+
+  <section class="ag-card card sheet" id="sheet" aria-labelledby="shName" hidden>
+    <h2 id="shName"></h2>
+    <p class="note" id="shRole"></p>
+    <p class="lead" id="shHead"></p>
+    <dl class="kv" id="shKv"></dl>
+    <div class="acts"><a class="btn go" id="shOpen" href="#">Open</a></div>
+  </section>
+
+  <section class="ag-card card" id="listCard" aria-labelledby="listH">
+    <h2 id="listH">The five districts</h2>
+    <ul class="dlist" id="list"></ul>
+  </section>
+
+  <p class="foot" id="foot">Mint City reads the site's published money file and sends nothing. Every dollar is an ESTIMATE with a range, never a promise of income; districts marked Example show sample numbers, not real finds. Paper only: it never trades or moves money.</p>
+</main>
+<script type="module" src="mintcity.js?v=a1"></script>
+<script type="module" src="mintcityscene.js?v=w8"></script>
+</body>
+</html>

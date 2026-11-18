@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "demo": true,
+  "note": "EXAMPLE numbers, not real: a morning briefing with a target band, two news events and a Builder 50K part-way through an eval, shown until the site's own home.json has today's briefing.",
+  "home": {
+    "built": "2026-11-10T12:00:00Z",
+    "accounts": [
+      { "id": "mffu50k_eval", "name": "Zlarior 50K", "kind": "eval", "eval": { "balance": 50420, "floor": 49000, "room": 1420, "mll": 2000 } }
+    ],
+    "live": {
+      "brief": {
+        "day": "2026-11-10",
+        "plan": "A sweep of the Asia high above is the short setup, target near the VIX band low. A sweep of yesterday's low below is the long setup, target near the VIX band high.",
+        "monday": { "on": true, "today": null, "text": "" },
+        "vix": { "vix": 17.2, "move": 261.7, "open18": 24150, "low": 23888.3, "high": 24411.7 },
+        "news": [
+          { "time": "08:30", "title": "Core PCE Price Index", "kind": "Inflation", "blackout": "08:25-08:40" },
+          { "time": "14:00", "title": "FOMC Minutes", "kind": "Central bank", "blackout": "13:55-14:10" }
+        ],
+        "news_text": "High-impact USD news today: Core PCE Price Index 08:30, FOMC Minutes 14:00.",
+        "eval": { "room": 1420, "to_target": 2580, "max_micros": 20, "risk_usd": 838, "stop": 20, "mode": "two_week", "why": [] }
+      }
+    },
+    "strategy": { "lit": { "max_rr": 8, "min_rr": 1.5, "be_r": 1, "flat_mod": 955, "window": [[120, 930]], "t_check": { "at": 15 } } }
+  }
+}

@@ -1,0 +1,382 @@
+/* AGORA v2: the OLYMPUS classical design system (docs/DESIGN_AGORA.md). Shared tokens + components + the app shell. Load after olympus.css.
+   v1 (2026-11-09) tokens and classes are kept (every app that reads them keeps working); v2 (2026-11-11) adds the type / space / elevation /
+   motion scales, the component set (hero / stat / list / chart cards, buttons, chips, segmented control, sheet, toast, skeleton, empty and
+   error states, app bar, tab bar, pull-to-refresh) and the page shell that dresses every app built on the AGORA app base
+   (main#app > header.top > .brand + .tags). olympus/agora-ui.js adds the behaviour (icons, charts, back row, compact bar, sheet, toast, pull). */
+
+/* ================================================================================================ 1. tokens */
+:root, :root[data-theme="agora"] {
+  /* colour: warm night, marble panels, bronze lines; every text token is >= 4.5:1 on every surface below (docs/DESIGN_AGORA.md table) */
+  --ag-night: var(--oly-th-n3, #14110e); --ag-panel: var(--oly-th-n4, #1d1914); --ag-raise: var(--oly-th-n5, #26211b); --ag-line: var(--oly-th-n8, #3a3228);
+  --ag-s0: var(--oly-th-n3, #14110e); --ag-s1: var(--oly-th-n4, #1b1713); --ag-s2: var(--oly-th-n4, #221d17); --ag-s3: var(--oly-th-n6, #2b241d); --ag-s4: var(--oly-th-n7, #332b22);      /* surfaces, low to high */
+  --ag-line-soft: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .07); --ag-line-gold: rgba(var(--oly-th-a8-rgb, 200, 162, 74), .32);
+  --ag-text: var(--oly-th-n37, #f3ece0); --ag-soft: var(--oly-th-n30, #cfc4b2); --ag-muted: var(--oly-th-n24, #a89c88);                                     /* muted: 5.1:1 even on --ag-s4 */
+  --ag-gold: var(--oly-th-a8, #c8a24a); --ag-gold-hi: var(--oly-th-a10, #dcbd6e); --ag-bronze: var(--oly-th-a5, #9c6b3c); --ag-olive: var(--oly-th-g6, #7f8a52); --ag-terra: var(--oly-th-r8, #c96a4a); --ag-aegean: var(--oly-th-info, #4b7a99); --ag-sun: var(--oly-th-warn, #e0b060);
+  --ag-olive-text: var(--oly-th-g8, #a0ac6e); --ag-terra-text: var(--oly-th-r10, #e08a6b); --ag-aegean-text: var(--oly-th-infot, #7fa7c2);                   /* text-safe ink (fills keep the base colours) */
+  --ag-gold-rgb: var(--oly-th-a8-rgb, 200, 162, 74); --ag-olive-rgb: var(--oly-th-g6-rgb, 127, 138, 82); --ag-terra-rgb: var(--oly-th-r8-rgb, 201, 106, 74); --ag-sun-rgb: var(--oly-th-warn-rgb, 224, 176, 96); --ag-aegean-rgb: var(--oly-th-info-rgb, 75, 122, 153);
+  --ag-on-gold: var(--oly-th-n3, #1b1610);
+  /* type: serif display, system sans body, rounded tabular numbers. rem based (dynamic type / browser text size follow) */
+  --ag-serif: var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif);
+  --ag-sans: var(--oly-th-body, -apple-system,'SF Pro Text',system-ui,'Helvetica Neue',Arial,sans-serif);
+  --ag-num: var(--oly-th-num, 'SF Pro Rounded',-apple-system,system-ui,sans-serif);
+  --ag-fs-cap: .75rem;     /* 12  captions, chips */
+  --ag-fs-foot: .8125rem;  /* 13  footnotes, labels */
+  --ag-fs-sub: .875rem;    /* 14  secondary body */
+  --ag-fs-body: .9375rem;  /* 15  body */
+  --ag-fs-lead: 1.0625rem; /* 17  lead / list titles */
+  --ag-fs-h3: 1.125rem;    /* 18  card titles */
+  --ag-fs-h2: 1.375rem;    /* 22  section titles */
+  --ag-fs-h1: 1.875rem;    /* 30  the large page title */
+  --ag-fs-stat: 1.75rem;   /* 28  a stat */
+  --ag-fs-hero: 2.75rem;   /* 44  the hero number */
+  /* space: a 4 px grid */
+  --ag-sp-1: 4px; --ag-sp-2: 8px; --ag-sp-3: 12px; --ag-sp-4: 16px; --ag-sp-5: 20px; --ag-sp-6: 24px; --ag-sp-7: 32px; --ag-sp-8: 40px;
+  --ag-gutter: 16px;
+  /* shape */
+  --ag-radius: var(--oly-th-radius, 16px); --ag-radius-s: var(--oly-th-radius-s, 12px); --ag-radius-l: var(--oly-th-radius-l, 22px); --ag-radius-xs: 8px;
+  /* elevation: layered, warm-dark, never a glow */
+  --ag-shadow: var(--oly-th-shadow, 0 6px 18px rgba(0,0,0,.35));
+  --ag-e1: var(--oly-th-e1, 0 1px 0 rgba(var(--oly-th-a15-rgb, 255,240,214),.04) inset, 0 1px 2px rgba(0,0,0,.30), 0 2px 6px rgba(0,0,0,.18));
+  --ag-e2: var(--oly-th-e2, 0 1px 0 rgba(var(--oly-th-a15-rgb, 255,240,214),.05) inset, 0 1px 2px rgba(0,0,0,.32), 0 6px 16px rgba(0,0,0,.26), 0 14px 32px rgba(0,0,0,.18));
+  --ag-e3: var(--oly-th-e3, 0 1px 0 rgba(var(--oly-th-a15-rgb, 255,240,214),.06) inset, 0 2px 4px rgba(0,0,0,.34), 0 12px 28px rgba(0,0,0,.34), 0 28px 60px rgba(0,0,0,.30));
+  /* motion: one curve, three speeds (200-350 ms) */
+  --ag-ease: cubic-bezier(.2,.8,.2,1); --ag-ease-io: cubic-bezier(.65,0,.35,1);
+  --ag-d1: 200ms; --ag-d2: 260ms; --ag-d3: 340ms; --ag-stagger: 45ms;
+  /* safe areas */
+  --ag-st: env(safe-area-inset-top, 0px); --ag-sr: env(safe-area-inset-right, 0px); --ag-sb: env(safe-area-inset-bottom, 0px); --ag-sl: env(safe-area-inset-left, 0px);
+  --ag-orb: var(--oly-orb-clear, 96px);
+  /* the kit's own variables point at AGORA, so every app that reads them changes mood */
+  --oly-bg: var(--ag-night); --oly-text: var(--ag-text); --oly-dim: var(--ag-soft); --oly-line: var(--ag-line);
+  --oly-accent: var(--ag-gold); --oly-good: var(--ag-olive); --oly-bad: var(--ag-terra); --oly-warn: var(--ag-sun);
+  color-scheme: dark;
+}
+
+/* ================================================================================================ 2. base */
+html[data-theme="agora"] body, body.agora {
+  background: radial-gradient(120% 70% at 50% -10%, var(--oly-th-n5, #2a2118) 0%, var(--ag-night) 62%) fixed, var(--ag-night);
+  color: var(--ag-text); font-family: var(--ag-sans); -webkit-font-smoothing: antialiased; letter-spacing: 0;
+}
+/* perf v2 (2026-11-14): html itself has NO background, so the body's sky above is propagated to the root (the canvas, CSS backgrounds 2.11.2).
+   Many apps gave html its own colour (`html { background: var(--ag-night) }`); then body kept its fixed sky for itself, and Chromium repainted the
+   whole screen on every scroll frame (main-thread scrolling: the home scrolled at 10 fps on the phone profile). As the root's background it is
+   one still layer the compositor slides the page over. Same look, and body's computed background is unchanged. */
+html[data-theme="agora"] { background: none; }
+.ag-h, html[data-theme="agora"] h1, html[data-theme="agora"] h2, html[data-theme="agora"] h3 { font-family: var(--ag-serif); font-weight: 600; letter-spacing: .005em; text-transform: none; text-shadow: none; color: var(--ag-text); }
+html[data-theme="agora"] :is(button, input, select, textarea) { font-family: inherit; }
+html[data-theme="agora"] ::selection { background: rgba(var(--ag-gold-rgb), .35); color: var(--ag-text); }
+.ag-num, .ag-tnum { font-family: var(--ag-num); font-variant-numeric: tabular-nums; }
+.ag-num { font-weight: 700; }
+
+/* ================================================================================================ 3. type */
+.ag-display { font: 600 clamp(2rem, 9vw, 2.5rem)/1.06 var(--ag-serif); letter-spacing: -.005em; margin: 0; }
+.ag-title { font-family: var(--ag-serif); font-size: clamp(1.5rem, 7vw, var(--ag-fs-h1)); line-height: 1.1; margin: 0; }
+.ag-title::after { content: ""; display: block; width: 44px; height: 2px; margin-top: 8px; border-radius: 2px; background: linear-gradient(90deg, var(--ag-gold), rgba(var(--ag-gold-rgb), 0)); }
+.ag-h2 { font: 600 var(--ag-fs-h2)/1.2 var(--ag-serif); margin: 0; }
+.ag-h3 { font: 600 var(--ag-fs-h3)/1.25 var(--ag-serif); margin: 0; }
+.ag-lead { font: 400 var(--ag-fs-lead)/1.42 var(--ag-sans); color: var(--ag-soft); margin: 0; }
+.ag-body { font: 400 var(--ag-fs-body)/1.47 var(--ag-sans); color: var(--ag-soft); margin: 0; }
+.ag-foot { font: 400 var(--ag-fs-foot)/1.42 var(--ag-sans); color: var(--ag-muted); margin: 0; }
+.ag-eyebrow { font: 600 var(--ag-fs-cap)/1.2 var(--ag-sans); letter-spacing: .04em; color: var(--ag-gold); text-transform: none; }
+.ag-good { color: var(--ag-olive-text); } .ag-bad { color: var(--ag-terra-text); } .ag-warn { color: var(--ag-sun); } .ag-info { color: var(--ag-aegean-text); } .ag-muted { color: var(--ag-muted); } .ag-soft { color: var(--ag-soft); }
+.ag-rule { height: 1px; background: var(--ag-line); border: 0; margin: 12px 0; }
+.ag-sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ================================================================================================ 4. surfaces: cards */
+.ag-card { position: relative; background: linear-gradient(180deg, var(--ag-raise), var(--ag-panel)); border: 1px solid var(--ag-line); border-radius: var(--ag-radius); padding: 16px 18px; box-shadow: var(--ag-shadow); }
+.ag-card h2, .ag-card h3 { margin: 0 0 8px; font-size: var(--ag-fs-lead); }
+/* hero: the one number that matters, gold-warmed panel */
+.ag-card.ag-hero, .ag-hero { border-radius: var(--ag-radius-l); padding: 20px; border-color: var(--ag-line-gold);
+  background: radial-gradient(130% 90% at 0% 0%, rgba(var(--ag-gold-rgb), .13), rgba(var(--ag-gold-rgb), 0) 60%), linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1e1914)); box-shadow: var(--ag-e2); }
+.ag-hero-label { font: 600 var(--ag-fs-foot)/1.2 var(--ag-sans); color: var(--ag-soft); margin: 0; }
+.ag-hero-num { font: 700 clamp(2.25rem, 12vw, var(--ag-fs-hero))/1.02 var(--ag-num); font-variant-numeric: tabular-nums; letter-spacing: -.015em; color: var(--ag-text); margin: 6px 0 4px; }
+.ag-hero-sub { font: 400 var(--ag-fs-sub)/1.4 var(--ag-sans); color: var(--ag-soft); margin: 0; }
+/* list card: rows edge to edge */
+.ag-card.ag-listcard { padding: 6px 0; }
+.ag-card.ag-listcard > :is(h2, h3, .ag-cardhead) { padding: 10px 18px 6px; margin: 0; }
+/* chart card */
+.ag-card.ag-chartcard { padding: 16px 16px 12px; }
+.ag-cardhead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; margin: 0 0 10px; }
+.ag-cardhead > :first-child { min-width: 0; margin: 0; }
+.ag-cardhead .ag-foot { flex: none; }
+.ag-card.flat { box-shadow: none; background: var(--ag-s2); }
+.ag-card.tap { cursor: pointer; transition: scale var(--ag-d1) var(--ag-ease), border-color var(--ag-d1) var(--ag-ease); }
+.ag-card.tap:active { scale: .985; border-color: var(--ag-line-gold); }
+
+/* ================================================================================================ 5. stats */
+.ag-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ag-stat { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 12px 14px; border-radius: var(--ag-radius-s); background: var(--ag-s2); border: 1px solid var(--ag-line-soft); }
+.ag-stat-label { font: 600 var(--ag-fs-foot)/1.25 var(--ag-sans); color: var(--ag-muted); }
+.ag-stat-value { font: 700 var(--ag-fs-stat)/1.1 var(--ag-num); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ag-text); overflow-wrap: anywhere; }
+.ag-stat-sub { font: 400 var(--ag-fs-cap)/1.3 var(--ag-sans); color: var(--ag-muted); }
+.ag-delta { display: inline-flex; align-items: center; gap: 3px; font: 600 var(--ag-fs-foot)/1 var(--ag-num); font-variant-numeric: tabular-nums; }
+.ag-delta.up { color: var(--ag-olive-text); } .ag-delta.down { color: var(--ag-terra-text); } .ag-delta.flat { color: var(--ag-muted); }
+.ag-money { font: 700 clamp(34px, 11vw, 46px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ag-text); }
+
+/* ================================================================================================ 6. lists */
+.ag-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.ag-row { box-sizing: border-box; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 56px; padding: 10px 18px; color: inherit; text-decoration: none; position: relative; }
+.ag-row + .ag-row::before { content: ""; position: absolute; top: 0; left: 18px; right: 0; height: 1px; background: var(--ag-line-soft); }
+.ag-row.has-icon + .ag-row::before, .ag-row.has-icon + .ag-row.has-icon::before { left: 62px; }
+.ag-row-ic { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--ag-s3); color: var(--ag-gold); }
+.ag-row-ic:empty { display: none; }
+.ag-row-main { display: grid; gap: 2px; min-width: 0; }
+.ag-row-title { font: 600 var(--ag-fs-body)/1.3 var(--ag-sans); color: var(--ag-text); overflow-wrap: anywhere; }
+.ag-row-sub { font: 400 var(--ag-fs-foot)/1.35 var(--ag-sans); color: var(--ag-muted); overflow-wrap: anywhere; }
+.ag-row-end { display: inline-flex; align-items: center; gap: 6px; font: 600 var(--ag-fs-body)/1.2 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-soft); text-align: right; }
+:is(a, button).ag-row { width: 100%; border: 0; background: transparent; text-align: left; font: inherit; cursor: pointer; transition: background-color var(--ag-d1) var(--ag-ease); }
+:is(a, button).ag-row:active { background: rgba(var(--ag-gold-rgb), .07); }
+.ag-chev { color: var(--ag-muted); opacity: .8; }
+
+/* ================================================================================================ 7. controls */
+.ag-btn, html[data-theme="agora"] button.ag-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: var(--ag-radius-s);
+  border: 1px solid var(--ag-line); background: linear-gradient(180deg, var(--ag-s4), var(--ag-s3)); color: var(--ag-text); font: 600 var(--ag-fs-body)/1.2 var(--ag-sans); text-decoration: none; cursor: pointer;
+  box-shadow: var(--ag-e1); touch-action: manipulation; -webkit-user-select: none; user-select: none;
+  transition: scale var(--ag-d1) var(--ag-ease), background-color var(--ag-d1) var(--ag-ease), border-color var(--ag-d1) var(--ag-ease), color var(--ag-d1) var(--ag-ease), filter var(--ag-d1) var(--ag-ease); }
+.ag-btn.primary { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--ag-gold)); color: var(--ag-on-gold); border-color: var(--oly-th-a11, #e2c47a); box-shadow: 0 1px 0 rgba(var(--oly-th-n37-rgb, 255,246,220),.35) inset, 0 1px 2px rgba(0,0,0,.35), 0 6px 14px rgba(0,0,0,.25); }
+.ag-btn.ghost { background: transparent; box-shadow: none; color: var(--ag-gold); border-color: transparent; }
+.ag-btn.quiet { background: var(--ag-s2); box-shadow: none; }
+.ag-btn.danger { color: var(--ag-terra-text); border-color: rgba(var(--ag-terra-rgb), .45); }
+.ag-btn.block { width: 100%; } .ag-btn.lg { min-height: 52px; font-size: var(--ag-fs-lead); border-radius: 14px; }
+.ag-btn:active, .ag-chip:active, .ag-tab:active, .ag-seg button:active, .ag-iconbtn:active { scale: .97; }
+.ag-btn.primary:active { filter: brightness(.94); }
+.ag-btn:disabled, .ag-btn[aria-disabled="true"] { opacity: .5; cursor: default; scale: 1; }
+.ag-iconbtn { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--ag-line); background: var(--ag-s2); color: var(--ag-soft); padding: 0; cursor: pointer; touch-action: manipulation;
+  transition: scale var(--ag-d1) var(--ag-ease), color var(--ag-d1) var(--ag-ease); }
+.ag-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-s1); color: var(--ag-soft); font: 600 var(--ag-fs-sub) var(--ag-sans);
+  transition: scale var(--ag-d1) var(--ag-ease), background-color var(--ag-d1) var(--ag-ease), border-color var(--ag-d1) var(--ag-ease), color var(--ag-d1) var(--ag-ease); }
+.ag-chip[aria-pressed="true"], .ag-chip.on { border-color: var(--ag-gold); color: var(--ag-gold-hi); background: var(--oly-th-n5, #2a2217); }
+/* the segmented control: one rail, a raised thumb on the chosen item */
+.ag-seg { display: flex; gap: 2px; padding: 3px; border-radius: 13px; background: var(--ag-s1); border: 1px solid var(--ag-line); box-shadow: 0 1px 2px rgba(0,0,0,.35) inset; }
+.ag-seg button, .ag-seg a { flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--ag-soft); font: 600 var(--ag-fs-sub)/1.15 var(--ag-sans); text-decoration: none; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; transition: background-color var(--ag-d2) var(--ag-ease), color var(--ag-d2) var(--ag-ease), scale var(--ag-d1) var(--ag-ease); }
+.ag-seg :is(button, a):is([aria-pressed="true"], [aria-selected="true"], [aria-current="page"], .on) { background: linear-gradient(180deg, var(--ag-s4), var(--ag-s3)); color: var(--ag-text); box-shadow: var(--ag-e1); }
+/* tabs (scrolling pills) */
+.ag-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; scrollbar-width: none; } .ag-tabs::-webkit-scrollbar { display: none; }
+.ag-tab { flex: 0 0 auto; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--ag-line); color: var(--ag-soft); background: transparent; font: 600 var(--ag-fs-body) var(--ag-sans);
+  transition: scale var(--ag-d1) var(--ag-ease), background-color var(--ag-d2) var(--ag-ease), color var(--ag-d2) var(--ag-ease); }
+.ag-tab[aria-selected="true"] { color: var(--ag-on-gold); background: var(--ag-gold); border-color: var(--ag-gold); }
+.ag-field { box-sizing: border-box; width: 100%; min-height: 44px; padding: 0 14px; border-radius: var(--ag-radius-s); border: 1px solid var(--ag-line); background: var(--ag-s1); color: var(--ag-text); font: 400 1rem var(--ag-sans); }
+.ag-field::placeholder { color: var(--ag-muted); }
+.ag-field:focus { outline: none; border-color: rgba(var(--ag-gold-rgb), .7); box-shadow: 0 0 0 3px rgba(var(--ag-gold-rgb), .16); }
+.ag-bar { height: 8px; border-radius: 99px; background: var(--oly-th-n6, #2b251d); overflow: hidden; } .ag-bar > i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--ag-bronze), var(--ag-gold)); transition: width var(--ag-d3) var(--ag-ease); }
+
+/* ================================================================================================ 8. feedback: badges, banners, toast, skeleton, empty, error */
+.ag-badge { display: inline-flex; align-items: center; gap: 6px; min-height: 24px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-s2); color: var(--ag-soft);
+  font: 600 var(--ag-fs-cap)/1 var(--ag-sans); letter-spacing: .02em; white-space: nowrap; }
+.ag-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .9; }
+.ag-badge.plain::before { content: none; }
+.ag-badge.ok { color: var(--ag-olive-text); border-color: rgba(var(--ag-olive-rgb), .45); background: rgba(var(--ag-olive-rgb), .1); }
+.ag-badge.warn, .ag-badge.demo { color: var(--ag-sun); border-color: rgba(var(--ag-sun-rgb), .38); background: rgba(var(--ag-sun-rgb), .08); }
+.ag-badge.bad { color: var(--ag-terra-text); border-color: rgba(var(--ag-terra-rgb), .45); background: rgba(var(--ag-terra-rgb), .1); }
+.ag-badge.info { color: var(--ag-aegean-text); border-color: rgba(var(--ag-aegean-rgb), .5); background: rgba(var(--ag-aegean-rgb), .1); }
+.ag-mode { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-panel); color: var(--ag-muted); font: 600 12px var(--ag-sans); letter-spacing: .04em; }
+.ag-banner { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: start; padding: 14px 16px; border-radius: var(--ag-radius); border: 1px solid rgba(var(--ag-sun-rgb), .32); background: linear-gradient(180deg, var(--oly-th-n5, #2b2416), var(--oly-th-n4, #211c13)); box-shadow: var(--ag-e1); }
+.ag-banner.bad { border-color: rgba(var(--ag-terra-rgb), .45); background: linear-gradient(180deg, var(--oly-th-n5, #2c1d16), var(--oly-th-n4, #221812)); }
+.ag-banner > .ag-ic { color: var(--ag-sun); margin-top: 1px; } .ag-banner.bad > .ag-ic { color: var(--ag-terra-text); }
+.ag-banner b { font: 600 var(--ag-fs-body)/1.3 var(--ag-sans); color: var(--ag-text); } .ag-banner p { grid-column: 2; margin: 0; font-size: var(--ag-fs-sub); color: var(--ag-soft); }
+.ag-toasts { position: fixed; z-index: 90; left: calc(var(--ag-sl) + 16px); right: calc(var(--ag-sr) + 16px); bottom: calc(var(--ag-sb) + 104px); display: grid; justify-items: center; gap: 8px; pointer-events: none; }
+.ag-toast { display: inline-flex; align-items: center; gap: 10px; max-width: 420px; min-height: 44px; padding: 10px 16px; border-radius: 14px; border: 1px solid var(--ag-line); background: rgba(var(--oly-th-n5-rgb, 38, 33, 27), .97); color: var(--ag-text);
+  font: 600 var(--ag-fs-sub)/1.3 var(--ag-sans); box-shadow: var(--ag-e3); pointer-events: auto; animation: ag-toast-in var(--ag-d3) var(--ag-ease) both; }
+.ag-toast.out { animation: ag-toast-out var(--ag-d2) var(--ag-ease) both; }
+.ag-toast .ag-ic { color: var(--ag-gold); flex: none; } .ag-toast.ok .ag-ic { color: var(--ag-olive-text); } .ag-toast.bad .ag-ic { color: var(--ag-terra-text); }
+@keyframes ag-toast-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes ag-toast-out { to { opacity: 0; transform: translateY(8px); } }
+/* skeleton: a calm breathing block (no moving sheen) */
+.ag-skel { display: block; border-radius: 8px; background: linear-gradient(180deg, var(--oly-th-n6, #2b251d), var(--oly-th-n5, #26201a)); animation: ag-breathe 1.6s ease-in-out infinite; }
+.ag-skel.line { height: 12px; margin: 8px 0; } .ag-skel.line.short { width: 55%; } .ag-skel.title { height: 20px; width: 60%; margin: 4px 0 12px; } .ag-skel.num { height: 36px; width: 46%; margin: 6px 0; } .ag-skel.block { height: 120px; border-radius: 12px; }
+@keyframes ag-breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+.ag-state { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 28px 18px; }
+.ag-state-ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: var(--ag-gold); background: radial-gradient(circle at 50% 35%, var(--oly-th-n7, #3a2f20), var(--ag-s2) 78%); border: 1px solid var(--ag-line-gold); margin-bottom: 4px; }
+.ag-state.bad .ag-state-ic { color: var(--ag-terra-text); border-color: rgba(var(--ag-terra-rgb), .45); }
+.ag-state-title { font: 600 var(--ag-fs-h3)/1.25 var(--ag-serif); color: var(--ag-text); margin: 0; }
+.ag-state-text { font: 400 var(--ag-fs-sub)/1.45 var(--ag-sans); color: var(--ag-soft); margin: 0; max-width: 32ch; }
+.ag-state .ag-btn { margin-top: 8px; }
+
+/* ================================================================================================ 9. sheet */
+.ag-scrim { position: fixed; inset: 0; z-index: 80; background: rgba(var(--oly-th-n1-rgb, 10, 8, 6), .6); animation: ag-fade var(--ag-d2) var(--ag-ease) both; }
+.ag-scrim.out { animation: ag-fade-out var(--ag-d2) var(--ag-ease) both; }
+.ag-sheet { position: fixed; z-index: 81; left: 0; right: 0; bottom: 0; margin: 0 auto; max-width: 640px; max-height: 88vh; max-height: 88dvh; display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: 8px;
+  padding: 8px calc(var(--ag-sr) + 18px) calc(var(--ag-sb) + 18px) calc(var(--ag-sl) + 18px); border-radius: 22px 22px 0 0; border: 1px solid var(--oly-th-n9, #4a3d28); border-bottom: 0;
+  background: linear-gradient(180deg, var(--oly-th-n6, #2a241d), var(--ag-panel) 140px); box-shadow: 0 -12px 40px rgba(0,0,0,.5); animation: ag-sheet-in var(--ag-d3) var(--ag-ease) both; touch-action: pan-y; }
+.ag-sheet.out { animation: ag-sheet-out var(--ag-d2) var(--ag-ease-io) both; }
+.ag-grab { justify-self: center; width: 40px; height: 5px; border-radius: 3px; background: var(--oly-th-n12, #5a4d3b); margin: 2px 0 4px; }
+.ag-sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ag-sheet-head h2 { margin: 0; font: 600 var(--ag-fs-h3)/1.25 var(--ag-serif); }
+.ag-sheet-body { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; display: grid; gap: 10px; align-content: start; padding-bottom: 8px; }
+@keyframes ag-sheet-in { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes ag-sheet-out { to { transform: translateY(100%); } }
+@keyframes ag-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ag-fade-out { to { opacity: 0; } }
+html.ag-locked, html.ag-locked body { overflow: hidden; }
+
+/* ================================================================================================ 10. the app shell: back row, compact bar, tab bar, pull to refresh */
+.ag-back, .ag-navback { display: inline-flex; align-items: center; gap: 2px; min-height: 44px; margin-left: -8px; padding: 0 10px 0 4px; border-radius: 12px; color: var(--ag-gold); font: 600 var(--ag-fs-lead)/1 var(--ag-sans); text-decoration: none; letter-spacing: 0;
+  transition: opacity var(--ag-d1) var(--ag-ease); -webkit-touch-callout: none; }
+.ag-back:active, .ag-navback:active { opacity: .55; }
+.ag-navback .ag-ic { width: 22px; height: 22px; stroke-width: 2.2; }
+.ag-sub { margin: 6px 0 0; color: var(--ag-soft); font: 400 var(--ag-fs-sub)/1.35 var(--ag-sans); }
+/* the compact bar: fades in once the large title has scrolled away (agora-ui.js) */
+.ag-appbar { box-sizing: border-box; position: fixed; z-index: 70; top: 0; left: 0; right: 0; height: calc(var(--ag-st) + 48px); padding: var(--ag-st) calc(var(--ag-sr) + 8px) 0 calc(var(--ag-sl) + 8px);
+  display: grid; grid-template-columns: minmax(88px, 1fr) auto minmax(88px, 1fr); align-items: center; gap: 6px;
+  background: rgba(var(--oly-th-n3-rgb, 22, 19, 15), .95); -webkit-backdrop-filter: saturate(1.3) blur(18px); backdrop-filter: saturate(1.3) blur(18px); border-bottom: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .06); box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity var(--ag-d2) var(--ag-ease), transform var(--ag-d2) var(--ag-ease); }
+.ag-appbar.on { opacity: 1; transform: none; pointer-events: auto; }
+.ag-appbar-title { font: 600 var(--ag-fs-lead)/1.2 var(--ag-serif); color: var(--ag-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: min(56vw, calc(100vw - 204px));  /* two 88 px side columns + gaps + gutters: never wider than a 375 / 390 phone */ text-align: center; }
+.ag-appbar .ag-navback { justify-self: start; margin-left: 0; }
+.ag-appbar-end { justify-self: end; display: flex; gap: 6px; padding-right: 4px; }
+html.framed .ag-appbar { height: 48px; padding-top: 0; }
+/* the floating tab bar: a capsule at the bottom, clear of Jarvis's orb corner */
+.ag-tabbar { position: fixed; z-index: 60; left: calc(var(--ag-sl) + 12px); right: calc(var(--ag-sr) + var(--ag-orb)); bottom: calc(var(--ag-sb) + 12px); max-width: 520px;
+  display: flex; gap: 2px; padding: 5px; border-radius: 22px; background: rgba(var(--oly-th-n4-rgb, 30, 26, 21), .9); -webkit-backdrop-filter: saturate(1.3) blur(18px); backdrop-filter: saturate(1.3) blur(18px);
+  border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .08); box-shadow: var(--ag-e3); }
+.ag-tabbar :is(button, a) { flex: 1 1 0; min-width: 0; min-height: 50px; display: grid; justify-items: center; align-content: center; gap: 3px; border: 0; border-radius: 17px; background: transparent; color: var(--ag-muted);
+  font: 600 11.5px/1.1 var(--ag-sans); text-decoration: none; cursor: pointer; transition: background-color var(--ag-d2) var(--ag-ease), color var(--ag-d2) var(--ag-ease), scale var(--ag-d1) var(--ag-ease); }
+.ag-tabbar :is(button, a) .ag-ic { width: 22px; height: 22px; }
+.ag-tabbar :is(button, a):is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"]) { color: var(--ag-gold-hi); background: rgba(var(--ag-gold-rgb), .12); }
+.ag-tabbar :is(button, a):active { scale: .95; }
+/* pull to refresh */
+.ag-ptr { position: fixed; z-index: 75; top: calc(var(--ag-st) + 10px); left: 50%; width: 40px; height: 40px; margin-left: -20px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--ag-s3); border: 1px solid var(--ag-line-gold); color: var(--ag-gold); box-shadow: var(--ag-e2); opacity: 0; transform: translateY(-56px); pointer-events: none; }
+.ag-ptr.go .ag-ic { animation: ag-spin .9s linear infinite; }
+@keyframes ag-spin { to { transform: rotate(360deg); } }
+
+/* ================================================================================================ 11. charts (agora-ui.js AGORA.chart: sparkline / area / bar with axes that read) */
+.ag-chart { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--ag-sans); }
+.ag-chart .grid { stroke: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .08); stroke-width: 1; shape-rendering: crispEdges; }
+.ag-chart .zero { stroke: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .22); stroke-width: 1; shape-rendering: crispEdges; }
+.ag-chart .ax { fill: var(--ag-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.ag-chart .line { fill: none; stroke: var(--ag-gold); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.ag-chart .line.down { stroke: var(--ag-terra-text); } .ag-chart .line.up { stroke: var(--ag-gold); }
+.ag-chart .area { stroke: none; }
+.ag-chart .dot { fill: var(--ag-gold-hi); stroke: var(--ag-night); stroke-width: 2; }
+.ag-chart .bar { fill: var(--ag-gold); } .ag-chart .bar.neg { fill: var(--ag-terra); } .ag-chart .bar.dim { fill: var(--oly-th-a2, #5a4a30); }
+.ag-chart .vlabel { fill: var(--ag-soft); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ag-chart .draw { stroke-dasharray: var(--len, 2000); stroke-dashoffset: var(--len, 2000); animation: ag-draw .9s var(--ag-ease) .1s forwards; }
+.ag-chart .grow { transform-box: fill-box; transform-origin: 50% 100%; animation: ag-grow var(--ag-d3) var(--ag-ease) backwards; }
+@keyframes ag-draw { to { stroke-dashoffset: 0; } }
+@keyframes ag-grow { from { transform: scaleY(0); } }
+
+/* ================================================================================================ 12. icons (agora-ui.js AGORA.icon: one 24 px line set, 1.75 stroke, round joins) */
+.ag-ic { width: 20px; height: 20px; flex: none; display: inline-block; vertical-align: -4px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.ag-ic.s { width: 16px; height: 16px; vertical-align: -3px; } .ag-ic.l { width: 26px; height: 26px; }
+
+/* ================================================================================================ 13. motion: page enter, press */
+@keyframes ag-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes ag-pop { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+.ag-enter { animation: ag-enter var(--ag-d3) var(--ag-ease) backwards; animation-delay: calc(var(--ag-i, 0) * var(--ag-stagger)); }
+.ag-stagger > * { animation: ag-enter var(--ag-d3) var(--ag-ease) backwards; }
+.ag-stagger > :nth-child(2) { animation-delay: calc(1 * var(--ag-stagger)); } .ag-stagger > :nth-child(3) { animation-delay: calc(2 * var(--ag-stagger)); }
+.ag-stagger > :nth-child(4) { animation-delay: calc(3 * var(--ag-stagger)); } .ag-stagger > :nth-child(5) { animation-delay: calc(4 * var(--ag-stagger)); }
+.ag-stagger > :nth-child(6) { animation-delay: calc(5 * var(--ag-stagger)); } .ag-stagger > :nth-child(n+7) { animation-delay: calc(6 * var(--ag-stagger)); }
+/* list -> detail: a view that is shown slides in from the side it lives on (synchronous DOM: an element animates again each time it
+   leaves display:none). .ag-push = a detail (from the right), .ag-back = going back (from the left), any visible tab panel fades up. */
+@keyframes ag-push { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes ag-back { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+@keyframes ag-panel { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.ag-push:not([hidden]) { animation: ag-push var(--ag-d3) var(--ag-ease) backwards; }
+.ag-back:not([hidden]) { animation: ag-back var(--ag-d3) var(--ag-ease) backwards; }
+main#app [role="tabpanel"]:not([hidden]) { animation: ag-panel var(--ag-d2) var(--ag-ease) backwards; }
+/* AGORA.morph(update): a real view transition where the browser has one; the compact bar keeps its place */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--ag-d2); animation-timing-function: var(--ag-ease); }
+::view-transition-group(*) { animation-duration: var(--ag-d3); animation-timing-function: var(--ag-ease); }
+.ag-appbar { view-transition-name: ag-appbar; }
+
+/* ================================================================================================ 14. the page shell: every app on the AGORA app base (main#app > header.top) gets the v2 look
+   with no markup change. Scope: main#app:where(:has(> header.top .ag-title)) = (1,1,1), so these dress the copied base block in each app's own sheet
+   and an app overrides with #app (1,2,0 and up). Pages with another header (inbox, journal, ledger, settings) are left alone. */
+html[data-theme="agora"] main#app { row-gap: 14px; }
+html[data-theme="agora"] main#app > * { animation: ag-enter var(--ag-d3) var(--ag-ease) backwards; }
+html[data-theme="agora"] main#app > :nth-child(2) { animation-delay: 30ms; } html[data-theme="agora"] main#app > :nth-child(3) { animation-delay: 70ms; }
+html[data-theme="agora"] main#app > :nth-child(4) { animation-delay: 110ms; } html[data-theme="agora"] main#app > :nth-child(5) { animation-delay: 150ms; }
+html[data-theme="agora"] main#app > :nth-child(6) { animation-delay: 190ms; } html[data-theme="agora"] main#app > :nth-child(n+7) { animation-delay: 220ms; }
+/* header: [back]  ........  [Demo] [Lite]  /  [icon] Large title / one line purpose */
+main#app:where(:has(> header.top .ag-title)) > header.top { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 12px; row-gap: 6px; min-height: 0; margin: 0 0 2px; }
+main#app:where(:has(> header.top .ag-title)) > header.top > .brand { grid-column: 1; grid-row: 1; display: flex; align-items: center; gap: 14px; min-width: 0; }
+main#app:where(:has(> header.top .ag-title)) > header.top > .tags { grid-column: 2; grid-row: 1; display: flex; gap: 6px; align-items: center; padding-top: 6px; }
+main#app:where(:has(> header.top .ag-title)) > header.top.ag-hasnav > .ag-navback { grid-column: 1; grid-row: 1; justify-self: start; }
+main#app:where(:has(> header.top .ag-title)) > header.top.ag-hasnav > .tags { grid-row: 1; align-self: center; padding-top: 0; }
+main#app:where(:has(> header.top .ag-title)) > header.top.ag-hasnav > .brand { grid-column: 1 / -1; grid-row: 2; }
+main#app:where(:has(> header.top .ag-title)) > header.top .brand img { width: 52px; height: 52px; border-radius: 14px; border: 1px solid var(--ag-line-gold); background: var(--ag-s2); box-shadow: var(--ag-e2); }
+main#app:where(:has(> header.top .ag-title)) > header.top .brand h1 { margin: 0; font: 600 clamp(1.625rem, 7.6vw, var(--ag-fs-h1))/1.08 var(--ag-serif); letter-spacing: 0; overflow-wrap: anywhere; }
+main#app:where(:has(> header.top .ag-title)) > header.top .brand h1::after { width: 40px; height: 2px; margin-top: 7px; border-radius: 2px; }
+main#app:where(:has(> header.top .ag-title)) > header.top .brand .sub { margin: 6px 0 0; font: 400 var(--ag-fs-sub)/1.35 var(--ag-sans); color: var(--ag-soft); }
+main#app:where(:has(> header.top .ag-title)) > header.top .tag { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 0 9px; border-radius: 999px; border: 1px solid var(--ag-line); background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .8); color: var(--ag-muted);
+  font: 600 var(--ag-fs-cap)/1 var(--ag-sans); letter-spacing: .03em; white-space: nowrap; }
+main#app:where(:has(> header.top .ag-title)) > header.top .tag.demo { color: var(--ag-sun); background: rgba(var(--ag-sun-rgb), .09); border-color: rgba(var(--ag-sun-rgb), .36); }
+main#app:where(:has(> header.top .ag-title)) > header.top .tag.demo::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+/* the one-line live status under the header: quiet, with a small gold mark */
+main#app:where(:has(> header.top .ag-title)) > #status.note { display: flex; gap: 8px; align-items: baseline; margin: -2px 0 2px; font: 400 var(--ag-fs-foot)/1.45 var(--ag-sans); color: var(--ag-muted); }
+main#app:where(:has(> header.top .ag-title)) > #status.note::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--ag-gold); opacity: .8; transform: translateY(-1px); }
+main#app:where(:has(> header.top .ag-title)) > #status.note:empty { display: none; }
+/* cards: layered warm surface, one radius, a clear title */
+main#app:where(:has(> header.top .ag-title)) > .ag-card, main#app:where(:has(> header.top .ag-title)) > .cards > .ag-card, main#app:where(:has(> header.top .ag-title)) .ag-card.card { border-radius: 20px; border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .075); background: linear-gradient(180deg, var(--oly-th-n5, #27211a), var(--oly-th-n4, #1e1a15) 75%); box-shadow: var(--ag-e2); }
+main#app:where(:has(> header.top .ag-title)) > .ag-card > h2, main#app:where(:has(> header.top .ag-title)) > .ag-card > .row > h2, main#app:where(:has(> header.top .ag-title)) > .ag-card > .ag-cardhead > h2, main#app:where(:has(> header.top .ag-title)) .ag-card.card > h2 { font: 600 var(--ag-fs-h3)/1.25 var(--ag-serif); letter-spacing: .005em; color: var(--ag-text); }
+main#app:where(:has(> header.top .ag-title)) > .ag-card.hero, main#app:where(:has(> header.top .ag-title)) > .ag-card.ag-hero { border-radius: var(--ag-radius-l); border-color: var(--ag-line-gold);
+  background: radial-gradient(130% 80% at 0% 0%, rgba(var(--ag-gold-rgb), .12), rgba(var(--ag-gold-rgb), 0) 58%), linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1f1a14) 80%); box-shadow: var(--ag-e3); }
+main#app:where(:has(> header.top .ag-title)) .ag-card .note { font-size: var(--ag-fs-foot); line-height: 1.45; color: var(--ag-muted); }
+main#app:where(:has(> header.top .ag-title)) .ag-card .lead { font-size: var(--ag-fs-body); line-height: 1.45; }
+/* pills read as status badges */
+main#app:where(:has(> header.top .ag-title)) .pill { min-height: 24px; padding: 0 9px; font: 600 var(--ag-fs-cap)/1 var(--ag-sans); letter-spacing: .01em; background: rgba(var(--oly-th-n4-rgb, 29, 25, 20), .8); }
+main#app:where(:has(> header.top .ag-title)) .pill.ok { color: var(--ag-olive-text); background: rgba(var(--ag-olive-rgb), .06); border-color: rgba(var(--ag-olive-rgb), .5); }
+main#app:where(:has(> header.top .ag-title)) .pill.warn { color: var(--ag-sun); background: rgba(var(--ag-sun-rgb), .05); border-color: rgba(var(--ag-sun-rgb), .4); }
+main#app:where(:has(> header.top .ag-title)) .pill.bad { color: var(--ag-terra-text); background: rgba(var(--ag-terra-rgb), .06); border-color: rgba(var(--ag-terra-rgb), .5); }
+/* gains and losses as text always use the text-safe ink (the olive / terracotta fills are for bars) */
+main#app:where(:has(> header.top .ag-title)) :is(.pos, .up):not(i):not(.bar) { color: var(--ag-olive-text); } main#app:where(:has(> header.top .ag-title)) :is(.neg, .dn):not(i):not(.bar) { color: var(--ag-terra-text); }
+/* buttons: one shape, a press you can feel */
+main#app:where(:has(> header.top .ag-title)) .btn { border-radius: 13px; font-weight: 600; touch-action: manipulation; -webkit-user-select: none; user-select: none;
+  transition: scale var(--ag-d1) var(--ag-ease), background-color var(--ag-d1) var(--ag-ease), border-color var(--ag-d1) var(--ag-ease), color var(--ag-d1) var(--ag-ease), filter var(--ag-d1) var(--ag-ease); }
+main#app:where(:has(> header.top .ag-title)) .btn:not(.primary):not(.gold) { background: linear-gradient(180deg, var(--ag-s4), var(--ag-s3)); border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1); box-shadow: var(--ag-e1); }
+/* .gold is an app's own name for its primary button (Colosseum): it gets the primary look, never dark text on the dark default */
+main#app:where(:has(> header.top .ag-title)) :is(.btn.primary, .btn.gold) { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--ag-gold)); color: var(--ag-on-gold); border-color: var(--oly-th-a11, #e2c47a); box-shadow: 0 1px 0 rgba(var(--oly-th-n37-rgb, 255,246,220),.35) inset, 0 1px 2px rgba(0,0,0,.35), 0 6px 14px rgba(0,0,0,.22); }
+main#app:where(:has(> header.top .ag-title)) :is(.btn, .chip, .ag-chip, .ag-tab, .seg button, .tab, .filters button):active { scale: .97; }
+main#app:where(:has(> header.top .ag-title)) :is(.btn.primary, .btn.gold):active { filter: brightness(.94); }
+main#app:where(:has(> header.top .ag-title)) .kv dd, main#app:where(:has(> header.top .ag-title)) .ag-num { font-variant-numeric: tabular-nums; }
+/* an app's views (a role="tablist" row right under the page) become a sticky scope bar under the compact bar: always one tap away */
+main#app:where(:has(> header.top .ag-title)) > [role="tablist"] { position: sticky; top: calc(var(--ag-st) + 48px); z-index: 30; display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto;
+  scrollbar-width: none; margin: 0; padding: 8px 0; background: rgba(var(--oly-th-n3-rgb, 20, 17, 14), .97); box-shadow: -16px 0 0 rgba(var(--oly-th-n3-rgb, 20, 17, 14), .97), 16px 0 0 rgba(var(--oly-th-n3-rgb, 20, 17, 14), .97); }
+main#app:where(:has(> header.top .ag-title)) > [role="tablist"]::-webkit-scrollbar { display: none; }
+main#app:where(:has(> header.top .ag-title)) > [role="tablist"] > [role="tab"] { flex: none; min-height: 44px; padding: 0 15px; border-radius: 999px; border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .09);
+  background: var(--ag-s1); color: var(--ag-soft); font: 600 var(--ag-fs-body) var(--ag-sans); white-space: nowrap; box-shadow: none;
+  transition: background-color var(--ag-d2) var(--ag-ease), color var(--ag-d2) var(--ag-ease), scale var(--ag-d1) var(--ag-ease); }
+main#app:where(:has(> header.top .ag-title)) > [role="tablist"] > [role="tab"][aria-selected="true"] { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--ag-gold)); border-color: var(--oly-th-a11, #e2c47a); color: var(--ag-on-gold); }
+/* a choice of 2 to 4 (chips with aria-pressed in a role="group" row) reads as one segmented control: one rail, a raised thumb */
+main#app:where(:has(> header.top .ag-title)) .seg[role="group"]:has(> .ag-chip[aria-pressed]):not(:has(> :nth-child(5))) { display: flex; flex-wrap: nowrap; gap: 2px; padding: 3px; border-radius: 14px;
+  background: var(--ag-s1); border: 1px solid var(--ag-line); box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset; }
+main#app:where(:has(> header.top .ag-title)) .seg[role="group"]:has(> .ag-chip[aria-pressed]):not(:has(> :nth-child(5))) > .ag-chip { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 6px; border: 0; border-radius: 11px;
+  background: transparent; color: var(--ag-soft); justify-content: center; text-align: center; white-space: normal; line-height: 1.15; font-size: var(--ag-fs-sub); box-shadow: none;
+  transition: background-color var(--ag-d2) var(--ag-ease), color var(--ag-d2) var(--ag-ease), scale var(--ag-d1) var(--ag-ease); }
+main#app:where(:has(> header.top .ag-title)) .seg[role="group"]:has(> .ag-chip[aria-pressed]):not(:has(> :nth-child(5))) > .ag-chip[aria-pressed="true"] { background: linear-gradient(180deg, var(--ag-s4), var(--ag-s3)); color: var(--ag-gold-hi); box-shadow: var(--ag-e1); }
+main#app:where(:has(> header.top .ag-title)) > .foot { padding-top: 12px; border-top: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .06); font-size: var(--ag-fs-cap); line-height: 1.5; color: var(--ag-muted); }
+
+/* ================================================================================================ 15. the one header pattern for apps that do not use the base (kept from v1) */
+html[data-theme="agora"] h1:not(.ag-title) { font-family: var(--ag-serif); font-weight: 600; letter-spacing: .01em; text-transform: none; }
+html[data-theme="agora"] :is(header, .top, .hd, .head, .topbar) > :is(h1, div) > h1:not(.ag-title)::after,
+html[data-theme="agora"] :is(header, .top, .hd, .head, .topbar) > h1:not(.ag-title)::after { content: ""; display: block; width: 44px; height: 2px; margin-top: 8px; border-radius: 2px; background: linear-gradient(90deg, var(--ag-gold), transparent); }
+/* kill the old techno look wherever it is still around */
+html[data-theme="agora"] * { text-shadow: none !important; }
+html[data-theme="agora"] .scan, html[data-theme="agora"] .scanlines, html[data-theme="agora"] .hud-corner, html[data-theme="agora"] .grid-bg { display: none !important; }
+
+/* ================================================================================================ 16. reduced motion, LITE */
+@media (prefers-reduced-motion: reduce) {
+  .ag-card, .ag-btn, .ag-chip, .ag-tab, .ag-seg button, .ag-toast, .ag-sheet, .ag-scrim, .ag-appbar, .ag-enter, .ag-stagger > *, .ag-chart .draw, .ag-chart .grow, .ag-skel, .ag-ptr .ag-ic, .ag-push, .ag-back, main#app [role="tabpanel"], main#app > #tabView,
+  html[data-theme="agora"] main#app > *, #app .btn { transition: none !important; animation: none !important; }
+  .ag-chart .draw { stroke-dashoffset: 0; }
+  #app :is(.btn, .chip, .ag-chip, .ag-tab, .seg button, .tab, .filters button):active, .ag-btn:active, .ag-chip:active, .ag-tab:active, .ag-seg button:active { scale: 1; }
+}
+html[data-fx="off"] main#app > *, html[data-fx="off"] .ag-stagger > *, html[data-fx="off"] .ag-enter { animation: none !important; }
+html[data-oly-lite="1"] .ag-appbar, html[data-oly-lite="1"] .ag-tabbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(var(--oly-th-n3-rgb, 26, 22, 18), .97); }
+
+/* ================================================================================================ style themes (olympus/themes.js 'style', 2026-11-14)
+   Only under <html data-oly-style> (a style theme is on): the page background (a gradient or a pattern), the cards' surface, border, shadow and
+   blur, the titles' weight / case / tracking / italic and the primary button, from the --oly-th-* the engine paints. The default (AGORA) and the
+   colour-only themes never set the attribute, so nothing here applies to them. */
+html[data-oly-style] { background: var(--oly-th-page-bg) fixed var(--oly-th-n3); }
+html[data-oly-style] body, html[data-oly-style] body.agora { background: transparent !important; }
+html[data-oly-style] :is(.ag-card, .ag-stat, main#app :is(.card, .hero):not(.ag-card)) { background: var(--oly-th-card-bg) !important; border: var(--oly-th-card-border) !important; box-shadow: var(--oly-th-card-shadow) !important;
+  border-radius: var(--oly-th-radius) !important;
+  -webkit-backdrop-filter: var(--oly-th-card-blur); backdrop-filter: var(--oly-th-card-blur); }
+html[data-oly-style] :is(h1, h2, h3, .ag-title, .ag-display, .ag-h2, .ag-h3) { font-weight: var(--oly-th-title-weight) !important; text-transform: var(--oly-th-title-case); letter-spacing: var(--oly-th-title-track) !important;
+  font-style: var(--oly-th-title-style); }
+html[data-oly-style] .ag-btn.primary { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }
+html[data-oly-style] .ag-sheet { border-radius: var(--oly-th-radius-l, var(--oly-th-radius)) var(--oly-th-radius-l, var(--oly-th-radius)) 0 0; }
+html[data-oly-style] .ag-toast { border-radius: var(--oly-th-radius-s, var(--oly-th-radius)); }

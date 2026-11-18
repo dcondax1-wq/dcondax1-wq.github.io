@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jarvis Core</title>
+<meta name="description" content="Demo of the animated Jarvis core: the violet 3D reactor, its five states, designs, themes and effects levels.">
+<meta name="theme-color" content="#14110e">
+<link rel="icon" href="icon-192.png">
+<style>
+:root { --bg: #000; --bg2: #0b0a10; --c: #9c6b3c; --cr: 168, 85, 247; --txt: #ece9f2; --mut: #8a8499; --dim: #524334;
+  --f: -apple-system, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif; color-scheme: dark; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--txt); font: 15px/1.4 var(--f); }
+body { background: radial-gradient(ellipse at 50% 30%, var(--bg2) 0%, #14110e 65%) fixed, var(--bg); }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 5;
+  background: repeating-linear-gradient(0deg, rgba(var(--cr), .035) 0 1px, transparent 1px 3px); }
+main { max-width: 520px; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom)); display: grid; gap: 12px; }
+h1 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .05em; text-align: center; color: var(--txt); text-shadow: none; }
+#core { width: 100%; max-width: 440px; margin: 0 auto; }
+.state { text-align: center; font-size: 11px; letter-spacing: .05em; color: var(--c); text-shadow: none; min-height: 1.4em; }
+.row { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+button { font: inherit; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--c); background: rgba(12,10,20,.75);
+  border: 1px solid var(--dim); border-radius: 999px; padding: 9px 13px; cursor: pointer; }
+button[aria-pressed="true"] { color: #f3ece0; border-color: var(--c); box-shadow: 0 0 0 1px var(--c) inset, 0 0 16px rgba(var(--cr), .35); }
+button[data-s="alert"][aria-pressed="true"] { border-color: #ff4d6d; box-shadow: 0 0 0 1px #ff4d6d inset, 0 0 16px rgba(255,77,109,.35); }
+.lbl { text-align: center; font-size: 10px; letter-spacing: .05em; color: var(--mut); margin: 4px 0 0; }
+label { display: flex; align-items: center; gap: 10px; color: var(--mut); font-size: 12px; justify-content: center; letter-spacing: .05em; }
+input[type="range"] { width: min(240px, 58vw); accent-color: var(--c); }
+.stat { text-align: center; color: var(--mut); font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; min-height: 1.4em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>J.A.R.V.I.S.</h1>
+  <div id="core"></div>
+  <div class="state" id="word">STANDBY</div>
+  <div class="row" id="states" role="group" aria-label="State">
+    <button type="button" data-s="idle" aria-pressed="true">Idle</button>
+    <button type="button" data-s="listening" aria-pressed="false">Listening</button>
+    <button type="button" data-s="thinking" aria-pressed="false">Thinking</button>
+    <button type="button" data-s="speaking" aria-pressed="false">Speaking</button>
+    <button type="button" data-s="alert" aria-pressed="false">Alert</button>
+  </div>
+  <label>Level <input id="lv" type="range" min="0" max="100" value="0" aria-label="Voice level"></label>
+  <div class="row">
+    <button type="button" id="auto" aria-pressed="true">Built-in voice</button>
+    <button type="button" id="mic" aria-pressed="false">Use the mic</button>
+  </div>
+  <p class="lbl">DESIGN</p>
+  <div class="row" id="designs" role="group" aria-label="Design">
+    <button type="button" data-d="reactor" aria-pressed="true">Reactor</button>
+    <button type="button" data-d="singularity" aria-pressed="false">Singularity</button>
+  </div>
+  <p class="lbl">THEME</p>
+  <div class="row" id="themes" role="group" aria-label="Theme">
+    <button type="button" data-t="violet" aria-pressed="true">Violet</button>
+    <button type="button" data-t="reactor" aria-pressed="false">Reactor</button>
+    <button type="button" data-t="stark" aria-pressed="false">Stark</button>
+    <button type="button" data-t="ice" aria-pressed="false">Ice</button>
+    <button type="button" data-t="emerald" aria-pressed="false">Emerald</button>
+  </div>
+  <div class="stat" id="stat" aria-live="off"></div>
+</main>
+<script type="module">
+import { mountCore } from './core-visual.js';
+const q = new URLSearchParams(location.search);
+const o = {};
+if (q.get('size')) o.size = +q.get('size');
+for (const k of ['design', 'effects']) if (q.get(k)) o[k] = q.get(k);
+if (q.get('adapt') === '0') o.adapt = false;               // keep the chosen effects level even when frames run slow
+if (q.get('webgl') === '0') o.webgl = false;               // the 2D canvas core (as without WebGL)
+const core = mountCore(document.getElementById('core'), o);
+window.core = core;                         // for the tests and the console
+const WORD = { idle: 'STANDBY', listening: 'LISTENING', thinking: 'THINKING', speaking: 'SPEAKING', alert: 'ALERT' };
+// the old Jarvis theme colours (static/themes.css, themes4.css)
+const THEMES = { violet: { c: '#9c6b3c', c2: '#9c6b3c', c3: '#c9a06a', tint: '#e9ddff' }, reactor: { c: '#9c6b3c', c2: '#9c6b3c', c3: '#8b7259', tint: '#f5d0fe' },
+  stark: { c: '#ffbe3d', c2: '#d6281f', c3: '#7fa6bd', tint: '#fff1d0' }, ice: { c: '#8b7259', c2: '#8b7259', c3: '#7fa6bd', tint: '#e6fbff' },
+  emerald: { c: '#7f8a52', c2: '#059669', c3: '#b4ff3c', tint: '#dcfff0' } };
+function group(sel, attr, fn) {
+  const bs = [...document.querySelectorAll(sel + ' button')];
+  const pick = (v) => { fn(v); bs.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset[attr] === v))); };
+  bs.forEach((b) => b.addEventListener('click', () => pick(b.dataset[attr])));
+  return pick;
+}
+const word = document.getElementById('word');
+const pickState = group('#states', 's', (s) => { core.setState(s); word.textContent = WORD[s]; });
+group('#designs', 'd', (d) => core.setDesign(d));
+group('#themes', 't', (t) => { core.setTheme(THEMES[t]); document.documentElement.style.setProperty('--c', THEMES[t].c); });
+if (q.get('state')) pickState(q.get('state'));
+// level: the slider holds a level (fed every frame), "Built-in voice" lets the core's own envelope run, the mic feeds RMS
+const lv = document.getElementById('lv'), auto = document.getElementById('auto'), micB = document.getElementById('mic');
+let mode = 'auto', an = null, buf = null, stream = null, feeding = 0;
+function setMode(m) {
+  mode = m; auto.setAttribute('aria-pressed', String(m === 'auto')); micB.setAttribute('aria-pressed', String(m === 'mic'));
+  if (m !== 'auto' && !feeding) feeding = requestAnimationFrame(feed);
+}
+lv.addEventListener('input', () => setMode('slider'));
+auto.addEventListener('click', () => setMode('auto'));
+micB.addEventListener('click', async () => {
+  if (mode === 'mic') { setMode('auto'); return; }
+  try {
+    stream = stream || await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (!an) { const ac = new (window.AudioContext || window.webkitAudioContext)(); an = ac.createAnalyser(); an.fftSize = 512; buf = new Float32Array(an.fftSize); ac.createMediaStreamSource(stream).connect(an); }
+    setMode('mic');
+  } catch (e) { micB.textContent = 'No mic'; }
+});
+function feed() {
+  if (mode === 'slider') core.setLevel(lv.value / 100);
+  else if (mode === 'mic' && an) { an.getFloatTimeDomainData(buf); let s = 0; for (const v of buf) s += v * v; core.setLevel(Math.min(1, Math.sqrt(s / buf.length) * 6)); }
+  feeding = mode === 'auto' ? 0 : requestAnimationFrame(feed);
+}
+const stat = document.getElementById('stat');
+setInterval(() => { const s = core.stats(); stat.textContent = `${s.design} · ${s.three === 'on' ? '3D' : s.three === 'loading' ? 'loading 3D' : '2D'} · ${s.effects} · ${s.fps || '--'} fps · ${s.ms} ms · ${s.reduced ? 'static' : s.running ? 'running' : 'paused'}`; }, 500);
+</script>
+</body>
+</html>

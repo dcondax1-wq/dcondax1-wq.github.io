@@ -1,0 +1,9 @@
+/* the two entry buttons of Athens, in the AGORA look: bronze edge, marble text, serif */
+.athens-fab{position:fixed;z-index:40;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 134px);min-height:44px;padding:10px 16px;border-radius:22px;border:1px solid var(--oly-th-a5, #9c6b3c);background:rgba(var(--oly-th-n4-rgb, 29,25,20),.94);color:var(--oly-th-n37, #f3ece0);font:600 15px/1 var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.athens-fab:active,.athens-enter:active{transform:scale(.97)}
+.athens-enter{min-height:44px;padding:10px 14px;border-radius:12px;border:1px solid var(--oly-th-a8, #c8a24a);background:var(--oly-th-a8, #c8a24a);color:var(--oly-th-n3, #14110e);font:700 14px/1 var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif)}
+.athens-open .athens-fab,body:not([data-mode=hub]) .athens-fab{display:none}
+@media (prefers-reduced-motion:reduce){.athens-fab:active,.athens-enter:active{transform:none}}
+/* cities pass 2026-11-18: while the world loads its card already holds both doors (no double buttons over it); once it stands, the
+   two doors share one row above the hint (Hellas left, Athens right) instead of a stack over the islands' names */
+body[data-ready=false] .athens-fab{display:none}

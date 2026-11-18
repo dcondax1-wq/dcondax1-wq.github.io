@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Work Week</title>
+<meta name="description" content="Your work week around the bots' trading hours: when to check the PC, the Friday review, when to ask for payouts, the tax dates and the side-work blocks.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- WORK WEEK (2026-11-17): read only. The week lives in schedule.js (one list, drawn with textContent and also turned into a
+     calendar file on the phone, no network). Times are New York time (ET), built around LIT's hours (STRATEGY.md: entries
+     02:00-15:30 ET, flat 15:55, MFFU flat by 16:10, the market reopens 18:00). Nothing is stored or sent. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<script src="../olympus/themes.js?v=o6"></script>
+<script src="../olympus/a11y.js" defer></script>
+<link rel="stylesheet" href="business.css?v=4">
+<style>
+  main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+  .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .slots { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .slot { display: grid; grid-template-columns: 4.6em minmax(0, 1fr); gap: 2px 10px; }
+  .slot b.t { font-family: var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-gold); }
+  .slot .w { font-weight: 700; }
+  .slot .h { grid-column: 2; font-size: 13px; color: var(--ag-muted); }
+  .slot.now .w::after { content: "  \2190 next"; color: var(--ag-gold); font-weight: 600; }
+  .slot a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; color: var(--ag-gold); }
+  .tag2 { font-size: 11px; padding: 1px 7px; border-radius: 9px; border: 1px solid var(--ag-line); color: var(--ag-soft); margin-left: 6px; white-space: nowrap; }
+  ul.plain { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14px; }
+  .item summary { font-weight: 700; }
+  .taxes dd.next { color: var(--ag-gold); }
+</style>
+</head>
+<body>
+<main id="app">
+  <a class="back" href="./">&larr; Business</a>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">Work Week</h1><p class="sub">When to check the bots, and when to do side work</p></div></div></header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+
+  <section class="ag-card card" aria-labelledby="todayH">
+    <div class="row"><h2 id="todayH">Today</h2><span class="pill" id="todayPill">-</span></div>
+    <ul class="slots" id="today"></ul>
+    <p class="note">All times are New York time (ET). The bot can enter 02:00 to 15:30, closes everything at 15:55, and MFFU needs no open trade after 16:10.</p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="weekH">
+    <h2 id="weekH">The whole week</h2>
+    <div id="week"></div>
+    <button type="button" class="btn" id="ics">Add the week to my phone calendar</button>
+    <p class="note" id="icsNote">Makes a calendar file on this phone (nothing is sent). Open it and tap "Add all". Move any block you like there or in Planner.</p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="payH">
+    <h2 id="payH">When to ask for a payout</h2>
+    <ul class="plain">
+      <li>Only for a <b>funded</b> account, and only after the close (after 16:15 ET), with no trade open.</li>
+      <li>Builder 50K: once profit is past $2,600 and no single day made half of it. You keep 80%.</li>
+      <li>Builder 25K: the same rules at half the size.</li>
+      <li>Rapid EOD 50K: any weekday once profit is past $2,100. Keep $1,000 extra in (your rule). You keep 90%.</li>
+      <li>The money reaches your bank about 4 business days later (estimate).</li>
+      <li>Check the exact line on MFFU's payout page before you ask. Dates per account are on My Accounts.</li>
+    </ul>
+    <nav class="links" aria-label="Payout pages"><a href="accounts.html">My Accounts &rarr;</a><a href="./">Business: payout dates &rarr;</a></nav>
+  </section>
+
+  <section class="ag-card card taxes" aria-labelledby="taxH">
+    <div class="row"><h2 id="taxH">Tax dates (US, every quarter)</h2><span class="pill warn" id="taxPill">-</span></div>
+    <dl class="kv" id="taxes"></dl>
+    <p class="note">Estimated tax on trading and side-work profit. Not tax advice: ask a tax pro once a year.</p>
+    <nav class="links" aria-label="Tax page"><a href="taxes.html">Taxes: how much to set aside &rarr;</a></nav>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="sideH">
+    <h2 id="sideH">Side work: about 9 hours a week</h2>
+    <p class="lead">Calls Mon and Wed mornings (shops are open, the bot needs nothing). Building sites Tue and Thu afternoons. Products on Saturday.</p>
+    <p class="note">A suggestion, not a rule. Move any block in your calendar.</p>
+    <nav class="links" aria-label="Side work pages"><a href="../agency/">Agency: call list &rarr;</a><a href="./">Business &rarr;</a></nav>
+  </section>
+  <p class="note">This page only reads. It stores nothing and sends nothing.</p>
+</main>
+<script src="schedule.js?v=2"></script>
+</body>
+</html>

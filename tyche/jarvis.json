@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "name": "Tyche",
+  "status": {
+    "level": "off",
+    "label": "Waiting for the Kalshi bot"
+  },
+  "kpis": [],
+  "lines": [
+    "The Kalshi bot's bets as a 3D wheel of fortune: open bets orbit as coins, wins fill the gold fountain"
+  ],
+  "t": 1793678000,
+  "open": "#wheel",
+  "theme": "#14110e"
+}

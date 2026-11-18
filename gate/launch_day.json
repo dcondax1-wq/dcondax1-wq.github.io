@@ -1,0 +1,174 @@
+{
+ "v": 1,
+ "kind": "le-launch-day",
+ "day": "2026-11-16",
+ "title": "Launch day: Monday Nov 16",
+ "intro": "Zlarior (MFFU 50K eval, LIT) and ATLAS (25K eval) trade for real from 02:00 ET. You arm them yourself at the PC (GO_LIVE_EVAL.bat, you type the phrase); nothing on the phone can trade, start or stop a bot.",
+ "steps": [
+  "At 01:45 ET open the Olympus link on the iPhone. The Launch card must say Ready: Zlarior and ATLAS \"LIVE, armed\", feed fresh, no flags.",
+  "In the ntfy app the \"Ready for 02:00 ET\" push is there (silent). A loud \"NOT ready\" names what is wrong and its fix.",
+  "Anything red: do the one action in its row below. Nothing red: you are done; every entry and exit sends a push."
+ ],
+ "sections": [
+  {
+   "id": "look",
+   "title": "01:45 ET: what to look for",
+   "cols": [
+    "On the Launch card",
+    "Good",
+    "If not"
+   ],
+   "rows": [
+    [
+     "Zlarior 50K",
+     "LIVE, armed",
+     "PC: double-click GO_LIVE_EVAL.bat and type the phrase"
+    ],
+    [
+     "ATLAS 25K",
+     "LIVE, armed",
+     "PC: double-click GO_LIVE_EVAL.bat and type the phrase"
+    ],
+    [
+     "Feed",
+     "fresh (1-minute bar under 3 min old)",
+     "NinjaTrader: open the MNQ 5-minute chart, right-click > Indicators > LE_BarFeed > Add"
+    ],
+    [
+     "Drawdown left",
+     "the same as the MFFU dashboard",
+     "send Claude a photo of both"
+    ],
+    [
+     "Flags",
+     "none",
+     "the action written under the flag"
+    ],
+    [
+     "Phone alerts",
+     "\"Phone alerts on: last check ... min ago\"",
+     "PC: double-click BOTS_BACK.bat"
+    ]
+   ]
+  },
+  {
+   "id": "pushes",
+   "title": "What each push means",
+   "cols": [
+    "Push (ntfy)",
+    "What it means",
+    "Do"
+   ],
+   "rows": [
+    [
+     "Ready for 02:00 ET",
+     "both bots running and armed, feed fresh, drawdown left per account",
+     "nothing"
+    ],
+    [
+     "NOT ready for 02:00 ET",
+     "something is wrong before the first entry",
+     "the fix written in the push (fixed before 02:00: a Ready push follows)"
+    ],
+    [
+     "Zlarior 50K / ATLAS 25K trade opened",
+     "an entry: side, micros, entry, stop, target, $ risk at the stop",
+     "nothing"
+    ],
+    [
+     "Zlarior 50K / ATLAS 25K trade closed",
+     "the exit: how, +/- $ and R, drawdown left, today's $",
+     "nothing"
+    ],
+    [
+     "... fill check: ...",
+     "NinjaTrader did something else than the bot planned",
+     "see the fill check table"
+    ],
+    [
+     "FEED STALE",
+     "no fresh NinjaTrader bars: no new entries",
+     "NinjaTrader: open the MNQ 5-minute chart, right-click > Indicators > LE_BarFeed > Add"
+    ],
+    [
+     "Bot down",
+     "the bot server on the PC does not answer or report",
+     "PC: double-click GO_LIVE_EVAL.bat (it brings the bot back) and type the phrase"
+    ],
+    [
+     "Bot stopped",
+     "the server runs but the bot is stopped in entry hours",
+     "PC: double-click GO_LIVE_EVAL.bat and type the phrase"
+    ],
+    [
+     "NinjaTrader closed",
+     "NinjaTrader is not running on the PC",
+     "PC: open NinjaTrader and log in"
+    ],
+    [
+     "50% / 75% of the drawdown used",
+     "the eval used half / three quarters of its room",
+     "nothing: the bot sizes down by itself"
+    ],
+    [
+     "Daily loss limit near",
+     "today's loss is at 70% of the daily limit",
+     "nothing: the bot keeps its stops"
+    ],
+    [
+     "Day Mon Nov 16: +$...",
+     "the 16:05 ET day summary per account",
+     "nothing"
+    ],
+    [
+     "Back to normal",
+     "the problem is gone",
+     "nothing"
+    ]
+   ]
+  },
+  {
+   "id": "fills",
+   "title": "Fill check flags (after a real trade)",
+   "cols": [
+    "Flag",
+    "What it means",
+    "Do"
+   ],
+   "rows": [
+    [
+     "NO STOP at NinjaTrader",
+     "the position has no stop order",
+     "NinjaTrader now: no stop order on it -> Positions > right-click > Flatten"
+    ],
+    [
+     "wrong size",
+     "NinjaTrader filled other micros than the bot sent, or the stop covers fewer",
+     "NinjaTrader > Positions: not what the bot sent -> flatten it there"
+    ],
+    [
+     "entry slippage / stop slippage",
+     "a fill more than 2 ticks worse than planned",
+     "nothing; tell Claude if it repeats"
+    ],
+    [
+     "stop price off / target price off",
+     "the bracket is more than 2 ticks from the plan",
+     "NinjaTrader > Orders: check the stop and the target"
+    ],
+    [
+     "costs above plan",
+     "slippage + commission more than 2 ticks a micro above the plan",
+     "nothing; the Sunday review looks at it"
+    ],
+    [
+     "entry not filled",
+     "NinjaTrader refused or never filled the entry: no position",
+     "NinjaTrader: Control Center > Connections connected, MNQ chart with LE_BarFeed"
+    ]
+   ]
+  }
+ ],
+ "stop": "Stop everything: double-click STOP_BOT.bat on the PC (orders at NinjaTrader keep their stop and target).",
+ "src": "docs/LAUNCH_DAY.md (tools/launch_day.py)"
+}

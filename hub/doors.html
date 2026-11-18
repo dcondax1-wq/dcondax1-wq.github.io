@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="doors">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus doors</title>
+<meta name="description" content="OLYMPUS in four doors: ZEUS Trading, Money, Kalshi, More. Each door holds the few things you use, in plain words, then all its apps. Search finds everything.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Doors">
+<link rel="icon" href="icon.svg">
+<!-- THE FOUR DOORS (2026-11-18, night-org, docs/ORGANIZATION.md). hub/doors.html#zeus | #money | #kalshi | #more opens that door.
+     The doors and their shortcuts are DATA in olympus/doors.js; the apps come from olympus/apps-list.js. Read only: it links to pages and
+     sends nothing. Text only through textContent. -->
+<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
+.dr-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(28px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.dr-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dr-top span { display: flex; gap: 8px; }
+.dr-top a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); }
+.dr-title { margin: 14px 0 2px; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.dr-sub { margin: 0 0 12px; color: var(--ag-soft, #cfc4b2); }
+.dr-find { display: flex; gap: 8px; margin: 8px 0 14px; }
+.dr-find input { flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s0, #14110e); color: var(--ag-text, #f3ece0); padding: 0 14px; font: 500 16px var(--ag-sans, system-ui, sans-serif); }
+.dr-find input:focus { outline: 0; border-color: var(--ag-gold, #c8a24a); }
+.dr-doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.dr-door { position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; min-height: 104px; padding: 14px; border-radius: 16px; box-sizing: border-box;
+  text-decoration: none; color: var(--ag-text, #f3ece0); background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-top: 4px solid var(--dc, #c8a24a); }
+.dr-door b { font: 700 1.25rem/1.15 var(--ag-serif, Georgia, serif); color: var(--dc, #c8a24a); }
+.dr-door small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-foot, .8125rem); line-height: 1.3; }
+.dr-door[aria-current="true"] { background: var(--ag-s4, #332b22); border-color: var(--dc, #c8a24a); }
+.dr-door .dr-tag { position: absolute; top: 10px; right: 10px; font: 700 11px/1 var(--ag-sans, system-ui); letter-spacing: .06em; padding: 4px 7px; border-radius: 999px; color: var(--ag-on-gold, #1b1610); background: var(--ag-sun, #e0b060); }
+.dr-h2 { margin: 22px 2px 8px; font: 700 var(--ag-fs-h2, 1.375rem)/1.15 var(--ag-serif, Georgia, serif); color: var(--dc, var(--ag-gold-hi, #dcbd6e)); border-bottom: 1px solid var(--dc, var(--ag-gold, #c8a24a)); padding-bottom: 6px; }
+.dr-line { margin: 0 2px 10px; color: var(--ag-soft, #cfc4b2); }
+.dr-list { display: grid; gap: 8px; }
+.dr-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 14px; border-radius: 14px; box-sizing: border-box; text-decoration: none; color: var(--ag-text, #f3ece0);
+  background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--dc, #c8a24a); }
+.dr-row:active { background: var(--ag-s3, #2b241d); }
+.dr-row span { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.dr-row b { font: 700 var(--ag-fs-lead, 1.0625rem)/1.2 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
+.dr-row small { color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.dr-row i { font-style: normal; color: var(--dc, #c8a24a); font-size: 22px; }
+.dr-home { min-height: 68px; margin-bottom: 10px; background: var(--ag-s4, #332b22); border: 1px solid var(--dc, #c8a24a); border-left-width: 5px; }
+.dr-home b { font-size: 1.25rem; color: var(--dc, #c8a24a); }
+.dr-all { margin-top: 14px; }
+.dr-all summary { display: flex; align-items: center; min-height: 48px; padding: 0 14px; border-radius: 14px; cursor: pointer; list-style: none; background: var(--ag-s1, #1b1713);
+  border: 1px solid var(--ag-line, #3a3228); color: var(--ag-gold-hi, #dcbd6e); font: 700 var(--ag-fs-body, .9375rem) var(--ag-serif, Georgia, serif); }
+.dr-all summary::-webkit-details-marker { display: none; }
+.dr-all[open] summary { margin-bottom: 8px; }
+.dr-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.dr-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); }
+.dr-empty { color: var(--ag-soft, #cfc4b2); margin: 14px 2px; }
+.dr-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<script src="../olympus/apps-list.js?v=o7" defer></script>
+<script src="../olympus/doors.js?v=d4" defer></script>
+<script src="doors.js?v=d2" defer></script>
+</head>
+<body>
+<main class="dr-main" id="doors">
+  <nav class="dr-top" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><span><a href="help.html" id="helpLink">Help</a><a href="../atlas/" aria-label="Every app on one map">Map</a></span></nav>
+  <h1 class="dr-title">Olympus</h1>
+  <p class="dr-sub">Four doors. Tap one, or type what you want.</p>
+  <div class="dr-find"><label class="sr" for="q" style="position:absolute;left:-9999px">Find anything</label>
+    <input id="q" type="search" placeholder="Find: payout, taxes, accounts, kalshi..." autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" aria-controls="out"></div>
+  <!-- plain links in the page: the doors work even if the script does not load -->
+  <nav class="dr-doors" id="doorGrid" aria-label="The four doors">
+    <a class="dr-door" data-door="zeus" href="#zeus" style="--dc:#c8a24a"><b>ZEUS Trading</b><small>Accounts, live bots, trades, brain, rules, payouts</small></a>
+    <a class="dr-door" data-door="money" href="#money" style="--dc:#a0ac6e"><b>Money</b><small>Business, taxes, payouts, fleet plan, household</small></a>
+    <a class="dr-door" data-door="kalshi" href="#kalshi" style="--dc:#c9b94e"><b>Kalshi</b><small>The Kalshi bot and its edges</small><em class="dr-tag">PAUSED</em></a>
+    <a class="dr-door" data-door="more" href="#more" style="--dc:#d1a06a"><b>More</b><small>Research, my day, Jarvis, settings, the rest</small></a>
+  </nav>
+  <section id="out" aria-live="polite"></section>
+  <nav class="dr-links" aria-label="Other ways in"><a href="help.html">How do I...? Help</a><a href="../gate/index.html#az">Every app A to Z</a><a href="../atlas/">The map</a><a href="../gate/index.html">Home</a></nav>
+  <p class="dr-foot">Read only: nothing here can trade or change a bot.</p>
+</main>
+</body>
+</html>
