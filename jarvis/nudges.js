@@ -12,13 +12,22 @@
 // Ranking: bad before warn before info, then by how soon / how many dollars. Rules (each only fires on data that is there):
 //   dll_near      80% of the daily loss used            dd_low     less than 25% of the max loss left (under 50%: info)
 //   deal_ending   a dated deal ends within 48 hours      event_soon a high-impact event today or tomorrow (the next one, within 3 days: info)
-//   unrated       trades of the last 14 days without a journal rating        feeds_stale  a published file is older than its limit, or missing
+//   unrated       trades of the last 14 days without a journal rating        feeds_stale  the account numbers are old or missing AND the PC is silent
 //   bot_off       an account is not connected             eval_close an eval within 20% of its target
 //   paper_dd      a paper ledger (not a real account) under 25% of its room: info, last (real accounts only in every rule above)
 
 import { accounts, worstAccount, deals, nextEvents, unrated, feedHealth, both, usd, rtxt, asR, srcTag, isObj, num, etParts, daysBetween, usualR } from './jdata.js';
 
 const RANK = { bad: 0, warn: 1, info: 2 };
+const PC_FRESH_S = 30 * 60;
+// when the PC last reported (seconds): the truth layer's age (jdata loadSources: canonHome over withPcFeed), else the PC block, else the board
+function pcReportT(S) {
+  const h = isObj(S && S.home) ? S.home : null; if (!h) return null;
+  const tr = isObj(h.truth) && isObj(h.truth.ages) && isObj(h.truth.ages.pc) ? num(h.truth.ages.pc.t) : null;
+  if (tr != null) return tr;
+  const lp = isObj(h.live) && isObj(h.live.pc) ? num(h.live.pc.t) : null;
+  return lp != null ? lp : isObj(h.board) ? num(h.board.data_t) : null;
+}
 const hoursText = (h) => (h < 1 ? 'under an hour' : h < 48 ? `${Math.round(h)} hours` : `${Math.round(h / 24)} days`);
 
 export function nudges(S, opts) {
@@ -53,9 +62,17 @@ export function nudges(S, opts) {
   // --- housekeeping
   const un = unrated(S0, now, 14);
   if (un.length) { const sum = un.reduce((s, t) => s + t.usd, 0); add({ id: 'unrated', sig: String(un.length), level: 'info', text: `${un.length} ${un.length === 1 ? 'trade' : 'trades'} from the last 14 days ${un.length === 1 ? 'has' : 'have'} no journal rating (${both(sum, S0, true)} together).`, why: 'Rating takes ten seconds each and shows what your habits cost.', ask: 'how many unrated trades', open: 'journal', usd: Math.abs(sum), src: srcTag(S0, 'odeon', now).text, score: 35 + Math.min(15, un.length * 2) }); }
-  const bad = feedHealth(S0, now).filter((f) => f.missing || f.stale);
-  // night-feedsA: only old ACCOUNT numbers (home) need the owner; an old replay / calendar file is a site-publish matter (info, never the hero)
-  if (bad.length) add({ id: 'feeds_stale', sig: bad.map((f) => f.name + (f.missing ? '!' : '')).join(','), level: bad.some((f) => f.name === 'home') ? 'warn' : 'info', text: `${bad.some((f) => f.name === 'home') ? 'Account numbers' : 'Some data'} ${bad.length === 1 && bad[0].missing ? 'is missing' : 'is old or missing'}: ${bad.map((f) => f.file + (f.missing ? ' (missing)' : ` (${hoursText(f.ageH)} old)`)).join(', ')}.`, why: 'Open the PC and run STATUS.bat; the answers I give from old files may be out of date.', ask: 'are my feeds stale', open: 'inbox', src: 'feeds', score: bad.some((f) => f.name === 'home') ? 66 : 50 });
+  // feeds (night-fitperf 2026-11-19, owner's screenshot: the hero said "Some data is old or missing: odeon/trades.json (22 days old)"): ONLY
+  // what the owner can act on, in plain words, never a file name. The site is built in the cloud, so its copies (the trade replay, the
+  // calendar, the money estimates) are naturally days old and nothing he can do changes that; the live numbers come from his PC's status
+  // post. So: old or missing ACCOUNT numbers while the PC has not reported for 30 min (the one thing he can fix: start the PC / STATUS.bat).
+  // A fresh PC report supersedes the cloud copies (account numbers and the trades both ride on it): nothing is said then.
+  const home = feedHealth(S0, now).find((f) => f.name === 'home' && (f.missing || f.stale));
+  const pcT = pcReportT(S0), pcFresh = pcT != null && now / 1000 - pcT <= PC_FRESH_S;
+  if (home && !pcFresh) add({ id: 'feeds_stale', sig: 'home' + (home.missing ? '!' : ''), level: 'warn',
+    text: home.missing ? 'I cannot read your account numbers right now.' : `Your account numbers are ${hoursText(home.ageH)} old: your PC has not reported since.`,
+    why: home.missing ? 'Check the connection. If it stays, open the PC and run STATUS.bat.' : 'On the PC, run STATUS.bat. Until it reports, my answers use the last numbers I have.',
+    ask: 'are my feeds stale', open: 'inbox', src: 'feeds', score: 66 });
 
   out.sort((a, b) => (RANK[a.level] - RANK[b.level]) || (b.score - a.score));
   return out.filter((n) => !quiet.has(n.key)).slice(0, max).map(({ score, sig, ...n }) => n);

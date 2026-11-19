@@ -250,7 +250,9 @@ export function createSkills(opts) {
     feeds(S, now) {
       const f = J.feedHealth(S, now), bad = f.filter((x) => x.missing || x.stale);
       const age = (x) => (x.missing ? 'missing' : x.ageH == null ? 'age unknown' : x.ageH < 1.5 ? 'fresh' : x.ageH < 48 ? Math.round(x.ageH) + ' h old' : Math.round(x.ageH / 24) + ' days old');
-      return reply((bad.length ? `${bad.length} of ${f.length} files need a look.` : 'All the published files look fresh.') + '\n' + f.map((x) => `${x.file}: ${age(x)}${x.stale ? ' (too old)' : ''}`).join('\n'), { intent: 'feeds', sources: f.map((x) => `${x.file}, ${age(x)}`), speak: bad.length ? `${bad.length} of ${f.length} files need a look.` : 'All the published files look fresh.' });
+      // plain words, never a file name (night-fitperf 2026-11-19); the source tags below keep the files for the curious
+      const WHAT = { home: 'Account numbers', money: 'Money estimates', odeon: 'Trade history (replays)', rules: 'The rules list', pythia: 'The news calendar' };
+      return reply((bad.length ? `${bad.length} of ${f.length} files need a look.` : 'All the published files look fresh.') + '\n' + f.map((x) => `${WHAT[x.name] || x.name}: ${age(x)}${x.stale ? ' (too old)' : ''}`).join('\n'), { intent: 'feeds', sources: f.map((x) => `${x.file}, ${age(x)}`), speak: bad.length ? `${bad.length} of ${f.length} files need a look.` : 'All the published files look fresh.' });
     },
   };
 

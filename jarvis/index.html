@@ -108,7 +108,7 @@ window.addEventListener('error', function (e) {
   if (!window.__jarvisErr) window.__jarvisErr = String(e.message || 'Script error') + (e.filename ? ' (' + String(e.filename).split('/').pop() + ':' + e.lineno + ')' : '');
 }, true);
 </script>
-<link rel="stylesheet" id="jcss" href="jarvis.css?v=j23">
+<link rel="stylesheet" id="jcss" href="jarvis.css?v=j24">
 <link rel="stylesheet" id="jhome" href="home3d.css?v=h4">
 <!-- quiet-net, no data-fresh (night-bugsweep 2026-11-19): Kalshi's state comes from the PC feed (data.js); the old kalshi-feed repo is on the
      suspended account and is never asked; this site's kalshi.json, when missing, is a 404 remembered for the session (it was asked afresh,
@@ -1729,10 +1729,13 @@ function renderBar() {
   const keep = (a) => a.id !== 'zenith' && (BAR_CORE.includes(a.id) || favs.includes(a.id) || a.id === active || a.builtin !== true);
   const rank = (a) => { const i = BAR_CORE.indexOf(a.id); return i >= 0 ? i : BAR_CORE.length + 1; };
   const shown = all.filter(keep).map((a, i) => [rank(a), i, a]).sort((x, y) => x[0] - y[0] || x[1] - y[1]).map((x) => x[2]);
-  $('#modes').innerHTML = pill(HOME, true) + pill(z, true) + '<span class="apps-in" id="apps">'
+  const html = pill(HOME, true) + pill(z, true) + '<span class="apps-in" id="apps">'
     + shown.map((a) => pill(a, false)).join('')
     + `<button class="pm" type="button" id="allB" aria-label="All apps (${all.length + 1})">All apps</button>`
     + '<button class="pm add" type="button" id="addB" aria-label="Add a dashboard" title="Add a dashboard">+</button></span>';
+  // the same bar as drawn last time: kept (night-fitperf 2026-11-19: a rewrite of the same buttons forced a page layout on every call)
+  const mb = $('#modes');
+  if (mb.__html !== html || mb.firstChild !== mb.__first) { mb.innerHTML = html; mb.__html = html; mb.__first = mb.firstChild; }
   const a = byId(active);
   $('#out').hidden = !(a && a.url && active !== 'home');
   root.dataset.mode = active === 'home' ? 'jarvis' : active === 'zenith' ? 'zenith' : 'app';
@@ -1769,7 +1772,7 @@ function frameView(a, url) {
     // this site's own apps get the phone's features; another site's page runs sandboxed (it can never move Jarvis itself)
     if (D.sameSite(src)) f.setAttribute('allow', 'clipboard-read; clipboard-write; microphone; autoplay; fullscreen; screen-wake-lock');
     else f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads');
-    f.addEventListener('load', () => appTint(a.id, f));
+    f.addEventListener('load', () => { appTint(a.id, f); safe(() => frameSafe(f)); });
     f.src = src;
     v.appendChild(f);
     if (!D.sameSite(src)) {                        // another site may refuse to be shown inside another app
@@ -1784,6 +1787,20 @@ function frameView(a, url) {
     frames[a.id] = v;
   }
   v.hidden = false;
+}
+// The frame runs to the screen's bottom edge (jarvis.css .frame): the app inside pads its own bars with the phone's safe area. Should a
+// phone ever give a page inside a frame no safe area (env() = 0 there, Jarvis's own > 0), that frame stops above the home bar instead
+// (.pad-b), so its buttons never sit under it. Our own pages only (another site's page cannot be read). night-fitperf 2026-11-19.
+function frameSafe(f) {
+  const d = f.contentDocument; if (!d || !d.documentElement) return;
+  const sab = (doc) => {
+    const p = doc.createElement('div');
+    p.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding-bottom:env(safe-area-inset-bottom,0px)';
+    (doc.body || doc.documentElement).appendChild(p);
+    const v = parseFloat(doc.defaultView.getComputedStyle(p).paddingBottom) || 0; p.remove(); return v;
+  };
+  const mine = sab(document), theirs = sab(d);
+  f.classList.toggle('pad-b', mine > 0 && theirs < 1);
 }
 // Each dashboard keeps its own colour behind the iPhone's status bar (its theme-color, else its page background); Jarvis's
 // own black comes back on the Jarvis screen. Read from our own pages only; another site's page stays black.
@@ -2051,7 +2068,10 @@ const absentNow = (id) => { const t = +absentApps()[id] || 0; return t > 0 && Da
 function markAbsent(id, on) {
   try { const m = absentApps(); if (!on && !(id in m)) return; if (on) m[id] = Date.now(); else delete m[id]; localStorage.setItem(ABSENT_KEY, JSON.stringify(m)); } catch (_) { /* private mode: asked again next time */ }
 }
-const notOnSite = (a) => !!(a && a.id && mods.apps && ((typeof mods.apps.missing === 'function' && safe(() => mods.apps.missing(a.id), false))
+// missing() gets the app itself, not its id (night-fitperf 2026-11-19: an id made apps.js rebuild its whole list for every tile; the
+// registry object from D.listApps() is the same app getApp(id) finds, so the answer is the same)
+const regApp = (id) => D.listApps().find((x) => x.id === id) || null;
+const notOnSite = (a) => !!(a && a.id && mods.apps && ((typeof mods.apps.missing === 'function' && safe(() => { const r = regApp(a.id); return !!r && mods.apps.missing(r); }, false))
   || (a.builtin && absentNow(a.id) && !safe(() => mods.apps.cachedStatus(a), null))));
 let cardsT = 0;
 const cardsSoon = () => { clearTimeout(cardsT); cardsT = setTimeout(() => { if (active === 'home') safe(renderCards); }, 60); };
@@ -2929,12 +2949,14 @@ function openSheet() {
 async function removeApp(id) {
   // only through the apps module when it is here (apps.js keeps its own registry in step with the older keys)
   try { await appsApi().removeApp(id); } catch (_) { /* nothing to remove */ }
+  D.appsChanged();
   delete statusCards[id];
   if (frames[id]) { frames[id].remove(); delete frames[id]; }
   if (active === id) show('home');
   renderSettingsApps(); renderBar(); renderCards();
 }
 function added(app, label) {
+  D.appsChanged();
   $('#addName').value = ''; $('#addUrl').value = ''; $('#sheet').hidden = true;
   statusAt = 0; renderBar(); renderCards(); refreshStatusCards();
   logAct(`Added ${label || (app && app.name) || 'a dashboard'}`);
@@ -3458,7 +3480,8 @@ function corePulse() {
 if ('MutationObserver' in window) {
   for (const id of ['#npnl', '#kpct']) {
     const el = $(id); let was = el ? el.textContent : '';
-    if (el) new MutationObserver(() => { if (el.textContent !== was && was !== '--') { el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); } was = el.textContent; }).observe(el, { childList: true, characterData: true, subtree: true });
+    // the glow restarts two frames later instead of through a forced layout (night-fitperf 2026-11-19: void offsetWidth laid out the whole page)
+    if (el) new MutationObserver(() => { if (el.textContent !== was && was !== '--') { el.classList.remove('tick'); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('tick'))); } was = el.textContent; }).observe(el, { childList: true, characterData: true, subtree: true });
   }
 }
 function renderOlympus() { safe(renderQA); safe(renderToday); safe(renderSats); }
@@ -3542,25 +3565,42 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('online', () => { renderHead(); D.refresh({ maxAge: 0 }); });
 window.addEventListener('offline', () => { renderHead(); toast('No connection. Showing the last saved numbers until it is back.', 'OFFLINE'); });
-// the command dock stays above the iPhone keyboard while you type (as the old Jarvis's mobile.js did)
-if (window.visualViewport) {
-  const fitDock = () => { const kb = Math.max(0, innerHeight - visualViewport.height - visualViewport.offsetTop); $('#dock').style.transform = kb > 60 ? `translateY(${-Math.round(kb)}px)` : ''; $('#dock').classList.toggle('kb', kb > 60); };
-  visualViewport.addEventListener('resize', fitDock); visualViewport.addEventListener('scroll', fitDock);
+// the command dock stays above the iPhone keyboard while you type (as the old Jarvis's mobile.js did).
+// night-fitperf 2026-11-19 (owner, Home Screen app: "the dock sits way above the bottom, a black band under it, on every screen"): the
+// keyboard counts as up ONLY while a text field has the focus. An iPhone Home Screen app can report a visual viewport shorter than the
+// screen with no keyboard at all (iOS 26: after the keyboard went, at a resume); that read as "keyboard" and floated the dock up.
+// With no field focused the dock sits in its place, and a page the phone left scrolled after the keyboard is put back at the top.
+const NO_KEYS = /^(checkbox|radio|button|submit|reset|range|color|file|image|hidden)$/i;
+const typing = () => { const e = document.activeElement; return !!e && e !== document.body && (e.isContentEditable || /^(TEXTAREA|SELECT)$/.test(e.tagName) || (e.tagName === 'INPUT' && !NO_KEYS.test(e.type || ''))); };
+function fitDock() {
+  const vv = window.visualViewport, dock = $('#dock'); if (!vv || !dock) return 0;
+  const kb = typing() ? Math.max(0, innerHeight - vv.height - vv.offsetTop) : 0, up = kb > 60;
+  dock.style.transform = up ? `translateY(${-Math.round(kb)}px)` : '';
+  dock.classList.toggle('kb', up);
+  if (!typing() && (window.scrollY || document.documentElement.scrollTop || document.body.scrollTop)) safe(() => window.scrollTo(0, 0));
+  return up ? Math.round(kb) : 0;
 }
-// A web host's badge (2026-11-18: "Powered by Netlify" sat on the Send and ⋯ keys; the host injects it, it is not ours): when something
-// fixed that is not Jarvis's own sits in the bottom-right corner over the dock's width, the dock (and the chip row, the orb, the scroller's
-// end with it: jarvis.css --dock-b) lifts above it. Looked for at the start, 1.5 s and 5 s later, when the page's children change and on a resize.
+if (window.visualViewport) {
+  visualViewport.addEventListener('resize', fitDock); visualViewport.addEventListener('scroll', fitDock);
+  document.addEventListener('focusout', () => setTimeout(() => safe(fitDock), 60));     // the field let go: the keyboard is going
+  document.addEventListener('focusin', () => setTimeout(() => safe(fitDock), 60));
+  document.addEventListener('visibilitychange', () => { if (visible()) setTimeout(() => safe(fitDock), 120); });
+}
+// A web host's badge (2026-11-18: "Powered by Netlify" sat on the Send and ⋯ keys; the host injects it, it is not ours): when the host's
+// badge sits in the bottom-right corner over the dock's width, the dock (and the chip row, the orb, the scroller's end with it:
+// jarvis.css --dock-b) lifts above it. night-fitperf 2026-11-19: ONLY the host's own badge (HOST_BADGE) counts. The old "anything fixed
+// in that corner that is not Jarvis's" also caught our own layers (a toast, a pill, a card) and floated the dock ~80 px up with an empty
+// band under it; GitHub Pages has no badge at all. Looked for at the start, 1.5 s and 5 s later, when the page's children change, on a resize.
+const HOST_BADGE = '#nl-badge-frame, .nl-badge, [id^="netlify"], [class*="netlify-badge"]';     // Netlify's own (docs/HOSTING.md)
 function hostBadge() {
-  const OURS = '#dock, #fab, #next, #nxOrb, .nx-root, .nx-tip, .nx-fan, main, .bar, .sheet, .toast, #toast, .dockfade, #olyIntro, #bootfx, #boot, .bgfx, .hapl';
   const dock = $('#dock'); if (!dock || root.getAttribute('data-mode') !== 'jarvis') return;
   const d = dock.getBoundingClientRect(); let lift = 0;
-  for (const dx of [20, 60, 110]) for (const dy of [10, 30]) {
-    const e = document.elementFromPoint(innerWidth - dx, innerHeight - dy);
-    if (!e || e === document.body || e === root || e.closest(OURS)) continue;
-    let f = e; while (f && f !== document.body && getComputedStyle(f).position !== 'fixed') f = f.parentElement;
+  for (const b of document.querySelectorAll(HOST_BADGE)) {
+    if (b.closest('main, #dock, .sheet')) continue;                       // never one of ours, whatever its name
+    let f = b; while (f && f !== document.body && getComputedStyle(f).position !== 'fixed') f = f.parentElement;
     if (!f || f === document.body) continue;
     const r = f.getBoundingClientRect();
-    if (r.height > 0 && r.height < 160 && r.width < innerWidth * 0.8 && r.left < d.right - 1) lift = Math.max(lift, Math.ceil(innerHeight - r.top) + 6);
+    if (r.height > 0 && r.height < 160 && r.width < innerWidth * 0.8 && r.bottom > innerHeight - 160 && r.right > innerWidth / 2 && r.left < d.right - 1) lift = Math.max(lift, Math.ceil(innerHeight - r.top) + 6);
   }
   const was = root.style.getPropertyValue('--host-lift');
   const now = lift ? lift + 'px' : '';

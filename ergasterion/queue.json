@@ -4357,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795075320,
+   "t": 1795088760,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4378,6 +4378,18 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795088758,
+    "s": "Land phone fit + speed fix (app frames reach the bottom edge, dock no longer lifted by our own layers or a ph…"
+   },
+   {
+    "t": 1795088490,
+    "s": "night-fitperf: Olympus edge to edge on the iPhone Home Screen app + a faster Jarvis start"
+   },
+   {
+    "t": 1795082692,
+    "s": "GITHUB_SIGNIN.bat: one-click GitHub sign-in so the PC keeps auto-updating after the backup goes private (fetc…"
+   },
    {
     "t": 1795075327,
     "s": "Land leftover fixes (dead Kalshi/old-account feeds retired, Oracle on the PC feed, Archive 390 px, Jarvis her…"
@@ -4465,25 +4477,13 @@
    {
     "t": 1795062696,
     "s": "night-money: Money plan + every Decide item valued in $ (same paths), ATLAS 40%-room + LucidPro account-4 own…"
-   },
-   {
-    "t": 1795062568,
-    "s": "Land page redesigns (13 apps to the AGORA standard: inbox, settings, observatory, ledger, board alarm, ares,…"
-   },
-   {
-    "t": 1795062409,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-money"
-   },
-   {
-    "t": 1795062409,
-    "s": "night-money: ATLAS 40%-of-room choice valued + added to the Decide card, Kalshi K8 card (unproven, not in tot…"
    }
   ],
   "branches": [
    {
     "name": "claude/clever-heisenberg-51zwcr",
-    "t": 1795075327,
-    "s": "Land leftover fixes (dead Kalshi/old-account feeds retired, Oracle on the PC feed, Archive 390 px,…"
+    "t": 1795088758,
+    "s": "Land phone fit + speed fix (app frames reach the bottom edge, dock no longer lifted by our own laye…"
    }
   ]
  }

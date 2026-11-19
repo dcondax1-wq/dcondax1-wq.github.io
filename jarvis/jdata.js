@@ -40,9 +40,10 @@ export const rtxt = (r, sign) => { const v = num(r); if (v == null) return ''; c
 export const DOW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 // ------------------------------------------------------------------------------------------------ time (New York)
+let ETF = null;          // one formatter, made once (night-fitperf 2026-11-19: a new one per call was a real share of Jarvis's start)
 export function etParts(ms) {
   try {
-    const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }).formatToParts(new Date(ms));
+    const f = (ETF || (ETF = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }))).formatToParts(new Date(ms));
     const g = (t) => (f.find((p) => p.type === t) || {}).value;
     const h = Number(g('hour')) % 24, wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday'));
     return { day: `${g('year')}-${g('month')}-${g('day')}`, h, m: Number(g('minute')), mod: h * 60 + Number(g('minute')), dow: wd };

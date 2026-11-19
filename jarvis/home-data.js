@@ -90,9 +90,10 @@ export function moneyFrom(j) {
   return { low: num(t.low), base: num(t.base), high: num(t.high), live: !sample, text: sample ? 'Example numbers until your money machines publish their own.' : 'From your money machines, paper only.', note: 'An estimate, not income.' };
 }
 
+let ETF = null;          // one formatter, made once (night-fitperf 2026-11-19)
 const ETP = (ms) => {
   try {
-    const p = {}; for (const x of new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }).formatToParts(new Date(ms))) p[x.type] = x.value;
+    const p = {}; for (const x of (ETF || (ETF = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }))).formatToParts(new Date(ms))) p[x.type] = x.value;
     return { ymd: `${p.year}-${p.month}-${p.day}`, hm: `${p.hour}:${p.minute}`, wd: p.weekday };
   } catch (_) { const d = new Date(ms); return { ymd: d.toISOString().slice(0, 10), hm: d.toISOString().slice(11, 16), wd: '' }; }
 };

@@ -66,8 +66,12 @@ export function onChange(fn) {
 }
 
 // ------------------------------------------------------------------------------------------------ time and the market
+// one formatter each, made once (night-fitperf 2026-11-19: a new Intl.DateTimeFormat per call was ~1 s of Jarvis's start on a phone:
+// marketNext() asks the ET clock hundreds of times); the same options, so the same text
+const FMT = {};
+const fmt = (k, loc, o) => FMT[k] || (FMT[k] = new Intl.DateTimeFormat(loc, Object.assign({ timeZone: 'America/New_York' }, o)));
 export function etParts(d = new Date()) {
-  const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false, month: 'short', day: 'numeric' }).formatToParts(d);
+  const p = fmt('et', 'en-US', { weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false, month: 'short', day: 'numeric' }).formatToParts(d);
   const g = (k) => (p.find((x) => x.type === k) || {}).value;
   return { wd: g('weekday'), h: +g('hour') % 24, m: +g('minute'), mon: g('month'), day: g('day') };
 }
@@ -95,8 +99,8 @@ export function greeting(d = new Date()) {
   const { h } = etParts(d);
   return h < 5 ? 'Late night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
 }
-export const clock = (d = new Date()) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }).format(d);
-export const ymd = (d = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+export const clock = (d = new Date()) => fmt('clock', 'en-US', { hour: 'numeric', minute: '2-digit' }).format(d);
+export const ymd = (d = new Date()) => fmt('ymd', 'en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 export function whenLine(d = new Date()) {
   const { wd, mon, day } = etParts(d);
   return `${wd} ${mon} ${day} · ${clock(d)} ET · ${market(d).text}`;
@@ -471,9 +475,22 @@ export const fallbackApps = {
   async appStatus() { return null; },     // the built-in cards come from getFacts(); an added link has no status feed
 };
 let appsSrc = fallbackApps, appsCache = null;
-export function setAppsSource(mod) { appsSrc = mod && typeof mod.listApps === 'function' ? mod : fallbackApps; appsCache = null; emit('apps'); }
+// the list, kept for the rest of the current task (night-fitperf 2026-11-19): one home render asked apps.js for the whole list once per
+// tile (~75 apps x ~75 links parsed each = Jarvis's longest start task). Dropped when the task ends, on every 'apps' change and by
+// appsChanged() (the shell calls it after an add / remove through apps.js), so a new or removed app is never missed.
+let appsMemo = null, appsMemoT = 0;
+export function appsChanged() { appsMemo = null; }
+events.addEventListener('change', (e) => { if (e && e.detail && e.detail.source === 'apps') appsMemo = null; });
+export function setAppsSource(mod) { appsSrc = mod && typeof mod.listApps === 'function' ? mod : fallbackApps; appsCache = null; appsMemo = null; emit('apps'); }
 export const appsSource = () => appsSrc;
 export function listApps() {
+  if (appsMemo && appsMemo.src === appsSrc) return appsMemo.list.slice();
+  const out = listAppsNow();
+  appsMemo = { src: appsSrc, list: out };
+  if (!appsMemoT) appsMemoT = setTimeout(() => { appsMemoT = 0; appsMemo = null; }, 0);
+  return out.slice();
+}
+function listAppsNow() {
   let r = null;
   try { r = appsSrc.listApps(); } catch (_) { r = null; }
   if (r && typeof r.then === 'function') {        // an async list: answer with the last one, update when it lands
@@ -738,7 +755,7 @@ function systemOf(f) {
   const p = isObj(f.planner) ? f.planner : null;
   const pr = { id: 'planner', name: 'Planner', sub: 'your day', app: 'planner', level: '', value: 'NOT LINKED', text: 'open the Planner once on this phone to link your day', todo: '' };
   if (p) {
-    const nowHM = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(nowMs));
+    const nowHM = fmt('hm', 'en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(nowMs));
     const ev = list(p.ev).filter(isObj), tasks = list(p.tasks).filter(isObj);
     const nx = ev.find((e) => !e.allDay && String(e.start || '') >= nowHM) || ev.find((e) => e.allDay);
     pr.level = 'ok';
