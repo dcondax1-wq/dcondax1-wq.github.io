@@ -21,7 +21,7 @@ html.framed #app { padding-top: 12px; }
 .card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
 .card > h2 { margin: 0; }
 .lead { margin: 0; font-size: 15px; color: var(--ag-soft); } .lead.big { font: 600 18px/1.3 var(--ag-serif); color: var(--ag-text); }
-.note { margin: 0; font-size: 13px; color: var(--ag-muted); } .warnnote { color: var(--ag-sun); }
+.note { margin: 0; font-size: 13px; color: var(--ag-muted); overflow-wrap: anywhere; } .warnnote { color: var(--ag-sun); }   /* a run's id (lit_b3a_all3_02_rv_ext3_...) breaks instead of pushing the page 2 px sideways */
 .stack { display: grid; gap: 6px; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 8px; }
 .tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-width: 0; }
@@ -62,7 +62,8 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 .redo > b { font: 700 16px var(--ag-serif); color: var(--ag-terra); }
 .redo li { gap: 6px; }
 .runs { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.run { padding: 12px; border-radius: 12px; background: #211c16; border: 1px solid var(--ag-line); display: grid; gap: 8px; min-width: 0; border-left: 4px solid var(--ag-olive); }
+.run { padding: 12px; border-radius: 12px; background: #211c16; border: 1px solid var(--ag-line); display: grid; gap: 8px; min-width: 0; border-left: 4px solid var(--ag-olive);
+  grid-template-columns: minmax(0, 1fr); }   /* one track no wider than the card (polish2 2026-11-19: the auto track took the tiles' min-content, 341 px in a 320 px card at 390 px: 2 px sideways scroll) */
 .run.v0 { border-left-color: var(--ag-gold); } .run.v1 { border-left-color: var(--ag-terra); }
 .rtitle { font: 600 15px/1.25 var(--ag-serif); color: var(--ag-text); overflow-wrap: anywhere; min-width: 0; }
 .run .row { align-items: flex-start; }

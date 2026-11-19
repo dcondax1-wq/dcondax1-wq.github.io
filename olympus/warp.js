@@ -160,8 +160,10 @@
     '.oly-warp.fade .ow-veil{animation-duration:var(--ow-t1,150ms);animation-timing-function:linear}',
     '.oly-warp.frozen *{animation-play-state:paused!important}',
     '@keyframes ow-veil{from{opacity:0}to{opacity:1}}',
-    '@keyframes ow-flash{0%{opacity:0;transform:scale(.05)}45%{opacity:1}100%{opacity:1;transform:scale(1)}}',
-    '@keyframes ow-breathe{from{opacity:1;transform:scale(1)}to{opacity:.82;transform:scale(1.06)}}'
+    // a flash, not a white screen (phone QA 2026-11-19: the old one held the whole phone at ~85% white while the next page loaded, a
+    // blinding white flash at 5 AM): it peaks, then settles to a glow; the wait (a slow page) breathes at half of that
+    '@keyframes ow-flash{0%{opacity:0;transform:scale(.05)}45%{opacity:.9}100%{opacity:.62;transform:scale(1)}}',
+    '@keyframes ow-breathe{from{opacity:.55;transform:scale(1)}to{opacity:.4;transform:scale(1.06)}}'
   ].join('');
   function style() {
     if (d.getElementById(STYLE_ID)) return;
@@ -175,7 +177,7 @@
     veil.className = 'ow-veil'; fl.className = 'ow-flash'; nm.className = 'ow-name';
     var x = (o.x / Math.max(1, W.innerWidth) * 100).toFixed(1) + '%', y = (o.y / Math.max(1, W.innerHeight) * 100).toFixed(1) + '%';
     veil.style.background = fade ? F.k : 'radial-gradient(circle at ' + x + ' ' + y + ',' + rgba(F.k, 0.5) + ' 0,' + rgba(F.k, 0.9) + ' 38%,' + F.k + ' 75%)';
-    fl.style.background = 'radial-gradient(circle at 50% 50%,#fff 0,#fff 9%,' + rgba(c, 1) + ' 24%,' + rgba(F.b, 0.92) + ' 44%,' + rgba(F.a, 0.5) + ' 58%,' + rgba(F.k, 0) + ' 72%)';
+    fl.style.background = 'radial-gradient(circle at 50% 50%,#fff 0,' + rgba(c, 0.95) + ' 4%,' + rgba(c, 0.75) + ' 13%,' + rgba(F.b, 0.45) + ' 28%,' + rgba(F.a, 0.2) + ' 44%,' + rgba(F.k, 0) + ' 60%)';
     nm.style.color = rgba(F.k, 0.82); nm.textContent = 'Olympus · ' + F.label;
     var b = d.createElement('b'); b.textContent = nameOf(dest); nm.appendChild(b);
     if (fade) { el.style.setProperty('--ow-t1', T.fade + 'ms'); el.appendChild(veil); }
@@ -233,14 +235,14 @@
     // the streaks: stars on a tunnel, F / z on screen; the jump accelerates and the streaks stretch with the speed
     var cruise = t > T.jump, v = (cruise ? 1.6 : 0.3 + 5.2 * p * p) * dt / 1000, Fz = 0.035 * diag, env = Math.min(1, t / 70) * (cruise ? 0.55 : 1);
     for (j = 0; j < s.stars.length; j++) {
-      var S = s.stars[j], col = S.k < 0.42 ? s.c : S.k < 0.8 ? F.b : '#ffffff';
+      var S = s.stars[j], col = S.k < 0.42 ? s.c : S.k < 0.8 ? F.b : '#ffffff', wk = S.k < 0.8 ? 1 : 0.6;   // the white ones dimmer: no white-out
       if (s.inward) { S.z += v * S.s; if (S.z > 1) { S.z = 0.035 + s.rnd() * 0.08; S.a = s.rnd() * TAU; } }
       else { S.z -= v * S.s; if (S.z < 0.03) { S.z = 0.92 + s.rnd() * 0.08; S.a = s.rnd() * TAU; } }
       z = S.z; var len = (0.02 + v * S.s * (2.5 + 9 * p));
       r1 = Fz / z; r0 = s.inward ? Fz / Math.max(0.02, z - len) : Fz / (z + len);
       if (Math.min(r0, r1) > diag) continue;
       x = Math.cos(S.a); y = Math.sin(S.a);
-      g.strokeStyle = rgba(col, clamp((0.25 + 1.1 * (1 - z)) * env));
+      g.strokeStyle = rgba(col, clamp((0.25 + 1.1 * (1 - z)) * env) * wk);
       g.lineWidth = S.w * (0.6 + 2.6 * (1 - z)) * dpr * (s.lite ? 0.8 : 1);
       g.beginPath(); g.moveTo(vx + x * r0, vy + y * r0); g.lineTo(vx + x * r1, vy + y * r1); g.stroke();
     }
@@ -290,7 +292,8 @@
       for (j = 0; j < 7; j++) { g.strokeStyle = rgba(F.b, (0.5 - j * 0.07) * env); g.lineWidth = 2 * dpr; g.beginPath(); g.moveTo(vx, vy); g.lineTo(vx + Math.cos(a - j * 0.05) * diag, vy + Math.sin(a - j * 0.05) * diag); g.stroke(); }
     } else if (s.fam === 'home') {                               // returning: the light falls into Jarvis's gold orb
       r1 = (0.03 + 0.16 * easeOut(p)) * diag;
-      var orb = g.createRadialGradient(vx, vy, 0, vx, vy, r1); orb.addColorStop(0, rgba('#ffffff', 0.95 * env)); orb.addColorStop(0.45, rgba(s.c, 0.7 * env)); orb.addColorStop(1, rgba(s.c, 0));
+      // drawn every frame over a fading trail ('lighter'): low alphas, or the orb piles up into a white disc (phone QA 2026-11-19)
+      var orb = g.createRadialGradient(vx, vy, 0, vx, vy, r1); orb.addColorStop(0, rgba('#ffffff', 0.42 * env)); orb.addColorStop(0.22, rgba(s.c, 0.3 * env)); orb.addColorStop(0.5, rgba(s.c, 0.16 * env)); orb.addColorStop(1, rgba(s.c, 0));
       g.fillStyle = orb; g.beginPath(); g.arc(vx, vy, r1, 0, TAU); g.fill();
       g.strokeStyle = rgba(F.b, 0.8 * env); g.lineWidth = 2 * dpr; g.beginPath(); g.arc(vx, vy, r1 * 0.72, 0, TAU); g.stroke();
     }

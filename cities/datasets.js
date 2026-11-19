@@ -384,9 +384,10 @@ export const DATASETS = {
     },
   },
 
-  // ---- Kalshi: the bot's bets (a remote feed; the sample stands in until it answers)
+  // ---- Kalshi: the bot's bets (this site's own kalshi.json, asked when you come near; the sample stands in until it answers). The old
+  // kalshi-feed repo on the suspended account is retired (polish2 2026-11-19): never asked.
   kalshi: {
-    title: 'Kalshi bets', source: 'kalshi-feed/kalshi.json', local: '../kalshi.json', url: 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json', remote: true,
+    title: 'Kalshi bets', source: 'kalshi.json', url: '../kalshi.json', remote: true,
     fields: [F('asset', 'Asset', 'txt'), F('side', 'Side', 'txt'), F('state', 'State', 'txt'), F('contracts', 'Contracts', 'int'), F('price', 'Price', 'num'), F('pnl', 'Result', 'usd'),
       F('value', 'Value', 'usd'), F('strategy', 'Strategy', 'txt'), F('t', 'Time', 'int'), F('hour', 'Hour (ET)', 'int', { values: HOURS }), F('weekday', 'Weekday', 'int', { values: WD })],
     build(raw) {

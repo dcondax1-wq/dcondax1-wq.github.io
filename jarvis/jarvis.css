@@ -985,8 +985,10 @@ html[data-bg3d="on"][data-court="3d"] .court-art { opacity: 0; }                
 .hero .sysbar { flex: none; width: auto; min-height: 44px; gap: 8px; padding: 0 14px 0 12px; border-radius: 999px; background: rgb(var(--pr)); font: 600 14px/1 var(--fb); }
 .hero .sysbar b { font: 600 14px/1 var(--fb); letter-spacing: 0; white-space: nowrap; }
 .hero .sysbar #syst, .hero .sysbar .sysdots { display: none; }                       /* the words and the dots are in the System section below (and in the label) */
-.hero-line { display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; min-height: 48px; }
-.hero-now { flex: 1; min-width: 0; min-height: 48px; display: flex; align-items: center; gap: 12px; padding: 4px 4px 4px 14px; border: 0; border-left: 2px solid var(--c); border-radius: 0 12px 12px 0; background: none;
+/* the hero sentence holds TWO lines from the first frame (17px x 1.4 x 2 + 8px of padding = 56px; polish2 2026-11-19: the skeleton and a one-line
+   sentence were 48px, so a two-line sentence pushed the home down 8px when it landed or changed) */
+.hero-line { display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; min-height: 56px; }
+.hero-now { flex: 1; min-width: 0; min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 4px 4px 4px 14px; border: 0; border-left: 2px solid var(--c); border-radius: 0 12px 12px 0; background: none;
   color: var(--txt); text-align: left; font: 500 17px/1.4 var(--fb); transition: background-color .2s ease-out, transform .2s ease-out; }
 .hero-now > span { flex: 1; min-width: 0; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .hero-now.bad { border-left-color: var(--bad); } .hero-now.warn { border-left-color: var(--warn); } .hero-now.ok { border-left-color: var(--ok); }
@@ -1014,7 +1016,7 @@ html[data-bg3d="on"][data-court="3d"] .court-art { opacity: 0; }                
 .tile .hv-go { position: absolute; right: 14px; top: 50%; margin-top: -8px; }
 .tile.sk { box-shadow: none; }
 .sk-b { display: block; height: 16px; margin: 5px 0 3px; border-radius: 8px; background: linear-gradient(90deg, var(--dim2) 25%, var(--dim3) 40%, var(--dim2) 60%); background-size: 300% 100%; animation: hvSheen 1.5s ease-in-out infinite; }
-.sk-b.w60 { width: 60%; height: 22px; } .sk-b.w80 { width: 82%; } .sk-b.s { height: 12px; } .sk-b.l { flex: 1; height: 20px; margin: 14px 0; }
+.sk-b.w60 { width: 60%; height: 22px; } .sk-b.w80 { width: 82%; } .sk-b.s { height: 12px; } .sk-b.l { flex: 1; height: 20px; margin: 18px 0; }
 @keyframes hvSheen { from { background-position: 100% 0; } to { background-position: 0 0; } }
 /* a press you can see (home-cards.js sets .is-press on pointerdown) */
 .tile.is-press, .hc-row.is-press, .hc-bot.is-press, .hc-app.is-press, .hv-btn.is-press, .hero-more.is-press { transform: scale(.985); border-color: var(--dim3); background-color: var(--oly-th-n6, #2e271f); }

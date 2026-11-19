@@ -2,7 +2,7 @@
 <html lang="en" data-theme="kalshi">
 <head>
 <meta charset="utf-8">
-<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w1" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w2" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kalshi</title>
 <meta name="description" content="The Kalshi bot (paused: ready to go live when you type the phrase): balance, $ won or lost, alerts, open bets, and the paper tests.">
@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k38">
+<link rel="stylesheet" href="kalshi.css?v=k40">
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
      2026-11-14 (team T2: a light look is light here too, like everywhere). The <head> paints the engine's copy of the look before the first
@@ -44,7 +44,7 @@
 } catch (e) { return; } })('kalshi', 'page');</script>
 <script>(function () {
   function go() { var T = window.OLYMPUS_THEMES; if (T) T.apply('page', { meta: true }); }
-  var s = document.createElement('script'); s.src = '../olympus/themes.js?v=o7'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = '../olympus/themes.js?v=o8'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 </head>
 <body>
@@ -65,7 +65,7 @@
   <!-- the live line (night-klive 2026-11-19): engine/kalshi_live.py, OFF until the owner types the phrase at the PC (KALSHI_LIVE.bat); its <=200-byte
        card (key kalshi_live, the PC's ntfy ext post) turns this into LIVE / PAUSED from the phone / STOPPED with today's $ (kalshi.js klShow) -->
   <div class="note" id="kpaused" role="note" style="border-color: rgba(var(--warn-rgb), .5)"><p><b style="color: var(--warn)" id="kpaused-h">Kalshi: PAUSED</b> for real money. Paper tests running: <span id="kpaused-rw">rewards (no numbers yet)</span>, <span id="kpaused-k1">K1 rules (not running yet)</span>. <span id="kpaused-risk">$0 at risk.</span></p>
-    <p id="kpaused-live"><b>PAUSED:</b> ready to go live when you type the phrase on the PC (double-click KALSHI_LIVE.bat). Small limits, checked before every order; it switches itself off after any stop. Pause or flatten from the phone: ZEUS Safety.</p></div>
+    <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAUSED:</b> ready to go live when you type the phrase on the PC (double-click KALSHI_LIVE.bat). Small limits, checked before every order; it switches itself off after any stop. Pause or flatten from the phone: ZEUS Safety.</p></div>
   <section class="note krw" id="krw" aria-label="Rewards test (paper)" hidden></section>
   <section class="note krw" id="kk1" aria-label="K1 rules test (paper)"><p><b>K1 rules test (paper)</b> No numbers yet. It was meant to run on the Kalshi server, but nothing there reaches this page. It now starts on the PC with the next update, and its numbers will show here. $0 at risk.</p></section>
   <section class="note khub" id="khub" aria-label="Kalshi home">
@@ -101,12 +101,12 @@
   <div id="body" aria-busy="true" data-state="loading"><div class="sk sk1" aria-hidden="true"></div><div class="sk sk2" aria-hidden="true"></div><div class="sk sk3" aria-hidden="true"></div></div>
   <p class="foot" id="foot"></p>
 </main>
-<script src="../olympus/quiet-net.js?v=q6a" data-fresh="raw:kalshi-feed,api:kalshi-feed,site:kalshi.json"></script>
+<script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json"></script>
 <script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i8" data-app="kalshi" data-name="Kalshi" data-glyph="K" data-color="#8fa07a" defer></script><!-- the app intro without the kit (olympus/intro-app.js) -->
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k38" defer></script>
+<script src="kalshi.js?v=k40" defer></script>
 </body>
 </html>

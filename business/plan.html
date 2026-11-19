@@ -3,42 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Fleet Plan</title>
-<meta name="description" content="All your MFFU accounts on the same trades for the next 6 months: cash to you after fees, splits and the tax pot, the first payout, what to buy next.">
+<title>Money Plan</title>
+<meta name="description" content="Your MFFU accounts tonight, the next 6 months in dollars: the chance each one passes and when, the first payout and how much, the next buy, and what every open decision is worth.">
 <meta name="theme-color" content="#14110e">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<!-- FLEET PLAN (2026-11-17, night-fleet): read only. ./plan.json = tools/money/fleet_plan.py (one Monte Carlo, every account on
-     the SAME paths). Text only through textContent; the fan chart is built with createElementNS. plan.js = the page. -->
+<!-- MONEY PLAN (2026-11-18 night-money; was the Fleet plan of 2026-11-17): read only. ./plan.json = tools/money/money_plan.py
+     (one Monte Carlo, tonight's accounts + every decision on the SAME paths). Text only through textContent; the fan chart
+     is built with createElementNS. plan.js = the page. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a5">
-<script src="../olympus/themes.js?v=o7"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a6">
+<script src="../olympus/themes.js?v=o8"></script>
 <script src="../olympus/a11y.js" defer></script>
 <link rel="stylesheet" href="business.css?v=4">
 <style>
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  /* the label / number rows: on a phone the label had a word a line (the long $ value took the width); half and half now (phone QA 2026-11-19) */
+  .kv { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .kv dd { overflow-wrap: anywhere; }
   .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg + .seg { margin-top: 8px; }
   .seg .btn { min-height: 44px; padding: 0 12px; font-size: 14px; }
   .seg .btn[aria-pressed="true"] { border-color: var(--ag-gold, #c8a24a); color: var(--ag-gold, #c8a24a); }
+  .hero { font: 700 44px/1.05 var(--ag-num, var(--ag-sans, system-ui)); font-variant-numeric: tabular-nums; color: var(--ag-gold-hi, #dcbd6e); margin: 6px 0 2px; overflow-wrap: anywhere; }
+  .hero small { font-size: 18px; font-weight: 600; color: var(--ag-soft, #cbbfa8); }
+  .mid { font: 700 26px/1.15 var(--ag-num, var(--ag-sans, system-ui)); font-variant-numeric: tabular-nums; margin: 4px 0; overflow-wrap: anywhere; }
   .fan { width: 100%; height: auto; display: block; }
   .fan .band { fill: var(--ag-gold, #c8a24a); opacity: .18; }
-  .fan .mid { fill: none; stroke: var(--ag-gold, #c8a24a); stroke-width: 2.5; }
+  .fan .mid2 { fill: none; stroke: var(--ag-gold, #c8a24a); stroke-width: 2.5; }
   .fan .zero { stroke: var(--ag-line, #3a3226); stroke-width: 1; }
   .fan text { fill: var(--ag-soft, #cbbfa8); font-size: 11px; }
   .fan .end { fill: var(--ag-text, #f3ece0); font-weight: 700; }
-  ol.buy { margin: 0; padding-left: 20px; } ol.buy li { margin: 6px 0; font-size: 14px; }
-  .acl { display: grid; gap: 10px; }
-  .acl section { border-top: 1px solid var(--ag-line, #3a3226); padding-top: 8px; }
+  ol.buy { margin: 0; padding-left: 20px; } ol.buy li { margin: 8px 0; font-size: 15px; overflow-wrap: anywhere; }
+  .acl { display: grid; gap: 12px; }
+  .acl section { border-top: 1px solid var(--ag-line, #3a3226); padding-top: 10px; }
   .acl section:first-child { border-top: 0; padding-top: 0; }
-  .acl h3 { margin: 0 0 4px; font-size: 15px; }
+  .acl h3 { margin: 0 0 2px; font-size: 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .acl .now { margin: 0 0 6px; font-size: 13px; color: var(--ag-muted, #a89c86); overflow-wrap: anywhere; }
+  .acl .usd { font: 700 22px var(--ag-num, var(--ag-sans, system-ui)); font-variant-numeric: tabular-nums; }
+  .dec { display: grid; gap: 10px; }
+  .dec article { border-top: 1px solid var(--ag-line, #3a3226); padding-top: 10px; }
+  .dec article:first-child { border-top: 0; padding-top: 0; }
+  .dec .q { margin: 0; font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
+  .dec .w { margin: 4px 0 0; font: 700 18px var(--ag-num, var(--ag-sans, system-ui)); color: var(--ag-gold-hi, #dcbd6e); }
+  .dec .r, .dec .k { margin: 4px 0 0; font-size: 13px; color: var(--ag-soft, #cbbfa8); overflow-wrap: anywhere; }
+  .dec .say { margin: 4px 0 0; font-size: 14px; overflow-wrap: anywhere; }
+  .pill.yes { border-color: #8fbf6a; color: #a6d47f; } .pill.no { border-color: #ff8a7a; color: #ff9d8f; }
 </style>
 </head>
 <body>
 <main id="app">
   <a class="back" href="./">&larr; Business</a>
-  <header class="top"><div class="brand"><div><h1 class="ag-title">Fleet Plan</h1><p class="sub">All your accounts, same trades, next 6 months</p></div></div></header>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">Money Plan</h1><p class="sub">Your accounts tonight, the next 6 months, in dollars</p></div></div></header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
 
   <section class="ag-card card" aria-labelledby="mktH">
@@ -48,26 +65,21 @@
   </section>
 
   <section class="ag-card card" aria-labelledby="sumH">
-    <div class="row"><h2 id="sumH">6 months, at a glance</h2><span class="pill warn">ESTIMATE</span></div>
-    <p class="big" id="big">-</p>
+    <div class="row"><h2 id="sumH">Money to you, a month</h2><span class="pill warn">ESTIMATE</span></div>
+    <p class="hero" id="big">-</p>
     <p class="note" id="bigNote"></p>
     <dl class="kv" id="sum"></dl>
   </section>
 
-  <section class="ag-card card" aria-labelledby="fanH">
-    <h2 id="fanH">Your running total (after tax pot)</h2>
-    <svg class="fan" id="fan" viewBox="0 0 340 190" role="img" aria-labelledby="fanH fanNote"></svg>
-    <p class="note" id="fanNote"></p>
-  </section>
-
-  <section class="ag-card card" aria-labelledby="monH">
-    <h2 id="monH">Month by month</h2>
-    <table class="tbl" id="mon"><thead><tr><th>Month</th><th class="n">Cash to you</th><th class="n">After tax pot</th><th class="n">Running total (middle; bad to good)</th></tr></thead><tbody></tbody></table>
-    <p class="note">Cash to you = payouts after MFFU's split (80% Builder, 90% Rapid) minus every eval fee. Tax pot = 30% of each payout. Bad / good = the worst and best 10 in 100.</p>
+  <section class="ag-card card" aria-labelledby="payH">
+    <h2 id="payH">Your first real payout</h2>
+    <p class="mid" id="pay1">-</p>
+    <p class="note" id="pay1Note"></p>
   </section>
 
   <section class="ag-card card" aria-labelledby="accH">
     <h2 id="accH">Each account</h2>
+    <p class="note">Live balances, the MFFU rules and each payout checklist: <a href="mffu.html">MFFU account center &rarr;</a></p>
     <div class="acl" id="acc"></div>
   </section>
 
@@ -76,8 +88,32 @@
     <ol class="buy" id="buy"></ol>
   </section>
 
+  <section class="ag-card card" aria-labelledby="k8H">
+    <div class="row"><h2 id="k8H">Kalshi K8 (separate)</h2><span class="pill warn">UNPROVEN</span></div>
+    <p class="note" id="k8"></p>
+    <dl class="kv" id="k8kv"></dl>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="decH">
+    <h2 id="decH">Your decisions, in dollars</h2>
+    <p class="note" id="decNote"></p>
+    <div class="dec" id="dec"></div>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="fanH">
+    <h2 id="fanH">Your running total (after the tax pot)</h2>
+    <svg class="fan" id="fan" viewBox="0 0 340 190" role="img" aria-labelledby="fanH fanNote"></svg>
+    <p class="note" id="fanNote"></p>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="monH">
+    <h2 id="monH">Month by month</h2>
+    <table class="tbl" id="mon"><thead><tr><th>Month</th><th class="n">Cash to you</th><th class="n">After tax pot</th><th class="n">Running total (middle; bad to good)</th></tr></thead><tbody></tbody></table>
+    <p class="note">Cash to you = payouts after MFFU's cut (you keep 80% on Builder, 90% on Rapid) minus every eval fee. Tax pot = 30% of each payout. Bad / good = the worst and best 10 in 100 runs.</p>
+  </section>
+
   <p class="note" id="foot"></p>
 </main>
-<script src="plan.js?v=2"></script>
+<script src="plan.js?v=3"></script>
 </body>
 </html>

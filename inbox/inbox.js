@@ -8,7 +8,6 @@ const $ = (id) => document.getElementById(id);
 const root = document.documentElement;
 const mem = (() => { const m = {}; return { getItem: (k) => (k in m ? m[k] : null), setItem: (k, v) => { m[k] = String(v); }, removeItem: (k) => { delete m[k]; } }; })();
 const LS = (() => { try { localStorage.setItem('inbox.probe', '1'); localStorage.removeItem('inbox.probe'); return localStorage; } catch (_) { return mem; } })();
-const KALSHI_RAW = 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json';
 const CARD_APPS = ['forum', 'labyrinth', 'ares', 'argus', 'bridge', 'pantheon', 'arena', 'plutus', 'athena', 'kalshicity', 'mind', 'chronos'];
 const nowS = () => Math.floor(Date.now() / 1000);
 const mq = (q) => { try { return !!(window.matchMedia && window.matchMedia(q).matches); } catch (_) { return false; } };
@@ -26,10 +25,10 @@ async function getJSON(url, ms = 5000) {
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms) : 0;
   try { if (wasGone(url)) return null; const r = await fetch(url, { cache: 'no-cache', ...(ac ? { signal: ac.signal } : {}) }); if (r.status === 404) markGone(url); return r.ok ? await r.json() : null; } catch (_) { return null; } finally { clearTimeout(timer); }
 }
-// the feed is read from this site first (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json); the old
-// GitHub address is only the fallback. A host that answers a missing file with its index page gives HTML: not an object, so it falls through.
+// the feed is this site's own copy (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json), nothing else: the old kalshi-feed
+// repo on the suspended account is retired (polish2 2026-11-19). A host that answers a missing file with its index page gives HTML: not an object = none.
 const SITE_FEED = '../kalshi.json';
-async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : getJSON(KALSHI_RAW, ms); }
+async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : null; }
 const lite = () => (O && O.lite ? O.lite() : false) || mq('(prefers-reduced-motion: reduce)');
 
 // ------------------------------------------------------------------------------------------------ gather

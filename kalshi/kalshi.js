@@ -1,7 +1,9 @@
-/* Kalshi page (tools/web_public/kalshi/, owner 2026-11-01). The Kalshi bot runs 24/7 on its own server with real money; its
-   numbers reach the phone as kalshi.json on the branch `main` of its own repo, demetrades2000-coder/kalshi-feed (contract:
-   engine/kalshi_publish.py, docs/KALSHI_PUBLISH.md), sent every minute. This page shows that file, inside Jarvis or on its own: raw.githubusercontent
-   first, the GitHub API second, 404 = not connected yet. Read-only: it never talks to Kalshi and places nothing.
+/* Kalshi page (tools/web_public/kalshi/, owner 2026-11-01). The Kalshi bot's numbers reach the phone as kalshi.json (contract:
+   engine/kalshi_publish.py, docs/KALSHI_PUBLISH.md): this site's own copy (../kalshi.json, pc_publish), 404 = not connected yet.
+   The old feed repo of the VM bot (kalshi-feed, on the suspended GitHub account) is retired (polish2 2026-11-19): never asked here
+   (olympus/quiet-net.js answers it locally if an old copy of a page still names it). Kalshi runs on the PC now: its K8 live card and
+   its paper tests come from the PC's status post (the ntfy topic of ../status_feed.json, below). Read-only: it never talks to Kalshi
+   and places nothing.
    Contract v2 adds two optional lists, `strategies` [{name, mode, running, today_pnl, total_pnl, trades, wins, losses}] and
    `equity` [[unix, balance]] (the bot keeps 24 h of it); without `equity` the curve is the running sum of `days`.
    Sides: yes / no, or the bot's own UP / DOWN. Optional per row: `asset` (else read from the ticker) and `book` / `strategy`.
@@ -11,11 +13,8 @@
    Safari 16 safe: no regex lookbehind, no Array copy methods, no Object.groupBy, no AbortSignal.timeout. */
 (() => {
   'use strict';
-  // the feed has its own repo (security review 2026-11-01): the Kalshi server's deploy key can write kalshi-feed only, never
-  // the Pages site. Raw first, the GitHub API second; a 404 = not connected yet.
-  const LOCAL = new URL('../kalshi.json', location.href).href;      // this site's own copy of the feed (pc_publish), tried first
-  const RAW = 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json';
-  const API = 'https://api.github.com/repos/demetrades2000-coder/kalshi-feed/contents/kalshi.json?ref=main';
+  // the feed: this site's own copy only (pc_publish puts it next to the pages); a 404 = not connected yet
+  const LOCAL = new URL('../kalshi.json', location.href).href;
   // the setup link is this site's own SETUP.md (same origin); the old address stays as the fallback when the page is opened locally
   // {SITE_URL} is filled from this page's own address (location.origin), so the message follows the site wherever it is hosted
   const STEP0 = 'Open your kalshi-server chat in the Claude app and paste: Set up Jarvis for my Kalshi bot by following {SITE_URL}/kalshi/SETUP.md';
@@ -200,17 +199,12 @@
     if (S.busy) return;
     S.busy = true;
     busyUi();
-    let j = null, st = 'error', r = null;
-    const lr = await get(LOCAL + '?t=' + Math.floor(Date.now() / 60000));          // this site's own copy first (pc_publish)
-    if (lr && lr.ok) { try { const x = await lr.json(); if (isObj(x)) { j = x; st = 'ok'; } } catch (_) { j = null; } }
-    if (st !== 'ok') {
-      r = await get(RAW + '?t=' + Math.floor(Date.now() / 60000));
-      if (!r || (!r.ok && r.status !== 404)) r = await get(API, { Accept: 'application/vnd.github.raw+json' });
-      if (r && r.ok) {
-        try { j = await r.json(); } catch (_) { j = null; }
-        if (isObj(j)) st = 'ok';
-      } else if (r && r.status === 404) st = 'waiting';
-    }
+    let j = null, st = 'error';
+    const lr = await get(LOCAL + '?t=' + Math.floor(Date.now() / 60000));          // this site's own copy (pc_publish)
+    let body = '';
+    if (lr && lr.ok) { try { body = await lr.text(); const x = JSON.parse(body); if (isObj(x)) { j = x; st = 'ok'; } } catch (_) { j = null; } }
+    // not published: a 404, or the site's own HTML page answering for a file it does not have = not connected yet; a broken file = an error
+    if (st !== 'ok' && lr && (lr.status === 404 || (lr.ok && /^\s*</.test(body)))) st = 'waiting';
     S.busy = false;
     S.at = Date.now();
     busyUi();                                                // the spinner stops even when the drawing waits (render below)
@@ -263,10 +257,22 @@
     }
   };
 
+  // the PC runs Kalshi now (K8 live card, K1 / rewards paper tests in its status post): the header says that instead of the old
+  // kalshi-server's "Not connected yet" (phone QA 2026-11-19), with the age of the PC's numbers
+  function pcKalshi() {
+    const lv = KLV.j && KLV.j.st !== 'off' ? KLV.j : null, k1 = K1.j, rw = RW.src === 'pc' ? RW.j : null;   // all set up before the first render
+    const tm = (j) => Date.parse((j && j.updated) || '') || 0;
+    const src = lv ? { updated: lv.u } : !k1 ? rw : !rw ? k1 : tm(k1) >= tm(rw) ? k1 : rw;   // the newer of the two
+    if (!src) return '';
+    const age = rwAge(src);
+    return (lv ? (lv.st === 'live' ? 'K8 LIVE on your PC' : 'K8 on your PC: ' + lv.st) : 'On your PC · real money paused') + ' · updated ' + age.s;
+  }
+  function subFix() { if (S.state === 'waiting' && !previewing()) { const e = $('#sub'); if (e) e.textContent = pcKalshi() || 'Not connected yet'; } }
+
   // ------------------------------------------------------------------ sections
   function subHtml() {
     if (previewing()) return '<span class="pill warn" id="pill">Preview</span><span class="ago">sample data, not your account</span>';
-    if (S.state === 'waiting') return 'Not connected yet';
+    if (S.state === 'waiting') return pcKalshi() || 'Not connected yet';
     const k = S.k;
     if (!k) return S.state === 'error' ? 'Could not reach the Kalshi feed' : 'Loading…';
     const [lvl, label] = stateOf(k), m = String(k.mode == null ? '' : k.mode).trim().toLowerCase().slice(0, 12), t = parseT(k.t);
@@ -1422,7 +1428,7 @@
       const kr = !isObj(x) ? null : x.kind === 'le-live' ? x.kalshi_rewards : x.kind === 'le-live-ext' && isObj(x.x) ? x.x.kalshi_rewards : null;   // the old single post or the ext post (2026-11-18 split)
       if (rwOk(kr) && (!best || String(kr.updated || '') >= String(best.updated || ''))) best = kr;
     }
-    if (best && (!RW.j || String(best.updated || '') >= String(RW.j.updated || ''))) { RW.j = best; RW.src = 'pc'; rwShow(); }
+    if (best && (!RW.j || String(best.updated || '') >= String(RW.j.updated || ''))) { RW.j = best; RW.src = 'pc'; rwShow(); subFix(); }
   }
 
   // ---- "K1 rules test (paper)": tools/kalshi_paper.py (weather lock + NQ hourly model) on the PC; its tiny card (key kalshi_k1, <= 200 bytes) rides the
@@ -1456,6 +1462,7 @@
     }
     if (best) { K1.j = best; k1Show(); }
     if (live) { KLV.j = live; klShow(); }
+    subFix();
   }
 
   // ---- Kalshi LIVE (engine/kalshi_live.py, night-klive 2026-11-19): OFF until the owner types the phrase on the PC. Its <= 200-byte card
@@ -1471,18 +1478,18 @@
     const today = num(j.net) != null ? `today ${usd(j.net, true)}` : 'today not known yet';
     if (j.st === 'stopped') {
       if (hd) hd.textContent = 'Kalshi: STOPPED';
-      ln.textContent = `STOPPED${j.why ? ' (' + String(j.why).slice(0, 40) + ')' : ''}: it is OFF now, ${today}. To restart, type the phrase on the PC (KALSHI_LIVE.bat). Updated ${age.s}.`;
+      ln.textContent = `K8 (gold and silver) STOPPED${j.why ? ' (' + String(j.why).slice(0, 40) + ')' : ''}: it is OFF now, ${today}. To restart, type the phrase on the PC (KALSHI_LIVE.bat). Updated ${age.s}.`;
       if (risk) risk.textContent = 'No new orders.';
       return;
     }
     if (j.st === 'idle') {
       if (hd) hd.textContent = 'Kalshi: ARMED, not running';
-      ln.textContent = `ARMED, but the PC is not running it right now: double-click KALSHI_LIVE.bat on the PC to start it again. ${today[0].toUpperCase() + today.slice(1)}. Updated ${age.s}.`;
+      ln.textContent = `K8 (gold and silver) ARMED, but the PC is not running it right now: double-click KALSHI_LIVE.bat on the PC to start it again. ${today[0].toUpperCase() + today.slice(1)}. Updated ${age.s}.`;
       if (risk) risk.textContent = 'No order rests for more than 20 minutes without it.';
       return;
     }
     if (hd) hd.textContent = j.st === 'live' ? 'Kalshi: LIVE' : 'Kalshi: PAUSED from the phone';
-    ln.textContent = `${j.st === 'live' ? 'LIVE' : 'PAUSED (no new orders until 4 PM ET or RESUME)'}: ${today}, ${fmtN(num(j.f) || 0)} fill${num(j.f) === 1 ? '' : 's'}, `
+    ln.textContent = `K8 (gold and silver) ${j.st === 'live' ? 'LIVE' : 'PAUSED (no new orders until 4 PM ET or RESUME)'}: ${today}, ${fmtN(num(j.f) || 0)} fill${num(j.f) === 1 ? '' : 's'}, `
       + `${fmtN(num(j.o) || 0)} order${num(j.o) === 1 ? '' : 's'} resting.${lim} Pause or flatten from the phone: ZEUS Safety. Updated ${age.s}${age.old ? ' (late)' : ''}.`;
     if (risk && cap != null) risk.textContent = `At most ${usd(cap)} at risk.`;
   }

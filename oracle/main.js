@@ -1,12 +1,12 @@
 // ORACLE: a live 3D market radar of NQ, the LIT bot's world (owner 2026-11-03). Read-only: it never trades, never writes.
-// Boot, the data schedule and the animation loop. live.json every 30-60 s while the page is visible (and at once when it
-// comes back), the site's home.json every 5 min; the freshest one wins. Older than 20 min: LAST SEEN with the last world
+// Boot, the data schedule and the animation loop. The PC's status post (../pc_feed.js, data.js fetchLive) every 2 min while the page is
+// visible (and at once when it comes back), the site's home.json every 5 min; the freshest one wins. Older than 20 min: LAST SEEN with the last world
 // kept. Nothing at all: a real session replayed (demo.js). "Replay today" rebuilds today's session from the live World and
 // plays it with a scrubber. Quality: HD, or LITE (fewer stars, a thinner aurora, lower resolution) chosen by the owner or
 // switched on once by itself when frames run slow; prefers-reduced-motion stops the motion. applyTheme(tokens) takes an
 // OLYMPUS theme (window.OLYMPUS.theme() / onTheme, when the kit has them).
 import * as THREE from '../jarvis/three.module.min.js';
-import { fetchLive, fetchSite, normalize, loadProphecy, FRESH_S } from './data.js?v=ofst2';
+import { fetchLive, fetchSite, normalize, loadProphecy, FRESH_S } from './data.js?v=ofst3';
 import { loadDemo, docAt, span, todayFx } from './demo.js';
 import { Scene } from './scene.js?v=oracle-phone-budget-2';
 import { FallbackCity } from './fallback.js?v=oracle-fallback-honesty-1';
@@ -29,7 +29,7 @@ let saved = null;
 if (O) saved = O.chosen() ? (O.lite() ? 'low' : 'high') : null;
 else try { saved = localStorage.getItem(QUALITY_KEY); } catch (_) { /* private mode */ }
 const state = {
-  mode: 'loading', world: null, live: null, site: null, gate: { apiUntil: 0 }, every: 45, history: [],
+  mode: 'loading', world: null, live: null, site: null, every: 120, history: [],
   demo: null, fixture: null, demoT: 0, playing: true, hold: 0, dragging: false, canToday: false, userDemo: forced, quality: saved === 'low' || saved === 'high' ? saved : O && O.lite() ? 'low' : 'high',
   chosen: saved === 'low' || saved === 'high', fps: 0, card: '', lastDemoDoc: 0, siteAt: 0, span: null,
 };
@@ -145,13 +145,13 @@ function decide() {
 async function pollLive(force) {
   if (!force && document.hidden) return;
   try {
-    const { j, every } = await fetchLive(state.gate);
+    const { j, every } = await fetchLive();
     state.every = every;
     if (!state.live || j.t !== state.live.t) {
       state.live = j;
       if (Number.isFinite(+j.price)) state.history = [...state.history, [+j.t, +j.price]].slice(-240);
     }
-  } catch (_) { state.every = 60; }
+  } catch (_) { state.every = 120; }          // no post (or no feed): the site's copy carries the page; the next look in 2 min
 }
 
 async function pollSite() {

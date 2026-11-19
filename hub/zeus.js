@@ -143,8 +143,10 @@
              src: useZ ? 'From your PC\'s nightly learning (live feed)' : 'Cloud copy (Claude\'s nightly run' + (c.built ? ', ' + c.built : '') + ')' };
   }
 
+  // no nightly line yet (no feed "zl", no learned.json): a calm placeholder, never a hidden card (polish2 2026-11-19); zeus.html has the same words
+  var LEARN_WAIT = ['First nightly report after today\'s close', 'ZEUS looks back over each day\'s trades every night on your PC. Advice only: ZEUS changes nothing.'];
   var API = { BOTS: BOTS, et: et, calendar: calendar, nextWindow: nextWindow, pcWindow: pcWindow, windowLine: windowLine, notes: notes,
-              pcLine: pcLine, acctRow: acctRow, usd: usd, ago: ago, inWords: inWords, learned: learned };
+              pcLine: pcLine, acctRow: acctRow, usd: usd, ago: ago, inWords: inWords, learned: learned, LEARN_WAIT: LEARN_WAIT };
   root.ZEUS_HUB = API;
   if (typeof module === 'object' && module && module.exports) module.exports = API;
   if (typeof document === 'undefined') return;
@@ -208,10 +210,10 @@
 
   function drawLearned(L) {
     var sec = $('learned'), box = $('learnBox'); if (!sec || !box) return;
-    if (!L) { sec.hidden = true; return; }
     sec.hidden = false;
-    box.className = 'zs-learn' + (L.old ? ' old' : '');
     box.replaceChildren();
+    if (!L) { box.className = 'zs-learn wait'; box.appendChild(el('p', 'zs-goal', LEARN_WAIT[0])); box.appendChild(el('p', 'zs-src', LEARN_WAIT[1])); return; }
+    box.className = 'zs-learn' + (L.old ? ' old' : '');
     box.appendChild(el('p', 'zs-goal', 'Night of ' + L.when + (L.old ? ' (old: the PC has not learned since)' : '')));
     var ul = el('ul');
     L.rows.forEach(function (r) { var li = el('li'); li.appendChild(el('b', '', r.name + ' ')); li.appendChild(d.createTextNode(r.text)); ul.appendChild(li); });

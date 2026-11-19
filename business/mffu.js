@@ -240,7 +240,7 @@
   async function load() {
     const [plan, board, home] = await Promise.all([getJSON('accounts.json'), getJSON('../board/board.json'), getJSON('../home.json')]);
     let lite = null;
-    try { if (window.PC_FEED) lite = await window.PC_FEED.fetchLatest({}); } catch (e) { /* none */ }
+    try { if (window.PC_FEED) lite = await window.PC_FEED.fetchLatest({ feedUrl: '../status_feed.json' }); } catch (e) { /* none */ }   // the site root's feed (no 404 for business/status_feed.json)
     try { if (window.EDGE_CHIP) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
     const now = nowS();
     const r = X.center({ lite, plan, board, home, coach: window.PAYOUT_COACH, today: todayET(now), M }, now);

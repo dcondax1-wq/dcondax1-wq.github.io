@@ -1,5 +1,6 @@
 // THE DECIDE CARD (classic script, 2026-11-18, night-decide; docs/BOARD.md "Decide card"). On the Board and the ZEUS page: every
-// open decision from ./decisions.json (Claude keeps that one file) with its question, a one-line why and its $ impact.
+// open decision from ./decisions.json (Claude keeps that one file) with its question, a one-line why, its $ impact and (when
+// tools/money/money_plan.py valued it) Claude's yes / no with the reason and the risk in plain words.
 //  - On the PC's private Tailscale link (the site under /site/): Yes / No / Later buttons. A tap posts ONE owner note,
 //    {"text": "Decide <id>: YES - <question>", "decision", "answer"}, to /inbox/board (engine/day_inbox kind "board"). Claude reads
 //    it next session (python tools/board.py read, "owner notes not answered") and applies it by the CLAUDE.md rules.
@@ -60,6 +61,8 @@
     + '.dc-item{margin-top:12px;padding-top:12px;border-top:1px solid var(--ag-line,#3a3228)}'
     + '.dc-q{margin:0;font-weight:700;overflow-wrap:anywhere}.dc-why,.dc-imp,.dc-sent,.dc-say{margin:4px 0 0;font-size:.9rem;overflow-wrap:anywhere}'
     + '.dc-why{color:var(--ag-soft,#cfc4b2)}.dc-imp{color:var(--ag-gold-hi,#dcbd6e);font-weight:600}.dc-sent{color:var(--ag-olive-text,#a0ac6e)}'
+    + '.dc-rec,.dc-risk{margin:4px 0 0;font-size:.9rem;overflow-wrap:anywhere}.dc-rec{font-weight:700}.dc-rec.y{color:#a6d47f}.dc-rec.n{color:#ff9d8f}'
+    + '.dc-rec.l{color:var(--ag-sun,#e0b060)}.dc-risk{color:var(--ag-muted,#a89c88)}'
     + '.dc-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}'
     + '.dc-btns button{min-height:44px;border-radius:12px;font:700 1rem var(--ag-sans,system-ui);color:var(--ag-text,#f3ece0);background:var(--ag-s1,#1b1713);border:1px solid var(--ag-line,#3a3228);cursor:pointer}'
     + '.dc-btns button.yes{border-color:#8fbf6a}.dc-btns button.no{border-color:#ff8a7a}.dc-btns button.on{background:var(--ag-gold,#c8a24a);color:#14110e}.dc-btns button:disabled{opacity:.6}'
@@ -83,6 +86,9 @@
     box.appendChild(el('p', 'dc-q', item.question));
     if (item.why) box.appendChild(el('p', 'dc-why', 'Why: ' + item.why));
     if (item.impact) box.appendChild(el('p', 'dc-imp', '$: ' + item.impact));
+    if (item.recommend) box.appendChild(el('p', 'dc-rec ' + (item.recommend === 'yes' ? 'y' : item.recommend === 'no' ? 'n' : 'l'),
+      'Claude says ' + String(item.recommend).toUpperCase() + (item.recommend_why ? ': ' + item.recommend_why : '')));
+    if (item.risk) box.appendChild(el('p', 'dc-risk', 'Risk: ' + item.risk));
     const got = st.got[item.id];
     if (got) box.appendChild(el('p', 'dc-sent', 'You said ' + WORD[got.answer] + (got.t ? ' (' + ET(got.t) + ')' : '') + '. Claude applies it next session; nothing live changes until then.'));
     if (pc) {

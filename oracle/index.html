@@ -15,16 +15,18 @@
 <link rel="icon" href="../jarvis/icon.svg">
 <link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<script src="../olympus/quiet-net.js?v=q6a"></script>
-<script src="../olympus/themes.js?v=o7"></script>
-<script src="../olympus/olympus.js?v=o12" data-app="oracle"></script>
+<script src="../olympus/quiet-net.js?v=q9"></script>
+<script src="../olympus/themes.js?v=o8"></script>
+<script src="../olympus/olympus.js?v=o13" data-app="oracle"></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/intro-app.js?v=i8" defer></script>
 <script src="../olympus/glossary-lite.js?v=g2" defer></script>
-<link rel="stylesheet" href="../olympus/agora.css?v=a5">
+<link rel="stylesheet" href="../olympus/agora.css?v=a6">
 <link rel="stylesheet" href="oracle.css?v=o5">
 <link rel="stylesheet" href="sheet.css?v=o9">
-<script type="module" src="main.js?v=o8"></script>
+<!-- the PC's status post (polish2 2026-11-19): data.js fetchLive reads it through window.PC_FEED; defer = it runs before main.js (a module) -->
+<script src="../pc_feed.js?v=n4" defer></script>
+<script type="module" src="main.js?v=o9"></script>
 </head>
 <body>
 <canvas id="gl" aria-label="NQ as a 3D radar: the price column, the LIT levels as rings, the session clock and the bot's stage. Drag to turn, pinch to zoom, double tap to reset."></canvas>

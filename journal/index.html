@@ -19,15 +19,15 @@
      page reads one published file (../odeon/trades.json, read-only) and falls back to fixture.json (DEMO, synthetic trades) when it is missing. Text only through textContent. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a5"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
-<script src="../olympus/themes.js?v=o7"></script>
-<script src="../olympus/olympus.js?v=o12" data-app="journal"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a6"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o8"></script>
+<script src="../olympus/olympus.js?v=o13" data-app="journal"></script>
 <script src="../olympus/intro-app.js?v=i8" defer></script>
 <script src="../olympus/polis-life.js?v=pl4" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#e08a6b'); r.setProperty('--oly-accent-rgb', '224, 138, 107'); })();</script>
-<link rel="stylesheet" href="journal.css?v=j1g2">
+<link rel="stylesheet" href="journal.css?v=j1g3">
 </head>
 <body>
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -61,6 +61,12 @@
     <div id="weekLines"></div>
     <div class="rule" id="rule"><small>ONE rule to try next week</small><p id="ruleText"></p><p class="why" id="ruleWhy"></p></div>
     <button type="button" class="go" id="ruleBtn" aria-pressed="false" data-oly-cue="success">Try this rule next week</button>
+  </section>
+
+  <section class="card" id="edgeCard" aria-labelledby="edgeH">
+    <h2 id="edgeH">The bot's edge</h2>
+    <p class="hint">Every trade in $ and R: what pays, when, how far trades go against you first, drawdowns, losing runs, fills vs plan.</p>
+    <a class="go" id="edgeLink" href="edge.html" data-oly-cue="open">Open the bot's edge</a>
   </section>
 
   <section class="card" id="trades" aria-labelledby="trH">

@@ -61,6 +61,10 @@ export function etParts(t) {
     return { day: `${p.year}-${p.month}-${p.day}`, hm: `${hh}:${p.minute}`, label: `${p.weekday} ${parseInt(p.day, 10)} ${mon}` };
   } catch (_) { return null; }
 }
+/** the CME trading day of an epoch (seconds), as the board counts "today" (engine/live_board.trading_day): 18:00 ET starts the next day's
+ *  session, so a trade at 23:30 ET and the 00:40 report after it are the same day (polish2 2026-11-19: the calendar day split them, and
+ *  the page called the R of that day's trades an estimate "~" every night between midnight and the first hours of the session) */
+export function tradingDay(t) { const v = num(t); if (v == null) return ''; const p = etParts(v + 6 * 3600); return p ? p.day : ''; }
 function dayLabel(day) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(day || '')); if (!m) return str(day, 12);
   const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
@@ -120,7 +124,7 @@ function extraBot(c) {
 export function botView(key, home, nowS, trades, P0, blk0) {
   const P = P0 || BOTS[key], h = obj(home), pc = obj(obj(h.live).pc), blk = blk0 || evalBlock(key, h), t = reportTime(P0 ? 'lit' : key, h);
   const running = typeof pc.running === 'boolean' ? pc.running : typeof obj(h.board).running === 'boolean' ? h.board.running : null;
-  const st = status(blk ? t : null, running, nowS, key === 'blitz' ? FRESH_S : postFresh(h)), rep = etParts(t), now = etParts(nowS);
+  const st = status(blk ? t : null, running, nowS, key === 'blitz' ? FRESH_S : postFresh(h)), rep = etParts(t) ? tradingDay(t) : null, now = tradingDay(nowS);
   const tag = (P.bot === 'LIT' ? 'LIT ' : '') + P.size;
   const base = { key, name: P.name, bot: P.bot, size: P.size, tag, plan: P.plan, paper: P.paper, has: false, status: st, t: blk ? t : null, mll: P.mll, target: P.target, room: null, roomFrac: null, today: 0, todayText: both(0, 0),
     dayLabel: 'Today', profit: null, toTarget: null, progress: 0, balance: null, waiting: '', ddLine: 'Drawdown not reported yet', progLine: 'No eval numbers yet' };
@@ -130,7 +134,7 @@ export function botView(key, home, nowS, trades, P0, blk0) {
   if (/funded/i.test(String(e.status || ''))) {
     const bal = num(e.balance), prof = first(e.profit, bal != null ? bal - start : null), need = num(e.to_target), today = num(blk.today) || 0;
     return { ...base, has: true, tag: `${P.size} funded`, plan: P.plan.replace(/\beval\b/, 'funded'), mll, room, roomFrac: room != null && mll > 0 ? Math.max(0, Math.min(1, room / mll)) : null, today,
-      todayText: both(today, null, P.risk), dayLabel: rep && now && rep.day === now.day ? 'Today' : rep ? `${rep.label} (the last report)` : 'Last report', profit: prof, toTarget: need, balance: bal,
+      todayText: both(today, null, P.risk), dayLabel: rep && now && rep === now ? 'Today' : rep ? `${dayLabel(rep)} (the last report)` : 'Last report', profit: prof, toTarget: need, balance: bal,
       progress: need != null && prof != null && prof + need > 0 ? Math.max(0, Math.min(1, prof / (prof + need))) : 0, waiting: str(blk.wait, 180), funded: true,
       ddLine: room != null ? drawdownLine(room, mll) : 'Drawdown not reported yet',
       progLine: str(e.payout_text, 160) || (need != null ? `Funded: ${money(need)} to a payout` : 'Funded: the payout line is on the ZEUS page') };
@@ -139,12 +143,12 @@ export function botView(key, home, nowS, trades, P0, blk0) {
   const balance = num(e.balance), profit = first(e.profit, balance != null ? balance - start : null), toTarget = first(e.to_target, profit != null ? target - profit : null);
   const progress = profit != null && target > 0 ? Math.max(0, Math.min(1, profit / target)) : 0, today = num(blk.today) || 0;
   // the day's R: the sum of the R of that bot's trades on the report day; with no trade in the list it is an estimate from the usual risk (~)
-  const day = rep ? rep.day : null, mine = (trades || []).filter((x) => x.key === key && !x.open && x.day === day && x.r != null);
+  const day = rep || null, mine = (trades || []).filter((x) => x.key === key && !x.open && x.day === day && x.r != null);
   const dayR = mine.length ? mine.reduce((s, x) => s + x.r, 0) : null;
-  const sameDay = !!(rep && now && rep.day === now.day);
+  const sameDay = !!(rep && now && rep === now);
   const passed = toTarget != null && toTarget <= 0;
   return { ...base, has: true, mll, target, room, roomFrac: room != null && mll > 0 ? Math.max(0, Math.min(1, room / mll)) : null, today, todayText: both(today, dayR, P.risk),
-    dayLabel: sameDay ? 'Today' : rep ? `${rep.label} (the last report)` : 'Last report', profit, toTarget, progress, balance, waiting: str(blk.wait, 180),
+    dayLabel: sameDay ? 'Today' : rep ? `${dayLabel(rep)} (the last report)` : 'Last report', profit, toTarget, progress, balance, waiting: str(blk.wait, 180),
     ddLine: room != null ? drawdownLine(room, mll) : 'Drawdown not reported yet',
     progLine: toTarget == null ? 'No eval numbers yet' : passed ? `Target of ${money(target)} reached` : `${money(toTarget)} to go to the ${money(target)} target (${Math.round(progress * 100)}% done)` };
 }
@@ -169,7 +173,7 @@ function tradeRow(x, keyHint) {
   if (usd == null && num(x.r) == null) return null;
   const open = x.open === true, r = num(x.r != null ? x.r : x.R), kind = str(x.exit_kind || (typeof x.exit === 'string' ? x.exit : ''), 24);
   const side = str(x.side || (num(x.dir) != null ? (num(x.dir) > 0 ? 'LONG' : 'SHORT') : ''), 8).toUpperCase(), et = etParts(t);
-  const day = /^\d{4}-\d{2}-\d{2}$/.test(String(x.day || '')) ? x.day : et ? et.day : '';
+  const day = /^\d{4}-\d{2}-\d{2}$/.test(String(x.day || '')) ? x.day : et ? tradingDay(t) : '';   // the board's own day, else the CME day
   const src = P.paper || String(x.src || '') === 'paper' ? 'paper' : 'eval account';
   return { key, name: P.name, member: str(x.member, 12), day, dayLabel: dayLabel(day), t: t || 0, side: side === 'LONG' ? 'Long' : side === 'SHORT' ? 'Short' : '', usd: usd || 0, r, open,
     text: both(usd || 0, r, P.risk), rule: open ? 'Still open' : ruleText(kind, key, exitT), src, sign: (usd || 0) > 0.5 ? 'pos' : (usd || 0) < -0.5 ? 'neg' : '' };

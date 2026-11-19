@@ -14,7 +14,9 @@
 // gets "Add Olympus to your Home Screen first". A tapped notification opens its page (push-sw.js -> {type: 'olympus:open', id} or
 // ./?open=<id>): window.__jarvis.show(id). Automated test browsers (navigator.webdriver) get no card unless localStorage
 // 'olympus.push.force' = '1' (the other suites measure the home), like the OLYMPUS intro.
-//   window.OLY_PUSH = { check(), allow(), test(), off(), state(), seal(obj, boxKey), endpointId(url) }        (tests, the console)
+//   window.OLY_PUSH = { check(), allow(), test(), off(), notNow(), state(), seal(obj, boxKey), endpointId(url) }   (tests, the console)
+// Never nagging (phone QA 2026-11-19): "Not now" hides the question for 7 days; "on" stays on the home one day, then only comes back
+// when something needs a tap.
 // Safari 16: plain ES2020, no optional chaining, no regex lookbehind. Read only: nothing here can trade.
 (function () {
   'use strict';
@@ -110,7 +112,7 @@
   async function feed() {
     for (let i = 0; i < 40 && !(window.PC_FEED && window.PC_FEED.fetchLatest); i++) await later(200);     // ../pc_feed.js loads async
     if (!(window.PC_FEED && window.PC_FEED.fetchLatest)) return null;
-    try { return await window.PC_FEED.fetchLatest({}); } catch (e) { return null; }
+    try { return await window.PC_FEED.fetchLatest({ feedUrl: '../status_feed.json' }); } catch (e) { return null; }
   }
   async function pcKeys() {
     const j = await feed();
@@ -186,7 +188,7 @@
     } else if (!on && Date.now() - (+s0.posted || 0) > 20 * 60 * 1000) {
       note = 'Your PC has not confirmed yet: keep it on. Olympus sends it again by itself.';
     }
-    if (on && !s0.on) store.set(Object.assign({}, store.get(), { key: wp.k, id, on: true }));
+    if (on && (!s0.on || !s0.onAt)) store.set(Object.assign({}, store.get(), { key: wp.k, id, on: true, onAt: +s0.onAt || Date.now() }));
     if (!on && s0.on) store.set(Object.assign({}, store.get(), { on: false }));
     return set({ state: on ? 'on' : 'waiting', wp, reg, sub, id, note, swOk });
   }
@@ -248,8 +250,8 @@
     old: ['Phone notifications', 'This needs iOS 16.4 or later: iPhone Settings, General, Software Update.'],
     unsupported: ['Phone notifications', 'This browser cannot show Olympus notifications. On the iPhone, open Olympus from the Home Screen.'],
     blocked: ['Notifications are blocked', 'iPhone Settings, Notifications, Olympus: turn on Allow Notifications, then come back here.'],
-    nopc: ['Get every trade on this phone', 'Waiting for your PC: it shares its notification key with its next report (every 15 minutes). Tap Allow now; Olympus finishes by itself.'],
-    pcwait: ['Allowed', 'Waiting for your PC to share its notification key (every 15 minutes, while it is on). Olympus finishes by itself.'],
+    nopc: ['Get every trade on this phone', 'Every entry and exit on your accounts and the important alerts, straight from your PC. Tap Allow now: your PC finishes the setup with its next report (every 15 minutes while it is on).'],
+    pcwait: ['Allowed on this phone', 'Your PC finishes the setup with its next report (every 15 minutes while it is on). Nothing else to do.'],
     ready: ['Get every trade on this phone', 'Every entry and exit on your accounts, with the account name, and the important alerts. Straight from your PC.'],
     asking: ['Get every trade on this phone', 'Tap Allow on the question the phone shows.'],
     finish: ['Almost there', 'Tap once more to finish.'],
@@ -275,12 +277,27 @@
   }
   function buttons(state) {
     if (state === 'ready' || state === 'nopc' || state === 'finish' || state === 'off' || state === 'update') {
-      return '<button type="button" data-push="allow">' + (state === 'finish' ? 'Finish' : state === 'update' ? 'Try again' : 'Allow notifications') + '</button>';
+      return '<button type="button" data-push="allow">' + (state === 'finish' ? 'Finish' : state === 'update' ? 'Try again' : 'Allow notifications') + '</button>'
+        + (state === 'ready' || state === 'nopc' || state === 'off' ? '<button type="button" class="alt" data-push="later">Not now</button>' : '');
     }
     if (state === 'asking') return '<button type="button" disabled>Allow notifications</button>';
     if (state === 'on') return '<button type="button" class="alt" data-push="test">Send a test</button><button type="button" class="alt" data-push="off">Turn off</button>';
     if (state === 'waiting') return '<button type="button" class="alt" data-push="off">Turn off</button>';
     return '';
+  }
+  // never nagging (phone QA 2026-11-19): "Not now" puts the question away for 7 days; once the PC confirms ("on") the card stays one more
+  // day (to send a test), then leaves the home. It comes back by itself the moment something needs a tap (blocked, off, an update, the
+  // PC lost this phone). Turning it off later: iPhone Settings, Notifications, Olympus.
+  const SNOOZE_MS = 7 * 86400 * 1000, ON_SHOW_MS = 86400 * 1000;
+  function quiet(state) {
+    const s0 = store.get(), now = Date.now();
+    if ((state === 'ready' || state === 'nopc' || state === 'off') && +s0.later > now) return true;
+    if (state === 'on' && +s0.onAt > 0 && now - +s0.onAt > ON_SHOW_MS) return true;
+    return false;
+  }
+  function notNow() {
+    store.set(Object.assign({}, store.get(), { later: Date.now() + SNOOZE_MS }));
+    render();
   }
   function render() {
     if (!host) return;
@@ -291,7 +308,7 @@
       + '</b><span class="pushc-s">' + esc(w[1]) + '</span>' + (st.note ? '<span class="pushc-n" role="status">' + esc(st.note) + '</span>' : '')
       + '</div>' + (b ? '<div class="pushc-b">' + b + '</div>' : '') + '</section>';
     if (host.__html !== html) { host.innerHTML = html; host.__html = html; }
-    host.hidden = st.state === 'loading';
+    host.hidden = st.state === 'loading' || quiet(st.state);
     host.dataset.state = st.state;
   }
   function set(next) { st = next; render(); return st; }
@@ -345,6 +362,7 @@
       if (!b) return;
       const a = b.dataset.push;
       if (a === 'allow') allow();
+      else if (a === 'later') notNow();
       else if (a === 'test') test();
       else if (a === 'off') off();
     });
@@ -353,7 +371,7 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now() - lastCheck > 5 * 60 * 1000) check(); });
   }
 
-  window.OLY_PUSH = { check, allow, test, off, state, seal, endpointId };
+  window.OLY_PUSH = { check, allow, test, off, notNow, state, seal, endpointId };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 })();

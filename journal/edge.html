@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MNEMOSYNE · The bot's edge</title>
+<meta name="description" content="OLYMPUS MNEMOSYNE, the bot's edge: every Zlarior and ATLAS trade in R and dollars, the best setups and hours, how far trades go against you first (MAE / MFE), drawdowns, whether a losing run is normal, and the PC's fill checks. Read only.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bot's edge">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<!-- THE BOT'S EDGE (MNEMOSYNE's second page, night-botgap 2026-11-18, research/writeups/bot-gap-2026-11-18.md): what Tradervue, TradesViz, Edgewonk, NinjaTrader's
+     Trade Performance and TradingView's strategy report show and the journal apps did not. edgecore.js = the pure maths (node-tested), edge.js = the page.
+     Reads (read only): edge.json (tools/journal_edge_build.py from the Why app's research/anatomy: the Zlarior + ATLAS backtest trades with MAE / MFE, dated), ../trading/trades.json
+     and ../odeon/trades.json (the real and paper trades), and the PC's public status feed (../pc_feed.js: "at", the board trades, "fq" = the fill checks once the PC sends
+     them). It never sends anything, never trades. Text only through textContent / createElementNS. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a6"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o8"></script>
+<script src="../olympus/olympus.js?v=o13" data-app="journal"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#e08a6b'); r.setProperty('--oly-accent-rgb', '224, 138, 107'); })();</script>
+<link rel="stylesheet" href="journal.css?v=j1g3">
+<link rel="stylesheet" href="edge.css?v=e1">
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<main id="app">
+  <header class="top">
+    <div class="brand"><h1>THE BOT'S EDGE</h1><p class="sub">Every trade in $ and R: what pays, when, how far trades go against you, losing runs, fills.</p></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>NO DATA</span><span id="live" class="tag" hidden>PC LIVE</span></div>
+  </header>
+
+  <section class="card" id="pickCard" aria-label="Which bot and which trades">
+    <div class="seg" id="bots" role="radiogroup" aria-label="Bot"></div>
+    <div class="seg" id="sets" role="radiogroup" aria-label="Which trades"></div>
+    <p class="hint" id="srcNote"></p>
+  </section>
+
+  <section class="card" id="sumCard" aria-labelledby="sumH">
+    <h2 id="sumH">The edge in one look</h2>
+    <div class="tiles four" id="tiles"></div>
+    <p class="lead" id="sumLine"></p>
+  </section>
+
+  <section class="card" id="runCard" aria-labelledby="runH">
+    <h2 id="runH">Is this losing run normal?</h2>
+    <p class="lead" id="runHead" data-level="off"></p>
+    <ul class="lines" id="runLines"></ul>
+    <svg id="runBars" class="chart" viewBox="0 0 340 96" role="img" aria-label="How often each length of losing run happened in the backtest"></svg>
+  </section>
+
+  <section class="card" id="fillCard" aria-labelledby="fillH">
+    <h2 id="fillH">Fills vs plan</h2>
+    <p class="lead" id="fillHead"></p>
+    <ul class="lines" id="fillLines"></ul>
+    <ul class="rows" id="fillChecks"></ul>
+    <p class="hint" id="fillNote"></p>
+  </section>
+
+  <section class="card" id="grpCard" aria-labelledby="grpH">
+    <h2 id="grpH">Where the money comes from</h2>
+    <div class="seg" id="groupBy" role="radiogroup" aria-label="Group the trades by"></div>
+    <p class="lead" id="grpLine"></p>
+    <ul class="rows" id="grpRows"></ul>
+  </section>
+
+  <section class="card" id="heatCard" aria-labelledby="heatH">
+    <h2 id="heatH">When it trades: weekday by hour</h2>
+    <svg id="heat" class="chart" viewBox="0 0 340 150" role="img" aria-label="Dollars by weekday and entry hour"></svg>
+    <ul class="lines" id="heatLines"></ul>
+    <p class="hint">A map, not a rule: changing Zlarior's size by weekday or hour was tested and did not hold up (docs/TESTED_AND_REJECTED.md). Use it to know when to be at the desk.</p>
+  </section>
+
+  <section class="card" id="maeCard" aria-labelledby="maeH">
+    <h2 id="maeH">How far trades go against you first</h2>
+    <ul class="lines" id="maeLines"></ul>
+    <svg id="maeDots" class="chart" viewBox="0 0 340 170" role="img" aria-label="Each trade: how far it went against you (across) and how it ended (up and down)"></svg>
+    <h3 class="sub3">The last 10 trades</h3>
+    <ul class="rows" id="maeList"></ul>
+  </section>
+
+  <section class="card" id="eqCard" aria-labelledby="eqH">
+    <h2 id="eqH">Equity and drawdowns</h2>
+    <svg id="eqSvg" class="chart" viewBox="0 0 340 160" role="img" aria-label="The running total and the drawdown under it"></svg>
+    <p class="lead" id="eqLine"></p>
+    <ul class="rows" id="ddRows"></ul>
+  </section>
+
+  <a class="go back" id="backLink" href="./" data-oly-cue="close">Back to the journal</a>
+  <p class="foot" id="foot">Read only. History on futures bars is not money made; real trades come from the PC.</p>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+<script type="module" src="edge.js?v=e1"></script>
+</body>
+</html>

@@ -109,3 +109,4 @@ html.sheeted, html.sheeted body { overflow: hidden; }
 
 /* the stoic line (olympus/polis-life.js, QA round 6): one of the journal's own cards, same radius */
 #app > .pl-placed { border-radius: var(--oly-r-card, 16px); }
+a.go { display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--oly-text, #f3e7d6); }   /* the link to the bot's edge page (edge.html) */

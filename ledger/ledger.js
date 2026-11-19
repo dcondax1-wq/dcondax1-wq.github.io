@@ -6,7 +6,6 @@ import * as SB from './scoreboardcore.js';
 
 const O = window.OLYMPUS || null;
 const KEY = 'ledger.v1';
-const RAW = 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json';
 const $ = (id) => document.getElementById(id);
 const SVGNS = 'http://www.w3.org/2000/svg';
 const S = { st: C.emptyState(), score: null, home: null, rules: null, feed: null, fixture: null, roadmap: null, demo: false, tab: 'over', model: null, scene: null, prev: null, editing: null, filter: 'all', calMonth: null, saveOk: true, ready: false, error: null, undoTimer: 0, today: C.todayET(), clearArmed: 0 };
@@ -27,10 +26,10 @@ async function getJSON(url, ms = 6000) {
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms) : 0;
   try { if (wasGone(url)) return null; const r = await fetch(url, { cache: 'no-cache', ...(ac ? { signal: ac.signal } : {}) }); if (r.status === 404) markGone(url); return r.ok ? await r.json() : null; } catch (_) { return null; } finally { clearTimeout(timer); }
 }
-// the feed is read from this site first (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json); the old
-// GitHub address is only the fallback. A host that answers a missing file with its index page gives HTML: not an object, so it falls through.
+// the feed is this site's own copy (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json), nothing else: the old kalshi-feed
+// repo on the suspended account is retired (polish2 2026-11-19). A host that answers a missing file with its index page gives HTML: not an object = none.
 const SITE_FEED = '../kalshi.json';
-async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : getJSON(RAW, ms); }
+async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : null; }
 const store = {
   read() { try { return C.loadState(localStorage.getItem(KEY)); } catch (_) { return C.emptyState(); } },
   write(s) { try { localStorage.setItem(KEY, C.serialize(s)); return true; } catch (_) { return false; } },

@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 193,
+  "count": 197,
   "latest": [
    {
     "date": "2026-11-19",
@@ -212,6 +212,20 @@
     "status": "real",
     "summary": "",
     "file": "research/writeups/kalshi-metals-2026-11-19.md"
+   },
+   {
+    "date": "2026-11-19",
+    "title": "Kalshi K7 (2026-11-18/19), the high-win-rate \"carry\" family - buying 90-99c near-certainties, by category and…",
+    "status": "rejected",
+    "summary": "",
+    "file": "research/writeups/kalshi-edge-K7-2026-11-18.md"
+   },
+   {
+    "date": "2026-11-19",
+    "title": "Kalshi edge, team K6 (Fed, Treasury yields, SOFR vs official rates data): NO EDGE PROVEN",
+    "status": "rejected",
+    "summary": "",
+    "file": "research/writeups/kalshi-edge-K6-2026-11-18.md"
    },
    {
     "date": "2026-11-18",
@@ -257,24 +271,10 @@
    },
    {
     "date": "2026-11-18",
-    "title": "BLITZ review (2026-11-18 night) - today's rule measured honestly, why its trades win and lose, 8 new exit ide…",
+    "title": "Kalshi best shot - the liquidity-rewards maker, scored the way Kalshi actually pays",
     "status": "rejected",
-    "summary": "Owner - \"I expect all of our strategies to be better\", \"high win rate / profit\".",
-    "file": "research/writeups/blitz-review-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "ATLAS new members (2026-11-18) - VWAP pullback, opening-drive 1m continuation, value-area re-entry, 15m Keltn…",
-    "status": "rejected",
-    "summary": "Owner - \"I want our strategies to keep getting stronger.\" ATLAS now trades his FUNDED Builder 25K, where payouts need many small winning days (50% consistency). 29 pre-declared versions in 5 families (VWAP pullback with…",
-    "file": "research/writeups/atlas-members-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "ATLAS health (2026-11-18) - the AMBER light is a calm-market dip, not a broken member; 17 protective rules (+…",
-    "status": "rejected",
-    "summary": "At a fixed size those 40 sessions were still +8.0R (PF 1.89, 3 trades a week) and the equity was only 1R under its high - ATLAS made less, it did not lose.",
-    "file": "research/writeups/atlas-health-2026-11-18.md"
+    "summary": "Do not put money in. Kalshi really pays a daily pot to resting orders, but nothing shows a small account keeps more than the fills take away:",
+    "file": "research/writeups/kalshi-best-shot-rewards-2026-11-18.md"
    }
   ]
  },
@@ -284,6 +284,18 @@
    "title": "Third strategy hunt (2026-11-18/19 night) - post-close move into the 18:00 reopen, Camarilla / floor pivots,…",
    "file": "research/writeups/third-strategy-2026-11-18.md",
    "summary": "After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famous published edges, d…"
+  },
+  {
+   "date": "2026-11-19",
+   "title": "Kalshi K7 (2026-11-18/19), the high-win-rate \"carry\" family - buying 90-99c near-certainties, by category and…",
+   "file": "research/writeups/kalshi-edge-K7-2026-11-18.md",
+   "summary": ""
+  },
+  {
+   "date": "2026-11-19",
+   "title": "Kalshi edge, team K6 (Fed, Treasury yields, SOFR vs official rates data): NO EDGE PROVEN",
+   "file": "research/writeups/kalshi-edge-K6-2026-11-18.md",
+   "summary": ""
   },
   {
    "date": "2026-11-18",
@@ -296,6 +308,12 @@
    "title": "Zlarior ideas night 2 (2026-11-18b) - the two live evals together - zombie-eval rule, staggered size, and an…",
    "file": "research/writeups/lit-ideas-2026-11-18b.md",
    "summary": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…"
+  },
+  {
+   "date": "2026-11-18",
+   "title": "Kalshi best shot - the liquidity-rewards maker, scored the way Kalshi actually pays",
+   "file": "research/writeups/kalshi-best-shot-rewards-2026-11-18.md",
+   "summary": "Do not put money in. Kalshi really pays a daily pot to resting orders, but nothing shows a small account keeps more than the fills take away:"
   },
   {
    "date": "2026-11-18",
@@ -332,24 +350,6 @@
    "title": "LIT walk-forward re-tuning (2026-11-17) - re-fit LIT's knobs every month / quarter on the trailing 6 / 12 mon…",
    "file": "research/writeups/lit-walkforward-2026-11-17.md",
    "summary": "LIT was tuned on 2026 Jan-Jun and makes about $0 in 2021-25."
-  },
-  {
-   "date": "2026-11-17",
-   "title": "LIT smart entries (2026-11-17) - same setups, smarter ways in - conditional pullback limits, 1m confirmation…",
-   "file": "research/writeups/lit-smart-entries-2026-11-17.md",
-   "summary": "None is better in both halves."
-  },
-  {
-   "date": "2026-11-17",
-   "title": "LIT regime sizing (2026-11-17) - bigger / smaller LIT size by the day's regime - dealer gamma, VIX level and…",
-   "file": "research/writeups/lit-regime-sizing-2026-11-17.md",
-   "summary": "Night helper 2026-11-17 (night-gex)."
-  },
-  {
-   "date": "2026-11-17",
-   "title": "Kalshi liquidity rewards, the paper rule replayed on the last 30 days of the public tape",
-   "file": "research/writeups/kalshi-rewards-backtest-2026-11-17.md",
-   "summary": ""
   }
  ],
  "rejected_ref": [
@@ -402,6 +402,13 @@
    "who": "lit",
    "text": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…",
    "src": "research/writeups/lit-ideas-2026-11-18b.md",
+   "kind": "rejected"
+  },
+  {
+   "d": "2026-11-18",
+   "who": "kalshi",
+   "text": "Do not put money in. Kalshi really pays a daily pot to resting orders, but nothing shows a small account keeps more than the fills take away:",
+   "src": "research/writeups/kalshi-best-shot-rewards-2026-11-18.md",
    "kind": "rejected"
   },
   {
@@ -850,13 +857,6 @@
    "who": "atlas",
    "text": "One filter holds - trade only when yesterday's 09:30-16:00 range was at least 0.8 x its 14-day average - avg R a trade +0.098 - +0.150 (H1), +0.066 - +0.171 (H2), +0.007 - +0.016 (2021-25); at $150 a trade PF 1.63 / 1.4…",
    "src": "research/writeups/scalp-na-mffu.md",
-   "kind": "promising"
-  },
-  {
-   "d": "2026-10-28",
-   "who": "dev",
-   "text": "(1m for 2026, 5m for 2021-25), costs in ($1.90 a micro, 1 tick on every market and stop fill, limits only when traded through, every same-bar tie booked against us), picked on 2026 Jan-Jun, checked on Jul-Oct, 2021-25 o…",
-   "src": "research/writeups/scalp-momentum.md",
    "kind": "promising"
   }
  ],
@@ -1910,6 +1910,22 @@
    "who": "kalshi",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up (rejected): Kalshi edge, team K6 (Fed, Treasury yields, SOFR vs official rates data): NO EDGE PROVEN",
+   "src": "research/writeups/kalshi-edge-K6-2026-11-18.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "kalshi",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (rejected): Kalshi K7 (2026-11-18/19), the high-win-rate \"carry\" family - buying 90-99c near-certainties, by category and…",
+   "src": "research/writeups/kalshi-edge-K7-2026-11-18.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "kalshi",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up (real): Kalshi K8 commodities - the friend's \"printer\" bot (15-minute gold/silver clock bets + index-roll bets)",
    "src": "research/writeups/kalshi-metals-2026-11-19.md"
   },
@@ -1950,8 +1966,24 @@
    "who": "kalshi",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up (rejected): Kalshi best shot - the liquidity-rewards maker, scored the way Kalshi actually pays",
+   "src": "research/writeups/kalshi-best-shot-rewards-2026-11-18.md"
+  },
+  {
+   "t": 1795003200,
+   "who": "kalshi",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up (not): Kalshi red team, the liquidity-rewards lead checked from raw data (paper test, tape backtest, Kalshi's filed…",
    "src": "research/writeups/kalshi-red-team-2026-11-18.md"
+  },
+  {
+   "t": 1795003200,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: What the best trading bots, prop tools and trade journals have that ZEUS did not (bot gap, 2026-11-18)",
+   "src": "research/writeups/bot-gap-2026-11-18.md"
   },
   {
    "t": 1795003200,
@@ -3944,43 +3976,11 @@
    "ok": true,
    "text": "4 research runs stored (other): 2 rejected, 2 open.",
    "src": "research/runs"
-  },
-  {
-   "t": 1792284600,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "50 research runs stored (sessions): 1 adopted, 42 rejected, 7 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792279080,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "48 research runs stored (risk): 30 rejected, 18 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792276260,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "72 research runs stored (filters): 3 adopted, 39 rejected, 30 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792274280,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "53 research runs stored (risk): 16 rejected, 37 open.",
-   "src": "research/runs"
   }
  ],
  "pipeline": {
   "src": "archive/index.json",
-  "built": "2026-11-17",
+  "built": "2026-11-19",
   "counts": {
    "ideas": 2344,
    "testing": 534,
@@ -4357,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795062600,
+   "t": 1795075320,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,111 +4379,111 @@
   "available": true,
   "commits": [
    {
+    "t": 1795075327,
+    "s": "Land leftover fixes (dead Kalshi/old-account feeds retired, Oracle on the PC feed, Archive 390 px, Jarvis her…"
+   },
+   {
+    "t": 1795074984,
+    "s": "Merge branch 'night-polish2' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795074965,
+    "s": "night-polish2: retire the dead Kalshi feed, Oracle on the PC feed, Archive / Jarvis hero / ZEUS learned polis…"
+   },
+   {
+    "t": 1795070642,
+    "s": "Nightly learn run (cloud): ZEUS Lab page republished with tonight's research (37 rejected, 8 parked), Why pag…"
+   },
+   {
+    "t": 1795070453,
+    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-knew1"
+   },
+   {
+    "t": 1795070447,
+    "s": "Kalshi K6: Fed, Treasury yield and SOFR markets vs official rates data - no edge proven (Fed -80%, yields +27…"
+   },
+   {
+    "t": 1795068608,
+    "s": "Land phone QA fixes (World after warp, dimmer warp, ZEUS card no jump, notifications Not now, ATLAS payout wo…"
+   },
+   {
+    "t": 1795068417,
+    "s": "Merge branch 'night-phoneqa' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795068389,
+    "s": "night-phoneqa: phone QA of tonight's landings at 390 px (live site + real PC feed), fixes at the root with te…"
+   },
+   {
+    "t": 1795065055,
+    "s": "Merge branch 'night-knew2' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795065036,
+    "s": "Kalshi K7: near-certain carry (90-99c) in 8 untested families, 2 h-60 d before close, held-out Sep 19-Nov 18:…"
+   },
+   {
+    "t": 1795064385,
+    "s": "Land Kalshi K8 adaptive layer (weekly re-test; only shrinks, pauses or lowers max price by itself; new legs /…"
+   },
+   {
+    "t": 1795064297,
+    "s": "Merge branch 'night-kadapt' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795064277,
+    "s": "night-kadapt: K8 adapts by itself (weekly re-test, shrink-only clock_adapt.json, Decide asks for restore / ne…"
+   },
+   {
+    "t": 1795063453,
+    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-krew"
+   },
+   {
+    "t": 1795063421,
+    "s": "Kalshi best shot: rewards maker REJECTED for real money (plan status rejected); Kalshi's published per-side s…"
+   },
+   {
+    "t": 1795063313,
+    "s": "Land the bot's edge journal page (MAE/MFE, losing-run odds, weekday x hour, drawdowns) + wire engine/feed_fil…"
+   },
+   {
+    "t": 1795063008,
+    "s": "Merge branch 'night-botgap' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795062988,
+    "s": "Bot gap: Mnemosyne 'The bot's edge' page (R + $ per trade, expectancy by setup/session, weekday x hour map, M…"
+   },
+   {
+    "t": 1795062860,
+    "s": "Land money plan (all 10 Decide items with $ + recommendation, business/plan.html Money plan, Rapid 25K setup…"
+   },
+   {
+    "t": 1795062719,
+    "s": "Merge branch 'night-money' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795062696,
+    "s": "night-money: Money plan + every Decide item valued in $ (same paths), ATLAS 40%-room + LucidPro account-4 own…"
+   },
+   {
     "t": 1795062568,
     "s": "Land page redesigns (13 apps to the AGORA standard: inbox, settings, observatory, ledger, board alarm, ares,…"
    },
    {
-    "t": 1795062378,
-    "s": "Merge branch 'night-designqa' into claude/clever-heisenberg-51zwcr"
+    "t": 1795062409,
+    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-money"
    },
    {
-    "t": 1795062298,
-    "s": "Design QA: 13 dated Olympus pages redesigned to AGORA v2 (Inbox, Settings, Observatory, Ledger on the page sh…"
-   },
-   {
-    "t": 1795062282,
-    "s": "Merge branch 'night-blitz' into claude/clever-heisenberg-51zwcr"
-   },
-   {
-    "t": 1795062282,
-    "s": "Land Olympus World (one giant city, 4 districts, 93 app towers + 307 learning places) and world-to-world warp…"
-   },
-   {
-    "t": 1795062110,
-    "s": "BLITZ review: today's rule measured (costs in, by check time / side / break / VIX / exit), why trades win and…"
-   },
-   {
-    "t": 1795061739,
-    "s": "Merge branch 'night-warp' into claude/clever-heisenberg-51zwcr"
-   },
-   {
-    "t": 1795061710,
-    "s": "Olympus World: world.json rebuilt after merging the lead"
-   },
-   {
-    "t": 1795061701,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-worlds"
-   },
-   {
-    "t": 1795061696,
-    "s": "Olympus World: reflections never bloom (NaN guard + clamp), phone shots and a 7.9 s video"
-   },
-   {
-    "t": 1795061588,
-    "s": "Third strategy hunt: post-close move at the 18:00 reopen, Camarilla / floor pivots, TD Sequential 9-count (17…"
-   },
-   {
-    "t": 1795061377,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-warp"
-   },
-   {
-    "t": 1795061377,
-    "s": "Warp: world-to-world hyperspace jump with per-world arrival signatures"
-   },
-   {
-    "t": 1795061029,
-    "s": "Land bug sweep (numbers audit, copilot, scoreboard, Lab registry layout, dead-URL 404s, business demo/snapsho…"
-   },
-   {
-    "t": 1795060864,
-    "s": "night-bugsweep: phone budget (Kalshi page scripts deferred: 304 - 107 kB blocking; ctx test measures NQ's can…"
-   },
-   {
-    "t": 1795060087,
-    "s": "Olympus World: no pow() of a negative base (NaN bloom squares), labels clear of the top bar, frames framed fr…"
-   },
-   {
-    "t": 1795056825,
-    "s": "Merge lead 69b3a130 into night-warp"
-   },
-   {
-    "t": 1795056797,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-worlds"
-   },
-   {
-    "t": 1795056796,
-    "s": "Warp WIP: world-to-world jump (olympus/warp.js + warp.css), hooks, test"
-   },
-   {
-    "t": 1795056796,
-    "s": "Olympus World: card focus shift, calmer Gate rings and halos, closer district framing, manual clock for captu…"
-   },
-   {
-    "t": 1795056627,
-    "s": "Merge commit '69b3a130' into night-bugsweep"
-   },
-   {
-    "t": 1795056612,
-    "s": "night-bugsweep WIP: numbers audit / scoreboard prices from the one-page brief, copilot heading text, zeus_lab…"
-   },
-   {
-    "t": 1795056525,
-    "s": "Land Olympus web push: PC-owned key in the status post, sealed phone subscription over the relay, entry/exit…"
-   },
-   {
-    "t": 1795056151,
-    "s": "Merge branch 'night-webpush' into claude/clever-heisenberg-51zwcr"
-   },
-   {
-    "t": 1795056151,
-    "s": "Wire the new Olympus opening (jarvis/entry.js?v=e1 in the Jarvis precache); jarvis-v65"
+    "t": 1795062409,
+    "s": "night-money: ATLAS 40%-of-room choice valued + added to the Decide card, Kalshi K8 card (unproven, not in tot…"
    }
   ],
   "branches": [
    {
     "name": "claude/clever-heisenberg-51zwcr",
-    "t": 1795062568,
-    "s": "Land page redesigns (13 apps to the AGORA standard: inbox, settings, observatory, ledger, board ala…"
+    "t": 1795075327,
+    "s": "Land leftover fixes (dead Kalshi/old-account feeds retired, Oracle on the PC feed, Archive 390 px,…"
    }
   ]
  }

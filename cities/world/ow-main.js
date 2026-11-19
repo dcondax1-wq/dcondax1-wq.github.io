@@ -202,7 +202,7 @@ function goDistrict(id) {
 function go(href, i) {
   const url = ROOT + href;
   const W = window.OLYMPUS_WARP;
-  if (W && typeof W.go === 'function') { try { W.go(url, { from: 'world', colour: i >= 0 ? place(i).hue : null }); return; } catch (e) { /* our own */ } }
+  if (W && typeof W.go === 'function') { try { W.go(url, { from: 'world', c: i >= 0 ? place(i).hue : null }); return; } catch (e) { /* our own */ } }
   if (!S.scene || reduced) { location.href = url; return; }
   const p = S.plan.places[i] || null;
   flash();

@@ -26,7 +26,7 @@
     var list = (causes || []).filter(function (c) { return num(c.usd) !== null; });
     var top = Math.max.apply(null, [1].concat(list.map(function (c) { return Math.abs(num(c.usd)); })));
     return list.map(function (c) {
-      return { key: c.key, label: c.label, word: c.word, value: money(c.usd) + ' · ' + pct(c.share) + ' · ' + c.n + ' trades',
+      return { key: c.key, label: c.label, word: c.word, value: money(c.usd) + ' · ' + pct(c.share) + ' · ' + c.n + (c.n === 1 ? ' trade' : ' trades'),
                width: Math.max(0, Math.min(100, Math.round(100 * Math.abs(num(c.usd)) / top))) };
     });
   }

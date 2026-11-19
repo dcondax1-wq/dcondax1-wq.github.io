@@ -8,7 +8,11 @@
  *   - optional files of this site that nothing may have published (kalshi.json: the PC's copy of the Kalshi feed; an app's <folder>/jarvis.json
  *     status card, e.g. mind/ that the public site leaves out) are asked once a session too: a 404 is remembered the same way, per folder;
  *   - the owner can always ask again: a fetch within 3 s of a tap / click / key (Refresh, pull to refresh) goes to the real source, and a page
- *     can name sources it asks afresh on every load (data-fresh="raw:kalshi-feed,..." on its script tag: the Kalshi page).
+ *     can name sources it asks afresh on every load (data-fresh="site:kalshi.json" on its script tag: the Kalshi page).
+ *   - RETIRED sources (polish2 2026-11-19) are never asked at all, not once a session, not on a tap, not with data-fresh: the old Kalshi
+ *     server's feed (repo kalshi-feed on the suspended account, raw and API; the VM bot behind it is gone: Kalshi runs on the PC now and
+ *     reaches the phone in the PC's status post, ../pc_feed.js, or as this site's own kalshi.json). A page or an old cached script that
+ *     still names them gets the same local 404 at once; state() lists them as retired.
  * Every other request goes through untouched. Read-only: it never sends anything new, never changes a request, never stores a response.
  * window.OLYMPUS_NET: state() -> { id: { ok, at, status, why, label } } · line(id) -> "Kalshi feed: offline since 22:04 (404), asked once" ·
  * forget() clears the memory · 'olympus-net' event on window when a source changes. Safari 15 safe (no ??, no top-level await).
@@ -21,8 +25,8 @@
   var SOURCES = [
     { id: 'raw:nq-dashboard', label: 'PC live feed (raw)', host: 'raw.githubusercontent.com', path: '/' + OWNER + '/nq-dashboard/' },
     { id: 'api:nq-dashboard', label: 'PC live feed (API)', host: 'api.github.com', path: '/repos/' + OWNER + '/nq-dashboard/' },
-    { id: 'raw:kalshi-feed', label: 'Kalshi feed (raw)', host: 'raw.githubusercontent.com', path: '/' + OWNER + '/kalshi-feed/' },
-    { id: 'api:kalshi-feed', label: 'Kalshi feed (API)', host: 'api.github.com', path: '/repos/' + OWNER + '/kalshi-feed/' },
+    { id: 'raw:kalshi-feed', label: 'Kalshi feed (raw)', host: 'raw.githubusercontent.com', path: '/' + OWNER + '/kalshi-feed/', retired: true },
+    { id: 'api:kalshi-feed', label: 'Kalshi feed (API)', host: 'api.github.com', path: '/repos/' + OWNER + '/kalshi-feed/', retired: true },
     { id: 'site:kalshi.json', label: "this site's kalshi.json", local: /\/kalshi\.json$/, optional: true },
   ];
   var mem = {};
@@ -31,8 +35,14 @@
   ['pointerdown', 'click', 'keydown', 'touchend'].forEach(function (t) { try { window.addEventListener(t, function () { touchedAt = Date.now(); }, true); } catch (_) { /* no events (a test) */ } });
   function load() { try { var j = JSON.parse(sessionStorage.getItem(KEY) || '{}'); return j && typeof j === 'object' ? j : {}; } catch (_) { return {}; } }
   function save(all) { try { sessionStorage.setItem(KEY, JSON.stringify(all)); } catch (_) { /* private mode: memory only */ } }
-  function get(id) { var all = load(), e = all[id] || mem[id]; return e && Date.now() - (e.at || 0) < TTL ? e : null; }
-  // <script src="quiet-net.js" data-fresh="raw:kalshi-feed,site:kalshi.json">: a source's OWN page asks it afresh once per page load
+  var RETIRED_WHY = 'retired: Kalshi runs on the PC now', bootAt = Date.now();
+  function byId(id) { for (var i = 0; i < SOURCES.length; i++) if (SOURCES[i].id === id) return SOURCES[i]; return null; }
+  function get(id) {
+    var s = byId(id);
+    if (s && s.retired) return { ok: false, at: bootAt, status: 404, why: RETIRED_WHY, label: s.label, retired: true };
+    var all = load(), e = all[id] || mem[id]; return e && Date.now() - (e.at || 0) < TTL ? e : null;
+  }
+  // <script src="quiet-net.js" data-fresh="site:kalshi.json">: a source's OWN page asks it afresh once per page load (a retired source never)
   // (the Kalshi page must notice the bot the moment it is linked); the page's own polls are still remembered after that one answer
   try {
     var me = document.currentScript, fresh = me && me.getAttribute('data-fresh');
@@ -89,10 +99,13 @@
     var s = sourceOf(u);
     if (!s || (init && init.method && String(init.method).toUpperCase() !== 'GET')) return raw(input, init);
     var e = get(s.id);
+    if (s.retired) return Promise.resolve(gone(s, e));          // never on the network, whatever the page or the owner asks
     if (e && e.ok === false && Date.now() - touchedAt > GESTURE_MS) return Promise.resolve(gone(s, e));
     if (e && e.ok === false) return attempt(s, input, init);   // the owner just asked: one real try
     if (e && e.ok === true) return attempt(s, input, init);    // it answered this session: a normal request, still watched (a later failure is remembered)
-    if (flight[s.id]) return flight[s.id].then(function () { var x = get(s.id); return x && x.ok === false ? gone(s, x) : raw(input, init); });
+    // a caller that joined a first try: that try's verdict, else its own watched try (the 4 s limit too: polish2 2026-11-19, it went
+    // to the network unwatched and could wait without end after the first try was aborted by its own page)
+    if (flight[s.id]) return flight[s.id].then(function () { var x = get(s.id); return x && x.ok === false ? gone(s, x) : attempt(s, input, init); });
     var p = attempt(s, input, init);
     flight[s.id] = p.then(function () { return null; }, function () { return null; });
     flight[s.id].then(function () { delete flight[s.id]; });
@@ -109,6 +122,7 @@
       var e = get(id), s = SOURCES.filter(function (x) { return x.id === id; })[0];
       if (!s) return '';
       if (!e) return s.label + ': not asked yet';
+      if (e.retired) return s.label + ': retired (Kalshi runs on the PC now), never asked';
       return e.ok ? s.label + ': answered at ' + hm(e.at) : s.label + ': offline since ' + hm(e.at) + ' (' + e.why + '), asked once this session';
     },
     forget: function () { mem = {}; try { sessionStorage.removeItem(KEY); } catch (_) { /* nothing kept */ } },

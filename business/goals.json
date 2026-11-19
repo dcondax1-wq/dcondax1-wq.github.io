@@ -12,13 +12,13 @@
   ],
   [
    "Zlarior 25K #2 (Builder 25K)",
-   "balance not reported yet",
+   "$25,000, $1,500 to pass",
    "eval"
   ],
   [
    "ATLAS (Builder 25K)",
-   "$25,000",
-   "locked"
+   "$24,887.20",
+   "funded"
   ]
  ],
  "pc": "PC: reporting",
@@ -40,15 +40,15 @@
   {
    "date": "2026-11-19",
    "when": "Nov 19",
-   "what": "Add Cloudflare Pages (free, 3 steps in docs/HOSTING.md)",
-   "why": "Removes the Netlify badge and allows 15 dashboard updates a day instead of ~18 a month.",
+   "what": "Buy the Rapid EOD 25K ($97.20 with CLUB) from your own money, then add it to the bot",
+   "why": "Double-click ADD_ACCOUNT.bat, type 5, paste the Name (or: python -X utf8 -m engine.accounts add --plan rapideod25 --name \"NAME\"). It is added OFF until START BOT + your phrase. Leaves $52.80 of your $150.",
    "status": "next"
   },
   {
-   "date": "2026-11-20",
-   "when": "Nov 20",
-   "what": "Buy the Rapid EOD 25K ($97.20 with CLUB) from your own money, then add it to the bot",
-   "why": "One line on the PC, added OFF until you arm it: python -X utf8 -m engine.accounts add --plan rapideod25 --name \"NAME\" (or ADD_ACCOUNT.bat once its menu lists it). Leaves $52.80 of your $150.",
+   "date": "2026-11-19",
+   "when": "Nov 19",
+   "what": "Add Cloudflare Pages (free, 3 steps in docs/HOSTING.md)",
+   "why": "Removes the Netlify badge and allows 15 dashboard updates a day instead of ~18 a month.",
    "status": "next"
   },
   {
@@ -78,90 +78,90 @@
   },
   {
    "id": "buy_r25",
-   "date": "2026-11-20",
+   "date": "2026-11-19",
    "what": "Buy the Rapid EOD 25K ($97.20 with CLUB)",
-   "detail": "This week, from your own $150 budget (leaves $52.80). Zlarior + ATLAS trade it from day one. Add it with: engine.accounts add --plan rapideod25 (it is added OFF).",
+   "detail": "This week, from your own $150 budget (leaves $52.80). Zlarior + ATLAS trade it from day one. Add it with ADD_ACCOUNT.bat option 5 (engine.accounts add --plan rapideod25); it is added OFF.",
    "usd": -97.2,
-   "when": "~Nov 20",
+   "when": "~Nov 19",
    "status": "next"
   },
   {
    "id": "z25_pass",
-   "date": "2026-12-03",
+   "date": "2026-11-30",
    "what": "Zlarior 25K #2 passes",
-   "detail": "Needs +$1,500 with at most $1,000 lost. Then it gets funded (a 2nd funded 25K).",
-   "when": "~Dec 3",
+   "detail": "Needs +$1,500 with at most $1,000 lost: 82 in 100 runs pass within 3 months (2 fail). Then it is funded: your 2nd funded 25K.",
+   "when": "~Nov 30",
    "status": "later"
   },
   {
    "id": "z50_pass",
-   "date": "2026-12-18",
+   "date": "2026-12-10",
    "what": "Zlarior 50K passes",
-   "detail": "Needs about $3,807 more with only ~$1,025 of room, so it may take one re-buy ($91.80).",
-   "when": "~Dec 18",
+   "detail": "Needs about $3,807 more with only ~$1,025 of room: 70 in 100 runs pass within 3 months, 26 fail (then a re-buy, $91.80).",
+   "when": "~Dec 10",
    "status": "later"
   },
   {
    "id": "pay1",
-   "date": "2026-12-24",
-   "what": "First payout: ATLAS's funded 25K",
-   "detail": "Ask the full $1,000 when the balance is $27,100. You get $800 (80%), $240 to the tax pot, $560 to keep.",
+   "date": "2026-12-23",
+   "what": "First payout: ATLAS funded 25K",
+   "detail": "The bot pings you once $750 sits above the $1,100 buffer: ask then (MFFU pays up to $1,000 a request; the full $1,000 at a $27,100 balance). On $1,000 you get $800 (80%), $240 to the tax pot, $560 to keep.",
    "usd": 560.0,
-   "when": "~Dec 24",
-   "status": "later"
-  },
-  {
-   "id": "buy_r50",
-   "date": "2026-12-28",
-   "what": "Buy the Rapid EOD 50K ($165 with CLUB), paid from that payout",
-   "detail": "The $560 you keep covers it. The 50K makes about 3x the 25K a month.",
-   "usd": -165.0,
-   "when": "~Dec 28",
+   "when": "~Dec 23",
    "status": "later"
   },
   {
    "id": "r25_pass",
-   "date": "2026-12-28",
+   "date": "2026-12-23",
    "what": "Rapid EOD 25K passes",
-   "detail": "About 25 trading days after you buy it. Payouts then come daily (you keep 90%).",
-   "when": "~Dec 28",
+   "detail": "About 25 trading days from tonight (90 in 100 runs within 3 months). Payouts then come daily (you keep 90%).",
+   "when": "~Dec 23",
+   "status": "later"
+  },
+  {
+   "id": "buy_r50",
+   "date": "2026-12-24",
+   "what": "Buy the Rapid EOD 50K ($165 with CLUB), paid from payouts",
+   "detail": "Once the payouts you keep (after the tax pot) reach $165: 100 in 100 runs get there. It fills your 5th funded slot (about $1,969 a month); the bot runs one Rapid today, so it needs your yes.",
+   "usd": -165.0,
+   "when": "~Dec 24",
    "status": "later"
   },
   {
    "id": "z50_pay",
-   "date": "2027-01-15",
+   "date": "2027-02-02",
    "what": "First payout: Zlarior's funded 50K",
-   "detail": "Middle case; half the time between ~Dec 28 and ~Feb 11.",
-   "when": "~Jan 15",
+   "detail": "Middle case; half the time between ~Jan 11 and ~Mar 5.",
+   "when": "~Feb 2",
    "status": "later"
   },
   {
    "id": "r50_pass",
-   "date": "2027-01-27",
-   "what": "Rapid EOD 50K passes",
-   "detail": "About 21 trading days after you buy it.",
-   "when": "~Jan 27",
+   "date": "2027-02-02",
+   "what": "Rapid EOD 50K is funded",
+   "detail": "About 5-6 weeks after you buy it (4 days minimum and the 30% best-day rule).",
+   "when": "~Feb 2",
    "status": "later"
   },
   {
    "id": "all5",
-   "date": "2027-02-02",
+   "date": "2027-02-08",
    "what": "All 5 funded slots full",
-   "detail": "MFFU's limit: 1 Builder 50K + 2 Builder 25K + Rapids, 5 funded in all. Nothing more to buy, only re-buys.",
-   "when": "~Feb 2",
+   "detail": "MFFU's limit: 1 Builder 50K + 2 Builder 25K + Rapids, 5 funded in all (90 in 100 runs get there in 6 months). Then only re-buys.",
+   "when": "~Feb 8",
    "status": "later"
   },
   {
    "id": "spring",
    "date": "2027-03-01",
-   "what": "About $5,700 a month to you by spring",
-   "detail": "Mar-Apr average after fees, splits and the 30% tax pot (about $8,100 before the tax pot).",
-   "usd": 5700.0,
+   "what": "About $5,200 a month to you by spring",
+   "detail": "Mar-Apr average with all 5 accounts, after fees, MFFU's cut and the 30% tax pot (about $7,400 before the tax pot). Money plan page: every account and decision.",
+   "usd": 5200,
    "when": "~Mar 1",
    "status": "later"
   }
  ],
- "bad_case": "If the market is like 2021-25 (the bots had no edge): about $0 in 6 months, 65 in 100 get no payout at all. Keep up to $1,400 ready for re-buys.",
+ "bad_case": "If the market is like 2021-25 (the bots had no edge): about $0 a month comes in (payouts barely cover the eval fees; 6 months end near -$400 after the tax pot) and 51 in 100 runs get no payout at all. Keep up to $1,400 ready for re-buys.",
  "rules": [
   [
    "Don't trade the accounts by hand",
@@ -187,7 +187,7 @@
   "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
  ],
  "sources": [
-  "research/lab/fleet_plan.json (2026-11-17)",
+  "research/lab/money_plan.json (2026-11-18)",
   "research/lab/rapid25.json",
   "business/accounts.json (2026-11-18)",
   "tools/board.py gather"

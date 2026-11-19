@@ -15,10 +15,10 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a5">
-<script src="../olympus/quiet-net.js?v=q6a"></script>
-<script src="../olympus/themes.js?v=o7"></script>
-<script src="../olympus/olympus.js?v=o12" data-app="cities"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a6">
+<script src="../olympus/quiet-net.js?v=q9"></script>
+<script src="../olympus/themes.js?v=o8"></script>
+<script src="../olympus/olympus.js?v=o13" data-app="cities"></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i8" defer></script>
@@ -301,7 +301,7 @@ async function recover() {
   window.__citiesImportAbandoned = true;
   const loading = document.querySelector('#loading');
   if (loading) { loading.style.pointerEvents = 'auto'; loading.textContent = 'Opening the city atlas…'; }
-  try { const recovery = await import('./atlas-entry.js?v=a5'); await recovery.recoverAtlas(); }
+  try { const recovery = await import('./atlas-entry.js?v=a6'); await recovery.recoverAtlas(); }
   catch (_) {
     if (loading) { loading.textContent = 'City files could not load. Check your connection and reload Cities.'; const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'Reload Cities'; retry.style.cssText = 'display:block;min-height:48px;padding:12px;margin:16px auto;font:inherit'; retry.onclick = () => location.reload(); loading.append(retry); }
     window.OLYMPUS?.ready?.();
@@ -309,7 +309,7 @@ async function recover() {
 }
 // Module import settles before its asynchronous boot does. Watch readiness itself.
 setTimeout(recover, 18000);
-import('./app.js?v=o24').catch(recover);
+import('./app.js?v=o25').catch(recover);
 </script>
 <script type="module" src="./athens-entry.js?v=t5"></script>
 <script type="module" src="./hellas-entry.js?v=h1"></script>

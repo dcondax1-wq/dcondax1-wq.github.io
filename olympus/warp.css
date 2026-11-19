@@ -45,8 +45,8 @@
 /* the flash fading off the new world, and the world's shape, inside the new page (during the transition only) */
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before,
 :root.oly-warp-in::before { content: ''; position: fixed; left: 50%; top: 50%; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax; border-radius: 50%; z-index: 2147483646; pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, #fff 0, #fff 8%, var(--ow-b) 20%, var(--ow-a) 36%, rgba(0, 0, 0, 0) 62%); animation: ow-glow .42s cubic-bezier(.2, .7, .3, 1) both; }
-:root.oly-warp-in::before { background: radial-gradient(circle at 50% 50%, #fff 0, #fff 9%, var(--ow-b) 24%, var(--ow-a) 44%, var(--ow-k) 72%); animation-name: ow-flash-out; }
+  background: radial-gradient(circle at 50% 50%, #fff 0, var(--ow-b) 5%, var(--ow-a) 22%, rgba(0, 0, 0, 0) 56%); animation: ow-glow .42s cubic-bezier(.2, .7, .3, 1) both; }
+:root.oly-warp-in::before { background: radial-gradient(circle at 50% 50%, #fff 0, var(--ow-b) 6%, var(--ow-a) 24%, var(--ow-k) 60%); animation-name: ow-flash-out; }
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::after,
 :root.oly-warp-in::after { content: ''; position: fixed; left: 50%; top: 50%; width: 56vmin; height: 56vmin; margin: -28vmin 0 0 -28vmin; border-radius: 50%; z-index: 2147483647; pointer-events: none;
   box-shadow: 0 0 0 2px var(--ow-b), 0 0 34px 8px var(--ow-a), inset 0 0 34px 8px var(--ow-a); animation: ow-ring .44s cubic-bezier(.15, .8, .25, 1) both; }
@@ -80,8 +80,8 @@
 @keyframes ow-city { 0% { opacity: 0; transform: translateY(24%) scale(.5, .04); } 26% { opacity: 1; } 66% { transform: translateY(-1%) scale(1, 1.03); } 100% { opacity: 1; transform: none; } }
 @keyframes ow-lab { 0% { opacity: 0; transform: scale(.2, .004); } 16% { opacity: 1; transform: scale(.7, .004); } 34% { transform: scale(1, .006); } 100% { opacity: 1; transform: none; } }
 @keyframes ow-hop { from { opacity: 0; transform: scale(.965); } to { opacity: 1; transform: none; } }
-@keyframes ow-glow { from { opacity: 1; transform: scale(.55); } to { opacity: 0; transform: scale(1.35); } }
-@keyframes ow-flash-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.4); } }
+@keyframes ow-glow { from { opacity: .7; transform: scale(.55); } to { opacity: 0; transform: scale(1.35); } }
+@keyframes ow-flash-out { 0% { opacity: .7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.4); } }
 @keyframes ow-ring { 0% { opacity: 0; transform: scale(.12); } 18% { opacity: 1; } 100% { opacity: 0; transform: scale(3.4); } }
 @keyframes ow-ring-home { 0% { opacity: 0; transform: scale(3.2); } 30% { opacity: 1; } 100% { opacity: 0; transform: scale(.5); } }
 @keyframes ow-bolt { 0% { opacity: 0; transform: scale(.4); } 10% { opacity: 1; } 22% { opacity: .25; } 32% { opacity: 1; } 44% { opacity: .35; } 54% { opacity: .95; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.9); } }

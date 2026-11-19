@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14110e">
 <meta name="color-scheme" content="dark">
-<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="olympus/warp.css?v=w1" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="olympus/warp.css?v=w2" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <title>Zenith</title>
 <meta name="description" content="NQ futures paper bot on the LIT strategy: bot status, MFFU eval tracker, trades, replays, backtest results and the research lab. The previous strategy is kept in the Archive.">
 <link rel="preconnect" href="https://ntfy.sh" crossorigin><!-- speed: the PC live line (pc_feed.js -> ntfy.sh) skips its DNS + TLS wait -->
@@ -1002,7 +1002,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
      reaches every card, bar, hero and label; the default paints nothing (today's look, byte for byte). Zenith's own light look
      (Settings, le.theme = light) stays its own: no slot is painted while it is on. The <head> paints the engine's last copy at once;
      the engine loads async, never waited on, and repaints. -->
-<script src="olympus/quiet-net.js?v=q6a" async></script>
+<script src="olympus/quiet-net.js?v=q9" async></script>
 <script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT: the look the dashboard gets, from the engine's copy; not under Zenith's own light mode) */
 (function (P, W) { try {
   var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
@@ -1026,7 +1026,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
     var was = own();
     if (window.MutationObserver) new MutationObserver(function () { if (own() !== was) { was = own(); T.apply('page', opts); } }).observe(R, { attributes: true, attributeFilter: ['data-theme'] });
   }
-  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o7'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o8'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 <script>
 /* Inside Jarvis (2026-11-01, owner: "on Jarvis I can switch between that mode [Jarvis], zenith mode with all of the
@@ -1164,7 +1164,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
 <script src="zenith_pages.js?v=1" defer></script>
 <script src="zenith_nq.js?v=3" defer></script>
 <script src="embed.js?v=1" defer></script>
-<script src="olympus/zeus_core.js?v=3" defer></script>
+<script src="olympus/zeus_core.js?v=4" defer></script>
 <script>/* ZEUS (2026-11-18, night-zcard): Home starts with ONE ZEUS card (olympus/zeus_core.js, the same matching as hub/zeus.html): PC reported X min ago
    (red PC SILENT), one line per real account (stage, balance, $ to pass / payout, today's $), the ZEUS edge chip; a tap opens hub/zeus.html.
    Kept the first child of #page through every Home redraw; other pages never show it. Paper / cloud ledgers stay lower (Money now: "Paper test"). */

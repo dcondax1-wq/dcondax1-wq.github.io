@@ -1,8 +1,8 @@
-// KALSHI CITY page (ES module): loads edges.json + learning_log.json (the learning engine, tools/kalshi_edges.py) and the bot's live numbers (the public
-// kalshi-feed), shapes them (cityfeed.js), lays the city out (citylayout.js), draws it (cityscene.js) and writes the words. Text only through
+// KALSHI CITY page (ES module): loads edges.json + learning_log.json (the learning engine, tools/kalshi_edges.py) and the bot's live numbers (this site's
+// kalshi.json), shapes them (cityfeed.js), lays the city out (citylayout.js), draws it (cityscene.js) and writes the words. Text only through
 // textContent (no data ever becomes HTML). Read only: nothing here writes anywhere. window.KC is the test hook.
-import { RAW, shape, shapeHyps, cardFreshness, cardBotStatus, cardOf, headlineOf, usd, pct, evf, pts, STATUS_COLOR, STATUS_WORD, ADVICE, etHour, clockLabel, phaseWord, MIN_N,
-  hypOf, hypCardOf, pairOf, tickerLines, changesOf, HYP_COLOR, HYP_WORD, worldBotLabel } from './cityfeed.js?v=bot19';
+import { shape, shapeHyps, cardFreshness, cardBotStatus, cardOf, headlineOf, usd, pct, evf, pts, STATUS_COLOR, STATUS_WORD, ADVICE, etHour, clockLabel, phaseWord, MIN_N,
+  hypOf, hypCardOf, pairOf, tickerLines, changesOf, HYP_COLOR, HYP_WORD, worldBotLabel } from './cityfeed.js?v=bot20';
 import { layout } from './citylayout.js?v=night8';
 import { cityAtlas, edgeCountLabel } from './cityatlas.js?v=skyline8';
 import { districtOptionLabel, districtTitle } from './citynav.js?v=nav1';
@@ -27,10 +27,10 @@ async function getJSON(url, ms = 7000) {
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms) : 0;
   try { const r = await fetch(url, { cache: 'no-cache', ...(ac ? { signal: ac.signal } : {}) }); return r.ok ? await r.json() : null; } catch (_) { return null; } finally { clearTimeout(timer); }
 }
-// the feed is read from this site first (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json); the old
-// GitHub address is only the fallback. A host that answers a missing file with its index page gives HTML: not an object, so it falls through.
+// the feed is this site's own copy (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json), nothing else: the old kalshi-feed
+// repo on the suspended account is retired (polish2 2026-11-19). A host that answers a missing file with its index page gives HTML: not an object = none.
 const SITE_FEED = '../kalshi.json';
-async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : getJSON(RAW, ms); }
+async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : null; }
 const dollars = (x) => usd(x);
 const smoney = (x) => (x == null ? '-' : `${x < 0 ? '-' : '+'}$${Math.abs(x).toFixed(2)}`);
 const dotOf = (e) => { const d = h('span', 'dot'); d.style.background = e.small ? '#8a7f6e' : STATUS_COLOR[e.status]; return d; };

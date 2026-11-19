@@ -44,7 +44,8 @@
     var st = String(c.stage || 'eval'), chip = c.status || 'Evaluation', goal;
     var cls = st === 'funded' ? 'funded' : st === 'passed' ? 'passed' : st === 'failed' || chip === 'Failed' ? 'failed' : 'eval';
     if (cls === 'failed') goal = 'Floor reached: this account is done';
-    else if (st === 'funded') goal = c.payout && c.payout.c && c.payout.c.text ? c.payout.c.text : 'Funded: payout status needs the PC\'s payout tracker';
+    // a funded line says it is about the payout (it read "Not yet: need $1,463 more." alone, phone QA 2026-11-19), like the MFFU center
+    else if (st === 'funded') goal = c.payout && c.payout.c && c.payout.c.text ? (/payout/i.test(c.payout.c.text) ? '' : 'Payout · ') + c.payout.c.text : 'Funded: payout status needs the PC\'s payout tracker';
     else if (st === 'passed') goal = 'Passed: waiting for MFFU\'s funded account';
     else goal = c.target && okN(c.target.left) ? usd(c.target.left) + ' to pass' : 'To pass: no live balance yet';
     var today = c.dll && okN(c.dll.today) ? c.dll.today : null;
@@ -194,22 +195,44 @@
     } catch (err) { /* the chip is optional */ }
   }
 
+  // the card's height on this phone's last visit (phone QA 2026-11-19: on the Jarvis home the card grew from "Asking your PC..." to its
+  // account rows, then again for the edge chip, and pushed everything under it down twice after the opening). The space is held from
+  // the first frame until the PC's numbers and the chip are in, then the real height is kept for next time. A first visit holds a
+  // typical card (3 accounts + the chip). Kept on this phone only: nothing leaves it.
+  var HKEY = 'olympus.zeus.cardh', HDEF = 236;
+  function memH() { try { var v = +localStorage.getItem(HKEY); return v >= 60 && v <= 640 ? Math.round(v) : 0; } catch (e) { return 0; } }
+  function reserve(c) { c.style.minHeight = (memH() || HDEF) + 'px'; c.__res = true; }
+  function settle(c) {
+    if (!c.__res || c.__settle) return;
+    c.__settle = true;
+    var t0 = Date.now(), e = c.querySelector('.zeus-edge');
+    (function wait() {
+      if (!(e && !e.hidden && e.firstChild) && Date.now() - t0 < 5000) { setTimeout(wait, 200); return; }   // the chip, or 5 s
+      setTimeout(function () {
+        c.style.minHeight = ''; c.__res = false;
+        var h = c.offsetHeight;
+        try { if (h >= 60 && h <= 640) localStorage.setItem(HKEY, String(Math.round(h))); } catch (x) { /* private mode */ }
+      }, 150);
+    })();
+  }
+
   var cards = [], last = null, timer = 0;
   function refresh(opts) {
     return fetchAll(opts).then(function (data) {
       var s = summary(data, Math.floor(Date.now() / 1000));
       s.lite = data.lite;
       last = s; API.last = s;
-      cards.forEach(function (c) { draw(c, s); });
+      cards.forEach(function (c) { draw(c, s); settle(c); });
       try { root.dispatchEvent(new CustomEvent('zeus:update', { detail: { silent: s.pc.silent, age_s: s.pc.age_s } })); } catch (e) { /* old browsers */ }
       return s;
     });
   }
   function card(host, opts) {
     var c = build();
+    reserve(c);
     if (host) { host.replaceChildren(c); }
     cards.push(c);
-    if (last) draw(c, last);
+    if (last) { draw(c, last); settle(c); }
     refresh(opts);
     if (!timer) timer = setInterval(function () { if (!d.hidden) refresh(); }, 60000);
     return c;

@@ -15,7 +15,7 @@
 <!-- ZEUS (2026-11-18, night-zeushub): the ZEUS Trading door's landing (olympus/doors.js zeus.home; hub/doors.html#zeus opens with a link here).
      Data: the PC's ntfy status (../pc_feed.js), ../board/board.json, ../business/accounts.json, matched like the Board (../board/boardmodel.js +
      ../business/mffumodel.js), ../edge.json (../edge_chip.js), ../pythia/events.json, learned.json (the ZEUS learned card's cloud copy). It links to pages; the only write is the Decide card's note (../business/decide.js, PC link only). Text only through textContent. -->
-<link rel="stylesheet" href="../olympus/agora.css?v=a5">
+<link rel="stylesheet" href="../olympus/agora.css?v=a6">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
 body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
@@ -77,6 +77,7 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .zs-learn .zs-idea { margin: 8px 0 0; color: var(--ag-sun, #e0b060); font-weight: 600; }
 .zs-learn .zs-src { margin-top: 8px; }
 .zs-learn.old { opacity: .8; border-left-color: var(--ag-muted, #a89c88); }
+.zs-learn.wait { border-left-color: var(--ag-line, #3a3228); } .zs-learn.wait .zs-goal { color: var(--ag-soft, #cfc4b2); }
 .zs-stamp { margin: 10px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
 .zs-foot { margin-top: 26px; text-align: center; color: var(--ag-soft, #cfc4b2); font: 700 var(--ag-fs-body, .9375rem) var(--ag-serif, Georgia, serif); }
 .zs-foot small { display: block; margin-top: 4px; color: var(--ag-muted, #a89c88); font: 400 var(--ag-fs-foot, .8125rem) var(--ag-sans, system-ui); }
@@ -87,10 +88,10 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 <script src="../business/mffumodel.js?v=2" defer></script>
 <script src="../board/boardmodel.js?v=b6" defer></script>
 <script src="../edge_chip.js?v=1" defer></script>
-<script src="../business/decide.js?v=1" defer></script>
-<script src="../olympus/zeus_core.js?v=3" defer></script>
-<script src="zeus.js?v=3" defer></script>
-<script src="../olympus/warp.js?v=w1" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
+<script src="../business/decide.js?v=2" defer></script>
+<script src="../olympus/zeus_core.js?v=4" defer></script>
+<script src="zeus.js?v=4" defer></script>
+<script src="../olympus/warp.js?v=w2" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
 </head>
 <body>
 <main class="zs-main" id="zeus">
@@ -110,10 +111,11 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
   <section id="decide" data-decide aria-label="Decide" hidden></section>
 
   <!-- ZEUS learned (engine/zeus_learn.py, night-learnloop): the PC's nightly line from the live feed (status ext "zl") or the cloud copy
-       learned.json (tools/learn_night.py), whichever is newer, with its date. Read only. -->
-  <section id="learned" aria-labelledby="hLearned" hidden>
+       learned.json (tools/learn_night.py), whichever is newer, with its date. Read only. Neither yet (polish2 2026-11-19: the card stayed
+       hidden): a calm placeholder from the first paint, the same words zeus.js writes (LEARN_WAIT), so nothing jumps when the data lands. -->
+  <section id="learned" aria-labelledby="hLearned">
     <h2 class="zs-h2" id="hLearned">ZEUS learned</h2>
-    <div id="learnBox" class="zs-learn" role="status"></div>
+    <div id="learnBox" class="zs-learn wait" role="status"><p class="zs-goal">First nightly report after today's close</p><p class="zs-src">ZEUS looks back over each day's trades every night on your PC. Advice only: ZEUS changes nothing.</p></div>
   </section>
 
   <section aria-labelledby="hToday">

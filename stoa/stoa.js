@@ -16,10 +16,10 @@ async function getJSON(url, ms) {
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms || 6000) : 0;
   try { const r = await fetch(url, { cache: 'no-cache', ...(ac ? { signal: ac.signal } : {}) }); return r.ok ? await r.json() : null; } catch (_) { return null; } finally { clearTimeout(timer); }
 }
-// the feed is read from this site first (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json); the old
-// GitHub address is only the fallback. A host that answers a missing file with its index page gives HTML: not an object, so it falls through.
+// the feed is this site's own copy (pc_publish puts the Kalshi bot's feed next to the pages as kalshi.json), nothing else: the old kalshi-feed
+// repo on the suspended account is retired (polish2 2026-11-19). A host that answers a missing file with its index page gives HTML: not an object = none.
 const SITE_FEED = '../kalshi.json';
-async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : getJSON('https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json', ms); }
+async function getFeed(ms) { const j = await getJSON(SITE_FEED, ms); return j && typeof j === 'object' && !Array.isArray(j) ? j : null; }
 function say(t) { $('status').textContent = t; }
 function loadState() { try { return C.cleanState(JSON.parse(localStorage.getItem(SKEY) || '{}')); } catch (_) { return {}; } }
 function saveState(v) { try { localStorage.setItem(SKEY, JSON.stringify(v)); } catch (_) { /* private window: the page works without it */ } }

@@ -1,8 +1,7 @@
 // KALSHI CITY data layer (pure ES module: no DOM, no three.js, runs in node for the tests).
 // Inputs: edges.json (tools/kalshi_edges.py: the learning engine's output), learning_log.json, and optionally the live kalshi.json feed
-// (the bot's own numbers, read only). Output: one plain Model the layout, the scene and the page read. Junk in -> safe defaults, never a throw.
+// (the bot's own numbers, read only: this site's own copy, kalshicity.js SITE_FEED). Output: one plain Model the layout, the scene and the page read. Junk in -> safe defaults, never a throw.
 
-export const RAW = 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json';
 export const MIN_N = 30;
 export const BOT_FEED_MAX_AGE_S = 15 * 60; // match the Kalshi feed page: old running/paused bits cannot describe the bot now
 /**

@@ -1,6 +1,6 @@
 {
  "v": 1,
- "asof": "2026-11-17",
+ "asof": "2026-11-19",
  "note": "The people of OLYMPUS: one named character per real worker. Built by tools/people_build.py from handoff/agents_now.json, the Archive, the app list and git (when present). A person only says what that worker's own files say. Nothing here is a trade.",
  "git": false,
  "people": [

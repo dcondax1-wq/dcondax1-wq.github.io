@@ -6,7 +6,7 @@
 //   city   tap a building for its card, Find (search), Top 10, Surprise me, ORBIT / SKIM / DRONE / GRAND cameras, the minimap.
 // Read-only: every number is data the site already publishes; nothing here writes, trades or sends anything.
 import { $, el, store, clamp, lerp, hash32, rng, cityOfDay, todayStr, seedOfDay, fmtField, plain } from './util.js';
-import { DATASETS, loadDataset, fieldMap } from './datasets.js?v=atlas1';
+import { DATASETS, loadDataset, fieldMap } from './datasets.js?v=atlas2';
 import { generate, validateSpec, Picker, evalExpr, parseExpr } from './generator.js';
 import { mountWorld } from './world.js?v=w3';
 import { cityRoutes } from './routes.js?v=r3';

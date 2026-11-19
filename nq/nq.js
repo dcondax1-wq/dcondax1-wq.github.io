@@ -3,7 +3,7 @@
 // Reads ../home.json (the small first-paint file; never the 8 MB data.json), ./howto.json (docs/NQ_BOT_BACK.md, bundled by tools/nq_howto_build.py) and ./fixture.json (DEMO, never blank).
 // Read only: it sends nothing and keeps nothing. Text only through textContent / createElementNS. The 3D columns come from nqscene.js (optional). window.NQ is the test hook.
 // ?demo=1 the example; ?demo=1&silent=4d (or 90m, 5h) the example with a silent PC; ?flat=1 the 2D columns; ?howto=1 opens the sheet.
-import * as C from './nqcore.js';
+import * as C from './nqcore.js?v=d4';   // d1 (polish2 2026-11-19): the CME trading day
 import * as T from '../olympus/truth.js';
 
 const O = window.OLYMPUS || null;
@@ -120,9 +120,9 @@ function renderBots() {
     if (b.roomFrac != null) a.appendChild(bar(b.roomFrac, b.roomFrac < 0.25 ? 'bad' : b.roomFrac < 0.5 ? 'warn' : 'ok', `${Math.round(b.roomFrac * 100)} percent of the max loss is left`));
     const kv = h('dl', 'kv');
     kv.appendChild(h('dt', '', b.dayLabel)); kv.appendChild(h('dd', b.today > 0.5 ? 'pos' : b.today < -0.5 ? 'neg' : '', b.todayText));
-    kv.appendChild(h('dt', '', 'Eval progress')); kv.appendChild(h('dd', 'soft', b.progLine));
+    kv.appendChild(h('dt', '', b.funded ? 'Payout progress' : 'Eval progress')); kv.appendChild(h('dd', 'soft', b.progLine));   // a funded account has no eval to pass: its payout line (phone QA 2026-11-19)
     a.appendChild(kv);
-    a.appendChild(bar(b.progress, 'gold', `${Math.round(b.progress * 100)} percent of the way to the target`));
+    a.appendChild(bar(b.progress, 'gold', `${Math.round(b.progress * 100)} percent of the way to ${b.funded ? 'a payout' : 'the target'}`));
     if (b.waiting && b.status.flame) a.appendChild(h('p', 'note', b.waiting));
     box.appendChild(a);
   }

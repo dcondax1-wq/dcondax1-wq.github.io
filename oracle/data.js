@@ -1,7 +1,9 @@
 // ORACLE data: where the bot's world comes from, and one shape for it (the World the scene and the HUD draw). Read-only.
-//   live.json  the PC's minute-by-minute file (engine/live_publish.py) on the branch `live` of this site's repo: GitHub's API
-//              first (fresh within ~60 s), raw.githubusercontent.com when the API's hourly limit runs out. The same two
-//              addresses and the same rate-limit rule as tools/web_public/live.js.
+//   the PC     the PC's own status post (../pc_feed.js window.PC_FEED: the ntfy topic named in ../status_feed.json, tools/pc_report.py,
+//              every 15 min), the same feed Jarvis, the Gate, ZEUS and the NQ page read. Its brain glance (pc.glance: the levels it
+//              watches, the stage, the last thought lines) stands in for the Bot Brain's phone cut when the post has no pc.brain.
+//              (polish2 2026-11-19: Oracle polled the old live.json on the suspended GitHub account (its `live` branch) every
+//              minute: a 404 each time. That address is gone from here.)
 //   home.json  the site's own small file (tools/build_web_dashboard.py; ../data.json when it is missing): the cloud's copy of
 //              the board (engine/live_board.py) and the last 5m bars, for when live.json is old or absent.
 // normalize(doc) reads a live.json-shaped doc: the Bot Brain's phone cut (pc.brain, engine/brain.compact) first, the board
@@ -19,46 +21,29 @@ const num = (v) => (v == null || v === '' || !Number.isFinite(+v) ? null : +v);
 const obj = (v) => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
 const arr = (v) => (Array.isArray(v) ? v : []);
 
-function endpoints(loc = location) {
-  const host = loc.hostname, seg = loc.pathname.split('/').filter(Boolean)[0];
-  const owner = /\.github\.io$/.test(host) ? host.split('.')[0] : 'demetrades2000-coder';
-  const repo = /\.github\.io$/.test(host) && seg && !/\./.test(seg) && seg !== 'oracle' ? seg : 'nq-dashboard';
-  return {
-    api: `https://api.github.com/repos/${owner}/${repo}/contents/live.json?ref=live`,
-    raw: `https://raw.githubusercontent.com/${owner}/${repo}/live/live.json`,
-  };
+const PC_EVERY_S = 120;                   // the PC posts every 15 min; a look every 2 min catches a new post soon enough
+
+/** the glance's Zlarior block (engine/brain_glance.lit: stage "Sweep (2/10)", wait, lv [[label, price, pts]], log [[hm, text]]) as the
+ *  Bot Brain's phone cut normalize() reads (pc.brain: stage, levels, log); null without one */
+function brainOfGlance(g, price) {
+  const lit = arr(obj(g).bots).find((b) => b && b.id === 'lit');
+  if (!lit) return null;
+  const m = /^(.*?)\s*\((\d+)\/10\)\s*$/.exec(String(lit.stage || '')), n = m ? +m[2] : null;
+  const stage = { key: n && STAGES[n - 1] ? STAGES[n - 1][0] : /closed/i.test(String(lit.stage || '')) ? 'closed' : null, label: (m ? m[1] : String(lit.stage || '')).slice(0, 50) || null, n, waiting: String(lit.wait || '').slice(0, 320) };
+  const levels = arr(lit.lv).filter((r) => Array.isArray(r) && num(r[1]) != null)
+    .map((r) => ({ label: String(r[0] || 'level').slice(0, 40), price: num(r[1]), kind: 'level', taken: false, dist: price == null ? null : Math.round((num(r[1]) - price) * 100) / 100 }));
+  const log = arr(lit.log).filter((r) => Array.isArray(r) && r[0] && r[1]).map((r) => ({ hm: String(r[0]).slice(0, 5), kind: 'note', text: String(r[1]).slice(0, 240) }));
+  return { stage, levels, log, price };
 }
 
-async function get(url, opts) {
-  const r = await fetch(url, opts);
-  if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; e.r = r; throw e; }
-  return r;
-}
-
-/** live.json: {j, src, every} or throws. `gate` keeps the API pause between calls ({apiUntil}). */
-export async function fetchLive(gate, urls = endpoints()) {
-  let r = null, src = 'api', every = 45;
-  if (Date.now() >= (gate.apiUntil || 0)) {
-    try {
-      r = await get(urls.api, { cache: 'no-cache', headers: { Accept: 'application/vnd.github.raw+json' } });
-      const hdr = (k) => { const v = r.headers.get(k); return v == null || v === '' ? NaN : +v; };   // unreadable = unknown, never 0
-      const rem = hdr('x-ratelimit-remaining'), reset = hdr('x-ratelimit-reset');
-      if (Number.isFinite(rem)) { every = rem > 30 ? 30 : 60; if (rem <= 2) gate.apiUntil = reset > 0 ? reset * 1000 : Date.now() + 15 * 60e3; }
-    } catch (e) {
-      r = null;
-      const reset = e.r ? +e.r.headers.get('x-ratelimit-reset') : NaN;
-      if (e.status === 404) gate.apiUntil = Date.now() + 10 * 60e3;            // no live branch yet
-      else gate.apiUntil = reset > 0 ? reset * 1000 : Date.now() + 15 * 60e3;   // 403 / 429 / no answer
-    }
-  }
-  if (!r) { src = 'raw'; every = 60; r = await get(urls.raw + '?t=' + Date.now(), { cache: 'no-store' }); }
-  let j = await r.json();
-  if (j && j.encoding === 'base64' && typeof j.content === 'string') {         // the API ignored the raw Accept header
-    const bin = atob(j.content.replace(/\s/g, ''));
-    j = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))));
-  }
-  if (!j || j.kind !== 'le-live' || !Number.isFinite(+j.t)) throw new Error('not a live.json');
-  return { j, src, every };
+/** The PC's status post as a live.json-shaped doc: {j, src: 'pc', every} or throws (no feed script, no post). F = window.PC_FEED. */
+export async function fetchLive(F = globalThis.PC_FEED) {
+  if (!F || typeof F.fetchLatest !== 'function') throw new Error('no PC feed on this page');
+  const lite = await F.fetchLatest({ feedUrl: '../status_feed.json' });
+  if (!lite || lite.kind !== 'le-live' || !Number.isFinite(+lite.t) || +lite.t <= 0) throw new Error('no PC report');
+  const pc = obj(lite.pc), price = num(lite.price);
+  const brain = obj(pc.brain).stage || arr(obj(pc.brain).levels).length ? pc.brain : brainOfGlance(pc.glance, price);
+  return { j: { ...lite, pc: { ...pc, brain: brain || undefined } }, src: 'pc', every: PC_EVERY_S };
 }
 
 /** The site's own copy as a live.json-shaped doc (home.json, else data.json), or null. */

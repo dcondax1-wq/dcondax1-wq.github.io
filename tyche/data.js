@@ -1,15 +1,14 @@
 // TYCHE data adapter: kalshi.json in, one plain Model out. No DOM, no three.js: the HUD and the scene only read the Model.
 //
-// The feed (contract: docs/KALSHI_PUBLISH.md, tools/kalshi_kit/public/kalshi_status_vm.py) is the one the Kalshi page reads:
-// raw.githubusercontent.com first, the GitHub API when raw fails. A 404 means "not linked yet": the page shows the demo and
-// backs off (the next try 10 min later, doubling to an hour), so a load makes ONE request until the owner links his bot.
+// The feed (contract: docs/KALSHI_PUBLISH.md, tools/kalshi_kit/public/kalshi_status_vm.py) is the one the Kalshi page reads: this
+// site's own copy (../kalshi.json, pc_publish). The old kalshi-feed repo on the suspended account is retired (polish2 2026-11-19): never
+// asked. A 404 (or the site's HTML for a file it does not have) means "not linked yet": the page shows the demo and backs off (the next
+// try 10 min later, doubling to an hour), so a load makes ONE request until the owner links his bot.
 // v1 / v2 feeds (no categories, buckets, calibration, stats, kelly, prob) still give a full Model: every v3 number is then
 // worked out from the lists the feed does carry, and `own` says which came from the bot itself.
 // Read-only: nothing here talks to Kalshi or places anything.
 
-export const LOCAL = '../kalshi.json';      // this site's own copy (pc_publish): tried first, the GitHub address is the fallback
-export const RAW = 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json';
-export const API = 'https://api.github.com/repos/demetrades2000-coder/kalshi-feed/contents/kalshi.json?ref=main';
+export const LOCAL = '../kalshi.json';      // this site's own copy (pc_publish): the one address
 export const STALE_S = 15 * 60;
 const TIMEOUT_MS = 12e3;
 const EVERY_OK_MS = 60e3, EVERY_ERR_MS = 120e3, BACKOFF_MS = 10 * 60e3, BACKOFF_MAX_MS = 60 * 60e3;
@@ -256,18 +255,13 @@ export class Feed {
   }
 
   async poll() {
-    let r = await this.get(LOCAL + '?t=' + Math.floor(Date.now() / 60000));
-    if (r && r.ok) { const c = r.clone ? r.clone() : null; let t0 = null; try { t0 = c ? await c.json() : null; } catch (_) { t0 = null; } if (!isObj(t0) || parseT(t0.t) == null) r = null; }
-    if (!r || !r.ok) r = await this.get(RAW + '?t=' + Math.floor(Date.now() / 60000));
-    if (!r || (!r.ok && r.status !== 404)) r = await this.get(API, { Accept: 'application/vnd.github.raw+json' });
+    const r = await this.get(LOCAL + '?t=' + Math.floor(Date.now() / 60000));
     if (r && r.ok) {
       let j = null;
       try { j = await r.json(); } catch (_) { j = null; }
       if (isObj(j) && parseT(j.t) != null) { this.last = 'ok'; this.backoff = 0; return { state: 'ok', raw: j }; }
-      this.last = 'error';
-      return { state: 'error', raw: null };
     }
-    if (r && r.status === 404) {
+    if (r && (r.ok || r.status === 404)) {       // not published (a 404, or HTML / junk where the file would be): not linked yet
       this.last = 'unlinked';
       this.backoff = this.backoff ? Math.min(BACKOFF_MAX_MS, this.backoff * 2) : BACKOFF_MS;
       return { state: 'unlinked', raw: null };

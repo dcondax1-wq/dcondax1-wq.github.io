@@ -1,16 +1,16 @@
 {
  "v": 1,
- "t": 1794983020,
- "built": "2026-11-18 06:23",
+ "t": 1795070580,
+ "built": "2026-11-19 06:43",
  "data_to": "2026-10-16",
  "where": "cloud",
  "counts": {
-  "rejected": 21,
-  "parked": 5,
+  "rejected": 37,
+  "parked": 8,
   "blocked": 3
  },
- "cells": 53,
- "p_needed": 0.00377,
+ "cells": 283,
+ "p_needed": 0.00071,
  "rules": {
   "shadow_weeks": 4,
   "min_forward_changed": 2,
@@ -27,6 +27,190 @@
  },
  "recent": null,
  "rows": [
+  {
+   "id": "lit_anat_checklist_skip",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: skip what a careful human would skip (against both trends, late, news within 30 min, no room)",
+   "what": "No Zlarior trade when any of the 4 checklist flags is on: against the daily AND the 1h trend; the day already moved 1 daily ATR before the entry; a high-impact US release within 30 minutes after the entry; the prior-day high / low less than 1R ahead on the target side.",
+   "source": "research/writeups/win-loss-anatomy-2026-11-18.md",
+   "origin": null,
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$2,508 at the LIT size; Jan-Jun (pick): -$8,488 on the eval path; Jul-Oct (check): -$5,624 at the LIT size; Jul-Oct (check): -$3,121 on the eval path; H1: 1.8 trades a week (needs 2-4); H2: 1.47 trades a week (needs 2-4)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -412,
+    "H2": -1514,
+    "2021-25": 90
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 260,
+    "H1": 34,
+    "H2": 17
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5150.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 1156.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 115.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 4130.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 2319.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 46,
+     "tpw": 1.8,
+     "pf": 7.26,
+     "net": 31393,
+     "dd": -1373
+    },
+    "H2": {
+     "n": 23,
+     "tpw": 1.47,
+     "pf": 2.22,
+     "net": 4295,
+     "dd": -1324
+    },
+    "2021-25": {
+     "n": 251,
+     "tpw": 1.17,
+     "pf": 1.11,
+     "net": 5851,
+     "dd": -12428
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 37.0,
+     "f10": 0.0,
+     "pass_med": 12.0
+    },
+    "H2": {
+     "p10": 24.6,
+     "f10": 0.0,
+     "pass_med": 20.0
+    }
+   }
+  },
+  {
+   "id": "lit_anat_pullback_x1.25",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: x1.25 size on a pullback in the daily trend (daily trend with the trade, 1h trend against)",
+   "what": "Zlarior trades 25% bigger when yesterday's close is on the trade's side of its 20-day average AND the 1h trend (EMA 20 vs 50) points the other way: a dip in an uptrend or a rally in a downtrend (the classic triple-screen pullback). Everything else as today.",
+   "source": "research/writeups/win-loss-anatomy-2026-11-18.md",
+   "origin": null,
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jul-Oct (check): -$23 at the LIT size",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 349,
+    "H2": -6,
+    "2021-25": 11
+   },
+   "flip": {
+    "H1": 0.07623,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 69,
+    "H1": 15,
+    "H2": 6
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5911.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2664.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 36.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5686.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3289.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 5.11,
+     "net": 36028,
+     "dd": -2373
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.88,
+     "net": 9896,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.02,
+     "net": 1847,
+     "dd": -18948
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 45.4,
+     "f10": 0.0,
+     "pass_med": 10.5
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
   {
    "id": "lit_be_on_close",
    "bot": "lit",
@@ -202,6 +386,97 @@
      "p10": 41.2,
      "f10": 0.0,
      "pass_med": 11.0
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 12.0
+    }
+   }
+  },
+  {
+   "id": "lit_eval_zombie",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: ATLAS's zombie-eval rule on the evals (1-micro last bullet at 80% of the room, give up under $200)",
+   "what": "When 40% of the eval's room is too small for even 1 micro, Zlarior takes 1 micro if a full stop-out fits 80% of the room (the soft daily loss still applies); an eval with less than $200 of room is given up and a fresh one bought. The trades and the funded size do not change.",
+   "source": "research/writeups/lit-ideas-2026-11-18b.md (tools/lit_lab_ideas.py, tools/money/lit_two_evals.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "too few trades changed (2 in Jan-Jun, 0 in Jul-Oct); Jan-Jun (pick): +$0 at the LIT size; Jan-Jun (pick): -$114 on the eval path; Jan-Jun (pick): 2-week fails +2.5 pts; Jul-Oct (check): +$0 at the LIT size; Jul-Oct (check): +$0 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 0,
+    "H2": 0,
+    "2021-25": 0
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "H1": 2,
+    "H2": 0
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 5562.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2670.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 25.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5504.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3159.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.98,
+     "net": 33901,
+     "dd": -2196
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.91,
+     "net": 9919,
+     "dd": -1396
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 1.01,
+     "net": 1265,
+     "dd": -19426
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 44.5,
+     "f10": 2.5,
+     "pass_med": 9.5
     },
     "H2": {
      "p10": 39.1,
@@ -1124,6 +1399,792 @@
    }
   },
   {
+   "id": "lit_two_eval_stagger",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: the 50K and the 25K evals alternate full / half size on each signal",
+   "what": "On every 2nd Zlarior signal the 50K eval takes half its normal size and the 25K its full size, on the others the other way round, so one losing day never hits both evals at full size. The Lab scores the 50K's side; both evals together: tools/money/lit_two_evals.py.",
+   "source": "research/writeups/lit-ideas-2026-11-18b.md (tools/lit_lab_ideas.py, tools/money/lit_two_evals.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): -$8,480 at the LIT size; Jan-Jun (pick): -$10,048 on the eval path; Jul-Oct (check): -$5,204 at the LIT size; Jul-Oct (check): -$4,050 on the eval path",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -1391,
+    "H2": -1400,
+    "2021-25": -209
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-25": 255,
+    "H1": 40,
+    "H2": 20
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 4171.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 1270.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": -184.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 3874.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 2069.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 80,
+     "tpw": 3.12,
+     "pf": 4.56,
+     "net": 25421,
+     "dd": -1901
+    },
+    "H2": {
+     "n": 40,
+     "tpw": 2.56,
+     "pf": 2.11,
+     "net": 4715,
+     "dd": -1100
+    },
+    "2021-25": {
+     "n": 511,
+     "tpw": 2.38,
+     "pf": 0.88,
+     "net": -9404,
+     "dd": -22971
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 36.1,
+     "f10": 0.0,
+     "pass_med": 18.0
+    },
+    "H2": {
+     "p10": 21.7,
+     "f10": 0.0,
+     "pass_med": 25.0
+    }
+   }
+  },
+  {
+   "id": "setup_grade_lit",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: human setup grade - skip C setups (more warnings than a typical setup)",
+   "what": "Before each Zlarior setup, count 7 human warnings (trend against, a level within half a stop, day already extended, inside day, news in 30 min, ES against, VIX not normal); skip the setup when it has more warnings than a typical one (3+ of 7), the day stays free for a later setup.",
+   "source": "research/writeups/setup-grade-2026-11-18.md (tools/setup_grade.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "better in Jan-Jun, Jul-Oct and 2021-25, but could be luck: random skips of as many setups do as well (Jul-Oct p 0.159, 2021-25 p 0.368; needs <= 0.2 in both), and it flips to a loss with the first-draft level distance or a stricter C",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 712,
+    "H2": 303,
+    "2021-25": 11
+   },
+   "flip": {
+    "H1": 0.14846,
+    "H2": 0.11997
+   },
+   "hits": {
+    "2021-25": 108,
+    "H1": 23,
+    "H2": 8
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 6274.0,
+     "now": 5562.0
+    },
+    "H2": {
+     "exp": 2973.0,
+     "now": 2670.0
+    },
+    "2021-25": {
+     "exp": 36.0,
+     "now": 25.0
+    }
+   },
+   "eval_months": {
+    "H1": {
+     "exp": 5647.0,
+     "now": 5523.0
+    },
+    "H2": {
+     "exp": 3983.0,
+     "now": 3159.0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 73,
+     "tpw": 2.85,
+     "pf": 6.14,
+     "net": 38244,
+     "dd": -1800
+    },
+    "H2": {
+     "n": 34,
+     "tpw": 2.18,
+     "pf": 3.83,
+     "net": 11043,
+     "dd": -1231
+    },
+    "2021-25": {
+     "n": 439,
+     "tpw": 2.05,
+     "pf": 1.02,
+     "net": 1842,
+     "dd": -21604
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 46.2,
+     "f10": 0.0,
+     "pass_med": 10.0
+    },
+    "H2": {
+     "p10": 47.8,
+     "f10": 0.0,
+     "pass_med": 10.0
+    }
+   }
+  },
+  {
+   "id": "atlas_anat_checklist_skip",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: skip what a careful human would skip (against both trends, late, news within 30 min, no room)",
+   "what": "No ATLAS trade when any of the 4 checklist flags is on (the same checklist as for Zlarior); the slot stays free for a later ATLAS signal that day.",
+   "source": "research/writeups/win-loss-anatomy-2026-11-18.md",
+   "origin": null,
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "not better in Jan-Jun (pick); not better in Jul-Oct (check) (Jan-Jun 2-week pass 61.3 -> 39.5%; Jan-Jun money after fees -$5,012; Jul-Oct 2-week pass 43.5 -> 30.4%; Jul-Oct money after fees -$1,479)",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -1811,
+    "H2": -484,
+    "2025": 141,
+    "2021-24": 293
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-24": 268,
+    "2025": 78,
+    "H1": 42,
+    "H2": 16
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 408.0,
+     "now": 2219.0
+    },
+    "H2": {
+     "exp": 595.0,
+     "now": 1079.0
+    },
+    "2021-25": {
+     "exp": 167,
+     "now": -95
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 31,
+     "tpw": 1.21,
+     "pf": 2.02,
+     "net": 2489,
+     "dd": -1423
+    },
+    "H2": {
+     "n": 21,
+     "tpw": 1.35,
+     "pf": 2.07,
+     "net": 2210,
+     "dd": -851
+    },
+    "2025": {
+     "n": 124,
+     "tpw": 2.4,
+     "pf": 0.88,
+     "net": -1315,
+     "dd": -3361
+    },
+    "2021-24": {
+     "n": 472,
+     "tpw": 2.9,
+     "pf": 1.22,
+     "net": 9151,
+     "dd": -5733
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 39.5,
+     "f10": 0.0,
+     "pass_med": 8.0
+    },
+    "H2": {
+     "p10": 30.4,
+     "f10": 0.0,
+     "pass_med": 8.0
+    }
+   }
+  },
+  {
+   "id": "atlas_anat_london_open_x1.25",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: x1.25 size on London-open-hour entries (03:00-03:59 ET)",
+   "what": "ATLAS trades 25% bigger when the entry is in the 03:00 ET hour (08:00 London, the London open).",
+   "source": "research/writeups/win-loss-anatomy-2026-11-18.md",
+   "origin": null,
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "2021-25 worse than today",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 125,
+    "H2": 34,
+    "2025": 122,
+    "2021-24": -14
+   },
+   "flip": {
+    "H1": 0.00175,
+    "H2": 0.07473
+   },
+   "hits": {
+    "2021-24": 218,
+    "2025": 56,
+    "H1": 33,
+    "H2": 10
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 2344.0,
+     "now": 2219.0
+    },
+    "H2": {
+     "exp": 1113.0,
+     "now": 1079.0
+    },
+    "2021-25": {
+     "exp": -82,
+     "now": -95
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 90,
+     "tpw": 3.52,
+     "pf": 2.82,
+     "net": 14290,
+     "dd": -1207
+    },
+    "H2": {
+     "n": 25,
+     "tpw": 1.6,
+     "pf": 3.21,
+     "net": 4135,
+     "dd": -887
+    },
+    "2025": {
+     "n": 150,
+     "tpw": 2.91,
+     "pf": 0.88,
+     "net": -1549,
+     "dd": -4973
+    },
+    "2021-24": {
+     "n": 587,
+     "tpw": 3.61,
+     "pf": 0.95,
+     "net": -2767,
+     "dd": -10714
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 61.3,
+     "f10": 0.0,
+     "pass_med": 6.0
+    },
+    "H2": {
+     "p10": 43.5,
+     "f10": 0.0,
+     "pass_med": 7.0
+    }
+   }
+  },
+  {
+   "id": "atlas_funded_day_cap",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS funded 25K: a daily loss cap tied to the $1,100 buffer",
+   "what": "On the funded 25K ATLAS stops for the day after a losing trade, or caps the day's loss at $275 / $367 / a third of the room (today: $600 soft daily loss, max 2 trades).",
+   "source": "research/writeups/atlas-health-2026-11-18.md (tools/atlas_health.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun pick 'D4 day cap 1/3 of the room' of 4 versions: H2 $491 -> $448/mo; H2 no payout 7.0 -> 12.3%; from today's account H1: 1st payout 19.0 -> 21.0 sessions; from today's account H2: $480 -> $430/mo, no payout 9.2 -> 15.3%; real order H1 $626 -> $615/mo; real order H2 $283 -> $191/mo",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -9,
+    "H2": -43
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 572.0,
+     "now": 581.0
+    },
+    "H2": {
+     "exp": 448.0,
+     "now": 491.0
+    },
+    "2021-25": {
+     "exp": 43,
+     "now": 45
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 104,
+     "tpw": 4.06,
+     "pf": 2.92,
+     "net": 18362,
+     "dd": -1062
+    },
+    "H2": {
+     "n": 46,
+     "tpw": 2.95,
+     "pf": 2.55,
+     "net": 5256,
+     "dd": -876
+    },
+    "2025": {
+     "n": 222,
+     "tpw": 4.3,
+     "pf": 1.17,
+     "net": 4466,
+     "dd": -4871
+    },
+    "2021-24": {
+     "n": 772,
+     "tpw": 4.71,
+     "pf": 1.06,
+     "net": 5927,
+     "dd": -11403
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_funded_hole_size",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS funded 25K: risk 30-50% of the room instead of 60% (in a hole, or always)",
+   "what": "ATLAS risks 40% / 30% of the room to the floor instead of 60% while the funded 25K is under its start balance, or 40% always (post-hoc: 50% always, 40% while under its best day-end balance).",
+   "source": "research/writeups/atlas-health-2026-11-18.md (tools/atlas_health.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun pick 'S3 40% of room always' of 5 versions: H1 1st payout 18 -> 20 sessions; H2 1st payout 25 -> 31 sessions; from today's account H1: 1st payout 19.0 -> 21.0 sessions; from today's account H2: 1st payout 27.0 -> 33.0 sessions; real order H2 $283 -> $187/mo",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 7,
+    "H2": -6
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 588.0,
+     "now": 581.0
+    },
+    "H2": {
+     "exp": 485.0,
+     "now": 491.0
+    },
+    "2021-25": {
+     "exp": 48,
+     "now": 45
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 104,
+     "tpw": 4.06,
+     "pf": 2.92,
+     "net": 18362,
+     "dd": -1062
+    },
+    "H2": {
+     "n": 46,
+     "tpw": 2.95,
+     "pf": 2.55,
+     "net": 5256,
+     "dd": -876
+    },
+    "2025": {
+     "n": 222,
+     "tpw": 4.3,
+     "pf": 1.17,
+     "net": 4466,
+     "dd": -4871
+    },
+    "2021-24": {
+     "n": 772,
+     "tpw": 4.71,
+     "pf": 1.06,
+     "net": 5927,
+     "dd": -11403
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_funded_light_size",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS funded 25K: smaller size while ATLAS's edge light is AMBER / RED",
+   "what": "The funded 25K trades x0.75 / x0.5 / paper while ATLAS's own last-40-session light (tools/edge_health) is AMBER or RED, or its last-40 R-PF is under 1.5.",
+   "source": "research/writeups/atlas-health-2026-11-18.md (tools/atlas_health.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun pick 'L5 last-40 R-PF<1.5 -> x0.5' of 5 versions: H2 $491 -> $453/mo; more dead accounts H2 9.2 -> 10.7%; H2 1st payout 25 -> 28 sessions; H2 no payout 7.0 -> 7.7%; from today's account H2: $480 -> $441/mo, dead 10.5 -> 12.5%, 1st payout 27.0 -> 30.0 sessions, no payout 9.2 -> 9.8%; real order H2 $283 -> $158/mo",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 16,
+    "H2": -38
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 597.0,
+     "now": 581.0
+    },
+    "H2": {
+     "exp": 453.0,
+     "now": 491.0
+    },
+    "2021-25": {
+     "exp": 45,
+     "now": 45
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 98,
+     "tpw": 3.83,
+     "pf": 3.09,
+     "net": 16664,
+     "dd": -1062
+    },
+    "H2": {
+     "n": 45,
+     "tpw": 2.88,
+     "pf": 2.29,
+     "net": 4306,
+     "dd": -876
+    },
+    "2025": {
+     "n": 207,
+     "tpw": 4.01,
+     "pf": 1.01,
+     "net": 157,
+     "dd": -3226
+    },
+    "2021-24": {
+     "n": 740,
+     "tpw": 4.52,
+     "pf": 1.08,
+     "net": 4452,
+     "dd": -5848
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_funded_member_pause",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS funded 25K: pause a member while its own last 10 / 20 trades lose (PF under 1)",
+   "what": "A member whose own last 10 or 20 paper trades have a profit factor under 1 trades 0 micros (or half) on the funded 25K until its record is back at PF 1; it keeps trading on paper meanwhile.",
+   "source": "research/writeups/atlas-health-2026-11-18.md (tools/atlas_health.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun pick 'M3 member last-20 PF<1 -> x0.5' of 3 versions: never acts in Jul-Oct (0 trades changed): Jul-Oct cannot check it",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 9,
+    "H2": 0
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 590.0,
+     "now": 581.0
+    },
+    "H2": {
+     "exp": 491.0,
+     "now": 491.0
+    },
+    "2021-25": {
+     "exp": 50,
+     "now": 45
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 103,
+     "tpw": 4.02,
+     "pf": 3.05,
+     "net": 17972,
+     "dd": -1195
+    },
+    "H2": {
+     "n": 46,
+     "tpw": 2.95,
+     "pf": 2.55,
+     "net": 5256,
+     "dd": -876
+    },
+    "2025": {
+     "n": 213,
+     "tpw": 4.13,
+     "pf": 1.16,
+     "net": 3471,
+     "dd": -4083
+    },
+    "2021-24": {
+     "n": 748,
+     "tpw": 4.57,
+     "pf": 1.11,
+     "net": 7663,
+     "dd": -9199
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "atlas_funded_skip",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS funded 25K: skip calm days (VIX under 15) or the day after a losing day",
+   "what": "ATLAS takes no trade on the funded 25K on days whose prior VIX close is under 15 (re-measure), or on the session after a losing day.",
+   "source": "research/writeups/atlas-health-2026-11-18.md (tools/atlas_health.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun pick 'K2 skip the day after a losing day' of 5 versions: H1 $581 -> $559/mo; H2 $491 -> $334/mo; more dead accounts H2 9.2 -> 18.0%; H1 1st payout 18 -> 21 sessions; H2 1st payout 25 -> 35 sessions; H2 no payout 7.0 -> 15.2%; from today's account H1: $572 -> $549/mo, 1st payout 19.0 -> 22.0 sessions; from today's account H2: $480 -> $323/mo, dead 10.5 -> ",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -22,
+    "H2": -157
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 559.0,
+     "now": 581.0
+    },
+    "H2": {
+     "exp": 334.0,
+     "now": 491.0
+    },
+    "2021-25": {
+     "exp": 44,
+     "now": 45
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 86,
+     "tpw": 3.36,
+     "pf": 2.87,
+     "net": 14883,
+     "dd": -947
+    },
+    "H2": {
+     "n": 38,
+     "tpw": 2.44,
+     "pf": 2.06,
+     "net": 2976,
+     "dd": -1008
+    },
+    "2025": {
+     "n": 158,
+     "tpw": 3.06,
+     "pf": 1.21,
+     "net": 3877,
+     "dd": -3707
+    },
+    "2021-24": {
+     "n": 535,
+     "tpw": 3.27,
+     "pf": 1.08,
+     "net": 5811,
+     "dd": -8681
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
    "id": "atlas_member_ksq",
    "bot": "atlas",
    "who": "ATLAS",
@@ -1899,6 +2960,345 @@
    }
   },
   {
+   "id": "setup_grade_atlas",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: human setup grade - skip C setups (more warnings than a typical setup)",
+   "what": "Before each ATLAS signal, count the same 7 human warnings; skip the signal when it has more warnings than a typical one (3+ of 7), the slot stays free for the next signal.",
+   "source": "research/writeups/setup-grade-2026-11-18.md (tools/setup_grade.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "Jan-Jun (pick): funded 25K -$21 a month; Jul-Oct (check): funded 25K -$142 a month; 2021-25 (check): funded 25K -$7 a month; Jul-Oct: no payout in 6 months 15.0 -> 30.2%; Jul-Oct: eval path -$363; Jul-Oct: 2-week eval passes 43.5 -> 39.1%",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": -21,
+    "H2": -142,
+    "2021-25": -7
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": {
+    "2021-24": 94,
+    "2025": 24,
+    "H1": 19,
+    "H2": 8
+   },
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 520.0,
+     "now": 541.0
+    },
+    "H2": {
+     "exp": 211.0,
+     "now": 353.0
+    },
+    "2021-25": {
+     "exp": 27,
+     "now": 34
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 83,
+     "tpw": 3.24,
+     "pf": 3.24,
+     "net": 17185,
+     "dd": -1142
+    },
+    "H2": {
+     "n": 37,
+     "tpw": 2.37,
+     "pf": 2.24,
+     "net": 3823,
+     "dd": -1134
+    },
+    "2025": {
+     "n": 880,
+     "tpw": 4.09,
+     "pf": 1.05,
+     "net": 5443,
+     "dd": -10796
+    },
+    "2021-24": {
+     "n": 880,
+     "tpw": 4.09,
+     "pf": 1.05,
+     "net": 5443,
+     "dd": -10796
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": 56.3,
+     "f10": 0.0,
+     "pass_med": 7.5
+    },
+    "H2": {
+     "p10": 39.1,
+     "f10": 0.0,
+     "pass_med": 5.0
+    }
+   }
+  },
+  {
+   "id": "third_cam",
+   "bot": "third",
+   "who": "Third strategy",
+   "title": "Third strategy: Camarilla / floor-trader pivots (RTH)",
+   "what": "A third strategy (own paper account): trade the classic Camarilla / floor pivots in NY hours, one a day.",
+   "source": "research/writeups/third-strategy-2026-11-18.md (tools/third_strategy.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-19",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "pick cam_break4_bar_r3_u11: H1 PF 1.58 $9856, H2 PF 0.68 $-3187, 2025 PF 0.89 $-3667, 2021-24 PF 1.22 $24269; coin-flip p H2 0.895 / 2021-25 0.325 -> fails the hold / placebo bar",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 1683,
+    "H2": -881
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 0.895
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 1683.0,
+     "now": 0.0
+    },
+    "H2": {
+     "exp": -881.0,
+     "now": 0.0
+    },
+    "2021-25": {
+     "exp": 448,
+     "now": 0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 66,
+     "tpw": 2.44,
+     "pf": 1.58,
+     "net": 9856,
+     "dd": -2923
+    },
+    "H2": {
+     "n": 31,
+     "tpw": 1.94,
+     "pf": 0.68,
+     "net": -3187,
+     "dd": -5992
+    },
+    "2025": {
+     "n": 105,
+     "tpw": 1.98,
+     "pf": 0.89,
+     "net": -3667,
+     "dd": -9282
+    },
+    "2021-24": {
+     "n": 363,
+     "tpw": 2.16,
+     "pf": 1.22,
+     "net": 24269,
+     "dd": -12439
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "third_pcm",
+   "bot": "third",
+   "who": "Third strategy",
+   "title": "Third strategy: Post-close move into the 18:00 reopen (follow / fade)",
+   "what": "A third strategy (own paper account): after a big post-close move, trade the 18:00 reopen with it or against it, stop beyond the move, out by 09:25 or 15:55.",
+   "source": "research/writeups/third-strategy-2026-11-18.md (tools/third_strategy.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-19",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "no Jan-Jun pick: none of its 80 versions made PF >= 1.2 on 20+ trades at 2-4 a week in Jan-Jun ($500 a trade); 0 hold all 4 spans vs 0.0 with coin-flip sides",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": null,
+   "flip": {
+    "H1": 1.0,
+    "H2": 1.0
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": null,
+     "now": 0.0
+    },
+    "H2": {
+     "exp": null,
+     "now": 0.0
+    },
+    "2021-25": {
+     "exp": null,
+     "now": 0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": null,
+     "tpw": null,
+     "pf": null,
+     "net": null,
+     "dd": null
+    },
+    "H2": {
+     "n": null,
+     "tpw": null,
+     "pf": null,
+     "net": null,
+     "dd": null
+    },
+    "2025": {
+     "n": null,
+     "tpw": null,
+     "pf": null,
+     "net": null,
+     "dd": null
+    },
+    "2021-24": {
+     "n": null,
+     "tpw": null,
+     "pf": null,
+     "net": null,
+     "dd": null
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
+   "id": "third_tds",
+   "bot": "third",
+   "who": "Third strategy",
+   "title": "Third strategy: TD Sequential 9-count exhaustion fade (15m / 1h, 24h)",
+   "what": "A third strategy (own paper account): fade a completed TD Sequential 9-count, any hour 18:00-15:30, one a day.",
+   "source": "research/writeups/third-strategy-2026-11-18.md (tools/third_strategy.py)",
+   "origin": "claude",
+   "cross_of": null,
+   "registered": "2026-11-19",
+   "status": "rejected",
+   "word": "Rejected",
+   "why": "pick tds_60_a_bar9_start_all: H1 PF 1.98 $19125, H2 PF 0.89 $-1379, 2025 PF 0.8 $-9115, 2021-24 PF 1.0 $123; coin-flip p H2 0.74 / 2021-25 0.82 -> fails the hold / placebo bar",
+   "needs": null,
+   "shadow": null,
+   "shadow_from": null,
+   "usd_month_by": {
+    "H1": 3265,
+    "H2": -381
+   },
+   "flip": {
+    "H1": 1.0,
+    "H2": 0.74
+   },
+   "hits": null,
+   "tested": "2026-10-16",
+   "was_shadow": null,
+   "months": {
+    "H1": {
+     "exp": 3265.0,
+     "now": 0.0
+    },
+    "H2": {
+     "exp": -381.0,
+     "now": 0.0
+    },
+    "2021-25": {
+     "exp": -153,
+     "now": 0
+    }
+   },
+   "detail": {
+    "H1": {
+     "n": 57,
+     "tpw": 2.11,
+     "pf": 1.98,
+     "net": 19125,
+     "dd": -7568
+    },
+    "H2": {
+     "n": 39,
+     "tpw": 2.44,
+     "pf": 0.89,
+     "net": -1379,
+     "dd": -6445
+    },
+    "2025": {
+     "n": 122,
+     "tpw": 2.3,
+     "pf": 0.8,
+     "net": -9115,
+     "dd": -15944
+    },
+    "2021-24": {
+     "n": 371,
+     "tpw": 2.21,
+     "pf": 1.0,
+     "net": 123,
+     "dd": -17774
+    }
+   },
+   "speed": {
+    "H1": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    },
+    "H2": {
+     "p10": null,
+     "f10": null,
+     "pass_med": null
+    }
+   }
+  },
+  {
    "id": "asia_slot_300",
    "bot": "lit",
    "who": "Zlarior",
@@ -1913,6 +3313,20 @@
    "why": "Not built: the PC bot does not route Asia trades today, and 2021-25 is worse (2-week fails 4.7% vs 2.9%)."
   },
   {
+   "id": "lit_entry_slip_cap",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: cap the entry slippage (a limit order at most 2 ticks past the signal price)",
+   "what": "Zlarior would send its entry as a limit order at most 2 ticks past the signal price and skip the trade if it is not filled within 10 seconds.",
+   "source": "research/writeups/bot-gap-2026-11-18.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Untested idea, not built: it needs the PC's measured fills (engine/fill_audit) to size the cap and a backtest of skipped fast entries first."
+  },
+  {
    "id": "lit_scale_in_s5",
    "bot": "lit",
    "who": "Zlarior",
@@ -1925,6 +3339,20 @@
    "status": "parked",
    "word": "Parked (not built)",
    "why": "Needs new code (lit_sizing scale_in_from_session in engine/live.py) and the owner's Sim101 round-trip proof first."
+  },
+  {
+   "id": "lit_size_real_slip",
+   "bot": "lit",
+   "who": "Zlarior",
+   "title": "Zlarior: size each trade with the measured slippage instead of a fixed 1 tick",
+   "what": "The sizer would price the median slippage of the last 10 real fills instead of a fixed 1 tick, so a planned risk stays the real risk after costs.",
+   "source": "research/writeups/bot-gap-2026-11-18.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Untested idea, not built: too few real fills yet (2 since Nov 16) to measure the slippage; a sizing change needs the CLAUDE.md proof first."
   },
   {
    "id": "lit_trail_15m",
@@ -1953,6 +3381,20 @@
    "status": "parked",
    "word": "Parked (not built)",
    "why": "Fails the Jan-Jun 2-week test (62.2 / 5.9 vs 65.5 / 0.8) and 5-6 trades a week (rule: 2-4). Paper lead only."
+  },
+  {
+   "id": "atlas_size_real_slip",
+   "bot": "atlas",
+   "who": "ATLAS",
+   "title": "ATLAS: size each trade with the measured slippage instead of a fixed 1 tick",
+   "what": "ATLAS's $250 a trade would include the median slippage of its last 10 real fills, so a stop-out costs $250 and not more.",
+   "source": "research/writeups/bot-gap-2026-11-18.md",
+   "origin": "writeup",
+   "cross_of": null,
+   "registered": "2026-11-18",
+   "status": "parked",
+   "word": "Parked (not built)",
+   "why": "Untested idea, not built: ATLAS has 1 real fill so far; a sizing change needs the CLAUDE.md proof first."
   },
   {
    "id": "kalshi_pause_5c",
@@ -2114,6 +3556,8 @@
   }
  ],
  "forever_doc": [
+  "Win / loss anatomy rules",
+  "ZEUS Lab LIT ideas",
   "ATLAS new members",
   "New-strategy hunt",
   "Market-regime warning features",

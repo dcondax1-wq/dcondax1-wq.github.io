@@ -15,7 +15,7 @@
 <link rel="icon" href="icon-192.png?v=j5">
 <!-- dark from the first paint, even before (or without) the stylesheet: never a white screen -->
 <style>html,body{background:#14110e;color:#f3ece0;margin:0}</style>
-<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w1" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w2" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <script>
 // before the first paint: the saved theme (localStorage 'jtheme', as the old Jarvis kept it; default Agora, marble and gold since 2026-11-09), the effects level and the boot screen
 (function () {
@@ -108,18 +108,18 @@ window.addEventListener('error', function (e) {
   if (!window.__jarvisErr) window.__jarvisErr = String(e.message || 'Script error') + (e.filename ? ' (' + String(e.filename).split('/').pop() + ':' + e.lineno + ')' : '');
 }, true);
 </script>
-<link rel="stylesheet" id="jcss" href="jarvis.css?v=j22">
+<link rel="stylesheet" id="jcss" href="jarvis.css?v=j23">
 <link rel="stylesheet" id="jhome" href="home3d.css?v=h4">
 <!-- quiet-net, no data-fresh (night-bugsweep 2026-11-19): Kalshi's state comes from the PC feed (data.js); the old kalshi-feed repo is on the
      suspended account and is never asked; this site's kalshi.json, when missing, is a 404 remembered for the session (it was asked afresh,
      and logged, on every load); a tap (Refresh) still asks the real file at once.
      async: the file lives in ../olympus/, outside Jarvis's worker, so its saved copy cannot answer for it; a blocking tag made a slow
      network hold the whole start one more round trip (6-12 s). A fetch before it arrives is just one real try, as before quiet-net. -->
-<script src="../olympus/quiet-net.js?v=q6a" async></script>
+<script src="../olympus/quiet-net.js?v=q9" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
 <script src="../pc_feed.js?v=n4" id="pcFeedJs" async></script>
-<script src="../olympus/themes.js?v=o7" id="olyThemesJs" async></script>
+<script src="../olympus/themes.js?v=o8" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <style>.booted #bootfx{display:none}
 /* the start note works without jarvis.css (the stylesheet may be what did not arrive) */
@@ -1046,7 +1046,9 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
            (red PC SILENT), one line per real account (stage, balance, $ to pass / payout, today's $), the ZEUS edge chip; a tap opens ../hub/zeus.html.
            Paper / cloud ledgers stay lower (Needs you, labelled Paper test). -->
       <style>.home-in > .zeus-host { margin: 0 var(--gxr, 16px) 0 var(--gx, 16px); } .zeus-host .zeus-card { margin: 0; } a.hc-bot { text-decoration: none; color: inherit; } .tiles.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        html:root[data-jlook="classic"] .home-in[data-home="v2"] > .zeus-host { order: 1; margin-top: 8px; }</style>
+        html:root[data-jlook="classic"] .home-in[data-home="v2"] > .zeus-host { order: 1; margin-top: 8px; }
+        /* KALSHI TODAY / NQ BOTS TODAY: their second line ("paper -$10.32 · 3 min ago") wraps on a phone; held from the start (phone QA 2026-11-19) */
+        @media (max-width: 520px) { #kbox em, #nbox em { min-height: 2lh; } }</style>
       <div class="zeus-host" id="zeusCard" data-zeus-card></div>
       <!-- phone notifications (2026-11-19, owner: "I want notifications on my phone"): ./push-ui.js draws this card ("Allow notifications",
            on / test / turn off); the PC pushes every trade and the important alerts straight here (engine/push.py, ./push-sw.js) -->
@@ -3597,9 +3599,9 @@ if ('serviceWorker' in navigator) {
 <script src="./welcome.js?v=w1" defer></script>
 <script type="module" src="./transitions.js?v=t6"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
-<script src="../olympus/zeus_core.js?v=3" defer></script>
+<script src="../olympus/zeus_core.js?v=4" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>
-<script src="./push-ui.js?v=pu1" defer></script>
+<script src="./push-ui.js?v=pu2" defer></script>
 </body>
 </html>

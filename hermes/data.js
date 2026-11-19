@@ -1,14 +1,14 @@
 // HERMES data: formatting, wrapped.json (tools/hermes/build.py) and the peers it tells stories about. Read-only.
 //   loadWrapped(demo)  -> {w, demo}: wrapped.json, else demo.json (the fixture, shown with a DEMO badge)
 //   loadPeers()        -> {fates, discovery, kalshi, planner}: each null when missing; never throws, 4 s per file
-// Peers: ../fates/jarvis.json (pass odds), ../datacity/discoveries.json, the Kalshi bot's kalshi.json (its own public repo,
-// raw first, the GitHub API second, like kalshi/kalshi.js) and the Planner's localStorage on this phone (same site).
+// Peers: ../fates/jarvis.json (pass odds), ../datacity/discoveries.json, the Kalshi bot's kalshi.json (this site's own copy, like
+// kalshi/kalshi.js; the old kalshi-feed repo on the suspended account is retired, polish2 2026-11-19) and the Planner's localStorage
+// on this phone (same site).
 // Safari 16 safe: no lookbehind, no Array copy methods, no AbortSignal.timeout.
 
 export const TZ = 'America/New_York';
 const MINUS = '−';
-const KALSHI = ['../kalshi.json', 'https://raw.githubusercontent.com/demetrades2000-coder/kalshi-feed/main/kalshi.json',
-  'https://api.github.com/repos/demetrades2000-coder/kalshi-feed/contents/kalshi.json?ref=main'];
+const KALSHI = '../kalshi.json';            // this site's own copy (pc_publish); missing = Kalshi not in the story
 
 // ------------------------------------------------------------------------------------------------ helpers
 export const num = (v) => {
@@ -118,14 +118,8 @@ export function kalshiPeriod(k, p) {
 }
 
 async function kalshiFeed() {
-  for (const [i, u] of KALSHI.entries()) {
-    let j = await getJSON(/api\.github\.com/.test(u) ? u : u + '?t=' + Date.now(), 4000, /api\.github\.com/.test(u) ? { headers: { Accept: 'application/vnd.github.raw+json' } } : {});
-    if (j && j.encoding === 'base64' && typeof j.content === 'string') {
-      try { j = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\s/g, '')), (c) => c.charCodeAt(0)))); } catch (_) { j = null; }
-    }
-    if (isObj(j) && (num(j.balance) != null || Array.isArray(j.days) || num(j.total_pnl) != null)) return j;
-  }
-  return null;
+  const j = await getJSON(KALSHI + '?t=' + Math.floor(Date.now() / 60000), 4000);   // a 404 is remembered once a session by quiet-net.js
+  return isObj(j) && (num(j.balance) != null || Array.isArray(j.days) || num(j.total_pnl) != null) ? j : null;
 }
 
 const LS = (k) => { try { const s = localStorage.getItem(k); return s ? JSON.parse(s) : null; } catch (_) { return null; } };
