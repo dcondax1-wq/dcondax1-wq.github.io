@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
- *   <script src="../olympus/themes.js?v=o6"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o11" data-app="mind"></script>
+ *   <script src="../olympus/themes.js?v=o7"></script>  (the OLYMPUS themes: optional, just before)
+ *   <script src="../olympus/olympus.js?v=o12" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,

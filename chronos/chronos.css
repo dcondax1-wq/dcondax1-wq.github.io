@@ -149,3 +149,40 @@ html[data-noscene] body { background: radial-gradient(ellipse at 50% 55%, #43392
 .play { background: linear-gradient(180deg, #c8a24a, #c8a24a); color: #1b1610; border-color: #e0b060; font-weight: 700; }
 
 .dm-bar { display: block; height: 8px; margin: 8px 0; border-radius: 99px; background: #2b251d; overflow: hidden; } .dm-bar i { display: block; height: 100%; background: linear-gradient(90deg, #9c6b3c, #c8a24a); }
+
+/* ================================================================ CHRONOS v2 (designqa 2026-11-19, owner: "nothing 2000's looking")
+   The clock tower stays; the chrome becomes one AGORA family: the day card and the caption as raised warm surfaces (no glass blur over the
+   moving scene), the four views as one segmented rail with a raised thumb instead of four floating pills, the day jumps and the speeds as
+   quiet segmented rails, status tags as badges, no text under 12 px. Ids, order and the orb's corner are unchanged. */
+.tag { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 0 9px; font: 600 12px/1 var(--ag-sans, system-ui); background: rgba(20, 17, 14, .8); border-color: rgba(243, 236, 224, .1); color: var(--ag-muted, #a89c88); }
+.tag.demo { color: var(--ag-sun, #e0b060); background: rgba(224, 176, 96, .09); border-color: rgba(224, 176, 96, .36); }
+.tag.demo::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.daycard, .caption { -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid rgba(243, 236, 224, .08); border-radius: 20px;
+  background: linear-gradient(180deg, rgba(44, 37, 28, .97), rgba(30, 25, 20, .97)); box-shadow: var(--ag-e2, 0 6px 16px rgba(0, 0, 0, .3)); }
+.daycard { padding: 14px 16px; }
+.pick button, .pick select { border-radius: 13px; border-color: rgba(243, 236, 224, .1); background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); box-shadow: var(--ag-e1); }
+.pick select { font: 600 16px var(--ag-sans, system-ui); }
+.jumps { gap: 2px; padding: 3px; border-radius: 14px; background: var(--ag-s1, #1b1713); border: 1px solid #3a3228; box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset; }
+.jumps button { border: 0; border-radius: 11px; color: var(--ag-soft, #cfc4b2); }
+.jumps button[aria-pressed="true"] { background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); color: var(--ag-gold-hi, #dcbd6e); box-shadow: var(--ag-e1); }
+.caption { padding: 12px 16px; }
+.caption #clock { font: 600 13px/1 var(--ag-num, system-ui); color: var(--ag-soft, #cfc4b2); }
+.caption .meta { font-size: 12px; color: var(--ag-muted, #a89c88); }
+.pills { gap: 2px; padding: 3px; border-radius: 16px; align-self: flex-start; background: rgba(27, 23, 19, .94); border: 1px solid rgba(243, 236, 224, .1); box-shadow: 0 6px 16px rgba(0, 0, 0, .35); }
+.pills button { border: 0; border-radius: 13px; background: transparent; color: var(--ag-soft, #cfc4b2); padding: 0 14px; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.pills button[aria-pressed="true"] { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), #c8a24a); color: #1b1610; }
+.dock { -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 20px; border-color: rgba(243, 236, 224, .08); background: linear-gradient(180deg, rgba(44, 37, 28, .97), rgba(30, 25, 20, .98)); box-shadow: var(--ag-e3, 0 12px 28px rgba(0, 0, 0, .34)); padding: 10px 10px 12px; }
+.speeds { gap: 2px; padding: 3px; border-radius: 14px; background: var(--ag-s1, #1b1713); border: 1px solid #3a3228; }
+.speeds button { border: 0; border-radius: 11px; background: transparent; font: 600 13px/1 var(--ag-num, system-ui); color: var(--ag-soft, #cfc4b2); }
+.speeds button[aria-pressed="true"] { background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); color: var(--ag-gold-hi, #dcbd6e); box-shadow: var(--ag-e1); }
+.play { border-radius: 13px; background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), #c8a24a); box-shadow: 0 1px 0 rgba(255, 246, 220, .35) inset, 0 4px 10px rgba(0, 0, 0, .3); }
+.dock .trades button { border-radius: 12px; font: 600 13px/1.1 var(--ag-sans, system-ui); }
+.dock .help { font-size: 12px; color: var(--ag-muted, #a89c88); }
+.sheet { -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 22px; border-color: rgba(243, 236, 224, .08); background: linear-gradient(180deg, rgba(44, 37, 28, .98), rgba(30, 25, 20, .98) 40%); box-shadow: var(--ag-e3, 0 12px 28px rgba(0, 0, 0, .34)); }
+.sheet h2 { font: 600 18px/1.2 var(--ag-serif, Georgia, serif); color: #f3ece0; }
+.sheet p { font-size: 14px; line-height: 1.45; color: var(--ag-soft, #cfc4b2); }
+.sheet h3 { font: 600 13px/1.2 var(--ag-sans, system-ui); color: var(--ag-muted, #a89c88); }
+.sheet ul.what { font-size: 14px; }
+:is(.pick button, .jumps button, .pills button, .speeds button, .play, .dock .trades button):active { scale: .97; }
+:is(.pick button, .jumps button, .pills button, .speeds button, .play, .dock .trades button) { transition: scale 200ms var(--ag-ease, ease-out), background-color 200ms; }
+@media (prefers-reduced-motion: reduce) { :is(.pick button, .jumps button, .pills button, .speeds button, .play):active { scale: 1; } }

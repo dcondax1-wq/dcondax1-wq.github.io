@@ -1,6 +1,6 @@
 // BUSINESS page (ES module): reads ./business.json (the PC's own, tools/biz_publish.py) else ./fixture.json (DEMO), and ../home.json (the
 // published evals) for the payout plan (businesscore.planPayouts = engine/payout_plan.py). Sends nothing. The ONE money place (2026-11-16).
-import * as C from './businesscore.js?v=2';
+import * as C from './businesscore.js?v=3';
 
 const $ = (id) => document.getElementById(id);
 const KEY = 'business.week.v1';
@@ -17,10 +17,14 @@ function saveTicks(t) { try { localStorage.setItem(KEY, JSON.stringify(t)); } ca
 function kv(dl, k, v) { dl.appendChild(h('dt', '', k)); dl.appendChild(h('dd', '', v)); }
 
 function render(doc) {
-  $('demo').hidden = !doc.sample;
-  $('status').textContent = doc.sample ? 'Example numbers (DEMO), not yours yet. To see yours: run AGENCY_DAY.bat on the PC.' : `Updated ${doc.asof.replace('T', ' ').slice(0, 16)}.`;
+  const st = doc.state;                     // demo (the example: the public site, always) / snapshot (the PC's copy, old) / fresh
+  $('demo').hidden = st.kind !== 'demo';
+  const snap = $('snap'); if (snap) snap.hidden = st.kind !== 'snapshot';
+  $('status').textContent = st.text;
+  $('status').dataset.kind = st.kind;
   $('heroM3').textContent = `${C.range(doc.total.usd_m3)} a month`;
-  $('heroText').textContent = `Estimate for month 3, all side work together. Do next: ${C.firstAction(doc)}`;
+  $('heroText').textContent = st.kind === 'demo' ? 'Example estimate for month 3, all side work together (DEMO numbers, not advice for you).'
+    : `Estimate for month 3, all side work together. Do next: ${C.firstAction(doc)}`;
   const kvs = $('heroKv'); kvs.textContent = '';
   kv(kvs, 'Month 1', `${C.range(doc.total.usd_m1)} a month`);
   kv(kvs, 'Your hours', `${doc.total.hours[0]}-${doc.total.hours[1]} a week`);
@@ -97,8 +101,16 @@ function renderDoor(doc, ticks) {
   kv(dl, 'Real money in so far', S.real);
 
   const mv = $('moves'); mv.textContent = '';
-  const mcount = () => { $('movesPill').textContent = `${X.moves.filter((m) => ticks['m:' + m.id]).length} of ${X.moves.length} done`; };
-  for (const m of X.moves) {
+  const demo = doc.state.kind === 'demo';
+  const mnote = $('movesNote');
+  if (mnote) mnote.remove();
+  if (demo) {                               // an example's to-do list (old dates, an example's buys) is never shown as the owner's own
+    $('movesPill').textContent = 'yours on the PC';
+    const n = h('p', 'note', 'Your to-do list is made on your PC from your own accounts and stays private there. Open this page from the PC to see it.');
+    n.id = 'movesNote'; mv.after(n);
+  }
+  const mcount = () => { if (!demo) $('movesPill').textContent = `${X.moves.filter((m) => ticks['m:' + m.id]).length} of ${X.moves.length} done`; };
+  for (const m of demo ? [] : X.moves) {
     const extra = [m.minutes ? `${m.minutes} min` : '', m.usd[1] ? `up to ${C.money(m.usd[1])}` : ''].filter(Boolean).join(', ');
     mv.appendChild(tick(ticks, 'm:' + m.id, extra ? `${m.what} (${extra})` : m.what, mcount));
   }
@@ -125,7 +137,11 @@ function renderDoor(doc, ticks) {
     if (a.state === 'lost') box.appendChild(h('p', 'note', a.text));
     tr.appendChild(box);
   }
-  $('acct4').textContent = plan && plan.account4 ? plan.account4.text : '';
+  // account #4's date follows the plan: the live one (your evals) says it; the example plan's date is an example's, never shown
+  $('acct4').textContent = plan && plan.account4 && (doc.livePlan || !plan.demo) ? plan.account4.text : '';
+  if (doc.livePlan && doc.homeHours != null && doc.homeHours > C.SNAP_H) {
+    tr.prepend(h('p', 'note snap', `These eval numbers are a snapshot: the published accounts file is ${doc.homeHours < 48 ? Math.round(doc.homeHours) + ' hours' : Math.round(doc.homeHours / 24) + ' days'} old.`));
+  }
 
   const rd = $('ready'); rd.textContent = '';
   let all = 0, done = 0;
@@ -179,7 +195,7 @@ function renderDoor(doc, ticks) {
   kv(cs, 'Monthly bills', X.costs.monthly ? `${C.money(X.costs.monthly)} a month` : 'none');
   $('costNote').textContent = X.costs.note;
   const nb = $('nextBuys'); nb.textContent = '';
-  for (const b of X.costs.next_buys) nb.appendChild(h('li', '', `Next to buy: ${b.what}, ${C.range(b.usd)}. When: ${b.when}`));
+  for (const b of demo ? [] : X.costs.next_buys) nb.appendChild(h('li', '', `Next to buy: ${b.what}, ${C.range(b.usd)}. When: ${b.when}`));
 }
 
 // the prop accounts' payout plan card (team E 2026-11-16): the money table, when Zlarior can pass / pay, the buying schedule
@@ -218,7 +234,11 @@ function renderProp(p) {
   const doc = own || C.clean(raw);
   if (!doc) { $('status').textContent = 'No numbers yet. On the PC, run: python tools/biz_publish.py'; READY = true; return; }
   doc.x = C.cleanExtra(raw);
-  const accts = C.accountsFromHome(await getJSON('../home.json'));          // the published evals: the plan follows them live
+  doc.state = C.dataState(own ? doc : { ...doc, sample: true }, Date.now());   // the fixture is the example whatever it says
+  const home = await getJSON('../home.json');
+  const built = Date.parse((home && home.built) || '');
+  doc.homeHours = Number.isFinite(built) ? Math.max(0, (Date.now() - built) / 3600e3) : null;
+  const accts = C.accountsFromHome(home);          // the published evals: the plan follows them live
   doc.livePlan = accts.length ? C.planPayouts(accts, C.localDay(new Date())) : null;
   render(doc);
   READY = true;

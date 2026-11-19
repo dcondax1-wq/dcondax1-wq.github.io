@@ -5,8 +5,8 @@
  *   - one real attempt per source (host + repo) with a 4 s limit;
  *   - a failure (404, 401/403 incl. the rate limit, 5xx, timeout, network) is remembered for this browser session (sessionStorage, at most 6 h,
  *     shared by every app page of the site), and later asks get an immediate 404 Response made here: no network, no console line, no retry storm;
- *   - optional files of this site that nothing may have published (kalshi.json: the PC's copy of the Kalshi feed) are asked once a session too:
- *     a 404 is remembered the same way;
+ *   - optional files of this site that nothing may have published (kalshi.json: the PC's copy of the Kalshi feed; an app's <folder>/jarvis.json
+ *     status card, e.g. mind/ that the public site leaves out) are asked once a session too: a 404 is remembered the same way, per folder;
  *   - the owner can always ask again: a fetch within 3 s of a tap / click / key (Refresh, pull to refresh) goes to the real source, and a page
  *     can name sources it asks afresh on every load (data-fresh="raw:kalshi-feed,..." on its script tag: the Kalshi page).
  * Every other request goes through untouched. Read-only: it never sends anything new, never changes a request, never stores a response.
@@ -40,13 +40,24 @@
   } catch (_) { /* no document (a test) */ }
   function put(id, e) { mem[id] = e; var all = load(); all[id] = e; save(all); try { window.dispatchEvent(new CustomEvent('olympus-net', { detail: { id: id, entry: e } })); } catch (_) { /* old browser */ } }
 
+  // an app's status card on this site (<folder>/jarvis.json) is optional too (night-bugsweep 2026-11-19): a folder the public site leaves out
+  // (mind/: the vault stays on the PC) answered 404 to every page that draws app cards (Zenith, Jarvis, Inbox, Polis, Symposium, Atlas...),
+  // once per page load; now its 404 is remembered for the session like kalshi.json, one source per folder
+  var CARD_RX = /^\/(?:[^/]+\/)*?([a-z0-9][a-z0-9_-]{0,40})\/jarvis\.json$/, cards = {};
+  function cardOf(u) {
+    if (u.origin !== location.origin) return null;
+    var m = CARD_RX.exec(u.pathname);
+    if (!m) return null;
+    var id = 'card:' + m[1];
+    return cards[id] || (cards[id] = { id: id, label: m[1] + "'s status card", local: CARD_RX, optional: true });
+  }
   function sourceOf(u) {
     for (var i = 0; i < SOURCES.length; i++) {
       var s = SOURCES[i];
       if (s.local) { if (u.origin === location.origin && s.local.test(u.pathname)) return s; continue; }
       if (u.protocol === 'https:' && u.hostname === s.host && u.pathname.indexOf(s.path) === 0) return s;
     }
-    return null;
+    return cardOf(u);
   }
   function gone(s, e) {
     var body = JSON.stringify({ message: 'Not Found', olympus: 'remembered for this session: ' + s.label + ' did not answer (' + (e.status || e.why) + ')' });

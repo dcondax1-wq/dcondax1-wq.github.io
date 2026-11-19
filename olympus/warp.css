@@ -1,0 +1,113 @@
+/* OLYMPUS warp: the ARRIVAL (olympus/warp.js does the jump out; this file, 2026-11-19, night-warp). Render-blocking on purpose: the
+   new page must know it before its first frame, so olympus/agora.css, jarvis/jarvis.css and zenith_agora.css @import it.
+   1. A cross-document View Transition between any two OLYMPUS pages (Safari 18.2+, Chrome 126+), type 'oly-warp': the frozen flash of
+      the jump flies past (old) while the new world comes out of the tunnel (new) with its family's arrival signature, over the
+      tunnel's own glow (::view-transition). Inside the new page html::before is the flash fading off it, html::after the shape:
+        home    the world settles back around you, a gold ring closes in (back / forward too: "returning")
+        zeus    lightning: the world slams in with a jolt, a bolt flickers out of it
+        money   the world turns in like a coin, a gold diamond spins away
+        kalshi  the fortune wheel: it spins in, the spokes of a wheel fly out
+        city    the city rises from the ground, a skyline of light climbs past
+        lab     a scan line opens into the page, the line sweeps away
+   2. No View Transition (older browsers): html.oly-warp-in (WARP BOOT in themes.js sets it before the first frame from the jump's
+      hand-off): the flash covers the new page at once and fades, the shape plays over it.
+   Only transform and opacity move (the compositor keeps them smooth while the new page is busy loading). Reduced motion and 3D Off:
+   a 200 ms fade, nothing moves; LITE (3D Low): no shape. The family and colours come from the hand-off (data-oly-warp, --ow-a/b/k),
+   else the page's own id (Jarvis = home, the dashboard = ZEUS) and the app's accent. Safari 16 safe: unknown rules are dropped. */
+@view-transition { navigation: auto; types: oly-warp; }
+
+:root { --ow-a: var(--oly-accent, #f1cf7d); --ow-b: #fff3da; --ow-k: #0e0a06; }
+:root:is([data-oly-warp="home"], [data-oly-page="jarvis"]:not([data-oly-warp]), [data-oly-page="gate"]:not([data-oly-warp])) { --ow-a: #f6d78b; --ow-b: #fff4d8; --ow-k: #120c05; }
+:root:is([data-oly-warp="zeus"], [data-oly-page="today"]:not([data-oly-warp]), [data-oly-page="zeus"]:not([data-oly-warp])) { --ow-a: #ffcf5c; --ow-b: #9ad8ff; --ow-k: #04070e; }
+:root[data-oly-warp="money"] { --ow-a: #f2c65a; --ow-b: #bfd66e; --ow-k: #080a03; }
+:root[data-oly-warp="kalshi"] { --ow-a: #ffb347; --ow-b: #bb96ff; --ow-k: #0c0715; }
+:root[data-oly-warp="city"] { --ow-a: #ffd57e; --ow-b: #62d2e8; --ow-k: #02080d; }
+:root[data-oly-warp="lab"] { --ow-a: #e9d3a3; --ow-b: #86b9dc; --ow-k: #060910; }
+
+/* ------------------------------------------------------------------ 1. the View Transition (scoped: same-page transitions keep their own) */
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition { background: radial-gradient(circle at 50% 50%, var(--ow-b) 0, var(--ow-a) 10%, var(--ow-k) 60%); }
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-old(root) { animation: ow-old .3s cubic-bezier(.5, 0, .85, .45) both; }
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation: ow-in .46s cubic-bezier(.1, .88, .2, 1) both; }
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-group(*) { animation-duration: .46s; }
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp)) .ag-appbar { view-transition-name: none; }
+
+:root:is([data-oly-warp="home"], [data-oly-warp-back], [data-oly-page="jarvis"]:not([data-oly-warp]), [data-oly-page="gate"]:not([data-oly-warp])):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-old(root) { animation-name: ow-old-home; }
+:root:is([data-oly-warp="home"], [data-oly-warp-back], [data-oly-page="jarvis"]:not([data-oly-warp]), [data-oly-page="gate"]:not([data-oly-warp])):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-name: ow-home; }
+:root:is([data-oly-warp="zeus"], [data-oly-page="today"]:not([data-oly-warp]), [data-oly-page="zeus"]:not([data-oly-warp])):not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-name: ow-zeus; }
+:root[data-oly-warp="money"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-name: ow-money; }
+:root[data-oly-warp="kalshi"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-name: ow-kalshi; }
+:root[data-oly-warp="city"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-name: ow-city; transform-origin: 50% 100%; }
+:root[data-oly-warp="lab"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-name: ow-lab; }
+/* a hop to another page of the same world: short and quiet */
+:root[data-oly-warp-hop]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-old(root) { animation: ow-fade-out .2s ease-in both; }
+:root[data-oly-warp-hop]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation: ow-hop .3s cubic-bezier(.2, .8, .2, 1) both; }
+
+/* the flash fading off the new world, and the world's shape, inside the new page (during the transition only) */
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before,
+:root.oly-warp-in::before { content: ''; position: fixed; left: 50%; top: 50%; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax; border-radius: 50%; z-index: 2147483646; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, #fff 0, #fff 8%, var(--ow-b) 20%, var(--ow-a) 36%, rgba(0, 0, 0, 0) 62%); animation: ow-glow .42s cubic-bezier(.2, .7, .3, 1) both; }
+:root.oly-warp-in::before { background: radial-gradient(circle at 50% 50%, #fff 0, #fff 9%, var(--ow-b) 24%, var(--ow-a) 44%, var(--ow-k) 72%); animation-name: ow-flash-out; }
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::after,
+:root.oly-warp-in::after { content: ''; position: fixed; left: 50%; top: 50%; width: 56vmin; height: 56vmin; margin: -28vmin 0 0 -28vmin; border-radius: 50%; z-index: 2147483647; pointer-events: none;
+  box-shadow: 0 0 0 2px var(--ow-b), 0 0 34px 8px var(--ow-a), inset 0 0 34px 8px var(--ow-a); animation: ow-ring .44s cubic-bezier(.15, .8, .25, 1) both; }
+:root:is([data-oly-warp="home"], [data-oly-warp-back], [data-oly-page="jarvis"]:not([data-oly-warp]), [data-oly-page="gate"]:not([data-oly-warp])):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
+  box-shadow: 0 0 0 2px var(--ow-b), 0 0 46px 12px var(--ow-a), inset 0 0 46px 12px var(--ow-a), 0 0 0 22px rgba(255, 244, 216, .08); animation-name: ow-ring-home; }
+:root:is([data-oly-warp="zeus"], [data-oly-page="today"]:not([data-oly-warp]), [data-oly-page="zeus"]:not([data-oly-warp])):not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
+  width: 40vmin; height: 70vmin; margin: -35vmin 0 0 -20vmin; border-radius: 0; box-shadow: none; background: linear-gradient(180deg, #fff 0, var(--ow-b) 55%, var(--ow-a) 100%);
+  -webkit-clip-path: polygon(58% 0, 22% 54%, 46% 54%, 34% 100%, 80% 38%, 55% 38%, 74% 0); clip-path: polygon(58% 0, 22% 54%, 46% 54%, 34% 100%, 80% 38%, 55% 38%, 74% 0); animation-name: ow-bolt; }
+:root[data-oly-warp="money"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after { border-radius: 12%; animation-name: ow-diamond; }
+:root[data-oly-warp="kalshi"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
+  width: 76vmin; height: 76vmin; margin: -38vmin 0 0 -38vmin; box-shadow: none; background: repeating-conic-gradient(from 0deg, var(--ow-b) 0 5deg, rgba(0, 0, 0, 0) 5deg 22.5deg);
+  -webkit-mask: radial-gradient(closest-side, rgba(0, 0, 0, 0) 52%, #000 55%, #000 95%, rgba(0, 0, 0, 0) 100%); mask: radial-gradient(closest-side, rgba(0, 0, 0, 0) 52%, #000 55%, #000 95%, rgba(0, 0, 0, 0) 100%); animation-name: ow-wheel; }
+:root[data-oly-warp="city"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
+  left: 0; top: auto; bottom: 0; width: 100vw; height: 62vh; margin: 0; border-radius: 0; box-shadow: none; background: linear-gradient(0deg, var(--ow-a) 0, var(--ow-b) 40%, rgba(0, 0, 0, 0) 100%);
+  -webkit-clip-path: polygon(0 100%, 0 62%, 7% 62%, 7% 40%, 13% 40%, 13% 70%, 19% 70%, 19% 22%, 24% 14%, 29% 22%, 29% 58%, 36% 58%, 36% 34%, 43% 34%, 43% 76%, 49% 76%, 49% 8%, 53% 0, 57% 8%, 57% 52%, 64% 52%, 64% 28%, 71% 28%, 71% 66%, 77% 66%, 77% 18%, 84% 18%, 84% 56%, 91% 56%, 91% 36%, 100% 36%, 100% 100%);
+  clip-path: polygon(0 100%, 0 62%, 7% 62%, 7% 40%, 13% 40%, 13% 70%, 19% 70%, 19% 22%, 24% 14%, 29% 22%, 29% 58%, 36% 58%, 36% 34%, 43% 34%, 43% 76%, 49% 76%, 49% 8%, 53% 0, 57% 8%, 57% 52%, 64% 52%, 64% 28%, 71% 28%, 71% 66%, 77% 66%, 77% 18%, 84% 18%, 84% 56%, 91% 56%, 91% 36%, 100% 36%, 100% 100%);
+  transform-origin: 50% 100%; animation-name: ow-skyline; }
+:root[data-oly-warp="lab"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
+  left: 0; width: 100vw; height: 3px; margin: -1.5px 0 0 0; border-radius: 0; background: var(--ow-b); box-shadow: 0 0 22px 6px var(--ow-a); animation-name: ow-scan; }
+:root[data-oly-warp-hop]:is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after { content: none; }
+:root[data-oly-warp-hop]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before { animation-duration: .26s; opacity: .5; }
+
+@keyframes ow-old { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(1.6); } }
+@keyframes ow-old-home { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(.3); } }
+@keyframes ow-in { 0% { opacity: 0; transform: scale(.05); } 22% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes ow-home { 0% { opacity: 0; transform: scale(1.32); } 40% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes ow-zeus { 0% { opacity: 0; transform: scale(.04); } 20% { opacity: 1; } 62% { transform: scale(1.045); } 70% { transform: translate(-7px, 3px) scale(1.025); }
+  77% { transform: translate(6px, -3px) scale(1.012); } 85% { transform: translate(-3px, 1px); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-money { 0% { opacity: 0; transform: perspective(900px) rotateY(-84deg) scale(.32); } 30% { opacity: 1; } 68% { transform: perspective(900px) rotateY(9deg) scale(1.02); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-kalshi { 0% { opacity: 0; transform: rotate(-110deg) scale(.07); } 24% { opacity: 1; } 72% { transform: rotate(5deg) scale(1.02); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-city { 0% { opacity: 0; transform: translateY(24%) scale(.5, .04); } 26% { opacity: 1; } 66% { transform: translateY(-1%) scale(1, 1.03); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-lab { 0% { opacity: 0; transform: scale(.2, .004); } 16% { opacity: 1; transform: scale(.7, .004); } 34% { transform: scale(1, .006); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-hop { from { opacity: 0; transform: scale(.965); } to { opacity: 1; transform: none; } }
+@keyframes ow-glow { from { opacity: 1; transform: scale(.55); } to { opacity: 0; transform: scale(1.35); } }
+@keyframes ow-flash-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.4); } }
+@keyframes ow-ring { 0% { opacity: 0; transform: scale(.12); } 18% { opacity: 1; } 100% { opacity: 0; transform: scale(3.4); } }
+@keyframes ow-ring-home { 0% { opacity: 0; transform: scale(3.2); } 30% { opacity: 1; } 100% { opacity: 0; transform: scale(.5); } }
+@keyframes ow-bolt { 0% { opacity: 0; transform: scale(.4); } 10% { opacity: 1; } 22% { opacity: .25; } 32% { opacity: 1; } 44% { opacity: .35; } 54% { opacity: .95; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes ow-diamond { 0% { opacity: 0; transform: rotate(45deg) scale(.1); } 18% { opacity: 1; } 100% { opacity: 0; transform: rotate(225deg) scale(3.2); } }
+@keyframes ow-wheel { 0% { opacity: 0; transform: rotate(0) scale(.2); } 18% { opacity: .9; } 100% { opacity: 0; transform: rotate(160deg) scale(2.6); } }
+@keyframes ow-skyline { 0% { opacity: 0; transform: scaleY(.1); } 22% { opacity: .9; } 60% { opacity: .7; transform: scaleY(1); } 100% { opacity: 0; transform: translateY(-30%) scaleY(1.3); } }
+@keyframes ow-scan { 0% { opacity: 0; transform: scaleX(0); } 14% { opacity: 1; } 32% { transform: scaleX(1) scaleY(1); } 100% { opacity: 0; transform: scaleX(1) scaleY(90); } }
+@keyframes ow-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes ow-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ------------------------------------------------------------------ LITE (3D Low): no shape, a little shorter */
+:root[data-fx="low"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after { content: none; }
+:root[data-fx="low"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation-duration: .38s; }
+
+/* ------------------------------------------------------------------ reduced motion and 3D Off: a quick clean fade, nothing moves */
+@media (prefers-reduced-motion: reduce) {
+  :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition { background: var(--ow-k); }
+  :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-group(*) { animation-duration: .2s !important; }
+  :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-old(root) { animation: ow-fade-out .18s linear both !important; transform: none !important; }
+  :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation: ow-fade-in .2s linear both !important; transform: none !important; }
+  :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before, :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::after, :root.oly-warp-in::after { content: none !important; }
+  :root.oly-warp-in::before { background: var(--ow-k) !important; border-radius: 0; animation: ow-fade-out .2s linear both !important; }
+}
+:root[data-fx="off"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition { background: var(--ow-k); }
+:root[data-fx="off"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-group(*) { animation-duration: .2s !important; }
+:root[data-fx="off"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-old(root) { animation: ow-fade-out .18s linear both !important; transform: none !important; }
+:root[data-fx="off"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation: ow-fade-in .2s linear both !important; transform: none !important; }
+:root[data-fx="off"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after, :root[data-fx="off"]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before { content: none !important; }
+:root[data-fx="off"].oly-warp-in::before { background: var(--ow-k) !important; border-radius: 0; animation: ow-fade-out .2s linear both !important; }

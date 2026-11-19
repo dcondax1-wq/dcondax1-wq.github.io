@@ -729,3 +729,35 @@
     if (effective() !== cur && where) { apply(where, applyOpts); emit(); }
   });
 })();
+
+/* WARP (olympus/warp.js + warp.css, night-warp 2026-11-19): the world-to-world jump. Every page that loads this file gets it: in <head>
+ * (every kit app) the arrival hand-off is read here before the first frame (WARP BOOT: the exact copy of warp.js's, tests.test_warp
+ * checks it); then warp.js loads, async, never waited on. Without it every page still loads as before. */
+(function () {
+  /* WARP BOOT >>> (the copy of olympus/warp.js's) */
+  function olyWarpBoot(W, d) { try {
+    var r = d.documentElement, s = W.sessionStorage, p = location.pathname.replace(/index\.html?$/, ''), h;
+    if (W.__olyWarpIn !== undefined || d.body) return;
+    W.__olyWarpIn = null; h = JSON.parse(s.getItem('oly.warp.in') || 'null');
+    if (!h || h.to !== p || !(Date.now() - h.t < 6000)) return;
+    s.removeItem('oly.warp.in'); W.__olyWarpIn = h;
+    r.setAttribute('data-oly-warp', h.f || 'lab'); if (h.hop) r.setAttribute('data-oly-warp-hop', ''); if (h.back) r.setAttribute('data-oly-warp-back', '');
+    if (h.a) r.style.setProperty('--ow-a', h.a); if (h.b) r.style.setProperty('--ow-b', h.b); if (h.k) r.style.setProperty('--ow-k', h.k);
+    var on = function (c, ms) { r.classList.add(c); setTimeout(function () { r.classList.remove(c); }, ms); };
+    if (!('onpagereveal' in W)) { on('oly-warp-in', 1400); return; }
+    W.addEventListener('pagereveal', function (e) {
+      var v = e.viewTransition; W.__olyWarpVT = v || null;
+      if (!v) { on('oly-warp-in', 1400); return; }
+      try { if (v.types && v.types.add) v.types.add('oly-warp'); } catch (x) { /* the static type */ }
+      var off = function () { r.classList.remove('oly-warp-vt'); }; r.classList.add('oly-warp-vt');
+      v.finished.then(off, off); v.ready.then(null, off); setTimeout(off, 3000);
+    }, { once: true });
+  } catch (e) { /* a plain arrival */ } }
+  /* <<< WARP BOOT */
+  try {
+    olyWarpBoot(window, document);
+    var d = document, me = d.currentScript;
+    if (window.OLYMPUS_WARP || !me || !me.src || d.querySelector('script[src*="olympus/warp.js"]')) return;
+    var s = d.createElement('script'); s.src = new URL('warp.js?v=w1', me.src).href; s.async = true; (d.head || d.documentElement).appendChild(s);
+  } catch (e) { /* plain page loads */ }
+})();

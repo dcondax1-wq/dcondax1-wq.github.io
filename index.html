@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14110e">
 <meta name="color-scheme" content="dark">
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="olympus/warp.css?v=w1" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <title>Zenith</title>
 <meta name="description" content="NQ futures paper bot on the LIT strategy: bot status, MFFU eval tracker, trades, replays, backtest results and the research lab. The previous strategy is kept in the Archive.">
 <link rel="preconnect" href="https://ntfy.sh" crossorigin><!-- speed: the PC live line (pc_feed.js -> ntfy.sh) skips its DNS + TLS wait -->
@@ -1025,7 +1026,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
     var was = own();
     if (window.MutationObserver) new MutationObserver(function () { if (own() !== was) { was = own(); T.apply('page', opts); } }).observe(R, { attributes: true, attributeFilter: ['data-theme'] });
   }
-  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o6'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o7'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 <script>
 /* Inside Jarvis (2026-11-01, owner: "on Jarvis I can switch between that mode [Jarvis], zenith mode with all of the
@@ -1153,7 +1154,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
 <script src="zenithcore.js?v=2" defer></script>
 <script src="zenith.js?v=2" defer></script>
 <script src="zenith_hero.js?v=5" defer></script>
-<script src="launcher.js?v=l14" defer></script>
+<script src="launcher.js?v=l16" defer></script>
 <script src="zenith_money.js?v=4" defer></script>
 <script src="moneynowcore.js?v=q11" defer></script>
 <script src="moneynow.js?v=1" defer></script>

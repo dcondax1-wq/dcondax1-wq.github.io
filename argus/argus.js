@@ -55,7 +55,7 @@ function load() { try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'
 async function fetchAll() {
   if (Q.get('demo') === '1') { const d = demoData(nowS()); S.demo = true; S.demoNow = nowS(); return { saved: nowS(), home: d.home, cronos: d.cronos, cards: d.cards, hist: d.hist, offline: false }; }      // a recorded healthy day (never saved over the real copy)
   let home = await getJson('../home.json'); if (!home || !home.board) { const d = await getJson('../data.json'); home = d || home; }
-  const got = await Promise.all(APPS.map(([id]) => getJson(`../${id}/jarvis.json`, 5000)));
+  const got = await Promise.all(APPS.map(([id]) => getJson(`../${id}/jarvis.json`, 5000, true)));   // optional: a folder not on this site (mind/) is asked once per 6 h
   const cards = {}; APPS.forEach(([id], i) => { cards[id] = got[i]; });
   // cronos/status.json is optional (not always published): the cards CRONOS stamps say the same, so it is only asked for when no card is stamped
   const stamped = got.some((c) => c && typeof c === 'object' && c.cronos && c.cronos.state);

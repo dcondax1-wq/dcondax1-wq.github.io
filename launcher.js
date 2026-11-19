@@ -21,7 +21,7 @@
   if (window.OLYMPUS_LAUNCHER) return;
   var d = document, root = d.documentElement;
   var PUBLIC = (function () { var o = get('oly.public'); if (o && /^https:\/\/[^ ]+\/$/.test(o)) return o; return 'https://demetrades2000-coder.github.io/nq-dashboard/'; })();   // the PC dashboard has no apps of its own: a site address saved as localStorage 'oly.public' overrides the default
-  var RECENT_KEY = 'oly.launcher.recent', STATUS_KEY = 'oly.launcher.status', RECENT_MAX = 4, FAV_KEY = 'oly.launcher.fav', FAV_MAX = 12, PRESS_MS = 520, STATUS_TTL = 5 * 60 * 1000, STALE_S = 30 * 60, FETCH_MS = 5000, PARALLEL = 4;
+  var RECENT_KEY = 'oly.launcher.recent', STATUS_KEY = 'oly.launcher.status', RECENT_MAX = 4, FAV_KEY = 'oly.launcher.fav', FAV_MAX = 12, PRESS_MS = 520, STATUS_TTL = 5 * 60 * 1000, GONE_TTL = 24 * 3600 * 1000, STALE_S = 30 * 60, FETCH_MS = 5000, PARALLEL = 4;
   var GROUPS = [['trading', 'Trading'], ['life', 'Life'], ['money', 'Money']];   // the old groups: only when olympus/doors.js did not load
   function doors() { var D = window.OLYMPUS_DOORS; return D && D.DOORS && D.DOORS.length ? D : null; }
   // Every app keeps its registry glyph and receives a small visual signature. These names are presentation only:
@@ -52,7 +52,7 @@
     var left = 0, fin = function () { if (--left > 0) return; listState = window.OLYMPUS_APPS_LIST ? 'done' : 'failed'; var w = waiters; waiters = []; w.forEach(function (f) { try { f(); } catch (e) { /* */ } }); };
     var add = function (src) { left++; var s = d.createElement('script'); s.async = true; s.src = src; s.onload = fin; s.onerror = fin; (d.head || root).appendChild(s); };
     if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l6' : 'olympus/apps-list.js?v=l6');
-    if (!doors()) add(isPC ? '/js/next/doors.js?v=d5' : 'olympus/doors.js?v=d5');      // the four doors (same file on both sites)
+    if (!doors()) add(isPC ? '/js/next/doors.js?v=d6' : 'olympus/doors.js?v=d6');      // the four doors (same file on both sites)
     if (!left) { left = 1; fin(); }
   }
   function apps() {
@@ -93,7 +93,7 @@
     return new Promise(function (res) {
       var done = false, ac = typeof AbortController === 'function' ? new AbortController() : null;
       var timer = setTimeout(function () { if (!done) { done = true; if (ac) ac.abort(); res(undefined); } }, FETCH_MS);
-      fetch(u, { cache: 'no-cache', credentials: 'omit', signal: ac ? ac.signal : undefined }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      fetch(u, { cache: 'no-cache', credentials: 'omit', signal: ac ? ac.signal : undefined }).then(function (r) { return r.ok ? r.json() : r.status === 404 ? false : null; }).then(function (j) {
         if (!done) { done = true; clearTimeout(timer); res(j); }
       }, function () { if (!done) { done = true; clearTimeout(timer); res(undefined); } });
     });
@@ -101,17 +101,23 @@
   function loadStatus() {
     var saved = json(STATUS_KEY, {}); if (saved && typeof saved === 'object') for (var k in saved) if (!st.status[k] && saved[k] && saved[k].lv) st.status[k] = saved[k];
     st.apps.forEach(function (a) { paintDot(a.id); });
-    if (st.fetching || Date.now() - st.lastFetch < 2 * 60 * 1000) return;
-    var fresh = Object.keys(st.status).length && st.apps.filter(function (a) { return a.live; }).every(function (a) { return st.status[a.id] && Date.now() - (st.status[a.id].at || 0) < STATUS_TTL; });
+    // the list not loaded yet: nothing to ask, and the 2-minute pause must not start now (night-bugsweep: an open before the list arrived
+    // used it up, so the dots stayed empty for 2 minutes)
+    if (!st.apps.length || st.fetching || Date.now() - st.lastFetch < 2 * 60 * 1000) return;
+    // a folder not on this site (its jarvis.json answered 404: mind/ on the public site, the vault stays on the PC) is not asked again for a
+    // day (night-bugsweep 2026-11-19: it was a 404 in the console on every Refresh); its dot stays grey
+    var gone = function (a) { var s = st.status[a.id]; return !!(s && s.gone && Date.now() - (s.at || 0) < GONE_TTL); };
+    var fresh = Object.keys(st.status).length && st.apps.filter(function (a) { return a.live; }).every(function (a) { return st.status[a.id] && Date.now() - (st.status[a.id].at || 0) < (st.status[a.id].gone ? GONE_TTL : STATUS_TTL); });
     if (fresh) return;
     st.fetching = true; st.lastFetch = Date.now();
-    var todo = st.apps.filter(function (a) { return a.live; }), i = 0, running = 0;
+    var todo = st.apps.filter(function (a) { return a.live && !gone(a); }), i = 0, running = 0;
     function next() {
       while (running < PARALLEL && i < todo.length) {
         (function (a) {
           running++;
           fetchJson(url(a.path + 'jarvis.json')).then(function (card) {
             if (card === undefined) { /* no answer: the last dot stays */ }
+            else if (card === false) { st.status[a.id] = { lv: 'none', label: 'not on this site', at: Date.now(), gone: 1 }; paintDot(a.id); }
             else { st.status[a.id] = { lv: level(card), label: card && card.status && card.status.label ? String(card.status.label).slice(0, 48) : '', at: Date.now() }; paintDot(a.id); }
             running--; next();
           });

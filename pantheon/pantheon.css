@@ -176,3 +176,20 @@ h3 { font: 600 16px var(--serif); color: var(--gold); margin: 16px 0 6px; }
 .cost table { margin: 4px 0 8px; } .cost td { font-family: var(--num); font-size: 15px; } .cost td:first-child { font-family: var(--sans); color: var(--dim); }
 .lvrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; font-size: 14.5px; color: var(--dim); }
 .lvrow input { width: 130px; min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--line); background: #14110e; color: var(--text); font: 700 16px var(--num); text-align: right; }
+
+/* ================================================================ PANTHEON v2 (designqa 2026-11-19, owner: "nothing 2000's looking")
+   The hall stays. The god chips lose their coloured side stripe: each is a raised tile with a dot in the god's colour; the verdict card and the
+   desk button get the AGORA lit-edge surface; the open card a deeper lift. No glow, transform-only press. */
+.god { position: relative; border-left: 1px solid rgba(243, 236, 224, .1); border-color: rgba(243, 236, 224, .1); border-radius: 14px; padding: 6px 14px 6px 12px; min-height: 52px;
+  background: linear-gradient(180deg, rgba(51, 43, 34, .96), rgba(33, 28, 22, .96)); box-shadow: 0 1px 0 rgba(255, 240, 214, .05) inset, 0 4px 12px rgba(0, 0, 0, .35); }
+.god .n { display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1.2 var(--serif); }
+.god .n::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--gold)); }
+.god.sel { border-color: rgba(200, 162, 74, .6); background: linear-gradient(180deg, #3a3020, #2a2217); }
+.council, .deskbtn { border-color: rgba(243, 236, 224, .1); background: linear-gradient(180deg, rgba(51, 43, 34, .95), rgba(33, 28, 22, .95)); box-shadow: 0 1px 0 rgba(255, 240, 214, .05) inset, 0 6px 16px rgba(0, 0, 0, .35); }
+.deskbtn { border-color: rgba(200, 162, 74, .45); }
+.tag { display: inline-flex; align-items: center; gap: 5px; color: var(--ag-sun, #e0b060); background: rgba(224, 176, 96, .1); border: 1px solid rgba(224, 176, 96, .36); }
+.tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.card { border-radius: 22px; border-color: rgba(243, 236, 224, .08); background: linear-gradient(180deg, #2c251c, #1e1914 40%); box-shadow: var(--ag-e3, 0 12px 28px rgba(0, 0, 0, .34)); }
+:is(.god, .council, .deskbtn) { transition: scale 200ms var(--ag-ease, ease-out); } :is(.god, .council, .deskbtn):active { scale: .97; }
+@media (prefers-reduced-motion: reduce) { :is(.god, .council, .deskbtn) { transition: none; } :is(.god, .council, .deskbtn):active { scale: 1; } }
+.tag[hidden] { display: none; }

@@ -9,8 +9,10 @@
 // Sources (read-only; nothing here ever writes to a bot):
 //   live.json   the NQ bots (the PC's heartbeat publish, branch `live` of nq-dashboard): the GitHub API first (fresh), then
 //               raw.githubusercontent (GitHub's CDN keeps it ~5 min); after a 403 / 429 the API rests 15 min.
-//   kalshi.json the Kalshi bot's status (it runs on its own server and publishes to its own repo, kalshi-feed): raw first,
-//               then the API; 404 = 'waiting' (not linked yet: asked once a session, then left alone, no console spam).
+//   kalshi.json the Kalshi bot's status: ONLY this site's own copy (../kalshi.json, put next to the pages by pc_publish when the VM's kit
+//               left one). The bot's old feed repo (kalshi-feed) lives on the suspended GitHub account: never asked (night-bugsweep
+//               2026-11-19: it was a 404 in the console on every Jarvis load). When the PC feed carries Kalshi's cards (the paper tests,
+//               the K8 live card) the PC is the source and the site copy is not asked either; 404 = 'waiting' (asked once a page load).
 //   Planner     localStorage 'planner.today.v1' {day, events, tasks} when it is today's, else today computed from what the
 //               Planner saved on this phone ('planner.v1' / 'planner.hosted.v1'). When the Planner's own sync is set up on this
 //               phone ('planner.sync' {token, repo}: same site), refreshPlanner() also reads its planner.json from GitHub (GET only,
@@ -25,10 +27,8 @@ export const REPO = 'nq-dashboard';
 export const URLS = {
   liveApi: `https://api.github.com/repos/${OWNER}/${REPO}/contents/live.json?ref=live`,
   liveRaw: `https://raw.githubusercontent.com/${OWNER}/${REPO}/live/live.json`,
-  // the Kalshi bot's own feed repo (security review 2026-11-01: not the dashboard's repo)
+  // the Kalshi bot's feed: this site's own copy only (its old repo kalshi-feed is on the suspended account: never asked)
   kalshiLocal: '../kalshi.json',
-  kalshiRaw: `https://raw.githubusercontent.com/${OWNER}/kalshi-feed/main/kalshi.json`,
-  kalshiApi: `https://api.github.com/repos/${OWNER}/kalshi-feed/contents/kalshi.json?ref=main`,
 };
 const FETCH_MS = 9000;
 
@@ -153,7 +153,15 @@ function slim(j) {                          // what Jarvis needs, also kept for 
   return { lit: b.lit || null, atlas: b.atlas || null, blitz: bz, verdict: (j && j.pc_verdict) || null, running: b.running, t: j && j.t,
     trades, health, lines, level: b.level || null, price: num(j && j.price), last_signal: (j && j.last_signal) || null, pc_health,
     progress: isObj(b.progress) ? b.progress : null, money: j && isObj(j.money) && !j.money.error ? j.money : null, mind, learn,
-    extra: extraAccounts(j), kpaper: kalshiPaper(j) };
+    extra: extraAccounts(j), kpaper: kalshiPaper(j), klive: kalshiLive(j) };
+}
+// Kalshi's K8 live card from the PC feed (engine/kalshi_live.read_card, key kalshi_live, <= 200 bytes): {st: live | paused | stopped | idle,
+// net, f, o, cap, stop, u, why}; st off (or none) = null. Real money only moves after the owner types the phrase on the PC.
+export function kalshiLive(j) {
+  const c = isObj(j && j.kalshi_live) ? j.kalshi_live : null;
+  if (!c || c.kind !== 'kalshi_live_pub' || !['live', 'paused', 'stopped', 'idle'].includes(c.st)) return null;
+  const n = (x) => (x == null || x === '' || !Number.isFinite(+x) ? null : +x), t = Date.parse(txt(c.u));
+  return { st: c.st, net: n(c.net), fills: n(c.f), orders: n(c.o), cap: n(c.cap), stop: n(c.stop), why: txt(c.why).slice(0, 40), t: Number.isFinite(t) ? Math.round(t / 1000) : null };
 }
 // The PC's OTHER real accounts (night-feedsA 2026-11-18, owner: "3 accounts, not 2"): the board has one card per BOT (lit = Zlarior's
 // 50K, atlas = ATLAS's funded 25K), but the PC runs a third account (Zlarior 25K #2, id b25k_2) that only its "accounts" list carries.
@@ -316,21 +324,22 @@ const K = { j: null, at: 0, state: '', busy: null, n404: 0 };      // state: '' 
 // kalshi.json not published yet (404, "not linked yet"): asked once per page load, then left alone (no 404 every few minutes
 // in the console). Opening Jarvis again (or kalshiRetry()) asks once more: that is how a newly linked bot shows up.
 export const kalshiBackedOff = () => K.state === 'waiting' && K.n404 > 0;
-export function kalshiRetry() { K.n404 = 0; return kalshiFetch(); }
+export function kalshiRetry() { K.n404 = 0; return kalshiFetch(true); }
 export function refreshKalshi() { return kalshiBackedOff() ? (K.at = Date.now(), Promise.resolve()) : kalshiFetch(); }
-function kalshiFetch() {
+// the PC feed carries Kalshi (its paper tests or the K8 live card): then the PC is Kalshi's source and nothing else is asked
+const pcHasKalshi = () => { const v = liveView(); return !!(v && !v.cached && (isObj(v.kpaper) || isObj(v.klive))); };
+function kalshiFetch(force) {
   if (K.busy) return K.busy;
   K.busy = (async () => {
     try {
-      let r = null;
-      let lj = null;                      // this site's own copy first (pc_publish puts the feed next to the pages); HTML or junk falls through
-      try { const lr = await get(URLS.kalshiLocal + '?t=' + Math.floor(Date.now() / 60000), { cache: 'no-cache' }); if (lr && lr.ok) { const x = await lr.json(); if (x && typeof x === 'object' && !Array.isArray(x)) lj = x; } } catch (_) { lj = null; }
-      if (lj) { K.j = lj; K.state = 'ok'; K.n404 = 0; LS.set('jarvis.lastKalshi', lj); K.at = Date.now(); K.busy = null; emit('kalshi'); return; }
-      try { r = await get(URLS.kalshiRaw + '?t=' + Math.floor(Date.now() / 60000), { cache: 'no-cache' }); } catch (_) { r = null; }
-      if (!r || (!r.ok && r.status !== 404)) { try { r = await get(URLS.kalshiApi, { cache: 'no-cache', headers: { Accept: 'application/vnd.github.raw+json' } }); } catch (_) { r = null; } }
-      if (r && r.ok) { const j = await r.json(); if (j && typeof j === 'object') { K.j = j; K.state = 'ok'; K.n404 = 0; LS.set('jarvis.lastKalshi', j); } else K.state = 'error'; }
-      else if (r && r.status === 404) { K.state = 'waiting'; K.n404++; }
-      else K.state = 'error';
+      try { await (L.busy || Promise.resolve()); await pcFeedReady(); } catch (_) { /* the PC feed is optional */ }
+      if (!force && pcHasKalshi()) { K.state = 'waiting'; K.n404++; K.at = Date.now(); K.busy = null; emit('kalshi'); return; }
+      let lr = null, lj = null;             // this site's own copy (pc_publish puts the feed next to the pages); HTML or junk = not published
+      try { lr = await get(URLS.kalshiLocal + '?t=' + Math.floor(Date.now() / 60000), { cache: 'no-cache' }); } catch (_) { lr = null; }
+      if (lr && lr.ok) { try { const x = await lr.json(); if (x && typeof x === 'object' && !Array.isArray(x)) lj = x; } catch (_) { lj = null; } }
+      if (lj) { K.j = lj; K.state = 'ok'; K.n404 = 0; LS.set('jarvis.lastKalshi', lj); }
+      else if (lr && (lr.ok || lr.status === 404)) { K.state = 'waiting'; K.n404++; }
+      else K.state = 'error';                // no answer / a server error: NO SIGNAL
     } catch (_) { K.state = 'error'; }
     K.at = Date.now(); K.busy = null;
     emit('kalshi');
@@ -698,8 +707,19 @@ function systemOf(f) {
   const k = isObj(f.kalshi) ? f.kalshi : null, ks = txt(f.kalshiState);
   const kr = { id: 'kalshi', name: 'Kalshi', sub: 'its own server', app: 'kalshi', level: '', value: '—', text: '', todo: '' };
   // not published yet: an intentional "not linked yet" state (grey, never counted), not a broken one
-  const kp = !k && v && isObj(v.kpaper) ? v.kpaper : null;
-  if (kp) {                                // real money paused; the PC runs the PAPER tests (K1 rules, rewards) and posts them every 15 min
+  const kp = !k && v && isObj(v.kpaper) ? v.kpaper : null, kl = !k && v && isObj(v.klive) ? v.klive : null;
+  if (kl) {                                // the K8 live card from the PC feed (armed by the owner on the PC; Jarvis only reads it)
+    const age = kl.t ? Math.max(0, now - kl.t) : null, late = age == null || age > 45 * 60;
+    kr.sub = 'live on your PC';
+    kr.value = { live: 'LIVE', paused: 'PAUSED', stopped: 'STOPPED', idle: 'ARMED' }[kl.st];
+    kr.text = [kl.st === 'idle' ? 'armed, not running' : kl.st === 'paused' ? 'paused from the phone' : kl.st === 'stopped' ? `off${kl.why ? ' (' + kl.why + ')' : ''}` : 'running',
+      kl.net != null ? `today ${usd2(kl.net, true)}` : '', kl.fills != null ? `${kl.fills} fill${kl.fills === 1 ? '' : 's'}` : '', age != null ? agoS(age) : ''].filter(Boolean).join(' · ');
+    kr.tone = kl.net > 0 ? 'up' : kl.net < 0 ? 'dn' : '';
+    kr.level = kl.st === 'stopped' ? 'bad' : kl.st === 'idle' || (kl.st === 'live' && late) ? 'warn' : kl.st === 'live' ? 'ok' : '';
+    if (kl.st === 'stopped') { kr.short = 'Kalshi stopped'; kr.todo = 'Kalshi live is OFF (it stopped itself): to start it again, type the phrase on the PC (KALSHI_LIVE.bat)'; }
+    else if (kl.st === 'idle') { kr.short = 'Kalshi armed, not running'; kr.todo = 'Kalshi is armed but the PC is not running it: double-click KALSHI_LIVE.bat on the PC'; }
+    else if (kl.st === 'live' && late) { kr.short = 'Kalshi not updating'; kr.todo = `Kalshi live card not updating${age != null ? ' since ' + agoS(age) : ''}: check the PC`; }
+  } else if (kp) {                                // real money paused; the PC runs the PAPER tests (K1 rules, rewards) and posts them every 15 min
     kr.sub = 'paper tests on your PC'; kr.value = 'PAUSED';
     kr.text = ['real money paused', kp.k1 ? `K1 ${usd2(kp.k1.net, true)} (${kp.k1.sig} signal${kp.k1.sig === 1 ? '' : 's'})` : 'K1 not running',
       kp.rewards ? `rewards ${usd2(kp.rewards.net, true)}` : '', kp.t ? agoS(Math.max(0, now - kp.t)) : ''].filter(Boolean).join(' · ');

@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-19",
  "number": 2,
- "built": "2026-11-19T02:49:33Z",
+ "built": "2026-11-19T04:30:26Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -709,9 +709,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 191 write-ups.",
-    "The newest lesson on file, dated 2026-11-18, reads: I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - wi…",
-    "It was filed under \"finding\" and comes from research/writeups/win-loss-anatomy-2026-11-18.md."
+    "The research shelf now counts 193 write-ups.",
+    "The newest lesson on file, dated 2026-11-19, reads: After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famou…",
+    "It was filed under \"rejected\" and comes from research/writeups/third-strategy-2026-11-18.md."
    ],
    "facts": [
     {
@@ -743,28 +743,28 @@
      "quote": true
     },
     {
-     "t": "191",
+     "t": "193",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 191
+     "raw": 193
     },
     {
-     "t": "2026-11-18",
+     "t": "2026-11-19",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - wi…",
+     "t": "After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famou…",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "finding",
+     "t": "rejected",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/win-loss-anatomy-2026-11-18.md",
+     "t": "research/writeups/third-strategy-2026-11-18.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }

@@ -20,33 +20,34 @@
      'inbox.*' keys, caches the last fetch (opens offline) and never writes to anything it reads. The unread card is kept in 'inbox.card.v1'. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a5"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
 <script src="../olympus/quiet-net.js?v=q6a"></script>
-<script src="../olympus/themes.js?v=o6"></script>
-<script src="../olympus/olympus.js?v=o11" data-app="inbox"></script>
+<script src="../olympus/themes.js?v=o7"></script>
+<script src="../olympus/olympus.js?v=o12" data-app="inbox"></script>
 <script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
 <script src="../olympus/intro-app.js?v=i8" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#9aa3a8'); r.setProperty('--oly-accent-rgb', '154, 163, 168'); })();</script>
-<link rel="stylesheet" href="inbox.css?v=i1g">
+<link rel="stylesheet" href="inbox.css?v=i2a">
 </head>
 <body>
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <main id="app">
   <header class="top">
-    <div class="brand"><h1>INBOX</h1><p class="sub" id="sub">What needs a look, newest first. Tap one to open it.</p></div>
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Inbox</h1><p class="sub" id="sub">What needs a look, newest first. Tap one to open it.</p></div></div>
     <div class="tags"><span id="lite" class="tag" hidden>LITE</span><span id="off" class="tag" hidden>OFFLINE COPY</span><button type="button" class="refresh" id="refresh" data-oly-cue="tap" aria-label="Refresh" aria-busy="false">Refresh</button></div>
   </header>
-  <section class="hero card" id="hero" data-oly-fx="glassSpecular">
+  <section class="ag-card hero card" id="hero">
+    <p class="eyebrow">Waiting for you</p>
     <div class="count"><b id="unread" data-oly-fx="odometer">0</b><span id="unreadLbl">new</span></div>
     <p class="lead" id="lead">Loading what is new</p>
     <div class="acts"><button type="button" class="go" id="markAll" data-oly-cue="success">Mark all read</button></div>
   </section>
   <nav class="filters" id="filters" role="tablist" aria-label="Filter"></nav>
   <ul class="list" id="list" aria-live="polite"></ul>
-  <section class="calm card" id="calm" hidden><h2>All quiet</h2><p id="calmText">Your bots are fine. Nothing new needs you.</p><p class="hint">The last five things that happened:</p><ul class="list" id="last"></ul></section>
-  <section class="card" id="mutes" data-oly-fx="glassSpecular"><h2>Sources</h2><p class="hint">Tap a source to stop counting it. Nothing is deleted.</p><div class="chips" id="muteChips"></div></section>
+  <section class="ag-card calm card" id="calm" hidden><h2>All quiet</h2><p id="calmText">Your bots are fine. Nothing new needs you.</p><p class="hint">The last five things that happened:</p><ul class="list" id="last"></ul></section>
+  <section class="ag-card card" id="mutes"><h2>Sources</h2><p class="hint">Tap a source to stop counting it. Nothing is deleted.</p><div class="chips" id="muteChips"></div></section>
   <p class="foot" id="foot">Read only: the Inbox never changes anything, never trades.</p>
 </main>
 <script type="module" src="inbox.js?v=i2g"></script>

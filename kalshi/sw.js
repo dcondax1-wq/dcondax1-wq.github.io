@@ -9,9 +9,9 @@
 //   (raw.githubusercontent.com / api.github.com) is never touched or cached;
 // - Jarvis's fonts (../jarvis/*.woff2, the page's @font-face) and its three.js (the 3D header, korb.js) are saved here too and
 //   answered from the copy first, so the page keeps its Orbitron / Rajdhani look and its orb offline.
-const CACHE = 'kalshi-k36';                      // = 'kalshi-' + the ?v= of kalshi.css / kalshi.js (index.html, SHELL): a new version, a new cache
+const CACHE = 'kalshi-k38';                      // = 'kalshi-' + the ?v= of kalshi.css / kalshi.js (index.html, SHELL): a new version, a new cache
 const NAV_WAIT_MS = 3500;
-const SHELL = ['./', './index.html', './kalshi.css?v=k36', './kalshi.js?v=k36', './kfx.js?v=k26', './kit.json'];
+const SHELL = ['./', './index.html', './kalshi.css?v=k38', './kalshi.js?v=k38', './kfx.js?v=k26', './kit.json', '../olympus/warp.css?v=w1', '../olympus/warp.js?v=w1'];
 const FONTS = ['../jarvis/orbitron.woff2', '../jarvis/rajdhani-400.woff2', '../jarvis/rajdhani-500.woff2', '../jarvis/rajdhani-600.woff2',
   '../jarvis/rajdhani-700.woff2', '../jarvis/three.module.min.js'];   // + the 3D header's three.js (korb.js): offline, and never a hung fetch
 const FONT_URLS = FONTS.map((f) => new URL(f, self.registration.scope).href);

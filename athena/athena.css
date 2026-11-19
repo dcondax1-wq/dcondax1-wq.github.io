@@ -78,7 +78,7 @@ input[type="search"] { width: 100%; min-height: 46px; padding: 6px 12px; font: 6
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
 /* 2026-11-04: the panes (Ask, Today, Cards, Rules, Saved), bookmarks, toast, tab badges */
-.bd { position: absolute; top: 2px; right: 3px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 99px; background: var(--gold); color: #110d09; font: 600 10px/16px var(--ag-sans); }
+.bd { position: absolute; top: 2px; right: 3px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--gold); color: #110d09; font: 700 12px/18px var(--ag-num, var(--ag-sans)); font-variant-numeric: tabular-nums; }
 .bd[hidden] { display: none; }
 .mark { float: right; min-width: 44px; font-size: 24px; line-height: 1; color: var(--gold); border-color: rgba(200, 162, 74, .4); }
 .mark[aria-pressed="true"] { background: rgba(200, 162, 74, .2); }
@@ -162,3 +162,40 @@ button { font-family: var(--ag-sans); }
 
 button { background: rgba(37, 30, 23, .88); }
 button[aria-pressed="true"] { background: #2a2217; border-color: #c8a24a; color: #c8a24a; }
+
+/* ================================================================ HUD v2 (designqa 2026-11-19, owner: "nothing 2000's looking")
+   The 3D room stays; the chrome over it becomes AGORA: a 30 px serif title in ivory with the gold rule (no coloured caps), a 14 px purpose line,
+   status tags as badges with a dot, the sheet as one raised warm surface (no glass blur over the moving scene: it cost a repaint per frame),
+   controls with one shape (13 px radius, a lit top edge, a press), the dock tabs as one segmented rail with a raised thumb, and no text under
+   12 px. Layout, ids and the orb's corner are unchanged. Transform / opacity motion only; reduced motion turns it off. */
+.hud { background: linear-gradient(180deg, rgba(20, 17, 14, .95) 0%, rgba(20, 17, 14, .7) 66%, rgba(20, 17, 14, 0) 100%); padding-bottom: 20px; }
+.hud .title { gap: 10px; align-items: flex-start; }
+.hud h1 { font: 600 clamp(26px, 7.6vw, 30px)/1.05 var(--ag-serif, Georgia, serif); letter-spacing: 0; color: var(--ag-text, #f3ece0); }
+.hud h1::after { width: 40px; height: 2px; margin-top: 7px; border-radius: 2px; background: linear-gradient(90deg, var(--ag-gold, #c8a24a), rgba(var(--ag-gold-rgb, 200, 162, 74), 0)); }
+.hud .sub { margin-top: 8px; font: 400 14px/1.4 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-soft, #cfc4b2); max-width: 34em; }
+.hud .tag { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 0 9px; margin-top: 4px; border-radius: 999px; font: 600 12px/1 var(--ag-sans, -apple-system, system-ui, sans-serif); letter-spacing: .01em;
+  color: var(--ag-sun, #e0b060); background: rgba(var(--ag-sun-rgb, 224, 176, 96), .09); border: 1px solid rgba(var(--ag-sun-rgb, 224, 176, 96), .36); }
+.hud .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.hud .tag[hidden] { display: none; }   /* the badge's inline-flex must not show a hidden tag */
+.hud .tag.live { color: var(--ag-olive-text, #a0ac6e); background: rgba(var(--ag-olive-rgb, 127, 138, 82), .08); border-color: rgba(var(--ag-olive-rgb, 127, 138, 82), .5); }
+.sheet { padding: 14px; border-radius: 22px; -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .08);
+  background: linear-gradient(180deg, rgba(var(--oly-th-n6-rgb, 44, 37, 28), .97), rgba(var(--oly-th-n4-rgb, 30, 25, 20), .98) 40%); box-shadow: var(--ag-e3, 0 12px 28px rgba(0, 0, 0, .34)); scrollbar-width: thin; }
+.sheet h2, .sheet h3:not(.pl-title) { color: var(--ag-text, #f3ece0); }
+button { border-radius: 13px; border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1); box-shadow: var(--ag-e1);
+  font-weight: 600; transition: scale var(--ag-d1, 200ms) var(--ag-ease, ease-out), background-color var(--ag-d1, 200ms), border-color var(--ag-d1, 200ms), color var(--ag-d1, 200ms); touch-action: manipulation; }
+button:active { scale: .97; }
+button:not([class]):not([aria-pressed="true"]), .seg button:not([aria-pressed="true"]):not(.on), .wide:not([aria-pressed="true"]) { background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); }
+button[aria-pressed="true"] { background: linear-gradient(180deg, var(--oly-th-n7, #3a3020), var(--oly-th-n5, #2a2217)); border-color: rgba(var(--ag-gold-rgb, 200, 162, 74), .6); color: var(--ag-gold-hi, #dcbd6e); }
+.ghost { background: transparent; box-shadow: none; }
+input[type="text"], input:not([type]), input[inputmode], input[type="search"] { border-radius: 13px; background: var(--ag-s1, #1b1713); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1); box-shadow: 0 1px 2px rgba(0, 0, 0, .3) inset; }
+.dock { background: linear-gradient(0deg, rgba(20, 17, 14, .98) 0%, rgba(20, 17, 14, .92) 74%, rgba(20, 17, 14, 0) 100%); }
+.dock .tabs { gap: 2px; padding: 3px; border-radius: 15px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset; }
+.dock .tabs button { border: 0; border-radius: 12px; background: transparent; box-shadow: none; color: var(--ag-soft, #cfc4b2); font: 600 13px/1.1 var(--ag-sans, -apple-system, system-ui, sans-serif); min-height: 44px; }
+.dock .tabs button[aria-pressed="true"] { background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); color: var(--ag-gold-hi, #dcbd6e); box-shadow: var(--ag-e1); }
+.nogl { font-size: 14px; color: var(--ag-soft, #cfc4b2); }
+@media (prefers-reduced-motion: reduce) { button { transition: none; } button:active { scale: 1; } }
+/* the list rows, answers and studies: a soft tint from the corner in the shelf's colour instead of a coloured stripe; the tab badges ride above the label */
+.item, .ans { border-left: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .08); background: radial-gradient(90% 140% at 0% 0%, color-mix(in srgb, var(--c, var(--acc)) 16%, transparent), transparent 62%), var(--ag-s1, #1b1713); }
+#train .study, #train .stopnote.mine { border-left-width: 1px; }
+.hud { background: linear-gradient(180deg, rgba(20, 17, 14, .97) 0%, rgba(20, 17, 14, .84) 74%, rgba(20, 17, 14, 0) 100%); }
+.dock .tabs .bd { top: -8px; right: -2px; box-shadow: 0 2px 6px rgba(0, 0, 0, .4); }

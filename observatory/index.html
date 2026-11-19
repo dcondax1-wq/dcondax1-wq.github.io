@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="agora">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12,20 +12,37 @@
 <meta name="theme-color" content="#14110e"><meta name="color-scheme" content="dark">
 <title>Observatory · OLYMPUS</title>
 <meta name="description" content="Read-only evidence center for OLYMPUS dashboard data health and improvement ideas.">
-<link rel="stylesheet" href="../olympus/olympus.css?v=o7"><link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
-<script src="../olympus/themes.js?v=o6"></script><script src="../olympus/olympus.js?v=o11" data-app="observatory"></script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7"><link rel="stylesheet" href="../olympus/agora.css?v=a5"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o7"></script><script src="../olympus/olympus.js?v=o12" data-app="observatory"></script>
 <script src="../olympus/intro-app.js?v=i8" defer></script>
-<link rel="stylesheet" href="observatory.css?v=3"><script src="app.js?v=6" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
+<link rel="stylesheet" href="observatory.css?v=4"><script src="app.js?v=7" defer></script>
 </head>
 <body>
-<header class="head"><a class="back" href="../jarvis/" aria-label="Back to Jarvis">←</a><div><span class="overline">Olympus · Intelligence</span><h1>Observatory</h1></div><span class="mode">Read only</span></header>
-<main>
-  <section class="hero" aria-labelledby="heading"><span class="eyebrow">Is every data feed working?</span><h2 id="heading">See what is broken.<br><em>Fix that first.</em></h2><p>Each tower is one data file the apps read. Gold = fine, amber = look at it, red = down. Tap a tower to see why.</p><div class="actions"><button id="refresh" type="button">Scan sources</button><button id="export" type="button" class="secondary">Export review</button></div><p id="updated" role="status" aria-live="polite">Preparing source scan…</p></section>
-  <section class="city" aria-label="Interactive source city"><div class="horizon" aria-hidden="true"></div><div id="towers" class="towers"></div><div class="ground" aria-hidden="true"></div></section>
-  <section class="overview" aria-label="Source overview"><div><strong id="healthy">—</strong><span>available</span></div><div><strong id="attention">—</strong><span>need review</span></div><div><strong id="history">—</strong><span>scans saved here</span></div></section>
-  <section class="panel" aria-labelledby="detail-title"><div class="section-head"><span>Source intelligence</span><h2 id="detail-title">Select a tower</h2></div><div id="detail">Each tower links to a published OLYMPUS source.</div></section>
-  <section class="panel" aria-labelledby="review-title"><div class="section-head"><span>Review queue</span><h2 id="review-title">What deserves attention</h2></div><div id="reviews">Scanning…</div></section>
-  <section class="panel" aria-labelledby="method-title"><div class="section-head"><span>Method</span><h2 id="method-title">Evidence before changes</h2></div><p>The Observatory refreshes every five minutes while this page is open and keeps up to 30 scan summaries in this browser. A failed request, older timestamp, demo flag, or changed source produces a review card. It cannot change a bot, dashboard, order, or deployment. A scheduled publisher is needed for continuous checks when this page is closed.</p><a class="learn" href="../#/learning">Open Zlarior trade learning ↗</a></section>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Observatory</h1><p class="sub">Is every data feed the apps read working? See what is broken, fix that first.</p></div></div>
+    <div class="tags"><span class="tag mode">Read only</span></div>
+  </header>
+  <p id="updated" class="note scanstamp" role="status" aria-live="polite">Preparing source scan…</p>
+
+  <section class="ag-card hero" aria-labelledby="heading">
+    <p class="ag-hero-label" id="heading">Feeds answering</p>
+    <p class="ag-hero-num"><b id="healthy">—</b><span class="of" id="total"> of 6</span></p>
+    <p class="ag-hero-sub" id="heroLine">Checking the six published sources the apps read.</p>
+    <div id="towers" class="towers" role="group" aria-label="The sources: tap one to see why"></div>
+    <div class="actions"><button id="refresh" type="button" class="primary">Scan sources</button><button id="export" type="button" class="secondary">Export review</button></div>
+  </section>
+
+  <section class="overview" aria-label="Source overview">
+    <div><span>Need a look</span><strong id="attention">—</strong><small>from this scan</small></div>
+    <div><span>Scans saved</span><strong id="history">—</strong><small>on this phone (30 max)</small></div>
+  </section>
+
+  <section class="ag-card panel" aria-labelledby="detail-title"><div class="section-head"><span>Selected source</span><h2 id="detail-title">Select a source</h2></div><div id="detail">Each tile above is one published OLYMPUS source.</div></section>
+  <section class="ag-card panel" aria-labelledby="review-title"><div class="section-head"><span>Review queue</span><h2 id="review-title">What deserves attention</h2></div><div id="reviews"><p class="skel" aria-hidden="true"></p><p class="skel short" aria-hidden="true"></p></div></section>
+  <details class="ag-card panel method"><summary><span class="section-head"><span>Method</span><b id="method-title">Evidence before changes</b></span></summary><p>The Observatory refreshes every five minutes while this page is open and keeps up to 30 scan summaries in this browser. A failed request, older timestamp, demo flag, or changed source produces a review card. It cannot change a bot, dashboard, order, or deployment. A scheduled publisher is needed for continuous checks when this page is closed.</p><a class="learn" href="../#/learning">Open Zlarior trade learning</a></details>
 </main>
 </body>
 </html>

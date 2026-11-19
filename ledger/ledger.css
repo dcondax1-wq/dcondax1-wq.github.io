@@ -18,11 +18,7 @@ html[data-noscene] #vault { display: none; }
 .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; }
 /* a light look (2026-11-14, T2): the title sits over the vault, a dark 3D scene by design: a backing in the page colour so the ink reads */
 html[data-oly-scheme="light"] .top { padding: 6px 10px; border-radius: 14px; background: rgba(var(--oly-th-n3-rgb, 21, 18, 15), .9); }
-.brand h1 { margin: 0; font: 800 18px/1 var(--oly-display, sans-serif); letter-spacing: .01em; color: var(--g-gold);  }
-.brand .sub { margin: 3px 0 0; font-size: var(--oly-t-micro, 10.5px); letter-spacing: .01em; text-transform: none; color: var(--oly-dim); }
 .tags { display: flex; gap: 6px; }
-.tag { padding: 3px 8px; border-radius: 999px; font: 700 12px/1 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; border: 1px solid var(--oly-line); color: var(--oly-dim); background: var(--oly-glass); }
-.tag.demo { color: var(--oly-th-warn, #e0b060); border-color: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .55); }
 .tag[hidden] { display: none; }
 
 .hero, .card { border-radius: var(--oly-r-card, 16px); border: 1px solid rgba(var(--g-gold-rgb), .22); background: rgba(var(--oly-th-n3-rgb, 23, 20, 17), .72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 10px 30px rgba(0, 0, 0, .35); }
@@ -128,3 +124,72 @@ label.f.amt input { font: 800 24px/1 var(--oly-display, sans-serif); }
 .sbsrc .k small, .sbsrc .v small { display: block; font-size: 12px; color: var(--oly-dim); overflow-wrap: anywhere; }
 .sbsrc .v { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; max-width: 44vw; text-align: right; }
 #score .snapt .ag-money { font-size: 24px; }
+
+/* ================================================================ LEDGER v2 (designqa 2026-11-19, owner: "nothing 2000's looking")
+   On the AGORA page shell (olympus/agora.css section 14: back row, icon tile, serif title, compact bar, the sticky tab rail). The glass cards
+   and 12 px gold caps become AGORA's layered warm surfaces with 18 px serif titles and 14-15 px text; the hero is one 44 px rounded figure in
+   ivory (terracotta when below zero) over the vault; the + button loses its gold glow for a soft lift. Every id, class and number stays. */
+[hidden] { display: none !important; }   /* the shell styles header .tag as inline-flex: a hidden DEMO tag must stay hidden */
+#app { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+#app > .panel:not([hidden]) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+#app > .panel > .card { margin: 0; }
+html[data-oly-scheme="light"] .top { padding: 8px 12px; }
+/* the vault sits under the title block (not behind its text): the shell's header is taller than the old one-line title */
+#vault { top: calc(var(--st) + 128px); height: 330px; -webkit-mask-image: linear-gradient(transparent 0, var(--oly-th-n3, #161310) 22%, var(--oly-th-n3, #161310) 70%, transparent);
+  mask-image: linear-gradient(transparent 0, var(--oly-th-n3, #161310) 22%, var(--oly-th-n3, #161310) 70%, transparent); }
+html.framed #vault { top: 72px; }
+#app .hero { margin-top: 228px; padding: 20px; border-radius: 22px; -webkit-backdrop-filter: none; backdrop-filter: none;
+  background: radial-gradient(130% 90% at 0% 0%, rgba(var(--g-gold-rgb), .14), rgba(var(--g-gold-rgb), 0) 60%), linear-gradient(180deg, rgba(var(--oly-th-n6-rgb, 44, 37, 28), .96), rgba(var(--oly-th-n4-rgb, 30, 25, 20), .97));
+  border: 1px solid var(--ag-line-gold, rgba(200, 162, 74, .32)); box-shadow: var(--ag-e3); }
+#app .hero .k { font: 600 var(--ag-fs-foot, 13px)/1.2 var(--ag-sans); color: var(--ag-soft, #cfc4b2); }
+#app .hero .big { margin: 6px 0 4px; font: 700 clamp(2.25rem, 12vw, var(--ag-fs-hero, 2.75rem))/1.02 var(--ag-num, -apple-system, sans-serif); letter-spacing: -.015em; color: var(--ag-text, #f3ece0); }
+#app .hero .big.neg { color: var(--ag-terra-text, #e08a6b); }
+#app .hero .sub2 { margin: 0 0 14px; font-size: var(--ag-fs-sub, 14px); line-height: 1.4; color: var(--ag-soft, #cfc4b2); }
+#app .hero .pair { gap: 10px; }
+#app .hero .pair div { padding: 12px 14px; border-radius: 14px; background: rgba(var(--oly-th-n3-rgb, 20, 17, 14), .45); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .06); gap: 3px; }
+#app .hero .pair span { font: 600 var(--ag-fs-foot, 13px)/1.2 var(--ag-sans); color: var(--ag-muted, #a89c88); }
+#app .hero .pair b { font: 700 var(--ag-fs-h3, 18px)/1.2 var(--ag-num, -apple-system, sans-serif); font-variant-numeric: tabular-nums; }
+#app .hero .coin { margin: 12px 0 0; font-size: var(--ag-fs-foot, 13px); color: var(--ag-muted, #a89c88); }
+#app .demo-banner { margin: 0; padding: 12px 14px; border-radius: 14px; font-size: var(--ag-fs-sub, 14px); line-height: 1.4; color: var(--ag-soft, #cfc4b2);
+  background: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .07); border-color: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .3); }
+#app .demo-banner b { color: var(--ag-sun, #e0b060); margin-right: 4px; }
+#app .card { padding: 16px 18px; border-radius: 20px; -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .075);
+  background: linear-gradient(180deg, var(--oly-th-n5, #27211a), var(--oly-th-n4, #1e1a15) 75%); box-shadow: var(--ag-e2); }
+#app .card h2 { margin: 0 0 8px; font: 600 var(--ag-fs-h3, 18px)/1.25 var(--ag-serif, Georgia, serif); letter-spacing: .005em; color: var(--ag-text, #f3ece0); }
+#app .card h3 { margin: 14px 0 4px; font: 600 var(--ag-fs-foot, 13px)/1.25 var(--ag-sans); color: var(--ag-muted, #a89c88); }
+#app .card p { font-size: var(--ag-fs-sub, 14px); line-height: 1.45; color: var(--ag-soft, #cfc4b2); }
+#app .card p.strong { color: var(--ag-text, #f3ece0); font-size: var(--ag-fs-body, 15px); }
+#app .card p.warn { padding: 10px 12px; border-radius: 12px; border-color: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .3); background: rgba(var(--oly-th-warn-rgb, 224, 176, 96), .07); }
+#app .kv li { padding: 10px 0; font-size: var(--ag-fs-sub, 14px); border-top-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .06); align-items: baseline; }
+#app .kv .k { color: var(--ag-soft, #cfc4b2); } #app .kv .v { font: 600 var(--ag-fs-body, 15px)/1.3 var(--ag-num, -apple-system, sans-serif); font-variant-numeric: tabular-nums; }
+#app .kv li.tot { border-top-color: rgba(var(--g-gold-rgb), .3); } #app .kv li.tot .k { color: var(--ag-text, #f3ece0); font-weight: 600; } #app .kv li.tot .v { font-weight: 700; font-size: var(--ag-fs-lead, 17px); }
+#app .bar { height: 8px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset; }
+#app .bar i { background: linear-gradient(90deg, var(--ag-bronze, #9c6b3c), var(--g-gold)); }
+#app .chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; font: 600 var(--ag-fs-cap, 12px)/1 var(--ag-sans); border-color: color-mix(in srgb, currentColor 45%, transparent); background: color-mix(in srgb, currentColor 8%, transparent); }
+#app .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+#app .chip.ok { color: var(--ag-olive-text, #a0ac6e); } #app .chip.bad { color: var(--ag-terra-text, #e08a6b); } #app .chip.info { color: var(--ag-aegean-text, #7fa7c2); }
+#app .btn { min-height: 44px; padding: 0 16px; border-radius: 13px; font: 600 var(--ag-fs-sub, 14px)/1.2 var(--ag-sans); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1);
+  background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); box-shadow: var(--ag-e1); transition: scale var(--ag-d1, 200ms) var(--ag-ease, ease-out); }
+#app .btn.gold { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--g-gold)); color: var(--ag-on-gold, #1b1610); border-color: var(--oly-th-a11, #e2c47a); }
+#app .btn:active, .fab:active, #app .erow:active { scale: .97; }
+#app .legend { font-size: var(--ag-fs-cap, 12px); color: var(--ag-muted, #a89c88); }
+#app .erow { min-height: 56px; padding: 8px 2px; gap: 12px; }
+#app .erow .d { font: 600 var(--ag-fs-cap, 12px)/1.2 var(--ag-num, -apple-system, sans-serif); color: var(--ag-muted, #a89c88); }
+#app .erow .t { font-size: var(--ag-fs-body, 15px); } #app .erow .t small { font-size: var(--ag-fs-foot, 13px); color: var(--ag-muted, #a89c88); }
+#app .erow .a { font: 700 var(--ag-fs-body, 15px)/1.2 var(--ag-num, -apple-system, sans-serif); }
+#app .filters button { font: 600 var(--ag-fs-sub, 14px)/1 var(--ag-sans); background: var(--ag-s1, #1b1713); border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .09); }
+#app .filters button[aria-pressed="true"] { background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); color: var(--ag-gold-hi, #dcbd6e); border-color: rgba(var(--g-gold-rgb), .5); }
+#app .cal span { border-radius: 8px; }
+#app .mnav b { font: 600 var(--ag-fs-body, 15px)/1 var(--ag-serif, Georgia, serif); }
+#app .snapt { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .06); }
+#app .foot { text-align: center; font-size: var(--ag-fs-cap, 12px); color: var(--ag-muted, #a89c88); }
+.fab { border: 1px solid var(--oly-th-a11, #e2c47a); background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--g-gold)); color: var(--ag-on-gold, #1b1610); font: 500 34px/1 var(--ag-sans, -apple-system, sans-serif);
+  box-shadow: 0 1px 0 rgba(255, 246, 220, .4) inset, 0 2px 4px rgba(0, 0, 0, .4), 0 10px 24px rgba(0, 0, 0, .4); transition: scale var(--ag-d1, 200ms) var(--ag-ease, ease-out); }
+.toast { border-radius: 16px; background: linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1e1914)); border: 1px solid rgba(var(--g-gold-rgb), .3); box-shadow: var(--ag-e3); }
+.sheet { background: linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1e1914) 40%); border-color: rgba(var(--g-gold-rgb), .28); box-shadow: var(--ag-e3); }
+.sheet h2 { font: 600 var(--ag-fs-h3, 18px)/1.25 var(--ag-serif, Georgia, serif); color: var(--ag-text, #f3ece0); }
+label.f { font-size: var(--ag-fs-foot, 13px); color: var(--ag-muted, #a89c88); }
+label.f input, label.f select, .input-row input { border-radius: 13px; background: var(--ag-s1, #1b1713); border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1); box-shadow: 0 1px 2px rgba(0, 0, 0, .3) inset; }
+label.f.amt input { font: 700 28px/1 var(--ag-num, -apple-system, sans-serif); font-variant-numeric: tabular-nums; }
+.go { border-color: var(--oly-th-a11, #e2c47a); background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--g-gold)); color: var(--ag-on-gold, #1b1610); font-weight: 700; box-shadow: 0 1px 0 rgba(255, 246, 220, .35) inset, 0 6px 14px rgba(0, 0, 0, .25); }
+@media (max-width: 360px) { #app .hero .big { font-size: 34px; } }

@@ -20,28 +20,28 @@
      shown. ?tour=1 opens the first-run tour (it also opens by itself once, until olympus.tour.done is saved). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
-<script src="../olympus/themes.js?v=o6"></script>
-<script src="../olympus/olympus.js?v=o11" data-app="settings"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a5"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o7"></script>
+<script src="../olympus/olympus.js?v=o12" data-app="settings"></script>
 <script src="../olympus/intro-app.js?v=i8" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#a39883'); r.setProperty('--oly-accent-rgb', '163, 152, 131'); })();</script>
-<link rel="stylesheet" href="settings.css?v=s4">
+<link rel="stylesheet" href="settings.css?v=s5a">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a2">
 <script src="../olympus/a11y.js?v=a1" defer></script>
+<script src="../olympus/agora-ui.js?v=3" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
 </head>
 <body>
-<div class="aurora" id="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <main id="app">
   <header class="top">
-    <div class="brand"><h1>SETTINGS</h1><p class="sub">Look, text size and sound, for every app</p></div>
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Settings</h1><p class="sub">Look, text size and sound, for every app</p></div></div>
     <div class="tags"><span id="lite" class="tag" hidden>LITE</span><button type="button" class="tourbtn" id="tourBtn" data-oly-fx="ripple">Tour</button></div>
   </header>
-  <section class="hero card" id="hero" data-oly-fx="glassSpecular">
+  <section class="ag-card hero card" id="hero">
     <p class="lead" id="lead">Tap a setting: it changes at once, on this phone only. Nothing here touches the bots or your money.</p>
   </section>
-  <section class="card moneyread" id="moneyread" aria-label="How to read the money numbers">
+  <section class="ag-card card moneyread" id="moneyread" aria-label="How to read the money numbers">
     <h2>How to read the money numbers</h2>
     <ul class="mr">
       <li><b>Drawdown left $1,805 of $2,000 max loss</b><span>How much you can still lose before the eval fails. The bigger it is, the safer the account.</span></li>
@@ -57,27 +57,27 @@
   </nav>
 
   <section class="panel" id="p-look" role="tabpanel" aria-labelledby="t-look">
-    <article class="card" id="c-fx" data-oly-fx="glassSpecular"><h2>Quality</h2><p class="hint">One setting for every app and Jarvis: the effects, and how sharp the 3D is (Ultra 4K = your screen's full resolution).</p>
+    <article class="ag-card card" id="c-fx"><h2>Quality</h2><p class="hint">One setting for every app and Jarvis: the effects, and how sharp the 3D is (Ultra 4K = your screen's full resolution).</p>
       <div class="seg" id="fxSeg" role="radiogroup" aria-label="Quality: Auto, Battery, High, Ultra 4K or Still"></div><p class="note" id="fxNote"></p>
       <div class="prev" id="fxPrev"><canvas id="fxCanvas" width="300" height="96" aria-label="Live preview of the chosen quality" role="img"></canvas><span class="pv" id="fxTag">HIGH</span></div>
       <p class="why" id="fxWhy"></p>
       <h3 class="sub3">What each level means</h3>
       <ul class="levels" id="fxLevels" aria-label="What each quality level means"></ul></article>
-    <article class="card" id="c-read" data-oly-fx="glassSpecular"><h2>Reading</h2><p class="hint">Bigger text and stronger lines, for every app, on this phone.</p>
+    <article class="ag-card card" id="c-read"><h2>Reading</h2><p class="hint">Bigger text and stronger lines, for every app, on this phone.</p>
       <p class="row ro"><span><b>Big text</b><small id="bigNote">Text at normal size</small></span><button type="button" class="mini tog" id="bigText" data-oly-a11y="big-text" aria-pressed="false">Big text: off</button></p>
       <p class="row ro"><span><b>Stronger contrast</b><small id="conNote">Normal lines and ink</small></span><button type="button" class="mini tog" id="moreContrast" data-oly-a11y="more-contrast" aria-pressed="false">Contrast: normal</button></p>
       <p class="sample" id="readSample">Sample: this is how the text in every app looks now.</p></article>
-    <article class="card" id="c-theme" data-oly-fx="glassSpecular"><h2>Theme</h2><p class="hint">Tap one: the whole page changes now, and every app follows.</p>
+    <article class="ag-card card" id="c-theme"><h2>Theme</h2><p class="hint">Tap one: the whole page changes now, and every app follows.</p>
       <div class="themes" id="themes" role="radiogroup" aria-label="Theme"></div>
       <label class="row"><span><b>Film grain</b><small>Fine scanlines and grain over everything</small></span><input type="checkbox" class="sw" id="grain" role="switch"></label></article>
-    <article class="card" id="c-motion" data-oly-fx="glassSpecular"><h2>Motion and battery</h2>
+    <article class="ag-card card" id="c-motion"><h2>Motion and battery</h2>
       <p class="row ro"><span><b>Reduce motion</b><small id="rmNote">Your phone setting</small></span><button type="button" class="mini" id="still">Make everything still</button></p>
       <label class="row"><span><b>Battery saver</b><small>LITE quality, no intro films, sounds off. Turn it off to get your old choices back.</small></span><input type="checkbox" class="sw" id="saver" role="switch"></label>
       <label class="row"><span><b>Intro films</b><small>The short opening of each 3D app</small></span><input type="checkbox" class="sw" id="intro" role="switch"></label>
       <div class="intro-prev" id="introPrev" aria-hidden="true"><i></i><span>OLYMPUS</span></div>
       <label class="row"><span><b>Page transitions</b><small>The smooth glide between pages where the phone supports it</small></span><input type="checkbox" class="sw" id="trans" role="switch"></label>
       <div class="row ro"><span><small id="transNote">&nbsp;</small></span><button type="button" class="mini" id="transTry">Try it</button></div></article>
-    <article class="card" id="c-sound" data-oly-fx="glassSpecular"><h2>Sounds and touch</h2>
+    <article class="ag-card card" id="c-sound"><h2>Sounds and touch</h2>
       <div class="row ro"><span><b>Sound</b><small id="soundNote">Auto: on, silent in LITE, reduced motion and battery saver</small></span></div>
       <div class="seg" id="soundSeg" role="radiogroup" aria-label="Sound"></div>
       <div class="row ro"><span><small id="soundTestNote">Nothing sounds until you tap</small></span><button type="button" class="mini" id="soundTest" data-oly-cue="success">Play a test sound</button></div>
@@ -88,17 +88,17 @@
   </section>
 
   <section class="panel" id="p-jarvis" role="tabpanel" aria-labelledby="t-jarvis" hidden>
-    <article class="card" id="c-voice" data-oly-fx="glassSpecular"><h2>Voice</h2><p class="hint">How Jarvis talks: George, the AI voice made on this phone, or the iPhone's own voice. Speak answers off = silent.</p>
+    <article class="ag-card card" id="c-voice"><h2>Voice</h2><p class="hint">How Jarvis talks: George, the AI voice made on this phone, or the iPhone's own voice. Speak answers off = silent.</p>
       <div class="seg wrap" id="engSeg" role="radiogroup" aria-label="Voice engine"></div><p class="note" id="engNote"></p>
       <label class="row"><span><b>Speak answers</b><small>Jarvis reads replies out loud</small></span><input type="checkbox" class="sw" id="speak" role="switch"></label>
       <a class="go" href="../jarvis/" id="openJarvis">Open Jarvis voice</a></article>
-    <article class="card" id="c-alerts" data-oly-fx="glassSpecular"><h2>Alerts and briefing</h2>
+    <article class="ag-card card" id="c-alerts"><h2>Alerts and briefing</h2>
       <label class="row"><span><b>Speak alerts</b><small>Jarvis says out loud when something needs you</small></span><input type="checkbox" class="sw" id="aSpeak" role="switch"></label>
       <label class="row"><span><b>Morning briefing</b><small>Your day in one card at 7 AM New York time</small></span><input type="checkbox" class="sw" id="aBrief" role="switch"></label>
       <label class="row"><span><b>Quiet hours</b><small>No talking between these times</small></span><input type="checkbox" class="sw" id="aQuiet" role="switch"></label>
       <div class="row ro times"><label>From <input type="time" class="tm" id="aFrom" aria-label="Quiet from"></label><label>To <input type="time" class="tm" id="aTo" aria-label="Quiet until"></label></div></article>
-    <article class="card" id="c-mode" data-oly-fx="glassSpecular"><h2>Default mode</h2><p class="hint">What Jarvis starts in.</p><div class="seg wrap" id="modeSeg" role="radiogroup" aria-label="Default mode"></div></article>
-    <article class="card" id="c-keys" data-oly-fx="glassSpecular"><h2>Brain key and Obsidian</h2>
+    <article class="ag-card card" id="c-mode"><h2>Default mode</h2><p class="hint">What Jarvis starts in.</p><div class="seg wrap" id="modeSeg" role="radiogroup" aria-label="Default mode"></div></article>
+    <article class="ag-card card" id="c-keys"><h2>Brain key and Obsidian</h2>
       <p class="row ro"><span><b>Brain key</b><small id="brainNote">Checking</small></span><span class="st" id="brainSt">—</span></p>
       <a class="go" href="../jarvis/" id="keyBtn">Open Jarvis key screen</a>
       <p class="row ro"><span><b>Obsidian vault</b><small id="vaultNote">Checking</small></span><span class="st" id="vaultSt">—</span></p>
@@ -106,7 +106,7 @@
   </section>
 
   <section class="panel" id="p-data" role="tabpanel" aria-labelledby="t-data" hidden>
-    <article class="card" id="c-store" data-oly-fx="glassSpecular"><h2>This phone's storage</h2>
+    <article class="ag-card card" id="c-store"><h2>This phone's storage</h2>
       <p class="hint" id="stWhat">What is saved here: only your own choices and the place you last looked at. Never a key (those stay hidden) and never your money numbers (they live on the servers).</p>
       <div class="big"><b id="stUse" data-oly-fx="odometer">0 KB</b><span id="stOf">of this site's quota</span></div>
       <div class="bar" id="stBar" aria-hidden="true"><i></i></div>
@@ -114,31 +114,31 @@
       <ul class="apps" id="appList" aria-label="Saved data by app"></ul>
       <button type="button" class="go ghost danger-line" id="clearAll">Clear everything saved on this phone</button>
       <p class="note">Keys are never cleared. Export first if you want a copy (below).</p></article>
-    <article class="card" id="c-cache" data-oly-fx="glassSpecular"><h2>Caches</h2><p class="hint">The offline copies the phone keeps so apps open without a connection. Clearing them is safe: they download again.</p>
+    <article class="ag-card card" id="c-cache"><h2>Caches</h2><p class="hint">The offline copies the phone keeps so apps open without a connection. Clearing them is safe: they download again.</p>
       <ul class="apps" id="cacheList" aria-label="Offline caches"></ul><button type="button" class="go ghost" id="cacheAll">Clear all caches</button></article>
-    <article class="card" id="c-addr" data-oly-fx="glassSpecular" role="note"><h2>If the site address changes</h2>
+    <article class="ag-card card" id="c-addr" role="note"><h2>If the site address changes</h2>
       <p class="hint" id="addrText">Your phone saves this data under the site's address. A new address starts empty.</p>
       <p class="note" id="addrNow"></p></article>
-    <article class="card" id="c-records" data-oly-fx="glassSpecular"><h2>Your records on this phone</h2>
+    <article class="ag-card card" id="c-records"><h2>Your records on this phone</h2>
       <p class="hint">The things only this phone knows. Export all before you clear anything or move.</p>
       <ul class="apps" id="recList" aria-label="Your records on this phone"></ul></article>
-    <article class="card" id="c-io" data-oly-fx="glassSpecular"><h2>Export and import</h2><p class="hint">Move your settings, notes and saved choices to another phone. Keys and tokens are left out, always.</p>
+    <article class="ag-card card" id="c-io"><h2>Export and import</h2><p class="hint">Move your settings, notes and saved choices to another phone. Keys and tokens are left out, always.</p>
       <button type="button" class="go" id="exportBtn">Export all (one file)</button>
       <label class="go ghost filebtn" for="importFile">Import all (from a file)</label><input type="file" id="importFile" accept="application/json,.json" hidden>
       <p class="note" id="ioNote" role="status"></p></article>
   </section>
 
   <section class="panel" id="p-system" role="tabpanel" aria-labelledby="t-system" hidden>
-    <article class="card" data-oly-fx="glassSpecular"><h2>Health shortcuts</h2>
+    <article class="ag-card card"><h2>Health shortcuts</h2>
       <a class="link" href="../argus/"><b>Argus</b><span>Is every part of the system alive?</span></a>
       <a class="link" href="../pc/"><b>The PC page</b><span>Check the PC and get the helper scripts</span></a>
       <a class="link" href="../bridge/"><b>Bridge</b><span>Connect ChatGPT and see its jobs</span></a>
       <a class="link" href="../jarvis/"><b>Jarvis</b><span>Talk to your assistant</span></a></article>
-    <article class="card" id="c-pc" data-oly-fx="glassSpecular"><h2>PC helpers</h2><p class="hint">Download, then double-click on the PC. They are the same files the PC page offers.</p>
+    <article class="ag-card card" id="c-pc"><h2>PC helpers</h2><p class="hint">Download, then double-click on the PC. They are the same files the PC page offers.</p>
       <a class="go ghost" href="../pc/CLEAN_STORAGE.bat" download>CLEAN_STORAGE.bat · free up disk space</a>
       <a class="go ghost" href="../pc/FRESH_START.bat" download>FRESH_START.bat · a clean start</a>
       <p class="note">PC_CARE and the rest are on the PC page.</p></article>
-    <article class="card" data-oly-fx="glassSpecular"><h2>About</h2><p class="hint" id="about">OLYMPUS settings. Everything here is stored on this phone only.</p>
+    <article class="ag-card card"><h2>About</h2><p class="hint" id="about">OLYMPUS settings. Everything here is stored on this phone only.</p>
       <button type="button" class="go ghost" id="tourBtn2">Show the tour again</button></article>
   </section>
   <p class="foot" id="foot">Nothing leaves this phone. Keys and tokens are never shown.</p>

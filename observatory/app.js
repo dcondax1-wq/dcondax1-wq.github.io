@@ -84,14 +84,19 @@
     const towers = $('towers'); towers.replaceChildren();
     latest.forEach((source, index) => {
       const tower = node('button', 'tower ' + (source.status === 'good' ? '' : source.status), null);
-      tower.type = 'button'; tower.style.setProperty('--height', (125 + (index * 41) % 130) + 'px');
+      tower.type = 'button'; tower.style.setProperty('--i', String(index));
       tower.setAttribute('aria-label', source.label + ': ' + (source.ok ? source.status === 'good' ? 'available' : 'needs review' : 'unavailable'));
       tower.setAttribute('aria-pressed', String(source.id === selected));
-      tower.append(node('span', '', source.label));
+      tower.append(node('span', '', source.label), node('small', '', source.ok ? source.status === 'good' ? 'Working' : 'Look' : 'Down'));
       tower.addEventListener('click', () => { selected = source.id; renderDetail(); towers.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === tower))); });
       towers.append(tower);
     });
-    $('healthy').textContent = String(latest.filter((s) => s.ok).length);
+    const up = latest.filter((s) => s.ok), look = latest.filter((s) => insight(s));
+    $('healthy').textContent = String(up.length); $('total').textContent = ' of ' + latest.length;
+    $('heroLine').textContent = up.length === latest.length && !look.length ? 'Every feed answers and looks right. Nothing to fix.'
+      : up.length < latest.length ? 'Down: ' + latest.filter((s) => !s.ok).map((s) => s.label).join(', ') + '. Fix that first.'
+      : 'All answer; ' + look.length + ' to look at: ' + look.map((s) => s.label).join(', ') + '.';
+    document.querySelector('.hero').dataset.level = up.length < latest.length ? 'bad' : look.length ? 'warn' : 'ok';
     $('attention').textContent = String(latest.filter((s) => insight(s)).length);
     $('history').textContent = String(history.length);
     renderDetail();
@@ -100,7 +105,7 @@
     if (!findings.length) reviews.append(node('p', '', 'No source needs review in this scan. This is a health check, not proof of trading performance.'));
     findings.forEach((finding) => {
       const card = node('article', 'item'); const title = node('b', '', finding.title);
-      title.append(node('span', 'pill', 'REVIEW'));
+      title.append(node('span', 'pill', 'Review'));
       card.append(title, node('small', '', 'Evidence: ' + finding.evidence), node('small', '', 'Next: ' + finding.action)); reviews.append(card);
     });
   }
@@ -116,7 +121,7 @@
       source.id === 'learning' && source.ok ? (source.lastLesson ? 'Last lesson event: ' + stamp(source.lastLesson) + ' · not a publisher check' : 'No dated lesson event yet; publisher time is unknown') : null,
       source.ok ? 'Size: ' + source.bytes.toLocaleString() + ' characters' : 'No data received'
     ];
-    rows.filter(Boolean).forEach((row) => detail.append(node('div', 'item', row)));
+    rows.filter(Boolean).forEach((row) => { const i = row.indexOf(': '), it = node('div', 'item kv'); it.append(node('span', '', row.slice(0, i)), node('b', '', row.slice(i + 2))); detail.append(it); });
   }
   let scanning = false;
   async function scan() {

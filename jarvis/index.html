@@ -15,6 +15,7 @@
 <link rel="icon" href="icon-192.png?v=j5">
 <!-- dark from the first paint, even before (or without) the stylesheet: never a white screen -->
 <style>html,body{background:#14110e;color:#f3ece0;margin:0}</style>
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w1" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <script>
 // before the first paint: the saved theme (localStorage 'jtheme', as the old Jarvis kept it; default Agora, marble and gold since 2026-11-09), the effects level and the boot screen
 (function () {
@@ -109,15 +110,16 @@ window.addEventListener('error', function (e) {
 </script>
 <link rel="stylesheet" id="jcss" href="jarvis.css?v=j22">
 <link rel="stylesheet" id="jhome" href="home3d.css?v=h4">
-<!-- quiet-net: data-fresh = Jarvis shows the Kalshi bot, so it asks the Kalshi feed afresh once per load (data.js: "opening Jarvis again
-     asks once more: that is how a newly linked bot shows up"); without it a 404 earlier in the session kept it "not connected".
+<!-- quiet-net, no data-fresh (night-bugsweep 2026-11-19): Kalshi's state comes from the PC feed (data.js); the old kalshi-feed repo is on the
+     suspended account and is never asked; this site's kalshi.json, when missing, is a 404 remembered for the session (it was asked afresh,
+     and logged, on every load); a tap (Refresh) still asks the real file at once.
      async: the file lives in ../olympus/, outside Jarvis's worker, so its saved copy cannot answer for it; a blocking tag made a slow
      network hold the whole start one more round trip (6-12 s). A fetch before it arrives is just one real try, as before quiet-net. -->
-<script src="../olympus/quiet-net.js?v=q6a" data-fresh="raw:kalshi-feed,api:kalshi-feed,site:kalshi.json" async></script>
+<script src="../olympus/quiet-net.js?v=q6a" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
 <script src="../pc_feed.js?v=n4" id="pcFeedJs" async></script>
-<script src="../olympus/themes.js?v=o6" id="olyThemesJs" async></script>
+<script src="../olympus/themes.js?v=o7" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <style>.booted #bootfx{display:none}
 /* the start note works without jarvis.css (the stylesheet may be what did not arrive) */
@@ -2038,7 +2040,17 @@ function inboxCard(now) {
 window.addEventListener('storage', (e) => { if (e.key === 'inbox.card.v1') cardsSoon(); });
 const cardOf = (id) => (id === 'inbox' && inboxCard()) || statusCards[id] || safe(() => (mods.apps && byId(id) ? mods.apps.cachedStatus(byId(id)) : null), null);
 // a built-in whose folder is not on the site yet (apps.js: its jarvis.json answers 404, no card ever seen)
-const notOnSite = (a) => !!(a && a.id && mods.apps && typeof mods.apps.missing === 'function' && safe(() => mods.apps.missing(a.id), false));
+// night-bugsweep 2026-11-19: such a folder (mind/: the vault stays on the PC, the public site leaves it out) is remembered on this phone
+// for a day, so Jarvis does not ask its jarvis.json again on every open (it was a 404 in the console each time); a tap still says
+// "not on the site yet". A good card, or a day later, clears it.
+const ABSENT_KEY = 'jarvis.absentApps.v1', ABSENT_MS = 24 * 3600e3;
+const absentApps = () => { try { const m = JSON.parse(localStorage.getItem(ABSENT_KEY) || '{}'); return m && typeof m === 'object' && !Array.isArray(m) ? m : {}; } catch (_) { return {}; } };
+const absentNow = (id) => { const t = +absentApps()[id] || 0; return t > 0 && Date.now() - t < ABSENT_MS; };
+function markAbsent(id, on) {
+  try { const m = absentApps(); if (!on && !(id in m)) return; if (on) m[id] = Date.now(); else delete m[id]; localStorage.setItem(ABSENT_KEY, JSON.stringify(m)); } catch (_) { /* private mode: asked again next time */ }
+}
+const notOnSite = (a) => !!(a && a.id && mods.apps && ((typeof mods.apps.missing === 'function' && safe(() => mods.apps.missing(a.id), false))
+  || (a.builtin && absentNow(a.id) && !safe(() => mods.apps.cachedStatus(a), null))));
 let cardsT = 0;
 const cardsSoon = () => { clearTimeout(cardsT); cardsT = setTimeout(() => { if (active === 'home') safe(renderCards); }, 60); };
 function renderCards() {
@@ -2070,8 +2082,13 @@ function refreshStatusCards() {
   statusAt = Date.now();
   for (const a of D.listApps()) {
     if (!a.url || !a.statusUrl) continue;                       // Zenith, the Planner, Kalshi: the shell's own cards
+    if (a.builtin && absentNow(a.id)) continue;                 // its folder is not on this site (remembered for a day): not asked again
     const p = safe(() => A.appStatus(a));
-    if (p && typeof p.then === 'function') p.then((card) => { if (card) statusCards[a.id] = card; cardsSoon(); }).catch(() => null);
+    if (p && typeof p.then === 'function') p.then((card) => {
+      if (card) statusCards[a.id] = card;
+      if (a.builtin) markAbsent(a.id, !card && typeof A.statusError === 'function' && safe(() => A.statusError(a), '') === 'http 404');
+      cardsSoon();
+    }).catch(() => null);
   }
 }
 document.addEventListener('submit', (e) => {

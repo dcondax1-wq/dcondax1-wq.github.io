@@ -54,6 +54,7 @@
       ids: ['kalshi', 'dionysus', 'kalshicity', 'sibyl', 'tyche'] },
     { id: 'more', title: 'More', line: 'Research, my day, Jarvis, settings and everything else', colour: '#9c6b3c',
       items: [
+        { label: 'Olympus World: every app in one giant city', greek: 'World', href: 'cities/world/', app: 'cities', words: 'world city cities giant map districts 3d all apps find' },
         { label: 'What to do next', greek: 'Compass', href: 'compass/', app: 'compass', words: 'todo to do today next actions priorities' },
         { label: 'My day', greek: 'Planner', href: 'planner/', app: 'planner', words: 'day week plan calendar tasks habits shift' },
         { label: 'Ask Jarvis', greek: 'Jarvis', href: 'jarvis/', app: '', words: 'jarvis ask assistant voice talk' },
@@ -61,7 +62,6 @@
         { label: 'Research library', greek: 'Clio', href: 'clio/', app: 'clio', words: 'research studies writeups library tested backtest' },
         { label: 'Help: how do I...', greek: 'Help', href: 'hub/help.html', app: '', words: 'help how do i questions faq guide lost stuck find steps payout taxes account restart update pause flatten silent holidays kalshi cloudflare address' },
         { label: 'Me: health, home', greek: 'Me hub', href: 'hub/index.html?h=me', app: '', words: 'me health wifi cards home car dates personal' },
-        { label: 'Settings', greek: 'Settings', href: 'settings/', app: 'settings', words: 'settings look theme voice storage tour' }
       ],
       ids: ['compass', 'helios', 'herald', 'stoa', 'hestia', 'inbox', 'planner', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium',
         'ergasterion', 'settings', 'bridge', 'atlas', 'cities', 'datacity', 'observatory', 'tree', 'prometheus', 'hephaestus', 'clio', 'archive', 'pinakes', 'colosseum'] }

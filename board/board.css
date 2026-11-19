@@ -1,5 +1,5 @@
 /* BOARD (AGORA look, phone first). Colours from the kit's AGORA tokens. */
-main { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: max(12px, env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); }
+main { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: max(12px, env(safe-area-inset-top)) 16px calc(176px + env(safe-area-inset-bottom)); }   /* 176 px: the orb's seat at the end (docs/DESIGN_AGORA.md) */
 .bd-top { display: block; margin-bottom: 10px; }
 .bd-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .bd-head h1 { margin: 0; }
@@ -9,9 +9,16 @@ main { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: max(12
 .tag.mode-plan, .tag.mode-copy { color: var(--ag-sun, #e0b060); border-color: currentColor; }
 .tag.mode-demo { color: var(--ag-aegean-text, #7fa7c2); border-color: currentColor; }
 .refresh { min-height: 44px; min-width: 44px; }
-.silent { background: #8f1d1d; color: #fff; border: 2px solid #ff5a4f; border-radius: var(--ag-radius, 16px); padding: 16px 18px; margin: 8px 0 12px; }
-.silent b { display: block; font: 800 1.75rem/1.1 var(--ag-sans, system-ui); letter-spacing: .02em; }
-.silent p { margin: 6px 0 0; font-size: 1rem; }
+/* the PC-silent alarm (designqa 2026-11-19): still the loudest thing on the screen, but AGORA: a terracotta-lit warm card with a breathing dot,
+   the words in ivory, no saturated red slab with white text */
+.silent { position: relative; overflow: hidden; color: var(--ag-text, #f3ece0); border: 1px solid rgba(var(--ag-terra-rgb, 201, 106, 74), .6); border-radius: 20px; padding: 18px 18px 18px 20px; margin: 8px 0 14px;
+  background: radial-gradient(120% 120% at 0% 0%, rgba(var(--ag-terra-rgb, 201, 106, 74), .3), rgba(var(--ag-terra-rgb, 201, 106, 74), .08) 60%), linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1e1914));
+  box-shadow: 0 1px 0 rgba(255, 220, 200, .06) inset, 0 10px 26px rgba(0, 0, 0, .4); }
+.silent b { display: flex; align-items: center; gap: 10px; font: 700 1.625rem/1.1 var(--ag-serif, Georgia, serif); letter-spacing: .01em; color: var(--ag-terra-text, #e08a6b); }
+.silent b::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ag-terra, #c96a4a); box-shadow: 0 0 0 4px rgba(var(--ag-terra-rgb, 201, 106, 74), .2); }
+.silent p { margin: 8px 0 0; font-size: 1rem; line-height: 1.45; color: var(--ag-text, #f3ece0); }
+@media (prefers-reduced-motion: no-preference) { .silent:not([hidden]) b::before { animation: bd-breathe 2.4s ease-in-out infinite; } }
+@keyframes bd-breathe { 0%, 100% { opacity: .55; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
 .pcline { margin: 4px 0 8px; color: var(--ag-olive-text, #a0ac6e); font-size: .875rem; }
 .sect { margin: 14px 0 8px; font-size: 1.1rem; }
 .accounts { display: grid; gap: 10px; }
@@ -19,17 +26,17 @@ main { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: max(12
 .brow-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .brow-top h3 { margin: 0; font-size: 1.1rem; flex: 1 1 auto; }
 .brow-plan { margin: 2px 0 8px; color: var(--ag-muted, #a89c88); font-size: .85rem; }
-.chip { font: 700 .75rem/1 var(--ag-sans, system-ui); padding: 5px 10px; border-radius: 999px; border: 1px solid currentColor; text-transform: none; }
+.chip { display: inline-flex; align-items: center; gap: 5px; font: 600 .75rem/1 var(--ag-sans, system-ui); padding: 5px 10px; border-radius: 999px; border: 1px solid currentColor; text-transform: none; }
 .chip-eval { color: var(--ag-aegean-text, #7fa7c2); }
 .chip-passed { color: #14110e; background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); }
 .chip-funded { color: var(--ag-olive-text, #a0ac6e); }
 .chip-locked { color: var(--ag-sun, #e0b060); }
-.chip-failed { color: #fff; background: #b33a2e; border-color: #b33a2e; }
+.chip-failed { color: var(--ag-terra-text, #e08a6b); background: rgba(var(--ag-terra-rgb, 201, 106, 74), .14); border-color: rgba(var(--ag-terra-rgb, 201, 106, 74), .6); }
 .chip-planned { color: var(--ag-muted, #a89c88); }
 .nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
-.nums div { background: var(--ag-s1, #1b1713); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+.nums div { background: var(--ag-s1, #1b1713); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .05); border-radius: 12px; padding: 10px 12px; min-width: 0; }
 .nums dt { font-size: .75rem; color: var(--ag-muted, #a89c88); }
-.nums dd { margin: 2px 0 0; font: 700 1.05rem/1.2 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.nums dd { margin: 3px 0 0; font: 700 1.125rem/1.2 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .brow-src, .brow-last, .brow-hint { margin: 8px 0 0; font-size: .85rem; color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
 .brow-src { color: var(--ag-muted, #a89c88); }
 .brow-hint { color: var(--ag-gold-hi, #dcbd6e); }

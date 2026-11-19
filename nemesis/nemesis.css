@@ -185,3 +185,24 @@ html[data-noscene] body { background: radial-gradient(ellipse at 50% 60%, #2c251
 #ui:has(+ .sheet:not([hidden])) .avbar { display: none; }
 /* phone-fit 2026-11-11: on a 320 px iPhone the week's sub-line wraps instead of being cut */
 @media (max-width: 360px) { .dock .wl span { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; line-height: 1.2; } }
+
+/* ================================================================ NEMESIS v2 (designqa 2026-11-19, owner: "nothing 2000's looking")
+   The underworld stays. The verdict, the week dock and the autopsy sheet become raised warm AGORA surfaces (no glass blur over the moving
+   scene: a repaint per frame); the four views are one segmented rail with a raised gold thumb instead of floating pills; week arrows and
+   All as quiet controls; the tag as a badge with a dot. Ids and the orb's corner are unchanged. */
+.tag { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 0 9px; font: 600 12px/1 var(--ag-sans, system-ui); background: rgba(20, 17, 14, .8); border-color: rgba(243, 236, 224, .1); color: var(--ag-muted, #a89c88); }
+.tag.demo { color: var(--ag-sun, #e0b060); background: rgba(224, 176, 96, .09); border-color: rgba(224, 176, 96, .36); }
+.tag.demo::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.verdict, .dock, .sheet { -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid rgba(243, 236, 224, .08); border-radius: 20px;
+  background: linear-gradient(180deg, rgba(44, 37, 28, .97), rgba(30, 25, 20, .97)); box-shadow: var(--ag-e2, 0 6px 16px rgba(0, 0, 0, .3)); }
+.sheet { border-radius: 22px; box-shadow: var(--ag-e3, 0 12px 28px rgba(0, 0, 0, .34)); }
+.pills { gap: 2px; padding: 3px; border-radius: 16px; align-self: flex-start; background: rgba(27, 23, 19, .95); border: 1px solid rgba(243, 236, 224, .1); box-shadow: 0 6px 16px rgba(0, 0, 0, .35); }
+.pills button { border: 0; border-radius: 13px; background: transparent; color: var(--ag-soft, #cfc4b2); padding: 0 14px; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.pills button[aria-pressed="true"] { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), #c8a24a); color: #1b1610; }
+.dock .wk button { border-radius: 13px; border-color: rgba(243, 236, 224, .1); background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); box-shadow: var(--ag-e1); font-size: 20px; }
+.dock .wk .all { font: 600 13px/1 var(--ag-sans, system-ui); }
+.dock .wk .all[aria-pressed="true"] { color: var(--ag-gold-hi, #dcbd6e); border-color: rgba(200, 162, 74, .6); }
+.dock .wl b { font: 600 15px/1.15 var(--ag-serif, Georgia, serif); }
+.sheet h2 { font: 600 18px/1.2 var(--ag-serif, Georgia, serif); color: #f3ece0; }
+:is(.pills button, .dock .wk button) { transition: scale 200ms var(--ag-ease, ease-out), background-color 200ms; } :is(.pills button, .dock .wk button):active { scale: .97; }
+@media (prefers-reduced-motion: reduce) { :is(.pills button, .dock .wk button):active { scale: 1; } }

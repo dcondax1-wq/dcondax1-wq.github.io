@@ -160,7 +160,10 @@
   function auto() {
     if (typeof document === 'undefined') return;
     document.querySelectorAll('[data-edge-chip]').forEach((n) => {
-      mount(n, { url: n.getAttribute('data-edge-src') || '../edge.json', feed: n.hasAttribute('data-edge-feed'), feedUrl: n.getAttribute('data-edge-feed') || undefined });
+      // the PC's status_feed.json sits at the site root next to edge.json (night-bugsweep: with no path the feed reader tried the page's own
+      // folder first, /trading/status_feed.json, a 404 on every Trading load)
+      const src = n.getAttribute('data-edge-src') || '../edge.json';
+      mount(n, { url: src, feed: n.hasAttribute('data-edge-feed'), feedUrl: n.getAttribute('data-edge-feed') || src.replace(/[^/]*$/, 'status_feed.json') });
     });
   }
 

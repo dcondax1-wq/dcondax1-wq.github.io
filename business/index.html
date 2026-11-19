@@ -19,9 +19,9 @@
      The 7-day checklist ticks stay in this browser only (localStorage, wrapped in try/catch). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a4">
-<script src="../olympus/themes.js?v=o6"></script>
-<script src="../olympus/olympus.js?v=o11" data-app="business"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a5">
+<script src="../olympus/themes.js?v=o7"></script>
+<script src="../olympus/olympus.js?v=o12" data-app="business"></script>
 <script src="../olympus/intro-app.js?v=i8" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/agora-ui.js?v=3" defer></script>
@@ -34,7 +34,7 @@
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Business</h1><p class="sub">Your money: what comes in, what to do next</p></div></div>
-    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span></div>
+    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="snap" class="tag demo" hidden>SNAPSHOT</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <a class="ag-card card door2 mffu-top" href="mffu.html" style="display:grid;margin:0 0 12px"><h2>My accounts (MFFU view) &rarr;</h2><p class="note">Every MFFU account the way MFFU shows it: status, start date, balance, floor, target, days, payout. Live from your PC.</p></a>
@@ -130,6 +130,6 @@
 
   <p class="foot">This page only reads. It never trades, posts, emails or calls anyone.</p>
 </main>
-<script type="module" src="business.js?v=3"></script>
+<script type="module" src="business.js?v=4"></script>
 </body>
 </html>

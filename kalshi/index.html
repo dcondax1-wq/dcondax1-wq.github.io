@@ -2,6 +2,7 @@
 <html lang="en" data-theme="kalshi">
 <head>
 <meta charset="utf-8">
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w1" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kalshi</title>
 <meta name="description" content="The Kalshi bot (paused: ready to go live when you type the phrase): balance, $ won or lost, alerts, open bets, and the paper tests.">
@@ -23,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k36">
+<link rel="stylesheet" href="kalshi.css?v=k38">
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
      2026-11-14 (team T2: a light look is light here too, like everywhere). The <head> paints the engine's copy of the look before the first
@@ -43,7 +44,7 @@
 } catch (e) { return; } })('kalshi', 'page');</script>
 <script>(function () {
   function go() { var T = window.OLYMPUS_THEMES; if (T) T.apply('page', { meta: true }); }
-  var s = document.createElement('script'); s.src = '../olympus/themes.js?v=o6'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = '../olympus/themes.js?v=o7'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 </head>
 <body>
@@ -103,7 +104,9 @@
 <script src="../olympus/quiet-net.js?v=q6a" data-fresh="raw:kalshi-feed,api:kalshi-feed,site:kalshi.json"></script>
 <script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i8" data-app="kalshi" data-name="Kalshi" data-glyph="K" data-color="#8fa07a" defer></script><!-- the app intro without the kit (olympus/intro-app.js) -->
-<script src="kfx.js?v=k26"></script>
-<script src="kalshi.js?v=k36"></script>
+<!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
+     longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
+<script src="kfx.js?v=k26" defer></script>
+<script src="kalshi.js?v=k38" defer></script>
 </body>
 </html>

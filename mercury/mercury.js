@@ -21,7 +21,12 @@ function model() {
   S.now = Number.isFinite(d.getTime()) ? d : new Date();
   let doc = S.forced ? null : S.doc, m = C.buildModel(doc, S.now);
   S.demo = false;
-  if (!m.ok || m.status === 'sample') { if (!m.ok) { m = C.buildModel(S.fixture, S.now); } S.demo = true; }
+  // the example list is drawn as of its own date (night-bugsweep 2026-11-19: on the real clock its deals had all ended, so the example's
+  // "ends soon" list went empty a week after it was made); its age line still counts from today
+  if (!m.ok || m.status === 'sample') {
+    if (!m.ok) { const fa = Date.parse((S.fixture && S.fixture.asof) || ''); m = C.buildModel(S.fixture, at || !Number.isFinite(fa) ? S.now : new Date(fa)); if (m.ok) m.ageH = C.ageHours(S.fixture.asof, S.now); }
+    S.demo = true;
+  }
   if (!m.ok) m = { ok: false, deals: [], soon: [], rulesMine: [], rulesOther: [], pages: [], notes: [], tags: [], pick: { buy: false, title: 'Nothing to show yet', why: 'The first check has not run.', usd: null, buyBy: null }, headline: 'No deal list yet.', ageH: null };
   S.model = m;
   return m;
@@ -44,7 +49,11 @@ function itemRow(i, withLink) {
   const acts = h('div', 'acts');
   if (i.code) {
     const b = h('button', 'btn', 'Copy code ' + i.code); b.type = 'button';
-    b.addEventListener('click', () => { try { navigator.clipboard.writeText(i.code); b.textContent = 'Copied ' + i.code; } catch (_) { b.textContent = 'Code: ' + i.code; } });
+    // writeText is a promise: a refused copy (no permission, an old phone) shows the code to type instead of a false "Copied" and a page error
+    b.addEventListener('click', () => {
+      const ok = () => { b.textContent = 'Copied ' + i.code; }, no = () => { b.textContent = 'Code: ' + i.code; };
+      try { const p = navigator.clipboard && navigator.clipboard.writeText(i.code); if (p && typeof p.then === 'function') p.then(ok, no); else no(); } catch (_) { no(); }
+    });
     acts.appendChild(b);
   }
   if (withLink && i.url) { const a = h('a', 'btn', 'Open the page'); a.href = i.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.appendChild(a); }

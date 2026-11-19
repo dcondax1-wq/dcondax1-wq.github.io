@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus World</title>
+<meta name="description" content="One giant city of everything: four districts (ZEUS Trading, Kalshi, Money, More), every app a building you can open, every idea tested a place that grows with the data.">
+<meta name="theme-color" content="#04060d">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="World">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../jarvis/apple-touch-icon.png?v=j5">
+<link rel="preload" href="world.json" as="fetch" crossorigin>
+<link rel="modulepreload" href="../../jarvis/three.module.min.js">
+<link rel="stylesheet" href="../../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="world.css?v=w1">
+<script src="../../olympus/quiet-net.js?v=q6a"></script>
+<script src="../../olympus/olympus.js?v=o12" data-app="cities"></script>
+<script src="../../olympus/gate-nav.js?v=g5" defer></script>
+<script src="../../olympus/sfx.js?v=s4" async></script>
+</head>
+<body>
+<div id="poster" aria-hidden="true">
+  <div class="ptl"><b>OLYMPUS</b><span id="posterLine">One city of everything · building it…</span></div>
+  <svg viewBox="0 0 390 200" preserveAspectRatio="xMidYMax slice">
+    <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1024"/><stop offset="1" stop-color="#05060c"/></linearGradient>
+    <pattern id="pw" width="6" height="7" patternUnits="userSpaceOnUse"><rect x="1.5" y="1.5" width="2.4" height="3" fill="#ffd38a" opacity=".55"/></pattern></defs>
+    <path fill="url(#pg)" d="M0 200V150h14v-22h10v-30h12v40h9v-62h8v-14h6v14h8v70h12v-40h14v-58h9v-10h6v10h9v78h10v-30h16v-70h7v-24h4v24h7v100h11v-48h14v-36h12v52h10v-90h6v-16h4v16h6v108h12v-56h15v-28h13v64h9v-42h12v-70h8v-10h5v10h8v96h10v-36h16v-22h12v48h10v-60h14v84h10v-30h12v42h10V200z"/>
+    <path fill="url(#pw)" opacity=".9" d="M36 98h12v62H36zM53 76h14v84H53zM103 70h18v90h-18zM158 56h14v104h-14zM240 72h12v88h-12zM296 66h14v94h-14zM350 92h12v68h-12z"/>
+    <rect x="186" y="38" width="5" height="122" fill="#ffd890" opacity=".85"/><rect x="187.5" y="22" width="2" height="16" fill="#ffe7b8"/>
+  </svg>
+</div>
+<canvas id="c" aria-label="Olympus World: one giant night city. Four districts: ZEUS Trading, Kalshi, Money and More. Every app is a building you can tap to open; every idea tested is a place that grows with the data. Use the district buttons or Find to move."></canvas>
+<div id="labels" aria-hidden="true"></div>
+<header class="top glass" id="top">
+  <div class="row">
+    <div class="ttl"><h1>Olympus</h1><p class="sub" id="sub">One city of everything</p></div>
+    <span class="pc" id="pc" role="status"><i></i><span id="pcText">PC …</span></span>
+  </div>
+  <nav class="districts" id="districts" aria-label="Districts"></nav>
+  <div class="live-chip" id="liveChip" role="status"></div>
+</header>
+<div class="when glass" id="when" role="status" hidden></div>
+<div class="hint glass" id="hint" hidden><b>Tap any building to open it</b><small>Drag to look around · pinch to zoom · the buttons fly you to a district</small></div>
+<section class="card glass" id="card" role="dialog" aria-labelledby="cardName" hidden>
+  <header><h2 id="cardName"></h2><button class="x" id="cardX" type="button" aria-label="Close">×</button></header>
+  <div id="cardBody"></div>
+</section>
+<section class="sheet glass" id="sheet" role="dialog" aria-labelledby="sheetName" hidden>
+  <header><h2 id="sheetName"></h2><button class="x" id="sheetX" type="button" aria-label="Close">×</button></header>
+  <div id="sheetBody"></div>
+</section>
+<div class="ticker glass" id="ticker" role="button" tabindex="0" aria-label="What the city is learning now: tap to fly there"><b>LEARNING</b><span id="tickText">Reading the city…</span></div>
+<nav class="dock" id="dock" aria-label="World">
+  <button class="dk glass" type="button" data-act="home" aria-label="The whole city"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>City</button>
+  <button class="dk glass" type="button" data-act="find" aria-label="Find an app or a place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>Find</button>
+  <button class="dk glass" type="button" data-act="tour" aria-label="Tour the city" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 5l12 7-12 7z"/></svg>Tour</button>
+  <button class="dk glass" type="button" data-act="history" aria-label="Watch the city learn, from the first test to today" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4M12 8v5l3 2"/></svg>Story</button>
+  <button class="dk glass" type="button" data-act="key" aria-label="How to read the city"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Key</button>
+</nav>
+<main class="flat" id="flat" hidden></main>
+<div class="flash" id="flash" aria-hidden="true"></div>
+<noscript><p style="position:fixed;left:16px;right:16px;top:45%;text-align:center;color:#ccd">Olympus World needs JavaScript.</p></noscript>
+<script type="module" src="ow-main.js?v=w1"></script>
+</body>
+</html>

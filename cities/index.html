@@ -15,10 +15,10 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a4">
+<link rel="stylesheet" href="../olympus/agora.css?v=a5">
 <script src="../olympus/quiet-net.js?v=q6a"></script>
-<script src="../olympus/themes.js?v=o6"></script>
-<script src="../olympus/olympus.js?v=o11" data-app="cities"></script>
+<script src="../olympus/themes.js?v=o7"></script>
+<script src="../olympus/olympus.js?v=o12" data-app="cities"></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i8" defer></script>
@@ -79,6 +79,14 @@ button.chip{cursor:pointer;min-height:30px}
   .network-key{width:44px}.network-apps{width:50px}.network-strip{gap:3px}.network-strip button{padding:0 9px;font-size:8px;letter-spacing:.06em}}
 @media(max-width:350px){.city-network-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.network-bar{scroll-behavior:auto}}
+/* night-worlds 2026-11-19: the way into Olympus World (world/: one giant city of everything), above the Enter Hellas / Athens row */
+.world-fab{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 188px);display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:23px;
+border:1px solid rgba(255,198,90,.7);background:linear-gradient(180deg,rgba(14,18,36,.92),rgba(6,8,18,.92));color:#ffe2a6;font:700 15px/1 var(--oly-ui,-apple-system,system-ui,sans-serif);
+text-decoration:none;white-space:nowrap;box-shadow:0 0 22px rgba(255,190,80,.28),0 8px 24px rgba(0,0,0,.45);touch-action:manipulation}
+.world-fab i{width:8px;height:8px;border-radius:50%;background:#ffc65a;box-shadow:0 0 10px #ffc65a}
+.world-fab:active{transform:translateX(-50%) scale(.97)}
+body:not([data-mode=hub]) .world-fab,body[data-ready=false] .world-fab,.hellas-open .world-fab,.athens-open .world-fab{display:none}
+@media (prefers-reduced-motion:reduce){.world-fab:active{transform:translateX(-50%)}}
 /* --- the minimap (a city only) */
 .mini{position:fixed;right:calc(12px + var(--sr));top:calc(var(--top-h) + 62px + var(--st));z-index:3;width:108px;height:108px;border-radius:14px;border:1px solid var(--line);
 background:rgba(8,6,18,.6);box-shadow:0 6px 24px rgba(0,0,0,.4);cursor:pointer;touch-action:manipulation;display:none}
@@ -280,6 +288,7 @@ body[data-mode=city] .tab.on{background:linear-gradient(145deg,rgba(255,198,74,.
 <div class="tag" id="tag" aria-hidden="true"></div>
 <div class="photobar" id="photoBar"><button class="pill go" id="photoTake">Take photo</button><button class="pill" id="photoDone">Done</button></div>
 <nav class="dock" id="dock" aria-label="Views"></nav>
+<a class="world-fab" href="world/" aria-label="Olympus World: one giant city of everything, every app and every idea tested"><i></i>Olympus World</a>
 <div class="maphint" id="maphint" aria-hidden="true"><b>Tap a city</b> to open it<small>Drag to look around, pinch to zoom</small></div>
 <div class="caption" id="caption" aria-live="polite"></div>
 <div class="toast" id="toast" role="status"></div>

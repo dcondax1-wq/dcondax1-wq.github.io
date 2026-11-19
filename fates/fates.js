@@ -36,11 +36,19 @@ async function loadData() {
   }
   return null;
 }
-// live.json: the demo only reads it when a test points ?live= at a file; the real page polls the PC's feed
+// live.json: the demo only reads it when a test points ?live= at a file; the real page polls the PC's feed: ../pc_feed.js (the ntfy report
+// the PC posts every 15 min, the same cards: board.lit / board.atlas). The old GitHub copy (LIVE_URL) is on the suspended account (a 404
+// on every poll, night-bugsweep 2026-11-19): asked only when this site has no PC feed at all.
+async function pcFeed() {
+  const F = window.PC_FEED;
+  if (!F || typeof F.fetchLatest !== 'function' || typeof F.toLive !== 'function') return undefined;
+  try { const lite = await F.fetchLatest({ feedUrl: '../status_feed.json' }); return lite ? F.toLive(lite, null) : null; } catch (_) { return null; }
+}
 async function pollLive() {
-  const url = Q.get('live') || (S.demo ? null : LIVE_URL);
-  if (!url || (O ? O.hidden() : document.hidden)) return;
-  const j = await getJson(url);
+  const own = Q.get('live');
+  if ((!own && S.demo) || (O ? O.hidden() : document.hidden)) return;
+  let j = own ? await getJson(own) : await pcFeed();
+  if (j === undefined) j = await getJson(LIVE_URL);
   if (j && j.board) { S.live = j; S.liveAt = Date.now(); renderLive(); }
 }
 

@@ -224,3 +224,26 @@ export function summary(doc, plan, costs) {
 
 // the phone's own date as YYYY-MM-DD (the planner's "today")
 export function localDay(d) { const z = (n) => String(n).padStart(2, '0'); return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`; }
+
+// What the page's numbers are (night-bugsweep 2026-11-19), said plainly at the top:
+//   demo     = the committed example (fixture.json). business.json is private (never on the public site), so the public site is ALWAYS this:
+//              its to-dos, buy advice and account #4 date are an example's, never shown as the owner's
+//   snapshot = the PC's own business.json, but older than SNAP_H hours (the PC has not sent a newer copy)
+//   fresh    = the PC's own business.json, newer than that
+//   dataState(doc, nowMs) -> { kind, asof, hours, text }
+export const SNAP_H = 36;
+export function dataState(doc, nowMs) {
+  const t = Date.parse(doc && doc.asof ? doc.asof : '');
+  const hours = Number.isFinite(t) && Number.isFinite(+nowMs) ? Math.max(0, (+nowMs - t) / 3600e3) : null;
+  const when = Number.isFinite(t) ? new Date(t).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'an unknown time';
+  if (!doc || doc.sample) {
+    return { kind: 'demo', asof: doc ? doc.asof : '', hours,
+      text: 'Example numbers (DEMO), not yours. Your own business file stays private on your PC, so this site shows an example: its to-do list and buy advice are hidden. To see yours: open this page from the PC (run AGENCY_DAY.bat there).' };
+  }
+  if (hours === null || hours > SNAP_H) {
+    const age = hours === null ? 'age unknown' : hours < 48 ? `${Math.round(hours)} hours old` : `${Math.round(hours / 24)} days old`;
+    return { kind: 'snapshot', asof: doc.asof, hours,
+      text: `Snapshot from ${when} (${age}): the PC has not sent a newer copy, so the to-dos, dates and buy advice may be out of date. Fresh copy: run AGENCY_DAY.bat on the PC.` };
+  }
+  return { kind: 'fresh', asof: doc.asof, hours, text: `Updated ${String(doc.asof).replace('T', ' ').slice(0, 16)}.` };
+}
