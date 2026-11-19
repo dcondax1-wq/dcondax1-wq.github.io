@@ -14,7 +14,7 @@
 <link rel="icon" href="icon.svg">
 <!-- ZEUS (2026-11-18, night-zeushub): the ZEUS Trading door's landing (olympus/doors.js zeus.home; hub/doors.html#zeus opens with a link here).
      Data: the PC's ntfy status (../pc_feed.js), ../board/board.json, ../business/accounts.json, matched like the Board (../board/boardmodel.js +
-     ../business/mffumodel.js), ../edge.json (../edge_chip.js), ../pythia/events.json. It links to pages; the only write is the Decide card's note (../business/decide.js, PC link only). Text only through textContent. -->
+     ../business/mffumodel.js), ../edge.json (../edge_chip.js), ../pythia/events.json, learned.json (the ZEUS learned card's cloud copy). It links to pages; the only write is the Decide card's note (../business/decide.js, PC link only). Text only through textContent. -->
 <link rel="stylesheet" href="../olympus/agora.css?v=a4">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
@@ -71,19 +71,25 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .zs-info summary small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-foot, .8125rem); }
 .zs-info div { padding: 0 14px 12px; } .zs-info p, .zs-info li { margin: 6px 0; overflow-wrap: anywhere; } .zs-info ol { margin: 0; padding-left: 20px; }
 .zs-info code { font: 600 .875rem var(--ag-mono, ui-monospace, Menlo, monospace); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; }
+.zs-learn { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-aegean-text, #7fa7c2); }
+.zs-learn ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.zs-learn li { overflow-wrap: anywhere; } .zs-learn li b { color: var(--ag-gold-hi, #dcbd6e); }
+.zs-learn .zs-idea { margin: 8px 0 0; color: var(--ag-sun, #e0b060); font-weight: 600; }
+.zs-learn .zs-src { margin-top: 8px; }
+.zs-learn.old { opacity: .8; border-left-color: var(--ag-muted, #a89c88); }
 .zs-stamp { margin: 10px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
 .zs-foot { margin-top: 26px; text-align: center; color: var(--ag-soft, #cfc4b2); font: 700 var(--ag-fs-body, .9375rem) var(--ag-serif, Georgia, serif); }
 .zs-foot small { display: block; margin-top: 4px; color: var(--ag-muted, #a89c88); font: 400 var(--ag-fs-foot, .8125rem) var(--ag-sans, system-ui); }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
-<script src="../pc_feed.js?v=n2"></script>
+<script src="../pc_feed.js?v=n4"></script>
 <script src="../business/payoutcoach.js?v=1" defer></script>
-<script src="../business/mffumodel.js?v=1" defer></script>
+<script src="../business/mffumodel.js?v=2" defer></script>
 <script src="../board/boardmodel.js?v=b6" defer></script>
 <script src="../edge_chip.js?v=1" defer></script>
 <script src="../business/decide.js?v=1" defer></script>
-<script src="../olympus/zeus_core.js?v=1" defer></script>
-<script src="zeus.js?v=2" defer></script>
+<script src="../olympus/zeus_core.js?v=3" defer></script>
+<script src="zeus.js?v=3" defer></script>
 </head>
 <body>
 <main class="zs-main" id="zeus">
@@ -101,6 +107,13 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 
   <!-- the Decide card (../business/decide.js + ../business/decisions.json): Yes / No / Later only on the PC link; a tap = one owner note for Claude -->
   <section id="decide" data-decide aria-label="Decide" hidden></section>
+
+  <!-- ZEUS learned (engine/zeus_learn.py, night-learnloop): the PC's nightly line from the live feed (status ext "zl") or the cloud copy
+       learned.json (tools/learn_night.py), whichever is newer, with its date. Read only. -->
+  <section id="learned" aria-labelledby="hLearned" hidden>
+    <h2 class="zs-h2" id="hLearned">ZEUS learned</h2>
+    <div id="learnBox" class="zs-learn" role="status"></div>
+  </section>
 
   <section aria-labelledby="hToday">
     <h2 class="zs-h2" id="hToday">Today</h2>

@@ -129,7 +129,8 @@
   }
 
   // ------------------------------------------------------------------ Home: the open trade, else the last closed one
-  function lastTrade() {
+  // bot = 'lit' on Zlarior's own tab: only Zlarior's accounts (ATLAS trades its own account, night-feedsB 2026-11-18)
+  function lastTrade(bot) {
     const h = HD() || {}, H = window.HubParts || {};
     let p = null; try { p = H.openPos ? H.openPos() : null; } catch (e) { p = null; }
     if (p) {
@@ -137,7 +138,7 @@
         <span class="cl-rt"><span class="cl-eye">Open trade · ${esc(p.acct || '')}</span><b>${esc(p.side)} ${p.qty ?? '—'} MNQ at ${num(p.entry, 2)}</b><em>stop ${num(p.stop, 2)} · target ${num(p.target, 2)}${p.be ? ' · at breakeven' : ''}</em></span>
         <span class="cl-tv ${okN(p.unrealized_r) ? cls(p.unrealized_r) : ''}">${okN(p.unrealized_r) ? fR(p.unrealized_r) : ''}</span></button>`;
     }
-    const A = (h.accounts || []).filter((a) => a && a.id && !a.error);
+    const A = (h.accounts || []).filter((a) => a && a.id && !a.error && !(bot === 'lit' && (a.id === 'atlas' || /atlas/i.test(String(a.name || '')))));
     const live = A.flatMap((a) => (a.trades || []).map((t) => ({ ...t, _src: a.source === 'pc' ? (a.name || 'PC') : 'cloud paper' })));
     const key = (t) => +t.exit_t || +t.entry_t || Date.parse(t.day || '') / 1000 || 0;
     let t = live.sort((x, y) => key(y) - key(x))[0], src = t ? t._src : '';
@@ -164,7 +165,8 @@
         ${rowLink('goals', 'Goals', 'Each eval, this week, this month', 'target')}
         ${rowLink('plan', 'Zlarior plan and levels', 'Today’s levels, the target band, sweeps seen', 'target')}
         ${rowLink('homefull', 'Full overview', 'Every card the old Home showed: health, radar, why no trade', 'layers')}</section>
-      <p class="cl-foot">Real accounts + paper monitor · read-only${built ? ` · data ${esc(built.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }))}` : ''}${HD() && HD().home_only ? ' · loading the rest…' : ''}</p>`;
+      <p class="cl-foot">Real accounts + paper monitor · read-only${(() => { const rt = window.LIVE && window.LIVE.raw && window.LIVE.raw.reporter ? +window.LIVE.raw.reporter.t : 0;      // the PC's report time names the account numbers (night-feedsB)
+        return rt ? ` · accounts from the PC report ${esc(new Date(rt * 1000).toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }))}` : ''; })()}${built ? ` · cloud copy ${esc(built.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' }))}` : ''}${HD() && HD().home_only ? ' · loading the rest…' : ''}</p>`;
     if (ins && M.wireInstall) { try { M.wireInstall(el); } catch (e) { /* guide only */ } }
   }
 
@@ -209,7 +211,9 @@
   function litNext() {
     const L = (HD() || {}).live || {}, pb = L.pc && L.pc.brain && !L.pc.brain.error ? L.pc.brain : null, cb = L.brain && !L.brain.error ? L.brain : null;
     const b = pb && (nowS() - (+pb.t || 0) < FRESH_S || !cb) ? pb : cb;
-    return (b && b.stage && b.stage.waiting) || L.model_state || '';
+    // with the PC's post here, its own words (board.lit.waiting) beat the cloud twin's brain ("waiting for the first bars of 2026-10-16")
+    const B = (HD() || {}).board, pcw = b !== pb && window.LIVE && window.LIVE.raw && B && B.lit && B.lit.waiting ? B.lit.waiting : '';
+    return pcw || (b && b.stage && b.stage.waiting) || L.model_state || '';
   }
   function litView(el) {
     const nx = litNext();
@@ -217,7 +221,7 @@
       ${litHero('evalhq')}
       ${nx ? `<button type="button" class="card cl-card cl-plan" data-go="brain"><span class="cl-ri">${icon('brain')}</span><span class="cl-rt"><span class="cl-eye">Right now</span><b>${esc(nx)}</b><em>Bot Brain: every rule it checks</em></span>${icon('right', 'cl-go')}</button>` : ''}
       ${planLine()}
-      ${lastTrade()}
+      ${lastTrade('lit')}
       <p class="cl-foot">Real accounts + paper monitor · read-only · Zlarior is the display name of the LIT bot</p>`;
   }
 

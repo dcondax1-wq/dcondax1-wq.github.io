@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-19",
  "number": 2,
- "built": "2026-11-19T00:50:00Z",
+ "built": "2026-11-19T02:49:33Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -709,9 +709,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 185 write-ups.",
-    "The newest lesson on file, dated 2026-11-18, reads: (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost…",
-    "It was filed under \"done\" and comes from research/writeups/rapid25-lit-lane-2026-11-18.md."
+    "The research shelf now counts 191 write-ups.",
+    "The newest lesson on file, dated 2026-11-18, reads: I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - wi…",
+    "It was filed under \"finding\" and comes from research/writeups/win-loss-anatomy-2026-11-18.md."
    ],
    "facts": [
     {
@@ -743,10 +743,10 @@
      "quote": true
     },
     {
-     "t": "185",
+     "t": "191",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 185
+     "raw": 191
     },
     {
      "t": "2026-11-18",
@@ -754,17 +754,17 @@
      "quote": true
     },
     {
-     "t": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost…",
+     "t": "I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - wi…",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "done",
+     "t": "finding",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/rapid25-lit-lane-2026-11-18.md",
+     "t": "research/writeups/win-loss-anatomy-2026-11-18.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }
@@ -825,6 +825,40 @@
    ],
    "sample": false,
    "by": "mind"
+  },
+  {
+   "id": "new-apps",
+   "kicker": "Openings",
+   "headline": "1 new app opens on the agora",
+   "standfirst": "What was added to the app bar since the last edition.",
+   "body": [
+    "1 new app has opened since the last edition: Why.",
+    "That brings the bar to 76 apps.",
+    "Each one reads only published files and falls back to labelled demo data, so none can be blank."
+   ],
+   "facts": [
+    {
+     "t": "1",
+     "src": "jarvis/apps.js",
+     "calc": "count of app ids not in the last edition's list",
+     "raw": 1
+    },
+    {
+     "t": "Why",
+     "src": "jarvis/apps.js",
+     "quote": true
+    },
+    {
+     "t": "76",
+     "src": "jarvis/apps.js",
+     "calc": "count of app ids in jarvis/apps.js",
+     "raw": 76
+    }
+   ],
+   "sources": [
+    "jarvis/apps.js"
+   ],
+   "sample": false
   }
  ],
  "numbers": [
@@ -1061,12 +1095,7 @@
   ],
   "missing": []
  },
- "skipped": [
-  {
-   "article": "new-apps",
-   "why": "no app was added since the last edition"
-  }
- ],
+ "skipped": [],
  "apps": [
   "aegis",
   "agency",
@@ -1142,6 +1171,7 @@
   "trading",
   "tree",
   "tyche",
+  "why",
   "zenith"
  ],
  "press": {

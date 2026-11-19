@@ -78,4 +78,9 @@ export function fmtDur(s) {
 }
 
 export const hm = (t) => { const p = etParts(t); return `${String(p.h).padStart(2, '0')}:${String(p.mi).padStart(2, '0')}`; };
-export const dayLabel = (t) => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][etParts(t).wd];
+// a day more than 6 days away gets its date too ("Oct 16"), so an old LAST SEEN never reads as this week (night-feedsB)
+export const dayLabel = (t) => {
+  const wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][etParts(t).wd];
+  if (Math.abs(Date.now() / 1000 - t) <= 6 * 86400) return wd;
+  try { return new Date(t * 1000).toLocaleDateString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric' }); } catch (e) { return wd; }
+};

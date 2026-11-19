@@ -74,6 +74,7 @@
   {"id": "business", "name": "Business", "glyph": "B", "colour": "#c8a24a", "group": "money", "groupName": "Money", "purpose": "Every money model: next step, what is missing, $ estimate", "path": "business/", "live": true},
   {"id": "trading", "name": "Trading", "glyph": "T", "colour": "#c8a24a", "group": "trading", "groupName": "Trading", "purpose": "Every trade: today, calendar, stats, payout rules", "path": "trading/", "live": true},
   {"id": "board", "name": "Board", "glyph": "\u25a4", "colour": "#c8a24a", "group": "trading", "groupName": "Trading", "purpose": "What the bot, you and Claude know: accounts, events, notes", "path": "board/", "live": true},
+  {"id": "why", "name": "Why", "glyph": "?", "colour": "#c8a24a", "group": "trading", "groupName": "Trading", "purpose": "Why our trades win and lose, per bot, in plain $", "path": "why/", "live": true},
   {"id": "clio", "name": "Clio", "glyph": "\u039a", "colour": "#d8c9a8", "group": "trading", "groupName": "Trading", "purpose": "The research library: every study in plain words", "path": "clio/", "live": true},
   {"id": "atlas", "name": "Atlas", "glyph": "\u25c8", "colour": "#efc979", "group": "life", "groupName": "Life", "purpose": "A fast map of every Olympus dashboard", "path": "atlas/", "live": true},
   {"id": "athena", "name": "Athena", "glyph": "\ud83e\udd89", "colour": "#7f8a52", "group": "life", "groupName": "Life", "purpose": "The library: strategy, rules, quiz", "path": "athena/", "live": true},

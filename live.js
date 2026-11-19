@@ -33,9 +33,17 @@
     return [...m.values()].sort((x, y) => (+x.entry_t || 0) - (+y.entry_t || 0));
   }
 
+  // ---- the real accounts from the PC's post (night-feedsB 2026-11-18). data.json / home.json are the CLOUD's copy: its board,
+  // accounts and eval are its paper twin on old bars (Zlarior $49,900, "ATLAS not set up", "the PC has not reported"). Once the PC's
+  // post is here, every account number on this page comes from it (with its age): the board (PC_FEED.boardOver: the cloud lends
+  // only its calendar), the accounts (the PC's, then ATLAS from its board card, the cloud twin last), the 50K eval, and for a funded
+  // account the payout coach's line (business/payoutcoach.js, the ZEUS card's own rule, so both say the same "need $X more").
+  const CLOUD = new WeakMap();                       // X -> the cloud's own board, kept so every new post is laid over it again
+  const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
+  const etDay = (t) => { try { return new Date(t * 1000).toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); } catch (e) { return new Date(t * 1000).toISOString().slice(0, 10); } };
   // lay live.json over a data.json / home.json object (in place). Only parts newer than what X already has.
   LIVE.apply = function (X) {
-    const j = LIVE.j;
+    const j = LIVE.j, raw = LIVE.raw || null, F = window.PC_FEED;
     if (!X || !j || !okN(+j.t)) return X;
     X.live = X.live || {};
     const pc0 = X.live.pc || {}, age = nowS() - j.t;
@@ -48,17 +56,37 @@
         X.live.pc.silent = true;
       }
       if (age < FRESH_S && okN(+j.price)) X.live.price = +j.price;
+      if (typeof j.model_state === 'string' && j.model_state) X.live.model_state = j.model_state;      // the PC bot's own words, not the twin's
     }
-    if (Array.isArray(j.accounts)) {
+    // the board: the PC's, over the cloud's own (kept per object, so each new post starts from the cloud's again)
+    if (raw && F && F.boardOver) {
+      if (!CLOUD.has(X)) CLOUD.set(X, X.board || null);
+      const b = F.boardOver(CLOUD.get(X), raw, nowS());
+      if (b && b !== CLOUD.get(X)) X.board = b;
+    }
+    const B = isObj(X.board) ? X.board : {};
+    // the accounts (pc_feed.js accountsOver: the PC's, ATLAS from its board card, the cloud's twin last) and the real 50K eval
+    if (F && F.accountsOver && (Array.isArray(j.accounts) || isObj(B.atlas))) X.accounts = F.accountsOver(X.accounts, j, B);
+    else if (Array.isArray(j.accounts)) {                       // an older pc_feed.js (cached): the PC's accounts merged the old way
       const L = Array.isArray(X.accounts) ? X.accounts : (X.accounts = []);
       for (const a of j.accounts) {
         if (!a || !a.id) continue;
         const i = L.findIndex((x) => x && x.id === a.id);
-        if (i < 0) { L.unshift(a); continue; }
+        if (i < 0) { L.push({ ...a, live: true }); continue; }
         const o = L[i];
         if ((+(a.conn || {}).t || 0) < (+(o.conn || {}).t || 0)) continue;
         L[i] = { ...o, ...a, trades: mergeTrades(o.trades, a.trades), days: (a.days || []).length >= (o.days || []).length ? a.days : o.days, live: true };
       }
+    }
+    const e = F && F.eval50 ? F.eval50(X.accounts, isObj(X.live.eval) && !X.live.eval.real ? X.live.eval : X.live.eval_paper, j.t) : null;
+    if (e) { if (!X.live.eval_paper && isObj(X.live.eval) && !X.live.eval.real) X.live.eval_paper = X.live.eval; X.live.eval = e; }
+    // a funded account says what the ZEUS card says (the payout coach's "need $X more"); the pickers (board.js, mission.js, blitz.js) read
+    // LIVE.j.board, so it gets the same line
+    if (F && F.payoutLines) {
+      const C = window.PAYOUT_COACH || null, today = etDay(nowS());
+      const miss = F.payoutLines(B, X.accounts, j, C, today);
+      if (j.board && j.board !== B) F.payoutLines(j.board, null, j, C, today);
+      if (miss) needCoach();
     }
     return X;
   };
@@ -68,7 +96,7 @@
     // Round 7 (no GitHub): the PC's 15-minute status through ntfy (pc_feed.js) comes first; the GitHub sources stay as a fallback
     try {
       const lj = window.PC_FEED && await window.PC_FEED.fetchLatest();
-      if (lj) return { j: window.PC_FEED.toLive(lj, (window.HOMEJ || {}).board), src: 'ntfy' };
+      if (lj) return { j: window.PC_FEED.toLive(lj, (window.HOMEJ || {}).board), raw: lj, src: 'ntfy' };
     } catch (e) { /* fall through to the old sources */ }
     let r = null, src = 'api';
     if (Date.now() >= LIVE.apiUntil) {
@@ -92,7 +120,9 @@
     if (!j || j.kind !== 'le-live' || !okN(+j.t)) throw new Error('not a live.json');
     return { j, src };
   }
-  const LIVE_PAGES = ['today', 'accounts', 'money', 'whatif', 'live', 'cockpit', 'trades', 'brain'];
+  // the pages that show an account number redraw when a new PC post lands (the bot tabs, the eval pages and the board too: they
+  // used to keep the cloud's paper numbers until a reload, night-feedsB 2026-11-18)
+  const LIVE_PAGES = ['today', 'accounts', 'money', 'whatif', 'live', 'cockpit', 'trades', 'brain', 'lit', 'atlas', 'eval', 'evalhq', 'plan', 'board', 'mission', 'goals', 'activity'];
   function redraw() {
     try {
       if (typeof D === 'undefined') return;
@@ -102,15 +132,27 @@
       if (typeof PAGE !== 'undefined' && LIVE_PAGES.includes(PAGE) && (D || (PAGE === 'today' && window.HOMEJ)) && typeof render === 'function') render(true);
     } catch (e) { console.warn('live redraw', e); }
   }
+  // the payout coach (business/payoutcoach.js): the ZEUS card loads it on Home; any other page asks olympus/zeus_core.js for it once
+  // (its need() loads the ZEUS models), then the funded lines are drawn again
+  let coachSeen = false, coachAsked = false;
+  function needCoach() {
+    if (coachAsked || window.PAYOUT_COACH) return;
+    coachAsked = true;
+    try { const Z = window.ZEUS_CORE; if (Z && Z.need) Promise.resolve(Z.need()).then(() => { if (window.PAYOUT_COACH && !coachSeen && LIVE.j) { coachSeen = true; redraw(); } }).catch(() => null); } catch (e) { /* the number stays out */ }
+  }
+  addEventListener('zeus:update', () => { if (!coachSeen && window.PAYOUT_COACH && LIVE.j) { coachSeen = true; redraw(); } });
   LIVE.poll = async function (force) {
     if (LIVE.busy || (!force && document.hidden)) return;
     // the Live View page (liveview.js) polls its own liveview.json from the same API: live.json waits ~3 min there
     if (!force && typeof PAGE !== 'undefined' && PAGE === 'liveview' && Date.now() - LIVE.at < 170e3) return;
     LIVE.busy = true;
     try {
-      const { j, src } = await fetchLive();
-      const changed = !LIVE.j || j.t !== LIVE.j.t;
-      LIVE.j = j; LIVE.at = Date.now(); LIVE.src = src; LIVE.err = null; LIVE.polls++;
+      const { j, src, raw } = await fetchLive();
+      const changed = !LIVE.j || j.t !== LIVE.j.t || (raw && (!LIVE.raw || (raw.reporter || {}).t !== (LIVE.raw.reporter || {}).t));
+      // the same post again (a focus / 45 s poll): keep the copy already laid out (its funded line has the payout coach's number);
+      // a fresh copy would put the PC's own payout line back on the pickers (board.js, mission.js, blitz.js) until the next redraw
+      if (changed) { LIVE.j = j; LIVE.raw = raw || null; }
+      LIVE.at = Date.now(); LIVE.src = src; LIVE.err = null; LIVE.polls++;
       if (changed) redraw();
     } catch (e) { LIVE.err = e.message || String(e); }
     finally { LIVE.busy = false; chip(); }
@@ -120,6 +162,18 @@
   function chip() {
     const st = document.getElementById('status'); if (!st) return;
     let el = document.getElementById('liveChip');
+    // the PC's status post (ntfy): the header says when the PC last reported, in the ZEUS card's words and its 30-minute rule,
+    // instead of the cloud monitor's run age next to a live chip that vanished after 20 minutes (night-feedsB 2026-11-18)
+    const rt = LIVE.raw ? +((LIVE.raw.reporter && LIVE.raw.reporter.t) || LIVE.raw.t) || null : null;
+    if (rt) {
+      const ra = Math.max(0, nowS() - rt), m = Math.round(ra / 60);
+      if (!el) { el = document.createElement('span'); el.id = 'liveChip'; el.className = 'status live-chip pc-chip'; st.after(el); }
+      st.hidden = true;
+      el.innerHTML = `<span class="dot ${ra < 1800 ? '' : 'warn'}"></span><span class="lbl">PC reported </span>${ra < 90 ? 'just now' : m < 90 ? m + ' min ago' : Math.round(ra / 3600) + ' h ago'}`;
+      el.title = `Your PC's last status report (ntfy), ${new Date(rt * 1000).toLocaleTimeString()}; quiet after 30 min`;
+      return;
+    }
+    st.hidden = false;
     const a = LIVE.age();
     if (a == null || a > FRESH_S) { if (el) el.remove(); return; }
     if (!el) { el = document.createElement('span'); el.id = 'liveChip'; el.className = 'status live-chip'; st.after(el); }

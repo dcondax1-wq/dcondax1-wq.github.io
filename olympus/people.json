@@ -2929,6 +2929,29 @@
    "appName": "Board"
   },
   {
+   "id": "villager:why",
+   "name": "Nikon Β",
+   "title": "Lives in Why",
+   "kind": "villager",
+   "area": "trading",
+   "app": "why",
+   "seed": 1487314471,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 1.23,
+    "rate": 0.96
+   },
+   "sources": [
+    "../why/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "why"
+   },
+   "bio": "Why our trades win and lose, per bot, in plain $",
+   "appName": "Why"
+  },
+  {
    "id": "villager:clio",
    "name": "Galene Γ",
    "title": "Lives in Clio",

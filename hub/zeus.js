@@ -7,7 +7,9 @@
  *                   engine/live_board.py: LIT 02:00-15:30, ATLAS MACD 02:00-05:00 + 09:30-11:00, EMA 03:00-09:30 not Mondays,
  *                   S/R 09:30-12:00; weekends + CME closures skipped, an early close ends entries 15 min before the halt) and the
  *                   news / early-close notes of the next 7 days from ../pythia/events.json (data/news + the CME holiday rules); none = skipped
- *   4. big buttons  + the Safety and Add-an-account explanations (never a link: safety lives on the PC's private Tailscale link)
+ *   4. ZEUS learned the PC's nightly line (engine/zeus_learn.py: status ext "zl" = {d, t, s, p}) or the cloud copy hub/learned.json
+ *                   (tools/learn_night.py), whichever is newer: one row per strategy, its date + source, ideas waiting on Decide
+ *   5. big buttons  + the Safety and Add-an-account explanations (never a link: safety lives on the PC's private Tailscale link)
  * Read only: no write, no order, nothing armed. Text only through textContent. Classic script: window.ZEUS_HUB (module.exports in node:
  * the pure part, tests/test_zeus_hub.py). */
 (function (root) {
@@ -121,8 +123,28 @@
   var ZC = root.ZEUS_CORE || (typeof require === 'function' ? require('../olympus/zeus_core.js') : null);
   var usd = ZC.usd, ago = ZC.ago, pcLine = ZC.pcLine, acctRow = ZC.acctRow;
 
+  // ZEUS learned: lite.zl (the PC, {d, t, s, p}) vs learned.json (the cloud, {day, t, line, built, proposals}): the newer wins.
+  // -> null (neither) or {day, when, rows [{name, text}], ideas, src, old}. Old = the learned day is more than 4 days back.
+  function learned(lite, cloud, nowS) {
+    var z = isObj(lite) && isObj(lite.zl) && typeof lite.zl.s === 'string' ? lite.zl : null;
+    var c = isObj(cloud) && typeof cloud.line === 'string' && cloud.day ? cloud : null;
+    if (!z && !c) return null;
+    var useZ = z && (!c || (okN(z.t) ? z.t : 0) >= (okN(c.t) ? c.t : 0));
+    var day = String(useZ ? z.d : c.day || '');
+    var text = useZ ? z.s : String(c.line).replace(/^ZEUS learned [^:]*:\s*/, '');
+    var rows = text.split(' \u00b7 ').filter(Boolean).slice(0, 5).map(function (x) {
+      var m = /^(\S+)\s+(.*)$/.exec(x); return m ? { name: m[1], text: m[2] } : { name: '', text: x };
+    });
+    var t = useZ ? z.t : c.t, ideas = useZ ? (okN(z.p) ? z.p : 0) : (okN(c.proposals) ? c.proposals : 0);
+    var md = /^(\d{4})-(\d{2})-(\d{2})$/.exec(day);
+    var when = md ? MON[+md[2] - 1] + ' ' + (+md[3]) : day;
+    var old = md && okN(nowS) ? (nowS - Date.parse(day + 'T22:00:00Z') / 1000) > 4 * 86400 : false;
+    return { day: day, when: when, rows: rows, ideas: ideas, old: !!old, t: okN(t) ? t : null,
+             src: useZ ? 'From your PC\'s nightly learning (live feed)' : 'Cloud copy (Claude\'s nightly run' + (c.built ? ', ' + c.built : '') + ')' };
+  }
+
   var API = { BOTS: BOTS, et: et, calendar: calendar, nextWindow: nextWindow, pcWindow: pcWindow, windowLine: windowLine, notes: notes,
-              pcLine: pcLine, acctRow: acctRow, usd: usd, ago: ago, inWords: inWords };
+              pcLine: pcLine, acctRow: acctRow, usd: usd, ago: ago, inWords: inWords, learned: learned };
   root.ZEUS_HUB = API;
   if (typeof module === 'object' && module && module.exports) module.exports = API;
   if (typeof document === 'undefined') return;
@@ -184,13 +206,28 @@
     $('noteSrc').textContent = 'From the risk calendar (data/news + CME holiday rules)' + (nt.updated ? ', updated ' + nt.updated : '') + '. ZEUS stands aside around news by itself.';
   }
 
+  function drawLearned(L) {
+    var sec = $('learned'), box = $('learnBox'); if (!sec || !box) return;
+    if (!L) { sec.hidden = true; return; }
+    sec.hidden = false;
+    box.className = 'zs-learn' + (L.old ? ' old' : '');
+    box.replaceChildren();
+    box.appendChild(el('p', 'zs-goal', 'Night of ' + L.when + (L.old ? ' (old: the PC has not learned since)' : '')));
+    var ul = el('ul');
+    L.rows.forEach(function (r) { var li = el('li'); li.appendChild(el('b', '', r.name + ' ')); li.appendChild(d.createTextNode(r.text)); ul.appendChild(li); });
+    box.appendChild(ul);
+    if (L.ideas) box.appendChild(el('p', 'zs-idea', L.ideas + ' idea' + (L.ideas === 1 ? '' : 's') + ' for you on the Decide card: a yes only lets Claude test it.'));
+    box.appendChild(el('p', 'zs-src', L.src + '. Advice only: ZEUS changed nothing.'));
+  }
+
   var busy = false;
   function load() {
     if (busy) return Promise.resolve();
     busy = true;
-    return Promise.all([ZC.fetchAll({ force: true }), getJSON('../pythia/events.json')])
+    return Promise.all([ZC.fetchAll({ force: true }), getJSON('../pythia/events.json'), getJSON('learned.json')])
       .then(function (v) {
         var data = v[0], evj = v[1], lite = data.lite, now = nowS();
+        try { drawLearned(learned(lite, v[2], now)); } catch (e) { /* never the page */ }
         var s = ZC.summary(data, now);                               // the Board's pick + the MFFU cards, BLITZ left out (zeus_core.js)
         drawStrip(s.pc, s.rows);
         try { if (root.EDGE_CHIP) root.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }

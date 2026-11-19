@@ -13,6 +13,7 @@
 //     verdict() -> {text, level}       the system's one-line verdict for the HUD arc (level 'ok' | 'warn' | 'bad')
 //     greeting() -> 'Good evening'     fx() -> 'ultra' | 'high' | 'low' | 'off'     reduced() -> bool (reduce motion applies)
 //     voiceCfg() -> {rate, pitch} | null (the owner's own voice settings)            muted() -> bool
+//     voicePick() -> { mode: 'ai' | 'phone', label, ready }    setVoicePick(mode)   (the one Voice setting; optional)
 //     onOpen(), onClose(why), openApp(reply)
 //   });
 //   vm.open({gesture}) · vm.close(why) · vm.isOpen() · vm.stats()
@@ -23,10 +24,10 @@
 // END, when Jarvis goes out of sight and when another app opens. No speech recognition (some browsers, a Home Screen app):
 // the same screen with a type-to-talk field, said once per launch; the recognizer refusing the mic switches to it too.
 // Reduce motion (unless the owner picked a 3D level himself) and 3D effects Off: no animation loop, no flying cards, the
-// core still. Voice (2026-11-03, owner: "a voice that doesn't sound like a bot. Should be a female voice."): the same voice as
-// the Jarvis screen, from tts.js: the owner's pick (the Voice sheet, else the VOICE button here), else the most natural female
-// English voice the phone has (Ava / Zoe premium first, novelty voices never), said in sentence chunks with the text cleaned
-// for speech. The VOICE button steps through them; the pick is kept for both ('jarvis.voiceCfg' and 'jarvis.vmVoice').
+// core still. Voice (2026-11-18, owner: "it sounds like a bot, it should sound like a person"; Male, British): the same voice as
+// the Jarvis screen: the AI voice George (neural-voice.js, through the shell's cloudVoice) or, while it loads / if it cannot, the
+// iPhone's best British male voice (tts.js), said in pieces with the words a person would say (speech-text.js). The VOICE button
+// switches AI voice / iPhone voice (the shell's one setting, deps voicePick / setVoicePick); without them it steps the phone voices.
 // Push-to-talk (2026-11-10, JARVIS BRAIN): on an iPhone / iPad the default is HOLD TO TALK: the big button listens while it is held
 // and sends on release, and Jarvis never starts listening by itself after an answer (iOS Safari drops hands-free recognition, asks
 // for the mic again and loops on "no-speech"). A plain-words status line (#vmState, aria-live) always says what is happening:
@@ -192,7 +193,8 @@ export function createVoiceMode(deps) {
   let speech = null, sess = 0, specCol = '#c8a24a';   // speech: the reply being spoken {words, frags, t0, real, idx, done}
   let voices = [], said = { noSR: false }, turns = 0, lastReply = null;
   let holding = false, status = '';
-  const savedPtt = (() => { const v = safe(() => localStorage.getItem(PTT_KEY), null); return v === '1' ? true : v === '0' ? false : null; })();
+  const pttSaved = () => { const v = ls.get(PTT_KEY); return v === '1' ? true : v === '0' ? false : null; };   // ls: every read in a try (private mode)
+  const savedPtt = pttSaved();
   const onIOS = isIOS(safe(() => navigator.userAgent, ''), safe(() => navigator.maxTouchPoints, 0));
   let ptt = defaultPtt(savedPtt), fellBack = false;
   const $ = (s) => (el ? el.querySelector(s) : null);
@@ -202,8 +204,22 @@ export function createVoiceMode(deps) {
   if (synth) safe(() => synth.addEventListener('voiceschanged', loadVoices));
   const voice = () => bestVoice(voices, savedVoiceName());
   const speaker = synth ? createSpeaker({ synth, voices: () => voices, cfg: () => Object.assign({}, DEFAULTS, call('voiceCfg') || {}, { voice: savedVoiceName() }), cloud: (c) => call('cloudVoice', c), prosody: () => call('prosody'), player: () => call('player') }) : null;
-  function renderVoice() { const b = $('#vmVoice'), v = voice(); if (b) b.textContent = 'Voice: ' + (v ? v.name.replace(/\s*\(.*\)$/, '') : 'Auto'); }
+  function renderVoice() {
+    const b = $('#vmVoice'); if (!b) return;
+    const pk = call('voicePick');
+    if (pk && pk.mode) { b.textContent = 'Voice: ' + (pk.mode === 'ai' ? 'George' : 'iPhone'); return; }
+    const v = voice(); b.textContent = 'Voice: ' + (v ? v.name.replace(/\s*\(.*\)$/, '') : 'Auto');
+  }
   function nextVoice() {
+    const pk = call('voicePick');
+    if (pk && pk.mode) {                         // the one setting: AI voice <-> iPhone voice, said in the voice just picked
+      const m = pk.mode === 'ai' ? 'phone' : 'ai';
+      call('setVoicePick', m);
+      const now2 = call('voicePick') || {};
+      renderVoice();
+      sayLine(m === 'phone' ? 'This is the iPhone voice.' : now2.ready ? "This is George, Jarvis's AI voice." : "George, the AI voice, is getting ready. Until then it's the iPhone voice.", null);
+      return;
+    }
     loadVoices();
     const list = voiceChoices(voices);
     if (!list.length) return;
@@ -283,7 +299,7 @@ export function createVoiceMode(deps) {
     if (mb) mb.textContent = ptt ? 'Hold to talk' : 'Hands-free';
   }
   function setPtt(on) {
-    ptt = !!on; safe(() => localStorage.setItem(PTT_KEY, ptt ? '1' : '0'));
+    ptt = !!on; ls.set(PTT_KEY, ptt ? '1' : '0');
     holding = false; paintStatus();
     if (open && SR && !said.blocked) { if (ptt && phase === 'listening') { stopRec(); ++turn; setPhase('idle', ''); } }
   }
@@ -552,7 +568,7 @@ export function createVoiceMode(deps) {
     if (!synth || call('muted') || !text) { s.watch = setTimeout(finish, Math.min(est, 9000)); return; }
     try {
       s.watch = setTimeout(finish, est * 2 + 4000);       // a voice that never says it finished (iPhone) never stalls the turn
-      speaker.speak(text, { onboundary: (ci) => { if (my !== turn || s.done) return; s.real = true; mark(ci); }, onend: finish });
+      speaker.speak(String(line || ''), { onboundary: (ci) => { if (my !== turn || s.done) return; s.real = true; mark(ci); }, onend: finish });   // the raw line: the speech layer reads "-$113" itself
     } catch (_) { clearTimeout(s.watch); s.watch = setTimeout(finish, Math.min(est, 9000)); }
   }
 
@@ -571,7 +587,7 @@ export function createVoiceMode(deps) {
     if (open) return;
     if (!el) build();
     open = true; sess++; turns = 0; silent = 0; typed = false; said.blocked = false; micErr = '';
-    if (fellBack) { fellBack = false; ptt = defaultPtt(safe(() => { const v = localStorage.getItem(PTT_KEY); return v === '1' ? true : v === '0' ? false : null; }, null)); }
+    if (fellBack) { fellBack = false; ptt = defaultPtt(pttSaved()); }
     motion = call('fx') !== 'off' && !call('reduced');
     el.dataset.motion = motion ? 'on' : 'off';
     el.hidden = false;

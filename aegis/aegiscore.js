@@ -52,8 +52,8 @@ export function matchKey(a) {
 }
 
 /** one account view. a = the home.json account (or a fixture row), rules = ledger/rules.json. Never throws; a missing account gives has = false. */
-export function accountView(key, a, rules) {
-  const P = PLANS[key], L = limitsFor(P.plan, rules);
+export function accountView(key, a, rules, P0) {
+  const P = P0 || PLANS[key], L = limitsFor(P.plan, rules);
   const base = { key, name: P.name, size: P.size, label: P.label, bot: P.bot, has: false, kind: 'eval', mll: L.mll, dll: L.dll, target: L.target, room: null, floor: null, balance: null, today: 0, week: 0, dllUsed: 0, risk: P.risk, est: true, limits: L, demo: false };
   if (!isObj(a)) return base;
   const ev = isObj(a.eval) ? a.eval : isObj(a.funded_eval) ? a.funded_eval : a, pnl = isObj(a.pnl) ? a.pnl : {}, st = isObj(a.stats) ? a.stats : {};
@@ -77,10 +77,26 @@ export function buildAccounts(home, fixture, rules) {
   for (const a of list) { const k = matchKey(a); if (k && !found[k] && !a.error) found[k] = a; }
   const real = Object.keys(found).length > 0;
   const fx = isObj(fixture) && Array.isArray(fixture.accounts) ? fixture.accounts : [];
-  return { demo: !real, accounts: ORDER.filter((k) => !(real && k === 'blitz' && hiddenIn(home, 'blitz'))).map((k) => {
+  const out = ORDER.filter((k) => !(real && k === 'blitz' && hiddenIn(home, 'blitz'))).map((k) => {
     if (real) return accountView(k, found[k], rules);
     const f = fx.find((x) => x && x.key === k); const v = accountView(k, f || null, rules); return f ? { ...v, demo: true } : v;
-  }) };
+  });
+  if (real) out.push(...extraAccounts(home, rules));
+  return { demo: !real, accounts: out };
+}
+// the other real accounts the PC routes (the Zlarior 25K #2 ...): board "accounts" from the PC's status post (pc_feed.js boardOver,
+// night-feedsB 2026-11-18); LIT trades them, so its usual stop is the 50K's at the plan's scale (an estimate, marked ~)
+export function extraAccounts(home, rules) {
+  const B = isObj(home) && isObj(home.board) ? home.board : {}, out = [];
+  for (const c of Array.isArray(B.accounts) ? B.accounts : []) {
+    if (!isObj(c) || !c.id || num(c.balance) == null) continue;
+    const big = num(c.mll) >= 2000;
+    const P = { key: 'x_' + String(c.id).replace(/[^A-Za-z0-9_]/g, '').slice(0, 24), name: str(c.name, 40) || 'Account', bot: 'LIT', size: big ? '50K' : '25K',
+      label: 'MFFU Builder ' + (big ? '50K' : '25K'), plan: big ? 'builder_50k' : 'builder_25k', risk: big ? PLANS.zlarior.risk : Math.round(PLANS.zlarior.risk / 2) };
+    out.push(accountView(P.key, { kind: /funded/i.test(String(c.status || '')) ? 'funded' : 'eval', pnl: { today: c.today_pnl, week: c.week_pnl },
+      eval: { balance: c.balance, floor: c.floor, room: c.room, mll: c.mll, dll: c.dll, dll_used: c.dll_used, to_target: c.to_target } }, rules, P));
+  }
+  return out;
 }
 
 /** how much of the max loss is still there (0..1); null without numbers */

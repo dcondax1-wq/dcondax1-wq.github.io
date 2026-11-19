@@ -20,6 +20,30 @@ async function getJSON(url, ms) {
 }
 function say(t) { $('status').textContent = t; }
 
+// the PC's own status post (ntfy, every 15 min: ../pc_feed.js, night-feedsB 2026-11-18) laid over home.json, the cloud's copy (its board is
+// the cloud's paper twin on old bars: "$1,900 left", "ATLAS not set up"). No short race: the post can take a few seconds; the page shows the
+// cloud's copy with its date meanwhile. Funded accounts get the payout coach's line (../business/payoutcoach.js), the ZEUS card's words.
+// Both files come from index.html (plain tags before the OLYMPUS kit): no dynamic import on this page.
+async function withPost(home) {
+  if (!home || S.forced) return home;
+  try {
+    const F = window.PC_FEED;                     // index.html loads ../pc_feed.js and ../business/payoutcoach.js before the kit
+    if (!F || !F.fetchLatest || !F.homeOver) return home;
+    const lite = await Promise.race([F.fetchLatest({ feedUrl: new URL('../status_feed.json', import.meta.url).href }), new Promise((r) => setTimeout(() => r(null), 15000))]);
+    if (!lite) return home;
+    return F.homeOver(home, lite, Date.now() / 1000, window.PAYOUT_COACH || null);
+  } catch (_) { return home; }
+}
+// where the numbers come from, with their age or date: the PC's report, or the cloud's copy said to be one
+function srcLine() {
+  if (S.demo) return S.forced ? 'Example numbers (?demo=1): open the page without it for the live bots.' : 'Example numbers (fixture.json): the site has no home.json yet.';
+  const pf = S.home && S.home.pc_feed, rt = pf && (pf.report_t || pf.t);
+  if (rt) return `Source: your PC's status report, ${C.ageText(Math.max(0, Date.now() / 1000 - rt))} (the ZEUS card reads the same report).`;
+  const b = S.home && S.home.built ? new Date(S.home.built) : null, when = b && !isNaN(b) ? b.toLocaleString('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + ' ET' : '';
+  // the cloud's own cards are its paper twin (nqcore hides them): say so, never "these numbers may be old" over numbers that were never the account
+  return `Source: the cloud's copy of the site (home.json${when ? ', built ' + when : ''}). Your PC's own report has not arrived on this page yet${C.cloudCopy(S.home) ? ": the cloud's copy only has its paper test, so no account numbers are shown. They appear the moment the report arrives." : ', so these numbers may be old.'}`;
+}
+
 /** the fixture keeps ages, not dates: every "..._ago_min" becomes a real time counted back from now, so the example is always "a few minutes ago" */
 function demoHome(fx, nowMs, silentS) {
   const f = JSON.parse(JSON.stringify((fx && fx.home) || {})), now = Math.floor(nowMs / 1000) - (silentS || 0);
@@ -85,7 +109,7 @@ function renderBots() {
   const box = $('bots'); clear(box);
   for (const b of S.view.bots) {
     const a = h('article', 'ag-card card bot'); a.dataset.key = b.key; a.dataset.level = b.status.level;
-    const top = h('div', 'row'); const t = h('h3', '', `${b.name} `); t.appendChild(h('small', '', b.key === 'lit' ? `LIT ${b.size}` : b.size)); top.appendChild(t);
+    const top = h('div', 'row'); const t = h('h3', '', `${b.name} `); t.appendChild(h('small', '', b.tag || (b.key === 'lit' ? `LIT ${b.size}` : b.size))); top.appendChild(t);
     top.appendChild(h('span', 'pill ' + (b.status.level === 'off' ? '' : b.status.level), b.status.label)); a.appendChild(top);
     a.appendChild(h('p', 'note when', `${b.status.line} ${b.paper ? 'Paper only.' : ''}`.trim()));
     if (!b.has) { a.appendChild(h('p', 'lead', 'No numbers from this bot yet. They appear here the moment the PC reports it.')); box.appendChild(a); continue; }
@@ -163,7 +187,7 @@ function render() {
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
   renderBanner(); renderScene(); renderPlan(); renderBots(); renderTrades(); renderFacts();
   say(`${v.headline}${v.tight ? ` ${v.tight.name}: ${v.tight.ddLine}.` : ''}${S.demo ? ' Example numbers.' : ''}`);
-  { const el = $('src'); if (el) el.textContent = S.demo ? (S.forced ? 'Example numbers (?demo=1): open the page without it for the live bots.' : 'Example numbers (fixture.json): the site has no home.json yet.') : S.ages ? 'Source: home.json (the PC\'s report via the cloud). ' + S.ages.line : ''; }
+  { const el = $('src'); if (el) el.textContent = srcLine(); }
   S.ready = true;
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
   tryScene();
@@ -184,7 +208,7 @@ window.addEventListener('nq3d', tryScene);
 
 async function refresh() {
   if (S.forced || document.hidden) return;
-  const home = await T.withPcFeed(await getJSON('../home.json'));
+  const home = await withPost(await getJSON('../home.json'));
   if (home && C.hasData(home)) S.home = home;
   render();
 }
@@ -195,10 +219,14 @@ async function boot() {
   $('sheetClose').addEventListener('click', closeSheet); $('veil').addEventListener('click', closeSheet);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); else if (e.key === 'Tab' && S.sheet) { e.preventDefault(); try { $('sheetClose').focus(); } catch (_) { /* nothing */ } } });   // the sheet has one control: focus stays on it
   const [fx, home, howto] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), getJSON('./howto.json')]);
-  S.fixture = fx; S.home = home; S.howto = howto;
+  S.fixture = fx; S.howto = howto;
+  // the PC's 15-minute status (no GitHub) first, up to 3.5 s, so the first numbers on screen are the real ones; when it is later than
+  // that the cloud's copy shows (its source line says so) and the post is laid over it when it arrives, however long ntfy takes
+  const post = home ? withPost(home) : Promise.resolve(home);
+  const early = await Promise.race([post, new Promise((r) => setTimeout(() => r(null), 3500))]);
+  S.home = early || home;
   render();
-  // the PC's 15-minute status (no GitHub): laid over home.json when it arrives
-  if (home) T.withPcFeed(home).then((h) => { if (h !== home && !S.forced) { S.home = h; render(); } });
+  if (!early && home) post.then((h) => { if (h && h !== home && !S.forced) { S.home = h; render(); } });
   if (q.get('howto') === '1') openSheet($('howBtn'));
   setInterval(() => { if (!document.hidden) render(); }, 60000);        // the ages keep counting
   setInterval(refresh, 5 * 60000);                                       // a newer report, when the PC sends one

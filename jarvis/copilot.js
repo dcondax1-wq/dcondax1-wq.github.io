@@ -17,7 +17,7 @@
 // Plain ES2020, no regex lookbehind, no DOM (tests/test_jarvis_copilot.py runs it in node).
 
 import { isObj, num, str, usd, etParts, srcTag, agoText, DOW } from './jdata.js';
-import { accountsOf, agesOf } from '../olympus/truth.js';
+import { accountsOf, agesOf, extraOf } from '../olympus/truth.js';
 import * as Day from '../olympus/day.js';
 
 export const STORE_KEY = 'jarvis.copilot.v1';
@@ -73,7 +73,8 @@ function accounts(S) {
     return { ...a, label: `${a.name} ${a.size}${a.paper ? ' (paper)' : ''}`, risk: riskOf(S, a.key), win: winOf(S, a.key), quiet: num(bk.quiet_days), status: String(bk.status || a.status || '').toLowerCase(),
       doneToday: !!bk.done_today, tradesToday: num(bk.trades_today), maxDay: num(bk.max_day), session: num(pg.session != null ? pg.session : bk.session), sessionsLeft: num(pg.sessions_left),
       goal: num(pg.sessions) || 10, maxS: num(pg.sessions_max) || 15, odds: obj(obj(pg.odds).rows), oddsSrc: str(obj(pg.odds).src, 140), expected: obj(pg.expected), actual: obj(pg.actual), pweek: obj(pg.week) };
-  });
+  }).concat(extraOf(h).map((a) => ({ ...a, label: a.name, risk: null, win: null, quiet: null, status: a.kind === 'funded' ? 'funded' : String(a.status || '').toLowerCase(),
+    doneToday: false, tradesToday: null, maxDay: null, session: null, sessionsLeft: null, goal: 10, maxS: 15, odds: {}, oddsSrc: '', expected: {}, actual: {}, pweek: {} })));   // the PC's other accounts (Zlarior 25K #2)
 }
 const median = (xs) => { const v = xs.filter((x) => x != null && Number.isFinite(x)).sort((a, b) => a - b); return v.length ? v[Math.floor(v.length / 2)] : null; };
 const BOT = { lit: /^(?:lit|zlarior)/i, atlas: /^atlas/i, blitz: /^blitz/i };
@@ -350,6 +351,19 @@ function kalshiSnap(S, now) {
     settledUsd: today.reduce((s, t) => s + num(t.pnl), 0) };
 }
 export function kalshiDay(S, nowIn) { return kalshiSnap(S, nowOf(nowIn)); }
+// night-feedsA 2026-11-18: an engine copy older than 2 days is not "today" (the site's 15-day-old kalshicity/edges.json was read as
+// "Kalshi: $0 today"); then the PC's PAPER tests (S.kpaper = data.js kalshiPaper: K1 rules + rewards, paper only) speak instead
+const K_OLD_S = 2 * 86400;
+function kalshiNow(S, now) {
+  const k = kalshiSnap(S, now);
+  return k && !k.live && k.t != null && now / 1000 - k.t > K_OLD_S ? null : k;
+}
+function kalshiPaperRow(S, now) {
+  const p = isObj(S && S.kpaper) ? S.kpaper : null;
+  if (!p) return null;
+  const k1 = isObj(p.k1) ? p.k1 : null, rw = isObj(p.rewards) ? p.rewards : null, two = (v) => (num(v) == null ? '?' : (v < 0 ? '-' : v > 0 ? '+' : '') + '$' + Math.abs(v).toFixed(2));
+  return { text: `Kalshi: real money paused. Paper tests: ${k1 ? `K1 ${two(k1.net)} (${num(k1.sig) || 0} signals)` : 'K1 not running yet'}${rw ? `, rewards ${two(rw.net)}` : ''}${num(p.t) != null ? ` (${agoText(p.t * 1000, now)})` : ''}.`, tone: 'info', say: 'How is Kalshi doing?' };
+}
 function kalshiReply(S, now) {
   const k = kalshiSnap(S, now);
   if (!k) return { text: 'I don\'t have the Kalshi numbers: kalshi.json (the bot\'s live feed) and kalshicity/edges.json (the engine\'s copy) both did not load. I will not guess.', speak: 'I don\'t have the Kalshi numbers right now. Neither feed loaded.', intent: 'copilot_kalshi_day', missing: true, sources: [] };
@@ -401,16 +415,17 @@ export function morningCard(S, nowIn, slot) {
   if (plans.length) rows.push({ text: plans[0].text, tone: 'info', say: 'What is the game plan?' });
   const ev = V.events.filter((e) => !e.closed && (e.impact === 'high' || e.impact === 'med') && (slot !== '10:45' || !e.time || e.time >= '10:45'));
   rows.push(ev.length ? { text: `News: ${ev.slice(0, 2).map((e) => e.title + (e.time ? ' ' + e.time : '')).join('; ')} ET.`, tone: ev.some((e) => e.impact === 'high') ? 'warn' : 'info', say: 'Is there any news today?' } : { text: isObj(S && S.pythia) ? 'No big news on the calendar today.' : 'No risk calendar loaded (pythia/events.json).', tone: 'info', say: 'Is there any news today?' });
-  const k = kalshiSnap(S, now);
-  rows.push(k ? { text: `Kalshi: ${k.today != null ? usd(k.today, true) + ' today' : 'no P&L yet'}${k.positions.length ? `, ${plural(k.positions.length, 'open bet')}${k.exposure != null ? ' (' + usd(k.exposure) + ' at risk)' : ''}` : ', nothing open'}${k.live ? '' : ' (engine copy)'}.`, tone: k.paused ? 'warn' : 'info', say: 'Kalshi exposure today' } : { text: 'Kalshi: no feed loaded, so no Kalshi numbers.', tone: 'off', say: 'Kalshi exposure today' });
+  const k = kalshiNow(S, now), kp = k ? null : kalshiPaperRow(S, now);
+  if (kp) rows.push(kp); else rows.push(k ? { text: `Kalshi: ${k.today != null ? usd(k.today, true) + ' today' : 'no P&L yet'}${k.positions.length ? `, ${plural(k.positions.length, 'open bet')}${k.exposure != null ? ' (' + usd(k.exposure) + ' at risk)' : ''}` : ', nothing open'}${k.live ? '' : ' (engine copy)'}.`, tone: k.paused ? 'warn' : 'info', say: 'Kalshi exposure today' } : { text: 'Kalshi: no feed loaded, so no Kalshi numbers.', tone: 'off', say: 'Kalshi exposure today' });
   return { slot, kind: 'morning', title: slot === '10:45' ? 'Midday plan' : 'Morning plan', kicker: `Money copilot · ${slot} ET`, verdict: V.verdict, tone: TONE[V.verdict], rows: rows.slice(0, work ? 7 : 6), foot: srcLine(S, ['home', 'pythia'].concat(k ? kNames(S) : []).concat(work ? ['day'] : []), now).line, asof: now };
 }
 export function dayCard(S, nowIn, day) {
   const now = nowOf(nowIn), d = day || etParts(now).day, acc = accounts(S), rows = [], all = allTrades(S), mine = all.filter((t) => t.day === d);
   const isToday = d === etParts(now).day;
-  for (const a of acc.filter((x) => !x.paper)) rows.push({ text: `${a.label}: ${isToday ? usd(a.today, true) + ' today' : 'last session'}; drawdown left ${a.room != null ? usd(a.room) : '?'} of ${usd(a.mll)}${a.toTarget != null ? `; ${usd(Math.max(0, a.toTarget))} to the target` : ''}.`, tone: a.room != null && a.mll && a.room / a.mll < 0.25 ? 'warn' : a.today < 0 ? 'info' : 'ok', say: "What's my P&L?" });
+  for (const a of acc.filter((x) => !x.paper)) rows.push({ text: `${a.label}${a.kind === 'funded' ? ' (funded)' : ''}: ${isToday ? usd(a.today, true) + ' today' : 'last session'}; drawdown left ${a.room != null ? usd(a.room) : '?'} of ${usd(a.mll)}${a.toTarget != null && a.kind !== 'funded' ? `; ${usd(Math.max(0, a.toTarget))} to the target` : ''}.`, tone: a.room != null && a.mll && a.room / a.mll < 0.25 ? 'warn' : a.today < 0 ? 'info' : 'ok', say: "What's my P&L?" });
   rows.push(mine.length ? { text: `${plural(mine.length, 'trade')} ${isToday ? 'today' : 'on ' + d}: ${mine.slice(0, 3).map((t) => tradeTxt(t) + (t.src === 'paper' ? ' (paper)' : '')).join('; ')}.`, tone: mine.reduce((s, t) => s + t.usd, 0) >= 0 ? 'ok' : 'info', say: 'What changed since yesterday?' } : { text: `No trade ${isToday ? 'today' : 'on ' + d}.${acc.some((a) => !a.paper && a.quiet >= 5) ? ' Quiet days are adding up: MFFU closes after 7.' : ''}`, tone: acc.some((a) => !a.paper && a.quiet >= 5) ? 'warn' : 'info', say: 'Why no trade today?' });
-  const k = kalshiSnap(S, now);
+  const k = kalshiNow(S, now), kp = k ? null : kalshiPaperRow(S, now);
+  if (kp) rows.push(kp);
   if (k) rows.push({ text: `Kalshi: ${k.today != null ? usd(k.today, true) + ' today' : 'no P&L'}, ${plural(k.settled.length, 'bet')} settled${k.positions.length ? `, ${k.positions.length} still open` : ''}.`, tone: k.today != null && k.today < 0 ? 'info' : 'ok', say: 'Kalshi exposure today' });
   const tm = isToday ? nextDay(d) : etParts(now).day, ev = dayEvents(S, tm).filter((e) => e.impact === 'high' || e.closed || e.early);
   if (ev.length) rows.push({ text: `${isToday ? 'Tomorrow' : 'Today'}: ${ev.map((e) => e.title + (e.time ? ' ' + e.time + ' ET' : '')).join('; ')}.`, tone: 'warn', say: 'Should I trade today?' });

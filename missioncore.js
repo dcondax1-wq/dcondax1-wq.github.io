@@ -187,6 +187,8 @@
     return `<svg class="mc-ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15.5" class="mc-ring-bg"/><circle cx="18" cy="18" r="15.5" class="mc-ring-v" style="stroke:${color};stroke-dasharray:${(f * C).toFixed(1)} ${C.toFixed(1)}"/><text x="18" y="20.5">${esc(label)}</text></svg>`;
   };
   const LBL = { trade: 'IN TRADE', armed: 'ARMED', idle: 'WATCHING', off: 'OFF' };
+  // a funded account's number is the payout coach's "need $X more" (the phone's live.js sets it), never a pass target (night-feedsB)
+  const fundedOf = (A) => /funded/i.test(String((A && A.status) || ''));
   const BOT_PAGE = { lit: 'zlarior', atlas: 'atlas', blitz: 'blitz' };     // each bot's own tab / page (the phone aliases zlarior -> lit)
   function orbitCard(A, M, big, opts) {
     const lt = light(A, M), prog = okN(A.profit) && okN(A.toTarget) && A.profit + A.toTarget > 0 ? Math.max(0, Math.min(1, A.profit / (A.profit + A.toTarget))) : null;
@@ -195,7 +197,7 @@
         <span>stop ${px(A.pos.stop)} = <i class="dn">${smoney(A.pos.atStop)}</i></span><span>target ${px(A.pos.target)} = <i class="up">${smoney(A.pos.atTgt)}</i></span>${okN(A.pos.unreal) ? `<span>now <i class="${cls(A.pos.unreal)}">${smoney(A.pos.unreal)}</i></span>` : ''}</div>` : '';
     const nums = A.placeholder
       ? `<div class="mc-nums"><div><em>Account</em><b>not live yet</b></div><div><em>Mode</em><b>paper</b></div></div>`
-      : `<div class="mc-nums"><div><em>Balance</em><b data-dp-n="mc-${esc(A.key)}-bal">${money(A.balance)}</b></div><div><em>To target</em><b data-dp-n="mc-${esc(A.key)}-tgt">${okN(A.toTarget) && A.toTarget <= 0 ? 'passed' : money(A.toTarget)}</b></div>
+      : `<div class="mc-nums"><div><em>Balance</em><b data-dp-n="mc-${esc(A.key)}-bal">${money(A.balance)}</b></div><div><em>${fundedOf(A) ? 'To a payout' : 'To target'}</em><b data-dp-n="mc-${esc(A.key)}-tgt">${okN(A.toTarget) && A.toTarget <= 0 ? (fundedOf(A) ? 'payout' : 'passed') : money(A.toTarget)}</b></div>
           <div><em>Drawdown left${okN(A.mll) ? ` of ${money(A.mll)}` : ''}</em><b data-dp-n="mc-${esc(A.key)}-room" class="${okN(A.roomFrac) && A.roomFrac < 0.35 ? 'dn' : ''}">${money(A.room)}</b></div><div><em>Today</em><b class="${cls(A.today)}">${smoney(A.today)}</b></div></div>`;
     const day = A.placeholder ? 'paper shadow' : A.funded ? 'funded' : '';
     return `<article class="mc-orbit dp-tilt ${big ? 'big' : ''} st-${A.state} lt-${lt}${A.placeholder ? ' ph' : ''}" style="--c:${A.color}" data-mc-acct="${esc(A.key)}">
@@ -228,8 +230,8 @@
     const As = accounts(M);
     const chips = As.map((A) => {
       const lt = light(A, M);
-      const big = A.placeholder ? 'paper' : A.pos ? smoney(A.pos.unreal) : okN(A.toTarget) ? (A.toTarget <= 0 ? 'passed' : money(A.toTarget)) : '—';
-      const sub = A.placeholder ? 'not live yet' : A.pos ? `${A.pos.side} · stop ${smoney(A.pos.atStop)}` : `to target · today ${smoney(A.today)}`;
+      const big = A.placeholder ? 'paper' : A.pos ? smoney(A.pos.unreal) : okN(A.toTarget) ? (A.toTarget <= 0 ? (fundedOf(A) ? 'payout' : 'passed') : money(A.toTarget)) : '—';
+      const sub = A.placeholder ? 'not live yet' : A.pos ? `${A.pos.side} · stop ${smoney(A.pos.atStop)}` : `${fundedOf(A) ? 'to a payout' : 'to target'} · today ${smoney(A.today)}`;
       return `<button type="button" class="mc-chip st-${A.state}" style="--c:${A.color}" ${opts.go ? opts.go('mission') : ''} aria-label="${esc(A.name)}: ${esc(big)} ${esc(sub)}">
         <span class="mc-mini" aria-hidden="true"><b></b><i></i></span><span class="mc-ct"><em>${esc(A.name)} · ${esc(A.size)}<i class="mc-light ${lt}"></i></em><b>${esc(big)}</b><small>${esc(sub)}</small></span></button>`;
     }).join('');
@@ -313,8 +315,10 @@
   function healthNodes(M) {
     const B = obj(M.board), I = {}; for (const it of arr(obj(B.health).items)) if (it && it.key) I[it.key] = it;
     const lv = (it) => (!it ? 'idle' : it.ok === false ? 'bad' : it.warn ? 'warn' : it.ok ? 'good' : 'idle');
-    const now = M.now || nowS(), hbAge = okN(+B.data_t) ? now - B.data_t : null;
-    const pc = B.running === false ? { l: 'bad', v: 'stopped' } : I.loop ? { l: lv(I.loop), v: I.loop.value } : { l: hbAge != null && hbAge < 900 ? 'good' : hbAge != null ? 'warn' : 'idle', v: hbAge != null ? dur(hbAge) + ' ago' : 'no data' };
+    // a board from the PC's status post (every 15 min): its age is the post's and it is quiet after 30 min (night-feedsB)
+    const rt = okN(+B.report_t) ? +B.report_t : null, hbT = rt != null ? Math.max(rt, okN(+B.data_t) ? +B.data_t : 0) : (okN(+B.data_t) ? +B.data_t : null), QUIET = rt != null ? 1800 : 900;
+    const now = M.now || nowS(), hbAge = hbT != null ? now - hbT : null;
+    const pc = B.running === false ? { l: 'bad', v: 'stopped' } : I.loop ? { l: lv(I.loop), v: I.loop.value } : { l: hbAge != null && hbAge < QUIET ? 'good' : hbAge != null ? 'warn' : 'idle', v: hbAge != null ? dur(hbAge) + ' ago' : 'no data' };
     const feed = I.age_1m_s || I.age_5m_s;
     const cl = M.cloud && okN(+M.cloud.t) ? now - M.cloud.t : null;
     return [

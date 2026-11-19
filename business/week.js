@@ -19,6 +19,7 @@
 
   function account(a) {
     const box = el('div', 'acc');
+    box.dataset.key = String(a.key || '');
     const top = el('div', 'row');
     top.appendChild(el('h3', null, a.name + (a.plan ? ' · ' + a.plan : '')));
     const st = String(a.stage || '').split(' ')[0].toLowerCase();
@@ -82,8 +83,26 @@
     $('foot').textContent = 'Trades from: ' + ((D.sources && D.sources.trades) || 'none') + '. Rebuilt by ' + (D.built_by || 'tools/weekly_review.py') + ' (the PC every Friday from 16:15 ET).';
   }
 
+  // night-feedsA 2026-11-18: this page is a dated snapshot (week.json, built on Fridays / by Claude); under each account the LIVE line from
+  // the PC feed, the ZEUS card's own words (../olympus/zeus_core.js), so a stale stage ("PASSED $26,946") never stands alone next to the
+  // ZEUS card's "Funded $24,887"
+  function liveNow() {
+    const go = () => window.ZEUS_CORE.fetchAll().then((d) => {
+      const S = window.ZEUS_CORE.summary(d), rows = (S && S.rows) || [];
+      for (const r of rows) {
+        const box = document.querySelector('#accts .acc[data-key="' + String(r.key).replace(/[^A-Za-z0-9_-]/g, '') + '"]');
+        if (!box || r.planOnly || r.balance == null) continue;
+        const old = box.querySelector('.live-now'); if (old) old.remove();
+        box.insertBefore(el('p', 'y live-now', 'Live now: ' + r.chip + ' · ' + usd(r.balance) + ' · ' + r.goal + ' (' + r.src + ')'), box.children[1] || null);
+      }
+      if (rows.length && S.pc && !S.pc.silent) $('status').textContent += ' Live now = your PC, ' + window.ZEUS_CORE.ago(S.pc.age_s) + '.';
+    }).catch(() => null);
+    if (window.ZEUS_CORE) { go(); return; }
+    const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=3'; sc.async = true; sc.onload = () => { if (window.ZEUS_CORE) go(); }; document.head.appendChild(sc);
+  }
+
   fetch('week.json', { cache: 'no-cache' })
     .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(draw)
+    .then((D) => { draw(D); if (!/[?&]demo=1(&|$)/.test(location.search)) liveNow(); })
     .catch((e) => { $('status').textContent = 'Could not load this week (' + e.message + '). Pull down to try again.'; });
 })();

@@ -296,6 +296,14 @@ function noIds(v) {
   if (!isObj(v) || typeof v.reason !== 'string') return v;
   return { ...v, reason: v.reason.replace(/\b[A-Z]{3,}[A-Z0-9-]*(?:…|\.\.\.)?\d{3,}\b/g, 'your account').replace(/\b(?:account|acct)\s*#?\s*\d{4,}\b/gi, 'your account') };
 }
+// Kalshi's paper tests in one line (data.js kalshiPaper: the PC's K1 rules + rewards cards, paper only, with their age)
+export function kalshiPaperLine(kp, nowMs) {
+  if (!isObj(kp)) return '';
+  const age = num(kp.t) != null ? Math.max(0, (num(nowMs) != null ? num(nowMs) : Date.now()) / 1000 - kp.t) : null;
+  const k1 = isObj(kp.k1) ? `K1 rules ${usd2(kp.k1.net, true) || '$0.00'} (${plural(num(kp.k1.sig) || 0, 'signal')}, ${num(kp.k1.set) || 0} settled)` : 'K1 rules not running yet';
+  const rw = isObj(kp.rewards) ? `rewards ${usd2(kp.rewards.net, true) || '$0.00'} net over ${num(kp.rewards.days) != null ? (Math.round(kp.rewards.days * 10) / 10) : '?'} days` : '';
+  return `Kalshi: real money paused. Paper tests on your PC: ${[k1, rw].filter(Boolean).join(', ')}${age != null ? ` (${age < 90 ? 'just now' : age < 5400 ? Math.round(age / 60) + ' min ago' : Math.round(age / 3600) + ' h ago'})` : ''}. Nothing is placed.`;
+}
 function nqView(live, nowMs) {
   if (!isObj(live)) return null;
   const full = isObj(live.raw) ? live.raw : live;
@@ -313,6 +321,7 @@ function nqView(live, nowMs) {
     trades: (arr(b.trades).length ? arr(b.trades).filter(isObj) : arr(live.trades).filter(isObj)).filter((x) => !(HIDB() && /blitz/i.test(str(x.acct, 30)))),
     health: arr(isObj(b.health) ? b.health.items : null).length ? arr(b.health.items).filter(isObj) : arr(live.health).filter(isObj),
     mind: good(isObj(full.pc) ? full.pc.mind : null) || good(live.mind), learn: good(isObj(full.pc) ? full.pc.learn : null) || good(live.learn),
+    extra: arr(live.extra).filter(isObj), kpaper: good(live.kpaper),        // data.js: the PC's other accounts (25K #2), Kalshi's paper tests
   };
 }
 const sizeOf = (c, bot) => { const m = str(c && c.plan).match(/(\d+)\s*k\b/i); return m ? m[1] + 'K' : bot.size; };
@@ -962,6 +971,7 @@ export function createBrain(opts) {
 
   // ---------------------------------------------------------------------------------------------- Kalshi
   function kalshiMissing(V) {
+    if (V.nq && isObj(V.nq.kpaper)) return { text: kalshiPaperLine(V.nq.kpaper, V.now), speak: 'Kalshi real money is paused. Its paper tests run on your PC; the Kalshi page has the numbers.', intent: 'kalshi', open: 'kalshi' };
     if (V.kState === 'error') return { text: 'I cannot reach the Kalshi feed right now. Try again in a minute.', speak: 'I cannot reach Kalshi right now.', intent: 'kalshi' };
     if (V.kState === '' || V.kState === 'loading') return { text: 'Still checking Kalshi. Ask me again in a second.', speak: 'Still checking Kalshi.', intent: 'kalshi' };
     return { text: `Kalshi is not connected yet: the Kalshi bot runs on its own server. To connect it, ${KALSHI_SETUP}.`, speak: 'Kalshi is not connected yet. Open your kalshi-server chat in the Claude app and paste the setup line from the Kalshi page.', intent: 'kalshi' };
@@ -1452,6 +1462,9 @@ export function createBrain(opts) {
       if (bw.text) out.push(bw.text);
       const pos = arr(V.k.positions).filter(isObj).length;
       say.push(`Kalshi is ${kalshiRun(V.k, V.now)[1]}: balance ${sayAmt(V.k.balance, true) || 'missing'}, ${saySigned(V.k.today_pnl, true) || 'missing'} today, ${plural(pos, 'open position')}.`);
+    } else if (V.nq && isObj(V.nq.kpaper)) {           // real money paused; the PC's paper tests (night-feedsA)
+      out.push(kalshiPaperLine(V.nq.kpaper, V.now));
+      say.push('Kalshi real money is paused. Its paper tests run on your PC.');
     } else {
       out.push(V.kState === 'error' ? 'Kalshi: I cannot reach its feed right now.' : V.kState === 'waiting' ? `Kalshi: not connected yet (${KALSHI_SETUP}).` : 'Kalshi: still checking its feed.');
       say.push(V.kState === 'error' ? 'Kalshi is unreachable right now.' : V.kState === 'waiting' ? 'Kalshi is not connected yet.' : 'Kalshi is still loading.');
@@ -2140,10 +2153,12 @@ export function createBrain(opts) {
     try { const st = store(), w = st ? JSON.parse(st.getItem('bridge.wizard') || 'null') : null; return { done: isObj(w) ? [1, 2, 3].filter((i) => w['s' + i]).length : 0, seen: isObj(w) && !!w.seen }; } catch (_) { return null; }
   }
   function digest(V) {
-    const accounts = liveBots(V).map((key) => { const c = card(V, key); return { key, name: BOT[key].name, status: str(c.status, 20), room: num(c.room), room_frac: num(c.room_frac), to_target: num(c.to_target), today_pnl: num(c.today_pnl) }; });
+    const accounts = liveBots(V).map((key) => { const c = card(V, key); return { key, name: BOT[key].name, status: str(c.status, 20), room: num(c.room), room_frac: num(c.room_frac), to_target: num(c.to_target), today_pnl: num(c.today_pnl) }; })
+      .concat(arr(V.nq && V.nq.extra).filter((c) => num(c.room) != null).map((c) => ({ key: str(c.id, 30), name: str(c.name, 30), status: str(c.status, 20), room: num(c.room), room_frac: num(c.room_frac), to_target: num(c.to_target), today_pnl: num(c.today_pnl) })));
     const m = V.nq && V.nq.mind, plan = m && isObj(m.plans) ? Object.values(m.plans).find((x) => isObj(x) && str(x.headline, 200)) : null;
     const k = V.k ? { state: 'ok', run: kalshiRun(V.k, V.now)[1], today_pnl: num(V.k.today_pnl), week_pnl: num(V.k.week_pnl), total_pnl: num(V.k.total_pnl),
-      strategies: arr(V.k.strategies).filter(isObj).map((x) => ({ name: str(x.name || x.id || x.key, 40), pnl: num(x.pnl != null ? x.pnl : x.total_pnl) })) } : { state: V.kState || 'missing' };
+      strategies: arr(V.k.strategies).filter(isObj).map((x) => ({ name: str(x.name || x.id || x.key, 40), pnl: num(x.pnl != null ? x.pnl : x.total_pnl) })) }
+      : V.nq && isObj(V.nq.kpaper) ? { state: 'paper', paper: V.nq.kpaper } : { state: V.kState || 'missing' };
     return {
       now: V.now, et: V.et, priorities: ranked(V), quiet: quietOf(V), accounts, window: nextWindow(V), market: { open: !!(V.M && V.M.open) },
       live: { missing: !V.nq, stale: !!(V.nq && (V.nq.stale || V.nq.cached)), ago: V.nq && V.nq.t ? ago(V.nq.t, V.now) : '' }, kalshi: k,

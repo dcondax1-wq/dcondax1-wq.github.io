@@ -68,8 +68,8 @@
       else {
         // once per app launch: the same launch seen again (a reload after an app switch: sessionStorage still has 'jarvis.booted') or a
         // start within 20 minutes of the last one gets the 0.5 s fade; a new launch gets the MARK (2026-11-18, owner: the entry screen
-        // "looks made in the 2000s"): 1.2 s, the gold temple on deep navy and OLYMPUS, no WebGL, the same on every phone. The 10 s film
-        // stays one tap away (the command palette: Play the OLYMPUS intro).
+        // "looks made in the 2000s"; v3 night-intro3: "looks wrong / cheap"): 2.2 s, a storm, a lightning strike on the gold temple, OLYMPUS
+        // (the olympus-entry script), no WebGL, the same on every phone. The 10 s film stays one tap away (the command palette).
         var again = false;
         try { again = !!sessionStorage.getItem('jarvis.booted') || (g('jarvis.intro.day') === day && Date.now() - (parseInt(g('jarvis.intro.at') || '0', 10) || 0) < 20 * 60 * 1000); } catch (e) { /* private mode */ }
         im = again ? 'off' : 'mark';
@@ -116,7 +116,7 @@ window.addEventListener('error', function (e) {
 <script src="../olympus/quiet-net.js?v=q6a" data-fresh="raw:kalshi-feed,api:kalshi-feed,site:kalshi.json" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
-<script src="../pc_feed.js?v=n2" id="pcFeedJs" async></script>
+<script src="../pc_feed.js?v=n4" id="pcFeedJs" async></script>
 <script src="../olympus/themes.js?v=o6" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <style>.booted #bootfx{display:none}
@@ -135,58 +135,19 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
 @keyframes olyGo{to{opacity:0;visibility:hidden}}
 @keyframes olyEnd{to{opacity:0;visibility:hidden}}
 .oly canvas{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
-/* the entry (night-entry2 2026-11-18, owner: "better ... Olympian entry screen"): black marble with gold veins, a lightning strike onto the
-   gold temple (a ZEUS nod: the bolt lights in the pediment), a gold sheen, OLYMPUS letter by letter, the four doors in one line. 1.2 s,
-   composited only (transform / opacity), the final state is the base style: calm / fade / off and reduced motion show it still. */
-.oly .oly-w{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 860' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%23e2b65c' stroke-linecap='round'%3E%3Cpath d='M-20 128C80 168 140 92 232 170S360 236 420 192' stroke-opacity='.16' stroke-width='1.3'/%3E%3Cpath d='M-10 150C70 182 150 128 214 196' stroke-opacity='.08' stroke-width='.7'/%3E%3Cpath d='M-10 610C92 560 162 690 262 650S380 572 430 628' stroke-opacity='.13' stroke-width='1.1'/%3E%3Cpath d='M58 -10C92 120 36 262 118 384S70 520 96 600' stroke-opacity='.07' stroke-width='.8'/%3E%3Cpath d='M318 870C292 762 370 704 336 604S252 484 304 402' stroke-opacity='.09' stroke-width='.9'/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat,radial-gradient(90% 55% at 50% 44%,rgba(226,182,92,.13) 0%,rgba(226,182,92,0) 60%),radial-gradient(130% 80% at 50% 40%,#16244a 0%,#0a1128 48%,#03050b 100%)}
-.oly .oly-w:before,.oly .oly-w:after{content:"";position:absolute;top:-4%;bottom:-4%;width:58px;background:repeating-linear-gradient(90deg,rgba(243,236,224,.07) 0 7px,rgba(243,236,224,.015) 7px 10px,rgba(243,236,224,.07) 10px 14px);-webkit-mask:linear-gradient(transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(transparent,#000 22%,#000 78%,transparent)}
-.oly .oly-w:before{left:-14px}.oly .oly-w:after{right:-14px}
-.oly .oly-launch-ui{display:none}
-.oly .oly-c{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding-bottom:6vh;transition:transform .36s cubic-bezier(.4,0,.6,1)}
-.oly .oly-go .oly-c{transform:scale(1.06)}
-.oly .oly-mk{position:relative;width:min(33vw,132px)}
-.oly .oly-t{display:block;width:100%;height:auto;position:relative}
-.oly .oly-halo{position:absolute;left:50%;top:50%;width:230%;height:0;padding-bottom:230%;margin:-115% 0 0 -115%;border-radius:50%;background:radial-gradient(closest-side,rgba(232,186,96,.24),rgba(226,182,92,.08) 52%,rgba(226,182,92,0))}
-.oly .oly-sh{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='160 200 704 624'%3E%3Cpath d='M512 226 830 392H194zM296 362h432L512 282z' fill-rule='evenodd'/%3E%3Cpath d='M194 408h636v44H194zM245 474h84v22h-84zM256 496h62v196h-62zM395 474h84v22h-84zM406 496h62v196h-62zM545 474h84v22h-84zM556 496h62v196h-62zM695 474h84v22h-84zM706 496h62v196h-62zM214 712h596v38H214zM174 768h676v40H174z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='160 200 704 624'%3E%3Cpath d='M512 226 830 392H194zM296 362h432L512 282z' fill-rule='evenodd'/%3E%3Cpath d='M194 408h636v44H194zM245 474h84v22h-84zM256 496h62v196h-62zM395 474h84v22h-84zM406 496h62v196h-62zM545 474h84v22h-84zM556 496h62v196h-62zM695 474h84v22h-84zM706 496h62v196h-62zM214 712h596v38H214zM174 768h676v40H174z'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat}
-.oly .oly-sh:after{content:"";position:absolute;top:0;bottom:0;left:0;width:60%;background:linear-gradient(100deg,rgba(255,250,232,0),rgba(255,250,232,.85) 50%,rgba(255,250,232,0));transform:translateX(-140%)}
-.oly .oly-bolt{fill:#fff4d6}
-.oly .oly-mk .oly-zap{position:absolute;left:50%;bottom:86%;width:44px;height:52vh;margin-left:-22px;opacity:0}
-.oly .oly-zap path{fill:none;stroke:#fff8e6;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.oly .oly-zap path+path{stroke:rgba(190,215,255,.55);stroke-width:7}
-.oly .oly-fx{position:absolute;top:0;left:0;right:0;bottom:0;margin:0;background:radial-gradient(70% 45% at 50% 30%,rgba(214,226,255,.42),rgba(214,226,255,0) 70%);opacity:0;pointer-events:none}
-.oly .oly-w b{display:block;font:500 31px/1 "Didot","Bodoni 72",ui-serif,"Times New Roman",Georgia,serif;letter-spacing:.3em;padding-left:.3em;white-space:nowrap}
-.oly .oly-w b span{display:inline-block;color:#ecd49a;background:linear-gradient(180deg,#fff1c8 10%,#e2b65c 58%,#a8782c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.oly .oly-w i{display:flex;align-items:center;gap:9px;width:150px;height:7px}
-.oly .oly-w i:before,.oly .oly-w i:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(226,182,92,0),#e2b65c)}
-.oly .oly-w i:after{background:linear-gradient(90deg,#e2b65c,rgba(226,182,92,0))}
-.oly .oly-w i u{width:6px;height:6px;background:#f0cd82;transform:rotate(45deg)}
-.oly .oly-w em{font:500 11px/1 -apple-system,system-ui,sans-serif;font-style:normal;letter-spacing:.4em;padding-left:.4em;color:rgba(234,211,154,.66)}
-/* the mark's 1.2 s: halo + temple rise (0-0.5 s), the strike (0.26 s), the sheen (0.42 s), the letters (0.3-0.7 s), the rule and the doors line */
-.oly .oly-mark .oly-halo{animation:olyHalo .6s cubic-bezier(.2,.8,.2,1) both}
-.oly .oly-mark .oly-t{animation:olyRise .55s cubic-bezier(.2,.8,.2,1) both}
-.oly .oly-mark .oly-mk .oly-zap{animation:olyZap .42s linear .24s both}
-.oly .oly-mark .oly-fx{animation:olyFx .5s ease-out .24s both}
-.oly .oly-mark .oly-bolt{animation:olyBolt .5s linear .26s both}
-.oly .oly-mark .oly-sh:after{animation:olySh .4s cubic-bezier(.4,0,.2,1) .4s both}
-.oly .oly-mark b span{animation:olyLt .38s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.26s + var(--k) * 35ms)}
-.oly .oly-mark i{animation:olyLn .34s cubic-bezier(.2,.8,.2,1) .46s both}
-.oly .oly-mark em,.oly .oly-mark .oly-skip{animation:olyIn .3s ease-out .5s both}
-.oly .oly-mark:before,.oly .oly-mark:after{animation:olyCol 1.2s cubic-bezier(.2,.8,.2,1) both}
-@keyframes olyHalo{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
-@keyframes olyRise{from{opacity:0;transform:translateY(14px) scale(.92)}to{opacity:1;transform:none}}
-@keyframes olyZap{0%{opacity:0}8%{opacity:1}30%{opacity:.15}42%{opacity:.95}100%{opacity:0}}
-@keyframes olyFx{0%{opacity:0}10%{opacity:1}35%{opacity:.25}48%{opacity:.7}100%{opacity:0}}
-@keyframes olyBolt{0%{opacity:.25}10%{opacity:1}30%{opacity:.4}45%{opacity:1}100%{opacity:1}}
-@keyframes olySh{to{transform:translateX(240%)}}
-@keyframes olyLt{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes olyLn{from{opacity:0;transform:scaleX(.2)}to{opacity:1;transform:none}}
-@keyframes olyIn{from{opacity:0}to{opacity:1}}
-@keyframes olyCol{from{transform:translateY(26px)}to{transform:none}}
-@media (prefers-reduced-motion:reduce){.oly .oly-w *,.oly .oly-w:before,.oly .oly-w:after{animation:none!important;transition:none!important}}
+/* the entry v3 (night-intro3 2026-11-18, owner: the entry "looks wrong / cheap"): a storm over a sea of clouds, a lightning strike on the gold
+   temple, OLYMPUS, then the clouds clear onto Jarvis. Drawn once by the olympus-entry script into canvases, moved only by transform / opacity
+   (the phone runs that off the main thread); every size and timing is set there. .oly-w is its host; .oly-c the plain stand-in when that
+   script is missing or fails (the Home Screen temple and OLYMPUS, still). */
+.oly .oly-w{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden}
+.oly .oly-c{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding-bottom:6vh;background:radial-gradient(120% 80% at 50% 42%,#151b38 0%,#080b18 55%,#03040a 100%)}
+.oly .oly-c svg{width:min(42vw,176px);height:auto}
+.oly .oly-c b{font:500 30px/1 "Didot","Bodoni 72",ui-serif,Georgia,serif;letter-spacing:.3em;padding-left:.3em;color:#ecd49a}
 .oly .oly-skip{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom,0px));text-align:center;font:500 14px/1 -apple-system,system-ui,sans-serif;letter-spacing:.02em;color:rgba(243,236,224,.55);pointer-events:none}</style>
 </head>
 <body>
-<div class="oly" id="olyIntro" aria-hidden="true"><div class="oly-launch-ui" aria-hidden="true"><div class="oly-depth-front" aria-hidden="true"><i></i><i></i></div><div class="oly-launch-bar"><img src="intro-logo.webp" alt=""><span>OLYMPUS <i>/</i> COMMAND DECK</span><b>01</b></div><div class="oly-launch-copy"><small>CONNECTED WORLDS</small><strong>Enter your<br>night city.</strong><span>One map. Every arena.</span></div><button class="oly-enter" type="button" tabindex="-1">ENTER OLYMPUS <b>↗</b></button></div></div>
+<div class="oly" id="olyIntro" aria-hidden="true"></div>
+<script src="entry.js?v=e1" defer id="olyEntryJs"></script>
 <script id="olympus-intro">
 /* OLYMPUS intro (2026-11-03, owner: "INSANE, about 10 seconds, ending on my logo"). It plays over Jarvis while Jarvis starts
  * underneath and never holds Jarvis up. One WebGL1 full-screen shader (procedural storm, ridge, marble columns) plus one
@@ -203,12 +164,12 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
  *   8.7  portal  the camera punches through the ring: the ring grows past the screen and its inside is a hole onto Jarvis
  *
  * Versions (picked before the first paint by the start script in <head>, html[data-intro]):
- *   mark   1.2 s, a new launch (first start, or 20+ minutes after the last one), since 2026-11-18: the gold temple on navy and OLYMPUS,
- *          no WebGL (the owner: the old entry "looks made in the 2000s"; modern, fast, the same on every phone)
- *          entry2 (2026-11-18): black marble with gold veins, a lightning strike onto the temple (the bolt lights in its pediment),
- *          a gold sheen, OLYMPUS letter by letter, "ZEUS · MONEY · KALSHI", Tap to enter; CSS transform / opacity only
+ *   mark   2.2 s, a new launch (first start, or 20+ minutes after the last one), since 2026-11-18, no WebGL (the owner: the old entry
+ *          "looks made in the 2000s"). v3 (night-intro3, "looks wrong / cheap"): the olympus-entry script's film title: a storm over a
+ *          sea of clouds, a branching bolt strikes the gold temple (a full-screen flash, the metal lit), OLYMPUS, the clouds clear onto
+ *          Jarvis. Canvases drawn once, moved only by transform / opacity (Web Animations: smooth while Jarvis starts underneath).
  *   off    0.5 s, the same launch seen again (an app switch that reloaded the page) and 3D effects Off
- *   calm   3.5 s, reduce motion: the mark fading in and out, nothing moves       fade   0.8 s (a start after one that did not finish, no WebGL)
+ *   calm   3.5 s, reduce motion: the scene's last frame fading in and out, nothing moves   fade   0.8 s (a start after one that did not finish, no WebGL)
  *   full   10 s film / lite 5 s / short 1 s: only on request now (the command palette's "Play the OLYMPUS intro", 'jarvis.intro.force')
  * Rendered below the screen's resolution (1.5x; 1x on low-end or 3D Low); late frames step the resolution down and a phone under
  * 20 fps cuts to the reveal: never a slideshow. No WebGL: the still version.
@@ -231,13 +192,13 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
   'use strict';
   var W = window, doc = document, root = doc.documentElement;
   var st = W.__olyIntro = { mode: '', q: '', state: 'idle', frames: 0, ms: 0, err: '', done: false, scale: 0, n: 0, fps: 0, phase: '', cues: [], logo: false };
-  var LEN = { full: 10, lite: 5, short: 1.0, calm: 3.5, fade: 0.8, off: 0.5, mark: 1.3 };
+  var LEN = { full: 10, lite: 5, short: 1.0, calm: 3.5, fade: 0.8, off: 0.5, mark: 2.2 };
   var RATE = { full: 1, lite: 2, short: 1 };                // the film's clock runs at this multiple of the wall clock
   var ls = function (k, v) {
     try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private mode */ }
     return null;
   };
-  var el = null, cv = null, gl = null, raf = 0, killT = 0, t0 = 0, ended = false, audio = null, gesture = false, holdUp = false, logoImg = null;
+  var el = null, cv = null, gl = null, raf = 0, killT = 0, t0 = 0, ended = false, audio = null, gesture = false, holdUp = false, logoImg = null, scene = null;
   var now = function () { return (W.performance && performance.now) ? performance.now() : Date.now(); };
   // a still frame for screenshots (docs, research/handoff): 'jarvis.intro.hold' = the film's second to hold, under automation only
   var HOLD = navigator.webdriver && isFinite(parseFloat(ls('jarvis.intro.hold'))) ? parseFloat(ls('jarvis.intro.hold')) : -1;
@@ -256,6 +217,8 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
     ls('jarvis.intro.run', null);
     try { var x = gl && gl.getExtension('WEBGL_lose_context'); if (x) x.loseContext(); } catch (e) { /* */ }
     gl = null;
+    try { if (scene) scene.free(); } catch (e) { /* */ }                 // the entry's canvases: memory back at once (iPhone)
+    scene = null;
     try { if (el && el.parentNode) el.parentNode.removeChild(el); } catch (e) { /* */ }
     root.removeAttribute('data-intro');
     try {
@@ -394,34 +357,63 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
   function onVis() { if (doc.visibilityState !== 'visible') finish('hidden'); }
   var up = function () { if (holdUp) setTimeout(function () { holdUp = false; }, 80); };
 
-  // ---------------------------------------------------------------- the still versions: calm (reduce motion), fade, 3D off, no WebGL
-  // the mark (2026-11-18): the Home Screen icon's temple (web/icons/icon.svg, the same shapes) in gold, OLYMPUS, a hairline. Every still version
-  // uses it: mark 1.2 s (a new launch), calm 3.5 s (reduce motion: opacity only), fade 0.8 s, off 0.5 s. No WebGL, no file to wait for.
-  var MARK = '<svg class="oly-t" viewBox="160 200 704 624" aria-hidden="true"><defs><linearGradient id="olyGd" x1="0" y1="226" x2="0" y2="808" gradientUnits="userSpaceOnUse">'
+  // ---------------------------------------------------------------- the mark and the still versions (no WebGL)
+  // v3 (night-intro3 2026-11-18): entry.js's scene (window.__olyEntry). mark 2.2 s = the film title; calm 3.5 s, fade 0.8 s, off 0.5 s = its
+  // last frame, still. It runs its own clock off the main thread (Web Animations): the timers here only tidy up. No scene: the plain still.
+  var MARK = '<svg viewBox="160 200 704 624" aria-hidden="true"><defs><linearGradient id="olyGd" x1="0" y1="226" x2="0" y2="808" gradientUnits="userSpaceOnUse">'
     + '<stop offset="0" stop-color="#fbe7b0"/><stop offset=".45" stop-color="#e2b65c"/><stop offset="1" stop-color="#b0802f"/></linearGradient></defs><g fill="url(#olyGd)">'
     + '<path d="M512 226 830 392H194zM512 282 296 362h432z" fill-rule="evenodd"/><rect x="194" y="408" width="636" height="44" rx="6"/>'
     + '<rect x="245" y="474" width="84" height="22" rx="4"/><rect x="256" y="496" width="62" height="196"/><rect x="395" y="474" width="84" height="22" rx="4"/><rect x="406" y="496" width="62" height="196"/>'
     + '<rect x="545" y="474" width="84" height="22" rx="4"/><rect x="556" y="496" width="62" height="196"/><rect x="695" y="474" width="84" height="22" rx="4"/><rect x="706" y="496" width="62" height="196"/>'
-    + '<rect x="214" y="712" width="596" height="38" rx="5"/><rect x="174" y="768" width="676" height="40" rx="6"/></g><path class="oly-bolt" d="M524 290 494 332h20l-12 26 34-44h-20z"/></svg>';
-  // entry2 (2026-11-18): the strike from the sky onto the temple's apex (a ZEUS nod; the bolt above lights in the pediment)
-  var ZAP = '<svg class="oly-zap" viewBox="0 0 44 100" preserveAspectRatio="none" aria-hidden="true"><path d="M31 0 22 15 29 20 15 39 26 45 12 64 24 71 16 87 22 100"/><path d="M31 0 22 15 29 20 15 39 26 45 12 64 24 71 16 87 22 100"/></svg>';
+    + '<rect x="214" y="712" width="596" height="38" rx="5"/><rect x="174" y="768" width="676" height="40" rx="6"/></g></svg>';
   function still(mode) {
     st.q = 'still';
     var w = doc.createElement('div');
     w.className = 'oly-w oly-' + mode;
-    var lt = 'OLYMPUS'.replace(/./g, function (c, k) { return '<span style="--k:' + k + '">' + c + '</span>'; });
-    w.innerHTML = '<p class="oly-fx"></p><div class="oly-c"><div class="oly-mk"><s class="oly-halo"></s>' + ZAP + MARK + '<s class="oly-sh"></s></div><b>' + lt
-      + '</b><i><u></u></i><em>ZEUS \u00b7 MONEY \u00b7 KALSHI</em></div>' + (mode === 'mark' ? '<small class="oly-skip">Tap to enter</small>' : '');
     el.appendChild(w);
+    if (W.__olyEntry || (mode !== 'mark' && mode !== 'calm')) { show(w, mode); return; }   // off / fade never wait (reload, safe start)
+    // entry.js (deferred) runs once the page is parsed, before Jarvis's start; the dark overlay (the scene's first frame) waits for its
+    // call (window.__olyEntryReady), 1.2 s at most (offline, no saved copy: the plain still)
+    var go = function () { if (W.__olyEntryReady !== go) return; W.__olyEntryReady = null; clearTimeout(t); if (!st.done) show(w, mode); };
+    var t = setTimeout(go, 1200);
+    W.__olyEntryReady = go;
+  }
+  function show(w, mode) {
+    try {
+      if (W.__olyEntry) scene = W.__olyEntry.build(w, mode === 'mark' ? 'mark' : 'still', {});
+    } catch (e) { scene = null; st.err = 'entry: ' + String((e && e.message) || e); w.innerHTML = ''; }
+    if (scene) { st.build = scene.ms; st.layers = scene.n; st.dpr = scene.dpr; st.anims = scene.anims.length; }
+    else w.innerHTML = '<div class="oly-c">' + MARK + '<b>OLYMPUS</b></div>';
+    if (mode === 'mark' && scene && scene.end) {
+      st.q = 'scene';
+      el.style.background = 'transparent';                         // the scene brings its own night; its last fade shows Jarvis
+      if (HOLD >= 0) { scene.hold(HOLD * 1000); return; }           // a still frame for screenshots (automation only)
+      el.style.animation = 'none'; void el.offsetWidth; el.style.animation = 'olyEnd .45s linear ' + ((scene.end + 600) / 1000).toFixed(2) + 's forwards';
+      clearTimeout(killT); killT = setTimeout(function () { finish('deadline'); }, scene.end + 1200);
+      setTimeout(function () {                                      // the hand-off: Jarvis may start its 3D core now (under the fade)
+        if (st.done || st.state === 'skipped') return;
+        signalEnd(); st.state = 'reveal';
+        if (!holdUp) el.style.pointerEvents = 'none';
+      }, scene.out);
+      var last = scene.anims[scene.anims.length - 1];               // the clouds clearing: the scene's last animation
+      if (last && last.finished) last.finished.then(function () { waitUp(function () { finish('done'); }); }, function () { /* skipped */ });
+      else setTimeout(function () { waitUp(function () { finish('done'); }); }, scene.end + 20);
+      return;
+    }
     var len = LEN[mode] || 0.5;
-    var hold = mode === 'mark' ? 820 : Math.round(len * (mode === 'calm' ? 720 : 400));        // how long the mark stands
-    var fade = mode === 'mark' ? 360 : Math.round(len * (mode === 'calm' ? 280 : 600));        // then the composited fade onto Jarvis
-    if (mode === 'calm') { w.style.opacity = '0'; w.style.transition = 'opacity ' + Math.round(len * 380) + 'ms ease-out'; setTimeout(function () { w.style.opacity = '1'; }, 30); }
-    // the hard stop is set again from here (like the film's first frame): a phone whose main thread is busy with Jarvis's own start
-    // fires this timer late, and the old deadline (due by then too) must not cut the fade short (state 'deadline' instead of 'done')
+    var hold = mode === 'mark' ? 900 : Math.round(len * (mode === 'calm' ? 720 : 400));        // how long the still stands
+    var fade = mode === 'mark' ? 420 : Math.round(len * (mode === 'calm' ? 280 : 600));        // then the composited fade onto Jarvis
+    if (HOLD < 0) {                                                 // the stops from here (it may have waited for entry.js)
+      clearTimeout(killT); killT = setTimeout(function () { finish('deadline'); }, hold + fade + 1200);
+      el.style.animation = 'none'; void el.offsetWidth; el.style.animation = 'olyEnd .45s linear ' + ((hold + fade + 600) / 1000).toFixed(2) + 's forwards';
+    }
+    if (mode === 'calm') {                                          // reduce motion: in and out by opacity only
+      if (w.animate) w.animate([{ opacity: 0 }, { opacity: 1 }], { duration: Math.round(len * 380), easing: 'ease-out', fill: 'both' });
+      else { w.style.opacity = '0'; w.style.transition = 'opacity ' + Math.round(len * 380) + 'ms ease-out'; setTimeout(function () { w.style.opacity = '1'; }, 30); }
+    }
+    // and again when the fade starts: a busy start fires this timer late; the old deadline must not cut the fade short
     if (HOLD < 0) setTimeout(function () {
       clearTimeout(killT); killT = setTimeout(function () { finish('deadline'); }, fade + 1200);
-      w.className += ' oly-go';                                                                   // the doors open: a slight push in
       fadeOut(fade, 'reveal');
     }, hold);
   }
@@ -1054,6 +1046,9 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
       <style>.home-in > .zeus-host { margin: 0 var(--gxr, 16px) 0 var(--gx, 16px); } .zeus-host .zeus-card { margin: 0; } a.hc-bot { text-decoration: none; color: inherit; } .tiles.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         html:root[data-jlook="classic"] .home-in[data-home="v2"] > .zeus-host { order: 1; margin-top: 8px; }</style>
       <div class="zeus-host" id="zeusCard" data-zeus-card></div>
+      <!-- phone notifications (2026-11-19, owner: "I want notifications on my phone"): ./push-ui.js draws this card ("Allow notifications",
+           on / test / turn off); the PC pushes every trade and the important alerts straight here (engine/push.py, ./push-sw.js) -->
+      <div class="push-host" id="pushCard" data-push-card hidden></div>
       <div class="tiles" id="hfirst" role="group" aria-label="What matters now" aria-busy="true"><div class="tile sk" aria-hidden="true"><span class="t-k">NQ bots</span><span class="sk-b w60"></span><span class="sk-b w80 s"></span></div><div class="tile sk" aria-hidden="true"><span class="t-k">Money</span><span class="sk-b w60"></span><span class="sk-b w80 s"></span></div><div class="tile sk" aria-hidden="true"><span class="t-k">Today</span><span class="sk-b w60"></span><span class="sk-b w80 s"></span></div></div>
 
       <div class="hbody">
@@ -1250,36 +1245,16 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
 <div class="sheet" id="voice" hidden role="dialog" aria-modal="true" aria-labelledby="voiceT">
   <div class="sheet-in">
     <h2 id="voiceT">Voice</h2>
-    <label>Voice<select id="vVoice"></select></label>
-    <label>Speed <span id="vRateV"></span><input id="vRate" type="range" min="0.8" max="1.4" step="0.02"></label>
-    <label>Pitch <span id="vPitchV"></span><input id="vPitch" type="range" min="0.7" max="1.5" step="0.05"></label>
-    <label class="row-t"><span>Read answers out loud<small>Every answer, typed or spoken (the speaker button in the dock)</small></span><input type="checkbox" id="vAll"></label>
+    <!-- the one setting (2026-11-18, owner: "it should sound like a person"; Male, British): neural-voice.js -->
+    <div class="seg3" id="vPick" role="group" aria-label="Jarvis's voice" style="grid-template-columns:repeat(3,minmax(0,1fr))"><button type="button" data-vpick="ai" aria-pressed="false">AI voice (George)</button><button type="button" data-vpick="phone" aria-pressed="false">iPhone voice</button><button type="button" data-vpick="off" aria-pressed="false">Off</button></div>
+    <p class="note" id="vNote" role="status" aria-live="polite"></p>
+    <progress id="vProg" max="100" value="0" hidden style="width:100%"></progress>
     <label class="row-t"><span>Hold to talk<small>Hold the mic to talk, let go to send</small></span><input type="checkbox" id="vHold"></label>
-    <p class="note" id="vNote"></p>
-    <!-- assistant (2026-11-03): her talk style, the optional free cloud voice, the one-time Ava tip (tts.js, assistant.js) -->
     <label>Talk style<select id="vStyle"><option value="short">Short: straight to the point</option><option value="chatty">Chatty: like a friend</option></select></label>
-    <label class="row-t"><span>Natural cloud voice<small id="vCloudNote">Uses your own free Gemini or Groq key (⋯ → AI key) when Auto or Natural cloud picks it. The text of a reply is sent to that service to be turned into sound; the on-device and phone voices keep it on this phone. The phone's voice takes over when the cloud can't</small></span><input type="checkbox" id="vCloud"></label>
-    <!-- voice engines (2026-11-04, voice-engines.js): Auto / Natural cloud / On-device neural / Phone voice -->
-    <div class="vengine" id="vEngBox" hidden style="display:grid;gap:10px">
-      <label>Voice engine<select id="vEngine"><option value="auto">Auto: the best one available</option><option value="cloud">Natural cloud (free key)</option><option value="device">On-device neural (download once)</option><option value="phone">Phone voice</option></select></label>
-      <p class="note" id="vEngNote"></p>
-      <label id="vBrandRow">Cloud voice from<select id="vBrand"><option value="">Automatic (Gemini first, then Groq)</option><option value="gemini">Gemini</option><option value="groq">Groq</option></select></label>
-      <label id="vCVoiceRow">Cloud voice name<select id="vCVoice"></select></label>
-      <div id="vDevBox" style="display:grid;gap:8px">
-        <label id="vDVoiceRow">On-device voice name<select id="vDVoice"></select></label>
-        <p class="note" id="vDevNote"></p>
-        <progress id="vDevProg" max="1" value="0" hidden style="width:100%"></progress>
-        <div class="sheet-row"><button class="btn ghost" type="button" id="vDevDl">Download (about 115 MB, on Wi-Fi)</button><button class="btn ghost" type="button" id="vDevRm" hidden>Remove</button></div>
-      </div>
-      <div class="sheet-row" id="vSamples"><button class="btn ghost" type="button" data-sample="0">Sample: money</button><button class="btn ghost" type="button" data-sample="1">Sample: trade</button><button class="btn ghost" type="button" data-sample="2">Sample: chat</button></div>
-      <p class="note" id="vUsed"></p>
-      <label class="row-t"><span>Natural speech<small>Numbers and tickers said in words, contractions, short pauses</small></span><input type="checkbox" id="vProsody"></label>
-      <details id="vPremium"><summary>Get the iPhone's most natural voice (free)</summary>
-        <ol class="note" style="margin:6px 0 0;padding-left:20px"><li>Open the iPhone's <b>Settings</b> app.</li><li><b>Accessibility → Spoken Content → Voices → English</b> (on iOS 26 it may be called <b>Read &amp; Speak</b>).</li><li>Tap <b>Ava</b> (or Zoe), then <b>Ava (Premium)</b> → download (about 400 MB, free).</li><li>Come back, tap the button below, and close and reopen Jarvis if it does not show.</li></ol>
-        <div class="sheet-row"><button class="btn ghost" type="button" id="vPremCheck">I did it: check again</button></div>
-        <p class="note" id="vPremNote"></p></details>
-    </div>
-    <div class="note" id="vTip" hidden><b>Free upgrade: the iPhone's most natural voice.</b> Settings → Accessibility → Spoken Content → Voices → English → Ava → <b>Ava (Premium)</b> → download (about 400 MB, free). Then pick Ava here. <button class="btn ghost" type="button" id="vTipX">Got it</button></div>
+    <details id="vPhoneTip"><summary>Make the iPhone voice sound better (free)</summary>
+      <ol class="note" style="margin:6px 0 0;padding-left:20px"><li>Open the iPhone's <b>Settings</b> app.</li><li><b>Accessibility → Spoken Content → Voices → English</b> (on iOS 26 it may be called <b>Read &amp; Speak</b>).</li><li>Under <b>United Kingdom</b> pick a man (<b>Daniel</b>, <b>Arthur</b> or <b>Jamie</b>) and download its <b>Enhanced</b> or <b>Premium</b> version (free).</li><li>Come back and tap the button below.</li></ol>
+      <div class="sheet-row"><button class="btn ghost" type="button" id="vPremCheck">I did it: check again</button></div>
+      <p class="note" id="vPremNote"></p></details>
     <div class="sheet-row"><button class="btn ghost" type="button" id="vTest">Test voice</button><button class="btn solid" type="button" id="vX">Done</button></div>
   </div>
 </div>
@@ -1424,24 +1399,48 @@ ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianShe
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
 ready.tts = load('tts', './tts.js', (m) => typeof m.createSpeaker === 'function').then((m) => { tts = m; return m; });
-// her voice on the Jarvis screen (voice-out.js, 2026-11-03 evening): loaded at the start, so the first tap unlocks the iPhone's voice
-// the voice engines (voice-engines.js, 2026-11-04): Auto / Natural cloud (Gemini, Groq) / On-device neural / Phone voice, the natural-speech
-// layer and the one unlocked audio element. Optional: absent = the phone's voice and the old Groq switch, exactly as before.
-let engines = null;
-ready.engines = load('engines', './voice-engines.js', (m) => typeof m.createVoiceEngines === 'function').then((m) => {
-  if (m) engines = safe(() => m.createVoiceEngines({ keys: smartKeys, phoneVoice: () => pickVoice() }), null);
-  return engines;
+// his voice (2026-11-18, owner: "it sounds like a bot, it should sound like a person"; Male, British): the AI voice George on the phone
+// (neural-voice.js + its worker: Kokoro, downloaded once on first use, about 117 MB, with a progress line) and the words a person says
+// (speech-text.js: "-$113" -> "minus a hundred and thirteen dollars"). One setting: AI voice (George) / iPhone voice / Off. Until the
+// AI voice is ready, if it fails, or for a long answer on a slow phone, the iPhone's best British male voice speaks (tts.js): never
+// silence. Both optional: absent = the iPhone voice, the old cleaned text.
+let nv = null, nvMod = null, nvPlayer = null, nvLine = null, spx = null, lastEngine = '';
+const voiceTest = () => (D.LS.get('jarvis.voiceEngine', {}) || {}).prosody === false;     // tests: the base chunker on the original words
+ready.speech = load('speech', './speech-text.js', (m) => typeof m.createSpeechText === 'function').then((m) => { spx = m ? safe(() => m.createSpeechText(), null) : null; return spx; });
+ready.nv = load('nv', './neural-voice.js', (m) => typeof m.createNeuralVoice === 'function').then((m) => {
+  if (!m) return null;
+  nvMod = m;
+  safe(() => m.migrate());
+  nvPlayer = safe(() => m.createPlayer(), null);
+  nvLine = safe(() => m.createStatusLine(document), null);
+  nv = safe(() => m.createNeuralVoice({ onProgress: nvProgress, onState: nvState }), null);
+  bootDone.then(() => setTimeout(nvEarly, 2500));                  // downloaded before: load it into the worker while he looks around
+  return nv;
 });
-let lastVoiceToast = 0;
-function voiceFellBack(e, id) {                          // a cloud / on-device voice said no: one plain toast per 10 minutes
-  if (Date.now() - lastVoiceToast < 600000) return;
-  lastVoiceToast = Date.now();
-  toast(engines ? engines.explain(e, id) : 'The cloud voice is not answering. Using the phone voice.', 'VOICE');
+const voicePick = () => (nvMod ? nvMod.voiceMode() : (S.speakOn() ? 'phone' : 'off'));
+// first use: the AI voice is picked and Jarvis wants to talk (or he picked it): start the one-time download / the load
+function nvSoon(force) { if (nv && voicePick() === 'ai' && !nv.ready() && nv.state() !== 'loading') safe(() => nv.start(!!force)); }
+function nvEarly() { if (nv && voicePick() === 'ai' && nv.downloadedBefore()) nvSoon(); }
+let nvShown = false;
+function nvProgress(p) {                                 // the progress line while it downloads; a short "ready" when done
+  if (!nvLine || !p) return;
+  if (p.state === 'loading' && !(nv && nv.downloadedBefore())) { nvShown = true; nvLine.show(p.line); }
+  else if (p.state === 'ready' && nvShown) { nvShown = false; nvLine.show("Jarvis's AI voice is ready."); nvLine.hide(3000); }
+  if (!$('#voice').hidden) safe(renderVoiceNote);
 }
+function nvState(st) {                                  // it could not start: said once on the pill (never in the way of a tap), the iPhone voice talks
+  if (st === 'failed' && nvLine && voicePick() === 'ai') {
+    nvShown = false;
+    nvLine.show(nv && nv.downloadedBefore() ? "The AI voice couldn't start this time. The iPhone voice is talking." : "Couldn't get Jarvis's AI voice right now (no connection?). The iPhone voice is talking.");
+    nvLine.hide(5000);
+  }
+  if (!$('#voice').hidden) safe(renderVoiceNote);
+}
+function voiceFellBack(e, id) { if (id === 'kokoro') lastEngine = 'phone'; }     // a late or failed piece: the iPhone voice said the rest (no toast)
 ready.voiceout = load('voiceout', './voice-out.js', (m) => typeof m.createVoiceOut === 'function').then((m) => {
   if (m) vo = safe(() => m.createVoiceOut({ cfg: S.vcfg, cloud: cloudVoice, micBusy: () => !!rec || !!(vm && vm.isOpen()),
-    prosody: () => (engines ? engines.prosody : null), player: () => (engines ? engines.player : null), unlock: () => { if (engines) engines.player.unlock(); },
-    onFallback: voiceFellBack, onEngine: (id) => { if (engines) engines.noteUsed(id); safe(renderUsed); },
+    prosody: () => (voiceTest() ? null : spx), player: () => nvPlayer, unlock: () => { if (nvPlayer) nvPlayer.unlock(); },
+    onFallback: voiceFellBack, onEngine: (id) => { lastEngine = id || ''; },
     onSpeaking: onVoice, onWord: () => { wordKick = 1; }, onPending: (t) => { root.dataset.vpending = t ? '1' : ''; } }), null);
   renderSpk();
   return vo;
@@ -1570,11 +1569,10 @@ function openKeySetup(provider) {
   if (!keyUI && assist && typeof assist.mountKeySetup === 'function') keyUI = safe(() => assist.mountKeySetup({ brain: () => brain, toast, onSaved: () => { renderBrainPanel(); renderMore(); } }), null);
   if (keyUI) keyUI.open(provider); else openSettings();
 }
-const smartKeys = () => { const sm = D.LS.get('jarvis.smart', {}) || {}; return (sm && sm.keys && typeof sm.keys === 'object' ? sm.keys : {}); };
-const cloudVoice = (ctx) => {                           // the voice engines' pick (Auto / cloud / on-device), else Groq's free voice with the saved Groq key
-  if (engines) return safe(() => engines.pick(ctx), null);
-  const c = D.LS.get('jarvis.tts', {}) || {}, k = typeof smartKeys().groq === 'string' ? smartKeys().groq : '';
-  return c.cloud && k ? { key: k, voice: c.voice || 'hannah' } : null;
+const cloudVoice = (ctx) => {                           // the AI voice when it is picked and ready, else null = the iPhone voice says it
+  if (!nv || voicePick() !== 'ai') return null;
+  if (!nv.ready()) { nvSoon(); return null; }            // first use: the one-time download starts; this answer is said by the iPhone
+  return safe(() => nv.descriptor(ctx), null);
 };
 // voice mode (voice-mode.js, 2026-11-03): the full-screen conversation. Loaded after the start (never part of it), or at first use.
 let vmP = null, vm = null;
@@ -1944,7 +1942,13 @@ function renderHead() {
   $('#hello').textContent = D.greeting();
   $('#when').textContent = D.whenLine();
   const k = D.kalshiView(), st = D.kalshiState(), kp = $('#kpct'), ku = $('#kusd');
-  if (!k) {
+  // no kalshi.json (real money paused): the PC's PAPER tests (K1 rules + rewards, its status post) with their age, never "not connected"
+  const kpp = !k && D.kalshiPaperView ? D.kalshiPaperView() : null;
+  if (kpp) {
+    kp.className = 'nc'; kp.textContent = 'PAUSED';
+    ku.className = 'm'; ku.textContent = `paper ${kpp.net != null ? D.usd2(kpp.net, true) : '—'}${kpp.t ? ' · ' + D.ago(kpp.t) : ''}`;
+    ku.title = `Real money paused. Paper tests on your PC: ${kpp.k1 ? `K1 ${D.usd2(kpp.k1.net, true)} (${kpp.k1.sig} signals)` : 'K1 not running'}${kpp.rewards ? `, rewards ${D.usd2(kpp.rewards.net, true)}` : ''}`;
+  } else if (!k) {
     kp.className = 'nc'; kp.textContent = st === 'error' ? 'NO SIGNAL' : st === 'waiting' ? 'OFFLINE' : 'LINKING…';
     ku.className = ''; ku.textContent = st === 'waiting' ? 'not connected yet' : st === 'error' ? 'feed unreachable' : ' ';
   } else {
@@ -1957,12 +1961,15 @@ function renderHead() {
   const v = D.liveView(), np = $('#npnl'), ns = $('#nsub');
   if (!v) { np.className = 'nc'; np.textContent = D.liveError() ? 'NO SIGNAL' : 'LINKING…'; ns.textContent = ' '; }
   else {
-    const accts = [v.lit, v.atlas, v.blitz].filter((x) => x && x.room != null && Number.isFinite(+x.today_pnl));
+    // every real account (night-feedsA): the bot cards + the PC's other accounts (Zlarior 25K #2), the same set as the ZEUS card
+    const accts = [v.lit, v.atlas, v.blitz, ...(Array.isArray(v.extra) ? v.extra : [])].filter((x) => x && x.room != null && Number.isFinite(+x.today_pnl));
     const sum = accts.reduce((s, x) => s + +x.today_pnl, 0);
     np.className = 'm' + (sum > 0 ? ' up' : sum < 0 ? ' dn' : '');
     np.textContent = accts.length ? D.usd(sum, true) : '—';
     const vd = v.verdict || {};
-    ns.textContent = `${accts.length} ${accts.length === 1 ? 'account' : 'accounts'} · ${String(vd.code || vd.label || 'status ?').split(':')[0].toLowerCase()}`;
+    // the verdict in a word or two: a short label ("FEED STALE", "PC SILENT") says more than its code ("FEED"); a long one gives its code ("TRADING")
+    const vl = String(vd.label || '').split(':')[0], vw = vl && vl.length <= 12 ? vl : String(vd.code || vl || 'status ?').split(':')[0];
+    ns.textContent = `${accts.length} ${accts.length === 1 ? 'account' : 'accounts'} · ${vw.toLowerCase()}`;
   }
   const lv = levels();
   $('#dot').className = 'sdot' + (lv.zenith === 'bad' ? ' bad' : lv.zenith === 'warn' ? ' warn' : !navigator.onLine ? ' off' : '');
@@ -1980,11 +1987,13 @@ function zenithCard() {
     if (!x) return '';
     const set = x.room != null;
     const rf = Number.isFinite(+x.room_frac) ? +x.room_frac : null;
-    return `<div class="acct"><i>${esc(label)} · ${esc(x.plan || '')}${x.badge ? ' · ' + esc(x.badge) : ''}</i>${set ? `<div class="kv"><div><span>Today</span><strong class="m ${sgn(+x.today_pnl)}">${D.usd(x.today_pnl, true)}</strong></div><div><span>Drawdown left</span><strong class="m">${D.usd(x.room)}</strong>${Number.isFinite(+x.mll) && x.mll != null ? `<em>of ${D.usd(x.mll)}</em>` : ''}</div><div><span>To target</span><strong class="m">${D.usd(x.to_target)}</strong></div></div>${rf != null ? segBar(rf, rf < .25 ? 'bad' : rf < .5 ? 'warn' : 'ok') : ''}` : `<p class="muted">${esc(x.off ? 'Account C off · paper only until its own 25K' : x.status || 'not set up')}</p>`}</div>`;
+    // a funded account has no target to pass (its payout line is on the ZEUS card): never a "to target" number there
+    const funded = String(x.status || x.stage || '').toLowerCase() === 'funded' || /funded/i.test(String(x.plan || ''));
+    return `<div class="acct"><i>${esc(label)} · ${esc(x.plan || '')}${x.badge ? ' · ' + esc(x.badge) : ''}</i>${set ? `<div class="kv"><div><span>Today</span><strong class="m ${sgn(+x.today_pnl)}">${D.usd(x.today_pnl, true)}</strong></div><div><span>Drawdown left</span><strong class="m">${D.usd(x.room)}</strong>${Number.isFinite(+x.mll) && x.mll != null ? `<em>of ${D.usd(x.mll)}</em>` : ''}</div><div><span>${funded ? 'Stage' : 'To target'}</span><strong class="m">${funded ? 'Funded' : D.usd(x.to_target)}</strong></div></div>${rf != null ? segBar(rf, rf < .25 ? 'bad' : rf < .5 ? 'warn' : 'ok') : ''}` : `<p class="muted">${esc(x.off ? 'Account C off · paper only until its own 25K' : x.status || 'not set up')}</p>`}</div>`;
   };
   const line = (v.lines || []).find((x) => x.level === 'bad' || x.level === 'warn');
   return `<button class="panel card" type="button" data-app="zenith">${head(lvl)}<span class="pill ${lvl}">${esc(vd.label || 'Bot status')}${v.t ? ' · ' + esc(D.ago(v.t)) : ''}${v.cached ? ' · saved' : ''}</span>`
-    + `${line ? `<p class="pline ${line.level === 'bad' ? 'bad' : 'warn'}">${esc(line.text)}</p>` : ''}${acct(v.lit, 'Zlarior')}${acct(v.atlas, 'ATLAS')}${acct(v.blitz, 'BLITZ')}</button>`;
+    + `${line ? `<p class="pline ${line.level === 'bad' ? 'bad' : 'warn'}">${esc(line.text)}</p>` : ''}${acct(v.lit, 'Zlarior')}${acct(v.atlas, 'ATLAS')}${acct(v.blitz, 'BLITZ')}${(Array.isArray(v.extra) ? v.extra : []).map((x) => acct(x, x.name)).join('')}</button>`;
 }
 function plannerCard() {
   const p = D.plannerDay();
@@ -2149,7 +2158,7 @@ function renderSysbar(S) {
   $('#sysbar').className = 'sysbar ' + (S.level || '');
   $('#syst').textContent = S.short || S.todo || (S.level === 'ok' ? 'Nothing needs you' : 'Every system at a glance');
   $('#sysbar').setAttribute('aria-label', `System: ${S.verdict}${S.todo ? '. ' + S.todo : ''}. Open the System panel`);
-  $('#sysdots').innerHTML = S.rows.map((r) => `<i class="${esc(r.level || 'off')}" title="${esc(r.name)}">${esc(SYS_SHORT[r.id] || r.name.charAt(0))}</i>`).join('');
+  $('#sysdots').innerHTML = S.rows.map((r) => `<i class="${esc(r.level || 'off')}" title="${esc(r.name)}">${esc(SYS_SHORT[r.id] || r.abbr || r.name.charAt(0))}</i>`).join('');
 }
 function systemPanel(S) {
   const row = (r) => `<button class="srow ${esc(r.level || 'off')}" type="button" data-app="${esc(r.app)}" data-sys-row="${esc(r.id)}">`
@@ -2327,6 +2336,8 @@ function fallbackBrain({ getFacts }) {
     }
     if (/\bkalshi\b/.test(q)) {
       const k = F.kalshi;
+      const kpp = !k && D.kalshiPaperView ? D.kalshiPaperView() : null;
+      if (kpp) return { text: `Kalshi: real money paused. Paper tests on your PC: ${kpp.k1 ? `K1 rules ${D.usd2(kpp.k1.net, true)} (${kpp.k1.sig} signals)` : 'K1 not running yet'}${kpp.rewards ? `, rewards ${D.usd2(kpp.rewards.net, true)} net` : ''}${kpp.t ? ' (' + D.ago(kpp.t) + ')' : ''}. Nothing is placed.` };
       if (!k) return { text: F.kalshiState === 'error' ? 'I cannot reach the Kalshi feed right now. Try again in a minute.' : 'Kalshi is not connected yet: the Kalshi bot runs on its own server and connects from its own chat. Open the Kalshi page for the one step.' };
       const pos = Array.isArray(k.positions) ? k.positions : [];
       const lines = [`Kalshi${k.mode ? ' (' + String(k.mode).toUpperCase() + ')' : ''}: ${D.kalshiRun(k)[1].toLowerCase()}, balance ${usd2(k.balance)}, today ${usd2(k.today_pnl, true)}${k.week_pnl != null ? `, this week ${usd2(k.week_pnl, true)}` : ''}, ${pos.length} open ${pos.length === 1 ? 'position' : 'positions'}${k.t ? ' (' + ago(k.t) + ')' : ''}.`];
@@ -2627,7 +2638,9 @@ function speak(text, fromVoice) {
   if (!S.speakOn() || !('speechSynthesis' in window)) { setState('idle'); return 'off'; }
   try {
     const u = new SpeechSynthesisUtterance(String(text).replace(/\n/g, '. '));
-    u.lang = 'en-US';
+    const bv = tts ? safe(() => tts.bestVoice(speechSynthesis.getVoices())) : null;     // the best British man the phone has
+    if (bv) u.voice = bv;
+    u.lang = bv ? bv.lang : 'en-GB';
     u.onend = u.onerror = () => { onVoice(false); again(); };
     window.__jarvisUtter = u;                           // referenced until it ends (a collected utterance loses its events)
     speechSynthesis.cancel(); onVoice(true); speechSynthesis.speak(u);
@@ -2645,6 +2658,7 @@ function renderSpk() {
 function setVoiceOn(on, tell) {
   if (vo) vo.setOn(on); else { rawSet('jarvis.speak', on ? 'on' : 'off'); rawSet('jarvis.mute', on ? 'false' : 'true'); if (!on) hush(); }
   renderSpk();
+  if (!$('#voice').hidden) safe(renderVoiceNote);
   if (!tell) return;
   toast(on ? 'Voice on: I read every answer out loud.' : 'Voice off: answers stay on screen.', 'VOICE');
   if (on) speak('Voice on.', false);
@@ -2741,7 +2755,9 @@ function vmDeps() {
     },
     verdict: vmVerdict, greeting: () => D.greeting(), fx: () => root.dataset.fx, reduced: reducedMotion,
     voiceCfg: () => D.LS.get('jarvis.voiceCfg', null), muted: S.muted, cloudVoice,
-    prosody: () => (engines ? engines.prosody : null), player: () => (engines ? engines.player : null),
+    prosody: () => (voiceTest() ? null : spx), player: () => nvPlayer,
+    voicePick: () => { const m = voicePick(); return nvMod && m !== 'off' ? { mode: m, label: m === 'ai' ? 'George' : 'iPhone', ready: !!(nv && nv.ready()) } : null; },
+    setVoicePick: (m) => setVoicePick(m, false),
     onOpen: () => {                                     // one core at a time on the phone: the Jarvis screen's waits behind
       stopListening(); if (handsFree) setHandsFree(false); hush(); setState('idle'); if (vo) vo.session('auto');
       vmHadCore = !!core;
@@ -3044,108 +3060,57 @@ $('#setOlyVol').addEventListener('change', () => { safe(() => { const k = window
 $('#setSound').addEventListener('change', () => { D.LS.set('jarvis.sound', $('#setSound').checked); sfx('tap'); renderMore(); });
 $('#setTilt').addEventListener('change', async () => { await setTilt($('#setTilt').checked); renderLook(); });
 $('#setCalm').addEventListener('change', () => { D.LS.set('jarvis.calm', $('#setCalm').checked); if (core && mods.core) mountCore3d(); });
+// ---- the Voice sheet (2026-11-18): one setting, AI voice (George) / iPhone voice / Off, what it is doing now, hold to talk, talk style
+const READY_ONCE = "One-time download (about 117 MB)";
+const phoneVoiceName = () => { const v = pickVoice(); return v ? (tts && tts.voiceLabel ? tts.voiceLabel(v) : v.name) : "the iPhone's own British voice"; };
+function renderVoiceNote() {
+  const m = voicePick(), el = $('#vNote'), pr = $('#vProg');
+  for (const b of $('#vPick').children) b.setAttribute('aria-pressed', String(b.dataset.vpick === m));
+  let t = '', pct = -1;
+  if (m === 'off') t = 'Off: answers stay on the screen, nothing is said out loud.';
+  else if (m === 'phone') t = 'iPhone voice: ' + phoneVoiceName() + '.';
+  else if (!nv) t = 'The AI voice is loading. Until then: ' + phoneVoiceName() + '.';
+  else {
+    const st = nv.state(), p = nv.progress(), x = nv.stats();
+    if (st === 'ready') t = "AI voice (George) is ready: made on this phone, nothing is sent anywhere." + (x.rtf > 1.1 ? " This phone makes it slower than he talks, so long answers use the iPhone voice." : '');
+    else if (st === 'loading') { t = nv.downloadedBefore() ? 'Loading the AI voice from this phone…' : p.line + '. Keep Jarvis open; until then the iPhone voice talks.'; pct = nv.downloadedBefore() ? -1 : p.pct; }
+    else if (st === 'failed' || st === 'unsupported') t = "The AI voice can't run here (" + String(nv.error() || 'unknown').slice(0, 90) + '). Jarvis uses ' + phoneVoiceName() + '.';
+    else t = nv.downloadedBefore() ? 'AI voice (George): on this phone, it starts with the next answer.' : READY_ONCE + ', the first time he talks. Until then: ' + phoneVoiceName() + '.';
+  }
+  el.textContent = t + (m === 'off' ? '' : ' No sound? Turn the Ring / Silent switch to ring and the volume up.');
+  pr.hidden = pct < 0; if (pct >= 0) pr.value = pct;
+}
 function openVoice() {
   closeSheets(); closeMore();
-  const list = voices(), cfg = S.vcfg(), en = tts ? tts.voiceChoices(list) : list.filter((v) => /^en/i.test(v.lang || '')), cur = pickVoice();
-  const lab = (v) => (tts ? tts.voiceLabel(v) : `${v.name} · ${v.lang}`);
-  $('#vVoice').innerHTML = `<option value="">Automatic${cur ? ' (' + esc(lab(cur)) + ')' : ''}</option>` + en.map((v) => `<option value="${esc(v.name)}"${cfg.voice === v.name ? ' selected' : ''}>${esc(lab(v))}</option>`).join('');
   $('#vStyle').value = assistant ? assistant.settings().style : 'short';
-  $('#vCloud').checked = engines ? (D.LS.get('jarvis.tts', {}) || {}).cloud !== false : !!(D.LS.get('jarvis.tts', {}) || {}).cloud;
-  renderEngine();
-  $('#vTip').hidden = !!raw('jarvis.tip.ava') || (!!cur && /premium/i.test(cur.name + ' ' + (cur.voiceURI || '')));
-  $('#vRate').value = String(cfg.rate); $('#vPitch').value = String(cfg.pitch);
-  $('#vRateV').textContent = (+cfg.rate).toFixed(2); $('#vPitchV').textContent = (+cfg.pitch).toFixed(2);
-  $('#vAll').checked = S.speakOn(); $('#vHold').checked = S.hold();
-  $('#vNote').textContent = (!('speechSynthesis' in window) ? 'This browser cannot speak.' : en.length ? 'Automatic picks her most natural voice: Ava or Zoe (Premium) first, then Allison, Samantha.'
-    : 'The voice list has not loaded yet: she uses the phone\'s default voice until it does.') + ' No sound? Turn the Ring / Silent switch to ring and the volume up.';
+  $('#vHold').checked = S.hold();
+  renderVoiceNote();
   $('#voice').hidden = false;
 }
-function saveVoice() {
-  D.LS.set('jarvis.voiceCfg', { voice: $('#vVoice').value, rate: +$('#vRate').value, pitch: +$('#vPitch').value });
-  D.LS.set('jarvis.hold', $('#vHold').checked);
-  $('#vRateV').textContent = (+$('#vRate').value).toFixed(2); $('#vPitchV').textContent = (+$('#vPitch').value).toFixed(2);
-  renderMore();
+// the one setting; tell = say it (inside the tap: the iPhone's unlock)
+function setVoicePick(m, tell) {
+  if (['ai', 'phone', 'off'].indexOf(m) < 0) return;
+  if (m === 'off') setVoiceOn(false, false);
+  else { if (nvMod) nvMod.setVoiceMode(undefined, m); else rawSet('jarvis.speak', 'on'); if (!S.speakOn()) setVoiceOn(true, false); }
+  if (vo) vo.stop();
+  if (m === 'ai') nvSoon(true);                          // he picked it: try now, even after a failure
+  renderSpk(); safe(renderVoiceNote); renderMore();
+  if (tell && m !== 'off') speak(m === 'ai' ? (nv && nv.ready() ? "This is George, Jarvis's AI voice." : "George, the AI voice, is getting ready. Until then, this is the iPhone voice.") : 'This is the iPhone voice.', false);
 }
-for (const id of ['#vVoice', '#vRate', '#vPitch', '#vHold']) $(id).addEventListener('input', saveVoice);
-$('#vAll').addEventListener('change', () => setVoiceOn($('#vAll').checked, false));
+$('#vPick').addEventListener('click', (e) => { const b = e.target.closest('[data-vpick]'); if (b) setVoicePick(b.dataset.vpick, true); });
+$('#vHold').addEventListener('input', () => { D.LS.set('jarvis.hold', $('#vHold').checked); renderMore(); });
 $('#vStyle').addEventListener('change', () => { if (assistant) assistant.setSettings({ style: $('#vStyle').value }); });
-$('#vCloud').addEventListener('change', () => {
-  const on = $('#vCloud').checked, c = D.LS.get('jarvis.tts', {}) || {};
-  D.LS.set('jarvis.tts', Object.assign({}, c, { cloud: on }));
-  if (on && !cloudVoice()) toast('The cloud voice needs your free Gemini or Groq key: ⋯ → AI key. Until then she uses the phone\'s voice.', 'VOICE');
-  renderEngine();
-});
-// ---- the voice engine chooser (voice-engines.js): Auto / Natural cloud / On-device neural / Phone voice, samples, the Premium guide
-let devMsg = '';                                         // the last on-device download problem, kept until the next try
-function renderUsed() {
-  const el = $('#vUsed'); if (!el) return;
-  const u = engines ? engines.status().used : '';
-  el.textContent = u ? 'Last spoken with: ' + ({ gemini: 'Gemini voice', groq: 'Groq voice', kokoro: 'on-device voice', phone: 'the phone voice' }[u] || u) + '.' : '';
-}
-function renderEngine() {
-  const box = $('#vEngBox'); if (!box) return;
-  box.hidden = !engines; if (!engines) return;
-  const st = engines.settings(), s = engines.status(), d = engines.describe();
-  $('#vEngine').value = st.mode;
-  $('#vEngNote').textContent = d.note;
-  const effBrand = st.brand || (s.keys.gemini ? 'gemini' : 'groq');
-  const showCloud = (st.mode === 'auto' || st.mode === 'cloud') && (s.keys.gemini || s.keys.groq);
-  $('#vBrandRow').hidden = !showCloud || !(s.keys.gemini && s.keys.groq); $('#vBrand').value = st.brand;
-  $('#vCVoiceRow').hidden = !showCloud;
-  const G = effBrand === 'gemini' ? { Kore: 'Kore (firm)', Aoede: 'Aoede (breezy)', Leda: 'Leda (youthful)', Sulafat: 'Sulafat (warm)', Achernar: 'Achernar (soft)', Zephyr: 'Zephyr (bright)', Vindemiatrix: 'Vindemiatrix (gentle)' } : { hannah: 'Hannah (warm)', diana: 'Diana (clear)', autumn: 'Autumn (soft)' };
-  const cur = effBrand === 'gemini' ? st.gvoice : st.hvoice;
-  $('#vCVoice').innerHTML = Object.keys(G).map((k) => `<option value="${esc(k)}"${k === cur ? ' selected' : ''}>${esc(G[k])}</option>`).join('');
-  const dv = { af_heart: 'Heart (warm)', af_bella: 'Bella (expressive)', af_nicole: 'Nicole (soft)', bf_emma: 'Emma (British)' };
-  $('#vDVoice').innerHTML = Object.keys(dv).map((k) => `<option value="${k}"${k === st.kvoice ? ' selected' : ''}>${esc(dv[k])}</option>`).join('');
-  $('#vDVoiceRow').hidden = !s.device.ready;
-  $('#vDevNote').textContent = devMsg ? devMsg : !s.device.supported ? 'This browser cannot run the on-device voice (it needs an iPhone on iOS 16.4 or newer).'
-    : s.device.ready ? 'Downloaded (about ' + s.device.mb + ' MB on this phone). It runs offline with no key, but it is slower than the cloud: the first words take a few seconds.'
-    : 'Free, no key, works offline. A 115 MB one-time download, kept on this phone. Slower than the cloud voices.';
-  $('#vDevDl').hidden = !s.device.supported || s.device.ready; $('#vDevRm').hidden = !s.device.ready;
-  $('#vProsody').checked = !!st.prosody;
-  const ph = s.phone;
-  $('#vPremNote').textContent = ph.tier === 'premium' ? 'Found it: Jarvis is using ' + ph.label + '.' : ph.name ? 'Right now the phone voice is ' + ph.label + '.' : 'The phone has not shown its voice list yet.';
-  renderUsed();
-}
-$('#vEngine').addEventListener('change', () => { if (engines) { engines.setSettings({ mode: $('#vEngine').value }); renderEngine(); } });
-$('#vBrand').addEventListener('change', () => { if (engines) { engines.setSettings({ brand: $('#vBrand').value }); renderEngine(); } });
-$('#vCVoice').addEventListener('change', () => {
-  if (!engines) return;
-  const st = engines.settings(), k = engines.status().keys, eff = st.brand || (k.gemini ? 'gemini' : 'groq');
-  engines.setSettings(eff === 'gemini' ? { gvoice: $('#vCVoice').value } : { hvoice: $('#vCVoice').value });
-});
-$('#vDVoice').addEventListener('change', () => { if (engines) engines.setSettings({ kvoice: $('#vDVoice').value }); });
-$('#vProsody').addEventListener('change', () => { if (engines) engines.setSettings({ prosody: $('#vProsody').checked }); });
-$('#vDevDl').addEventListener('click', async () => {
-  if (!engines) return;
-  const b = $('#vDevDl'), pr = $('#vDevProg'), note = $('#vDevNote');
-  b.disabled = true; pr.hidden = false; pr.value = 0; devMsg = '';
-  try {
-    await engines.deviceDownload((p) => { pr.value = Math.min(1, p.done / p.total); note.textContent = 'Downloading ' + (p.label || '') + ' · ' + Math.round(100 * p.done / p.total) + '%. Keep Jarvis open.'; });
-    engines.setSettings({ mode: 'device' });
-    toast('The on-device voice is ready. Tap a sample to hear it.', 'VOICE');
-  } catch (e) {
-    devMsg = 'The download did not finish: ' + String((e && e.message) || e).slice(0, 140) + ' You can try again.';
-  }
-  b.disabled = false; pr.hidden = true; renderEngine();
-});
-$('#vDevRm').addEventListener('click', async () => { if (engines) { await safe(() => engines.deviceRemove()); engines.setSettings({ mode: 'auto' }); renderEngine(); } });
-$('#vSamples').addEventListener('click', (e) => {          // three sample lines, said with the chosen engine (inside the tap: the iPhone's unlock)
-  const b = e.target.closest('[data-sample]'); if (!b || !engines) return;
-  if (!S.speakOn()) { setVoiceOn(true); $('#vAll').checked = true; }
-  speak(engines.samples[+b.dataset.sample].text, false);
-});
 $('#vPremCheck').addEventListener('click', () => {
   if (vo && typeof vo.reload === 'function') vo.reload();
   safe(() => speechSynthesis.getVoices());
-  setTimeout(() => { openVoice(); $('#vPremium').open = true; }, 400);
+  setTimeout(() => { renderVoiceNote(); $('#vPremNote').textContent = 'The iPhone voice is now ' + phoneVoiceName() + '.'; }, 400);
 });
-$('#vTipX').addEventListener('click', () => { rawSet('jarvis.tip.ava', '1'); $('#vTip').hidden = true; });
-// Test voice: one natural sentence, inside the tap (testing her voice turns it on)
+// Test voice: one natural sentence, inside the tap (testing turns the voice on)
 $('#vTest').addEventListener('click', () => {
-  if (!S.speakOn()) { setVoiceOn(true); $('#vAll').checked = true; }
+  if (!S.speakOn()) setVoicePick(nvMod ? (jsonMode() === 'phone' ? 'phone' : 'ai') : 'phone', false);
   speak("Hi, I'm Jarvis, and this is how I'll sound when I read your answers out loud.", false);
 });
+const jsonMode = () => ((D.LS.get('jarvis.voiceEngine', {}) || {}).mode === 'phone' ? 'phone' : 'ai');
 $('#vX').addEventListener('click', () => { $('#voice').hidden = true; });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeSheets(); closeMore(); } });
 
@@ -3462,7 +3427,7 @@ function showToday() {
 // A pulse leaves the core when fresh numbers arrive.
 function renderSats() {
   const rows = sysOf().rows || [], n = rows.length || 1;
-  $('#sats').innerHTML = rows.map((r, i) => `<button type="button" tabindex="-1" class="sat ${esc(r.level || 'off')}" style="--a:${(360 * i / n - 90).toFixed(1)}deg" data-sat="${esc(r.id)}" title="${esc(r.name)}"><i>${esc(SYS_SHORT[r.id] || String(r.name || '?').charAt(0))}</i></button>`).join('');
+  $('#sats').innerHTML = rows.map((r, i) => `<button type="button" tabindex="-1" class="sat ${esc(r.level || 'off')}" style="--a:${(360 * i / n - 90).toFixed(1)}deg" data-sat="${esc(r.id)}" title="${esc(r.name)}"><i>${esc(SYS_SHORT[r.id] || r.abbr || String(r.name || '?').charAt(0))}</i></button>`).join('');
 }
 $('#sats').addEventListener('click', (e) => { const b = e.target.closest('[data-sat]'); if (!b) return; e.stopPropagation(); showSystem(); });
 function corePulse() {
@@ -3593,6 +3558,7 @@ safe(() => {
 window.__jarvis = { show, ask, facts: D.getFacts, refresh: () => Promise.resolve(D.refresh({ maxAge: 0 })).then(() => { greet(); safe(renderNext); }, () => null), active: () => active, setTheme, setOlyTheme, setFx, state: () => state, core: () => (core && typeof core.stats === 'function' ? safe(() => core.stats()) : null),
   voiceMode: (g) => voiceMode(!!g), vm: () => (vm ? vm.stats() : null), closeVoiceMode: () => { if (vm) vm.close('test'); },
   voice: () => (vo ? vo.stats() : null), talk: (t) => speak(String(t || ''), false),   // for tests and the console; read-only
+  aiVoice: () => (nv ? Object.assign(nv.stats(), { pick: voicePick(), engine: lastEngine, line: nvLine ? nvLine.text() : '' }) : null),
   // for briefing.js (the morning briefing): what the rules think from, the one thing to do, and a quiet way to say a line
   digest: () => safe(() => { if (typeof brain.headline === 'function') brain.headline(); return typeof brain.digest === 'function' ? brain.digest() : null; }, null),
   think: () => Promise.resolve(safe(() => (typeof brain.think === 'function' ? brain.think('auto', { smart: false }) : null), null)).catch(() => null),
@@ -3612,10 +3578,11 @@ if ('serviceWorker' in navigator) {
 <script type="module" src="./backdrop.js?v=b4"></script>
 <script type="module" src="./portal.js?v=p2"></script>
 <script src="./welcome.js?v=w1" defer></script>
-<script type="module" src="./transitions.js?v=t5"></script>
-<script type="module" src="./briefing.js?v=r2"></script>
-<script src="../olympus/zeus_core.js?v=1" defer></script>
+<script type="module" src="./transitions.js?v=t6"></script>
+<script type="module" src="./briefing.js?v=r3"></script>
+<script src="../olympus/zeus_core.js?v=3" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
-<script type="module" src="./copilot-card.js?v=cp2"></script>
+<script type="module" src="./copilot-card.js?v=cp3"></script>
+<script src="./push-ui.js?v=pu1" defer></script>
 </body>
 </html>

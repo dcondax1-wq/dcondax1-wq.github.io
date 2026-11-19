@@ -94,7 +94,9 @@
   function evalNow() {
     // the real MFFU account (the PC bot's anchored eval: balance, floor, room = what MFFU shows) beats the cloud paper ledger
     // ("eval": its own paper trail, e.g. floor $48,000 / room $389 while the real 50K had $1,133 left, 2026-11-03)
-    const real = ((D && D.accounts) || []).find((a) => a && a.source === 'pc' && a.eval && ok(a.eval.room) && ok(a.eval.balance));
+    // (night-feedsB) only an account the PC really reports, and the 50K (the Zlarior 25K #2 is listed next to it now)
+    const real = ((D && D.accounts) || []).find((a) => a && a.source === 'pc' && a.eval && ok(a.eval.room) && ok(a.eval.balance) && (a.live || a.badge === 'LIVE' || (a.conn && a.conn.present === true))
+      && (a.id === 'mffu50k_eval' || +a.eval.start_balance === 50000 || /50K/i.test(String(a.plan || ''))));
     const lv = L(), ev = real ? { ...real.eval, trailing_mll: real.eval.floor ?? real.eval.balance - real.eval.room } : (lv.eval || {}), e2 = lv.eval_2wk || {}, P = { start: 50000, target: 3000, mll: 2000, dll: 1000, lock_at: 50100, ...(D.lit_extra?.plan || {}) };
     const bal = ok(ev.balance) ? +ev.balance : P.start, floor = ok(ev.trailing_mll) ? +ev.trailing_mll : P.start - P.mll;
     const profit = ok(ev.profit) ? +ev.profit : bal - P.start, toGo = Math.max(0, P.target - profit), room = bal - floor;

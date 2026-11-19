@@ -14,6 +14,9 @@
 // silent primer and resumes an AudioContext (the cloud voice and the sounds share it); an answer that arrives before any tap
 // waits and is said at the next one. Answers were also only read after a spoken question ('Read every answer' was off by
 // default): now every answer is read while the switch is on.
+// 2026-11-18 (owner: "it sounds like a bot, it should sound like a person"; Male, British): the shell hands in the AI voice George
+// (cloud: neural-voice.js), the words a person says (prosody: speech-text.js) and the one unlocked <audio> element (player, unlocked by
+// the first tap here: unlock()); the iPhone's best British male voice (tts.js) speaks whenever the AI voice is not ready.
 // iPhone Safari 16: plain ES2020, no regex lookbehind.
 
 import { createSpeaker, bestVoice, savedVoiceName, needsPrimer, primeSpeech } from './tts.js';
@@ -57,7 +60,7 @@ export function createVoiceOut(opts) {
   const voices = () => (list.length ? list : load());
   const voice = () => bestVoice(voices(), (call('cfg') || {}).voice || savedVoiceName(store));
   const speaker = synth ? createSpeaker({ synth, voices, cfg: () => call('cfg') || {}, cloud: (c) => call('cloud', c), storage: store,
-    prosody: () => call('prosody'), player: () => call('player') }) : null;     // 2026-11-04: voice-engines.js hands over the voice, the natural-speech layer and the shared player
+    prosody: () => call('prosody'), player: () => call('player') }) : null;     // the shell hands over the AI voice, the speech layer and the shared player
 
   // ---------------------------------------------------------------- the unlock: the first tap anywhere
   const unlocked = () => primed || (!primer && (!nav.userActivation || nav.userActivation.hasBeenActive));

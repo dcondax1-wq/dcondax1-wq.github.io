@@ -114,8 +114,9 @@ export function applyImport(st, obj) {
 const jget = (st, k, d) => { try { const v = JSON.parse(st.getItem(k) || 'null'); return v && typeof v === 'object' ? v : d; } catch (_) { return d; } };
 const hhmm = (s, d) => { const m = /^(\d{1,2}):(\d\d)$/.exec(String(s || '')); return m && +m[1] < 24 && +m[2] < 60 ? String(m[1]).padStart(2, '0') + ':' + m[2] : d; };
 export const ALERTS_KEY = 'jarvis.alerts.v1', ENGINE_KEY = 'jarvis.voiceEngine', MODE_KEY = 'jarvis.mode', SPEAK_KEY = 'jarvis.speak';
-export const ENGINE_MODES = [['auto', 'Auto', 'Natural cloud voice for short replies, this phone\'s voice for long ones'], ['cloud', 'Natural cloud', 'Gemini or Groq, with your free key'],
-  ['device', 'On this phone', 'The built-in on-device voice (a one-time download)'], ['phone', 'Phone voice', 'The voice iOS gives every app']];
+// Jarvis's voice (2026-11-18, owner: Male, British): the AI voice George made on the phone, or the iPhone's own British voice; Off = "Speak answers" off
+export const ENGINE_MODES = [['ai', 'AI voice (George)', 'A natural British man\'s voice made on this phone. It downloads once (about 117 MB) the first time Jarvis talks; the iPhone voice speaks until then'],
+  ['phone', 'iPhone voice', 'The iPhone\'s own British male voice, straight away']];
 export const MODES = [['auto', 'Auto'], ['trading', 'Trading'], ['research', 'Research'], ['business', 'Business'], ['life', 'Life']];
 
 export function alertsGet(st) {
@@ -130,7 +131,7 @@ export function alertsSet(st, patch) {
 }
 export const speakOn = (st) => { try { return st.getItem(SPEAK_KEY) !== 'off'; } catch (_) { return true; } };
 export function speakSet(st, on) { try { st.setItem(SPEAK_KEY, on ? 'on' : 'off'); } catch (_) { /* not kept */ } return speakOn(st); }
-export function engineGet(st) { const c = jget(st, ENGINE_KEY, {}); return ENGINE_MODES.some((m) => m[0] === c.mode) ? c.mode : 'auto'; }
+export function engineGet(st) { const c = jget(st, ENGINE_KEY, {}); return c.mode === 'phone' ? 'phone' : 'ai'; }     // the older auto / cloud / device read as the AI voice
 export function engineSet(st, mode) {
   if (!ENGINE_MODES.some((m) => m[0] === mode)) return engineGet(st);
   const c = jget(st, ENGINE_KEY, {});

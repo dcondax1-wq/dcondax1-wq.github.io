@@ -58,8 +58,8 @@ export function matchKey(a) {
   if (/zlarior|mffu50k|50k|\blit\b/.test(s)) return 'zlarior';
   return null;
 }
-export function accountView(key, a, rules) {
-  const P = ACCOUNTS[key], L = limitsFor(P.plan, rules);
+export function accountView(key, a, rules, P0) {
+  const P = P0 || ACCOUNTS[key], L = limitsFor(P.plan, rules);
   const base = { key, name: P.name, size: P.size, plan: P.plan, road: P.road, bot: P.bot, has: false, stage: 'eval', mll: L.mll, room: null, floor: null, balance: null, start: null, locked: false, today: 0, week: 0,
     progress: 0, toTarget: null, target: L.target, dll: L.dll, dllUsed: 0, risk: P.risk, win: P.win, est: true, L };
   if (!isObj(a)) return base;
@@ -78,10 +78,28 @@ export function buildAccounts(home, rules, fixture) {
   const list = isObj(home) && Array.isArray(home.accounts) ? home.accounts : [], found = {};
   for (const a of list) { const k = matchKey(a); if (k && !found[k] && !a.error) found[k] = a; }
   const real = Object.keys(found).length > 0, fx = isObj(fixture) && Array.isArray(fixture.accounts) ? fixture.accounts : [];
-  return { demo: !real, accounts: ORDER.filter((k) => !(real && k === 'blitz' && hiddenIn(home, 'blitz'))).map((k) => {
+  const out = ORDER.filter((k) => !(real && k === 'blitz' && hiddenIn(home, 'blitz'))).map((k) => {
     if (real) return accountView(k, found[k], rules);
     const f = fx.find((x) => x.key === k); return f ? { ...accountView(k, null, rules), ...f, has: true, demo: true } : accountView(k, null, rules);
-  }) };
+  });
+  if (real) out.push(...extraAccounts(home, rules));
+  return { demo: !real, accounts: out };
+}
+// the other real accounts the PC routes (the Zlarior 25K #2 ...): board "accounts" from the PC's status post (pc_feed.js boardOver,
+// night-feedsB 2026-11-18), each with its own plan's rules; LIT trades them, so its usual stop / win sizes are the 50K's at the plan's scale
+export function extraAccounts(home, rules) {
+  const B = isObj(home) && isObj(home.board) ? home.board : {}, out = [];
+  for (const c of Array.isArray(B.accounts) ? B.accounts : []) {
+    if (!isObj(c) || !c.id || num(c.balance) == null) continue;
+    const big = num(c.mll) >= 2000, base = ACCOUNTS.zlarior, sc = big ? 1 : 0.5;
+    const P = { ...base, key: 'x_' + String(c.id).replace(/[^A-Za-z0-9_]/g, '').slice(0, 24), name: str(c.name, 40) || 'Account', size: big ? '50K' : '25K',
+      plan: big ? 'builder_50k' : 'builder_25k', road: big ? base.road : null, risk: Math.round(base.risk * sc), win: Math.round(base.win * sc) };
+    const v = accountView(P.key, { kind: /funded/i.test(String(c.status || '')) ? 'funded' : 'eval', pnl: { today: c.today_pnl, week: c.week_pnl },
+      eval: { balance: c.balance, floor: c.floor, room: c.room, mll: c.mll, dll: c.dll, dll_used: c.dll_used, to_target: c.to_target, start_balance: num(c.balance) != null && num(c.profit) != null ? c.balance - c.profit : null,
+        progress: num(c.profit) != null && num(c.profit) > 0 && num(c.to_target) != null ? c.profit / (c.profit + c.to_target) : 0, status: c.status } }, rules, P);
+    out.push(v);
+  }
+  return out;
 }
 
 // ------------------------------------------------------------------------------------------------ the dial

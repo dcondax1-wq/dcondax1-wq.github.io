@@ -22,13 +22,56 @@
     if (h.second && (h.second.strategies || []).length) return U.brainList(h.second, 'cloud run');
     return pc ? U.brainList(pc, 'PC bot (not live)') : null;
   }
+  // ATLAS's account from the PC's status post (night-feedsB 2026-11-18): the board card (LIVE, funded or eval), the MFFU block (start
+  // day, last 4 digits) and its newest real trades, in the account-B shape secondcore draws (acctB / fundedB). The cloud's own copy
+  // says "not set up / not bought yet" because the cloud cannot see the PC; this is what the ZEUS card shows.
+  const okN = (v) => typeof v === 'number' && Number.isFinite(v);
+  function pcRoute() {
+    const L = window.LIVE, raw = L && L.raw, B = (HD() || {}).board || null, A = B && B.atlas;
+    if (!raw || !A || A.configured === false || !okN(A.balance) || !/LIVE|SIM/i.test(String(A.badge || ''))) return null;
+    const mf = ((raw.mf && raw.mf.a) || []).find((r) => r && r.id === 'atlas') || {}, funded = /funded/i.test(String(A.status || ''));
+    const start = okN(A.profit) ? Math.round((A.balance - A.profit) * 100) / 100 : 25000, C = window.PAYOUT_COACH;
+    const R = C && C.PLANS ? C.PLANS[+A.mll >= 2000 ? 'builder50k' : 'builder25k'] : null;
+    const rt = +((raw.reporter && raw.reporter.t) || raw.t) || null, mins = rt ? Math.max(0, Math.round((Date.now() / 1000 - rt) / 60)) : null;
+    let F = null;
+    if (funded) {
+      let c = null;
+      try {
+        const f = mf.f || {};
+        c = C && C.coach ? C.coach({ balance: A.balance, cycle_start_balance: okN(f.cp) ? A.balance - f.cp : null, best_day: okN(f.bd) ? f.bd : null, cycle_days: okN(f.cd) ? f.cd : null,
+          payouts_n: okN(f.pn) ? f.pn : null, eligible_from: f.ef || null, room: A.room }, +A.mll >= 2000 ? 'builder50k' : 'builder25k') : null;
+      } catch (e) { c = null; }
+      F = c && c.ok ? { text: A.payout_text || c.text, ask_at_balance: R ? start + c.plan_line : null, to_ask: R ? Math.round((start + c.plan_line - A.balance) * 100) / 100 : null,
+        buffer: R ? R.buffer : null, buffer_reached: c.above_buffer >= 0, buffer_balance: R ? start + R.buffer : null, best_day_pct: c.best_pct, cons_limit_pct: 50,
+        cycle_profit: c.cycle_profit, cycle_days: c.cycle_days, cycle_days_need: c.cycle_days_need, payouts_n: c.payouts_n, payouts_max: c.payouts_max, paid_to_you: null,
+        eligible: c.eligible, max_request: c.request_today, to_you: c.to_you, eligible_from: c.eligible_from || (mf.f && mf.f.ef) || null, why: c.why, ready: c.status === 'ready', record_cmd: 'tell Claude the amount' }
+        : { text: A.payout_text || 'Funded. The payout line shows once the payout coach has loaded.', why: [], eligible_from: (mf.f && mf.f.ef) || null, record_cmd: 'tell Claude the amount' };
+    }
+    const at = ((raw.at && raw.at.a) || []).find((x) => x && x.id === 'atlas');
+    const routed = (at && at.tr || []).filter((r) => Array.isArray(r)).map((r) => ({ t: r[0], side: +r[2] === -1 ? 'sell' : 'buy', qty: r[3], strategy: '', reason: r[7] || 'open', pnl: r[8] }));
+    const p = A.position && A.position.side ? { side: A.position.side, qty: A.position.qty, strategy: '', entry: A.position.entry, stop: A.position.stop, target: A.position.target } : null;
+    const ab = { label: 'ATLAS', account: 'MFFU account …' + (mf.l4 || '····'), plan_label: String(A.plan || 'MFFU Builder 25K'), kind: String(A.badge || 'LIVE').toUpperCase(), enabled: true,
+      stage: funded ? 'funded' : 'eval', keys: String(A.method || 'EMA · MACD · S/R').split(/\s*·\s*/), day_pnl: A.today_pnl, week_pnl: A.week_pnl, entries_today: A.trades_today,
+      open: p, routed, funded: F, note: `PC report${mins != null ? ' · ' + mins + ' min ago' : ''}`,
+      eval: { balance: A.balance, floor: A.floor, room: A.room, status: funded ? 'funded' : (A.status || 'open'), session: A.session, start: mf.sd || null,
+        target: okN(A.target_balance) ? A.target_balance : null, to_target: okN(A.to_target) ? A.to_target : null } };
+    // the member brains stay the PC's / cloud's; its real trades (board src live) replace nothing, they are added to the members' rows
+    const strategies = {};
+    for (const t of (B.trades || [])) {
+      if (!t || t.acct !== 'atlas' || t.src !== 'live' || !t.key) continue;
+      (strategies[t.key] = strategies[t.key] || { trades: [] }).trades.push({ entry_t: t.entry_t, exit_t: t.exit_t, day: t.day, dir: String(t.side).toUpperCase() === 'SHORT' ? -1 : 1, qty: t.qty,
+        exit_kind: t.open ? 'OPEN' : (t.exit || 'EXIT'), r: t.r, usd: t.usd, src: 'live' });
+    }
+    return { route: { account_b: ab }, strategies };
+  }
   function view(el) {
     const S = (HD() && HD().second) || null;
     el.innerHTML = (typeof head === 'function' ? head('Strategy 2 · 25K', 'ATLAS',
       'The 25K bot: is it on, $ today, $ left to pass, what it waits for, its trades and rules') : '<h2>ATLAS</h2>') + '<div id="atRoot"></div>';
     const root = el.querySelector('#atRoot');
     if (!window.SecondUI || !window.SecondUI.atlas) { root.innerHTML = '<div class="card">secondcore.js did not load.</div>'; return; }
-    window.SecondUI.atlas(root, S, { live: liveCut(), brain: brainOf(), charts: chartsOf() });
+    const lc = liveCut(), pr = lc && lc.route && lc.route.account_b ? null : pcRoute();
+    window.SecondUI.atlas(root, S, { live: pr ? { ...(lc || {}), ...pr, strategies: { ...((lc && lc.strategies) || {}), ...pr.strategies } } : lc, brain: brainOf(), charts: chartsOf() });
   }
 
   // trade pictures (engine/trade_chart.py): data.json "charts" (home.json carries the newest 3 per strategy)

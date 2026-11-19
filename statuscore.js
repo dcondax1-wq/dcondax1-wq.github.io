@@ -67,6 +67,13 @@
     for (const a of A) if (a && COLOR[a.key] && !out[a.key]) out[a.key] = a;
     return out;
   }
+  // the other real accounts the PC routes (the Zlarior 25K #2, a Rapid ...: board "accounts", night-feedsB 2026-11-18): a card each
+  function extras(M) {
+    const MU = window.MissionUI;
+    let A = [];
+    try { A = MU && MU.accounts ? MU.accounts(M) : []; } catch (e) { A = []; }
+    return A.filter((a) => a && !COLOR[a.key] && !a.placeholder && !a.paper && okN(a.balance));
+  }
   function healthOf(M) { const I = {}; for (const it of arr(obj(obj(M.board).health).items)) if (it && it.key) I[it.key] = it; return I; }
   const lvH = (it) => (!it ? 'idle' : it.ok === false ? 'bad' : it.warn ? 'warn' : it.ok ? 'good' : 'idle');
 
@@ -97,7 +104,10 @@
   function items(M) {
     M = obj(M);
     const now = num(M.now) || nowS(), B = obj(M.board), I = healthOf(M), As = accts(M), open = marketOpen(now), out = [];
-    const hb = num(B.data_t) != null ? now - B.data_t : null;
+    // a board from the PC's status post (feed "ntfy", every 15 min): its age is the post's (report_t, the ZEUS card's "PC reported")
+    // and it is quiet after 30 min, not 15 (else every post turned amber for its last minutes, night-feedsB 2026-11-18)
+    const rt = num(B.report_t), hbT = rt != null ? Math.max(rt, num(B.data_t) || 0) : num(B.data_t), QUIET = rt != null ? 30 * 60 : 15 * 60;
+    const hb = hbT != null ? now - hbT : null;
     // the next entry window of any bot (or the open one closing)
     let nx = null;
     for (const A of Object.values(As)) {
@@ -109,7 +119,10 @@
     // PC bot: stopped = red; quiet = red while a window is open or opens within 30 min, amber otherwise
     if (B.running === false) out.push({ k: 'pc', label: 'PC bot', value: 'stopped', lvl: 'bad', detail: 'The PC server is up but the bot is stopped.', fix: 'On the Surface: Start page → Start trading.' });
     else if (hb == null) out.push({ k: 'pc', label: 'PC bot', value: 'no report', lvl: 'warn', detail: 'No check-in from the PC yet.', fix: 'Turn the Surface on (the bot starts by itself).' });
-    else if (hb < 15 * 60) out.push({ k: 'pc', label: 'PC bot', value: hb < 120 ? 'live' : dur(hb) + ' ago', lvl: 'good', detail: `Last check-in ${dur(hb)} ago.` });
+    else if (hb < QUIET) {
+      const ago = rt != null ? (hb < 90 ? 'just now' : Math.round(hb / 60) + ' min ago') : dur(hb) + ' ago';      // the ZEUS card's minutes (rounded)
+      out.push({ k: 'pc', label: 'PC bot', value: hb < 120 ? 'live' : ago, lvl: 'good', detail: `${rt != null ? 'Last report from the PC' : 'Last check-in'} ${ago}.` });
+    }
     else {
       const need = (nx && nx.open) || (soon != null && soon < 1800);
       // the weekend (Fri 17:00 -> 2 h before the Sunday reopen): a PC that is off is fine, it only needs to be on by Sunday
@@ -213,9 +226,10 @@
     const fl = first('lit'), fa = first('atlas'), fb = first('blitz');
     const bz = As.blitz, bzOn = bz && !bz.placeholder && bz.configured !== false;
     const re = et(W.re);
-    const hb = num(B.data_t) != null ? now - B.data_t : null;
+    const rt = num(B.report_t), hbT = rt != null ? Math.max(rt, num(B.data_t) || 0) : num(B.data_t), QUIET = rt != null ? 1800 : 900;   // the PC's post: quiet after 30 min
+    const hb = hbT != null ? now - hbT : null;
     const ready = [
-      ['PC on, the bot running by Sun 17:30 ET', B.running === false ? 'bad' : hb != null && hb < 900 ? 'good' : 'warn', B.running === false ? 'bot stopped' : hb != null ? (hb < 900 ? 'running now' : `quiet ${dur(hb)}`) : 'no report yet'],
+      ['PC on, the bot running by Sun 17:30 ET', B.running === false ? 'bad' : hb != null && hb < QUIET ? 'good' : 'warn', B.running === false ? 'bot stopped' : hb != null ? (hb < QUIET ? 'running now' : `quiet ${dur(hb)}`) : 'no report yet'],
       ['NinjaTrader connected', lvH(I.nt) === 'idle' ? 'warn' : lvH(I.nt), I.nt ? I.nt.value : 'not reported'],
       ['Bars flowing after 18:00 ET', 'idle', 'checks itself at the open'],
     ];
@@ -248,38 +262,44 @@
     return `<span class="su-state ${w[1]}">${dot(w[1], !!L.live)}${esc(w[0])}</span>`;
   }
   function acctCard(A, M, o) {
-    const k = A.key, c = COLOR[k], L = oneLine(A, M), page = PAGE[o.where === 'pc' ? 'pc' : 'phone'][k];
+    // an extra account (not one of the bots' own cards) keeps its own name and colour and opens the Accounts page
+    const k = A.key, extra = !COLOR[k], c = COLOR[k] || A.color || '#8aa0ff', nm = NAME[k] || A.name || k, L = oneLine(A, M);
+    const page = extra ? 'accounts' : PAGE[o.where === 'pc' ? 'pc' : 'phone'][k];
     const tgt = okN(A.profit) && okN(A.toTarget) && A.profit + A.toTarget > 0 ? A.profit + A.toTarget : null;
     const passed = okN(A.toTarget) && A.toTarget <= 0;
+    // funded: the number is the payout coach's "need $X more" (live.js), never a pass target
+    const funded = /funded/i.test(String(A.status || ''));
     const down = okN(A.profit) && A.profit < 0;
     const frac = down ? (okN(A.mll) && A.mll > 0 ? -A.profit / A.mll : 0) : tgt && okN(A.profit) ? A.profit / tgt : 0;
     // REAL / SIM / PAPER: which money this card is (the board's badge: LIVE = a real MFFU account, SIM = NinjaTrader Sim)
-    const bd = String(obj(obj(M.board)[k]).badge || '').toUpperCase(), tag = A.placeholder || A.paper ? 'PAPER' : /LIVE|REAL/.test(bd) ? 'REAL' : /SIM/.test(bd) ? 'SIM' : bd ? bd.slice(0, 8) : '';
-    const head = (plan) => `<span class="su-a-h"><b>${NAME[k]}</b>${tag ? `<i class="su-tag ${tag === 'REAL' ? 'real' : ''}">${esc(tag)}</i>` : ''}<em>${esc(plan)}</em>${stateChip(A, L)}</span>`;
+    const bcard = extra ? (arr(obj(M.board).accounts).find((x) => x && (x.id || x.key) === k) || {}) : obj(obj(M.board)[k]);
+    const bd = String(bcard.badge || '').toUpperCase(), tag = A.placeholder || A.paper ? 'PAPER' : /LIVE|REAL/.test(bd) ? 'REAL' : /SIM/.test(bd) ? 'SIM' : bd ? bd.slice(0, 8) : '';
+    const head = (plan) => `<span class="su-a-h"><b>${esc(nm)}</b>${tag ? `<i class="su-tag ${tag === 'REAL' ? 'real' : ''}">${esc(tag)}</i>` : ''}<em>${esc(plan)}</em>${stateChip(A, L)}</span>`;
     if (A.placeholder) {
-      return `<a class="su-acct ph" data-bot="${k}" style="--c:${c}" ${goA(o, page)} aria-label="${NAME[k]}: paper only">${head('25K · paper shadow')}
+      return `<a class="su-acct ph" data-bot="${k}" style="--c:${c}" ${goA(o, page)} aria-label="${esc(nm)}: paper only">${head('25K · paper shadow')}
         ${ring(0, c, '<i>off</i>')}<span class="su-a-m"><span class="su-big"><b>Paper</b><em>until its own 25K</em></span><span class="su-sub"><span class="su-tx">never routed · 09:30 noise band</span></span></span>
         <span class="su-line">${dot('idle')}${esc(L.text)}</span></a>`;
     }
     // the sparkline: the account's real P&L per day, or this week's days (Mon -> today) while it has fewer than 3
     let days = arr(A.days).map((d) => (Array.isArray(d) ? num(d[1]) : num(obj(d).usd)));
     if (days.length < 3) { const wk = arr(obj(obj(obj(obj(M.board).progress)[k]).week).days).filter((d) => d && !d.future).map((d) => num(d.usd) || 0); if (wk.length >= 3) days = wk; }
-    const big = passed ? 'Passed' : okN(A.toTarget) ? money(A.toTarget) : '—';
+    const big = passed ? (funded ? 'Payout' : 'Passed') : okN(A.toTarget) ? money(A.toTarget) : '—';
+    const bigWord = passed ? (funded ? 'can be asked for' : 'target reached') : funded ? 'to a payout' : 'to the target';
     const sub = okN(A.room) ? `Drawdown left ${money(A.room)}${okN(A.mll) ? ` of ${money(A.mll)}` : ''}` : '';
     const roomLvl = okN(A.roomFrac) ? (A.roomFrac < 0.25 ? 'bad' : A.roomFrac < 0.5 ? 'warn' : 'good') : 'idle';
     const tc = okN(A.today) && A.today > 0 ? 'up' : okN(A.today) && A.today < 0 ? 'dn' : '';
-    return `<a class="su-acct${A.pos ? ' trading' : ''}" data-bot="${k}" style="--c:${c}" ${goA(o, page)} aria-label="${NAME[k]} ${esc(A.size || '')}: ${esc(big)} to the target"><i class="su-sheen" aria-hidden="true"></i>
+    return `<a class="su-acct${A.pos ? ' trading' : ''}" data-bot="${k}" style="--c:${c}" ${goA(o, page)} aria-label="${esc(nm)} ${esc(A.size || '')}: ${esc(big)} ${bigWord}"><i class="su-sheen" aria-hidden="true"></i>
       ${head(`${A.size || ''} · ${String(A.plan || '').replace(/\s*\d+K$/i, '')}`)}
       ${ring(frac, down ? 'var(--bad,#ff5a7a)' : c, kmoney(A.profit), down)}
-      <span class="su-a-m"><span class="su-big"><b data-su-count="${okN(A.toTarget) && !passed ? Math.round(A.toTarget) : ''}">${esc(big)}</b><em>${passed ? 'target reached' : 'to the target'}</em></span>
+      <span class="su-a-m"><span class="su-big"><b data-su-count="${okN(A.toTarget) && !passed ? Math.round(A.toTarget) : ''}">${esc(big)}</b><em>${bigWord}</em></span>
         <span class="su-sub"><i class="su-room ${roomLvl}"></i><span class="su-tx">${esc(sub)}</span></span></span>
       <span class="su-a-r"><span class="su-today ${tc}"><em>today</em><b>${okN(A.today) ? smoney(A.today) : '—'}</b></span>${spark(days, c)}</span>
       <span class="su-line">${dot(L.lvl, L.live)}${esc(L.text)}${L.t ? ` · in ${cd(L.t)}` : ''}</span></a>`;
   }
   function accounts(M, o) {
     o = o || {}; M = obj(M);
-    const As = accts(M), out = BOTK().map((k) => As[k]).filter(Boolean).map((A) => acctCard(A, M, o)).join('');
-    return out ? `<section class="su-accts" aria-label="The three accounts">${out}</section>` : '';
+    const As = accts(M), out = BOTK().map((k) => As[k]).filter(Boolean).concat(extras(M)).map((A) => acctCard(A, M, o)).join('');
+    return out ? `<section class="su-accts" aria-label="The accounts">${out}</section>` : '';
   }
 
   // ------------------------------------------------------------------ this week vs the 2-4 trades goal (the board's progress)

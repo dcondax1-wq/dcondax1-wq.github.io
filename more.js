@@ -59,7 +59,11 @@
     const NETS = window.OLYMPUS_NET, feedOff = !!(NETS && NETS.dead && NETS.dead('raw:nq-dashboard') && NETS.dead('api:nq-dashboard'));
     const feedTxt = feedOff ? ' Live feed offline: this is the cloud copy.' : '';
     // live.js: the PC's live.json (every minute) keeps Home current between cloud runs; then old cloud data is no alarm
-    const la = window.LIVE && window.LIVE.age ? window.LIVE.age() : null, liveOn = la != null && la < 10 * 60;
+    // the PC's status post (ntfy, every 15 min, live.js LIVE.raw): its report time counts too, fresh for 30 min (the ZEUS card's rule),
+    // so a fresh PC report never sits under a "Cloud copy is 52 min old" banner (night-feedsB 2026-11-18)
+    const rt = window.LIVE && window.LIVE.raw ? +((window.LIVE.raw.reporter && window.LIVE.raw.reporter.t) || window.LIVE.raw.t) || null : null;
+    const ra = rt ? Math.max(0, nowS() - rt) : null, la0 = window.LIVE && window.LIVE.age ? window.LIVE.age() : null;
+    const la = ra != null ? ra : la0, liveOn = (la0 != null && la0 < 10 * 60) || (ra != null && ra < 30 * 60);
     if (off) ban = `<div class="mo-ban off" role="status">${icon('sources')}<span><b>Offline — showing ${hm}${day} data</b><em>The last copy this phone saw. It refreshes by itself when you are back online.</em></span></div>`;
     else if (age > STALE_S && !liveOn) {
       const mkt = marketHours();
@@ -67,7 +71,7 @@
         ? 'The cloud monitor should publish every 30 min in the session. Pull down to retry; if it stays old, check GitHub → Actions → cloud-monitor.'
         : 'Normal outside market hours: the cloud monitor runs on market days from 01:30 to 16:30 ET.'}</em></span></div>`;
     }
-    return `${ban}<button type="button" class="mo-upd" id="moUpd" aria-label="Refresh data">${icon('refresh')}<span>${liveOn ? `<b class="up">Live</b> · ${fmtAge(la)} ago · cloud data ${hm}${day}` : `Cloud copy <b>${hm}${day}</b> · ${fmtAge(age)} ago${pcTxt}`}</span><em>${'ontouchstart' in window ? 'pull down to refresh' : 'tap to refresh'}</em></button>`;
+    return `${ban}<button type="button" class="mo-upd" id="moUpd" aria-label="Refresh data">${icon('refresh')}<span>${liveOn ? `<b class="up">${ra != null ? 'PC report' : 'Live'}</b> · ${fmtAge(la)} ago · cloud data ${hm}${day}` : `Cloud copy <b>${hm}${day}</b> · ${fmtAge(age)} ago${pcTxt}`}</span><em>${'ontouchstart' in window ? 'pull down to refresh' : 'tap to refresh'}</em></button>`;
   }
   function marketHours(ts = nowS()) { const e = et(ts), m = e.h * 60 + e.mi; return !['Sat', 'Sun'].includes(e.wd) && m >= 90 && m < 990; }
   function strip() {

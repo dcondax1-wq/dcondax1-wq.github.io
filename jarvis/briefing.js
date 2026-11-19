@@ -129,6 +129,10 @@ export function buildBrief(D, opt) {
     const best = strat[0], worst = strat.length > 1 ? strat[strat.length - 1] : null;
     const kt = `${str(k.run, 40) ? str(k.run, 40) + '. ' : ''}Today ${sgn(k.today_pnl, hide)}, this week ${sgn(k.week_pnl, hide)}.${best ? ` Best ${str(best.name, 24)} ${sgn(best.pnl, hide)}${worst && worst.pnl < 0 ? `, worst ${str(worst.name, 24)} ${sgn(worst.pnl, hide)}` : ''}.` : ''}`;
     add('kalshi', 'Kalshi', kt);
+  } else if (k.state === 'paper' && isObj(k.paper)) {          // real money paused: the PC's paper tests (night-feedsA)
+    const p = k.paper, k1 = isObj(p.k1) ? p.k1 : null, rw = isObj(p.rewards) ? p.rewards : null;
+    add('kalshi', 'Kalshi', `Real money paused. Paper tests: ${k1 ? `K1 ${sgn(k1.net, hide)} (${plural(num(k1.sig) || 0, 'signal')})` : 'K1 not running yet'}${rw ? `, rewards ${sgn(rw.net, hide)}` : ''}.`,
+      'Kalshi real money is paused; its paper tests are running.');
   } else add('kalshi', 'Kalshi', k.state === 'waiting' ? 'Not connected yet.' : k.state === 'error' ? 'I cannot reach its feed right now.' : 'No Kalshi numbers yet.');
 
   // 5. to-dos that are due: the Planner's open tasks (overdue first) and Jarvis's own list and reminders for today

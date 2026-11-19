@@ -1,0 +1,520 @@
+{
+ "v": 1,
+ "kind": "olympus-why",
+ "built": "2026-11-18 20:30",
+ "data_to": "2026-10-16",
+ "source": "research/writeups/win-loss-anatomy-2026-11-18.md",
+ "note": "Research only (tools/win_loss_anatomy.py). Nothing here changes a live setting.",
+ "title": "Why we win / why we lose",
+ "intro": "Every Zlarior and ATLAS trade of 2021-2026 taken apart, costs in: how far it went for and against us and when, what the day and the trends did, news, the prior day's levels, and what came after the exit.",
+ "verdict": "Our losers are mostly good trades that lost: at the entry they look like the winners, the stops are real, and the trades a careful human would skip carry as many winners as losers. The money is in a few big winners.",
+ "lines": [
+  "Zlarior: 62% of 2026's lost $ came from trades that never worked; skipping what a careful human would skip = -$709 / -$1,486 a month (Jan-Jun / Jul-Oct).",
+  "ATLAS: 58% of 2026's lost $ came from trades that never worked; skipping what a careful human would skip = -$2,253 / -$692 a month (Jan-Jun / Jul-Oct)."
+ ],
+ "tested": "4 rules from this study were tested on the real backtests (picked on Jan-Jun 2026, checked on Jul-Oct and 2021-25, costs in): 0 passed. They stay in the ZEUS Lab and are re-tested every night.",
+ "checklist": [
+  "against the daily AND the 1h trend",
+  "late: the day had already moved 1 daily ATR or more before the entry",
+  "a high-impact release within 30 minutes after the entry",
+  "the prior-day high / low sits less than 1R ahead on the target side"
+ ],
+ "bots": [
+  {
+   "bot": "lit",
+   "name": "Zlarior",
+   "size": "at the LIT size ($800 a trade up to a 20-point stop)",
+   "money": [
+    {
+     "span": "Jan-Jun 2026",
+     "n": 80,
+     "tpw": 3.12,
+     "win": 58.8,
+     "pf": 4.98,
+     "net": 33901,
+     "per_month": 5562,
+     "dd": -2196
+    },
+    {
+     "span": "Jul-Oct 2026",
+     "n": 40,
+     "tpw": 2.56,
+     "win": 50.0,
+     "pf": 2.91,
+     "net": 9919,
+     "per_month": 2670,
+     "dd": -1396
+    },
+    {
+     "span": "2021-25",
+     "n": 511,
+     "tpw": 2.38,
+     "win": 53.8,
+     "pf": 1.01,
+     "net": 1265,
+     "per_month": 25,
+     "dd": -19426
+    }
+   ],
+   "headline": "2026: 120 trades, +$43,820 (+$4,467 a month), 56% winners. The 53 losing trades cost $13,727.",
+   "lose": [
+    {
+     "key": "never",
+     "label": "Never worked",
+     "word": "it never worked (less than +0.5R in our favour)",
+     "n": 37,
+     "usd": -8546,
+     "share": 62.3
+    },
+    {
+     "key": "turned",
+     "label": "Worked, then turned",
+     "word": "it worked (+0.5R or more), then turned and lost",
+     "n": 14,
+     "usd": -4473,
+     "share": 32.6
+    },
+    {
+     "key": "news",
+     "label": "News release hit it",
+     "word": "a high-impact news release hit it",
+     "n": 1,
+     "usd": -482,
+     "share": 3.5
+    },
+    {
+     "key": "wick",
+     "label": "Shaken out, then went our way",
+     "word": "shaken out, then price went on to our target (BLITZ: to +1R)",
+     "n": 1,
+     "usd": -225,
+     "share": 1.6
+    }
+   ],
+   "lose_total": -13727,
+   "lose_n": 53,
+   "lose_ref": "2021-25 (reference): never worked 67%, worked then turned 27%, shaken out 4%, news 1% of -$98,882 lost.",
+   "careful": {
+    "good": {
+     "n": 28,
+     "usd": -8136,
+     "share": 59.3
+    },
+    "flagged": {
+     "n": 25,
+     "usd": -5590,
+     "share": 40.7
+    },
+    "winners_flagged": {
+     "n": 26,
+     "usd": 15429,
+     "share": 26.8
+    },
+    "net": [
+     {
+      "span": "Jan-Jun 2026",
+      "usd": -4320,
+      "per_month": -709
+     },
+     {
+      "span": "Jul-Oct 2026",
+      "usd": -5518,
+      "per_month": -1486
+     },
+     {
+      "span": "2021-25",
+      "usd": 3264,
+      "per_month": 64
+     }
+    ],
+    "line": "28 of 53 losers (59% of the lost $) passed every check: good trades that lost. The checklist would have skipped losers that lost $5,590 but also winners that made $15,429."
+   },
+   "win": [
+    "The best 20% of the 67 winners made +$42,563 of the +$43,820 net: a few big winners pay for everything.",
+    "A winner went only 0.30R against us first (median; 43% never went 0.25R against) and took 132 min (best point after 90 min).",
+    "Hindsight: 58% of winners came on days that closed our way, 35% of losers. Days that closed our way made +$37,119, days against +$7,061. Nobody knows the close at the entry."
+   ],
+   "after": [
+    "Stops were real: with a stop 50% wider, 2% of the 52 stop-outs of 2026 would have reached the target first (2021-25: 4%).",
+    "A stopped trade was at best +0.25R our way (median) and was out after 34 min; an hour after the stop, price was a median 0.10R further against us.",
+    "Breakeven exits: 35 in 2026, +$140 in total; 41% of the Jan-Jun ones and 0% of the Jul-Oct ones later reached the target (other breakeven and exit rules were tested many times and lost: see Tested and rejected)."
+   ],
+   "chance": "Known at the entry, nothing tells a loser from a winner better than chance: 18 of 86 buckets (session, weekday, VIX, trends, news, prior-day levels, setup) were worse or better in all three periods; shuffled results give 15.4.",
+   "biggest": [
+    {
+     "day": "2026-02-25",
+     "line": "2026-02-25 06:21 short: -$755, never worked, passed every check"
+    },
+    {
+     "day": "2026-08-03",
+     "line": "2026-08-03 02:02 long: -$635, worked, then turned, passed every check"
+    },
+    {
+     "day": "2026-01-14",
+     "line": "2026-01-14 02:17 long: -$564, worked, then turned, passed every check"
+    }
+   ],
+   "rules": [
+    {
+     "id": "lit_anat_pullback_x1.25",
+     "title": "x1.25 size on a pullback in the daily trend (daily trend with the trade, 1h trend against)",
+     "status": "rejected",
+     "word": "Rejected",
+     "why": "Jul-Oct (check): -$23 at the LIT size",
+     "months": [
+      {
+       "span": "Jan-Jun",
+       "now": 5562,
+       "with": 5911,
+       "diff": 349
+      },
+      {
+       "span": "Jul-Oct",
+       "now": 2670,
+       "with": 2664,
+       "diff": -6
+      },
+      {
+       "span": "2021-25",
+       "now": 25,
+       "with": 36,
+       "diff": 11
+      }
+     ],
+     "line": "Rejected: Jul-Oct (check): -$23 at the LIT size"
+    },
+    {
+     "id": "lit_anat_checklist_skip",
+     "title": "skip what a careful human would skip (against both trends, late, news within 30 min, no room)",
+     "status": "rejected",
+     "word": "Rejected",
+     "why": "Jan-Jun (pick): -$2,508 at the LIT size; Jan-Jun (pick): -$8,488 on the eval path; Jul-Oct (check): -$5,624 at the LIT size; Jul-Oct (check): -$3,121 on the eval path; H1: 1.8 trades a week (needs 2-4); H2: 1.47 trades a week (needs 2-4)",
+     "months": [
+      {
+       "span": "Jan-Jun",
+       "now": 5562,
+       "with": 5150,
+       "diff": -412
+      },
+      {
+       "span": "Jul-Oct",
+       "now": 2670,
+       "with": 1156,
+       "diff": -1514
+      },
+      {
+       "span": "2021-25",
+       "now": 25,
+       "with": 115,
+       "diff": 90
+      }
+     ],
+     "line": "Rejected: Jan-Jun (pick): -$2,508 at the LIT size; Jan-Jun (pick): -$8,488 on the eval path; Jul-Oct (check): -$5,624 at the LIT size; Jul-Oct (check): -$3,121 on the eva"
+    }
+   ]
+  },
+  {
+   "bot": "atlas",
+   "name": "ATLAS",
+   "size": "at $250 a trade (the funded 25K size)",
+   "money": [
+    {
+     "span": "Jan-Jun 2026",
+     "n": 112,
+     "tpw": 4.38,
+     "win": 54.5,
+     "pf": 3.02,
+     "net": 25737,
+     "per_month": 4223,
+     "dd": -1533
+    },
+    {
+     "span": "Jul-Oct 2026",
+     "n": 51,
+     "tpw": 3.27,
+     "win": 56.9,
+     "pf": 2.73,
+     "net": 8228,
+     "per_month": 2215,
+     "dd": -1224
+    },
+    {
+     "span": "2021-25",
+     "n": 1125,
+     "tpw": 5.25,
+     "win": 37.2,
+     "pf": 1.09,
+     "net": 15162,
+     "per_month": 297,
+     "dd": -12430
+    }
+   ],
+   "headline": "2026: 163 trades, +$33,966 (+$3,463 a month), 55% winners. The 73 losing trades cost $17,470.",
+   "lose": [
+    {
+     "key": "never",
+     "label": "Never worked",
+     "word": "it never worked (less than +0.5R in our favour)",
+     "n": 44,
+     "usd": -10050,
+     "share": 57.5
+    },
+    {
+     "key": "turned",
+     "label": "Worked, then turned",
+     "word": "it worked (+0.5R or more), then turned and lost",
+     "n": 24,
+     "usd": -6268,
+     "share": 35.9
+    },
+    {
+     "key": "wick",
+     "label": "Shaken out, then went our way",
+     "word": "shaken out, then price went on to our target (BLITZ: to +1R)",
+     "n": 4,
+     "usd": -888,
+     "share": 5.1
+    },
+    {
+     "key": "news",
+     "label": "News release hit it",
+     "word": "a high-impact news release hit it",
+     "n": 1,
+     "usd": -264,
+     "share": 1.5
+    }
+   ],
+   "lose_total": -17470,
+   "lose_n": 73,
+   "lose_ref": "2021-25 (reference): never worked 56%, worked then turned 36%, shaken out 7%, news 1% of -$171,071 lost.",
+   "careful": {
+    "good": {
+     "n": 48,
+     "usd": -11692,
+     "share": 66.9
+    },
+    "flagged": {
+     "n": 25,
+     "usd": -5778,
+     "share": 33.1
+    },
+    "winners_flagged": {
+     "n": 33,
+     "usd": 22080,
+     "share": 42.9
+    },
+    "net": [
+     {
+      "span": "Jan-Jun 2026",
+      "usd": -13732,
+      "per_month": -2253
+     },
+     {
+      "span": "Jul-Oct 2026",
+      "usd": -2570,
+      "per_month": -692
+     },
+     {
+      "span": "2021-25",
+      "usd": 5716,
+      "per_month": 112
+     }
+    ],
+    "line": "48 of 73 losers (67% of the lost $) passed every check: good trades that lost. The checklist would have skipped losers that lost $5,778 but also winners that made $22,080."
+   },
+   "win": [
+    "The best 20% of the 90 winners made +$30,844 of the +$33,966 net: a few big winners pay for everything.",
+    "A winner went only 0.32R against us first (median; 39% never went 0.25R against) and took 98 min (best point after 68 min).",
+    "Hindsight: 67% of winners came on days that closed our way, 49% of losers. Days that closed our way made +$29,261, days against +$4,975. Nobody knows the close at the entry."
+   ],
+   "after": [
+    "Stops were real: with a stop 50% wider, 6% of the 68 stop-outs of 2026 would have reached the target first (2021-25: 7%).",
+    "A stopped trade was at best +0.34R our way (median) and was out after 25 min; an hour after the stop, price was a median 0.01R back our way.",
+    "Breakeven exits: 27 in 2026, +$12 in total; 24% of the Jan-Jun ones and 10% of the Jul-Oct ones later reached the target (other breakeven and exit rules were tested many times and lost: see Tested and rejected)."
+   ],
+   "chance": "Known at the entry, nothing tells a loser from a winner better than chance: 12 of 90 buckets (session, weekday, VIX, trends, news, prior-day levels, setup) were worse or better in all three periods; shuffled results give 15.7.",
+   "biggest": [
+    {
+     "day": "2026-08-13",
+     "line": "2026-08-13 04:55 long EMA: -$281, worked, then turned, passed every check"
+    },
+    {
+     "day": "2026-01-02",
+     "line": "2026-01-02 02:00 short MACD: -$271, worked, then turned, passed every check"
+    },
+    {
+     "day": "2026-04-03",
+     "line": "2026-04-03 04:05 long EMA: -$270, never worked, passed every check"
+    }
+   ],
+   "rules": [
+    {
+     "id": "atlas_anat_london_open_x1.25",
+     "title": "x1.25 size on London-open-hour entries (03:00-03:59 ET)",
+     "status": "rejected",
+     "word": "Rejected",
+     "why": "2021-25 worse than today",
+     "months": [
+      {
+       "span": "Jan-Jun",
+       "now": 2219,
+       "with": 2344,
+       "diff": 125
+      },
+      {
+       "span": "Jul-Oct",
+       "now": 1079,
+       "with": 1113,
+       "diff": 34
+      },
+      {
+       "span": "2025",
+       "now": -248,
+       "with": -126,
+       "diff": 122
+      },
+      {
+       "span": "2021-24",
+       "now": -57,
+       "with": -71,
+       "diff": -14
+      }
+     ],
+     "line": "Rejected: 2021-25 worse than today"
+    },
+    {
+     "id": "atlas_anat_checklist_skip",
+     "title": "skip what a careful human would skip (against both trends, late, news within 30 min, no room)",
+     "status": "rejected",
+     "word": "Rejected",
+     "why": "not better in Jan-Jun (pick); not better in Jul-Oct (check) (Jan-Jun 2-week pass 61.3 -> 39.5%; Jan-Jun money after fees -$5,012; Jul-Oct 2-week pass 43.5 -> 30.4%; Jul-Oct money after fees -$1,479)",
+     "months": [
+      {
+       "span": "Jan-Jun",
+       "now": 2219,
+       "with": 408,
+       "diff": -1811
+      },
+      {
+       "span": "Jul-Oct",
+       "now": 1079,
+       "with": 595,
+       "diff": -484
+      },
+      {
+       "span": "2025",
+       "now": -248,
+       "with": -107,
+       "diff": 141
+      },
+      {
+       "span": "2021-24",
+       "now": -57,
+       "with": 236,
+       "diff": 293
+      }
+     ],
+     "line": "Rejected: not better in Jan-Jun (pick); not better in Jul-Oct (check) (Jan-Jun 2-week pass 61.3 -> 39.5%; Jan-Jun money after fees -$5,012; Jul-Oct 2-week pass 43.5 -> 30"
+    }
+   ]
+  }
+ ],
+ "kalshi": {
+  "title": "Kalshi K8 metals (paper)",
+  "lines": [
+   "465 bets 2026-08-03 to 2026-11-18: 70% won, +$2,234 at $15 a bet. A loss costs $15.27, a win pays $13.36: K8 wins by being right often, not big.",
+   "Why it wins: the cheap fills. Bets bought under 50c made +$1,106 of the +$2,234 (64% won, $18.25 a win); at 60c+ they win 83% but pay $7.87, +$307 in total. A price creeping up is the real threat.",
+   "Why it loses: gold and silver of the same window move together. Of 232 windows both won 139 and both lost 45 times: the 6 legs are closer to 3 bets a day, so a bad day costs 2 x $15.",
+   "Held-out weeks (test): 68% won, +$945; 2 of 16 weeks lost money, the newest week -$74."
+  ],
+  "legs": [
+   {
+    "leg": "05:15 down gold",
+    "n": 77,
+    "won": 72.7,
+    "usd": 435,
+    "avg_win": 13.51,
+    "avg_loss": -15.28
+   },
+   {
+    "leg": "05:15 down silver",
+    "n": 76,
+    "won": 63.2,
+    "usd": 230,
+    "avg_win": 13.69,
+    "avg_loss": -15.23
+   },
+   {
+    "leg": "16:00 down gold",
+    "n": 78,
+    "won": 70.5,
+    "usd": 415,
+    "avg_win": 13.94,
+    "avg_loss": -15.29
+   },
+   {
+    "leg": "16:00 down silver",
+    "n": 78,
+    "won": 74.4,
+    "usd": 442,
+    "avg_win": 12.91,
+    "avg_loss": -15.32
+   },
+   {
+    "leg": "16:45 up gold",
+    "n": 78,
+    "won": 65.4,
+    "usd": 258,
+    "avg_win": 13.12,
+    "avg_loss": -15.23
+   },
+   {
+    "leg": "16:45 up silver",
+    "n": 78,
+    "won": 74.4,
+    "usd": 452,
+    "avg_win": 13.08,
+    "avg_loss": -15.31
+   }
+  ],
+  "price": [
+   {
+    "band": "under 50c",
+    "n": 184,
+    "won": 63.6,
+    "usd": 1106,
+    "avg_win": 18.25,
+    "avg_loss": -15.35
+   },
+   {
+    "band": "50-55c",
+    "n": 122,
+    "won": 69.7,
+    "usd": 527,
+    "avg_win": 12.84,
+    "avg_loss": -15.27
+   },
+   {
+    "band": "55-60c",
+    "n": 82,
+    "won": 73.2,
+    "usd": 294,
+    "avg_win": 10.45,
+    "avg_loss": -15.13
+   },
+   {
+    "band": "60c+",
+    "n": 77,
+    "won": 83.1,
+    "usd": 307,
+    "avg_win": 7.87,
+    "avg_loss": -15.12
+   }
+  ],
+  "source": "research/kalshi_edge_K8/data/legs_bets.csv (writeups/kalshi-red-team-K8-2026-11-19.md)"
+ },
+ "hidden_note": "1 more bot is hidden (paper); its anatomy is in the write-up.",
+ "hidden_bots": [
+  "blitz"
+ ]
+}

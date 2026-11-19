@@ -768,7 +768,7 @@ function loadFX() {
 }
 // LIT panels (litkit.js: Day clock, Setup tracker, Levels board, Eval cockpit, Week planner, checklist), loaded after the first paint
 let LK = null, LKP = null;
-const LKV = 'a16e2e7f';
+const LKV = 'c5a52b40';           // litkit.js changed (night-feedsB: the real 50K eval, never the 25K #2 or the cloud's PAPER placeholder)
 function loadLK() {
   if (LKP) return LKP;
   LKP = import('./litkit.js?v=' + LKV).then((m) => { LK = m; if (D) render(true); return m; }).catch((e) => { console.warn('LIT panels unavailable', e); LK = null; });
@@ -866,9 +866,17 @@ document.addEventListener('click', (e) => {
 
 // ===================================================================== 2D fallbacks of the new 3D panels (drawn first, inside the panel)
 // MFFU eval reactor: the balance on an arc from the max-loss floor (left) to the target (right)
+// the real 50K the PC reports (live.js puts it in live.eval with real: true), with its age in words: null while only the cloud's paper twin is known
+function realEvalNow() {
+  const ev = LV().eval;
+  if (!ev || !ev.real) return null;
+  const a = (D?.accounts || []).find(x => x && x.live && x.source === 'pc' && x.id !== 'atlas' && x.eval && ok(x.eval.balance) && (x.id === 'mffu50k_eval' || +x.eval.start_balance === 50000));
+  const t = +(window.LIVE?.raw?.reporter?.t || ev.t) || null;
+  return { ev, a, ageTxt: t ? ago(t) : '' };
+}
 function reactorData() {
-  const lv = LV(), ev = lv.eval || {}, start = 50000, target = 53000;
-  const dayPnl = (lv.ledger || []).filter(v => v.day === lv.today).reduce((a, v) => a + (v.usd || 0), 0);
+  const lv = LV(), ev = lv.eval || {}, start = 50000, target = 53000, R = realEvalNow();
+  const dayPnl = R ? (+(R.a?.pnl?.today ?? R.a?.eval?.today) || 0) : (lv.ledger || []).filter(v => v.day === lv.today).reduce((a, v) => a + (v.usd || 0), 0);
   const balance = ev.balance ?? start, floor = ev.trailing_mll ?? start - 2000, locked = floor >= 50100 - 0.01;
   const status = balance >= target ? 'passed' : balance <= floor ? 'failed' : dayPnl <= -1000 ? 'stopped' : 'active';
   return { balance, start, target, floor, locked, dayPnl, dayLimit: 1000, status };
@@ -1124,12 +1132,13 @@ VIEWS.cockpit = (el) => {
   const C = lkCtx();
   if (!C) { el.innerHTML = head('Today · eval cockpit', 'Eval cockpit', '') + lkWait(); loadLK(); return; }
   const span = store.get('ckSpan', 'H2'), sim = LK.evalSim(C, { span }), K = LK.cockpit(C);
-  el.innerHTML = head(`Today · MFFU Builder 50K · eval cockpit`, `${usd(K.toTarget)} to pass · ${usd(K.cushion)} of room`, 'What the next trade can do to the paper eval, and the odds from here. Owner’s rule: decided within 2 weeks, passed within 3.')
+  const RE = realEvalNow();
+  el.innerHTML = head(`Today · MFFU Builder 50K · eval cockpit`, `${usd(K.toTarget)} to pass · ${usd(K.cushion)} of room`, `What the next trade can do to ${RE ? 'your real Zlarior 50K' : 'the paper eval'}, and the odds from here. Owner’s rule: decided within 2 weeks, passed within 3.`)
     + howto('cockpit', `<p>The bars: progress from $50,000 to the $53,000 target, the room above the trailing max-loss floor (it trails $2,000 under the best end-of-day balance and locks at $50,100) and today’s soft $1,000 loss limit.</p>
       <ul><li><b>Size now</b>: the micros LIT would trade on a typical 2026 stop (the median, about 46 points), with the weekly stop and the sizing switch applied.</li>
       <li><b>One full stop-out</b>: that size losing the whole stop, with costs. <b>One typical winner</b>: the 2026 H2 average winner in R at that size.</li>
       <li><b>From this balance</b>: thousands of simulated evals that start at today’s balance and floor and draw real 2026 LIT sessions at random. H2 (Jul–Oct) is the honest check half; 2026 includes the half the rules were picked on.</li></ul>`)
-    + `<div class="grid g2"><div class="card"><div class="card-h"><h3>Cockpit</h3><span class="meta">cloud paper</span></div>${LK.cockpitHTML(C, sim)}</div>
+    + `<div class="grid g2"><div class="card"><div class="card-h"><h3>Cockpit</h3><span class="meta">${RE ? `PC report · ${esc(RE.ageTxt)}` : 'cloud paper'}</span></div>${LK.cockpitHTML(C, sim)}</div>
       <div class="card fx-card"><div class="card-h"><h3>From here · simulated evals</h3><div>${segHTML('ckSpan', [['H2', '2026 H2'], ['2026', '2026']], span, 'sm')}${fxSeg('cockpit-mc')}</div></div>${fxBox('cockpit-mc', 'montecarlo')}
         <p class="card-d" style="margin:10px 0 0">${sim ? `${pct(sim.pass10)} pass and ${pct(sim.fail10)} fail within 2 weeks; ${pct(sim.pass15)} pass within 3 weeks; median ${sim.med ?? '—'} sessions to pass (${sim.days} sessions resampled).` : 'No 2026 sessions in this build.'}</p></div></div>
     <div class="card"><div class="card-h"><h3>Before the session</h3><button class="chipbtn" type="button" data-go="day">${icon('clock')}<span>Day plan</span></button></div>${LK.readyHTML(C)}</div>`;
@@ -1260,6 +1269,7 @@ VIEWS.trades = (el) => {
   el.innerHTML = head(paperSrc ? `Trades · ${esc(stratName())} · cloud paper ledger` : `Trades · ${esc(stratName())} replay, costs included`, paperSrc ? 'Paper trades' : TS.year === 'all' ? (isLIT() ? 'Every trade since 2021-11' : 'Every trade, 5 years') : TS.year + ' trades',
       paperSrc ? `Trades the cloud monitor took on paper with ${esc(stratName())}, since it started.` : isLIT() ? 'The LIT replay: same rules, sizing and weekly stop as the live bot, 1-minute entries in 2026. Tap a trade for why it entered, the plan, the result and the lessons.' : 'Same engine, sizing and cold-streak filter as the live bot. Tap a trade for why it entered, the plan, the result and the lessons.',
       segHTML('trSrc', [['replay', 'Backtest replay'], ['paper', `Cloud paper · ${paper.length}`]], TS.src))
+    + realTradesCard(8)
     + howto('trades', `<p>Each row is one trade. <b>R</b> is the result in units of risk: +2R made twice what it risked, −1R lost the full stop. The $ figure is after commission and slippage.</p>
       <ul><li><b>Green bar</b> on the left = a win, red = a loss, grey = breakeven.</li><li><b>Half size</b> = ${isLIT() ? 'the weekly stop: taken after 2 stop-outs in the same calendar week' : 'taken during a cold streak (the last 15 signals summed to 0R or less)'}.</li>
       <li><b>Stop</b> = points from entry to the stop, which sits beyond the sweep’s high or low. Wider stops trade fewer micros.</li></ul>
@@ -2425,9 +2435,13 @@ VIEWS.news = (el) => {
   const W = E.map(e => ({ e, w: blackoutOf(e) })).filter(x => x.w), cur = W.find(x => x.w[0] <= now && now < x.w[1]), nextB = W.filter(x => x.w[0] > now).sort((a, b) => a.w[0] - b.w[0])[0];
   const next = E.filter(e => e.t > now).sort((a, b) => a.t - b.t)[0], today = days.find(d => d.is_today) || days.find(d => d.date === todayS), todayE = E.filter(e => e.date === todayS);
   const fomc = !!(today?.fomc || todayE.some(e => /^fomc/.test(e.kind || ''))), pauses = (today?.killzone_pauses || []).length || todayE.some(e => e.blackout_hits_killzone);
-  const s = sessionNow(), light = cur || today?.holiday ? 'r' : (nextB && nextB.w[0] - now < 3600) || fomc || pauses ? 'a' : 'g';
+  // an old build (the cloud's news run has been offline since mid-October): its empty calendar must not read as "no news", so the
+  // light goes amber and the headline says how old it is and where the real calendar is (night-feedsB 2026-11-18)
+  const builtT = N.built ? Date.parse(N.built) / 1000 : (+N.built_t || null), oldDays = builtT ? Math.floor((now - builtT) / 86400) : null, stale = oldDays != null && oldDays >= 2;
+  const s = sessionNow(), light = cur || today?.holiday ? 'r' : stale || (nextB && nextB.w[0] - now < 3600) || fomc || pauses ? 'a' : 'g';
   const hm = (t) => et(t).hm;
-  const headline = cur ? [`Blackout: ${cur.e.title}`, `No new paper entries until ${hm(cur.w[1])} ET (${R.before_min} min before, ${R.after_min} min after a high-impact release).`]
+  const headline = stale ? [`Old news build: ${oldDays} days`, `Built ${new Date(builtT * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, so this week’s releases may be missing here. The bots on your PC read the official calendar (BLS, Fed) themselves. The next 14 days: Pythia.`]
+    : cur ? [`Blackout: ${cur.e.title}`, `No new paper entries until ${hm(cur.w[1])} ET (${R.before_min} min before, ${R.after_min} min after a high-impact release).`]
     : today?.holiday ? ['Holiday', today.summary || 'No session today.']
     : nextB && nextB.w[0] - now < 3600 ? [`Blackout in ${cdFmt(nextB.w[0] - now)}`, `${nextB.e.title} at ${nextB.e.time_et} ET: no new entries ${hm(nextB.w[0])}–${hm(nextB.w[1])}.${nextB.e.blackout_hits_killzone ? ' It pauses part of a killzone.' : ''}`]
     : fomc ? ['FOMC day', `${R.fomc_pm_off ? 'The PM killzone is off and a blackout surrounds the decision.' : 'A blackout surrounds the decision.'} ${today?.summary || ''}`]
@@ -2451,7 +2465,7 @@ VIEWS.news = (el) => {
       <li><b>USD score</b> (0-100) is how much the release usually moves the dollar. <b>Blackout</b> is the bot’s no-entry window around it; it only matters when it overlaps a killzone.</li>
       <li><b>Headlines</b> are scored for relevance; the tone chip says what the words lean to: hawkish and risk-off are negative for NQ, dovish and risk-on positive.</li></ul>`)
     + `<div class="card"><div class="tl"><div class="tl-light"><i class="r ${light === 'r' ? 'on' : ''}"></i><i class="a ${light === 'a' ? 'on' : ''}"></i><i class="g ${light === 'g' ? 'on' : ''}"></i></div>
-        <div class="tl-main"><div class="eyebrow">Bot now · ${s.inkz ? esc(s.inkz[2]) : s.open ? 'session open, outside the killzones' : s.wk ? 'session closed' : 'weekend'}</div><h3>${esc(headline[0])}</h3><p>${esc(headline[1])}</p></div></div>
+        <div class="tl-main"><div class="eyebrow">Bot now · ${s.inkz ? esc(s.inkz[2]) : s.open ? 'session open, outside the killzones' : s.wk ? 'session closed' : 'weekend'}</div><h3>${esc(headline[0])}</h3><p>${esc(headline[1])}</p>${stale ? '<p><a class="lnk" href="pythia/">Open Pythia: the risk calendar ›</a></p>' : ''}</div></div>
       <div class="cds"><div><span>${cur ? 'Blackout ends in' : 'Next blackout'}</span><div class="cd" data-cd="${cur ? cur.w[1] : nextB ? nextB.w[0] : ''}">${cur ? cdFmt(cur.w[1] - now) : nextB ? cdFmt(nextB.w[0] - now) : '—'}</div><div class="cd-t">${cur ? esc(cur.e.title) : nextB ? `${esc(nextB.e.title)} · ${esc(nextB.e.weekday)} ${esc(hm(nextB.w[0]))}–${esc(hm(nextB.w[1]))} ET` : 'no high-impact release in the window'}</div></div>
         <div><span>Next event</span><div class="cd" data-cd="${next ? next.t : ''}">${next ? cdFmt(next.t - now) : '—'}</div><div class="cd-t">${next ? `${esc(next.title)} · ${esc(next.weekday)} ${esc(next.time_et)} ET` : 'nothing scheduled in this build'}</div></div></div></div>
     <div class="card fx-card"><div class="card-h"><h3>News radar · next 24 hours</h3><div>${fxSeg('news-radar')}</div></div>
@@ -2533,19 +2547,22 @@ function evalCard(ev, RD) {
       <div><span>Floor locked</span><b>${RD.locked ? '<span class="up">yes, at $50,100</span>' : 'not yet'}</b></div><div><span>Today</span><b class="${cls(RD.dayPnl)}">${susd(RD.dayPnl)}</b></div></div>
     <div class="small mut" style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Progress to the $3,000 target</span><b class="mono">${num(prog, 0)}%</b></div><div class="meter good"><i style="width:${prog}%"></i></div>
     <div class="small mut" style="display:flex;justify-content:space-between;margin:14px 0 6px"><span>Cushion above the max-loss floor</span><b class="mono">${usd(ev.cushion)}</b></div><div class="meter ${cush < 35 ? 'bad' : ''}"><i style="width:${cush}%"></i></div>
-    <div class="note">MFFU Builder 50K: $3,000 target; $2,000 end-of-day trailing max loss that locks at $50,100; a −$1,000 day stops trading for the day. Scored on the cloud monitor’s paper trades.</div>`;
+    <div class="note">MFFU Builder 50K: $3,000 target; $2,000 end-of-day trailing max loss that locks at $50,100; a −$1,000 day stops trading for the day. ${ev.real ? 'Your real account, from the PC’s report.' : 'Scored on the cloud monitor’s paper trades.'}</div>`;
 }
 VIEWS.eval = (el) => {
-  const lv = LV(), ev = lv.eval, RD = reactorData(), byDay = {};
-  [...(lv.ledger || [])].reverse().forEach(v => { byDay[v.day] = (byDay[v.day] || 0) + v.usd; });
-  let eq = 0; const pts = Object.keys(byDay).sort().map(d => { eq += byDay[d]; return { x: d.slice(5), y: 50000 + eq }; });
+  const lv = LV(), ev = lv.eval, RD = reactorData(), byDay = {}, R = realEvalNow();
+  // the real 50K (night-feedsB 2026-11-18): its own closed days from the PC's post, from its real start; else the cloud's paper ledger
+  if (R && R.a) (R.a.days || []).forEach(([d, v]) => { byDay[d] = (byDay[d] || 0) + v; });
+  else [...(lv.ledger || [])].reverse().forEach(v => { byDay[v.day] = (byDay[v.day] || 0) + v.usd; });
+  const base = R && ok(ev.balance) ? ev.balance - Object.values(byDay).reduce((a, v) => a + v, 0) : 50000;
+  let eq = 0; const pts = Object.keys(byDay).sort().map(d => { eq += byDay[d]; return { x: d.slice(5), y: base + eq }; });
   const P = D.results?.periods || {};
-  el.innerHTML = head('System · MFFU Builder 50K · eval tracker', ev ? `${susd(ev.profit)} of the $3,000 target` : 'Waiting for the first trade', 'The cloud bot’s paper trades, scored with the eval rules. Backtest odds below show what to expect.')
+  el.innerHTML = head('System · MFFU Builder 50K · eval tracker', ev ? `${susd(ev.profit)} of the $3,000 target` : 'Waiting for the first trade', R ? `Your real Zlarior 50K, from the PC’s report (${esc(R.ageTxt)}). Backtest odds below show what to expect.` : 'The cloud bot’s paper trades, scored with the eval rules. Backtest odds below show what to expect.')
     + howto('eval', `<p>MFFU Builder 50K rules: start at <b>$50,000</b>, pass at <b>$53,000</b>. The <b>max-loss floor</b> trails $2,000 below the best end-of-day balance and stops moving once it reaches $50,100. A day that loses $1,000 is stopped.</p>
       <p>The reactor shows the balance on the way from the floor (left) to the target (right). The backtest odds are how often an eval started on any day of the replay passed or failed within 2 weeks and within 1 month.</p>`)
     + `<div class="card fx-card"><div class="card-h"><h3>Eval reactor</h3><div>${fxSeg('eval-reactor')}</div></div>${fxBox('eval-reactor', 'reactor')}</div>
     ${isLIT() && lkCtx() ? `<div class="card"><div class="card-h"><h3>Cockpit · what the next trade does</h3><button class="chipbtn" type="button" data-go="cockpit"><span>Odds from here</span>${icon('right')}</button></div>${LK.cockpitHTML(lkCtx())}</div>` : ''}
-    <div class="grid g2"><div class="card"><div class="card-h"><h3>Account</h3><span class="meta">cloud paper</span></div>${evalCard(ev, RD)}</div>
+    <div class="grid g2"><div class="card"><div class="card-h"><h3>Account</h3><span class="meta">${R ? `PC report · ${esc(R.ageTxt)}` : 'cloud paper'}</span></div>${evalCard(ev, RD)}</div>
       <div class="card"><div class="card-h"><h3>Balance by day</h3><span class="meta">dashed line = $53,000 target</span></div><div id="evC"></div></div></div>
     ${secH(`Backtest odds · ${esc(stratName())}`)}
     <div class="grid g2">${(isLIT() && P['2026 H2 (check)'] ? [['2026 YTD', '2026 (judged)'], ['2026 H2 (check)', '2026 H2 · the honest rate']] : [['2026 YTD', '2026'], ['All years', '5 years']]).map(([k, l]) => { const e = P[k]?.eval || {}; return `<div class="card"><div class="card-h"><h3>${l}</h3><span class="meta">rolling eval starts</span></div>
@@ -2553,7 +2570,8 @@ VIEWS.eval = (el) => {
       <div><span>Pass in 1 month</span><b class="up">${pct(e.within_1_month?.pass_pct)}</b></div><div><span>Fail in 1 month</span><b class="dn">${pct(e.within_1_month?.fail_pct)}</b></div>
       <div><span>Back-to-back</span><b>${e.back_to_back?.passed ?? '—'} passed · ${e.back_to_back?.failed ?? '—'} failed</b></div></div></div>`; }).join('')}</div>`;
   fxFill('eval-reactor', 'reactor', RD, {}, (fb) => reactorFb(fb, RD));
-  lineChart($('#evC'), pts.length ? [{ x: 'start', y: 50000 }, ...pts] : [], { h: 200, fmt: (v) => '$' + (v / 1000).toFixed(1) + 'k', ref: 53000, empty: '<b>No paper trades yet.</b>The line starts at $50,000 with the cloud bot’s first trade.' });
+  lineChart($('#evC'), pts.length ? [{ x: R ? 'before' : 'start', y: base }, ...pts] : [], { h: 200, fmt: (v) => '$' + (v / 1000).toFixed(1) + 'k', ref: 53000,
+    empty: R ? '<b>No closed trade in the PC’s report yet.</b>Its newest trades land here with each report.' : '<b>No paper trades yet.</b>The line starts at $50,000 with the cloud bot’s first trade.' });
 };
 // ===================================================================== ACCOUNTS: where the bot trades (data.json "accounts", engine/accounts.py)
 //   one section per account: the MFFU 50K eval on the PC bot (from its heartbeat) and the cloud paper ledger ("Paper (cloud)")
@@ -2565,12 +2583,14 @@ const hbAge = (c) => { if (!c || !c.t) return null; return Math.max(0, Math.roun
 const fAge = (s) => s == null ? '—' : s < 90 ? `${s} s ago` : s < 5400 ? `${Math.round(s / 60)} min ago` : s < 172800 ? `${Math.round(s / 3600)} h ago` : `${Math.round(s / 86400)} days ago`;
 const fDur = (s) => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h} h ${String(m).padStart(2, '0')} min` : `${m} min`; };
 function accConn(a) {
-  const c = a.conn || {}, age = hbAge(c);
-  if (a.source === 'cloud') return { dot: '', text: `GitHub Actions · last run ${fAge(age)}`, ok: true };
+  const c = a.conn || {};
+  if (a.source === 'cloud') return { dot: '', text: `Cloud paper twin · last run ${fAge(hbAge(c))}`, ok: true };
   if (!c.present) return { dot: 'off', text: 'PC bot not reporting', ok: false };
-  const live = age != null && age < 20 * 60;
+  // an account from the PC's status post (every 15 min): its age is the post's, quiet after 30 min (the ZEUS card's rule, night-feedsB)
+  const rt = a.live ? +(window.LIVE?.raw?.reporter?.t || 0) : 0, age = rt ? hbAge({ t: Math.max(rt, +c.t || 0) }) : hbAge(c);
+  const live = age != null && age < (rt ? 30 : 20) * 60;
   return { dot: c.silent ? 'bad' : live ? '' : 'warn', ok: live && !c.silent,
-    text: `${live && !c.silent ? 'Connected' : c.silent ? 'Silent' : 'Last heard'} · heartbeat ${fAge(age)}${c.host ? ' · ' + esc(c.host) : ''}${a.broker_account ? ' · ' + esc(a.broker_account) : ''}` };
+    text: `${live && !c.silent ? 'Connected' : c.silent ? 'Silent' : 'Last heard'} · ${rt ? 'PC reported' : 'heartbeat'} ${fAge(age)}${c.host ? ' · ' + esc(c.host) : ''}${a.broker_account ? ' · ' + esc(a.broker_account) : ''}` };
 }
 function accNow(a) { const lv = LV(); const last = (lv.bars || []).slice(-1)[0]; return ok(lv.price) ? +lv.price : last ? +last[4] : null; }
 // the window LIT may enter in (02:00-15:30 ET from the strategy) for the empty-state line
@@ -2615,7 +2635,7 @@ function accHeader(a) {
         ${gaugeSVG(roomF, usd(room), 'room to the floor')}</div>
       <div class="kv acc-kv"><div><span>Target</span><b>${usd(ev.target_balance)}</b></div><div><span>Max-loss floor</span><b>${usd(ev.floor)}${ev.locked ? ' <span class="up small">locked</span>' : ''}</b></div>
         <div><span>Started at</span><b>${usd(ev.start_balance + (ev.prior || 0))}</b></div><div><span>Eval status</span><b class="${ev.status === 'passed' ? 'up' : ev.status === 'failed' ? 'dn' : ''}">${esc(ev.status || '—')}</b></div></div>
-      <div class="acc-row"><span>Session <b>${ev.session ?? '—'}</b> of ${ev.sessions}</span><span class="mut small">${esc(ev.clock_text || '')}</span></div>${pipsHTML(ev)}
+      <div class="acc-row"><span>Session <b>${ev.session ?? '—'}</b>${ok(ev.sessions) ? ` of ${ev.sessions}` : ''}</span><span class="mut small">${esc(ev.clock_text || '')}</span></div>${ok(ev.sessions) ? pipsHTML(ev) : ''}
       <div class="acc-row" style="margin-top:12px"><span>Daily loss used</span><b class="mono ${dllF >= 0.6 ? 'dn' : ''}">${usd(ev.dll_used)} <span class="mut">/ ${usd(ev.dll)}</span></b></div>
       <div class="meter ${dllF >= 0.6 ? 'bad' : dllF >= 0.3 ? '' : 'good'}"><i style="width:${Math.min(100, dllF * 100).toFixed(1)}%"></i></div>`;
   })() : '';
@@ -2623,9 +2643,10 @@ function accHeader(a) {
     <div class="acc-top"><div class="acc-id"><div class="eyebrow">${esc([a.firm, a.plan].filter(Boolean).join(' · '))}</div><h3>${esc(a.name)}</h3></div>${accBadge(a)}</div>
     <div class="pcline acc-conn"><span class="dot ${c.dot}"></span><span>${c.text}</span>${a.kill ? '<span class="badge bad">KILL SWITCH</span>' : ''}${a.source === 'pc' && a.running === false ? '<span class="badge warn">bot stopped</span>' : ''}</div>
     <div class="acc-bal"><span class="mut small">Balance${a.source === 'cloud' ? ' · paper' : ''}</span><b data-count="${ev ? ev.balance : 0}" data-fmt="$">${ev ? usd(ev.balance) : '—'}</b></div>
-    <div class="acc-pnl">${[['Today', p.today], ['This week', p.week], ['Since start', p.since_start]].map(([l, v]) => `<div><span>${l}</span><b class="${cls(v)}">${susd(v)}</b></div>`).join('')}</div>
+    <div class="acc-pnl">${[['Today', p.today], ['This week', p.week], ['Since start', a.live && ev && ok(ev.profit) ? ev.profit : p.since_start]].map(([l, v]) => `<div><span>${l}</span><b class="${cls(v)}">${susd(v)}</b></div>`).join('')}</div>
     ${evHTML}
-    ${a.source === 'pc' && !(a.conn || {}).has_detail ? `<div class="note acc-warn">${(a.conn || {}).present ? 'The PC bot is reporting, but its version does not send positions and orders yet. On the Surface: <b>git pull</b>, then restart the bot (scripts/run_bot.ps1). Balance above = the eval’s $49,900 start until then.' : 'No heartbeat from the PC. It turns on with LE_HEARTBEAT=1 (scripts/run_bot.ps1 sets it); the cloud paper account below keeps running.'}</div>` : ''}
+    ${a.source === 'pc' && a.live && !(a.conn || {}).has_detail ? `<div class="note">From your PC’s status report (every 15 min): balance, drawdown left, today and its newest trades. An open trade shows on Home’s ZEUS card and the bot’s tab.</div>`
+      : a.source === 'pc' && !(a.conn || {}).has_detail ? `<div class="note acc-warn">${(a.conn || {}).present ? 'The PC bot is reporting, but without its positions and orders yet.' : 'No report from the PC yet: these are the cloud’s copy, not your account’s live numbers.'}</div>` : ''}
   </div>`;
 }
 // ---- the open position
@@ -2765,7 +2786,8 @@ VIEWS.accounts = (el) => {
   const cur = list.find(a => a.id === (ARG || AS.sel)) || list[0];
   el.innerHTML = head('Accounts · where the bot trades', esc(cur.name), cur.source === 'cloud' ? 'The cloud monitor’s paper ledger, scored with the MFFU 50K rules. It never places orders.'
       : 'What the PC bot routed to this account through NinjaTrader: the position, today’s orders and every closed trade. Read-only: this page never places or changes an order.')
-    + accPick(list, cur) + (cur.source === 'pc' && !cur.error ? '<div id="lpAcc" class="lp-slot"></div>' : '')
+    // the PC detail panel (orders, feed, poll) needs the PC's full live.json: an account from its status post shows its note instead
+    + accPick(list, cur) + (cur.source === 'pc' && !cur.error && !(cur.live && !(cur.conn || {}).has_detail) ? '<div id="lpAcc" class="lp-slot"></div>' : '')
     + (cur.error ? `<div class="card"><b>This account could not be read.</b><div class="note">${esc(cur.error)}</div></div>` : accHeader(cur) + accPosition(cur) + accOrders(cur)
       + `<div class="grid g2 astart"><div class="card"><div class="card-h"><h3>Equity</h3><span class="meta">${cur.eval ? 'profit vs ' + usd(cur.eval.start_balance) + ' · dashed = +' + usd(cur.eval.target_balance - cur.eval.start_balance) + ' target' : 'cumulative'}</span></div><div id="accEq"></div></div>
         <div class="card"><div class="card-h"><h3>Daily P&amp;L</h3><span class="meta">green = profit day</span></div>${accCalendar(cur)}</div></div>`
@@ -3119,12 +3141,21 @@ function activityCard() {
   return `<div class="card"><div class="card-h"><h3>Activity</h3><div>${n ? chip(n + ' new', 'good') : ''}<button class="chipbtn" type="button" data-go="activity"><span>All</span>${icon('right')}</button></div></div>
     ${actList(A.slice(0, 5), '', false)}<div id="pushPrompt"></div></div>`;
 }
+// every live account's newest closed trades from the PC's report (live.js lays them on D.accounts), newest first: the REAL money,
+// ahead of the backtest replay / the cloud paper bot (night-feedsB 2026-11-18). '' without a PC post.
+function realTradesCard(max) {
+  const real = (D?.accounts || []).filter(a => a && a.live && a.source === 'pc').flatMap(a => (a.trades || []).filter(t => t && t.entry_t && t.src === 'live').map(t => ({ ...t, acct: a.name })))
+    .sort((x, y) => (+y.exit_t || +y.entry_t) - (+x.exit_t || +x.entry_t)).slice(0, max || 12);
+  return real.length ? `<div class="card"><div class="card-h"><h3>Real trades</h3><span class="meta">from your PC’s report · newest first</span></div><div class="kv one">${real.map(t => `<div><span><b>${esc(t.acct)}</b> · ${esc(fDate(t.day))} ${et(t.entry_t).hm} ET · ${esc(t.side)} ${t.qty ?? ''} MNQ${t.exit ? ' · ' + esc(t.exit) : ''}</span><b class="${cls(t.pnl)}">${susd(t.pnl)}</b></div>`).join('')}</div></div>` : '';
+}
 VIEWS.activity = (el) => {
   const A = activity(), f = store.get('act.f', 'all');
   const rows = A.filter(x => f === 'all' || (f === 'other' ? !['fill', 'outcome'].includes(x.kind) : x.kind === f));
   const outs = A.filter(x => x.kind === 'outcome'), net = outs.reduce((a, x) => a + (x.usd || 0), 0);
-  el.innerHTML = head('System · activity', 'Every fill and every outcome', 'The paper bot’s trades as they happen, newest first, with the notices sent to this phone. A notification tap opens the trade here.')
-    + `<div class="stats">${statBox('Fills', A.filter(x => x.kind === 'fill').length)}${statBox('Outcomes', outs.length, `${outs.filter(x => (x.usd || 0) > 0).length} won`)}${statBox('Net · paper', susd(net), 'all outcomes listed', cls(net))}${statBox('Notifications', LV().push?.devices ? `${LV().push.devices} device${LV().push.devices === 1 ? '' : 's'}` : 'off', LV().push?.devices ? 'cloud sends them' : 'set up in Settings')}</div>
+  // the REAL trades first (night-feedsB 2026-11-18), then the cloud paper bot's own fills and outcomes, which are practice and say so
+  const realCard = realTradesCard(12);
+  el.innerHTML = head('System · activity', 'Every fill and every outcome', realCard ? 'Your accounts’ real trades from the PC, then the cloud paper bot’s practice fills and outcomes, newest first.' : 'The paper bot’s trades as they happen, newest first, with the notices sent to this phone. A notification tap opens the trade here.')
+    + realCard + `<div class="stats">${statBox('Fills', A.filter(x => x.kind === 'fill').length)}${statBox('Outcomes', outs.length, `${outs.filter(x => (x.usd || 0) > 0).length} won`)}${statBox('Net · paper', susd(net), 'all outcomes listed', cls(net))}${statBox('Notifications', LV().push?.devices ? `${LV().push.devices} device${LV().push.devices === 1 ? '' : 's'}` : 'off', LV().push?.devices ? 'cloud sends them' : 'set up in Settings')}</div>
     <div class="card"><div class="card-h"><h3>Activity</h3>${segHTML('actF', [['all', 'All'], ['fill', 'Fills'], ['outcome', 'Outcomes'], ['other', 'Other']], f, 'sm')}</div>${actList(rows, ARG || '')}</div>
     <div class="card" id="pushCardA">${pushShell()}</div>`;
   onSeg('actF', (v) => { store.set('act.f', v); render(true); });

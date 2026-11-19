@@ -121,8 +121,10 @@
   }
   function todayCard() {
     const G = GL() || {}, C = todayFacts(), h = HD() || {}, L = h.live || {};
-    const b = (L.pc && L.pc.brain && !L.pc.brain.error && nowS() - (+L.pc.brain.t || 0) < 1200) ? L.pc.brain : L.brain;
-    const waiting = (b && b.stage && b.stage.waiting) || L.model_state || '';
+    const fresh = L.pc && L.pc.brain && !L.pc.brain.error && nowS() - (+L.pc.brain.t || 0) < 1200, b = fresh ? L.pc.brain : L.brain;
+    // with the PC's post here, its own words (board.lit.waiting) beat the cloud twin's brain ("waiting for the first bars of 2026-10-16")
+    const pcw = !fresh && window.LIVE && window.LIVE.raw && h.board && h.board.lit && h.board.lit.waiting ? h.board.lit.waiting : '';
+    const waiting = pcw || (b && b.stage && b.stage.waiting) || L.model_state || '';
     const today = G.today || C.e.date, cal = G.calendar || {};
     const newsT = (cal.news || []).filter((n) => n.day === today), newsN = (cal.news || []).filter((n) => n.day > today);
     const ec = (cal.early_close || []).filter((x) => x.day >= today).slice(0, 1)[0];

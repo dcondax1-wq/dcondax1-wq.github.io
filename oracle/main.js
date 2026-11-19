@@ -6,7 +6,7 @@
 // switched on once by itself when frames run slow; prefers-reduced-motion stops the motion. applyTheme(tokens) takes an
 // OLYMPUS theme (window.OLYMPUS.theme() / onTheme, when the kit has them).
 import * as THREE from '../jarvis/three.module.min.js';
-import { fetchLive, fetchSite, normalize, loadProphecy, FRESH_S } from './data.js?v=ofst1';
+import { fetchLive, fetchSite, normalize, loadProphecy, FRESH_S } from './data.js?v=ofst2';
 import { loadDemo, docAt, span, todayFx } from './demo.js';
 import { Scene } from './scene.js?v=oracle-phone-budget-2';
 import { FallbackCity } from './fallback.js?v=oracle-fallback-honesty-1';

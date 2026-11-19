@@ -71,8 +71,11 @@ export async function fetchSite(base = '../') {
       const bd = obj(s.board);
       if (!bd.map && !bd.lit) continue;
       const live = obj(s.live);
+      // the market picture is as old as its newest bar: the cloud's copy can carry a fresh run time over bars weeks old (its feed
+      // stopped Oct 16), so the HUD says LAST SEEN with that bar's day, never a fresh time (night-feedsB 2026-11-18)
+      const t0 = num(bd.data_t) || num(bd.t) || 0, lb = arr(live.bars).map((b) => num(b && b[0])).filter((x) => x).sort((a, b) => b - a)[0] || null;
       return {
-        kind: 'le-live', site: true, t: num(bd.data_t) || num(bd.t) || 0, price: num(live.price) ?? num(obj(bd.map).price),
+        kind: 'le-live', site: true, t: lb && t0 && lb < t0 - 3600 ? lb : t0, price: num(live.price) ?? num(obj(bd.map).price),
         pc: { brain: obj(live.pc).brain, mind: obj(live.pc).mind }, board: bd,
         bars: arr(live.bars).map((b) => [num(b[0]), num(b[4])]).filter((b) => b[0] && b[1]),
         ohlc: arr(live.bars).map((b) => [num(b[0]), num(b[1]), num(b[2]), num(b[3]), num(b[4])]).filter((b) => b.every((x) => x != null)),

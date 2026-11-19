@@ -373,14 +373,17 @@
   // ============================================================================================ MONEY
   const goal = () => ({ usd: +store.get('goal.usd', 3000) || 3000, name: store.get('goal.name', 'C8 Corvette Z06') || 'my goal' });
   function accTable() {
-    const A = ACC(); if (!A.length) return '';
+    // while the PC reports its accounts, the cloud's paper twin (its own ledger on old bars) is no account: left out, said once below
+    const all = ACC(), live = all.some((a) => a.live && a.source === 'pc'), A = live ? all.filter((a) => a.source !== 'cloud') : all, twin = live && all.length > A.length;
+    if (!A.length) return '';
     return `<div class="card"><div class="card-h"><h3>${icon('wallet')}Accounts side by side</h3><button class="chipbtn" type="button" data-go="accounts"><span>Accounts</span>${icon('right')}</button></div>
       <div class="tw"><table class="ht hb-at"><tr><th>Account</th><th class="c">Balance</th><th class="c">Profit</th><th class="c">Today</th><th class="c">To target</th><th class="c">Drawdown left</th><th class="c">Trades</th><th class="c">Win</th><th class="c">PF</th></tr>
       ${A.map((a) => { const e = a.eval || {}, s = a.stats || {}, p = a.pnl || {};
         return `<tr><td class="k"><b>${esc(a.name)}</b> ${accBadge(a)}${a.extra ? ' <span class="small mut">extra</span>' : ''}</td><td class="v">${usd(e.balance)}</td><td class="v ${cls(e.profit)}">${susd(e.profit)}</td><td class="v ${cls(p.today)}">${susd(p.today)}</td>
           <td class="v">${usd(e.to_target)}</td><td class="v ${ok(e.room) && e.room < 700 ? 'dn' : ''}">${usd(e.room)}${ok(e.mll) ? `<small class="mut"> of ${usd(e.mll)}</small>` : ''}</td><td class="v">${s.n ?? 0}</td><td class="v">${pct(s.win_pct)}</td><td class="v">${fPF(s.pf)}</td></tr>`; }).join('')}</table></div>
-      <p class="small mut" style="margin:8px 0 0">Extra accounts appear here as soon as the PC bot routes them (live_model.json “accounts”, engine/multi_account.py).</p></div>`;
+      <p class="small mut" style="margin:8px 0 0">${live ? `From your PC's report${(() => { const t = (HL().pc || {}).t; return t ? ', ' + esc(fAgo(t)) : ''; })()}.${twin ? ' The cloud\u2019s paper twin is not shown: it is practice, not money.' : ''}` : 'Extra accounts appear here as soon as the PC bot routes them (live_model.json “accounts”, engine/multi_account.py).'}</p></div>`;
   }
+  const fAgo = (t) => { const s = Math.max(0, Date.now() / 1000 - t); return s < 90 ? 'just now' : s < 5400 ? Math.round(s / 60) + ' min ago' : s < 172800 ? Math.round(s / 3600) + ' h ago' : Math.round(s / 86400) + ' days ago'; };
   // Funded & payouts (2026-10-25, data.json "funded_life" = engine/funded_life.block, read-only): per funded account the
   // buffer progress bar, the cycle profit, the 50% consistency gauge, the payout-ready date, payouts n of 5. Before a funded
   // account exists: the default (a passed eval stops and tells you), the one command, and the money plan numbers.
@@ -395,6 +398,15 @@
         ${tile('Payout-ready from', t.eligible_from ? esc(t.eligible_from) : '—', t.more_days ? `trade ${t.more_days} more day(s)` : '48 h after the 1st trade')}${tile('Payouts', `${t.payouts_n}/${t.payouts_max}`, `${usd(t.paid_to_you)} to you · then live`)}</div>
       <p class="small mut">Floor ${usd(t.floor)} (room ${usd(t.room)}); after the 1st payout the max loss sits at ${usd(t.mll_after_payout)}. The bot never requests a payout: you ask MFFU, then record it (engine.eval_life --payout).</p></div>`;
     if (rows.length) return rows.map(card).join('');
+    // a funded account the PC reports (ATLAS's funded 25K) while the cloud's tracker knows none: the payout coach's line, the ZEUS card's words
+    const FA = ACC().filter((a) => a.live && a.source === 'pc' && /funded/i.test(String(a.kind || (a.eval || {}).status || '')));
+    if (FA.length) {
+      return FA.map((a) => { const e = a.eval || {};
+        return `<div class="card"><div class="card-h"><h3>${icon('prop')}Funded &amp; payouts · ${esc(a.name)}</h3>${chip('funded', 'good')}</div>
+          <p class="lead" style="margin-top:0">${esc(a.payout_text || 'Funded. The payout line shows once the payout coach has loaded.')}</p>
+          <div class="hb-tiles">${tile('Balance', usd(e.balance), `${susd(e.profit)} since funded`, cls(e.profit))}${tile('To a payout', ok(e.to_target) ? (e.to_target <= 0 ? 'ready' : usd(e.to_target)) : '—', 'the payout coach')}${tile('Drawdown left', usd(e.room), ok(e.mll) ? 'of ' + usd(e.mll) : '')}</div>
+          <p class="small mut">From your PC's report. The bot never requests a payout: you ask MFFU. <a class="lnk" href="hub/zeus.html">ZEUS: the payout coach ›</a></p></div>`; }).join('');
+    }
     const P = (k) => plan[k] || null, row = (k, lab) => { const p = P(k); return p ? `<tr><td class="k">${lab}</td><td class="v">${usd(p.H1?.per_month)}</td><td class="v up"><b>${usd(p.H2?.per_month)}</b></td><td class="v">${p.H2?.first_med ?? '—'}</td></tr>` : ''; };
     return `<div class="card"><div class="card-h"><h3>${icon('prop')}Funded &amp; payouts</h3>${chip('not funded yet')}</div>
       <p class="lead" style="margin-top:0">When an eval passes the bot stops trading it and tells you. Funded trading starts only after you run one line on the PC.</p>
@@ -606,7 +618,7 @@
       ['Stop', 'One tick beyond the sweep extreme (the protected high or low), 8 to 80 points. Never a fixed distance.'],
       ['Target', 'The 18:00 open ± one VIX one-day move, at least 1.5R away; profit banked at 8R. One target, no greed.'],
       ['Manage', `Stop to breakeven at +1R. Flat at 15:55 ET. One trade a day, entries ${hmM(w[0])}–${hmM(w[1])} ET.`],
-      ['Size', 'Size follows the stop: a wide stop means fewer micros. On the eval (two-week mode): enough micros that one winner passes, capped at 80% of the room and the $1,000 soft daily loss, max 40, no weekly loss stop (owner 2026-10-25).'],
+      ['Size', 'Size follows the stop: a wide stop means fewer micros. On the eval (two-week mode, kept to session 80): enough micros that one winner passes, capped at 40% of the room and the $1,000 soft daily loss, max 40, no weekly loss stop (owner: "yes 40%"; live_model.json room_f 0.4).'],
       ['Loss rules', 'After 2 stop-outs in a week, half size for the rest of it (not in two-week eval mode). Monday: once Friday’s high is taken only shorts, once Friday’s low is taken only longs.']];
     return `<div class="hb-steps">${steps.map(([t, d], i) => `<div class="hb-step"><span>${i + 1}</span><div><b>${t}</b><p>${d}</p></div></div>`).join('')}</div>`;
   }

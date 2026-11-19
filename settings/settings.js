@@ -1,7 +1,7 @@
 // OLYMPUS SETTINGS page (ES module): the controls over this phone's Olympus keys (settingscore.js has the rules), the storage manager,
 // the health shortcuts and the first-run tour. Text only through textContent; no network at all (a settings page must work offline);
 // keys and tokens are never read for display, exported, imported or cleared. window.SETTINGS is the test hook.
-import * as C from './settingscore.js?v=s4';
+import * as C from './settingscore.js?v=s5';
 
 const O = window.OLYMPUS || null, T = window.OLYMPUS_THEMES || null;
 const $ = (id) => document.getElementById(id);

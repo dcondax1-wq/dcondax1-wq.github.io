@@ -66,7 +66,7 @@
     const tm = (t) => { try { return new Date(t * 1000).toLocaleString('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }) + ' ET'; } catch (e) { return ''; } };
     for (const A of As) {
       if (!A.pos) continue;
-      rows.push(`<a class="pl-now-r" data-go="${A.key === 'lit' ? 'lit' : A.key}" style="--c:${SU.COLOR[A.key] || '#8aa0ff'}"><i class="pl-now-i live">${ic(A.pos.dir === 1 ? 'long' : 'short')}</i>
+      rows.push(`<a class="pl-now-r" data-go="${A.key === 'lit' ? 'lit' : SU.COLOR[A.key] ? A.key : 'accounts'}" style="--c:${SU.COLOR[A.key] || '#8aa0ff'}"><i class="pl-now-i live">${ic(A.pos.dir === 1 ? 'long' : 'short')}</i>
         <span><b>${esc(A.name)} is in a ${esc(A.pos.side)} · ${A.pos.qty || ''} MNQ</b><em>at ${A.pos.entry != null ? A.pos.entry.toLocaleString('en-US', { maximumFractionDigits: 2 }) : '—'} · stop ${okN(A.pos.atStop) ? money(A.pos.atStop) : '—'} · target ${okN(A.pos.atTgt) ? '+' + money(A.pos.atTgt) : '—'}</em></span>
         <strong class="${okN(A.pos.unreal) ? (A.pos.unreal >= 0 ? 'up' : 'dn') : ''}">${okN(A.pos.unreal) ? smoney(A.pos.unreal) : ''}</strong></a>`);
     }
@@ -378,7 +378,8 @@
       const M = model(), As = window.MissionUI.accounts(M) || [];
       for (const A of As) {
         if (A.placeholder) { out.unshift({ id: 'blitz', t: 'BLITZ: paper only', d: 'off until its own 25K', k: 'num', bot: 'blitz' }); continue; }
-        if (okN(A.toTarget)) out.unshift({ id: A.key === 'lit' ? 'lit' : A.key, t: `${A.name}: $${Math.round(A.toTarget).toLocaleString('en-US')} to the target`, d: `room $${Math.round(A.room || 0).toLocaleString('en-US')} · today ${okN(A.today) ? (A.today >= 0 ? '+' : '−') + '$' + Math.abs(Math.round(A.today)) : '—'}`, k: 'num', bot: A.key });
+        // an extra account (the Zlarior 25K #2) opens Accounts; a funded one's number is the payout coach's (night-feedsB)
+        if (okN(A.toTarget)) out.unshift({ id: A.key === 'lit' ? 'lit' : SU.COLOR[A.key] ? A.key : 'accounts', t: `${A.name}: $${Math.round(A.toTarget).toLocaleString('en-US')} ${/funded/i.test(String(A.status || '')) ? 'to a payout' : 'to the target'}`, d: `room $${Math.round(A.room || 0).toLocaleString('en-US')} · today ${okN(A.today) ? (A.today >= 0 ? '+' : '−') + '$' + Math.abs(Math.round(A.today)) : '—'}`, k: 'num', bot: A.key });
       }
     } catch (e) { /* numbers are optional */ }
     return out;

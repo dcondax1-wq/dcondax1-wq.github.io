@@ -38,7 +38,7 @@
     try { it = window.StatusUI && window.StatusUI.items ? window.StatusUI.items(M).find((x) => x && x.k === 'pc') : null; } catch (e) { it = null; }
     if (!it) return { text: `Bot: ${NP}`, edge: 'warn' };
     const v = String(it.value || '');
-    if (it.lvl === 'good') return { text: v === 'live' ? 'Bot running' : `Bot running · last check-in ${v}`, edge: 'good' };
+    if (it.lvl === 'good') return { text: v === 'live' ? 'Bot running' : `Bot running · ${/^Last report from the PC/.test(String(it.detail || '')) ? 'PC reported' : 'last check-in'} ${v}`, edge: 'good' };
     if (/stopped/.test(v)) return { text: 'Bot stopped', edge: 'bad' };
     if (/no report/.test(v)) return { text: `Bot: ${NP}`, edge: 'warn' };
     if (/weekend/.test(v)) return { text: 'Bot off for the weekend (fine)', edge: 'good' };
@@ -68,7 +68,7 @@
     }
     let t = '';
     try { t = window.StatusUI && window.StatusUI.oneLine ? window.StatusUI.oneLine(A, M).text : ''; } catch (e) { t = ''; }
-    t = String(t || A.waiting || '').replace(/\s+/g, ' ').trim();
+    t = String(t || A.waiting || '').replace(/\s+/g, ' ').trim().replace(/^Next window\b/, 'Entry window');     // "Next Next window" read twice
     if (!t || /^(watching|no data yet)$/i.test(t)) return NP;
     return t.slice(0, 120);
   }
@@ -84,7 +84,9 @@
     if (st.edge === 'bad' || (room != null && room <= 0) || (frac != null && frac < 0.25)) edge = 'bad';
     else if (st.edge === 'warn' || room == null || mll == null || today == null || (frac != null && frac < 0.5) || bot.edge !== 'good') edge = 'warn';
     // a paper / cloud ledger (the cloud monitor's twin of LIT): never read as a real account (2026-11-18, the ZEUS card above has the real ones)
-    return { key: def.key, name: (A.paper ? 'Paper test · ' : '') + (A.name || def.name), size: A.size || def.size, color: A.color || def.color, page: def.page, edge, room, mll, today, status: st, next: nextWords(A, M), have: true };
+    // a funded account says so next to its size (its drawdown and today's $ are read the same way)
+    const size = (A.size || def.size) + (/funded/i.test(String(A.status || '')) ? ' funded' : '');
+    return { key: def.key, name: (A.paper ? 'Paper test · ' : '') + (A.name || def.name), size, color: A.color || def.color, page: def.page, edge, room, mll, today, status: st, next: nextWords(A, M), have: true };
   }
 
   function model(M) {
@@ -96,9 +98,17 @@
     const bot = botLine(M);
     const rows = ROWS.filter((d) => !(d.key === 'blitz' && globalThis.OLY_HIDDEN && globalThis.OLY_HIDDEN.has('blitz'))) // hidden bots (owner 2026-11-15)
       .filter((d) => d.always || (by[d.key] && !by[d.key].placeholder)).map((d) => rowOf(d, by[d.key], M, bot));
+    // the other real accounts the PC routes (the Zlarior 25K #2, a Rapid ...: board "accounts", night-feedsB 2026-11-18), after the bots
+    for (const a of As) {
+      if (!a || !a.key || ROWS.some((d) => d.key === a.key) || a.placeholder || a.paper || !okN(a.balance)) continue;
+      // its name may say its size already ("Zlarior 25K #2"): then no second "25K"
+      const nm = a.name || a.key, sz = /\b\d+K\b/i.test(String(nm)) ? '' : (a.size || '');
+      rows.push(rowOf({ key: a.key, name: nm, size: sz, color: '#8aa0ff', page: { phone: 'accounts', pc: 'accounts' } }, { ...a, size: sz }, M, bot));
+    }
     let edge = bot.edge === 'idle' ? 'good' : bot.edge;
     for (const r of rows) edge = worst(edge, r.edge);
-    const t = okN(+obj(M.board).data_t) ? +obj(M.board).data_t : null;
+    // the PC's status post time when the board came from it (the ZEUS card's "PC reported X min ago"), else the heartbeat's
+    const B0 = obj(M.board), t = okN(+B0.report_t) ? Math.max(+B0.report_t, okN(+B0.data_t) ? +B0.data_t : 0) : okN(+B0.data_t) ? +B0.data_t : null;
     return { rows, bot, edge, age: t };
   }
 

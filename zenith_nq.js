@@ -1,5 +1,5 @@
 // Zenith NQ note (2026-11-11, owner: "the NQ bot needs to be back"). Loaded after zenith_pages.js, phone only. One small strip above Home (#/today):
-//   - always: one visible link, "Open the new NQ page" (nq/, the three bots on one page);
+//   - always: one visible link, "Open the new NQ page" (nq/, Zlarior and ATLAS on one page);
 //   - when the PC has not reported for more than 20 minutes: the honest banner, in the same words as the NQ page:
 //     "Last report from your PC: 4 days 3 hours ago. The bots may still be trading; this page just is not hearing from them."
 // Read-only: it reads the page's own data (window.HOMEJ / D: live.pc.t, else board.data_t, else live.last_run), sends nothing, changes no setting.
@@ -22,14 +22,17 @@
   function reportTime(d) {
     if (!d || typeof d !== 'object') return null;
     var lv = d.live || {}, pc = lv.pc || {}, bd = d.board || {};
-    return num(pc.t) || num(bd.data_t) || num(lv.last_run) || 0;
+    // the PC's status post (board.report_t, live.js / pc_feed.js boardOver) is the newest sign of life: the ZEUS card's time
+    return Math.max(num(bd.report_t) || 0, num(pc.t) || num(bd.data_t) || num(lv.last_run) || 0);
   }
   function model(d, nowS) {
     var t = reportTime(d);
     if (t === null) return { banner: false };
     if (!t) return { banner: true, level: 'bad', title: 'No report from your PC yet.', text: SILENT };
     var age = Math.max(0, Math.floor(nowS - t));
-    if (age <= FRESH_S) return { banner: false, age: age };
+    // the status post comes every 15 min: quiet only after 30 min, the ZEUS card's rule (else the banner blinked in every cycle)
+    var post = !!(d.board && num(d.board.report_t));
+    if (age <= (post ? 2 * 15 * 60 : FRESH_S)) return { banner: false, age: age };
     return { banner: true, level: age <= STALE_S ? 'warn' : 'bad', age: age, title: 'Last report from your PC: ' + ageWords(age) + ' ago.', text: SILENT };
   }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -51,7 +54,8 @@
     if (s === sig) return; sig = s;
     b.hidden = !home;
     b.dataset.level = m.banner ? m.level : 'ok';
-    b.querySelector('.zn-nq-t').textContent = m.banner ? m.title : 'The three NQ bots on one page';
+    // BLITZ is hidden (owner 2026-11-15): the NQ page is Zlarior and ATLAS (night-feedsB 2026-11-18, was "The three NQ bots")
+    b.querySelector('.zn-nq-t').textContent = m.banner ? m.title : 'Zlarior and ATLAS on one page';
     b.querySelector('.zn-nq-x').textContent = m.banner ? m.text : 'Status, drawdown left, today, the last trades.';
     b.querySelector('.zn-nq-a').setAttribute('aria-label', m.banner ? 'Open the new NQ page: how to bring reporting back' : 'Open the new NQ page');
   }

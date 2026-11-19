@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
  *   <script src="../olympus/themes.js?v=o6"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o10" data-app="mind"></script>
+ *   <script src="../olympus/olympus.js?v=o11" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,
@@ -36,6 +36,7 @@
   var KEY = 'jfx', LEVELS = ['ultra', 'high', 'low', 'off'];
   // the nine apps: name, glyph and colour exactly as Jarvis's switcher shows them (jarvis/apps.js BUILT_INS)
   var APPS = {
+    why: ['Why', '?', '#c8a24a'],
     board: ['Board', '▤', '#c8a24a'],
     business: ['Business', 'B', '#c8a24a'],
     trading: ['Trading', 'T', '#c8a24a'],
@@ -189,7 +190,7 @@
   })();
 
   // ---------------------------------------------------------------- ambience: each app's own quiet bed (olympus/sfx.js, synthesised)
-  var AMBIENT = { board: 'scroll', business: 'coins', trading: 'chimes', agency: 'agora', polis: 'agora', herald: 'scroll', symposium: 'chimes', nq: 'chimes', colosseum: 'chimes', pinakes: 'scroll', archive: 'chimes', ergasterion: 'chimes', helios: 'chimes', harmonia: 'coins', pheme: 'chimes', compass: 'chimes', kairos: 'chimes', mint: 'coins', mintcity: 'coins', mercury: 'coins', chrysos: 'coins', sibyl: 'chimes', oikos: 'coins', arbiter: 'coins', stoa: 'chimes', aegis: 'chimes', lyceum: 'chimes', nike: 'chimes', kronos: 'chimes', moirai: 'chimes', epilogue: 'chimes', argo: 'sea', kratos: 'chimes', pythia: 'chimes', gallery: 'chimes', delphi: 'chimes', pnyx: 'coins', observatory: 'space', atlas: 'chimes', hestia: 'smithy', demeter: 'breeze', apollo: 'chimes', hera: 'coins', dionysus: 'sea', clio: 'scroll', journal: 'scroll', datacity: 'city', cities: 'city', kalshicity: 'city', kalshi: 'city', oracle: 'space', mind: 'space', argus: 'space', chronos: 'chimes',
+  var AMBIENT = { why: 'scroll', board: 'scroll', business: 'coins', trading: 'chimes', agency: 'agora', polis: 'agora', herald: 'scroll', symposium: 'chimes', nq: 'chimes', colosseum: 'chimes', pinakes: 'scroll', archive: 'chimes', ergasterion: 'chimes', helios: 'chimes', harmonia: 'coins', pheme: 'chimes', compass: 'chimes', kairos: 'chimes', mint: 'coins', mintcity: 'coins', mercury: 'coins', chrysos: 'coins', sibyl: 'chimes', oikos: 'coins', arbiter: 'coins', stoa: 'chimes', aegis: 'chimes', lyceum: 'chimes', nike: 'chimes', kronos: 'chimes', moirai: 'chimes', epilogue: 'chimes', argo: 'sea', kratos: 'chimes', pythia: 'chimes', gallery: 'chimes', delphi: 'chimes', pnyx: 'coins', observatory: 'space', atlas: 'chimes', hestia: 'smithy', demeter: 'breeze', apollo: 'chimes', hera: 'coins', dionysus: 'sea', clio: 'scroll', journal: 'scroll', datacity: 'city', cities: 'city', kalshicity: 'city', kalshi: 'city', oracle: 'space', mind: 'space', argus: 'space', chronos: 'chimes',
     odeon: 'crowd', arena: 'crowd', forum: 'agora', ares: 'crowd', fates: 'lab', plutus: 'coins', ledger: 'coins', labyrinth: 'lab', pantheon: 'wind', athena: 'scroll',
     hermes: 'breeze', nemesis: 'wind', bridge: 'wind', prometheus: 'smithy', hephaestus: 'smithy', tyche: 'sea', tree: 'forest', zenith: 'space', inbox: 'scroll',
     settings: 'lab', planner: 'chimes' };       // 2026-11-04: every app has a bed of its own (forge hammer-and-hiss, scroll rustle, coin chime, forum murmur, lab hum)

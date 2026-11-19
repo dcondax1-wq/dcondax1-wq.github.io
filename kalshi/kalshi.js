@@ -1445,14 +1445,46 @@
     const feed = await rwGet('../status_feed.json', 3000);
     if (!isObj(feed) || !/^[A-Za-z0-9_-]{1,64}$/.test(String(feed.topic || '')) || !/^https:\/\/[A-Za-z0-9.-]+\/?$/.test(String(feed.ntfy || ''))) return;
     const txt = await rwGet(String(feed.ntfy).replace(/\/+$/, '') + '/' + encodeURIComponent(feed.topic) + '/json?poll=1&since=12h', 5000, true);
-    let best = null;
+    let best = null, live = null;
     for (const line of String(txt || '').split('\n')) {
       let m = null, x = null;
       try { m = JSON.parse(line); x = JSON.parse(m.message); } catch (_) { continue; }
       const k = !isObj(x) ? null : x.kind === 'le-live' ? x.kalshi_k1 : x.kind === 'le-live-ext' && isObj(x.x) ? x.x.kalshi_k1 : null;
       if (k1Ok(k) && (!best || String(k.updated || '') >= String(best.updated || ''))) best = k;
+      const kl = !isObj(x) ? null : x.kind === 'le-live' ? x.kalshi_live : x.kind === 'le-live-ext' && isObj(x.x) ? x.x.kalshi_live : null;   // the same ext post
+      if (klOk(kl) && (!live || String(kl.u || '') >= String(live.u || ''))) live = kl;
     }
     if (best) { K1.j = best; k1Show(); }
+    if (live) { KLV.j = live; klShow(); }
+  }
+
+  // ---- Kalshi LIVE (engine/kalshi_live.py, night-klive 2026-11-19): OFF until the owner types the phrase on the PC. Its <= 200-byte card
+  // {kind: kalshi_live_pub, st: off | live | paused | stopped | idle, net, f, o, cap, stop, u, why} rides the same PC ext post (key kalshi_live).
+  // No card, or st off = the page keeps saying "PAUSED: ready to go live when you type the phrase" and "$0 at risk".
+  const KLV = { j: null };
+  function klOk(j) { return isObj(j) && j.kind === 'kalshi_live_pub' && ['off', 'live', 'paused', 'stopped', 'idle'].includes(j.st); }
+  function klShow() {
+    const j = KLV.j, ln = $('#kpaused-live'), hd = $('#kpaused-h'), risk = $('#kpaused-risk');
+    if (!ln || !klOk(j) || j.st === 'off') return;
+    const cap = num(j.cap), stop = num(j.stop), age = rwAge({ updated: j.u });
+    const lim = cap != null && stop != null ? ` Limits: ${usd(cap)} total, stop at ${MINUS}${usd(stop)} a day.` : '';
+    const today = num(j.net) != null ? `today ${usd(j.net, true)}` : 'today not known yet';
+    if (j.st === 'stopped') {
+      if (hd) hd.textContent = 'Kalshi: STOPPED';
+      ln.textContent = `STOPPED${j.why ? ' (' + String(j.why).slice(0, 40) + ')' : ''}: it is OFF now, ${today}. To restart, type the phrase on the PC (KALSHI_LIVE.bat). Updated ${age.s}.`;
+      if (risk) risk.textContent = 'No new orders.';
+      return;
+    }
+    if (j.st === 'idle') {
+      if (hd) hd.textContent = 'Kalshi: ARMED, not running';
+      ln.textContent = `ARMED, but the PC is not running it right now: double-click KALSHI_LIVE.bat on the PC to start it again. ${today[0].toUpperCase() + today.slice(1)}. Updated ${age.s}.`;
+      if (risk) risk.textContent = 'No order rests for more than 20 minutes without it.';
+      return;
+    }
+    if (hd) hd.textContent = j.st === 'live' ? 'Kalshi: LIVE' : 'Kalshi: PAUSED from the phone';
+    ln.textContent = `${j.st === 'live' ? 'LIVE' : 'PAUSED (no new orders until 4 PM ET or RESUME)'}: ${today}, ${fmtN(num(j.f) || 0)} fill${num(j.f) === 1 ? '' : 's'}, `
+      + `${fmtN(num(j.o) || 0)} order${num(j.o) === 1 ? '' : 's'} resting.${lim} Pause or flatten from the phone: ZEUS Safety. Updated ${age.s}${age.old ? ' (late)' : ''}.`;
+    if (risk && cap != null) risk.textContent = `At most ${usd(cap)} at risk.`;
   }
 
   function whatifHtml(k, v) {

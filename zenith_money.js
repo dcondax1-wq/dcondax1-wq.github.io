@@ -41,9 +41,21 @@
     }
     return o;
   };
-  // the account's net $: today (the live number), this ET week (Monday on), this ET month, since start
+  // the board card of an account (the bots' own cards, or an extra account of board "accounts")
+  function cardOf(A) {
+    try {
+      const B = (window.POLISH && window.POLISH.model ? window.POLISH.model().board : null) || {};
+      return B[A.key] && typeof B[A.key] === 'object' ? B[A.key] : (Array.isArray(B.accounts) ? B.accounts.find((x) => x && x.id === A.key) : null) || null;
+    } catch (e) { return null; }
+  }
+  // the account's net $: today (the live number), this ET week (Monday on), this ET month, since start. Without a list of closed days
+  // (the PC's post carries none) the week is the PC's own week P&L and the month is not known: '—', never a made-up $0 (night-feedsB)
   function nets(A) {
-    const D = dayPairs(A), td = etDay();
+    const D = dayPairs(A), td = etDay(), had = D.size > 0;
+    if (!had) {
+      const c = cardOf(A);
+      return { today: okN(A.today) ? A.today : null, week: c && okN(c.week_pnl) ? c.week_pnl : null, month: null, all: okN(A.profit) ? A.profit : null };
+    }
     if (okN(A.today)) D.set(td, A.today);
     const now = new Date(td + 'T12:00:00Z'), dow = (now.getUTCDay() + 6) % 7;
     const mon = new Date(now.getTime() - dow * 864e5).toISOString().slice(0, 10), ym = td.slice(0, 7);
@@ -66,7 +78,31 @@
 
   // ---------------------------------------------------------------- payouts
   function rule50() { const r = ST.rules && ST.rules.plans && ST.rules.plans['50k']; return r || null; }
+  // a funded account the PC reports (ATLAS's funded 25K): its payout line is the payout coach's, the same words as the ZEUS card
+  // (live.js sets payout_text / to_target from business/payoutcoach.js). The cloud's goals.payout only knows the 50K eval.
+  function fundedNow() {
+    try {
+      if (!(window.LIVE && window.LIVE.raw)) return [];          // only from the PC's own post (the cloud's copy has its goals.payout card)
+      const B = (window.POLISH && window.POLISH.model ? window.POLISH.model().board : null) || {};
+      return [B.atlas].concat(Array.isArray(B.accounts) ? B.accounts : []).filter((c) => c && typeof c === 'object' && /funded/i.test(String(c.status || '')) && okN(c.balance));
+    } catch (e) { return []; }
+  }
+  function fundedPay(F) {
+    const rows = F.map((c) => {
+      const R = ST.rules && ST.rules.plans ? ST.rules.plans[+c.mll >= 2000 ? '50k' : '25k'] : null, size = +c.mll >= 2000 ? '50K' : '25K';
+      const need = okN(c.to_target) ? c.to_target : null;
+      return `<div class="zm-acct"><div class="zm-an"><i aria-hidden="true"></i><b>${esc(c.name || 'ATLAS')}</b><span>${size} funded</span></div>
+        <p class="zm-p">${esc(c.payout_text || 'Funded. The payout line shows once the payout coach has loaded.')}</p>
+        <div class="zm-tiles"><div class="zm-t"><em>Balance</em><b>${usd(c.balance)}</b><small>${okN(c.profit) ? sUsd(c.profit) + ' since funded' : ''}</small></div>
+          <div class="zm-t"><em>To a payout</em><b>${need == null ? '—' : need <= 0 ? 'ready' : usd(need)}</b><small>${R ? 'over the ' + usd(R.buffer) + ' buffer, min ' + usd(R.pay_min) : ''}</small></div>
+          <div class="zm-t"><em>You keep</em><b>${R ? Math.round((R.split || 0) * 100) + '%' : '—'}</b><small>${R ? 'up to ' + usd(R.pay_max) + ' a payout' : ''}</small></div></div></div>`;
+    }).join('');
+    return `<section class="card zm-card" id="zmPay"><div class="card-h"><h3>Payouts</h3><span class="zm-pill wait">funded</span></div>${rows}
+      <p class="zm-p small">From your PC's report, the ZEUS card's payout coach. <a href="hub/zeus.html">Open ZEUS ›</a></p></section>`;
+  }
   function payouts() {
+    const F = fundedNow();
+    if (F.length) return fundedPay(F);
     const G = GL(), P = G && G.payout; if (!P || P.error) return '';
     const R = rule50(), min = R ? R.pay_min : null, max = R ? R.pay_max : null, cons = R ? R.cons : 0.5, split = R ? R.split : null;
     if (P.stage !== 'funded') {
@@ -107,7 +143,7 @@
       <div class="zm-tiles two"><div class="zm-t"><em>The bot, one 50K account</em><b class="up" data-zn-num="zm-rate">${usd(rate)}</b><small>a month, Jul-Oct check half, costs in</small></div>
         <div class="zm-t"><em>Accounts for $${(X / 1000)}K</em><b>${need}</b><small>at that trading rate</small></div></div>
       <div class="zm-rows">${row(2)}${row(3)}${row(6)}</div>
-      <p class="zm-p small">Trading = accounts × ${usd(rate)}. After payout rules = accounts × ${steady != null ? usd(steady) : '—'} (the funded study's steady rate for the Builder 50K: the 80% split, caps, the buffer and eval fees are in it). Copies of one strategy take the same trades, so they rise and fall together${ST.plans && ST.plans.corr ? ' (correlation ' + ST.plans.corr + ')' : ''}; LIT, ATLAS and BLITZ barely move together (+0.14, -0.06, 0.00). MFFU allows 1 funded Builder 50K + 2 funded Builder 25K, so 3 accounts is the cap and more must be another firm. Backtest rates, not promises.</p></section>`;
+      <p class="zm-p small">Trading = accounts × ${usd(rate)}. After payout rules = accounts × ${steady != null ? usd(steady) : '—'} (the funded study's steady rate for the Builder 50K: the 80% split, caps, the buffer and eval fees are in it). Copies of one strategy take the same trades, so they rise and fall together${ST.plans && ST.plans.corr ? ' (correlation ' + ST.plans.corr + ')' : ''}; LIT, ATLAS and BLITZ barely move together (+0.14, -0.06, 0.00). MFFU allows up to 5 sim-funded accounts at once (Builder 1 × 50K + 2 × 25K, Rapid EOD up to 3), and we stick with MFFU. Backtest rates, not promises.</p></section>`;
   }
 
   function cards() { return moneyNow() + payouts() + path(); }

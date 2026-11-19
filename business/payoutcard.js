@@ -30,11 +30,31 @@
     return best;
   }
 
+  // night-feedsA 2026-11-18: the PC feed has no board[key].funded; its payout tracker rides the feed's "mf" block, which ONE model reads
+  // (mffumodel.js, the same as the ZEUS card and My accounts (MFFU view)): its coach result turned back into the coach's input, so this
+  // card says exactly what the ZEUS card says (it said "NO NUMBERS" while the ZEUS card said "Not yet: need $1,463 more")
+  function modelState(key, plan, lite) {
+    const M = window.MFFU_MODEL;
+    if (!M || !C || !isObj(lite) || lite.kind !== 'le-live') return null;
+    let cards = [];
+    try { cards = M.cards({ lite, plan, coach: C }, Math.floor(Date.now() / 1000)) || []; } catch (e) { return null; }
+    const c = cards.find((x) => isObj(x) && x.key === key && x.stage === 'funded');
+    const r = c && isObj(c.payout) && isObj(c.payout.c) && c.payout.c.ok ? c.payout.c : null;
+    if (!r || !/payout tracker/i.test(String(c.payout.src || ''))) return null;
+    // its last traded day (the PC's mf row "lt", by its last 4): the 7-day inactivity countdown (funded: 7 days without a trade wipes the profits)
+    const mfr = (isObj(lite.mf) && Array.isArray(lite.mf.a) ? lite.mf.a : []).find((x) => isObj(x) && c.last4 && String(x.l4 || '') === String(c.last4));
+    const lt = mfr && /^\d{4}-\d{2}-\d{2}$/.test(String(mfr.lt || '')) ? String(mfr.lt) : null;
+    return { t: +c.payout.t || +(c.balance && c.balance.t) || 0, from: 'your PC (live feed, payout tracker)',
+             state: { balance: r.balance, cycle_start_balance: Math.round((r.balance - r.cycle_profit) * 100) / 100, best_day: r.best_day, cycle_days: r.cycle_days,
+                      payouts_n: r.payouts_n, eligible_from: r.eligible_from || null, first_trade: null, last_trade: lt, room: c.room && c.room.v != null ? c.room.v : null } };
+  }
+
   function rowsOf(plan, home, lite) {
     const out = [];
     for (const a of (isObj(plan) && Array.isArray(plan.accounts) ? plan.accounts : [])) {
       if (!isObj(a) || /blitz/i.test(String(a.key))) continue;
-      const pc = pcState(a.key, home, lite);
+      const own = pcState(a.key, home, lite), mod = modelState(a.key, plan, lite);
+      const pc = own && (!mod || own.t >= mod.t) ? own : mod;
       if (!isObj(a.funded) && a.stage !== 'funded' && !pc) continue;
       out.push({ key: a.key, name: a.name, planKey: a.match === 'builder50k' ? 'builder50k' : 'builder25k', told: isObj(a.funded) ? a.funded : null, pc });
     }
@@ -68,7 +88,8 @@
       C.lines(res).forEach((t, i) => ul.appendChild(el('li', i === 0 ? 'lead' : (/^Inactivity/.test(t) && res.idle_warn ? 'warn' : null), t)));
       box.appendChild(ul);
       if (res.after_room != null) box.appendChild(el('p', 'meta', 'After this payout: balance ' + C.usd(res.after_balance) + ', room ' + C.usd(res.after_room) + ' above the floor (it sits at ' + C.usd(C.PLANS[r.planKey].start + C.PLANS[r.planKey].lock) + ' after the 1st payout).'));
-      box.appendChild(el('p', 'meta', 'Numbers from ' + p.from + '. Plan: ' + C.POLICY.text + ' (' + C.usd(res.plan_line) + ' above start). You request it in the MFFU dashboard; the bot never does.'));
+      const age = p.t ? Math.max(0, nowS - p.t) : null, ago = age == null ? '' : age < 90 ? ', just now' : age < 5400 ? ', ' + Math.round(age / 60) + ' min ago' : age < 172800 ? ', ' + Math.round(age / 3600) + ' h ago' : ', ' + Math.round(age / 86400) + ' days ago';
+      box.appendChild(el('p', 'meta', 'Numbers from ' + p.from + ago + '. Plan: ' + C.POLICY.text + ' (' + C.usd(res.plan_line) + ' above start). You request it in the MFFU dashboard; the bot never does.'));
     } else {
       box.appendChild(el('p', 'meta', 'No funded numbers yet. Once the funded account trades, your PC fills this in, or type them below (or tell Claude).'));
     }

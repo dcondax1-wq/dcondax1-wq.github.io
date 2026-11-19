@@ -66,6 +66,13 @@ export function botsFrom(snap, facts) {
     out.push({ id: key, name: key === 'lit' ? 'Zlarior' : 'ATLAS', size: str(b.size, 8), level, pnl: num(b.today_pnl), room: num(b.room), mll: num(b.mll),
       text: str(b.waiting, 80) || str(b.status, 40) || str(row.text, 80), app: 'zenith' });
   }
+  // the PC's other real accounts (data.js extraAccounts, night-feedsA: Zlarior 25K #2), after the bot cards
+  for (const x of arr(facts && isObj(facts.live) ? facts.live.extra : null).filter(isObj)) {
+    const rf = num(x.room_frac), name = str(x.name, 30) || 'Account', size = str(x.size, 8);
+    out.push({ id: str(x.id, 30), name, size: size && name.includes(size) ? '' : size, level: rf != null && rf < 0.25 ? 'bad' : rf != null && rf < 0.5 ? 'warn' : num(x.room) != null ? 'ok' : '',
+      pnl: num(x.today_pnl), room: num(x.room), mll: num(x.mll),
+      text: x.stage === 'funded' ? 'Funded' : num(x.to_target) != null ? `Eval · ${usd(x.to_target)} to pass` : 'Eval', app: 'zenith' });
+  }
   return out;
 }
 

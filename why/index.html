@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Why</title>
+<meta name="description" content="Why we win / why we lose: every Zlarior and ATLAS trade of 2021-2026 taken apart, costs in. Where the lost dollars go, the good trades that lost versus the ones a careful human would skip, why the winners win, what came after the exit, and the rules we tested. Research only.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Why">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- WHY (2026-11-18, owner: "See why our losses lose for strategies. And why they win."; research/writeups/win-loss-anatomy-2026-11-18.md).
+     Data: ./why.json, built by `python -X utf8 tools/win_loss_anatomy.py page` (research only, hidden bots left out). why.js = the page:
+     text only through textContent, it reads one file and sends nothing. Nothing on this page changes a live setting. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a4"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<link rel="stylesheet" href="../olympus/a11y.css">
+<script src="../olympus/themes.js?v=o6" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<link rel="stylesheet" href="why.css?v=w1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Why we win / why we lose</h1>
+      <p class="sub">Every trade taken apart, in $. Research only.</p></div></div>
+    <span class="tag">Research</span>
+  </header>
+  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section id="verdict" class="ag-card hero" aria-labelledby="verdictH" hidden>
+    <h2 id="verdictH">The short answer</h2>
+    <p id="verdictText" class="lead"></p>
+    <ul id="verdictLines" class="lines"></ul>
+    <p id="tested" class="hint"></p>
+  </section>
+  <nav id="jump" class="jump" aria-label="Strategies" hidden></nav>
+  <div id="bots"></div>
+  <section id="kalshi" class="ag-card" aria-labelledby="kalshiH" hidden>
+    <h2 id="kalshiH">Kalshi K8 metals (paper)</h2>
+    <ul id="kalshiLines" class="lines"></ul>
+    <div id="kalshiTable"></div>
+    <p id="kalshiSrc" class="hint"></p>
+  </section>
+  <section id="checklist" class="ag-card" aria-labelledby="checkH" hidden>
+    <h2 id="checkH">The careful-human checklist</h2>
+    <p class="hint">Written before the first run, from classic trading rules. A trade is flagged when any line is true at the entry:</p>
+    <ul id="checkLines" class="lines"></ul>
+  </section>
+  <p id="hiddenNote" class="hint" hidden></p>
+  <p class="foot" id="foot"></p>
+</main>
+<script src="why.js?v=w2"></script>
+</body>
+</html>

@@ -34,7 +34,8 @@
     const kv = (k, v, cls) => { const w = el('div', cls || ''); w.appendChild(el('dt', null, k)); w.appendChild(el('dd', null, v)); dl.appendChild(w); };
     kv('Balance', M.usd(a.balance));
     kv('Room', a.chip === 'PASSED' ? 'n/a' : M.usd(a.room));
-    kv('To pass', a.chip === 'PASSED' ? 'done' : M.usd(a.to_pass));
+    if (a.chip === 'funded') kv('Payout', 'see Payouts');   // a funded account has no target to pass: its payout line is the coach card (night-feedsA)
+    else kv('To pass', a.chip === 'PASSED' ? 'done' : M.usd(a.to_pass));
     c.appendChild(dl);
     const age = a.src_t ? now - a.src_t : null;
     c.appendChild(el('p', 'brow-src', 'Source: ' + (a.src || 'PLAN') + (age != null ? ' · ' + M.ago(age) : '')));

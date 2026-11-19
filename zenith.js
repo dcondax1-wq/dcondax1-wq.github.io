@@ -103,10 +103,11 @@
   function moneyModel() {
     const As = accts(); if (!As.length) return null;
     const byDay = new Map();
-    let today = null, total = null;
+    let today = null, total = null, funded = false, weekPC = false;
     for (const A of As) {
       if (okN(A.today)) today = (today || 0) + A.today;
       if (okN(A.profit)) total = (total || 0) + A.profit;
+      if (/funded/i.test(String(A.status || ''))) funded = true;
       for (const [day, v] of dayPairs(A)) byDay.set(day, (byDay.get(day) || 0) + v);
     }
     // fewer than 2 closed days: this week's days from the board's progress (the same fallback as the cards' sparklines)
@@ -115,12 +116,15 @@
         const P = (window.POLISH.model().board || {}).progress || {};
         Object.keys(P).forEach((k) => ((P[k] || {}).week || {}).days && P[k].week.days.forEach((d) => {
           if (d && !d.future && okN(+d.usd) && (d.day || d.date)) byDay.set(String(d.day || d.date), (byDay.get(String(d.day || d.date)) || 0) + +d.usd);
+          if (P[k].week.src === 'pc') weekPC = true;
         }));
       } catch (e) { /* no week yet */ }
     }
     const { days, curve, ym } = curveOf(byDay, today);
     const month = days.length ? days.filter((d) => d.slice(0, 7) === ym).reduce((s, d) => s + byDay.get(d), 0) : null;
-    return { today, total, month, curve, n: days.length, accounts: As.length };
+    // the PC's post carries this week's trades only: say "This week", never a month it cannot see; a funded account's profit is not
+    // eval P&L (night-feedsB 2026-11-18)
+    return { today, total, month, curve, n: days.length, accounts: As.length, monthLabel: weekPC ? 'This week' : 'This month', totalLabel: funded ? 'Since start' : 'Eval P&L' };
   }
   let HI = null, ribSig = '';
   function greeting(el) {
@@ -130,7 +134,7 @@
     if (!HI) { HI = document.createElement('div'); HI.className = 'zn-hi'; }
     if (HI.parentNode !== hi) hi.appendChild(HI);           // Home redraws itself on live data: the same box (and ribbon) moves in
     const cls = (v) => (okN(v) && v > 0 ? 'up' : okN(v) && v < 0 ? 'dn' : '');
-    const stats = [['today', 'Today', M.today], ['month', 'This month', M.month], ['total', 'Eval P&L', M.total]];
+    const stats = [['today', 'Today', M.today], ['month', M.monthLabel || 'This month', M.month], ['total', M.totalLabel || 'Eval P&L', M.total]];
     const head = stats.map(([k, l, v]) => `<span class="zn-m ${k}"><em>${l}</em><b class="${cls(v)}" data-zn-num="hi-${k}">${money(v)}</b></span>`).join('');
     let wrap = HI.querySelector(':scope > .zn-money');
     if (!wrap) { wrap = document.createElement('div'); wrap.className = 'zn-money'; wrap.setAttribute('role', 'group'); wrap.setAttribute('aria-label', 'Real money'); HI.prepend(wrap); }

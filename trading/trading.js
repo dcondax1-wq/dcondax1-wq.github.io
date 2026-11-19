@@ -30,7 +30,7 @@ const nowS = () => Math.floor(Date.now() / 1000);
 let feedLib = null;
 function loadFeedLib() {
   if (window.PC_FEED) return Promise.resolve(window.PC_FEED);
-  if (!feedLib) feedLib = new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n2'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
+  if (!feedLib) feedLib = new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n4'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
   return feedLib;
 }
 async function withFeed(home) {
@@ -66,6 +66,25 @@ function renderBanner() {
   S.live = L;
 }
 function kv(dl, k, v, cls) { dl.appendChild(h('dt', '', k)); dl.appendChild(h('dd', cls || '', v)); }
+// night-feedsA 2026-11-18: the Today cards = EVERY real account, the same as the ZEUS card: the two bot cards + the PC's other accounts
+// (truth.js extraOf: Zlarior 25K #2), and a funded account shows its payout line (the ZEUS card's words) instead of a "to pass" it does not have
+function extraAccts() {
+  const ho = S.view && S.view.home;
+  if (!ho || S.demo) return [];
+  const l = S.lite && Array.isArray(S.lite.accounts) ? { ...ho, pc_accounts: S.lite.accounts, pc_accounts_t: S.lite.t } : ho;
+  try { return T.extraOf(l); } catch (_) { return []; }
+}
+let zeusP = null;
+function zeusRows() {                       // olympus/zeus_core.js (the ZEUS card's one summary), loaded once after the first draw
+  if (zeusP) return zeusP;
+  zeusP = new Promise((res) => {
+    const go = () => { try { window.ZEUS_CORE.fetchAll().then((d) => res(window.ZEUS_CORE.summary(d).rows || []), () => res([])); } catch (_) { res([]); } };
+    if (window.ZEUS_CORE) { go(); return; }
+    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=3'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
+  });
+  return zeusP;
+}
+function payLine(key) { const r = (S.zrows || []).find((x) => x && x.key === key && x.cls === 'funded'); return r ? r.goal : ''; }
 function renderToday() {
   const clk = C.flatClock(nowS());
   $('clock').textContent = `${clk.hm ? clk.hm + ' ET now. ' : ''}${clk.text}`;
@@ -78,10 +97,24 @@ function renderToday() {
     kv(dl, c.dayWord, c.today == null ? (c.has ? '$0' : '-') : C.moneyS(c.today), c.today > 0.5 ? 'pos' : c.today < -0.5 ? 'neg' : '');
     kv(dl, 'Open trade', c.open ? `${c.open.side}${c.open.usd != null ? ', ' + C.moneyS(c.open.usd) : ''}` : 'None');
     kv(dl, 'Room left', c.room == null ? '-' : C.money(c.room) + ' of ' + C.money(c.mll));
-    kv(dl, 'To pass', c.toTarget == null ? '-' : c.toTarget <= 0 ? 'Target reached' : C.money(c.toTarget));
+    const funded = !S.demo && (S.A[c.bot === 'LIT' ? 'lit' : 'atlas'] || {}).kind === 'funded';
+    if (funded) kv(dl, 'Payout', payLine(c.bot === 'LIT' ? 'zlarior' : 'atlas') || 'Funded: no target to pass');
+    else kv(dl, 'To pass', c.toTarget == null ? '-' : c.toTarget <= 0 ? 'Target reached' : C.money(c.toTarget));
     card.appendChild(dl);
     box.appendChild(card);
   }
+  for (const x of extraAccts()) {
+    const card = h('article', 'acct'); card.dataset.bot = x.bot; card.dataset.acct = x.id;
+    card.appendChild(h('h3', '', `${x.name} `)).appendChild(h('small', '', `MFFU ${x.size} ${x.kind === 'funded' ? 'funded' : 'eval'}`.trim()));
+    const dl = h('dl', 'kv');
+    kv(dl, 'Today', C.moneyS(x.today), x.today > 0.5 ? 'pos' : x.today < -0.5 ? 'neg' : '');
+    kv(dl, 'Room left', x.room == null ? '-' : C.money(x.room) + ' of ' + C.money(x.mll));
+    if (x.kind === 'funded') kv(dl, 'Payout', payLine(x.id) || 'Funded: no target to pass');
+    else kv(dl, 'To pass', x.toTarget == null ? '-' : x.toTarget <= 0 ? 'Target reached' : C.money(x.toTarget));
+    card.appendChild(dl);
+    box.appendChild(card);
+  }
+  if (!S.demo && !S.zrows && !S.zwait) { S.zwait = true; zeusRows().then((rows) => { S.zrows = rows; if (rows.length) renderToday(); }); }
   $('todaySrc').textContent = S.demo ? 'Example numbers (fixture.json), not real.' : S.ages ? `Source: LIVE, home.json from the PC. ${S.ages.line}` : 'Source: no home.json loaded, so no account numbers.';
 }
 

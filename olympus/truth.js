@@ -8,6 +8,7 @@
 //   agesOf(home, nowS)        -> { pc: {t, age, words, text}, cloud: {t, age, words, text}, line, short, silent, stale }
 //   canonHome(home)           -> home with `accounts` = the three canonical rows (the shape the older cores read) and `board.lit / board.atlas`
 //                                filled from the same numbers, plus `truth` = { accounts, ages }. The input is never changed.
+//   extraOf(home)             -> the PC's other real accounts (Zlarior 25K #2), same row shape (night-feedsA 2026-11-18)
 //   drawdownLine(room, mll), money(x), ageWords(sec)
 // Source order (the published field first, the same as NQ and Home): board.<key> (engine/live_board.py, in home.json) -> lit: the PC's own account
 // row in home.accounts (never the cloud paper twin) -> atlas: second.account_b.eval / blitz: live.pc.blitz.eval (paper).
@@ -47,20 +48,25 @@ const toS = (v) => {      // epoch seconds / ms, or an ISO time -> epoch seconds
 // ------------------------------------------------------------------------------------------------ where each account's numbers come from
 const ROW_RE = { lit: /mffu50k|zlarior|builder 50k|\blit\b|\b50k\b/, atlas: /atlas|acctb|acct_b/, blitz: /blitz|acct_c/ };
 /** the account's own row in home.accounts (the PC's): never the cloud paper twin of LIT ("Paper (cloud)", plan "MFFU 50K rules") */
+// night-feedsA 2026-11-18: the GitHub Pages site is a CLOUD build: its board cards say badge PAPER, source "cloud paper" ($49,900 = the
+// cloud's paper twin) and its 50K account row is badged PAPER. Those were shown as Zlarior's numbers whenever the PC feed was late. A paper /
+// cloud card or row is never a real account (BLITZ is paper by design): no number beats a wrong one. (A cloud build relaying the PC's own
+// cards, badge LIVE / source "PC bot", is still the PC's numbers.)
+const paperish = (x) => isObj(x) && (/^paper$/i.test(String(x.badge || '')) || /\bcloud\b/i.test(String(x.source || '')));
 function rowOf(home, key) {
   for (const a of Array.isArray(home.accounts) ? home.accounts : []) {
     if (!isObj(a) || a.error) continue;
     const s = [a.id, a.name, a.plan, a.strategy].map((x) => String(x || '')).join(' ').toLowerCase();
-    if (key !== 'blitz' && (String(a.source || '').toLowerCase() === 'cloud' || /\bcloud\b/.test(s))) continue;
-    if (key === 'lit' && (ROW_RE.atlas.test(s) || ROW_RE.blitz.test(s))) continue;
+    if (key !== 'blitz' && (String(a.source || '').toLowerCase() === 'cloud' || /\bcloud\b/.test(s) || paperish(a))) continue;
+    if (key === 'lit' && (ROW_RE.atlas.test(s) || ROW_RE.blitz.test(s) || /\b25k\b/.test(s))) continue;     // Zlarior's 25K #2 is not the 50K (night-feedsA)
     if (ROW_RE[key].test(s)) return a;
   }
   return null;
 }
 function blockOf(key, home) {
   const board = obj(home.board), pc = obj(obj(home.live).pc), row = rowOf(home, key);
-  const b = board[key];
-  if (isObj(b) && num(b.room) != null) return { e: b, today: first(b.today_pnl, b.today), week: b.week_pnl, src: 'board.' + key, row };
+  const b = board[key], cloudCard = key !== 'blitz' && paperish(b);       // a cloud build that relays the PC's own cards (badge LIVE) still counts
+  if (isObj(b) && num(b.room) != null && !cloudCard) return { e: b, today: first(b.today_pnl, b.today), week: b.week_pnl, src: 'board.' + key, row };
   if (row && (isObj(row.eval) || isObj(row.funded_eval))) { const e = isObj(row.eval) ? row.eval : row.funded_eval; return { e, today: first(obj(row.pnl).today, e.today), week: obj(row.pnl).week, src: 'accounts.' + (row.id || key), row }; }
   if (key === 'atlas') { const ab = obj(obj(home.second).account_b); return isObj(ab.eval) ? { e: ab.eval, today: first(ab.eval.today, ab.day_pnl), week: null, src: 'second.account_b', row: null } : null; }
   if (key === 'blitz') { const bl = obj(pc.blitz); return isObj(bl.eval) ? { e: bl.eval, today: bl.eval.today, week: null, src: 'live.pc.blitz', row: null } : null; }
@@ -87,8 +93,38 @@ export function accountsOf(home) {
     const balance = num(e.balance), profit = first(e.profit, balance != null ? balance - start : null);
     out[key] = { ...base, has: true, room: roomRaw == null ? null : Math.max(0, Math.min(mll, roomRaw)), mll, balance, floor: num(e.floor), start, today: num(blk.today) || 0, week: num(blk.week) || 0,
       dll: first(e.dll, M.dll), dllUsed: Math.max(0, first(e.dll_used, 0)), toTarget: first(e.to_target, profit != null ? target - profit : null), target, profit,
-      kind: String((blk.row && blk.row.kind) || e.kind || (e.stage === 'funded' ? 'funded' : '')).toLowerCase() === 'funded' ? 'funded' : M.paper ? 'paper' : 'eval',
+      kind: String((blk.row && blk.row.kind) || e.kind || (e.stage === 'funded' || String(e.status || '').toLowerCase() === 'funded' ? 'funded' : '')).toLowerCase() === 'funded' ? 'funded' : M.paper ? 'paper' : 'eval',   // the PC's ATLAS card says status 'funded' (night-feedsA)
       status: String(e.status || ''), t: reportT(key, h), src: blk.src };
+  }
+  return out;
+}
+
+/** The PC's OTHER real accounts (night-feedsA 2026-11-18, owner: "3 accounts, not 2"): accountsOf has one row per BOT (lit = Zlarior's
+ *  50K, atlas = ATLAS's funded 25K); the PC also runs Zlarior 25K #2 (id b25k_2), which only its "accounts" list carries. Read from
+ *  home.pc_accounts (the PC feed's list, laid in by withPcFeed) else home.accounts. Same rule as the ZEUS card (business/mffumodel.js) and
+ *  Jarvis (jarvis/data.js extraAccounts): a cloud / PAPER / BLITZ row is never an account, and a row with the lit or atlas card's own
+ *  balance + floor IS that card. -> [{ key, id, name, size, has, room, mll, balance, floor, start, today, week, dll, dllUsed, toTarget, target,
+ *  profit, kind ('eval' | 'funded'), status, paper: false, t, src }] (the accountsOf row shape). Never throws. */
+export function extraOf(home) {
+  const h = obj(home), board = obj(h.board), out = [];
+  const src = Array.isArray(h.pc_accounts) ? h.pc_accounts : Array.isArray(h.accounts) ? h.accounts : [];
+  // the rows accountsOf already reads as Zlarior / ATLAS (an older home.json without board cards: its 50K row IS Zlarior)
+  const own = new Set(['lit', 'atlas'].map((k) => (Array.isArray(h.pc_accounts) ? null : rowOf(h, k))).filter(Boolean).map((a) => String(a.id)));
+  const same = (c, e) => isObj(c) && num(c.balance) != null && num(c.balance) === num(e.balance) && num(c.floor) === num(e.floor);
+  for (const a of src) {
+    if (!isObj(a) || !a.id || a.error || !['eval', 'funded'].includes(String(a.kind))) continue;
+    const id = String(a.id), who = `${id} ${a.name || ''} ${a.source || ''}`;
+    if (/^(lit|atlas|blitz|zlarior|acct_?b|acct_?c|cloud_paper)$/i.test(id) || /cloud|blitz|scalp/i.test(who) || /^paper$/i.test(String(a.badge || ''))) continue;
+    const e = isObj(a.eval) ? a.eval : isObj(a.funded) ? a.funded : null;
+    if (!e || num(e.balance) == null || own.has(id) || same(board.lit, e) || same(board.atlas, e) || out.some((x) => x.id === id)) continue;
+    const m = /(\d+)\s*k\b/i.exec(String(a.plan || '')) || /(\d+)\s*k\b/i.exec(String(a.name || '')), size = m ? m[1] + 'K' : '';
+    const start = first(e.start_balance, size === '50K' ? 50000 : size === '25K' ? 25000 : null), mll = first(e.mll, size === '50K' ? 2000 : 1000);
+    const tb = first(e.target_balance), target = tb != null && start != null && tb > start ? tb - start : size === '50K' ? 3000 : 1500;
+    const funded = a.kind === 'funded', balance = num(e.balance), profit = first(e.profit, balance != null && start != null ? balance - start : null);
+    out.push({ key: id, id, name: String(a.name || id).replace(/\bBuilder\s+/i, '').replace(/^MFFU\s+/i, '').slice(0, 40), bot: /atlas/i.test(String(a.strategy || '')) ? 'ATLAS' : 'LIT', size, has: true,
+      room: num(e.room) == null ? null : Math.max(0, Math.min(mll, num(e.room))), mll, balance, floor: num(e.floor), start, today: first(obj(a.pnl).today, e.today) || 0, week: first(obj(a.pnl).week) || 0,
+      dll: first(e.dll, size === '50K' ? 1000 : 600), dllUsed: Math.max(0, first(e.dll_used, 0)), toTarget: funded ? null : first(e.to_target, profit != null ? target - profit : null), target, profit,
+      kind: funded ? 'funded' : 'eval', status: String(e.status || ''), paper: false, t: first(obj(a.conn).t, board.data_t, h.pc_accounts_t), src: 'accounts.' + id });
   }
   return out;
 }
@@ -138,7 +174,7 @@ function loadPcFeed() {
   if (!pcFeedP) {
     pcFeedP = new Promise((res) => {
       try {
-        const s = document.createElement('script'); s.src = new URL('../pc_feed.js?v=n2', import.meta.url).href; s.async = true;
+        const s = document.createElement('script'); s.src = new URL('../pc_feed.js?v=n4', import.meta.url).href; s.async = true;
         s.onload = () => res(window.PC_FEED || null); s.onerror = () => res(null); document.head.appendChild(s);
       } catch (e) { res(null); }
     });
@@ -151,6 +187,9 @@ export async function withPcFeed(home) {
     const F = await loadPcFeed(); if (!F) return home;
     const feedUrl = new URL('../status_feed.json', import.meta.url).href;
     const lite = await Promise.race([F.fetchLatest({ feedUrl }), new Promise((r) => setTimeout(() => r(null), 3000))]);
-    return lite ? F.overlayHome(home, lite) : home;
+    if (!lite) return home;
+    const out = F.overlayHome(home, lite);
+    // the PC's own account list rides along (extraOf reads it: Zlarior 25K #2 is not a board card), only when it is the newer word
+    return out !== home && Array.isArray(lite.accounts) ? { ...out, pc_accounts: lite.accounts, pc_accounts_t: num(lite.t) } : out;
   } catch (e) { return home; }
 }

@@ -1,10 +1,11 @@
-// Jarvis's voice (owner 2026-11-03: "a voice that doesn't sound like a bot. Should be a female voice."). One ES module, no
+// Jarvis's voice (owner 2026-11-03: "a voice that doesn't sound like a bot"; 2026-11-18 he picked Male, British: the AI voice George,
+// neural-voice.js, with the iPhone's best British male voice as the fallback, ranked here). One ES module, no
 // imports, no DOM except speechSynthesis / Audio when a speaker is made. Shared by the Jarvis screen (index.html speak()) and
 // voice mode (voice-mode.js), so both use the same chosen voice. The Jarvis screen's switch and first-tap unlock: voice-out.js.
 //
 //   import { bestVoice, voiceChoices, voiceScore, voiceLabel, cleanSpeech, speechChunks, createSpeaker, savedVoiceName } from './tts.js';
-//   voiceScore(v)              a natural female English voice first (Ava / Zoe / Allison / Samantha, premium > enhanced > compact);
-//                              male voices low; novelty voices (Zarvox, Bubbles, ...) 0 = never; not English -1
+//   voiceScore(v)              a British male voice first (en-GB: Jamie / Daniel / Arthur ..., Premium > Enhanced > compact), then
+//                              other male English voices, then female ones; novelty voices (Zarvox, Bubbles, ...) 0 = never; not English -1
 //   bestVoice(list, saved?)    the owner's pick while the phone has it, else the best scored voice (null = the phone's default)
 //   voiceChoices(list)         every English voice worth offering, best first (the Voice picker, voice mode's VOICE button)
 //   cleanSpeech(text)          what is said: no markdown, emojis, links or symbols; money, %, k / M, /mo said in words
@@ -35,6 +36,11 @@
 // call below; `player` ({ play(blob) -> Promise, stop(), unlock() }) is the one audio element the iPhone unlocks with the first tap.
 // A tap (cancel) also aborts the request in flight. A failure parks only that voice (429: its retry-after, else until tomorrow;
 // bad key 10 min, no answer in cc.timeoutMs (9 s) 2 min) and the rest of the reply, never what was already said again, goes on in the phone's voice.
+// 2026-11-18 (owner: "it sounds like a bot, it should sound like a person"; Male, British): the AI voice (neural-voice.js, Kokoro on
+// the phone) comes through the same `cloud()` hook with four extras, all optional: `split(text)` -> [{ text, pause }] its own pieces (a
+// short first one), `queueAll` (every piece asked for at once: the worker is never idle), `timeoutFor(i, piece)` (how long he may stay
+// silent waiting for that piece before the iPhone voice says the rest) and a clip's `dur` (ms, so the words light up across it).
+// `prosody.raw` = the natural layer reads the raw text (speech-text.js: "-$113" -> "minus a hundred and thirteen dollars").
 // iPhone Safari 16: plain ES2020, no regex lookbehind.
 
 export const CFG_KEY = 'jarvis.voiceCfg';           // { voice, rate, pitch } (the shell's Voice sheet)
@@ -51,26 +57,28 @@ export const CLOUD = { url: 'https://api.groq.com/openai/v1/audio/speech', model
 // ------------------------------------------------------------------------------------------------ ranking the phone's voices
 // Novelty / robotic voices: never picked, never offered.
 const NOVELTY = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|deranged|hysterical|pipe organ|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|fred|junior|ralph|kathy|princess|vicki|victoria)\b/i;
-// natural female voices, best first (iOS / macOS names, Chrome's Google voices, Edge's natural voices)
+// female voices (ranked among themselves only: every male voice comes first since 2026-11-18)
 const FEMALE = [
   [/\bava\b/i, 60], [/\bzoe\b/i, 56], [/\ballison\b/i, 52], [/\bsamantha\b/i, 48], [/google uk english female/i, 46], [/\b(aria|jenny|sonia|libby|michelle|emma|ana|natasha|clara)\b.*\b(natural|online)\b/i, 46],
   [/\b(serena|kate|susan|stephanie|evelyn|nicky|joelle|noelle|tessa|moira|karen|fiona|veena|catherine|siri female|isha|hazel|zira|heera)\b/i, 34],
   [/google us english/i, 36],
 ];
-const MALE = /\b(daniel|alex|tom|aaron|arthur|oliver|rishi|gordon|lee|evan|nathan|malcolm|george|jamie|guy|ryan|david|mark|christopher|eric|roger|steffan|thomas|male)\b/i;
+const MALE = /\b(daniel|alex|tom|aaron|arthur|oliver|rishi|gordon|lee|evan|nathan|malcolm|george|jamie|guy|ryan|david|mark|christopher|eric|roger|steffan|thomas|harry|william|male)\b/i;
 const isEnglish = (v) => !!v && /^en([-_]|$)/i.test(String(v.lang || ''));
+// British male first (the owner's pick), the quality next: a Premium / Enhanced en-GB man beats everything, a plain en-GB man (Daniel)
+// still beats any woman or American; other British-sounding accents (Ireland, Australia, NZ, South Africa, India) before the US
 export function voiceScore(v) {
   if (!isEnglish(v)) return -1;
-  const name = String(v.name || ''), id = `${name} ${v.voiceURI || ''}`;
+  const name = String(v.name || ''), id = `${name} ${v.voiceURI || ''}`, lang = String(v.lang || '');
   if (NOVELTY.test(name)) return 0;
   let s = 10;
   const f = FEMALE.find((x) => x[0].test(name));
-  if (f) s += f[1];
-  else if (MALE.test(name)) s -= 40;               // offered, never chosen over a female voice (even a premium one)
-  if (/premium/i.test(id)) s += 50;
-  else if (/enhanced|neural|natural/i.test(id)) s += 30;
-  if (/compact/i.test(id)) s -= 10;
-  if (/^en[-_]us/i.test(v.lang)) s += 4; else if (/^en[-_](gb|au|ie|ca)/i.test(v.lang)) s += 2;
+  if (!f && !/female/i.test(name) && MALE.test(name)) s += 60;
+  else if (f) s += f[1] / 10;                         // the women keep their own order (Ava > Zoe > Allison ...), below every man
+  if (/^en[-_]gb/i.test(lang)) s += 50; else if (/^en[-_](ie|au|nz|za|in)/i.test(lang)) s += 15; else if (/^en[-_]us/i.test(lang)) s += 5;
+  if (/premium/i.test(id)) s += 30;
+  else if (/enhanced|neural|natural/i.test(id)) s += 20;
+  if (/compact/i.test(id)) s -= 5;
   if (v.localService) s += 1;
   return Math.max(1, s);
 }
@@ -93,13 +101,15 @@ export function voiceLabel(v) {
   return [base, q, String(v.lang || '').replace('_', '-')].filter(Boolean).join(' · ');
 }
 // the owner's saved pick: the Voice sheet's, else voice mode's older one
+// the page's storage, or null: even reading the localStorage property throws when site data is blocked (and setItem in private mode)
+const pageStore = () => { try { return typeof localStorage !== 'undefined' ? localStorage : null; } catch (_) { return null; } };
 export function savedVoiceName(storage) {
-  const st = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+  const st = storage || pageStore();
   try { const c = JSON.parse((st && st.getItem(CFG_KEY)) || '{}'); if (c && typeof c.voice === 'string' && c.voice) return c.voice; } catch (_) { /* junk */ }
   try { return (st && st.getItem(VM_KEY)) || ''; } catch (_) { return ''; }
 }
 export function voiceCfg(storage) {
-  const st = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+  const st = storage || pageStore();
   let c = {};
   try { c = JSON.parse((st && st.getItem(CFG_KEY)) || '{}') || {}; } catch (_) { c = {}; }
   const rate = +c.rate, pitch = +c.pitch;
@@ -229,7 +239,7 @@ export function createSpeaker(opts) {
       if (i >= chunks.length) { h.finish(); return; }
       const k = i++, u = new SpeechSynthesisUtterance(chunks[k]), off = offs[k], it = items[k];
       const v = bestVoice(voices(), c.voice || savedVoiceName(o.storage));     // read each time: the iPhone's list comes late
-      if (v) { u.voice = v; u.lang = v.lang || 'en-US'; } else u.lang = 'en-US';    // no list yet: the phone's default voice
+      if (v) { u.voice = v; u.lang = v.lang || 'en-GB'; } else u.lang = 'en-GB';    // no list yet: the phone's default British voice
       u.rate = num(rate * mult(it, 'rate'), 0.5, 2, rate); u.pitch = num(pitch * mult(it, 'pitch'), 0.5, 2, pitch); u.volume = 1;
       const rateK = u.rate;
       let ended = false, started = false;
@@ -278,9 +288,21 @@ export function createSpeaker(opts) {
       const p = a.play(); if (p && typeof p.catch === 'function') p.catch(bad);
     }).finally(() => { try { URL.revokeObjectURL(url); } catch (_) { /* gone */ } });
   }
+  // a clip of known length: each word's boundary at its share of the clip (captions and the core follow the voice, not a guess per reply)
+  function ticks(h, piece, off, dur) {
+    clearTicks(h);
+    if (!h.onboundary || !(dur > 0) || !piece) return;
+    const rx = /\S+/g, n = piece.length || 1;
+    let m;
+    h.ticks = [];
+    while ((m = rx.exec(piece))) { const ci = m.index; if (ci === 0) continue; h.ticks.push(setTimeout(() => { if (!h.done && h.onboundary) h.onboundary(off + ci); }, Math.round((ci / n) * dur))); }
+  }
+  function clearTicks(h) { if (h.ticks) { for (const t of h.ticks) clearTimeout(t); h.ticks = null; } }
   async function cloud(text, items, h, cc) {
     const maxc = Math.max(60, +cc.maxChars || CLOUD.max), pr = pro();
-    let parts = pr && typeof pr.merge === 'function' ? safe(() => pr.merge(items, maxc), null) : null;
+    // the voice's own pieces first (the AI voice: a short first piece so he starts fast, then one sentence each)
+    let parts = typeof cc.split === 'function' ? safe(() => cc.split(text), null) : null;
+    if (!parts || !parts.length) parts = pr && typeof pr.merge === 'function' ? safe(() => pr.merge(items, maxc), null) : null;
     if (!parts || !parts.length) parts = items.map((x) => ({ text: x.text, pause: x.pause }));
     const sized = [];                                 // a piece over the voice's limit is cut at a space
     for (const pt of parts) { let s = pt.text; while (s.length > maxc) { let i = s.lastIndexOf(' ', maxc); if (i < 20) i = maxc; sized.push({ text: s.slice(0, i), pause: 0 }); s = s.slice(i).trim(); } if (s) sized.push({ text: s, pause: pt.pause }); }
@@ -293,20 +315,26 @@ export function createSpeaker(opts) {
       });
     const one = (t) => (typeof cc.synth === 'function' ? Promise.resolve(cc.synth(t, { signal: h.signal || undefined, voice: cc.voice })) : fetchOne(t));
     const tmo = Math.max(1000, +cc.timeoutMs || 9000);                        // a voice that has not answered by then is passed: the phone says it
-    const timed = (p) => { let t = 0; return Promise.race([p, h.cancelP, new Promise((ok, bad) => { t = setTimeout(() => { const e = new Error('timeout'); e.reason = 'timeout'; e.parkMs = 120000; bad(e); }, tmo); })]).finally(() => clearTimeout(t)); };
+    // how long he may stay silent waiting for piece i (counted from when it is due: the start, or the end of the piece before)
+    const tmoFor = (i, t) => (typeof cc.timeoutFor === 'function' ? Math.max(1000, +safe(() => cc.timeoutFor(i, t), 0) || tmo) : tmo);
+    const timed = (p, ms) => { let t = 0; return Promise.race([p, h.cancelP, new Promise((ok, bad) => { t = setTimeout(() => { const e = new Error('timeout'); e.reason = 'timeout'; e.parkMs = 120000; bad(e); }, ms); })]).finally(() => clearTimeout(t)); };
     const guard = (p) => { p.catch(() => null); return p; };                 // an abandoned request never becomes an unhandled rejection
     h.parts = parts; h.played = 0;
-    let next = guard(one(parts[0].text)), at = 0;
+    // a voice that queues its own work (the on-device worker) gets every piece at once, so it never waits idle; a cloud voice one ahead
+    const all = cc.queueAll ? parts.map((pt) => guard(one(pt.text))) : null;
+    let next = all ? all[0] : guard(one(parts[0].text)), at = 0;
     for (let i = 0; i < parts.length; i++) {
-      const blob = await timed(next);
+      const blob = await timed(next, tmoFor(i, parts[i].text));
       if (h.done) return;
-      if (i + 1 < parts.length) next = guard(one(parts[i + 1].text));       // the next piece downloads while this one plays
+      if (i + 1 < parts.length) next = all ? all[i + 1] : guard(one(parts[i + 1].text));       // the next piece is made while this one plays
       const off = text.indexOf(parts[i].text.slice(0, 12), at);
       at = (off < 0 ? at : off) + parts[i].text.length;
       if (i === 0 && h.onengine) safe(() => h.onengine(cc.id || 'groq'));
       if (i === 0 && h.onstart) h.onstart();
       if (h.onboundary) h.onboundary(off < 0 ? 0 : off);
+      ticks(h, parts[i].text, off < 0 ? 0 : off, blob && +blob.dur);       // the words light up across the clip (its length is known)
       await Promise.race([playBlob(blob, h), h.cancelP]);
+      clearTicks(h);
       if (h.done) return;
       h.played = i + 1;
       if (i + 1 < parts.length) {                                          // a breath between two parts
@@ -323,18 +351,18 @@ export function createSpeaker(opts) {
     const pr = pro();
     const shown = cleanSpeech(input);                 // what a caption shows (and what speak() returns); the natural layer may say it in other words ("5 PM" -> "five P M")
     let text = shown;
-    if (pr && typeof pr.prepare === 'function') text = safe(() => pr.prepare(shown), shown) || shown;
+    if (pr && typeof pr.prepare === 'function') text = safe(() => pr.prepare(pr.raw ? input : shown), shown) || shown;     // speech-text.js reads the raw text ("-$113")
     if (text && !/[.!?]$/.test(text)) text += '.';
     const toShown = (i) => (text === shown || !text.length ? i : Math.max(0, Math.min(shown.length, Math.round((+i || 0) * shown.length / text.length))));     // a spoken-text offset -> the caption's
     let items = pr && typeof pr.plan === 'function' ? safe(() => pr.plan(text, { max: 180, phrases: false }), null) : null;
     if (!items || !items.length) items = speechChunks(text).map((x) => ({ text: x }));
     const h = { done: false, onstart: c.onstart, onboundary: typeof c.onboundary === 'function' ? (i) => c.onboundary(toShown(i)) : null, onstall: c.onstall, onengine: c.onengine, audio: null, ctl: null, signal: null, parts: null, played: 0,
-      finish() { if (h.done) return; h.done = true; clearTimeout(h.timer); clearTimeout(h.wd); if (cur === h) cur = null; if (!h.stalled && typeof c.onend === 'function') c.onend(); } };
+      finish() { if (h.done) return; h.done = true; clearTimeout(h.timer); clearTimeout(h.wd); clearTicks(h); if (cur === h) cur = null; if (!h.stalled && typeof c.onend === 'function') c.onend(); } };
     h.cancelP = new Promise((ok) => { h.wake = ok; });
     if (typeof AbortController !== 'undefined') { h.ctl = new AbortController(); h.signal = h.ctl.signal; }
     h.cancel = () => {                                // barge-in: a tap stops the voice, the request in flight and the player at once
       if (h.done) return;
-      h.done = true; clearTimeout(h.timer); clearTimeout(h.wd); if (cur === h) cur = null;
+      h.done = true; clearTimeout(h.timer); clearTimeout(h.wd); clearTicks(h); if (cur === h) cur = null;
       if (h.audio) try { h.audio.pause(); } catch (_) { /* stopped */ }
       const pl = player(); if (pl && typeof pl.stop === 'function') safe(() => pl.stop());
       if (h.ctl) safe(() => h.ctl.abort());
@@ -343,13 +371,14 @@ export function createSpeaker(opts) {
     };
     cur = h;
     if (!items.length) { setTimeout(() => h.finish(), 0); return { text: shown, cancel: h.cancel }; }
-    const cc = cloudCfg({ len: text.length }), id = cc && (cc.id || 'groq');
+    const cc = cloudCfg({ len: text.length, text }), id = cc && (cc.id || 'groq');
     const usePhone = (rest) => { if (h.done) return; if (synth && typeof SpeechSynthesisUtterance !== 'undefined') { try { phone(text, rest || items, h); } catch (_) { h.finish(); } } else h.finish(); };
     if (cc && cc.key && !(parked[id] > Date.now())) {
       cloud(text, items, h, cc).catch((e) => {
         const ms = parkMs(e);
         if (ms) parked[id] = Date.now() + ms;
         if (!h.done) {
+          clearTicks(h);
           if (h.ctl) safe(() => h.ctl.abort());                              // (a late answer is not wanted any more)
           if (typeof c.onfallback === 'function') c.onfallback(e, id);
           const rest = h.parts && h.played > 0 && h.played < h.parts.length ? h.parts.slice(h.played) : null;   // what the cloud already said is not said again

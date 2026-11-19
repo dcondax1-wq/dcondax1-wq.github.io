@@ -72,8 +72,12 @@ const short = (l) => String(l).replace(/ \d\d-\d\d$/, '');
 // the real MFFU 50K (the PC bot's anchored eval in data.json "accounts": balance, floor, room = what MFFU shows) in the
 // cloud paper eval's keys; the paper ledger ("live.eval") has its own trail (e.g. floor $48,000 / room $389 while the real
 // account had $1,133 left, 2026-11-03), so it is only the fallback
+// (night-feedsB 2026-11-18) only an account the PC really reports (live / LIVE badge / its heartbeat present: the cloud's own copy
+// of the 50K is a PAPER placeholder with the twin's numbers), and the 50K first: the Zlarior 25K #2 is listed next to it now
+const isReal = (x) => x && x.source === 'pc' && x.eval && ok(x.eval.room) && ok(x.eval.balance) && (x.live || x.badge === 'LIVE' || x.conn?.present === true);
+const is50 = (x) => x.id === 'mffu50k_eval' || +x.eval.start_balance === 50000 || /50K/i.test(String(x.plan || ''));
 function realEval(D) {
-  const a = (D?.accounts || []).find((x) => x && x.source === 'pc' && x.eval && ok(x.eval.room) && ok(x.eval.balance));
+  const R = (D?.accounts || []).filter(isReal), a = R.find(is50) || null;
   if (!a) return null;
   const e = a.eval;
   return { balance: +e.balance, profit: ok(e.profit) ? +e.profit : +e.balance - 50000, to_target: e.to_target, trailing_mll: ok(e.floor) ? +e.floor : +e.balance - +e.room,

@@ -29,7 +29,7 @@
         { label: 'Rules', greek: 'Pnyx', href: 'pnyx/', app: 'pnyx', words: 'rules prop firm mffu calculator micros contracts size stop' },
         { label: 'Payout rules', greek: 'Trading · payout check', href: 'trading/#rulesCard', app: '', words: 'payout payouts withdraw request rules consistency best day' }
       ],
-      ids: ['zenith', 'nq', 'board', 'trading', 'aegis', 'pnyx', 'demeter', 'labyrinth', 'fates', 'moirai', 'odeon', 'nemesis', 'kronos', 'apollo', 'journal',
+      ids: ['zenith', 'nq', 'board', 'why', 'trading', 'aegis', 'pnyx', 'demeter', 'labyrinth', 'fates', 'moirai', 'odeon', 'nemesis', 'kronos', 'apollo', 'journal',
         'kratos', 'epilogue', 'ares', 'argus', 'oracle', 'pantheon', 'pythia', 'pheme', 'kairos', 'chronos', 'forum', 'delphi'] },
     { id: 'money', title: 'Money', line: 'Business, taxes, payouts, the fleet plan and the household', colour: '#7f8a52',
       items: [

@@ -25,6 +25,9 @@ export const LOG_KEY = 'jarvis.kalshi.log';
 export const SPOKEN_KEY = 'jarvis.kalshi.spoken';
 export const MIN_GAP_S = 30, PER_HOUR = 8, TTL_S = 300, BATCH = 3;
 export const STALE_S = 15 * 60;
+// night-feedsA 2026-11-18: Kalshi numbers older than 2 days give no advice (the site's 15-day-old engine copy kept telling the owner,
+// as today's first thing to do, that a PAUSED bot's bet size was too big); the line for the tile then says how old they are
+export const OLD_S = 2 * 86400;
 export const DEF = { on: true, floor: 40, dayLoss: 0.1, quiet: { on: false, from: '23:00', to: '06:00' } };
 const BIG_LOSS = 2, FAVOURITE = 0.9;
 
@@ -238,7 +241,7 @@ export function answer(raw, snap, now, extra) {
 // ------------------------------------------------------------------------------------------------ "Think for me" items and the Money tile
 export function items(s, now) {
   const out = [], add = (p, key, text, say, label, ask) => out.push({ p, mode: 'business', key: 'kalshi:' + key, text, say: say || text, label, action: { type: 'ask', value: ask } });
-  if (!s || !s.ok) return out;
+  if (!s || !s.ok || (s.age != null && s.age > OLD_S)) return out;
   if (s.live && s.paused) add(3.3, 'paused', `The Kalshi bot is ${runWord(s)}${s.status ? ` (${s.status})` : ''}. Nothing trades until you or its server chat resumes it.`, 'The Kalshi bot is paused.', 'Is it running?', 'Is the Kalshi bot running?');
   if (s.ruin != null && s.ruin >= 0.5) add(4.6, 'ruin', `Kalshi's bet size is too big for its bankroll: about ${s.ruin >= 0.995 ? '100%' : pc(s.ruin)} chance of losing half. Suggestion: 1 to 3 contracts.`, 'Kalshi bet size is too big for its bankroll. Suggestion, smaller bets.', 'Risks', 'What are the Kalshi risks?');
   if (s.stop.length) add(5.2, 'stop', `Kalshi: stop ${s.stop[0].label} (${usd(s.stop[0].pnl, true)} over ${s.stop[0].n} bets).${s.stop.length > 1 ? ` ${s.stop.length - 1} more to stop.` : ''}`, `Kalshi: stop ${s.stop[0].label.replace(/ · /g, ', ')}.`, 'What to stop', 'What should I stop doing on Kalshi?');
@@ -248,6 +251,7 @@ export function items(s, now) {
 }
 export function line(s) {
   if (!s || !s.ok) return '';
+  if (s.age != null && s.age > OLD_S) return `Kalshi numbers from ${Math.round(s.age / 86400)} days ago (old)`;
   const bits = [];
   if (s.counts) bits.push(`${s.counts.doMore} do more · ${s.counts.stop} stop`);
   if (s.ruin != null) bits.push(`ruin risk ${s.ruin >= 0.995 ? '~100%' : pc(s.ruin)}`);

@@ -2,6 +2,7 @@
 // (0.5x to 2x). Reads home.json, ledger/rules.json, plutus/roadmap.json and fixture.json (DEMO). Read only: it sends nothing and keeps nothing. Text only through textContent / createElementNS.
 // window.DEMETER is the test hook. ?acct=atlas&size=1.5 opens a given account and size.
 import * as C from './demetercore.js';
+import * as T from '../olympus/truth.js';
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -75,7 +76,9 @@ function render() {
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
   renderPicker(); renderDial(a); renderWhatIf(a); renderPayout(a);
   const hl = C.health(a);
-  say(`${a.name}: ${a.room != null ? C.drawdownLine(a.room, a.mll) : 'no drawdown number yet'}. ${hl.text}.`);
+  // where the numbers come from and how old they are (the PC's report, the same words as Aegis)
+  const src = S.demo ? '' : S.ages && S.ages.line ? ' ' + S.ages.line + (S.ages.stale ? ' They may be out of date.' : '') : '';
+  say(`${a.name}: ${a.room != null ? C.drawdownLine(a.room, a.mll) : 'no drawdown number yet'}. ${hl.text}.${src}`);
   S.ready = true;
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
 }
@@ -83,8 +86,12 @@ function render() {
 async function boot() {
   const q = new URLSearchParams(location.search); S.forced = q.get('demo') === '1';
   const [fx, home, rules, road] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), getJSON('../ledger/rules.json'), S.forced ? null : getJSON('../plutus/roadmap.json')]);
-  S.fixture = fx; S.home = home; S.rules = rules;
-  const built = C.buildAccounts(S.forced ? null : home, rules, fx); S.accounts = built.accounts; S.demo = built.demo;
+  // the account numbers and their age from the shared truth with the PC's status post laid over home.json (olympus/truth.js, the
+  // same as Aegis, Home and the ZEUS card): home.json alone is the cloud's paper twin (night-feedsB 2026-11-18)
+  let canon = null;
+  try { canon = !S.forced && home ? T.canonHome(await T.withPcFeed(home)) : null; } catch (_) { canon = null; }
+  S.fixture = fx; S.home = canon || home; S.rules = rules; S.ages = canon && canon.truth ? canon.truth.ages : null;
+  const built = C.buildAccounts(S.forced ? null : (canon || home), rules, fx); S.accounts = built.accounts; S.demo = built.demo;
   S.roadmap = road && Array.isArray(road.accounts) ? road : fx && fx.roadmap ? fx.roadmap : null;
   const at = q.get('at'), d = at ? new Date(at) : new Date(); S.today = (Number.isFinite(d.getTime()) ? d : new Date()).toISOString().slice(0, 10);
   const k = q.get('acct'); if (k && S.accounts.some((a) => a.key === k)) S.sel = k; else { const first = S.accounts.find((a) => a.has); if (first) S.sel = first.key; }

@@ -1,9 +1,11 @@
 Fonts used by Jarvis (tools/web_public/jarvis/), self-hosted woff2 (latin subset from Google Fonts):
   orbitron.woff2 (Orbitron, weights 500-800)
   rajdhani-400.woff2, rajdhani-500.woff2, rajdhani-600.woff2, rajdhani-700.woff2 (Rajdhani)
+  entry.js: the outlines of the seven letters O L Y M P U S from Cinzel (weight 500), the word on the Olympus entry
 
 Copyright 2018 The Orbitron Project Authors (https://github.com/theleagueof/orbitron), with Reserved Font Name: "Orbitron"
 Copyright (c) 2014, Indian Type Foundry (info@indiantypefoundry.com).
+Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

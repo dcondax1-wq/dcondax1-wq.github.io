@@ -244,20 +244,21 @@
   },
   {
    "id": "kalshi",
-   "q": "Is Kalshi on?",
-   "words": "kalshi status paused paper rewards bets on off prediction k1 rewards card paper test",
+   "q": "Is Kalshi on? How does it go live?",
+   "words": "kalshi status paused paper rewards bets on off prediction k1 rewards card paper test live go live phrase key api key stop flatten k8 gold silver clock phone page kalshi-live bet size",
    "where": "The Kalshi page (the Kalshi door)",
    "steps": [
-    "Kalshi is PAUSED for real money: no real bets (\"Kalshi paused for now\").",
-    "Two paper tests run and never place an order: the rewards card (9 rewarded markets, shows net $ and its age) and the K1 rules card. The PC's 15-minute report keeps both going.",
-    "Real bets come back only with your yes: tell Claude."
+    "Kalshi is PAUSED for real money: ready to go live when you type the phrase. The K8 clock bets (gold / silver 15-minute markets) run on paper every weekday meanwhile.",
+    "On the iPhone: kalshi.com > your account > Profile Settings > API Keys > Create New API Key; keep the page open (Key ID + the private key text). Never paste the key in a chat.",
+    "Open your PC link (the same address as ZEUS Safety) with /kalshi-live/ at the end: paste the Key ID and the key, Save (it shows Key OK and your balance), pick the bet size, type I ACCEPT KALSHI LIVE RISK, Start.",
+    "STOP on that page (one tap) or KILL on ZEUS Safety turns it off at once. A phone push for each bet, each result and the day."
    ],
    "copy": "",
    "link": {
     "href": "../kalshi/",
     "label": "Kalshi"
    },
-   "src": "STATE.md (Kalshi), tools/kalshi_rewards_paper.py, tools/kalshi_paper.py"
+   "src": "engine/kalshi_live.py, engine/kalshi_clock.py, engine/kalshi_web.py, KALSHI_LIVE.bat, STATE.md (Kalshi)"
   },
   {
    "id": "cloudflare",

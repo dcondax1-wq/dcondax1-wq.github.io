@@ -49,12 +49,15 @@ async function mods() {
   if (!jd) jd = await import('./jdata.js');
   return { cp, jd };
 }
+// 2 min with the PC's numbers in; 10 s while home.json is only the site's (cloud) copy, so a feed that came late is not hidden for 2 min
+const fed = (S) => !!(S && S.home && S.home.live && S.home.live.pc && S.home.live.pc.t);
 async function sources() {
-  if (cache && Date.now() - cacheAt < 120000) return cache;
+  if (cache && Date.now() - cacheAt < (fed(cache) ? 120000 : 10000)) return cache;
   const { jd: J } = await mods();
   const S = await J.loadSources({ fetch: (...a) => fetch(...a), now: () => Date.now() });
   let f = null; try { f = window.__jarvis && window.__jarvis.facts ? window.__jarvis.facts() : null; } catch (_) { f = null; }
   if (f && f.kalshi && typeof f.kalshi === 'object') { S.kalshi = f.kalshi; S.at.kalshi = Date.now(); }
+  if (f && f.live && f.live.kpaper && typeof f.live.kpaper === 'object') S.kpaper = f.live.kpaper;     // Kalshi's paper tests on the PC (data.js kalshiPaper)
   cache = S; cacheAt = Date.now(); return S;
 }
 export async function card(opts) {

@@ -314,7 +314,8 @@
     const wk0 = d0 ? new Date(d0.getTime() - ((d0.getUTCDay() + 6) % 7) * 86400000).toISOString().slice(0, 10) : null;   // Monday of that week
     const today = rows.filter((t) => day && t.day === day);
     const dayUsd = st.ab && st.ab.day_pnl != null ? +st.ab.day_pnl : fin.filter((t) => t.day === day).reduce((a, t) => a + (+t.usd || 0), 0);
-    const weekUsd = fin.filter((t) => wk0 && t.day >= wk0 && t.day <= day).reduce((a, t) => a + (+t.usd || 0), 0);
+    // the account's own week when the PC reports it (its paper ledger is not the account's money, night-feedsB 2026-11-18)
+    const weekUsd = st.ab && st.ab.week_pnl != null ? +st.ab.week_pnl : fin.filter((t) => wk0 && t.day >= wk0 && t.day <= day).reduce((a, t) => a + (+t.usd || 0), 0);
     return { keys, st, rows, day, today, dayUsd, weekUsd };
   }
   function tradeRows(rows) {

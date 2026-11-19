@@ -1,8 +1,8 @@
 {
  "v": 1,
  "name": "Ergasterion lessons",
- "asof": "2026-11-18",
- "say": "This week we wrote down 21 lessons. The strongest (2 files agree): (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost… What changed our mind: Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
+ "asof": "2026-11-19",
+ "say": "This week we wrote down 26 lessons. The strongest (2 files agree): (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost… What changed our mind: Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
  "week": [
   {
    "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
@@ -63,8 +63,8 @@
    ]
   },
   {
-   "text": "Tested and rejected: ATLAS new members (2026-11-18, atlas-members-2026-11-18.md, tools/atlas_plus.py, research/second/atlas_plus.json): 29",
-   "cat": "NQ strategy",
+   "text": "Tested and rejected: Win / loss anatomy rules (2026-11-18, win-loss-anatomy-2026-11-18.md): tools/win_loss_anatomy.py, ZEUS Lab kind",
+   "cat": "process",
    "d": "2026-11-18",
    "strength": 1,
    "sources": [
@@ -72,12 +72,12 @@
    ]
   },
   {
-   "text": "The four that look best on paper (pre-FOMC, RSI(2), 12-month trend, overnight drift) all hold positions overnight, which MFFU does not allow (flat by 16:10 ET), and every one of them lost money in 2026 H2 or in 2021-25.",
+   "text": "Tested and rejected: Setup grade, \"trade like a calm person\" (2026-11-18, setup-grade-2026-11-18.md, tools/setup_grade.py, Lab kind",
    "cat": "process",
-   "d": "2026-11-17",
+   "d": "2026-11-18",
    "strength": 1,
    "sources": [
-    "research/writeups/public-strategies-2026-11-17.md"
+    "docs/TESTED_AND_REJECTED.md"
    ]
   }
  ],
@@ -209,10 +209,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 46,
+  "NQ strategy": 44,
   "Kalshi": 2,
   "money": 2,
-  "process": 10,
+  "process": 12,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."
