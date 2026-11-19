@@ -1,6 +1,6 @@
 {
  "v": 1,
- "asof": "2026-11-18T23:00:55Z",
+ "asof": "2026-11-19T00:50:00Z",
  "mode": "paper",
  "label": "ESTIMATE",
  "total": {
@@ -25,7 +25,7 @@
    "status": "sample",
    "source": "scanner",
    "asof": "2026-11-10T00:00:00Z",
-   "age_min": 12900,
+   "age_min": 13010,
    "headline": "Estimate: the fleet of 4 accounts nets about $16,068 over 12 months (stress case -$504, cautious $3,045, best case $26,817); break-even in about 1.2 months. Not a promise.",
    "usd_month": {
     "low": -42.01,
@@ -69,7 +69,7 @@
    "status": "sample",
    "source": "scanner",
    "asof": "2026-11-10T12:00:00Z",
-   "age_min": 12180,
+   "age_min": 12290,
    "headline": "Best deal now: 30% off at MyFundedFutures, about $27.54 saved (estimate).",
    "usd_month": {
     "low": null,
@@ -114,7 +114,7 @@
    "status": "sample",
    "source": "scanner",
    "asof": "2026-11-09T12:00:00Z",
-   "age_min": 13620,
+   "age_min": 13730,
    "headline": "3 paper-worthy edges today; the best is 95–97¢ (n=640), +0.57¢ per $1 after fees on the cautious win rate. Paper stake $3.41 = 1R. Suggestions only: Sibyl places no bet.",
    "usd_month": {
     "low": 0.0,
@@ -157,7 +157,7 @@
    "role": "Household money leaks from your Ledger",
    "status": "sample",
    "source": "scanner",
-   "asof": "2026-11-18T23:00:55Z",
+   "asof": "2026-11-19T00:50:00Z",
    "age_min": 0,
    "headline": "4 leaks worth watching; about $110.60 a month is going out without paying back (estimate).",
    "usd_month": {
@@ -202,7 +202,7 @@
    "status": "sample",
    "source": "scanner",
    "asof": "2026-11-10T06:00:00Z",
-   "age_min": 12540,
+   "age_min": 12650,
    "headline": "Best paper idea (sample data): Hold PEPE, short its perpetual (SmallEx), about 45% a year after costs (estimate), about $37 a month on $1,000. Risk med.",
    "usd_month": {
     "low": 0.0,

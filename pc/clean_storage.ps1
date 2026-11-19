@@ -1,26 +1,32 @@
 <#
 CLEAN_STORAGE (double-click CLEAN_STORAGE.bat). The owner, 2026-11-04: "an easy way to clear storage through both of my
 computers". One run: it shows a plain table of what it would free, asks Y, then clears ONLY safe things, and ends with
-"Freed X GB. C: now Y GB free."
+"Done: freed X GB. C: now Y GB free."
 
 What it clears (only inside the allow-list below; every delete goes through Remove-SafeFile, which refuses anything else):
   Your account (no Administrator):
     - temp files older than 1 day (3 days while the bot or NinjaTrader is running), empty temp folders
     - browser caches (Edge, Chrome, Brave, Firefox): caches only, never passwords, cookies, history or sign-ins
     - thumbnail and icon caches, crash dumps and error reports of your account, npm and pip caches
-    - NinjaTrader: its old log and trace files (14+ days) and its cache folders. NEVER workspaces, templates, bin, the
-      database (db), le_feed (the bot's bars), incoming / outgoing (orders)
+    - NinjaTrader: its own old log and trace files (14+ days), nothing else. NEVER its database (db, db\cache too),
+      workspaces, templates, bin, settings, le_feed (the bot's bars), incoming / outgoing (orders)
     - the bot's own: logs older than 14 days, backups\ zips older than 14 days (the 3 newest stay), data\*.corrupt-* older
-      than 14 days, reports\tmp, __pycache__. NEVER data\ state files, .env.local.ps1, live_state*, accounts, journals,
-      the bar archive data\nt_bars
+      than 14 days, reports\tmp, every __pycache__ of the bot's code, the research replay cache research\runs\_cache
+      (14+ days, rebuilt when needed), old OLYMPUS_BACKUP_*.zip code zips in the bot folder (14+ days, the 2 newest stay).
+      NEVER data\ state files, .env.local.ps1, live_state*, accounts, journals, the bar archive data\nt_bars
     - Recycle Bin (asks)
   Windows (Administrator: Windows asks once; only for this part):
     - Windows temp, Windows Update download cache (SoftwareDistribution\Download), Delivery Optimization cache, Windows
       crash dumps and error reports, old Windows logs, Windows.old (asks; it is big)
   OneDrive: a hint for "Free up space" (Files On-Demand); nothing is deleted there.
+  A second drive (D:, E: ... fixed, with room): ONE Y/N question to MOVE the bot folder's old archives that nothing reads
+    any more (data\_pre_clean_backup, data\_cfd_archive, data\duka_cache, data\nt_export, 200 MB or more together) to
+    <drive>\LiquidityEngine-archive (robocopy /MOVE, a README.txt there says where they came from). Never the bot,
+    NinjaTrader, backups\ (the bot restores from it) or anything live; only while both are stopped.
 
 If the bot or NinjaTrader is RUNNING: everything that could touch them is skipped (NinjaTrader folder, the bot folder,
-Windows.old); only temp, caches and Windows are cleaned, and it says so.
+Windows.old, the archive move); only temp, caches and Windows are cleaned, and it says so.
+It ends with "Done: freed X GB. C: now Y GB free."
 
   powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\clean_storage.ps1             (CLEAN_STORAGE.bat runs this)
   powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\clean_storage.ps1 -DryRun     (the table only, deletes nothing)
@@ -50,6 +56,7 @@ trap {
 }
 if ($env:LE_T_BOOM) { throw 'test: unexpected failure' }
 $script:Freed = [int64]0
+$script:Moved = [int64]0
 $script:Files = 0
 $script:Locked = 0
 $script:Refused = 0
@@ -258,10 +265,12 @@ function Get-DirDecision([string]$Dir) {
         elseif ($BotData -and (Test-UnderRoot $probe $BotData)) {                      # the bot's data folder: only *.corrupt-<n> directly inside it
             if ((Norm $Dir) -ieq $BotData) { $res = 'data' } else { $res = 'no' }
         } elseif ($BotRoot -and (Test-UnderRoot $probe $BotRoot)) {                     # the rest of the bot folder: no state / code / settings files
-            if (Test-UnderRoot $probe (Pj @($BotRoot, 'reports', 'tmp'))) { $res = 'ok' } else { $res = 'bot' }
+            if (Test-UnderRoot $probe (Pj @($BotRoot, 'reports', 'tmp'))) { $res = 'ok' }
+            elseif (Test-UnderRoot $probe (Pj @($BotRoot, 'research', 'runs', '_cache'))) { $res = 'ok' }   # the replay cache: every file is rebuilt on demand
+            else { $res = 'bot' }
         } else {
-            foreach ($nt in $NtFolders) {                                              # NinjaTrader's db is only touched in db\cache
-                if ((Test-UnderRoot $probe (J2 $nt 'db')) -and -not (Test-UnderRoot $probe (Pj @($nt, 'db', 'cache')))) { $res = 'no' }
+            foreach ($nt in $NtFolders) {                                              # NinjaTrader's db (database and data, db\cache too): never
+                if (Test-UnderRoot $probe (J2 $nt 'db')) { $res = 'no' }
             }
         }
     }
@@ -374,6 +383,43 @@ function Get-BrowserRoots {
     }
     return ,$out
 }
+# every folder of the bot's code that holds a __pycache__ (never inside .git, data, logs, backups, node_modules or a Python install)
+function Get-PycParents([string]$Root) {
+    $out = New-Object 'System.Collections.Generic.List[string]'
+    if (-not $Root -or -not [System.IO.Directory]::Exists($Root)) { return ,$out }
+    $skip = @('.git', 'data', 'logs', 'backups', 'node_modules', '.venv', 'venv', 'env', 'site-packages')
+    $stack = New-Object 'System.Collections.Generic.Stack[string]'
+    $stack.Push($Root)
+    while ($stack.Count -gt 0) {
+        $d = $stack.Pop()
+        $subs = @()
+        try { $subs = ([System.IO.DirectoryInfo]::new($d)).GetDirectories() } catch { $subs = @() }
+        foreach ($s in $subs) {
+            if (($s.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) { continue }
+            $nm = $s.Name.ToLowerInvariant()
+            if ($nm -eq '__pycache__') { $out.Add($d); continue }
+            if ($skip -contains $nm) { continue }
+            if (($s.FullName.Length - $Root.Length) -gt 120) { continue }      # deep enough: the code is never this deep
+            $stack.Push($s.FullName)
+        }
+    }
+    return ,$out
+}
+# old code zips (OLYMPUS_BACKUP_*.zip, UPDATE_FROM_ZIP) lying in the bot folder: the newest $Keep stay, the rest go once $Days old
+function Get-OldZips([string]$Dir, [int]$Days, [int]$Keep) {
+    $out = @()
+    if (-not $Dir -or -not [System.IO.Directory]::Exists($Dir)) { return ,$out }
+    $zs = @()
+    try { $zs = @(([System.IO.DirectoryInfo]::new($Dir)).GetFiles('OLYMPUS_BACKUP_*.zip') | Where-Object { $_.Name -match '(?i)^OLYMPUS_BACKUP_.*\.zip$' } | Sort-Object LastWriteTime -Descending) } catch { $zs = @() }
+    $cut = (Get-Date).AddDays(-1 * [double]$Days)
+    for ($i = $Keep; $i -lt $zs.Count; $i++) {
+        if ($zs[$i].LastWriteTime -ge $cut) { continue }
+        $out += $zs[$i].FullName
+        $sha = $zs[$i].FullName -replace '\.zip$', '.sha256.txt'
+        if ([System.IO.File]::Exists($sha)) { $out += $sha }
+    }
+    return ,$out
+}
 function Get-Categories {
     $la = $env:LOCALAPPDATA; $ap = $env:APPDATA; $wd = $env:WINDIR; $pd = $env:ProgramData
     $tempDays = 1; if ($Busy) { $tempDays = 3 }
@@ -394,25 +440,22 @@ function Get-Categories {
         $(if ($ap) { @{ Dir = (J2 $ap 'npm-cache'); Days = 0 } }),
         $(if ($la) { @{ Dir = (Pj @($la, 'pip', 'Cache')); Days = 0 } })))
     $ntItems = @()
-    foreach ($nt in $NtFolders) {
+    foreach ($nt in $NtFolders) {                                   # its own old log and trace files only (never db, workspaces, templates, settings)
         $ntItems += @{ Dir = (J2 $nt 'log'); Days = 14 }
         $ntItems += @{ Dir = (J2 $nt 'trace'); Days = 14 }
-        $ntItems += @{ Dir = (J2 $nt 'cache'); Days = 14 }
-        $ntItems += @{ Dir = (Pj @($nt, 'db', 'cache')); Days = 14 }
     }
-    $cats += (New-Cat 'nt' 'NinjaTrader old logs and caches' 'user' 'trading' $ntItems)
+    $cats += (New-Cat 'nt' 'NinjaTrader old log and trace files' 'user' 'trading' $ntItems)
     $botItems = @()
     if ($BotRoot) {
         $botItems += @{ Dir = (J2 $BotRoot 'logs'); Days = $KeepDays; Rx = '(?i)\.(log|txt|out|err|old)$|\.log\.\d+$' }
         $botItems += @{ Dir = (J2 $BotRoot 'data'); Days = $KeepDays; Flat = $true; Rx = '\.corrupt-\d+$' }
         $botItems += @{ Dir = (Pj @($BotRoot, 'reports', 'tmp')); Days = $KeepDays }
         $botItems += @{ Dir = (J2 $BotRoot 'backups'); Days = $KeepDays; Flat = $true; Rx = '^le-(backup|pre-restore)-.*\.zip$'; KeepNewest = 3 }
-        foreach ($sub in @('', 'engine', 'tools', 'tests', 'scripts', 'ninjatrader')) {
-            $d = $BotRoot; if ($sub) { $d = J2 $BotRoot $sub }
-            $botItems += @{ Dir = $d; Days = 0; Rx = '\.pyc$'; PycOnly = $true }
-        }
+        $botItems += @{ Dir = (Pj @($BotRoot, 'research', 'runs', '_cache')); Days = $KeepDays }
+        foreach ($z in (Get-OldZips $BotRoot $KeepDays 2)) { $botItems += @{ File = $z } }
+        foreach ($d in (Get-PycParents $BotRoot)) { $botItems += @{ Dir = $d; Days = 0; Rx = '\.pyc$'; PycOnly = $true } }
     }
-    $cats += (New-Cat 'bot' 'Bot old logs, backups and __pycache__' 'user' 'trading' $botItems)
+    $cats += (New-Cat 'bot' 'Bot old logs, backups, old code zips, caches' 'user' 'trading' $botItems)
     # ---- Windows (Administrator)
     $cats += (New-Cat 'wtemp' 'Windows temp files' 'system' '' @($(if ($wd) { @{ Dir = (J2 $wd 'Temp'); Days = 1; Prune = $true } })))
     $cats += (New-Cat 'wupdate' 'Windows Update downloads' 'system' '' @($(if ($wd) { @{ Dir = (Pj @($wd, 'SoftwareDistribution', 'Download')); Days = 0; Prune = $true } })))
@@ -505,6 +548,64 @@ function Get-FreeBytes {
 }
 function Get-FreeText { $b = Get-FreeBytes; if ($null -eq $b) { return 'not readable' }; return ("{0:N1} GB free" -f ($b / 1GB)) }
 
+# ------------------------------------------------------------------ a second drive for the old archives (one Y/N question)
+# Only these folders of the bot folder ever move: old archives the bot, the backtests and the site never read.
+$ArchiveRel = @('data\_pre_clean_backup', 'data\_cfd_archive', 'data\duka_cache', 'data\nt_export')
+$MoveMin = [int64]200MB; if ($env:LE_T_MOVE_MIN) { $MoveMin = [int64]$env:LE_T_MOVE_MIN }
+function Get-SecondDrive {
+    # @{ Root; Free } of the fixed drive (not C:, not the bot's own drive) with the most free space, else $null
+    if ($env:LE_T_SECOND_DRIVE) { return @{ Root = $env:LE_T_SECOND_DRIVE; Free = [int64]500GB } }
+    if ($env:OS -ne 'Windows_NT') { return $null }
+    $sd = $env:SystemDrive; if (-not $sd) { $sd = 'C:' }
+    $sd = $sd.TrimEnd('\').ToLowerInvariant()
+    $botDrive = ''; if ($BotRoot -and $BotRoot.Length -ge 2) { $botDrive = $BotRoot.Substring(0, 2).ToLowerInvariant() }
+    $best = $null
+    try {
+        foreach ($d in [System.IO.DriveInfo]::GetDrives()) {
+            try {
+                if ($d.DriveType -ne [System.IO.DriveType]::Fixed -or -not $d.IsReady) { continue }
+                $nm = $d.Name.TrimEnd('\').ToLowerInvariant()
+                if ($nm -notmatch '^[a-z]:$' -or $nm -eq $sd -or $nm -eq $botDrive) { continue }
+                if ($null -eq $best -or [int64]$d.AvailableFreeSpace -gt $best.Free) { $best = @{ Root = $d.Name; Free = [int64]$d.AvailableFreeSpace } }
+            } catch { }
+        }
+    } catch { }
+    return $best
+}
+function Get-ArchivePath([string]$Rel) {
+    if (-not $BotRoot) { return $null }
+    return (Pj (@($BotRoot) + $Rel.Split([char[]]@('\'))))
+}
+function Get-ArchiveCandidates {
+    # @(@(full path, bytes, 'data\name'), ...) of the archive folders that exist in the bot folder
+    $out = @()
+    if (-not $BotRoot) { return ,$out }
+    foreach ($rel in $ArchiveRel) {
+        $p = Get-ArchivePath $rel
+        if (-not $p -or -not [System.IO.Directory]::Exists($p)) { continue }
+        try { if (([System.IO.File]::GetAttributes($p) -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) { continue } } catch { continue }
+        $b = Measure-Tree $p
+        if ($b -gt 0) { $out += ,@($p, [int64]$b, $rel) }
+    }
+    return ,$out
+}
+function Move-Archive([string]$Src, [int64]$Bytes, [string]$DestRoot) {
+    # robocopy /MOVE of ONE listed archive folder to <DestRoot>\<name>; returns the bytes that left the bot folder
+    $listed = $false
+    foreach ($r in $ArchiveRel) { $ap = Get-ArchivePath $r; if ($ap -and ((Norm $Src) -ieq (Norm $ap))) { $listed = $true } }
+    if (-not $listed -or $Busy -or $DryRun) { $script:Refused++; return [int64]0 }
+    $name = Split-Path -Leaf $Src
+    $dst = J2 $DestRoot $name
+    if ([System.IO.Directory]::Exists($dst)) { $dst = J2 $DestRoot ($name + '-' + (Get-Date -Format 'yyyyMMdd-HHmm')) }
+    $global:LASTEXITCODE = 99
+    try { & robocopy.exe $Src $dst /E /MOVE /XJ /R:1 /W:1 /NFL /NDL /NJH /NJS /NP 2>&1 | Out-Null } catch { Log-Only "  move not run (robocopy missing) $Src"; return [int64]0 }
+    $code = $global:LASTEXITCODE
+    if ($code -ge 8) { Log-Only "  move FAILED (robocopy exit $code) $Src"; return [int64]0 }
+    $left = Measure-Tree $Src
+    Log-Only ("  moved " + $Src + " -> " + $dst + " (" + ($Bytes - $left) + " bytes)")
+    return [int64][math]::Max(0, $Bytes - $left)
+}
+
 # ------------------------------------------------------------------ run one category
 function Invoke-Category($Cat, $Cands) {
     $n = 0; $bytes = [int64]0; $lockedBefore = $script:Locked
@@ -591,6 +692,14 @@ foreach ($c in $cats) {
 $binBytes = Get-BinBytes
 $wo = Get-WinOldDir; $woBytes = $null
 if ($wo -and [System.IO.Directory]::Exists($wo) -and -not $Busy) { Write-Host "  (measuring Windows.old, this can take a minute)" -ForegroundColor DarkGray; $woBytes = Measure-Tree $wo }
+# the old archives and a second drive for them (only with the bot and NinjaTrader stopped)
+$arch = @(); $archTotal = [int64]0; $second = $null; $moveTo = ''
+if ($BotRoot -and -not $Busy) {
+    $arch = Get-ArchiveCandidates
+    foreach ($a in $arch) { $archTotal += [int64]$a[1] }
+    if ($archTotal -ge $MoveMin) { $second = Get-SecondDrive }
+    if ($null -ne $second -and [int64]$second.Free -gt ($archTotal + [int64]2GB)) { $moveTo = J2 $second.Root 'LiquidityEngine-archive' }
+}
 
 Head 'What can be freed'
 $total = [int64]0
@@ -609,6 +718,10 @@ $line = ("  {0,-48} {1,10}" -f 'TOTAL (without the two below)', (Fmt $total)); W
 try { Add-Content -LiteralPath $Log -Value $line -Encoding UTF8 } catch { }
 if ($null -ne $binBytes -and $binBytes -gt 0) { Say '..' "Recycle Bin: $(Fmt $binBytes) (asked after the Y)" }
 if ($null -ne $woBytes -and $woBytes -gt 0) { Say '..' "Windows.old (the old Windows): $(Fmt $woBytes) (asked after the Y)" }
+if ($moveTo) {
+    $parts = @(); foreach ($a in $arch) { $parts += ($a[2] + ' ' + (Fmt $a[1])) }
+    Say '..' ("Second drive " + ([string]$second.Root).TrimEnd('\') + ": " + (Fmt $archTotal) + " of old archives could MOVE there (" + ($parts -join ', ') + "), asked after the Y. The bot, NinjaTrader and live data stay.")
+}
 $odHint = $false
 if ($env:OneDrive -and (Test-Path -LiteralPath $env:OneDrive)) {
     $odHint = $true
@@ -624,7 +737,7 @@ if ($DryRun) {
     Write-Result
     exit 0
 }
-if ($IsAdmin -and $total -le 0 -and -not ($binBytes -gt 0) -and -not ($woBytes -gt 0)) {
+if ($IsAdmin -and $total -le 0 -and -not ($binBytes -gt 0) -and -not ($woBytes -gt 0) -and -not $moveTo) {
     Say 'OK' 'Nothing to clean: this PC is already tidy.'
     Say '..' "Log: $Log"
     exit 0
@@ -638,6 +751,8 @@ $doBin = $false
 if ($null -ne $binBytes -and $binBytes -gt 0) { $doBin = $Extras; if (-not $doBin) { $doBin = Ask-YN "Also empty the Recycle Bin ($(Fmt $binBytes))? Y or N" } }
 $doWinOld = $false
 if ($null -ne $woBytes -and $woBytes -gt 0) { $doWinOld = $Extras; if (-not $doWinOld) { $doWinOld = Ask-YN "Also remove Windows.old, the old Windows ($(Fmt $woBytes))? You cannot go back to the old Windows after this. Y or N" } }
+$doMove = $false
+if ($moveTo) { $doMove = Ask-YN ("Also MOVE the old archives (" + (Fmt $archTotal) + ") to " + $moveTo + "? The bot, NinjaTrader and everything live stay where they are. Y or N") }
 
 # ================================================================== your account part
 Head 'Cleaning your account (no Administrator needed)'
@@ -650,6 +765,22 @@ foreach ($r in $rows) {
 if ($doBin) {
     try { Clear-RecycleBin -Force -ErrorAction Stop; $script:Freed += [int64]$binBytes; Say 'OK' "Recycle Bin emptied: $(Fmt $binBytes)"; Log-Only "  Recycle Bin emptied $binBytes" }
     catch { Say 'SKIP' "Recycle Bin: $($_.Exception.Message)" }
+}
+
+# ================================================================== the old archives to the second drive (asked once)
+if ($doMove) {
+    Head ("Moving the old archives to " + $moveTo)
+    try { if (-not [System.IO.Directory]::Exists($moveTo)) { [void][System.IO.Directory]::CreateDirectory($moveTo) } } catch { }
+    foreach ($a in $arch) {
+        $mv = Move-Archive $a[0] ([int64]$a[1]) $moveTo
+        $script:Moved += [int64]$mv
+        if ($mv -gt 0) { Say 'OK' ($a[2] + ": " + (Fmt $mv) + " moved") } else { Say 'SKIP' ($a[2] + ": not moved (the log says why)") }
+    }
+    if ($script:Moved -gt 0) {
+        $note = @(("Moved here by CLEAN_STORAGE on " + (Get-Date -Format 'yyyy-MM-dd HH:mm') + " from " + $BotRoot + ": " + (($arch | ForEach-Object { $_[2] }) -join ', ') + "."),
+                  "Old archives the bot, the backtests and the site never read. To put one back, move its folder back into the bot folder's data folder.")
+        try { Add-Content -LiteralPath (J2 $moveTo 'README.txt') -Value $note -Encoding UTF8 } catch { }
+    }
 }
 
 # ================================================================== the Windows part (Administrator, asked once)
@@ -691,11 +822,13 @@ if ($sysRows.Count -gt 0 -or $doWinOld) {
 Start-Sleep -Seconds 1
 Head 'Result'
 $freeAfter = Get-FreeBytes
-Say 'OK' ("Freed " + (Fmt $script:Freed) + ", C: now " + (Get-FreeText) + ".")
+if ($script:Moved -gt 0) { Say 'OK' ("Moved " + (Fmt $script:Moved) + " of old archives to " + $moveTo + " (README.txt there says from where).") }
+$frTxt = Fmt ($script:Freed + $script:Moved); if ($frTxt -eq '0') { $frTxt = '0 GB' }
+Say 'OK' ("Done: freed " + $frTxt + ". C: now " + (Get-FreeText) + ".")
 if ($null -ne $freeBefore -and $null -ne $freeAfter) { Log-Only ("  (free space on C: before " + [math]::Round($freeBefore / 1GB, 1) + " GB, after " + [math]::Round($freeAfter / 1GB, 1) + " GB)") }
 if ($script:Locked -gt 0) { Say '..' "$($script:Locked) files were in use and were kept (they go next time)." }
 if ($script:Refused -gt 0) { Say 'SKIP' "$($script:Refused) paths were refused by the safety list (listed in the log)." }
-if ($Busy) { Say '..' 'The bot or NinjaTrader was running: their folders were not touched.' }
-else { Say '..' 'NinjaTrader and the bot were not touched (only their old logs and caches).' }
+if ($Busy) { Say '..' 'The bot or NinjaTrader was running: their folders were not touched. For the full clean: when the bot is flat, STOP BOT, close NinjaTrader, then double-click CLEAN_STORAGE.bat again.' }
+else { Say '..' "NinjaTrader and the bot were not touched (only NinjaTrader's old log and trace files and the bot's old logs, zips and caches)." }
 Say '..' "Log with every removed file: $Log"
 exit 0

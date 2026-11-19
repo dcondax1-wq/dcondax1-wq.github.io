@@ -1,18 +1,19 @@
-// MY MFFU ACCOUNTS page (classic script, read only, 2026-11-18). One card per account the way MFFU's dashboard shows it.
-// The pure part is mffumodel.js (window.MFFU_MODEL); payout rules = payoutcoach.js. Everything is drawn with textContent and a
-// canvas for the equity line. window.MFFU_PAGE is the test hook.
+// MY MFFU ACCOUNTS: the account center page (night-mffu2 2026-11-18, owner: "I want everything on the accounts to the point where I
+// barely even have to open MFFU on Safari. I need notifications when trades are taken, on which account."). Classic script, read only.
+// The pure part is mffucenter.js (window.MFFU_CENTER, on mffumodel.js + payoutcoach.js); this file only fetches and draws, with
+// textContent and one canvas per equity line. Live numbers come ONLY from the PC's public status post (../pc_feed.js); the site's
+// saved copies (../board/board.json, ../home.json) are drawn as SNAPSHOT, never as live. window.MFFU_PAGE is the test hook.
+// ?at=<ISO time> pins the clock (tests and screenshots only: it changes nothing but the page's "now").
 (function () {
   'use strict';
-  const M = window.MFFU_MODEL;
+  const X = window.MFFU_CENTER, M = window.MFFU_MODEL;
   const $ = (id) => document.getElementById(id);
-  const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
-  const nowS = () => Math.floor(Date.now() / 1000);
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = String(text); return e; };
-  const usd = (v, cents) => (v == null ? '-' : (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', cents ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: 0 }));
-  const sgn = (v) => (v == null ? '-' : (v > 0 ? '+' : '') + usd(v, true));
-  const ago = (s) => (s == null ? '' : s < 90 ? 'just now' : s < 5400 ? Math.round(s / 60) + ' min ago' : s < 172800 ? Math.round(s / 3600) + ' h ago' : Math.round(s / 86400) + ' days ago');
-  const day = (d) => { if (!d) return '-'; if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return d; const t = new Date(d + 'T12:00:00Z'); return t.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); };
-  const todayET = () => { try { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); } catch (e) { return new Date().toISOString().slice(0, 10); } };
+  const usd = X.usd, sgn = X.sgn;
+  const AT = (() => { try { const q = new URLSearchParams(location.search).get('at'); const t = q ? Date.parse(q) : NaN; return Number.isFinite(t) ? Math.floor(t / 1000) : null; } catch (e) { return null; } })();
+  const nowS = () => AT || Math.floor(Date.now() / 1000);
+  const todayET = (t) => X.etDate(t);
+  const WORD = { ok: 'OK', close: 'Close', broken: 'Broken', wait: 'Not yet', info: 'Info' };
 
   async function getJSON(u, ms) {
     const ac = typeof AbortController === 'function' ? new AbortController() : null, tm = ac ? setTimeout(() => ac.abort(), ms || 6000) : 0;
@@ -20,13 +21,19 @@
     return null;
   }
 
-  // "source · age" under a number
-  function src(s, t, now) {
-    if (!s) return 'no number yet';
-    return s + (t ? ' · ' + ago(now - t) : '');
+  function src(a) { return a.src.label + (a.src.asof ? ' · ' + a.src.asof + (a.src.ago ? ' (' + a.src.ago + ')' : '') : ''); }
+  function asof(t, now) { return t ? X.asOf(t, now) + ' (' + X.ago(now - t) + ')' : 'time unknown'; }
+  function px(v) { return v == null ? '-' : v.toLocaleString('en-US', { maximumFractionDigits: 2 }); }
+  function tradeTime(t, now) { return t ? (X.tradingDay(t) === X.tradingDay(now) ? '' : X.dayText(X.etDate(t), true) + ' ') + X.clock(t) : '-'; }
+
+  function bar(frac, cls) {
+    const b = el('div', 'bar' + (cls ? ' ' + cls : '')), i = el('i');
+    i.style.width = Math.round(Math.max(0, Math.min(1, frac || 0)) * 100) + '%';
+    b.appendChild(i);
+    return b;
   }
 
-  function row(dl, k, v, small, cls) {
+  function kv(dl, k, v, small, cls) {
     dl.appendChild(el('dt', null, k));
     const dd = el('dd', cls || null);
     if (v instanceof Node) dd.appendChild(v); else dd.appendChild(document.createTextNode(String(v)));
@@ -34,11 +41,12 @@
     dl.appendChild(dd);
   }
 
-  function bar(frac, cls) {
-    const b = el('div', 'bar' + (cls ? ' ' + cls : '')), i = el('i');
-    i.style.width = Math.round(Math.max(0, Math.min(1, frac || 0)) * 100) + '%';
-    b.appendChild(i);
-    return b;
+  function section(box, title, open, cls) {
+    const d = el('details', 'mf-sec' + (cls ? ' ' + cls : ''));
+    if (open) d.open = true;
+    d.appendChild(el('summary', null, title));
+    box.appendChild(d);
+    return d;
   }
 
   function equity(pts) {
@@ -51,78 +59,182 @@
       const g = c.getContext('2d'); if (!g) return;
       g.scale(r, r);
       const lo = Math.min(0, ...pts), hi = Math.max(0, ...pts), span = hi - lo || 1, pad = 4;
-      const X = (i) => pad + (pts.length > 1 ? (i * (w - 2 * pad)) / (pts.length - 1) : (w - 2 * pad) / 2);
+      const X0 = (i) => pad + (pts.length > 1 ? (i * (w - 2 * pad)) / (pts.length - 1) : (w - 2 * pad) / 2);
       const Y = (v) => pad + (h - 2 * pad) * (1 - (v - lo) / span);
       g.strokeStyle = 'rgba(255,255,255,.25)'; g.setLineDash([3, 3]); g.lineWidth = 1;
       g.beginPath(); g.moveTo(pad, Y(0)); g.lineTo(w - pad, Y(0)); g.stroke(); g.setLineDash([]);
       g.strokeStyle = pts[pts.length - 1] >= 0 ? '#9fcf8a' : '#e07a6a'; g.lineWidth = 2;
-      g.beginPath(); pts.forEach((v, i) => (i ? g.lineTo(X(i), Y(v)) : g.moveTo(X(i), Y(v)))); g.stroke();
-      g.fillStyle = g.strokeStyle; g.beginPath(); g.arc(X(pts.length - 1), Y(pts[pts.length - 1]), 3, 0, Math.PI * 2); g.fill();
+      g.beginPath(); pts.forEach((v, i) => (i ? g.lineTo(X0(i), Y(v)) : g.moveTo(X0(i), Y(v)))); g.stroke();
+      g.fillStyle = g.strokeStyle; g.beginPath(); g.arc(X0(pts.length - 1), Y(pts[pts.length - 1]), 3, 0, Math.PI * 2); g.fill();
     });
     return c;
   }
 
-  function card(c, now) {
-    const box = el('section', 'ag-card card mf');
-    box.dataset.key = c.key;
-    const top = el('div', 'mf-top');
-    const h = el('h2', null, c.name + (c.last4 ? ' · …' + c.last4 : ''));
-    top.appendChild(h);
-    top.appendChild(el('span', 'mf-st ' + (c.planOnly ? 'plan' : c.status.toLowerCase().replace(/\s+/g, '-')), c.planOnly ? 'PLAN · ' + c.status : c.status));
-    box.appendChild(top);
-    box.appendChild(el('p', 'mf-sub', 'MFFU ' + c.plan + (c.notInPlan ? ' · on your PC, not in the plan yet' : '') + (c.planOnly ? ' · PLAN only: the PC has not sent numbers for it' : '')));
-    const big = el('div', 'mf-big');
-    const tile = (label, v, cls) => { const d = el('div'); d.appendChild(el('b', cls || null, v)); d.appendChild(el('span', null, label)); big.appendChild(d); };
-    tile('Balance', usd(c.balance.v, true));
-    tile('P&L since start', sgn(c.pnl.v), c.pnl.v > 0 ? 'pos' : c.pnl.v < 0 ? 'neg' : '');
-    tile('Drawdown floor', usd(c.floor.v, true));
-    tile('Left to the floor', usd(c.room.v, true), c.room.v != null && c.mll && c.room.v < c.mll * 0.35 ? 'neg' : '');
-    box.appendChild(big);
-    box.appendChild(el('p', 'note', 'Numbers: ' + src(c.balance.src, c.balance.t, now)));
-    const dl = el('dl');
-    row(dl, 'Start date', day(c.start_date.v), src(c.start_date.src, c.start_date.t, now));
-    if (c.room.v != null && c.mll) {
-      const w = el('div'); w.appendChild(document.createTextNode(usd(c.room.v) + ' of ' + usd(c.mll) + ' max loss left')); w.appendChild(bar(c.room.v / c.mll, 'dd'));
-      row(dl, 'Trailing drawdown', w, 'trails the best end-of-day balance; stops at start + $100. Touch it = account ends');
-    }
-    if (c.target) {
-      const w = el('div');
-      w.appendChild(document.createTextNode(usd(c.target.v) + ' (balance ' + usd(c.target.balance) + '): ' + (c.target.left != null ? (c.target.left <= 0 ? 'reached' : usd(c.target.left) + ' to go') : '-')));
-      w.appendChild(bar(c.target.progress));
-      row(dl, 'Profit target', w, c.target.progress != null ? Math.round(c.target.progress * 100) + '% done · ' + src(c.target.src, c.target.t, now) : '');
-    }
-    row(dl, 'Trading days', (c.days.v == null ? '-' : String(c.days.v)) + (c.days.min != null ? ' (min ' + c.days.min + ' ' + c.days.min_text + ')' : ''),
-        (c.days.session != null ? 'bot session #' + c.days.session + ' · ' : '') + src(c.days.src, c.days.t, now));
-    const cs = c.consistency;
-    row(dl, 'Consistency', cs.pct != null ? 'best day ' + usd(cs.best) + ' = ' + cs.pct + '% of ' + usd(cs.base) + (c.stage === 'funded' ? (cs.ok ? ' (OK, max 50%)' : ' (over 50%)') : '')
-        : cs.best != null ? 'best day ' + usd(cs.best) : '-', 'Rule: ' + cs.rule + (cs.src ? ' · ' + src(cs.src, cs.t, now) : ''), c.stage === 'funded' && cs.ok === false ? 'warn' : null);
-    const d = c.dll;
-    row(dl, 'Daily loss limit', d.v == null ? '-' : usd(d.used) + ' used of ' + usd(d.v) + (d.left != null ? ' · ' + usd(d.left) + ' left today' : ''),
-        'soft: hitting it pauses the day only · ' + src(d.src, d.t, now));
-    if (c.payout && c.payout.c) {
-      const p = c.payout.c, w = el('div');
-      w.appendChild(document.createTextNode(p.text));
-      const ul = el('ul', 'coach-lines');
-      if (p.ok) {
-        ul.appendChild(el('li', null, 'Buffer: ' + usd(p.above_buffer) + ' above the ' + usd(M.rulesOf(c.plan).buffer) + ' buffer (profit ' + usd(p.profit) + ')'));
-        ul.appendChild(el('li', null, 'Minimum request ' + usd(M.rulesOf(c.plan).pay_min) + ', maximum ' + usd(M.rulesOf(c.plan).pay_max) + '; you keep 80%'));
-        ul.appendChild(el('li', null, 'Days this cycle: ' + p.cycle_days + ' of ' + p.cycle_days_need + (p.eligible_from ? ' · first request from ' + day(p.eligible_from) : '')));
-        ul.appendChild(el('li', p.request_today > 0 ? 'ok' : null, 'Requestable now: ' + usd(p.request_today, true) + (p.request_today > 0 ? ' (' + usd(p.to_you) + ' to you, ' + usd(p.net) + ' after the 30% tax pot)' : '')));
-        for (const why of (p.why || []).slice(0, 3)) ul.appendChild(el('li', 'warn', why));
-      }
-      w.appendChild(ul);
-      row(dl, 'Payout', w, src(c.payout.src, c.payout.t, now));
-    }
-    const t = c.trades;
-    row(dl, 'Trades', t.n == null ? '-' : t.n + (t.n ? ' · win rate ' + t.win_pct + '% (' + t.w + ' won)' : ''), src(t.src, t.t, now));
-    row(dl, 'Best day', t.best ? usd(t.best.v, true) + ' · ' + day(t.best.day) : '-', t.best ? 'PC ledger' : '', t.best && t.best.v > 0 ? 'pos' : null);
-    row(dl, 'Worst day', t.worst ? usd(t.worst.v, true) + ' · ' + day(t.worst.day) : '-', t.worst ? 'PC ledger' : '', t.worst && t.worst.v < 0 ? 'neg' : null);
+  // one trade line: "9:42 AM LONG 6 at 27,390 -> TARGET +$1,080 (+4.5R)"
+  function tradeLine(x, now, withName) {
+    const li = el('li', 'tr' + (x.open ? ' open' : ''));
+    const left = el('span', 'tr-what', (withName ? x.name + ' · ' : '') + tradeTime(x.entry_t, now) + ' · ' + x.side + ' ' + (x.qty || '?') + ' micro' + (x.qty === 1 ? '' : 's')
+      + (x.entry != null ? ' at ' + px(x.entry) : ''));
+    const right = el('b', x.open ? (x.pnl_usd > 0 ? 'pos' : x.pnl_usd < 0 ? 'neg' : 'warn') : x.usd > 0 ? 'pos' : x.usd < 0 ? 'neg' : '',
+      x.open ? (x.pnl_usd != null ? sgn(x.pnl_usd, true) + ' now' : 'open now') : (x.exit ? x.exit + ' ' : '') + sgn(x.usd, true) + (x.r != null ? ' (' + (x.r > 0 ? '+' : '') + x.r.toFixed(1) + 'R)' : ''));
+    li.appendChild(left); li.appendChild(right);
+    return li;
+  }
+
+  function positionBox(p, now) {
+    const box = el('div', 'mf-pos');
+    box.appendChild(el('p', 'mf-pos-h', 'OPEN TRADE: ' + p.side + ' ' + (p.qty || '?') + ' micros at ' + px(p.entry)));
+    const dl = el('dl', 'kv2');
+    if (p.pnl_usd != null) kv(dl, 'Now', sgn(p.pnl_usd, true), (p.pnl_how ? 'at ' + p.pnl_how + ' · ' : '') + asof(p.pnl_t, now), p.pnl_usd > 0 ? 'pos' : p.pnl_usd < 0 ? 'neg' : null);
+    if (p.stop != null) kv(dl, 'Stop', px(p.stop) + (p.risk_usd != null ? (p.stop_locks != null ? ' · locks ' + sgn(p.stop_locks, true) : ' · ' + usd(-p.risk_usd, true) + ' if hit') : ''), p.be ? 'moved to breakeven' : '');
+    if (p.target != null) kv(dl, 'Target', px(p.target) + (p.reward_usd != null ? ' · ' + sgn(p.reward_usd, true) + ' if hit' : ''));
+    kv(dl, 'Opened', tradeTime(p.entry_t, now) + ' ET', 'position ' + asof(p.t, now));
     box.appendChild(dl);
-    if (c.equity.pts.length >= 2) {
-      box.appendChild(equity(c.equity.pts));
-      box.appendChild(el('p', 'note', 'Equity: ' + src(c.equity.src, c.equity.t, now)));
-    } else box.appendChild(el('p', 'eq-none', 'Equity line: needs 2 traded days from the PC.'));
     return box;
+  }
+
+  function rulesList(rules, now) {
+    const ul = el('ul', 'rules');
+    for (const r of rules) {
+      const li = el('li', 'rule ' + r.state);
+      li.dataset.rule = r.key;
+      li.appendChild(el('span', 'rs ' + r.state, WORD[r.state] || r.state));
+      const body = el('div', 'rb');
+      body.appendChild(el('b', null, r.label));
+      body.appendChild(el('span', null, r.text));
+      if (r.more && r.state !== 'ok') body.appendChild(el('small', null, r.more));
+      li.appendChild(body);
+      ul.appendChild(li);
+    }
+    return ul;
+  }
+
+  function card(a, now) {
+    const box = el('section', 'ag-card card mf');
+    box.id = 'acct-' + a.key;
+    box.dataset.key = a.key;
+    const top = el('div', 'mf-top');
+    top.appendChild(el('h2', null, a.name));
+    top.appendChild(el('span', 'mf-st ' + a.chip.cls, a.chip.text));
+    box.appendChild(top);
+    box.appendChild(el('p', 'mf-sub', a.plan + (a.l4 ? ' · account …' + a.l4 : '') + (a.base && a.base.notInPlan ? ' · on your PC, not in the plan yet' : '')));
+    box.appendChild(el('p', 'mf-src ' + a.src.kind, src(a)));
+    if (a.life_why && /locked|failed|passed|lost/.test(a.stage)) box.appendChild(el('p', 'warn mf-why', a.life_why));
+    const m = a.money;
+    const big = el('div', 'mf-big');
+    const tile = (label, v, cls, small) => { const d = el('div'); d.appendChild(el('b', cls || null, v)); d.appendChild(el('span', null, label)); if (small) d.appendChild(el('small', null, small)); big.appendChild(d); };
+    tile(a.funded ? 'Balance (MFFU, from $0)' : 'Balance', usd(m.balance, true), a.funded && m.balance != null ? (m.balance >= 0 ? 'pos' : 'neg') : '', a.funded && m.ledger_balance != null ? 'bot ledger ' + usd(m.ledger_balance, true) : '');
+    tile('Today (closed)', sgn(m.today, true), m.today > 0 ? 'pos' : m.today < 0 ? 'neg' : '', m.open != null ? 'open trade ' + sgn(m.open, true) : '');
+    tile(a.funded ? 'Profit since funded' : 'P&L since start', sgn(m.pnl, true), m.pnl > 0 ? 'pos' : m.pnl < 0 ? 'neg' : '');
+    tile('Left to max loss', usd(m.room_now != null ? m.room_now : m.room, true), m.room != null && m.mll && m.room < m.mll * 0.25 ? 'neg' : '', m.floor != null ? 'floor ' + usd(m.floor, true) : '');
+    box.appendChild(big);
+    if (a.position) box.appendChild(positionBox(a.position, now));
+    // to pass (evaluation) or the payout (sim funded)
+    if (a.target) {
+      const t = a.target, w = el('div', 'mf-goal');
+      w.appendChild(el('p', 'mf-goal-h', 'To pass: make ' + usd(t.v) + ' (balance ' + usd(t.balance) + ')'));
+      w.appendChild(bar(t.progress));
+      w.appendChild(el('p', 'note', t.left == null ? 'needs the PC\'s balance' : t.left <= 0 ? 'Target reached: MFFU passes it after the day\'s close (1 trading day minimum)'
+        : usd(t.left, true) + ' to go (P&L now ' + sgn(t.pnl, true) + ') · ' + Math.round((t.progress || 0) * 100) + '% done · min ' + t.min_days + ' trading day' + (t.min_days === 1 ? '' : 's')
+          + (t.cons ? ' · no day over ' + Math.round(t.cons * 100) + '% of the profit' : ' · no consistency rule in the evaluation')));
+      box.appendChild(w);
+    }
+    if (a.payout) {
+      const p = a.payout, w = el('div', 'mf-goal');
+      w.appendChild(el('p', 'mf-goal-h' + (p.request_today > 0 ? ' pos' : ''), 'Payout · ' + p.text));
+      w.appendChild(rulesList(p.checks, now));
+      w.appendChild(el('p', 'note', 'Requestable now ' + usd(p.request_today, true) + (p.request_today > 0 ? ' (' + usd(p.to_you, true) + ' to you)' : '') + ' · min ' + usd(p.pay_min)
+        + ', max ' + usd(p.pay_max) + ' a payout, you keep ' + Math.round(p.split * 100) + '% · payouts ' + p.payouts_n + ' of ' + p.max_payouts
+        + (p.eligible_from ? ' · first request from ' + X.dayText(p.eligible_from, true) : '') + ' · after a payout the floor sits at $100'));
+      if (p.t) w.appendChild(el('p', 'note', 'Payout tracker ' + asof(p.t, now)));
+      box.appendChild(w);
+    }
+    // max loss detail
+    const dl = el('dl', 'kv2');
+    if (m.floor != null) {
+      const w = el('div');
+      const ml = a.rules.find((x) => x.key === 'mll');
+      w.appendChild(document.createTextNode(usd(m.room, true) + ' left above the floor ' + usd(m.floor, true) + (m.locked ? ' (locked)' : '') + ' · max loss ' + usd(m.mll) + ' from the best close'));
+      w.appendChild(bar(m.mll ? m.room / m.mll : 0, 'dd ' + (ml ? ml.state : 'ok')));
+      kv(dl, 'Max loss', w, m.next_text || '');
+    }
+    if (a.dll.v) kv(dl, 'Daily loss', a.dll.used == null ? '-' : usd(a.dll.used, true) + ' used of ' + usd(a.dll.v) + ' · ' + usd(a.dll.left, true) + ' left', 'soft: hitting it pauses the rest of the day only');
+    if (a.start_date) kv(dl, 'Started', X.dayText(a.start_date) + (a.stats && a.stats.td ? ' · ' + a.stats.td + ' trading day' + (a.stats.td === 1 ? '' : 's') : ''));
+    box.appendChild(dl);
+    // the rules right now
+    const rs = section(box, 'MFFU rules right now · ' + summaryOf(a.rules), true, 'rules-sec');
+    rs.appendChild(rulesList(a.rules, now));
+    // today's trades + the newest ones
+    const ts = section(box, 'Trades today' + (a.today.length ? ' · ' + a.today.length + ' closed · ' + sgn(a.today_closed, true) : a.position ? ' · 1 open, none closed' : ' · none yet')
+      + (a.position && a.today.length ? ' · 1 open' : ''), a.today.length > 0, 'trades-sec');
+    if (a.today.length) { const ul = el('ul', 'trades'); for (const x of a.today) ul.appendChild(tradeLine(x, now)); ts.appendChild(ul); }
+    else ts.appendChild(el('p', 'note', 'No trade in this session yet (MFFU\'s day runs 6:00 PM to 4:10 PM ET).'));
+    const older = a.recent.filter((x) => a.today.indexOf(x) < 0);
+    if (older.length) { ts.appendChild(el('p', 'note', 'Before today:')); const ul = el('ul', 'trades'); for (const x of older) ul.appendChild(tradeLine(x, now)); ts.appendChild(ul); }
+    ts.appendChild(el('p', 'note', 'Trades ' + asof(a.trades_t, now)));
+    // MFFU's stats dashboard
+    const s = a.stats, ss = section(box, 'Stats (like MFFU\'s dashboard)', false, 'stats-sec');
+    if (s) {
+      const g = el('dl', 'kv2');
+      kv(g, 'Trades', s.n + (s.n ? ' · win rate ' + s.win_pct + '% (' + s.w + ' won)' : ''));
+      kv(g, 'Profit factor', s.pf != null ? s.pf.toFixed(2) : s.n ? 'no losing or no winning trade yet' : '-');
+      kv(g, 'Average win / loss', (s.aw != null ? '+' + usd(s.aw) : '-') + ' / ' + (s.al != null ? usd(s.al) : '-'));
+      kv(g, 'Best / worst trade', (s.bt != null ? sgn(s.bt) : '-') + ' / ' + (s.wt != null ? sgn(s.wt) : '-'));
+      kv(g, 'Best day', s.bd ? sgn(s.bd[1]) + ' · ' + X.dayText(s.bd[0]) : '-', null, s.bd && s.bd[1] > 0 ? 'pos' : null);
+      kv(g, 'Worst day', s.wd ? sgn(s.wd[1]) + ' · ' + X.dayText(s.wd[0]) : '-', null, s.wd && s.wd[1] < 0 ? 'neg' : null);
+      kv(g, 'Contracts traded', s.ct != null ? s.ct + ' micros' : '-');
+      kv(g, 'Trading days', String(s.td) + (a.last_trade ? ' · last ' + X.dayText(a.last_trade, true) : ''));
+      ss.appendChild(g);
+      ss.appendChild(el('p', 'note', 'From the bot\'s own ledger ' + asof(s.t, now) + '. MFFU also counts trades the bot did not place.'));
+    } else ss.appendChild(el('p', 'note', 'The stats come with the PC\'s next update (its "mf" post).'));
+    if (a.equity.length >= 2) { ss.appendChild(equity(a.equity)); ss.appendChild(el('p', 'note', 'P&L at each day\'s close')); }
+    return box;
+  }
+
+  function watch(rules) {
+    const b = rules.find((x) => x.state === 'broken'), c = rules.find((x) => x.state === 'close');
+    return b ? 'BROKEN: ' + b.label : c ? 'watch: ' + c.label : 'rules OK';
+  }
+
+  function summaryOf(rules) {
+    const n = (k) => rules.filter((r) => r.state === k).length;
+    const b = n('broken'), c = n('close');
+    return b ? b + ' broken' + (c ? ', ' + c + ' close' : '') : c ? c + ' close, the rest OK' : 'all OK';
+  }
+
+  // the top card: every account in one line each + open trades + the newest trades (which account)
+  function nowCard(r, now) {
+    const box = $('now'); box.textContent = '';
+    box.appendChild(el('h2', null, 'Right now'));
+    const ul = el('ul', 'acct-list');
+    for (const a of r.accounts) {
+      const li = el('li');
+      const link = el('a', 'acct-row');
+      link.href = '#acct-' + a.key;
+      link.appendChild(el('b', null, a.name));
+      link.appendChild(el('span', 'mf-st ' + a.chip.cls, a.chip.text));
+      const ln = (a.money.balance != null ? usd(a.money.balance, true) : 'no balance yet') + ' · today ' + sgn(a.money.today, true)
+        + (a.position ? ' · ' + a.position.side + ' ' + a.position.qty + ' open' + (a.position.pnl_usd != null ? ' ' + sgn(a.position.pnl_usd, true) : '') : '')
+        + ' · ' + watch(a.rules);
+      link.appendChild(el('span', 'acct-line', ln));
+      li.appendChild(link);
+      ul.appendChild(li);
+    }
+    box.appendChild(ul);
+    box.appendChild(el('p', 'mf-day', r.day.text));
+    const known = r.feed.kind === 'live' || r.feed.kind === 'old';
+    const h = el('h3', null, !known ? 'Open trades: unknown without the PC feed' : (r.open.length ? 'Open trades' : 'Open trades: none')
+      + (r.feed.kind === 'old' ? ' (at the last report)' : ''));
+    box.appendChild(h);
+    if (r.open.length) { const o = el('ul', 'trades'); for (const x of r.open) o.appendChild(tradeLine({ ...x, open: true }, now, true)); box.appendChild(o); }
+    if (r.latest.length) {
+      box.appendChild(el('h3', null, 'Newest trades'));
+      const o = el('ul', 'trades');
+      for (const x of r.latest.slice(0, 3)) o.appendChild(tradeLine(x, now, true));
+      box.appendChild(o);
+    }
+    const dec = r.decoder.map((d) => '…' + d[0] + ' = ' + d[1]).join(' · ');
+    box.appendChild(el('p', 'note', 'Every entry on a real account also pushes to your phone at once (the ntfy app).' + (dec ? ' Which account is which: ' + dec + '.' : '')));
   }
 
   async function load() {
@@ -131,17 +243,24 @@
     try { if (window.PC_FEED) lite = await window.PC_FEED.fetchLatest({}); } catch (e) { /* none */ }
     try { if (window.EDGE_CHIP) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
     const now = nowS();
-    const cs = M.cards({ lite, home, plan, board, coach: window.PAYOUT_COACH, today: todayET() }, now);
+    const r = X.center({ lite, plan, board, home, coach: window.PAYOUT_COACH, today: todayET(now), M }, now);
+    const st = $('status');
+    st.textContent = r.feed.text;
+    st.className = 'note feed ' + r.feed.kind;
+    nowCard(r, now);
     const list = $('list'); list.textContent = '';
-    for (const c of cs) list.appendChild(card(c, now));
-    const pl = M.planned(plan), ul = $('planned'); ul.textContent = '';
-    for (const a of pl) ul.appendChild(el('li', null, a.name + ' · ' + (a.plan || '') + ' · ' + (a.cost || '') + ' · PLAN'));
-    $('plannedBox').hidden = !pl.length;
-    const lt = isObj(lite) ? +((lite.reporter && lite.reporter.t) || lite.t || 0) : 0;
-    $('status').textContent = lt ? 'From your PC, last report ' + ago(now - lt) + (now - lt > 1800 ? ': OLD, the PC may be silent.' : '.')
-      : board ? 'The PC feed did not answer: numbers from the Board copy (' + ago(now - (+board.t || now)) + ') and the plan.' : 'Plan only: no live numbers yet.';
-    $('foot').textContent = 'Read only. Payouts are requested by you in the MFFU dashboard, never by the bot. Plan updated ' + ((plan && plan.updated) || '?') + '.';
-    window.MFFU_PAGE.last = cs;
+    for (const a of r.accounts) list.appendChild(card(a, now));
+    const ul = $('planned'); ul.textContent = '';
+    for (const p of r.planned) {
+      const li = el('li');
+      li.appendChild(el('b', null, p.name + ' · ' + p.plan + (p.cost ? ' · ' + p.cost : '') + ' · PLAN'));
+      if (p.rules) li.appendChild(el('small', null, p.rules));
+      ul.appendChild(li);
+    }
+    $('plannedBox').hidden = !r.planned.length;
+    $('foot').textContent = 'Read only: nothing here trades or requests a payout (you request payouts in the MFFU dashboard). Plan updated ' + ((plan && plan.updated) || '?')
+      + '. Page drawn ' + X.clock(now) + ' ET.';
+    window.MFFU_PAGE.last = r;
     window.MFFU_PAGE.ready = true;
   }
 

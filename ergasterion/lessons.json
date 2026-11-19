@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-18",
- "say": "This week we wrote down 20 lessons. The strongest (2 files agree): (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost… What changed our mind: Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
+ "say": "This week we wrote down 21 lessons. The strongest (2 files agree): (b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; cost… What changed our mind: Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
  "week": [
   {
    "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
@@ -45,6 +45,15 @@
    ]
   },
   {
+   "text": "Tested and rejected: Zlarior's two live evals together (2026-11-18b, lit-ideas-2026-11-18b.md, tools/money/lit_two_evals.py, Lab",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
    "text": "Tested and rejected: ZEUS Lab LIT ideas (2026-11-18, zeus-lab-lit-ideas-2026-11-18.md, tools/lit_lab_ideas.py, Lab kind lit_idea): 10",
    "cat": "NQ strategy",
    "d": "2026-11-18",
@@ -69,15 +78,6 @@
    "strength": 1,
    "sources": [
     "research/writeups/public-strategies-2026-11-17.md"
-   ]
-  },
-  {
-   "text": "Tested and rejected: Walk-forward re-tuning (2026-11-17, lit-walkforward-2026-11-17.md, tools/lit_wf_retune.py, research/lit/wf_retune.json):",
-   "cat": "NQ strategy",
-   "d": "2026-11-17",
-   "strength": 1,
-   "sources": [
-    "docs/TESTED_AND_REJECTED.md"
    ]
   }
  ],
@@ -155,7 +155,7 @@
    ]
   },
   {
-   "text": "Tested and rejected: ZEUS Lab LIT ideas (2026-11-18, zeus-lab-lit-ideas-2026-11-18.md, tools/lit_lab_ideas.py, Lab kind lit_idea): 10",
+   "text": "Tested and rejected: Zlarior's two live evals together (2026-11-18b, lit-ideas-2026-11-18b.md, tools/money/lit_two_evals.py, Lab",
    "cat": "NQ strategy",
    "d": "2026-11-18",
    "strength": 1,

@@ -4,16 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>My MFFU Accounts</title>
-<meta name="description" content="Every MFFU account the way the MFFU dashboard shows it: status, start date, balance, P&amp;L, the trailing drawdown floor and the $ left to it, the profit target, trading days, consistency, the daily loss limit, payout eligibility, trades and a small equity line. Live from your PC.">
+<meta name="description" content="Your MFFU account center, live from your PC: each account the way MFFU shows it (status, balance, today's P&amp;L, the trailing max-loss floor and the $ left, the daily loss limit, the profit target, trading days, consistency, payout eligibility and the next date, contract limits, the 4:10 PM flat rule, holiday hours, news, the 7-day inactivity rule), the open trade, today's trades with $, and a rules checklist.">
 <meta name="theme-color" content="#14110e">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<!-- MY MFFU ACCOUNTS (2026-11-18, owner: "a page where I can see exact accounts just like the MFFU site, the exact stats, dates, pass").
-     Read only. One card per real account, matched by the PC id / Name (never by plan size). Numbers: the PC's ntfy status post
-     (../pc_feed.js: accounts + board.lit / atlas + mf = engine/mffu_view.py), else the published Board copy (../board/board.json),
-     else the plan (./accounts.json, marked PLAN). Every number says where it came from and how old it is. mffumodel.js = the pure
-     part (node tests), payoutcoach.js = the payout rules (= engine/payout_coach.py), mffu.js = the page. textContent only. -->
+<!-- MY MFFU ACCOUNTS = the MFFU account center (night-mffu2 2026-11-18, owner: "everything on the accounts to the point where I barely
+     even have to open MFFU on Safari. I need notifications when trades are taken, on which account"). Read only. One card per real
+     account (Zlarior 50K, Zlarior 25K #2, ATLAS 25K funded), matched by the PC id / Name (never by plan size). LIVE numbers come only
+     from the PC's public status post (../pc_feed.js: the core every 15 min + the ext blocks mf = engine/mffu_view.py, at =
+     engine/feed_trades.py, life); the site's saved copies (../board/board.json, ../home.json) show as SNAPSHOT, never as live.
+     mffucenter.js = the pure part (rules, checklist, open trade, trades, ages; node tests), mffumodel.js = matching + base card,
+     payoutcoach.js = the payout rules (= engine/payout_coach.py), mffu.js = the page. textContent only. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a4">
@@ -24,52 +26,84 @@
 <style>
   main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .refresh { min-height: 44px; min-width: 44px; }
+  .feed { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--ag-line, #3a3226); margin: 0 0 12px; font-size: .9rem; }
+  /* the feed line's dot (agora.css gives #status a quiet gold mark): green = live, red = PC silent, amber = a saved copy / nothing */
+  main#app > #status.note.feed::before { width: 8px; height: 8px; opacity: 1; background: #a9a9b3; }
+  main#app > #status.note.feed.live::before { background: #9fcf8a; }
+  main#app > #status.note.feed.old { color: #e8a090; border-color: #6a3a30; } main#app > #status.note.feed.old::before { background: #e07a6a; }
+  main#app > #status.note.feed.snapshot, main#app > #status.note.feed.none { color: #e0c46a; border-color: #5e4c24; }
+  main#app > #status.note.feed.snapshot::before, main#app > #status.note.feed.none::before { background: #e0c46a; }
   .mf-list { display: grid; gap: 14px; }
-  .mf { padding: 14px 16px; }
+  .mf, .mf-now { padding: 14px 16px; min-width: 0; }
+  .mf-now h2 { margin: 0 0 6px; } .mf-now h3 { margin: 10px 0 4px; font-size: .95rem; }
+  .acct-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .acct-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; min-height: 44px; padding: 6px 10px; border-radius: 10px;
+    background: rgba(255,255,255,.04); color: inherit; text-decoration: none; }
+  .acct-row .acct-line { grid-column: 1 / -1; font-size: .82rem; opacity: .8; overflow-wrap: anywhere; }
+  .mf-day { margin: 8px 0 0; font-size: .82rem; opacity: .75; }
   .mf-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  .mf-top h2 { margin: 0; font-size: 1.1rem; overflow-wrap: anywhere; }
-  .mf-sub { margin: 2px 0 10px; opacity: .8; font-size: .85rem; }
-  .mf-st { font-size: .75rem; padding: 3px 9px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; font-weight: 600; }
-  .mf-st.evaluation { color: #8ab4e0; } .mf-st.passed { color: #9fcf8a; } .mf-st.sim-funded { color: #e0c46a; } .mf-st.failed { color: #e07a6a; }
-  .mf-st.plan { color: #a9a9b3; }
-  .mf-big { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 10px; }
+  .mf-top h2 { margin: 0; font-size: 1.15rem; overflow-wrap: anywhere; }
+  .mf-sub { margin: 2px 0 2px; opacity: .8; font-size: .85rem; }
+  .mf-src { margin: 0 0 10px; font-size: .78rem; opacity: .85; } .mf-src::before { content: "\25CF  "; color: #a9a9b3; }
+  .mf-src.live::before { color: #9fcf8a; } .mf-src.old::before { color: #e07a6a; } .mf-src.snapshot::before, .mf-src.plan::before { color: #e0c46a; }
+  .mf-src.old, .mf-src.snapshot { color: #e0c46a; }
+  .mf-why { font-size: .85rem; margin: 0 0 8px; }
+  .mf-st { font-size: .74rem; padding: 3px 9px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; font-weight: 600; }
+  .mf-st.eval { color: #8ab4e0; } .mf-st.passed, .mf-st.ready { color: #9fcf8a; } .mf-st.funded { color: #e0c46a; } .mf-st.failed { color: #e07a6a; }
+  .mf-st.plan { color: #a9a9b3; } .mf-st.snap { color: #a9a9b3; border-style: dashed; }
+  .mf-big { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; margin: 0 0 10px; }
   .mf-big div { background: rgba(255,255,255,.04); border-radius: 10px; padding: 8px 10px; min-width: 0; }
-  .mf-big b { display: block; font-size: 1.15rem; overflow-wrap: anywhere; } .mf-big span { font-size: .78rem; opacity: .75; }
-  .pos { color: #9fcf8a; } .neg { color: #e07a6a; }
-  .mf dl { display: grid; grid-template-columns: minmax(7em, auto) 1fr; gap: 6px 12px; margin: 0; font-size: .92rem; }
-  .mf dt { opacity: .72; } .mf dd { margin: 0; overflow-wrap: anywhere; }
-  .mf dd small { display: block; opacity: .6; font-size: .74rem; }
+  .mf-big b { display: block; font-size: 1.12rem; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+  .mf-big span { font-size: .76rem; opacity: .75; display: block; } .mf-big small { display: block; font-size: .7rem; opacity: .6; overflow-wrap: anywhere; }
+  .pos { color: #9fcf8a; } .neg { color: #e07a6a; } .warn { color: #e0b85a; }
+  .mf-pos { border: 1px solid #6e5424; background: rgba(224,184,90,.07); border-radius: 10px; padding: 8px 10px; margin: 0 0 10px; }
+  .mf-pos-h { margin: 0 0 6px; font-weight: 700; color: #e0c46a; }
+  .mf-goal { margin: 0 0 10px; display: grid; gap: 4px; } .mf-goal-h { margin: 0; font-weight: 700; }
+  .kv2 { display: grid; grid-template-columns: minmax(6.5em, auto) minmax(0, 1fr); gap: 6px 12px; margin: 0 0 8px; font-size: .9rem; }
+  .kv2 dt { opacity: .72; } .kv2 dd { margin: 0; overflow-wrap: anywhere; } .kv2 dd small { display: block; opacity: .6; font-size: .74rem; }
   .bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.08); overflow: hidden; margin: 4px 0 2px; }
-  .bar > i { display: block; height: 100%; background: var(--oly-accent, #c8a24a); }
-  .bar.dd > i { background: #e07a6a; }
+  .bar > i { display: block; height: 100%; background: var(--oly-accent, #c8a24a); } .bar.dd > i { background: #9fcf8a; }
+  .bar.dd.close > i { background: #e0b85a; } .bar.dd.broken > i { background: #e07a6a; }
+  .mf-sec { border-top: 1px solid var(--ag-line, #3a3226); padding-top: 2px; margin-top: 6px; }
+  .mf-sec > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; font-size: .92rem; }
+  .rules { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 6px; }
+  .rule { display: grid; grid-template-columns: 4.6em minmax(0, 1fr); gap: 8px; align-items: start; font-size: .86rem; }
+  .rs { text-align: center; font-size: .72rem; font-weight: 700; padding: 2px 4px; border-radius: 8px; border: 1px solid currentColor; }
+  .rs.ok { color: #9fcf8a; } .rs.close, .rs.wait { color: #e0b85a; } .rs.broken { color: #e07a6a; background: rgba(224,122,106,.12); } .rs.info { color: #a9a9b3; }
+  .rb b { display: block; } .rb span { display: block; overflow-wrap: anywhere; } .rb small { display: block; opacity: .6; font-size: .74rem; }
+  .trades { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 4px; }
+  .tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; font-size: .86rem; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,.08); }
+  .tr-what { overflow-wrap: anywhere; } .tr b { white-space: nowrap; font-variant-numeric: tabular-nums; }
   .eq { width: 100%; height: 56px; display: block; margin: 8px 0 2px; }
-  .eq-none { font-size: .82rem; opacity: .65; margin: 8px 0 2px; }
-  .ok { color: #9fcf8a; } .warn { color: #e0b85a; }
-  .planned li { margin: 6px 0; }
-  .mode { display: inline-block; margin: 0 0 10px; }
-  .refresh { min-height: 44px; }
+  .planned li { margin: 8px 0; } .planned small { display: block; opacity: .7; font-size: .8rem; margin-top: 2px; }
   .mf-links a { display: inline-block; min-height: 44px; min-width: 44px; line-height: 44px; margin-right: 20px; }
 </style>
 </head>
 <body>
 <main id="app">
   <a class="back" href="./">&larr; Business</a>
-  <header class="top"><div class="brand"><div><h1 class="ag-title">My MFFU Accounts</h1><p class="sub">Each account the way MFFU shows it</p></div></div>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">My MFFU Accounts</h1><p class="sub">Your account center, live from your PC</p></div></div>
     <button type="button" class="ag-btn refresh" id="refresh">Refresh</button></header>
-  <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <p id="status" class="note feed" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card mf-now" id="now" aria-label="Right now"></section>
   <!-- ZEUS edge chip (../edge_chip.js): LIT + ATLAS last 40 sessions vs 2026; mffu.js hands it the PC status -->
   <div id="edgeChip" data-edge-chip data-edge-src="../edge.json"></div>
   <div class="mf-list" id="list"></div>
   <section class="ag-card card planned" id="plannedBox" hidden style="margin-top:16px"><h2>PLAN: not bought yet</h2><ul id="planned"></ul></section>
-  <p class="note">Rules (MFFU help center, checked Nov 17): Builder eval = make the target, never touch the trailing floor (it trails your best
-    end-of-day balance by the max loss and stops at start + $100), daily loss limit pauses the day, at least 1 trading day, no consistency rule.
-    Sim funded = 50% best-day rule per payout cycle, 2 traded days a cycle, the buffer, then $250-$1,000 (25K) / $500-$2,000 (50K), you keep 80%.</p>
+  <p class="note">MFFU's rules (help center, checked Nov 18): an evaluation passes at the target (Builder: 1 trading day minimum, no consistency rule); the max
+    loss trails your best end-of-day balance and stops at start + $100; open losses count at once; the daily loss limit only pauses the day; flat by
+    4:10 PM ET (holiday hours: MFFU does not close trades for you); 7 calendar days without a trade can close an account (sim funded: the profits are
+    lost). Sim funded starts at $0: clear the buffer ($1,100 on 25K, $2,100 on 50K), then at least $250 / $500 above it, 2 trading days a cycle, best
+    day at most 50% of the cycle, 48 hours after the first trade; you keep 80%. MFFU's own dashboard updates once a day after the close (5:01-11:59 PM
+    ET); this page every time your PC reports (about every 15 minutes).</p>
   <nav class="mf-links" aria-label="Other account pages"><a href="accounts.html">My Accounts</a><a href="../board/">Board</a></nav>
   <p class="note" id="foot"></p>
 </main>
 <script src="payoutcoach.js?v=1"></script>
 <script src="mffumodel.js?v=1"></script>
+<script src="mffucenter.js?v=1"></script>
 <script src="../edge_chip.js?v=1"></script>
-<script src="mffu.js?v=2"></script>
+<script src="mffu.js?v=3"></script>
 </body>
 </html>

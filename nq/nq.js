@@ -204,7 +204,7 @@ async function boot() {
   setInterval(refresh, 5 * 60000);                                       // a newer report, when the PC sends one
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
   const A = window.AGORA;                                                // pull down to fetch the newest report (olympus/agora-ui.js)
-  if (A && A.pull) A.pull(async () => { await refresh(); if (A.toast) A.toast(S.forced ? 'Demo numbers: nothing to refresh' : 'Up to date'); });
+  if (A && A.pull) A.pull(async () => { try { window.dispatchEvent(new Event('nq-refresh')); } catch (_) { /* the live chart polls by itself */ } await refresh(); if (A.toast) A.toast(S.forced ? 'Demo numbers: nothing to refresh' : 'Up to date'); });
 }
 window.NQ = { S, C, ready: () => S.ready, render, openSheet, closeSheet };
 boot().catch((e) => { say('Something went wrong: ' + (e && e.message ? e.message : e)); try { if (O && O.fail) O.fail('NQ could not start'); } catch (_) { /* nothing */ } });

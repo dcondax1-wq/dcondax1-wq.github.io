@@ -1,10 +1,12 @@
 @echo off
 rem Liquidity Engine: CLEAN STORAGE (double-click). Frees disk space on this PC (Surface or main PC): it shows a plain table of
 rem what it would free, asks Y, then clears ONLY safe things: temp files, browser caches, Windows Update download cache,
-rem crash reports, old logs, NinjaTrader's old logs and caches, the bot's old logs and backups, npm / pip caches; the Recycle
-rem Bin and Windows.old only if you say Y. Windows asks once (click Yes) for its own part. Never touched: the bot's data and
-rem state, accounts, the bar archive, NinjaTrader's workspaces, templates, database and orders. If the bot or NinjaTrader is
-rem running, their folders are skipped and only temp files, caches and Windows junk are cleaned.
+rem crash reports, old logs, NinjaTrader's own old log and trace files, the bot's old logs, backups, old code zips and
+rem caches (__pycache__, the research replay cache), npm / pip caches; the Recycle Bin and Windows.old only if you say Y.
+rem Windows asks once (click Yes) for its own part. A second drive (D: ...): one Y/N question to MOVE the bot's old archives
+rem (data\_cfd_archive ...) there. Never touched: the bot's data and state, accounts, the bar archive, NinjaTrader's db,
+rem workspaces, templates, settings and orders. If the bot or NinjaTrader is running, their folders are skipped and only
+rem temp files, caches and Windows junk are cleaned. It ends with "Done: freed X GB".
 rem Log: logs\clean_storage-YYYYMMDD-HHMM.txt. Table only, deletes nothing: CLEAN_STORAGE.bat -DryRun
 rem Works from the bot folder, or downloaded alone (then it fetches the script from https://demetrades2000-coder.github.io/nq-dashboard/pc/).
 rem docs\PC_PERFORMANCE.md

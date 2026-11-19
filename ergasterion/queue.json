@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 184,
+  "count": 185,
   "latest": [
    {
     "date": "2026-11-18",
@@ -205,6 +205,13 @@
     "status": "done",
     "summary": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
     "file": "research/writeups/rapid25-lit-lane-2026-11-18.md"
+   },
+   {
+    "date": "2026-11-18",
+    "title": "Zlarior ideas night 2 (2026-11-18b) - the two live evals together - zombie-eval rule, staggered size, and an…",
+    "status": "rejected",
+    "summary": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…",
+    "file": "research/writeups/lit-ideas-2026-11-18b.md"
    },
    {
     "date": "2026-11-18",
@@ -268,17 +275,16 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/mffu-rules-audit-2026-11-17.md"
-   },
-   {
-    "date": "2026-11-17",
-    "title": "LIT walk-forward re-tuning (2026-11-17) - re-fit LIT's knobs every month / quarter on the trailing 6 / 12 mon…",
-    "status": "rejected",
-    "summary": "LIT was tuned on 2026 Jan-Jun and makes about $0 in 2021-25.",
-    "file": "research/writeups/lit-walkforward-2026-11-17.md"
    }
   ]
  },
  "rejected": [
+  {
+   "date": "2026-11-18",
+   "title": "Zlarior ideas night 2 (2026-11-18b) - the two live evals together - zombie-eval rule, staggered size, and an…",
+   "file": "research/writeups/lit-ideas-2026-11-18b.md",
+   "summary": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…"
+  },
   {
    "date": "2026-11-18",
    "title": "ATLAS new members (2026-11-18) - VWAP pullback, opening-drive 1m continuation, value-area re-entry, 15m Keltn…",
@@ -344,15 +350,10 @@
    "title": "ATLAS revive (2026-11-17) - the fade is a low-VIX summer plus eval sizing, not a broken member; no weight / d…",
    "file": "research/writeups/atlas-revive-2026-11-17.md",
    "summary": "Edge health showed ATLAS's stored run at PF 1.41 / ~$411 a month over its last 40 sessions (to Oct 16) vs a 2026 median PF 2.8."
-  },
-  {
-   "date": "2026-11-15",
-   "title": "LIT deep edge (2026-11-15) - why LIT loses, why Jul-Oct made less than Jan-Jun, the setups it skipped, and 16…",
-   "file": "research/writeups/2026-11-15-lit-deep.md",
-   "summary": "No single fact has a bin that loses in both halves; 425 two-fact loser cells picked on Jan-Jun keep losing in Jul-Oct 88 times against 95 expected by chance."
   }
  ],
  "rejected_ref": [
+  "Zlarior's two live evals together (2026-11-18b, lit-ideas-2026-11-18b.md, tools/money/lit_two_evals.py, Lab",
   "ZEUS Lab LIT ideas (2026-11-18, zeus-lab-lit-ideas-2026-11-18.md, tools/lit_lab_ideas.py, Lab kind lit_idea): 10",
   "ATLAS new members (2026-11-18, atlas-members-2026-11-18.md, tools/atlas_plus.py, research/second/atlas_plus.json): 29",
   "New-strategy hunt (2026-11-17, new-strategy-hunt-2026-11-17.md, tools/new_hunt.py, research/second/new_hunt.json): 354 cells,",
@@ -365,8 +366,7 @@
   "92 confluences; 6 daily-bias methods; grade/confidence sizing; partials and trails.",
   "Fixed 10–15 pt stops: wicked out, lose money. Structural stops are rarely ≤15 pts.",
   "Target variants: no cap / draw mode / \"last real pool\" all worse (2026 PF 1.6–2.2 vs 3.48).",
-  "Re-sweep, inducement, FBOS, RBOS: recorded as engine features x_resweep, x_inducement, x_fbos, x_rbos; no edge that",
-  "The skip-mode cold-streak filter: best PF, but it paused for 14 weeks, which the owner rejected."
+  "Re-sweep, inducement, FBOS, RBOS: recorded as engine features x_resweep, x_inducement, x_fbos, x_rbos; no edge that"
  ],
  "learnings": [
   {
@@ -375,6 +375,13 @@
    "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
    "src": "research/writeups/rapid25-lit-lane-2026-11-18.md",
    "kind": "done"
+  },
+  {
+   "d": "2026-11-18",
+   "who": "lit",
+   "text": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…",
+   "src": "research/writeups/lit-ideas-2026-11-18b.md",
+   "kind": "rejected"
   },
   {
    "d": "2026-11-18",
@@ -851,13 +858,6 @@
    "text": "On the whole of 2026 with MNQ-sized noise (40 draws, 1m execution) the median is $32.8k vs $43.8k, H2 $9.1k vs $9.9k (-$229 a month; -$460 with the noise negated), only ~28% of trades identical; a vendor-noise control c…",
    "src": "research/writeups/mnq-vs-nq-feed.md",
    "kind": "adopt-candidate"
-  },
-  {
-   "d": "2026-10-26",
-   "who": "dev",
-   "text": "Owner order 2026-10-26, item 3 - the eval-sizing trade-off between pass speed and fail rate when many evals are bought, priced at the owner's prices (MFFU Builder 25K $63 / $43, Builder 50K $91.80, LucidPro 50K $115-134…",
-   "src": "research/writeups/eval-cost.md",
-   "kind": "adopt-candidate"
   }
  ],
  "lessons": [
@@ -877,6 +877,21 @@
     {
      "src": "research/writeups/builder25k-eval-sizing-2026-11-17.md",
      "d": "2026-11-17"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Zlarior's two live evals together (2026-11-18b, lit-ideas-2026-11-18b.md, tools/money/lit_two_evals.py, Lab",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-18",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-18"
     }
    ]
   },
@@ -1781,21 +1796,6 @@
      "d": "2026-10-23"
     }
    ]
-  },
-  {
-   "text": "One survives - the NY sweep-and-reclaim of the day's levels (prior-day, overnight, Asia, London, prior-week, opening range; 09:30-12:00; inducement first; reclaim close with a 0.3 ATR body; stop beyond the sweep extreme…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-10-22",
-   "kind": "promising",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/second-sr.md",
-     "d": "2026-10-22"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1904,6 +1904,14 @@
    "ok": true,
    "text": "Write-up: ZEUS Lab - 10 new Zlarior (LIT) ideas, 2026-11-18",
    "src": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md"
+  },
+  {
+   "t": 1795003200,
+   "who": "lit",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (rejected): Zlarior ideas night 2 (2026-11-18b) - the two live evals together - zombie-eval rule, staggered size, and an…",
+   "src": "research/writeups/lit-ideas-2026-11-18b.md"
   },
   {
    "t": 1795003200,
@@ -3968,14 +3976,6 @@
    "ok": true,
    "text": "Write-up (finding): What to expect: streaks, drawdowns, flat months and the odds inside a 2-week eval",
    "src": "research/writeups/what-to-expect.md"
-  },
-  {
-   "t": 1792238400,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (finding): VWAP and volume profile as confluence",
-   "src": "research/writeups/vwap-volume-profile.md"
   }
  ],
  "pipeline": {
@@ -4357,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795042800,
+   "t": 1795049400,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,6 +4379,94 @@
   "available": true,
   "commits": [
    {
+    "t": 1795049368,
+    "s": "Land disk cleanup (checkouts 286 MB smaller, docs/ARCHIVE.md restore lines, safer PC cleaner); phone cache le…"
+   },
+   {
+    "t": 1795049256,
+    "s": "Merge branch 'night-clean' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795049062,
+    "s": "disk_clean.py (weekly container clean): stale test temp folders, pip/uv/npm caches, __pycache__ and the repla…"
+   },
+   {
+    "t": 1795049062,
+    "s": "CLEAN_STORAGE (one double-click on the PC): bot caches + old code zips, NinjaTrader log/trace only, second-dr…"
+   },
+   {
+    "t": 1795049047,
+    "s": "Land NQ live chart (le-bars post within the ntfy budget, Lightweight Charts page); phone cache le-public-v138"
+   },
+   {
+    "t": 1795048926,
+    "s": "Merge branch 'night-nqchart' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795048321,
+    "s": "Wire MFFU names: the PC report saves account names; entry alerts say 'Zlarior 50K' / 'Zlarior 25K #2' / 'ATLA…"
+   },
+   {
+    "t": 1795048293,
+    "s": "NQ live chart, phone side: the NQ page opens with a TradingView Lightweight Charts candle chart of the PC's N…"
+   },
+   {
+    "t": 1795048223,
+    "s": "Merge branch 'night-mffu2' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795048208,
+    "s": "Slim the repo by 286 MB: move old screenshots and unused research dumps out (docs/ARCHIVE.md has the one-line…"
+   },
+   {
+    "t": 1795048104,
+    "s": "MFFU account center: business/mffu.html rebuilt on mffucenter.js, live from the PC, never a snapshot as live"
+   },
+   {
+    "t": 1795047242,
+    "s": "mffu_view: the trade alerts' account names (save_names - data/pc_report/names.json, push_name for an alert la…"
+   },
+   {
+    "t": 1795046879,
+    "s": "NQ live chart, PC side: le-bars budget = at most 24 posts a UTC day (lead: ntfy ~250/day, status ~210)"
+   },
+   {
+    "t": 1795046603,
+    "s": "mffu_view.owner_name: size regex without look-behind (the same pattern as the page's twin, old iPhone Safari…"
+   },
+   {
+    "t": 1795046222,
+    "s": "Merge branch 'night-data' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795046222,
+    "s": "Merge branch 'night-litplus' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795046138,
+    "s": "Data to the cloud over ntfy on request; datapipe git push off (backup repo is public)"
+   },
+   {
+    "t": 1795046015,
+    "s": "Zlarior ideas night 2: the two live evals together (zombie rule, stagger) - nothing passes"
+   },
+   {
+    "t": 1795045505,
+    "s": "MFFU center PC part: mf rows carry the owner's names, last traded day, MFFU dashboard stats, funded tracker s…"
+   },
+   {
+    "t": 1795045318,
+    "s": "NQ live chart, PC side: tools/pc_report.py posts a small 'le-bars' ntfy post (NinjaTrader 5m bars + open/clos…"
+   },
+   {
+    "t": 1795044404,
+    "s": "Instant entry alerts: every real-account entry pushes to the private ntfy topic at once; trade_opened on; rep…"
+   },
+   {
+    "t": 1795043033,
+    "s": "Phone site on GitHub Pages: tools/gh_publish.py (privacy build, no runs/, Data City, no fake 'not connected',…"
+   },
+   {
     "t": 1795011314,
     "s": "Cloudflare publish sends the 3D Data City too (Olympus cities on the phone); test"
    },
@@ -4389,101 +4477,13 @@
    {
     "t": 1795011004,
     "s": "Phone Home polish: 3,874 - 3,242 px, layout shift 0.157 - 0 (test_ui_polish 89/89)"
-   },
-   {
-    "t": 1795009069,
-    "s": "Land full browser sweep: 12 suites green again, Oracle card colour + Gate doors theme fixes; le-public-v136"
-   },
-   {
-    "t": 1795008982,
-    "s": "STATE: browser sweep numbers"
-   },
-   {
-    "t": 1795008908,
-    "s": "STATE: browser sweep line"
-   },
-   {
-    "t": 1795008883,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-bsweep"
-   },
-   {
-    "t": 1795007948,
-    "s": "Gate doors: colours from four tokens in gate.css's :where(:root) fallback block (test_hubs: no colour literal…"
-   },
-   {
-    "t": 1795007910,
-    "s": "Bumps: hub.css h4, kalshi.css k35 + kalshi-k35 cache (tools/bump_versions.py)"
-   },
-   {
-    "t": 1795007903,
-    "s": "kalshi.css / hub.css: rules appended after the style-theme layer moved above it (the layer stays last, only h…"
-   },
-   {
-    "t": 1795007208,
-    "s": "Restore 5 screenshots a test run overwrote (committed by mistake with the classic_home test fix)"
-   },
-   {
-    "t": 1795007199,
-    "s": "gate.css ?v=g10 (doors follow the theme)"
-   },
-   {
-    "t": 1795007177,
-    "s": "Gate doors follow the theme (door colours as tokenized CSS rules, not inline AGORA literals: ZEUS gold was 2.…"
-   },
-   {
-    "t": 1795004326,
-    "s": "test_cities_page: the villager own-card check sets the shared people kit aside for its tap (the kit took the…"
-   },
-   {
-    "t": 1795004109,
-    "s": "Land ZEUS answers (what's trading, trades/week, health); Jarvis cache jarvis-v60"
-   },
-   {
-    "t": 1795003850,
-    "s": "Business demo fixture rebuilt (python tools/biz_publish.py --fixture): tonight's edge block (ATLAS edge) was…"
-   },
-   {
-    "t": 1795003824,
-    "s": "test_cities_page: the Athens walk checks pin the first-person walker (?direct=0; the directed walk is test_to…"
-   },
-   {
-    "t": 1795003332,
-    "s": "ZEUS asks: what's trading, trades per week, health (jarvis/zeus.js + edge.json bots)"
-   },
-   {
-    "t": 1795002780,
-    "s": "Land Olympus entry screen v2 (marble, lightning, gold temple); Jarvis cache jarvis-v59"
-   },
-   {
-    "t": 1795002586,
-    "s": "night-entry2: Olympus entry screen v2 (marble, lightning on the gold temple, sheen, letter-by-letter OLYMPUS;…"
-   },
-   {
-    "t": 1795000035,
-    "s": "test_kalshicity_page: close the edge sheet before the second Sound tap (the sheet lies over the chip row at 3…"
-   },
-   {
-    "t": 1794998627,
-    "s": "test_atlas_ui: the Brain toggle is 'All bots' / 'Zlarior detail' / 'ATLAS detail' since night-brain (11-17);…"
-   },
-   {
-    "t": 1794996080,
-    "s": "test_atlas_ui: wait for the Brain page's Zlarior / ATLAS toggle instead of a fixed 1.2 s (the one known red,…"
-   },
-   {
-    "t": 1794995614,
-    "s": "test_mind_page: serve the site's assets/audio and leave the OLYMPUS kit's UI sound file out of 'the page fetc…"
-   },
-   {
-    "t": 1794995492,
-    "s": "Land Jarvis suites green (Tilt fix); Jarvis worker icon pins match the page (j6/j5/j5)"
    }
   ],
   "branches": [
    {
     "name": "claude/clever-heisenberg-51zwcr",
-    "t": 1795011314,
-    "s": "Cloudflare publish sends the 3D Data City too (Olympus cities on the phone); test"
+    "t": 1795049368,
+    "s": "Land disk cleanup (checkouts 286 MB smaller, docs/ARCHIVE.md restore lines, safer PC cleaner); phon…"
    }
   ]
  }
