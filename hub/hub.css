@@ -24,6 +24,7 @@ svg { flex: none; }
 .hb-main { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px;
   padding: calc(var(--ag-st) + 8px) calc(var(--ag-sr) + 16px) calc(var(--ag-sb) + 176px) calc(var(--ag-sl) + 16px); }
 html.framed .hb-main { padding-top: 12px; }
+html:not(.framed) .hb-main { padding-bottom: calc(var(--ag-sb) + 40px); }   /* night-siteqa 2026-11-20: standalone (no Jarvis orb) = no 176 px empty slab at the end (the "funky" bottom); inside Jarvis the orb's seat stays */
 .hb-main .gn-row { margin: 0 0 -8px; }
 .hb-head { display: flex; flex-direction: column; gap: 6px; }
 .hb-main .hb-title { display: block; margin: 0; font: 600 2rem/1.1 var(--ag-serif); color: var(--ag-text); }

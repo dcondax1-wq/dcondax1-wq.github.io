@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-18",
+ "updated": "2026-11-20",
  "note": "How do I... (hub/help.html). Each answer is 2-4 plain steps, where to click, at most one line to copy, and the page where it is done. Facts from the docs named in src, checked against the code 2026-11-18. The lead keeps it current.",
  "items": [
   {
@@ -66,7 +66,7 @@
    "where": "Your PC's private Tailscale link + /safety/ (never on this public site)",
    "steps": [
     "First time only, at the PC: run the line below. It turns the phone buttons on.",
-    "On the phone: Tailscale on, open your PC's private link (the LIVE_LINK.bat address) and add /safety/ at the end. Add it to the Home Screen.",
+    "On the phone: Tailscale on, open your PC's private link and add :8444/safety/ after the name (port 8444 is the bot's own; 443 is your old Jarvis app). Add it to the Home Screen.",
     "PAUSE = no new trades until the next 4 PM ET; RESUME undoes it. FLATTEN all now and KILL (flatten + stop) need a second tap.",
     "It can never arm a bot or place a trade. Only the PC and your own Tailscale devices can press it."
    ],
@@ -100,12 +100,12 @@
   {
    "id": "update",
    "q": "Update the PC",
-   "words": "update upgrade new code version update.bat fix ok red auto update backup",
-   "where": "Nothing (it updates itself); by hand: UPDATE.bat in the bot folder",
+   "words": "update upgrade new code version update.bat fix ok red auto update backup phone remote update now github control olympus",
+   "where": "Nothing (it updates itself). Now: phone app > More > Remote > Update now, or UPDATE.bat at the PC",
    "steps": [
     "Nothing to do: the PC updates itself from the backup when it is flat (the 17:02 ET break; a live eval only on Friday or Saturday). Never in trading hours or with a trade open.",
-    "To update now (after 16:00 ET, bot flat): double-click UPDATE.bat. LE START also takes the newest code first. Tonight's cross-account hedge fix (25K #2 eval vs ATLAS's funded 25K) reaches evals Fri/Sat by itself: run UPDATE.bat when flat (17:00-18:00 ET best) to get it sooner.",
-    "[OK] = fine. [FIX] = that step needs you, and the line says what (for example: a trade is open, run UPDATE after it closes). The old version keeps running.",
+    "From the phone, anywhere: phone app > More > Remote > Update now > Copy and open GitHub, paste over everything, Commit changes (first time only: type your backup repo, account/olympus, and Save). The PC acts within ~60 s, only when flat, never 01:50-16:00 ET on a weekday; a notice tells you the result.",
+    "At the PC (after 16:00 ET, bot flat): double-click UPDATE.bat (LE START also takes the newest code first). [OK] = fine. [FIX] = that step needs you, and the line says what (for example: a trade is open, run UPDATE after it closes). The old version keeps running.",
     "Still red? Take a photo of the window and send it to Claude."
    ],
    "copy": "python -X utf8 -m engine.autoupdate --source-status",
@@ -114,7 +114,7 @@
     "href": "../board/",
     "label": "Board (the PC's last report)"
    },
-   "src": "docs/AUTO_UPDATE.md, UPDATE.bat, engine/autoupdate.py, engine/multi_account.py"
+   "src": "docs/AUTO_UPDATE.md, UPDATE.bat, engine/autoupdate.py, engine/multi_account.py, docs/REMOTE_CONTROL.md, engine/remote_ctl.py"
   },
   {
    "id": "pc-silent",
@@ -248,9 +248,9 @@
    "words": "kalshi status paused paper rewards bets on off prediction k1 rewards card paper test live go live phrase key api key stop flatten k8 gold silver clock phone page kalshi-live bet size",
    "where": "The Kalshi page (the Kalshi door)",
    "steps": [
-    "Kalshi is PAUSED for real money: ready to go live when you type the phrase. The K8 clock bets (gold / silver 15-minute markets) run on paper every weekday meanwhile.",
+    "Kalshi is PAUSED for real money: ready to go live when you type the phrase. The K8 clock bets (gold / silver 15-minute markets) run on paper every weekday meanwhile. With $55: $2.50 a bet, at most 3 a day, a bad week loses at most $13.75.",
     "On the iPhone: kalshi.com > your account > Profile Settings > API Keys > Create New API Key; keep the page open (Key ID + the private key text). Never paste the key in a chat.",
-    "Open your PC link (the same address as ZEUS Safety) with /kalshi-live/ at the end: paste the Key ID and the key, Save (it shows Key OK and your balance), pick the bet size, type I ACCEPT KALSHI LIVE RISK, Start.",
+    "Open your PC link with :8444/kalshi-live/ at the end (the same address as ZEUS Safety; the link without :8444 is your old Jarvis app): paste the Key ID and the key, Save (it shows Key OK and your balance), pick the bet size ($2.50 for $55), type I ACCEPT KALSHI LIVE RISK, Start.",
     "STOP on that page (one tap) or KILL on ZEUS Safety turns it off at once. A phone push for each bet, each result and the day."
    ],
    "copy": "",
@@ -434,6 +434,24 @@
     "label": "My accounts (MFFU view)"
    },
    "src": "engine/rapid.py (lit_bank)"
+  },
+  {
+   "id": "steps",
+   "q": "What do I still have to do?",
+   "words": "steps todo to-do waiting owner list tired repeating what next",
+   "where": "Phone: the Your steps page",
+   "steps": [
+    "Open Your steps. Each card says where (PC or phone), why, and the exact line.",
+    "Do them top to bottom. Tap Copy for the line to type.",
+    "Tick Done. The tick stays on this phone."
+   ],
+   "copy": "",
+   "copy_note": "",
+   "link": {
+    "href": "steps.html",
+    "label": "Your steps"
+   },
+   "src": "STATE.md 'Waiting on the owner', hub/steps.json"
   }
  ]
 }

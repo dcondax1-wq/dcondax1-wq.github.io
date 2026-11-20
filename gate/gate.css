@@ -260,3 +260,44 @@ html[data-oly-style] :is(.g-title, .g-h2, .g-hub b, .g-nowhead h2) { font-weight
 html[data-oly-style] .g-btn.primary { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }
 html[data-oly-style] :is(.g-sw[aria-checked="true"], .g-mini[aria-checked="true"], .g-combo[aria-pressed="true"]) { border-color: var(--oly-th-ring) !important; box-shadow: 0 0 0 2px var(--oly-th-ring) inset !important; }
 html[data-oly-style] :is(.g-q, .g-azbtn) { background: var(--oly-th-card-bg) !important; border: var(--oly-th-card-border) !important; border-radius: var(--oly-th-radius) !important; }
+
+/* ================================================================================================ v3 REVAMP (2026-11-20, night-revamp-main)
+   Owner: "home page change to make it look good, not like a shitty AI built it." One calm system (olympus/shell.css tokens): flat surfaces with a
+   hairline, one radius, sans section labels in place of gold serif headings, the four doors as quiet tiles with a colour dot, the hubs as ONE
+   grouped list (icon, name, live line, chevron) like the iPhone's Settings, no gradients or heavy shadows (the lag), the page ends just above
+   the home bar. Markup, links and ids are unchanged (tests.test_gate_page). */
+.g-main { gap: 26px; padding-top: calc(var(--ag-st) + 22px); padding-bottom: calc(var(--ag-sb) + 48px); }
+.g-main .g-title { font: 700 2.25rem/1.05 var(--o-font-display, var(--ag-serif)); letter-spacing: -.005em; }
+.g-main .g-title::after { content: none; }
+.g-main .g-sub { margin-top: 6px; color: var(--ag-muted); font-size: .9375rem; }
+.g-main .g-h2:not(.g-vh), .g-main .g-nowhead h2 { margin: 0 4px 8px; font: 600 .8125rem/1.2 var(--o-font, var(--ag-sans)); letter-spacing: .04em; text-transform: uppercase; color: var(--ag-muted); }
+.g-main .g-nowhead h2 { margin: 0; }
+.g-hint { margin: -2px 4px 10px; }
+/* surfaces: flat, one hairline, one radius */
+.g-card, .g-q, .g-dr, .g-chip, .g-azbtn, .g-search input, .g-list:not(:empty), .g-btn:not(.primary) { background: var(--o-surface, var(--ag-s1)); border: 1px solid var(--o-line, var(--ag-line)); box-shadow: none; }
+.g-card { border-radius: var(--o-r-lg, 20px); padding: 16px; }
+.g-now { border-color: var(--o-line-2, var(--ag-line)); }
+.g-fact { background: var(--o-surface-2, var(--ag-s2)); border-color: transparent; border-radius: var(--o-r-md, 14px); }
+.g-search.g-big input { min-height: 50px; border-radius: var(--o-r-md, 14px); border-color: var(--o-line, var(--ag-line)); font-size: 1.0625rem; }
+.g-search.g-big svg { stroke: var(--ag-muted); }
+.g-azbtn { min-height: 50px; flex-basis: 56px; border-radius: var(--o-r-md, 14px); font: 600 .9375rem/1 var(--o-font, var(--ag-sans)); color: var(--ag-soft); }
+/* the four doors: a colour dot, the name, one line */
+.g-dr { border-radius: var(--o-r-md, 14px); min-height: 76px; justify-content: center; }
+.g-dr b { display: flex; align-items: center; gap: 8px; font: 650 1.0625rem/1.2 var(--o-font, var(--ag-sans)); color: var(--ag-text); }
+.g-dr b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--dc, var(--ag-gold)); }
+.g-dr .g-qline { color: var(--ag-muted); }
+.g-q { border-radius: var(--o-r-md, 14px); }
+.g-q b { font: 650 1rem/1.2 var(--o-font, var(--ag-sans)); }
+/* the hubs: one grouped list */
+.g-hubgrid { grid-template-columns: 1fr; gap: 0; border: 1px solid var(--o-line, var(--ag-line)); border-radius: var(--o-r-lg, 20px); background: var(--o-surface, var(--ag-s1)); overflow: hidden; }
+.g-hub, .g-hub.g-wide { grid-column: auto; grid-template-columns: 32px minmax(0, 1fr) 14px; grid-template-rows: auto auto; column-gap: 12px; row-gap: 1px; align-items: center;
+  min-height: 60px; padding: 10px 14px; border: 0; border-top: 1px solid var(--o-line, var(--ag-line)); border-radius: 0; background: none; box-shadow: none; position: relative; }
+.g-hub:first-child { border-top: 0; }
+.g-hub::after { content: ""; grid-column: 3; grid-row: 1 / span 2; width: 7px; height: 7px; border-top: 1.6px solid var(--ag-muted); border-right: 1.6px solid var(--ag-muted); transform: rotate(45deg); justify-self: center; }
+.g-hicon { grid-column: 1; grid-row: 1 / span 2; width: 26px; height: 26px; justify-self: center; margin: 0; }
+.g-hub b, .g-hub.g-wide b { grid-column: 2; grid-row: 1; font: 600 1rem/1.25 var(--o-font, var(--ag-sans)); }
+.g-hline, .g-hub.g-wide .g-hline { grid-column: 2; grid-row: 2; margin: 0; font-size: .8125rem; -webkit-line-clamp: 1; line-clamp: 1; color: var(--ag-muted); }
+.g-hcount { display: none; }
+.g-azwide { margin-top: 12px; }
+@media (prefers-reduced-motion: no-preference) { .g-hub:active { transform: none; background: var(--o-surface-2, var(--ag-s2)); } }
+@media (hover: hover) { .g-hub:hover { background: var(--o-surface-2, var(--ag-s2)); } }

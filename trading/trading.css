@@ -11,6 +11,9 @@ button { cursor: pointer; }
 [hidden] { display: none !important; }
 #app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
 html.framed #app { padding-top: 12px; }
+/* alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal (18 px in): 96 px + the home bar clears it; the 176 px seat (Jarvis's
+   80 x 160 orb) stays for the framed page. Owner 2026-11-20: the empty band at the end looked "funky". */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
 .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }

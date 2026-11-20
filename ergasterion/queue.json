@@ -1,6 +1,6 @@
 {
  "v": 2,
- "asof": "2026-11-19",
+ "asof": "2026-11-20",
  "note": "Built from handoff/QUEUE.md, research/writeups, research/runs, the Archive index, the Mind's proposals and git (when present) by tools/ergasterion_build.py. Plain text only; nothing here is a trade.",
  "queue": {
   "total": 67,
@@ -190,8 +190,50 @@
   ]
  },
  "writeups": {
-  "count": 197,
+  "count": 208,
   "latest": [
+   {
+    "date": "2026-11-20",
+    "title": "Red team of tonight's live code (2026-11-20) - what could stop the bot, slow an order, send a wrong order or…",
+    "status": "finding",
+    "summary": "Found and fixed - a phone 'Start trading' that re-armed after the owner's STOP, an old remote stop that could stop Friday's bot, a false 'not polling' push after every START / Re-arm, an alarm storm with no limit that c…",
+    "file": "research/writeups/redteam-live-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "Payday plan - when each account pays first, what could make it sooner, and where the losses sit (2026-11-20)",
+    "status": "done",
+    "summary": "At least one payout by Dec 31 62% / by Jan 15 81% in a Jul-Oct-like market (77% / 90% Jan-Jun-like, 15% / 21% 2021-25-like); the first one is almost always ATLAS's 25K ($800 to you). 8 pre-registered levers judged on pa…",
+    "file": "research/writeups/payday-plan-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "NQ live bot reliability - every way a backtest trade can miss the account, the fix or alarm for each, entry t…",
+    "status": "finding",
+    "summary": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
+    "file": "research/writeups/nq-live-reliability-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "Money ideas (2026-11-20, night-moneyideas)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/money-ideas-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "Kalshi K8 for a $55 account, ready by Monday 6 PM (sizing, better-edge tests, dry run, phone pages)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/kalshi-k8-monday-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "ATLAS real fills - why its NinjaTrader entries fill ~11 ticks worse than the backtest, what it costs at 3 / 6…",
+    "status": "finding",
+    "summary": "ATLAS enters with a MARKET order at the 5m open right after its signal bar closes; the order leaves 3-5 s after the open.",
+    "file": "research/writeups/atlas-fills-2026-11-20.md"
+   },
    {
     "date": "2026-11-19",
     "title": "Third strategy hunt (2026-11-18/19 night) - post-close move into the 18:00 reopen, Camarilla / floor pivots,…",
@@ -201,80 +243,38 @@
    },
    {
     "date": "2026-11-19",
+    "title": "Red team - Zlarior + ATLAS on ONE Builder 50K (one-account-combo-2026-11-19.md)",
+    "status": "done",
+    "summary": "Same headline within Monte Carlo noise (Jul-Oct Zlarior alone $736 vs study $714, Zlarior + ATLAS $1,305 vs $1,286, gap +$569 vs +$572).",
+    "file": "research/writeups/one-account-combo-redteam-2026-11-19.md"
+   },
+   {
+    "date": "2026-11-19",
+    "title": "One account, Zlarior + ATLAS on the Builder 50K - the FINAL rules (12 pre-registered rule sets, MFFU live mov…",
+    "status": "done",
+    "summary": "Design committed before any variant result (f80bacac) - 12 rule sets (conflict first-in / Zlarior-the-other-way closes ATLAS / any Zlarior entry closes ATLAS; ATLAS at 100 / 60 / 40% of its size; ATLAS out of / at 50% i…",
+    "file": "research/writeups/one-account-combo-final-2026-11-19.md"
+   },
+   {
+    "date": "2026-11-19",
+    "title": "ONE account, several bots - Zlarior + ATLAS (+ BLITZ) on a Builder 50K, Builder 25K or Rapid EOD 25K",
+    "status": "done",
+    "summary": "Bots as they are today (Zlarior 120 + 511 trades, ATLAS raw members, BLITZ alone, the post-close lead as a sensitivity), one net position (first-in; same-side adds as a sensitivity), every bot sized from ONE shared room…",
+    "file": "research/writeups/one-account-combo-2026-11-19.md"
+   },
+   {
+    "date": "2026-11-19",
+    "title": "Zlarior (LIT) more money - 9 pre-registered ideas in 2 batches (ES filler, breakeven, fills, bias, news, thro…",
+    "status": "rejected",
+    "summary": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
+    "file": "research/writeups/lit-more-money-2026-11-19.md"
+   },
+   {
+    "date": "2026-11-19",
     "title": "Kalshi red team on K8 (the friend's 15-minute gold / silver clock bets)",
     "status": "the",
     "summary": "",
     "file": "research/writeups/kalshi-red-team-K8-2026-11-19.md"
-   },
-   {
-    "date": "2026-11-19",
-    "title": "Kalshi K8 commodities - the friend's \"printer\" bot (15-minute gold/silver clock bets + index-roll bets)",
-    "status": "real",
-    "summary": "",
-    "file": "research/writeups/kalshi-metals-2026-11-19.md"
-   },
-   {
-    "date": "2026-11-19",
-    "title": "Kalshi K7 (2026-11-18/19), the high-win-rate \"carry\" family - buying 90-99c near-certainties, by category and…",
-    "status": "rejected",
-    "summary": "",
-    "file": "research/writeups/kalshi-edge-K7-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-19",
-    "title": "Kalshi edge, team K6 (Fed, Treasury yields, SOFR vs official rates data): NO EDGE PROVEN",
-    "status": "rejected",
-    "summary": "",
-    "file": "research/writeups/kalshi-edge-K6-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "ZEUS Lab - 10 new Zlarior (LIT) ideas, 2026-11-18",
-    "status": "",
-    "summary": "Ten genuinely untested Zlarior ideas (time stop, NY-open exit / breakeven, news exit / breakeven, stall exit, breakeven on a close, NR7 size-up, London build-up size-up, 18:00 gap against size-down), one pre-declared ve…",
-    "file": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "Why we win, why we lose (2026-11-18) - every Zlarior, ATLAS and BLITZ trade taken apart; the losers are mostl…",
-    "status": "finding",
-    "summary": "I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - with MAE / MFE in R an…",
-    "file": "research/writeups/win-loss-anatomy-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "Setup grade (2026-11-18) - a calm trader's 7-warning checklist (A / B / C) before every Zlarior and ATLAS sig…",
-    "status": "rejected",
-    "summary": "Owner - \"More accurate with our trades, don't trade like a bot, trade how a person would, without emotion.\" Built the checklist a calm discretionary NQ trader asks before each signal, from what is on the chart at that m…",
-    "file": "research/writeups/setup-grade-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "Rapid EOD 25K - which LIT lane rule under the 30% best-day rule",
-    "status": "done",
-    "summary": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
-    "file": "research/writeups/rapid25-lit-lane-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "Zlarior ideas night 2 (2026-11-18b) - the two live evals together - zombie-eval rule, staggered size, and an…",
-    "status": "rejected",
-    "summary": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…",
-    "file": "research/writeups/lit-ideas-2026-11-18b.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "Kalshi red team, the liquidity-rewards lead checked from raw data (paper test, tape backtest, Kalshi's filed…",
-    "status": "not",
-    "summary": "",
-    "file": "research/writeups/kalshi-red-team-2026-11-18.md"
-   },
-   {
-    "date": "2026-11-18",
-    "title": "Kalshi best shot - the liquidity-rewards maker, scored the way Kalshi actually pays",
-    "status": "rejected",
-    "summary": "Do not put money in. Kalshi really pays a daily pot to resting orders, but nothing shows a small account keeps more than the fills take away:",
-    "file": "research/writeups/kalshi-best-shot-rewards-2026-11-18.md"
    }
   ]
  },
@@ -284,6 +284,12 @@
    "title": "Third strategy hunt (2026-11-18/19 night) - post-close move into the 18:00 reopen, Camarilla / floor pivots,…",
    "file": "research/writeups/third-strategy-2026-11-18.md",
    "summary": "After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famous published edges, d…"
+  },
+  {
+   "date": "2026-11-19",
+   "title": "Zlarior (LIT) more money - 9 pre-registered ideas in 2 batches (ES filler, breakeven, fills, bias, news, thro…",
+   "file": "research/writeups/lit-more-money-2026-11-19.md",
+   "summary": "Owner - \"improve all of our strategies, there's things we can do to make more\"."
   },
   {
    "date": "2026-11-19",
@@ -344,15 +350,13 @@
    "title": "New-strategy hunt - a third NQ strategy for more winning days (lunch squeeze, PM continuation, value-area fai…",
    "file": "research/writeups/new-strategy-hunt-2026-11-17.md",
    "summary": "Four new families on CME NQ1! 5m RTH (costs in, stops 1 tick beyond structure, $500 a trade, one trade a day), 354 cells counted, hypotheses fixed before the run - LSQ lunch-range squeeze - PM break (with / against / an…"
-  },
-  {
-   "date": "2026-11-17",
-   "title": "LIT walk-forward re-tuning (2026-11-17) - re-fit LIT's knobs every month / quarter on the trailing 6 / 12 mon…",
-   "file": "research/writeups/lit-walkforward-2026-11-17.md",
-   "summary": "LIT was tuned on 2026 Jan-Jun and makes about $0 in 2021-25."
   }
  ],
  "rejected_ref": [
+  "ATLAS real-fill fixes (2026-11-20, atlas-fills-2026-11-20.md, tools/atlas_fills.py, research/second/atlas_fills.json,",
+  "Payday levers + cross-bot loss cuts (2026-11-20, payday-plan-2026-11-20.md, tools/money/payday_plan.py,",
+  "Zlarior more money, 2 pre-registered batches (2026-11-19, lit-more-money-2026-11-19.md, tools/lit_more_money.py,",
+  "ATLAS more money (2026-11-19, atlas-more-money-2026-11-19.md, tools/atlas_more.py, research/second/atlas_more.json, Lab",
   "BLITZ review (2026-11-18, blitz-review-2026-11-18.md, tools/blitz_review.py, research/scalp/blitz_review.json, Lab kind",
   "Third strategy hunt (2026-11-19, third-strategy-2026-11-18.md, tools/third_strategy.py, research/second/third_strategy.json,",
   "Setup grade, \"trade like a calm person\" (2026-11-18, setup-grade-2026-11-18.md, tools/setup_grade.py, Lab kind",
@@ -362,19 +366,78 @@
   "ZEUS Lab LIT ideas (2026-11-18, zeus-lab-lit-ideas-2026-11-18.md, tools/lit_lab_ideas.py, Lab kind lit_idea): 10",
   "ATLAS new members (2026-11-18, atlas-members-2026-11-18.md, tools/atlas_plus.py, research/second/atlas_plus.json): 29",
   "New-strategy hunt (2026-11-17, new-strategy-hunt-2026-11-17.md, tools/new_hunt.py, research/second/new_hunt.json): 354 cells,",
-  "Market-regime warning features (2026-11-17, edge-health-2026-11-17.md, tools/edge_health.py): VIX, RTH range %, overnight share, trend efficiency, sweep reclaim (40-session means) as a 2026…",
-  "Famous published strategies (2026-11-17, public-strategies-2026-11-17.md, tools/pub_strats.py): 22 cells as",
-  "Drift switch (2026-11-17, drift-switch-2026-11-17.md, tools/money/drift_switch.py): cut LIT to paper/half after a rolling",
-  "Walk-forward re-tuning (2026-11-17, lit-walkforward-2026-11-17.md, tools/lit_wf_retune.py, research/lit/wf_retune.json):",
-  "Rule-native layer (2026-11-17, rule-native-2026-11-17.md): 2nd target / 1R / scalp / profit lock: no sooner payout."
+  "Market-regime warning features (2026-11-17, edge-health-2026-11-17.md, tools/edge_health.py): VIX, RTH range %, overnight share, trend efficiency, sweep reclaim (40-session means) as a 2026…"
  ],
  "learnings": [
+  {
+   "d": "2026-11-20",
+   "who": "dev",
+   "text": "Found and fixed - a phone 'Start trading' that re-armed after the owner's STOP, an old remote stop that could stop Friday's bot, a false 'not polling' push after every START / Re-arm, an alarm storm with no limit that c…",
+   "src": "research/writeups/redteam-live-2026-11-20.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "dev",
+   "text": "At least one payout by Dec 31 62% / by Jan 15 81% in a Jul-Oct-like market (77% / 90% Jan-Jun-like, 15% / 21% 2021-25-like); the first one is almost always ATLAS's 25K ($800 to you). 8 pre-registered levers judged on pa…",
+   "src": "research/writeups/payday-plan-2026-11-20.md",
+   "kind": "done"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "dev",
+   "text": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
+   "src": "research/writeups/nq-live-reliability-2026-11-20.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "atlas",
+   "text": "ATLAS enters with a MARKET order at the 5m open right after its signal bar closes; the order leaves 3-5 s after the open.",
+   "src": "research/writeups/atlas-fills-2026-11-20.md",
+   "kind": "finding"
+  },
   {
    "d": "2026-11-19",
    "who": "dev",
    "text": "After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famous published edges, d…",
    "src": "research/writeups/third-strategy-2026-11-18.md",
    "kind": "rejected"
+  },
+  {
+   "d": "2026-11-19",
+   "who": "atlas",
+   "text": "Same headline within Monte Carlo noise (Jul-Oct Zlarior alone $736 vs study $714, Zlarior + ATLAS $1,305 vs $1,286, gap +$569 vs +$572).",
+   "src": "research/writeups/one-account-combo-redteam-2026-11-19.md",
+   "kind": "done"
+  },
+  {
+   "d": "2026-11-19",
+   "who": "atlas",
+   "text": "Design committed before any variant result (f80bacac) - 12 rule sets (conflict first-in / Zlarior-the-other-way closes ATLAS / any Zlarior entry closes ATLAS; ATLAS at 100 / 60 / 40% of its size; ATLAS out of / at 50% i…",
+   "src": "research/writeups/one-account-combo-final-2026-11-19.md",
+   "kind": "done"
+  },
+  {
+   "d": "2026-11-19",
+   "who": "atlas",
+   "text": "Bots as they are today (Zlarior 120 + 511 trades, ATLAS raw members, BLITZ alone, the post-close lead as a sensitivity), one net position (first-in; same-side adds as a sensitivity), every bot sized from ONE shared room…",
+   "src": "research/writeups/one-account-combo-2026-11-19.md",
+   "kind": "done"
+  },
+  {
+   "d": "2026-11-19",
+   "who": "chrysos",
+   "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
+   "src": "research/writeups/lit-more-money-2026-11-19.md",
+   "kind": "rejected"
+  },
+  {
+   "d": "2026-11-19",
+   "who": "atlas",
+   "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
+   "src": "research/writeups/atlas-more-money-2026-11-19.md",
+   "kind": "adopt-candidate"
   },
   {
    "d": "2026-11-18",
@@ -795,72 +858,88 @@
    "text": "Every variant ran as account C (never opposite LIT or ATLAS, closed first at their opposite entry), 2026 on 1m bars (pick on Jan-Jun, check on Jul-Oct 16), 2021-25 the same rule on 5m bars, costs in ($1.90 a micro, 1 ti…",
    "src": "research/writeups/blitz-25k.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "14 of the last 20 Zlarior losses came after a buildup level sweep (22 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "14 of the last 17 ATLAS losses came with VIX under 15.8 (24 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "9 of the last 17 ATLAS losses came on longs (19 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "9 of the last 17 ATLAS losses came against the 1h structure trend (18 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "9 of the last 17 ATLAS losses came when the 5m ATR is above 1.34x its 7-day median (its top third) (16 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "BLITZ trades with VIX under 16.9 made 64% of its 2026 R with 33% of the trades",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "7 of the last 12 BLITZ losses came in New York lunch (21 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "mind",
-   "text": "7 of the last 12 BLITZ losses came on shorts (20 of its last 40 trades, history + live, were there)",
-   "src": "research/mind/proposals_seed.json",
-   "kind": "observation"
-  },
-  {
-   "d": "2026-10-28",
-   "who": "atlas",
-   "text": "One filter holds - trade only when yesterday's 09:30-16:00 range was at least 0.8 x its 14-day average - avg R a trade +0.098 - +0.150 (H1), +0.066 - +0.171 (H2), +0.007 - +0.016 (2021-25); at $150 a trade PF 1.63 / 1.4…",
-   "src": "research/writeups/scalp-na-mffu.md",
-   "kind": "promising"
   }
  ],
  "lessons": [
+  {
+   "text": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-20",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/nq-live-reliability-2026-11-20.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "text": "ATLAS enters with a MARKET order at the 5m open right after its signal bar closes; the order leaves 3-5 s after the open.",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-20",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/atlas-fills-2026-11-20.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Payday levers + cross-bot loss cuts (2026-11-20, payday-plan-2026-11-20.md, tools/money/payday_plan.py,",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-20",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: ATLAS real-fill fixes (2026-11-20, atlas-fills-2026-11-20.md, tools/atlas_fills.py, research/second/atlas_fills.json,",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-20",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 3,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
+   "cat": "money",
+   "who": "chrysos",
+   "d": "2026-11-19",
+   "kind": "rejected",
+   "strength": 2,
+   "merged": 2,
+   "sources": [
+    {
+     "src": "research/writeups/lit-more-money-2026-11-19.md",
+     "d": "2026-11-19"
+    },
+    {
+     "src": "research/writeups/atlas-more-money-2026-11-19.md",
+     "d": "2026-11-19"
+    }
+   ]
+  },
   {
    "text": "After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famous published edges, d…",
    "cat": "NQ strategy",
@@ -872,6 +951,51 @@
    "sources": [
     {
      "src": "research/writeups/third-strategy-2026-11-18.md",
+     "d": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "text": "Same headline within Monte Carlo noise (Jul-Oct Zlarior alone $736 vs study $714, Zlarior + ATLAS $1,305 vs $1,286, gap +$569 vs +$572).",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-19",
+   "kind": "done",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/one-account-combo-redteam-2026-11-19.md",
+     "d": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "text": "Design committed before any variant result (f80bacac) - 12 rule sets (conflict first-in / Zlarior-the-other-way closes ATLAS / any Zlarior entry closes ATLAS; ATLAS at 100 / 60 / 40% of its size; ATLAS out of / at 50% i…",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-19",
+   "kind": "done",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/one-account-combo-final-2026-11-19.md",
+     "d": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Zlarior more money, 2 pre-registered batches (2026-11-19, lit-more-money-2026-11-19.md, tools/lit_more_money.py,",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-19",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-19"
     }
    ]
@@ -1031,21 +1155,6 @@
    ]
   },
   {
-   "text": "Tested and rejected: ATLAS new members (2026-11-18, atlas-members-2026-11-18.md, tools/atlas_plus.py, research/second/atlas_plus.json): 29",
-   "cat": "NQ strategy",
-   "who": "atlas",
-   "d": "2026-11-18",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-18"
-    }
-   ]
-  },
-  {
    "text": "Tested and rejected: ATLAS funded 25K protective rules (2026-11-18, atlas-health-2026-11-18.md, tools/atlas_health.py,",
    "cat": "NQ strategy",
    "who": "atlas",
@@ -1159,67 +1268,7 @@
    ]
   },
   {
-   "text": "Tested and rejected: Walk-forward re-tuning (2026-11-17, lit-walkforward-2026-11-17.md, tools/lit_wf_retune.py, research/lit/wf_retune.json):",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-17"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Rule-native layer (2026-11-17, rule-native-2026-11-17.md): 2nd target / 1R / scalp / profit lock: no sooner payout.",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-17"
-    }
-   ]
-  },
-  {
    "text": "Tested and rejected: Market-regime warning features (2026-11-17, edge-health-2026-11-17.md, tools/edge_health.py): VIX, RTH range %, overnight share, trend efficiency, sweep reclaim (40-session means) as a 2026…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-17"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Famous published strategies (2026-11-17, public-strategies-2026-11-17.md, tools/pub_strats.py): 22 cells as",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-17"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Drift switch (2026-11-17, drift-switch-2026-11-17.md, tools/money/drift_switch.py): cut LIT to paper/half after a rolling",
    "cat": "NQ strategy",
    "who": "dev",
    "d": "2026-11-17",
@@ -1751,54 +1800,17 @@
      "d": "2026-10-24"
     }
    ]
-  },
-  {
-   "text": "The owner's ChatGPT dossier (2026-10-24) proposed 20 skip / cancel filters for LIT (L01-L20, each with a primary and two alternative thresholds) and a target band from VXN (V3) or VIX9D (V4) instead of VIX.",
-   "cat": "NQ strategy",
-   "who": "lit",
-   "d": "2026-10-24",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/lit-chatgpt-filters.md",
-     "d": "2026-10-24"
-    }
-   ]
-  },
-  {
-   "text": "None of them makes money that holds up.",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-10-24",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/hq-habits.md",
-     "d": "2026-10-24"
-    }
-   ]
-  },
-  {
-   "text": "Added to ATLAS on the 25K none beats ATLAS alone in any half - each one loses on 2-week passes, dead eval…",
-   "cat": "NQ strategy",
-   "who": "atlas",
-   "d": "2026-10-24",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/atlas-chatgpt-breakouts.md",
-     "d": "2026-10-24"
-    }
-   ]
   }
  ],
  "changed": [
+  {
+   "text": "A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
+   "was": "",
+   "d": "2026-11-19",
+   "who": "atlas",
+   "cat": "NQ strategy",
+   "src": "research/writeups/one-account-combo-2026-11-19.md"
+  },
   {
    "text": "Uncorrelated, but it does not hold in 2021-25 and passes evals too slowly.",
    "was": "",
@@ -1886,17 +1898,57 @@
    "who": "dev",
    "cat": "process",
    "src": "research/writeups/retail-standalone.md"
-  },
-  {
-   "text": "MACD and supply/demand did not hold up out of sample in any version picked fairly.",
-   "was": "",
-   "d": "2026-10-22",
-   "who": "dev",
-   "cat": "process",
-   "src": "research/writeups/retail-standalone.md"
   }
  ],
  "events": [
+  {
+   "t": 1795176000,
+   "who": "kalshi",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Kalshi K8 for a $55 account, ready by Monday 6 PM (sizing, better-edge tests, dry run, phone pages)",
+   "src": "research/writeups/kalshi-k8-monday-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Red team of tonight's live code (2026-11-20) - what could stop the bot, slow an order, send a wrong order or…",
+   "src": "research/writeups/redteam-live-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): NQ live bot reliability - every way a backtest trade can miss the account, the fix or alarm for each, entry t…",
+   "src": "research/writeups/nq-live-reliability-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (done): Payday plan - when each account pays first, what could make it sooner, and where the losses sit (2026-11-20)",
+   "src": "research/writeups/payday-plan-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "chrysos",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Money ideas (2026-11-20, night-moneyideas)",
+   "src": "research/writeups/money-ideas-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): ATLAS real fills - why its NinjaTrader entries fill ~11 ticks worse than the backtest, what it costs at 3 / 6…",
+   "src": "research/writeups/atlas-fills-2026-11-20.md"
+  },
   {
    "t": 1795089600,
    "who": "kalshi",
@@ -1936,6 +1988,46 @@
    "ok": true,
    "text": "Write-up (rejected): Third strategy hunt (2026-11-18/19 night) - post-close move into the 18:00 reopen, Camarilla / floor pivots,…",
    "src": "research/writeups/third-strategy-2026-11-18.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "chrysos",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (rejected): Zlarior (LIT) more money - 9 pre-registered ideas in 2 batches (ES filler, breakeven, fills, bias, news, thro…",
+   "src": "research/writeups/lit-more-money-2026-11-19.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (done): Red team - Zlarior + ATLAS on ONE Builder 50K (one-account-combo-2026-11-19.md)",
+   "src": "research/writeups/one-account-combo-redteam-2026-11-19.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (done): One account, Zlarior + ATLAS on the Builder 50K - the FINAL rules (12 pre-registered rule sets, MFFU live mov…",
+   "src": "research/writeups/one-account-combo-final-2026-11-19.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (done): ONE account, several bots - Zlarior + ATLAS (+ BLITZ) on a Builder 50K, Builder 25K or Rapid EOD 25K",
+   "src": "research/writeups/one-account-combo-2026-11-19.md"
+  },
+  {
+   "t": 1795089600,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (adopt-candidate): ATLAS more money (2026-11-19) - 10 pre-registered ideas on the funded 25K from today's $887 room; one small s…",
+   "src": "research/writeups/atlas-more-money-2026-11-19.md"
   },
   {
    "t": 1795003200,
@@ -3888,99 +3980,11 @@
    "ok": true,
    "text": "Write-up (adopt-candidate): LIT tight stops and bigger size - do we need 50-60 point stops, and what if we trade more micros or 1 NQ?",
    "src": "research/writeups/lit-tight-stops-size.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT on the 1-minute chart - smarter entries and \"this trade is wrong\" exits, tested like a person would trade…",
-   "src": "research/writeups/lit-1m-management.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT losses - where and why LIT loses in 2026, and the rules worth adding",
-   "src": "research/writeups/lit-losses.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT loss learning - the 15-minute check, and what the losses can't tell us",
-   "src": "research/writeups/lit-loss-learning.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT funded sizing - how big to trade once the MFFU eval is passed",
-   "src": "research/writeups/lit-funded-sizing.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT advanced management - breakeven versus recoveries, partials at the first obstacle, target choice by locat…",
-   "src": "research/writeups/lit-adv-management.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (info): MFFU rulebook (Builder 50K / 25K) and does the bot follow it",
-   "src": "research/writeups/mffu-rules.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): Win rate and more trades: new windows, second trades, partials, entries, filters",
-   "src": "research/writeups/win-rate-and-sessions.md"
-  },
-  {
-   "t": 1792307160,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "1 research run stored (other): 1 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792300680,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "18 research runs stored (other): 5 adopted, 10 rejected, 3 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792294560,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "21 research runs stored (other): 1 rejected, 20 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792291140,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "4 research runs stored (other): 2 rejected, 2 open.",
-   "src": "research/runs"
   }
  ],
  "pipeline": {
   "src": "archive/index.json",
-  "built": "2026-11-19",
+  "built": "2026-11-20",
   "counts": {
    "ideas": 2344,
    "testing": 534,
@@ -4234,50 +4238,50 @@
   {
    "name": "CBOE_vol_1d.csv",
    "last": "2026-09-17",
-   "days": 63,
+   "days": 64,
    "file": "data/CBOE_vol_1d.csv"
   },
   {
    "name": "ES_15m.csv",
    "last": "2026-10-16",
-   "days": 34,
+   "days": 35,
    "file": "data/ES_15m.csv"
   },
   {
    "name": "ES_1d.csv",
    "last": "2026-10-16",
-   "days": 34,
+   "days": 35,
    "file": "data/ES_1d.csv"
   },
   {
    "name": "ES_1h.csv",
    "last": "2026-10-16",
-   "days": 34,
+   "days": 35,
    "file": "data/ES_1h.csv"
   },
   {
    "name": "ES_5m.csv",
    "last": "2026-10-16",
-   "days": 34,
+   "days": 35,
    "file": "data/ES_5m.csv"
   },
   {
    "name": "GEX_1d.csv",
    "last": "2026-10-16",
-   "days": 34,
+   "days": 35,
    "file": "data/GEX_1d.csv"
-  },
-  {
-   "name": "NQ_15m.csv",
-   "last": "2026-10-16",
-   "days": 34,
-   "file": "data/NQ_15m.csv"
   },
   {
    "name": "NQ_1d.csv",
    "last": "2026-10-16",
-   "days": 34,
+   "days": 35,
    "file": "data/NQ_1d.csv"
+  },
+  {
+   "name": "VIX_1d.csv",
+   "last": "2026-10-16",
+   "days": 35,
+   "file": "data/VIX_1d.csv"
   }
  ],
  "mind": {
@@ -4357,7 +4361,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795088760,
+   "t": 1795158540,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,111 +4383,111 @@
   "available": true,
   "commits": [
    {
-    "t": 1795088758,
-    "s": "Land phone fit + speed fix (app frames reach the bottom edge, dock no longer lifted by our own layers or a ph…"
+    "t": 1795158524,
+    "s": "Land night-gatefix: widget in the Gate catalog (88 apps, IA doc), gate catalog nv5, Jarvis no load jump (CLS…"
    },
    {
-    "t": 1795088490,
-    "s": "night-fitperf: Olympus edge to edge on the iPhone Home Screen app + a faster Jarvis start"
+    "t": 1795157840,
+    "s": "Jarvis polish (site sweep): the ZEUS host holds the card's room from the first frame (CLS 0.15-0.18 - = 0.02)…"
    },
    {
-    "t": 1795082692,
-    "s": "GITHUB_SIGNIN.bat: one-click GitHub sign-in so the PC keeps auto-updating after the backup goes private (fetc…"
+    "t": 1795156197,
+    "s": "Gate fix: Widget row in the catalog (My Money Real money, last money row), gate/ loads the catalog ?v=nv4 lik…"
    },
    {
-    "t": 1795075327,
-    "s": "Land leftover fixes (dead Kalshi/old-account feeds retired, Oracle on the PC feed, Archive 390 px, Jarvis her…"
+    "t": 1795155945,
+    "s": "Land night-siteqa: 53-page phone sweep, bottom band fixed on 26 pages, CLS fixes, breadcrumbs, test_site_swee…"
    },
    {
-    "t": 1795074984,
-    "s": "Merge branch 'night-polish2' into claude/clever-heisenberg-51zwcr"
+    "t": 1795155755,
+    "s": "Merge branch 'night-siteqa' into claude/clever-heisenberg-51zwcr"
    },
    {
-    "t": 1795074965,
-    "s": "night-polish2: retire the dead Kalshi feed, Oracle on the PC feed, Archive / Jarvis hero / ZEUS learned polis…"
+    "t": 1795155701,
+    "s": "Site QA: keep the crumbs' back link where it was (gutter tests), sweep results data for the handoff"
    },
    {
-    "t": 1795070642,
-    "s": "Nightly learn run (cloud): ZEUS Lab page republished with tonight's research (37 rejected, 8 parked), Why pag…"
+    "t": 1795155338,
+    "s": "Site QA: Business back links in AGORA gold (were browser-default blue); handoff screenshots (390 x 844 dark,…"
    },
    {
-    "t": 1795070453,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-knew1"
+    "t": 1795154926,
+    "s": "Site QA: breadcrumbs drop what does not fit (app name, then hub) instead of cutting words on a 390 px phone"
    },
    {
-    "t": 1795070447,
-    "s": "Kalshi K6: Fed, Treasury yield and SOFR markets vs official rates data - no edge proven (Fed -80%, yields +27…"
+    "t": 1795154001,
+    "s": "Land night-jarvisfix: Jarvis Kalshi card answers again (fresh kalshi.json ask per load, no 2-5 s wait), test…"
    },
    {
-    "t": 1795068608,
-    "s": "Land phone QA fixes (World after warp, dimmer warp, ZEUS card no jump, notifications Not now, ATLAS payout wo…"
+    "t": 1795153967,
+    "s": "Site QA: Mercury holds the room of its late words (no load jump); orb-corner checks measured as inside Jarvis…"
    },
    {
-    "t": 1795068417,
-    "s": "Merge branch 'night-phoneqa' into claude/clever-heisenberg-51zwcr"
+    "t": 1795153508,
+    "s": "Merge branch 'night-jarvisfix' into claude/clever-heisenberg-51zwcr"
    },
    {
-    "t": 1795068389,
-    "s": "night-phoneqa: phone QA of tonight's landings at 390 px (live site + real PC feed), fixes at the root with te…"
+    "t": 1795153491,
+    "s": "night-jarvisfix: Jarvis shows the Kalshi card and answers Kalshi from kalshi.json again (jarvis_hub 272/272)"
    },
    {
-    "t": 1795065055,
-    "s": "Merge branch 'night-knew2' into claude/clever-heisenberg-51zwcr"
+    "t": 1795152899,
+    "s": "Site QA sweep (phone): no empty 176 px band at the end of 26 standalone pages, Fates buttons above the home b…"
    },
    {
-    "t": 1795065036,
-    "s": "Kalshi K7: near-certain carry (90-99c) in 8 untested families, 2 h-60 d before close, held-out Sep 19-Nov 18:…"
+    "t": 1795152622,
+    "s": "Decide: kalshi-stake-ladder closed - the K8 bot already sizes 4.5% of the cash with day/week/peak stops (an $…"
    },
    {
-    "t": 1795064385,
-    "s": "Land Kalshi K8 adaptive layer (weekly re-test; only shrinks, pauses or lowers max price by itself; new legs /…"
+    "t": 1795152514,
+    "s": "Merge night-redteam: 10 live-code bugs fixed with tests (C1 alarm storm, C2 self-heal in trading hours, C3 Ra…"
    },
    {
-    "t": 1795064297,
-    "s": "Merge branch 'night-kadapt' into claude/clever-heisenberg-51zwcr"
+    "t": 1795151988,
+    "s": "Write-up: tests run, last small fix"
    },
    {
-    "t": 1795064277,
-    "s": "night-kadapt: K8 adapts by itself (weekly re-test, shrink-only clock_adapt.json, Decide asks for restore / ne…"
+    "t": 1795151869,
+    "s": "Redteam: fast alarm - a 'not polling' / 'feed stale' cleared by the owner's STOP sends no false 'Back to norm…"
    },
    {
-    "t": 1795063453,
-    "s": "Merge branch 'claude/clever-heisenberg-51zwcr' into night-krew"
+    "t": 1795151809,
+    "s": "writeups INDEX: redteam-live-2026-11-20"
    },
    {
-    "t": 1795063421,
-    "s": "Kalshi best shot: rewards maker REJECTED for real money (plan status rejected); Kalshi's published per-side s…"
+    "t": 1795151762,
+    "s": "Write-up: the hourly update stops at 01:20 ET"
    },
    {
-    "t": 1795063313,
-    "s": "Land the bot's edge journal page (MAE/MFE, losing-run odds, weekday x hour, drawdowns) + wire engine/feed_fil…"
+    "t": 1795151745,
+    "s": "Merge branch 'night-redteam' into claude/clever-heisenberg-51zwcr"
    },
    {
-    "t": 1795063008,
-    "s": "Merge branch 'night-botgap' into claude/clever-heisenberg-51zwcr"
+    "t": 1795151602,
+    "s": "Write-up: C9, smaller fixes, checked-and-fine, not fixed"
    },
    {
-    "t": 1795062988,
-    "s": "Bot gap: Mnemosyne 'The bot's edge' page (R + $ per trade, expectancy by setup/session, weekday x hour map, M…"
+    "t": 1795151552,
+    "s": "Redteam: a self-heal 'needs you' push is silent in the owner's quiet hours (the hourly run also runs 16:00-01…"
    },
    {
-    "t": 1795062860,
-    "s": "Land money plan (all 10 Decide items with $ + recommendation, business/plan.html Money plan, Rapid 25K setup…"
+    "t": 1795151517,
+    "s": "Redteam: the 15-minute report's 'Bot stopped' condition is quiet on CME holidays and after an early halt (ent…"
    },
    {
-    "t": 1795062719,
-    "s": "Merge branch 'night-money' into claude/clever-heisenberg-51zwcr"
+    "t": 1795151441,
+    "s": "Redteam: self-heal leaves old git locks alone when the running programs cannot be read (it assumed 'no git ru…"
    },
    {
-    "t": 1795062696,
-    "s": "night-money: Money plan + every Decide item valued in $ (same paths), ATLAS 40%-room + LucidPro account-4 own…"
+    "t": 1795151416,
+    "s": "Redteam: self-heal never deletes logs/supervisor.pid when the pid runs but its name is unreadable (psutil acc…"
    }
   ],
   "branches": [
    {
     "name": "claude/clever-heisenberg-51zwcr",
-    "t": 1795088758,
-    "s": "Land phone fit + speed fix (app frames reach the bottom edge, dock no longer lifted by our own laye…"
+    "t": 1795158524,
+    "s": "Land night-gatefix: widget in the Gate catalog (88 apps, IA doc), gate catalog nv5, Jarvis no load…"
    }
   ]
  }

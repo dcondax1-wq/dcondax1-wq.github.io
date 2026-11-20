@@ -16,7 +16,8 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a6">
 <script src="../olympus/themes.js?v=o8"></script>
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="business.css?v=4">
+<link rel="stylesheet" href="business.css?v=5">
+<link rel="stylesheet" href="dashkit.css?v=2"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
 <style>
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
   .steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
@@ -44,6 +45,8 @@
   <a class="back" href="./">&larr; Business</a>
   <header class="top"><div class="brand"><div><h1 class="ag-title">Goals</h1><p class="sub">Your next plans, in order</p></div></div></header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" data-dash="cockpit" aria-label="Your accounts now (live)"></section>
+
   <ul class="now" id="now" aria-label="Where you are now"></ul>
 
   <section class="ag-card card" aria-labelledby="weekH">
@@ -57,6 +60,9 @@
     <ol class="steps ladder" id="ladder"></ol>
     <p class="bad" id="bad"></p>
   </section>
+  <section class="ag-card card" data-dash="payday" aria-label="Payday calendar"></section>
+  <section class="ag-card card" data-dash="fan" aria-label="Money in the next 6 months"></section>
+
 
   <section class="ag-card card" aria-labelledby="rulesH">
     <h2 id="rulesH">Rules that protect the accounts</h2>
@@ -71,5 +77,7 @@
   <p class="note" id="foot"></p>
 </main>
 <script src="goals.js?v=1"></script>
+<script src="../widget/olympus-widget.js?v=w1"></script><!-- live accounts: the PC post, else the site copy -->
+<script src="dashkit.js?v=1"></script>
 </body>
 </html>

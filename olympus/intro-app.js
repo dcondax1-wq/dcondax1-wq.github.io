@@ -1,5 +1,5 @@
 /* OLYMPUS app intro (olympus/intro-app.js, JOB 33a; docs/CLAUDE_REFERENCE.md "App intros"): the 2.4 s entrance every app plays when it opens.
- * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i8" defer></script>
+ * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i9" defer></script>
  * Pages WITHOUT the kit name themselves on the tag (data-app / data-name / data-glyph / data-color; Bridge, Kalshi).
  *   film   the app's flavour scene (FLAVOUR) + its glyph from particles; the name letter by letter with a light sweep, a tagline; fade out
  *   once   full film once per app per launch (sessionStorage 'oly.intro.<app>'), then a 400 ms version
@@ -30,6 +30,7 @@
 
   // --- the per-app flavour: [scene, tagline, first sound]
   var FLAVOUR = {
+    widget: ['columns', 'Your accounts at a glance', 'tick'],
     why: ['columns', 'See why we win', 'tick'],
     board: ['columns', 'Read the board', 'tick'],
     business: ['columns', 'Count the ventures', 'tap'],

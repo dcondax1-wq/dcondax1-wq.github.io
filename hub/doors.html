@@ -57,11 +57,37 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .dr-empty { color: var(--ag-soft, #cfc4b2); margin: 14px 2px; }
 .dr-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); text-align: center; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+/* v3 REVAMP (2026-11-20, night-revamp-main): the Gate's calm look (olympus/shell.css tokens): flat surfaces, one hairline, a colour dot for each
+   door instead of a thick stripe, the shortcuts as ONE grouped list (like the iPhone's Settings), sans names, quiet section headings */
+.dr-title { color: var(--ag-text, #f3ece0); font-size: 2rem; }
+.dr-sub { color: var(--ag-muted, #a89c88); }
+.dr-find input { background: var(--o-surface, #1d1914); border-color: var(--o-line, #3a3228); border-radius: var(--o-r-md, 14px); }
+.dr-door { min-height: 88px; justify-content: center; border: 1px solid var(--o-line, #3a3228); border-radius: var(--o-r-md, 14px); background: var(--o-surface, #1d1914); }
+.dr-door b { display: flex; align-items: center; gap: 8px; font: 650 1.0625rem/1.2 var(--o-font, system-ui); color: var(--ag-text, #f3ece0); }
+.dr-door b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--dc, #c8a24a); }
+.dr-door small { color: var(--ag-muted, #a89c88); }
+.dr-door[aria-current="true"] { background: var(--o-surface-2, #26211b); border-color: var(--dc, #c8a24a); }
+.dr-h2 { margin: 26px 4px 4px; padding: 0; border: 0; font: 650 1.25rem/1.2 var(--o-font, system-ui); color: var(--ag-text, #f3ece0); }
+.dr-line { margin: 0 4px 12px; color: var(--ag-muted, #a89c88); font-size: .875rem; }
+.dr-list { gap: 0; border: 1px solid var(--o-line, #3a3228); border-radius: var(--o-r-lg, 20px); background: var(--o-surface, #1d1914); overflow: hidden; }
+.dr-row { min-height: 58px; border: 0; border-top: 1px solid var(--o-line, #3a3228); border-radius: 0; background: none; padding: 9px 14px 9px 16px; }
+.dr-list > .dr-row:first-child { border-top: 0; }
+.dr-row b { font: 600 1rem/1.25 var(--o-font, system-ui); }
+.dr-row i { color: var(--ag-muted, #a89c88); font-size: 20px; }
+.dr-row:active { background: var(--o-surface-2, #26211b); }
+.dr-home { min-height: 64px; margin-bottom: 12px; border: 1px solid var(--dc, #c8a24a); border-radius: var(--o-r-lg, 20px); background: var(--o-surface-2, #26211b); }
+.dr-home b { color: var(--ag-text, #f3ece0); font-size: 1.0625rem; }
+.dr-all summary { background: none; border: 0; padding: 0 4px; color: var(--ag-soft, #cfc4b2); font: 600 .9375rem var(--o-font, system-ui); }
+.dr-all summary::after { content: "\203a"; margin-left: 8px; transition: transform .2s; }
+.dr-all[open] summary::after { transform: rotate(90deg); }
+.dr-arc summary { color: var(--ag-muted, #a89c88); }
+.dr-arc .dr-row { opacity: .85; }
 </style>
-<script src="../olympus/apps-list.js?v=o8" defer></script>
-<script src="../olympus/doors.js?v=d6" defer></script>
-<script src="doors.js?v=d2" defer></script>
+<script src="../olympus/apps-list.js?v=o9" defer></script>
+<script src="../olympus/doors.js?v=d7" defer></script>
+<script src="doors.js?v=d3" defer></script>
 <script src="../olympus/warp.js?v=w2" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
+<link rel="stylesheet" href="../olympus/shell.css?v=s3">
 </head>
 <body>
 <main class="dr-main" id="doors">

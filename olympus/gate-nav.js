@@ -1,6 +1,6 @@
 /* OLYMPUS gate-nav (2026-11-12; v2 2026-11-14, docs/OLYMPUS_IA_V2.md): breadcrumbs back home and a "Go to..." sheet, on any app. One line in the app's <head>,
  * after agora-ui.js (agora-ui.js also adds it by itself to every AGORA-shell app):
- *     <script src="../olympus/gate-nav.js?v=g5" defer></script>
+ *     <script src="../olympus/gate-nav.js?v=g6" defer></script>
  * - Breadcrumbs: Home > Hub > app. The app's existing back link ("< Olympus" from the AGORA shell, or an own "Olympus" link) becomes "< Home" and opens the
  *   home (gate/); then the app's hub (a link to hub/?h=<hub>&t=<its tab>) and the app's plain name. A page with no back link gets a slim row (crumbs on the
  *   left, Go to on the right) above its header: in the page flow, never floating over its content. On a hub page (hub/?h=...): Home > Hub.
@@ -83,9 +83,10 @@
     'main#app>header.top.ag-hasnav>.gn-crumbs{grid-column:1;grid-row:1;justify-self:start}',
     '.gn-crumbs>.ag-navback,.gn-crumbs>.gn-back,.gn-crumbs>a.olyback{flex:none}',
     '.gn-sep{flex:none;padding:0 3px;color:var(--ag-muted,var(--oly-th-n24, #a89c88));font:400 1.0625rem/1 var(--ag-sans,-apple-system,system-ui,sans-serif)}',
-    '.gn-crumb{display:inline-flex;align-items:center;min-height:44px;min-width:44px;padding:0 6px;border-radius:10px;color:var(--ag-gold,var(--oly-th-a8, #c8a24a));font:600 .9375rem/1.1 var(--ag-sans,-apple-system,system-ui,sans-serif);text-decoration:none;white-space:nowrap;flex:none}',
+    '.gn-crumb{display:inline-block;min-height:44px;min-width:44px;padding:0 6px;border-radius:10px;color:var(--ag-gold,var(--oly-th-a8, #c8a24a));font:600 .9375rem/44px var(--ag-sans,-apple-system,system-ui,sans-serif);text-decoration:none;white-space:nowrap;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}',   // night-siteqa: on a 390 px phone the hub name ends in "..." instead of a hard cut ("Bots & Eva")
     '.gn-cur{flex:0 3 auto;min-width:0;padding:0 4px;color:var(--ag-soft,var(--oly-th-n30, #cfc4b2));font:400 .9375rem/1.1 var(--ag-sans,-apple-system,system-ui,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
     '.gn-crumb:empty,.gn-cur:empty,.gn-sep.gn-off{display:none}',
+    '.gn-crumbs.gn-tight>.gn-sep+.gn-crumb+.gn-sep,.gn-crumbs.gn-tight>.gn-cur,.gn-crumbs.gn-tight2>.gn-sep,.gn-crumbs.gn-tight2>.gn-crumb{display:none}',
     '.gn-empty{margin:10px 2px;color:var(--ag-soft,var(--oly-th-n30, #cfc4b2))}',
     '.gn-where{display:block;color:var(--ag-gold,var(--oly-th-a8, #c8a24a));font-size:.75rem;line-height:1.3}',
     '.gn-pin{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin:2px 0 0;padding:0 14px;border-radius:14px;border:1px solid var(--ag-line,var(--oly-th-n8, #3a3228));background:transparent;color:var(--ag-text,var(--oly-th-n37, #f3ece0));font:600 .9375rem/1.2 var(--ag-sans,-apple-system,system-ui,sans-serif);text-align:left;cursor:pointer}',
@@ -118,7 +119,7 @@
     var s1 = el('span', 'gn-sep gn-off', '›'), hub = el('a', 'gn-crumb'), s2 = el('span', 'gn-sep gn-off', '›'), cur = el('span', 'gn-cur');
     s1.setAttribute('aria-hidden', 'true'); s2.setAttribute('aria-hidden', 'true'); hub.setAttribute('data-gn', 'hub'); cur.setAttribute('aria-current', 'page');
     nav.appendChild(s1); nav.appendChild(hub); nav.appendChild(s2); nav.appendChild(cur);
-    S.crumbs = { s1: s1, hub: hub, s2: s2, cur: cur };
+    S.crumbs = { nav: nav, s1: s1, hub: hub, s2: s2, cur: cur };
     return nav;
   }
   function hubParam() { var m = /[?&]h=([a-z]+)/.exec(w.location.search || ''); return m ? m[1] : ''; }
@@ -130,8 +131,17 @@
     if (!H) return;
     K.hub.textContent = H.name; K.hub.href = href; K.hub.title = H.name + ': ' + (H.line || '');
     K.s1.className = 'gn-sep';
-    if (appId === 'hub') { K.hub.setAttribute('aria-current', 'page'); return; }
+    if (appId === 'hub') { K.hub.setAttribute('aria-current', 'page'); fitCrumbs(); return; }
     K.cur.textContent = label; K.s2.className = 'gn-sep';
+    fitCrumbs();
+  }
+  /* night-siteqa 2026-11-20: a narrow row (390 px, the app's chips beside it) cut the crumbs mid-word ("Bots & Eva", "T..." and a lone ">");
+     too tight: drop the app's own name (its title is right below), still too tight: drop the hub too, so the row reads "< Home" */
+  function fitCrumbs() {
+    var K = S.crumbs, n = K && K.nav; if (!n) return;
+    var over = function () { return n.scrollWidth > n.clientWidth + 1 || (K.hub.textContent && K.hub.scrollWidth > K.hub.clientWidth + 1); };
+    n.classList.remove('gn-tight', 'gn-tight2');
+    if (over()) { n.classList.add('gn-tight'); if (over()) n.classList.add('gn-tight2'); }
   }
   function topOf(n) { var r = n.getBoundingClientRect(); return r.top + (w.pageYOffset || 0); }
   function place() {
@@ -171,6 +181,8 @@
     }
     S.placed = true;
     loadCatalog(function () { fillCrumbs(); if (S.sheet) refresh(); });
+    w.addEventListener('resize', function () { if (S.crumbs) fitCrumbs(); });
+    w.setTimeout(function () { if (S.crumbs) fitCrumbs(); }, 1800);   // again once the page's own chips (DEMO / LITE / Refresh) have landed
   }
 
   /* ------------------------------------------------------------------------------------------ the catalog (the Gate's list; the generated apps list if it is missing) */

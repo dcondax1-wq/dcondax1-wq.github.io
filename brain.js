@@ -226,6 +226,32 @@
     }
     return c;
   }
+  // night-revamp-dash 2026-11-20 (owner: "Brain: what each bot is waiting for"): one line a bot on top, before the long cards:
+  // ON / OFF, today's $, the room left as a bar, and the first sentence of what it waits for. Built with textContent only.
+  function sumCard(bots) {
+    const c = mk('section', 'card bzs');
+    add(c, mk('div', 'bz-lab', 'Each bot, in one line'));
+    const ul = mk('ul', 'bzb-l'); ul.style.cssText = 'list-style:none;margin:6px 0 0;padding:0;display:grid;gap:10px';
+    for (const b of bots) {
+      const li = mk('li'); li.style.cssText = 'display:grid;gap:3px';
+      const top = mk('div'); top.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap';
+      add(top, mk('b', null, b.name), chip(b.on ? 'ON' : 'OFF', b.on ? 'up' : 'dn'), mk('span', b.day > 0 ? 'up' : b.day < 0 ? 'dn' : 'small mut', 'today ' + usd(b.day, true)));
+      li.appendChild(top);
+      if (b.room != null && b.mll) {
+        const f = Math.max(0, Math.min(1, b.room / b.mll)), bar = mk('div'); bar.setAttribute('role', 'img');
+        bar.setAttribute('aria-label', 'Room left ' + Math.round(f * 100) + ' percent');
+        bar.style.cssText = 'height:5px;border-radius:5px;background:rgba(127,127,127,.25);overflow:hidden';
+        const i = mk('i'); i.style.cssText = 'display:block;height:100%;border-radius:5px;width:' + Math.round(f * 100) + '%;background:' + (f < 0.35 ? 'var(--bad,#e0795a)' : 'var(--good,#a3ae6b)');
+        bar.appendChild(i); li.appendChild(bar);
+        li.appendChild(mk('span', 'small mut', 'room ' + usd(b.room) + ' of ' + usd(b.mll)));
+      }
+      const w = String(b.wait || (b.on ? 'Watching the market.' : 'Bot is off.'));
+      li.appendChild(mk('span', 'small', 'Waiting for: ' + (w.split(/(?<=\.)\s/)[0] || w)));
+      ul.appendChild(li);
+    }
+    c.appendChild(ul);
+    return c;
+  }
   function vAll() {
     const root = mk('div', 'bz-all');
     root.appendChild(freshBox());
@@ -235,6 +261,7 @@
       root.appendChild(e); return root;
     }
     if (g.old) root.appendChild(mk('p', 'small mut', 'Older PC version: levels and setups for Zlarior only. They fill in fully after the PC updates.'));
+    root.appendChild(sumCard(g.bots.filter((x) => x && !HIDE.has(x.id) && !(window.OLY_HIDDEN && window.OLY_HIDDEN.has && window.OLY_HIDDEN.has(x.id)))));
     for (const b of g.bots) if (b && !HIDE.has(b.id) && !(window.OLY_HIDDEN && window.OLY_HIDDEN.has && window.OLY_HIDDEN.has(b.id))) root.appendChild(botCard(b));
     root.appendChild(mk('p', 'small mut', 'Read-only. Detail: Zlarior detail / ATLAS detail above.'));
     return root;

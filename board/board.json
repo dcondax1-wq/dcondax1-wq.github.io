@@ -1,13 +1,13 @@
 {
  "v": 1,
  "kind": "olympus-board",
- "t": 1794966916,
+ "t": 1795137876,
  "src": "cloud",
  "pc": {
-  "t": 1794966300,
-  "age_s": 616,
-  "via": "ntfy",
-  "stale": false
+  "t": null,
+  "age_s": null,
+  "via": "",
+  "stale": true
  },
  "accounts": [
   {
@@ -17,13 +17,13 @@
    "status": "live",
    "stage": "eval",
    "balance": 49192.78,
-   "room": 1024.58,
-   "floor": 48168.2,
+   "room": 1025.0,
+   "floor": null,
    "to_pass": 3807.22,
    "locked": false,
    "last4": null,
-   "src": "PC live",
-   "src_t": 1794966285,
+   "src": "PLAN (owner, Nov 17)",
+   "src_t": null,
    "last": null,
    "pc": [
     "mffu50k_eval",
@@ -31,23 +31,23 @@
    ],
    "target_balance": 53000.0,
    "chip": "eval",
-   "plan_only": false,
-   "age_s": 631
+   "plan_only": true,
+   "age_s": null
   },
   {
    "key": "atlas",
    "name": "ATLAS",
    "plan": "MFFU Builder 25K (funded)",
    "status": "live",
-   "stage": "funded",
-   "balance": 25000.0,
-   "room": 1000.0,
-   "floor": 24000.0,
-   "to_pass": null,
-   "locked": false,
+   "stage": "passed",
+   "balance": 26946.1,
+   "room": null,
+   "floor": null,
+   "to_pass": 0.0,
+   "locked": true,
    "last4": null,
-   "src": "PC live",
-   "src_t": 1794966285,
+   "src": "owner, typed, Nov 17",
+   "src_t": 1794951527,
    "last": {
     "t": 1794951528,
     "kind": "claude_note",
@@ -58,15 +58,16 @@
     "atlas",
     "acct_b"
    ],
-   "chip": "funded",
+   "target_balance": 26500.0,
+   "chip": "PASSED",
    "plan_only": false,
-   "age_s": 631
+   "age_s": 186349
   },
   {
    "key": "rapid1",
-   "name": "Rapid EOD 25K (next)",
+   "name": "Rapid EOD 25K",
    "plan": "MFFU Rapid EOD 25K",
-   "status": "waiting",
+   "status": "buying",
    "stage": "eval",
    "balance": null,
    "room": null,
@@ -76,8 +77,15 @@
    "last4": null,
    "src": "PLAN",
    "src_t": null,
-   "last": null,
-   "pc": [],
+   "last": {
+    "t": 1795137876,
+    "kind": "claude_note",
+    "text": "Add account box is built: open /add-account/ on the PC (localhost:8766) or over Tailscale, pick Rapid EOD 25K, type the Name, Add. Added dis",
+    "src": "claude"
+   },
+   "pc": [
+    "rapid"
+   ],
    "chip": "planned",
    "plan_only": true,
    "age_s": null
@@ -88,25 +96,32 @@
    "plan": "MFFU Builder 25K",
    "status": "live",
    "stage": "eval",
-   "balance": 25000.0,
-   "room": 1000.0,
-   "floor": 24000.0,
-   "to_pass": 1500.0,
+   "balance": null,
+   "room": null,
+   "floor": null,
+   "to_pass": null,
    "locked": false,
    "last4": null,
-   "src": "PC live",
-   "src_t": 1794966285,
+   "src": "PLAN",
+   "src_t": null,
    "last": null,
    "pc": [
     "b25k_2"
    ],
-   "target_balance": 26500.0,
    "chip": "eval",
-   "plan_only": false,
-   "age_s": 631
+   "plan_only": true,
+   "age_s": null
   }
  ],
  "events": [
+  {
+   "id": "e0ffc7d4aaeb",
+   "t": 1795137876,
+   "kind": "claude_note",
+   "acct": "rapid1",
+   "text": "Add account box is built: open /add-account/ on the PC (localhost:8766) or over Tailscale, pick Rapid EOD 25K, type the Name, Add. Added disarmed; START BOT + your phrase arms it.",
+   "src": "claude"
+  },
   {
    "id": "e21d584fa4dd",
    "t": 1794952101,
@@ -144,6 +159,6 @@
   "Yes/no: keep $1,000 in each Rapid when taking payouts",
   "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
  ],
- "plan_updated": "2026-11-18",
+ "plan_updated": "2026-11-20",
  "about": "The Board: what the bot, the owner and Claude know. Privacy-safe copy (python tools/board.py publish)."
 }

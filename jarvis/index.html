@@ -110,12 +110,14 @@ window.addEventListener('error', function (e) {
 </script>
 <link rel="stylesheet" id="jcss" href="jarvis.css?v=j24">
 <link rel="stylesheet" id="jhome" href="home3d.css?v=h4">
-<!-- quiet-net, no data-fresh (night-bugsweep 2026-11-19): Kalshi's state comes from the PC feed (data.js); the old kalshi-feed repo is on the
-     suspended account and is never asked; this site's kalshi.json, when missing, is a 404 remembered for the session (it was asked afresh,
-     and logged, on every load); a tap (Refresh) still asks the real file at once.
+<!-- quiet-net (night-bugsweep 2026-11-19): Kalshi's state comes from the PC feed first (data.js: when the PC carries Kalshi, kalshi.json
+     is not asked at all); the old kalshi-feed repo is on the suspended account and is never asked. data-fresh="site:kalshi.json"
+     (night-jarvisfix 2026-11-20): otherwise this site's kalshi.json is asked once per Jarvis load, as data.js promises ("opening Jarvis
+     again asks once more: that is how a newly linked bot shows up"); without it a 404 seen earlier in the session (Jarvis, the Kalshi
+     page) was remembered for up to 6 h and Jarvis kept saying "not connected" after the bot published. A tap (Refresh) asks at once too.
      async: the file lives in ../olympus/, outside Jarvis's worker, so its saved copy cannot answer for it; a blocking tag made a slow
      network hold the whole start one more round trip (6-12 s). A fetch before it arrives is just one real try, as before quiet-net. -->
-<script src="../olympus/quiet-net.js?v=q9" async></script>
+<script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
 <script src="../pc_feed.js?v=n4" id="pcFeedJs" async></script>
@@ -1048,8 +1050,22 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
       <style>.home-in > .zeus-host { margin: 0 var(--gxr, 16px) 0 var(--gx, 16px); } .zeus-host .zeus-card { margin: 0; } a.hc-bot { text-decoration: none; color: inherit; } .tiles.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         html:root[data-jlook="classic"] .home-in[data-home="v2"] > .zeus-host { order: 1; margin-top: 8px; }
         /* KALSHI TODAY / NQ BOTS TODAY: their second line ("paper -$10.32 · 3 min ago") wraps on a phone; held from the start (phone QA 2026-11-19) */
-        @media (max-width: 520px) { #kbox em, #nbox em { min-height: 2lh; } }</style>
+        @media (max-width: 520px) { #kbox em, #nbox em { min-height: 2lh; } }
+        /* (2026-11-20 night-gatefix, site sweep: CLS 0.12-0.18) the ZEUS card mounts from a deferred script, after the first frame: the host was
+           0 px there and everything under it (the boxes, the core) dropped ~240 px. The host holds the card's room from the first frame (the
+           height zeus_core.js remembered on this phone, else its typical 236 px); once the card is in, :empty is off and the card holds itself */
+        .home-in > .zeus-host:empty { min-height: var(--zh, 236px); }
+        /* (night-gatefix) the core's satellites orbit the stage's edge again (AGORA made the stage min(52vw, 230px) but the orbit stayed the old
+           60vw stage's min(30vw, 150px) + 4px: at 390 px the PC / A / Z2 / P chips stuck out ~38 px and the core's box cut them off); the box
+           holds the 44 px chips above and below (22 + 4 px, + 2 px for the badge) */
+        #sats .sat { transform: rotate(var(--a)) translateX(calc(min(26vw, 115px) + 4px)) rotate(calc(-1 * var(--a))); }
+        #sec-talk .stagebox { padding-top: 28px; padding-bottom: 28px; }</style>
       <div class="zeus-host" id="zeusCard" data-zeus-card></div>
+      <script>(function () {   /* the ZEUS host's room (above): this phone's last card height; nothing to hold if zeus_core.js never came */
+        var z = document.getElementById('zeusCard'); if (!z) return;
+        try { var v = +localStorage.getItem('olympus.zeus.cardh'); if (v >= 60 && v <= 640) z.style.setProperty('--zh', Math.round(v) + 'px'); } catch (e) { /* private mode */ }
+        window.addEventListener('load', function () { if (!z.firstChild) z.style.setProperty('--zh', '0px'); });
+      })();</script>
       <!-- phone notifications (2026-11-19, owner: "I want notifications on my phone"): ./push-ui.js draws this card ("Allow notifications",
            on / test / turn off); the PC pushes every trade and the important alerts straight here (engine/push.py, ./push-sw.js) -->
       <div class="push-host" id="pushCard" data-push-card hidden></div>
@@ -2097,14 +2113,25 @@ function renderCards() {
   box.appendChild(tpl.content);
   fx.adopt();
 }
+// (2026-11-20 night-gatefix, site sweep) the revamp folded ~45 apps under Archive in their door (olympus/doors.js ARCHIVE): their tiles stay
+// (a tap still opens them, with the last card this phone kept), but Jarvis no longer asks each one's jarvis.json on every open and every minute
+// (kratos, moirai ...): an archived app is asked once a day on this phone (that one ask still finds a folder that is not on the site: 'soon')
+const ARCH_KEY = 'jarvis.archAsked.v1';
+const archivedApp = (id) => safe(() => { const O = window.OLYMPUS_DOORS; return !!(O && typeof O.archived === 'function' && O.archived(id)); }, false);
 let statusAt = 0;
 function refreshStatusCards() {
   const A = mods.apps;
   if (!A || typeof A.appStatus !== 'function' || Date.now() - statusAt < 60e3) return;
   statusAt = Date.now();
+  const arch = safe(() => { const m = JSON.parse(localStorage.getItem(ARCH_KEY) || '{}'); return m && typeof m === 'object' && !Array.isArray(m) ? m : {}; }, {}) || {};
+  let archNew = false;
   for (const a of D.listApps()) {
     if (!a.url || !a.statusUrl) continue;                       // Zenith, the Planner, Kalshi: the shell's own cards
     if (a.builtin && absentNow(a.id)) continue;                 // its folder is not on this site (remembered for a day): not asked again
+    if (a.builtin && archivedApp(a.id)) {                       // folded under Archive (2026-11-20 revamp, olympus/doors.js): once a day
+      if (statusAt - (+arch[a.id] || 0) < ABSENT_MS) continue;
+      arch[a.id] = statusAt; archNew = true;
+    }
     const p = safe(() => A.appStatus(a));
     if (p && typeof p.then === 'function') p.then((card) => {
       if (card) statusCards[a.id] = card;
@@ -2112,6 +2139,7 @@ function refreshStatusCards() {
       cardsSoon();
     }).catch(() => null);
   }
+  if (archNew) safe(() => localStorage.setItem(ARCH_KEY, JSON.stringify(arch)));   // private mode: asked again next time
 }
 document.addEventListener('submit', (e) => {
   const f = e.target.closest('[data-link]');
@@ -3634,12 +3662,13 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <!-- the home backdrop and the portal jump on the OLYMPUS render core (docs/OLYMPUS_RENDER.md): each self-contained, each optional -->
-<script type="module" src="./backdrop.js?v=b4"></script>
+<script type="module" src="./backdrop.js?v=b5"></script>
 <script type="module" src="./portal.js?v=p2"></script>
 <script src="./welcome.js?v=w1" defer></script>
-<script type="module" src="./transitions.js?v=t6"></script>
+<script type="module" src="./transitions.js?v=t7"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
 <script src="../olympus/zeus_core.js?v=4" defer></script>
+<script src="../olympus/doors.js?v=d7" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>
 <script src="./push-ui.js?v=pu2" defer></script>

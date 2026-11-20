@@ -1,5 +1,8 @@
 /* BOARD (AGORA look, phone first). Colours from the kit's AGORA tokens. */
 main { box-sizing: border-box; max-width: 720px; margin: 0 auto; padding: max(12px, env(safe-area-inset-top)) 16px calc(176px + env(safe-area-inset-bottom)); }   /* 176 px: the orb's seat at the end (docs/DESIGN_AGORA.md) */
+/* opened alone (not framed in Jarvis) the board has no orb: the 176 px seat was an empty band at the end of every phone screen (owner 2026-11-20,
+   "funky bottom"). The page ends with a calm 40 px + the home bar; framed inside Jarvis it keeps the orb's seat. */
+html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
 .bd-top { display: block; margin-bottom: 10px; }
 .bd-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .bd-head h1 { margin: 0; }

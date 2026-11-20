@@ -21,14 +21,15 @@
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a6">
 <script src="../olympus/themes.js?v=o8"></script>
-<script src="../olympus/olympus.js?v=o13" data-app="business"></script>
-<script src="../olympus/intro-app.js?v=i8" defer></script>
+<script src="../olympus/olympus.js?v=o14" data-app="business"></script>
+<script src="../olympus/intro-app.js?v=i9" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=3" defer></script>
-<script src="../olympus/gate-nav.js?v=g5" defer></script>
+<script src="../olympus/agora-ui.js?v=4" defer></script>
+<script src="../olympus/gate-nav.js?v=g6" defer></script>
 <link rel="prefetch" href="../olympus/sfx.js?v=s4" as="script"><!-- the sound engine (32 KB gzipped) is not in the deferred chain the page waits on: olympus.js loads it after the page has loaded (its sound bed) or on the first cue -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="business.css?v=4">
+<link rel="stylesheet" href="business.css?v=5">
+<link rel="stylesheet" href="dashkit.css?v=2"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
 </head>
 <body>
 <main id="app">
@@ -37,6 +38,8 @@
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="snap" class="tag demo" hidden>SNAPSHOT</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" data-dash="cockpit" aria-label="Your accounts now (live)"></section>
+
   <a class="ag-card card door2 mffu-top" href="mffu.html" style="display:grid;margin:0 0 12px"><h2>My accounts (MFFU view) &rarr;</h2><p class="note">Every MFFU account the way MFFU shows it: status, start date, balance, floor, target, days, payout. Live from your PC.</p></a>
   <nav class="doors" aria-label="Business pages">
     <a class="ag-card card door2" href="accounts.html"><h2>My Accounts &rarr;</h2><p class="note">Each eval: $ to pass, $ room left, what to buy next.</p></a>
@@ -48,6 +51,7 @@
     <a class="ag-card card door2" href="goals.html"><h2>Goals &rarr;</h2><p class="note">This week's steps, the money ladder with dates, the rules, your decisions.</p></a>
     <a class="ag-card card door2" href="plan.html"><h2>Money plan &rarr;</h2><p class="note">Each account: chance to pass and when, the first payout and how much, the next buy, $ a month; every decision in $.</p></a>
     <a class="ag-card card door2" href="work.html"><h2>More work &rarr;</h2><p class="note">Side income ranked by $ a month, the website plan, scams to skip.</p></a>
+    <a class="ag-card card door2" href="../widget/"><h2>iPhone widget &rarr;</h2><p class="note">Your accounts on the Home Screen (small, medium, large), free. Or the big Glance page.</p></a>
     <a class="ag-card card door2" href="../hub/help.html"><h2>Help: how do I... &rarr;</h2><p class="note">Payouts, a passed eval, restart, PC silent, taxes: a few steps each.</p></a>
   </nav>
 
@@ -131,5 +135,7 @@
   <p class="foot">This page only reads. It never trades, posts, emails or calls anyone.</p>
 </main>
 <script type="module" src="business.js?v=4"></script>
+<script src="../widget/olympus-widget.js?v=w1"></script><!-- live accounts: the PC post, else the site copy -->
+<script src="dashkit.js?v=1"></script>
 </body>
 </html>

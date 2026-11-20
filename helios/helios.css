@@ -86,3 +86,7 @@ html[data-oly-lite="1"] .stage { background: var(--oly-th-n5, #2a2118); }
 #app .acc.warn .acc-v { color: var(--ag-sun); } #app .acc.bad .acc-v { color: var(--ag-terra-text); }
 #app .acc p { font-size: 13px; color: var(--ag-muted); }
 #app .item { background: rgba(var(--oly-th-n4-rgb, 33, 28, 22), .7); border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .07); padding: 12px 14px; }
+
+/* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
+   seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }

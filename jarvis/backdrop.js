@@ -127,8 +127,16 @@ async function mount() {
   }
   theme();
 
-  let raf = 0, last = 0, t = 0, drawn = false;
-  const still = () => level() === 'off' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let raf = 0, last = 0, t = 0, drawn = false, scrolling = false, scrollT = 0;
+  // revamp 2026-11-20 (owner: "lag"): Battery (low) is a still sky too, not a 30 fps one; a phone draws the sky at 20 fps; while a finger
+  // scrolls, the sky holds its last frame (no WebGL frame under the moving, blurred panels) and comes back 250 ms after the scroll stops
+  const still = () => level() === 'off' || level() === 'low' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const phone = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+  const fpsCap = () => (phone && level() !== 'ultra' ? 20 : FPS);
+  document.addEventListener('scroll', () => {
+    if (!scrolling) { scrolling = true; if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+    clearTimeout(scrollT); scrollT = setTimeout(() => { scrolling = false; kick(); }, 250);
+  }, { capture: true, passive: true });
   function step(dt) {
     t += dt;
     nebula.update(t); stars.update(t, rc.renderer.getPixelRatio()); shaft.update(t);
@@ -147,19 +155,19 @@ async function mount() {
     raf = 0;
     if (!live()) return;
     raf = requestAnimationFrame(frame);
-    if (now - last < 1000 / FPS - 2) return;
-    const dt = last ? Math.min(0.1, (now - last) / 1000) : 1 / FPS;
+    if (now - last < 1000 / fpsCap() - 2) return;
+    const dt = last ? Math.min(0.1, (now - last) / 1000) : 1 / fpsCap();
     last = now;
     step(dt); draw();
   }
-  const live = () => onHome() && !document.hidden && !still();
+  const live = () => onHome() && !document.hidden && !still() && !scrolling;
   // an app open over Jarvis (the home is hidden): release the composer's buffers and the environment, not just the loop
   function kick() {
     if (!onHome()) { if (raf) cancelAnimationFrame(raf); raf = 0; rc.suspend(); state.asleep = true; return; }
     if (rc.asleep()) { rc.resume(); state.asleep = false; themeKey = ''; theme(); }
     if (live()) { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } return; }
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
-    if (onHome() && !document.hidden && still()) { step(0); draw(); }      // off / reduced motion: one still frame
+    if (onHome() && !document.hidden && still()) { step(0); draw(); }      // off / low / reduced motion: one still frame
   }
   // follow the effects level, the theme and the home screen (attributes the shell already sets)
   new MutationObserver(() => {

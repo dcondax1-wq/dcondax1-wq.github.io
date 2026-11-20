@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-11-18",
+ "updated": "2026-11-20",
  "built_by": "tools/money/goals_build.py",
  "market": "2026 Jul-Oct-like",
  "note": "Dates are ESTIMATES: the middle of 1,000 runs of a market like Jul-Oct 2026 (Jan-Jun was better, 2021-25 much worse). Real dates move with real trades; this page is rebuilt when they do.",
@@ -12,16 +12,16 @@
   ],
   [
    "Zlarior 25K #2 (Builder 25K)",
-   "$25,000, $1,500 to pass",
+   "balance not reported yet",
    "eval"
   ],
   [
    "ATLAS (Builder 25K)",
-   "$24,887.20",
-   "funded"
+   "$26,946.10",
+   "passed"
   ]
  ],
- "pc": "PC: reporting",
+ "pc": "PC: no report seen from the cloud (check the PC)",
  "week": [
   {
    "date": "2026-11-18",
@@ -40,15 +40,15 @@
   {
    "date": "2026-11-19",
    "when": "Nov 19",
-   "what": "Buy the Rapid EOD 25K ($97.20 with CLUB) from your own money, then add it to the bot",
-   "why": "Double-click ADD_ACCOUNT.bat, type 5, paste the Name (or: python -X utf8 -m engine.accounts add --plan rapideod25 --name \"NAME\"). It is added OFF until START BOT + your phrase. Leaves $52.80 of your $150.",
+   "what": "Add Cloudflare Pages (free, 3 steps in docs/HOSTING.md)",
+   "why": "Removes the Netlify badge and allows 15 dashboard updates a day instead of ~18 a month.",
    "status": "next"
   },
   {
-   "date": "2026-11-19",
-   "when": "Nov 19",
-   "what": "Add Cloudflare Pages (free, 3 steps in docs/HOSTING.md)",
-   "why": "Removes the Netlify badge and allows 15 dashboard updates a day instead of ~18 a month.",
+   "date": "2026-11-20",
+   "when": "Nov 20",
+   "what": "Rapid EOD 25K bought ($97.20 with CLUB): add it to the bot this morning",
+   "why": "Double-click ADD_ACCOUNT.bat, type 5, paste the Name (or: python -X utf8 -m engine.accounts add --plan rapideod25 --name \"NAME\"). It is added OFF until START BOT + your phrase. Leaves $52.80 of your $150.",
    "status": "next"
   },
   {
@@ -78,11 +78,11 @@
   },
   {
    "id": "buy_r25",
-   "date": "2026-11-19",
+   "date": "2026-11-20",
    "what": "Buy the Rapid EOD 25K ($97.20 with CLUB)",
    "detail": "This week, from your own $150 budget (leaves $52.80). Zlarior + ATLAS trade it from day one. Add it with ADD_ACCOUNT.bat option 5 (engine.accounts add --plan rapideod25); it is added OFF.",
    "usd": -97.2,
-   "when": "~Nov 19",
+   "when": "~Nov 20",
    "status": "next"
   },
   {
@@ -102,15 +102,6 @@
    "status": "later"
   },
   {
-   "id": "pay1",
-   "date": "2026-12-23",
-   "what": "First payout: ATLAS funded 25K",
-   "detail": "The bot pings you once $750 sits above the $1,100 buffer: ask then (MFFU pays up to $1,000 a request; the full $1,000 at a $27,100 balance). On $1,000 you get $800 (80%), $240 to the tax pot, $560 to keep.",
-   "usd": 560.0,
-   "when": "~Dec 23",
-   "status": "later"
-  },
-  {
    "id": "r25_pass",
    "date": "2026-12-23",
    "what": "Rapid EOD 25K passes",
@@ -119,20 +110,21 @@
    "status": "later"
   },
   {
-   "id": "buy_r50",
+   "id": "pay1",
    "date": "2026-12-24",
-   "what": "Buy the Rapid EOD 50K ($165 with CLUB), paid from payouts",
-   "detail": "Once the payouts you keep (after the tax pot) reach $165: 100 in 100 runs get there. It fills your 5th funded slot (about $1,969 a month); the bot runs one Rapid today, so it needs your yes.",
-   "usd": -165.0,
+   "what": "First payout: most likely ATLAS's funded 25K",
+   "detail": "62 in 100 runs at least one account pays by Dec 31, 81 by Jan 15 (payday plan, from today's balances). ATLAS alone: middle Jan 4, 8 in 10 runs between Dec 8 and Feb 26. The bot pings you once $750 sits above the $1,100 buffer: ask then (MFFU pays up to $1,000 a request; the full $1,000 at a $27,100 balance). On $1,000 you get $800 (80%), $240 to the tax pot, $560 to keep.",
+   "usd": 560.0,
    "when": "~Dec 24",
    "status": "later"
   },
   {
-   "id": "z50_pay",
-   "date": "2027-02-02",
-   "what": "First payout: Zlarior's funded 50K",
-   "detail": "Middle case; half the time between ~Jan 11 and ~Mar 5.",
-   "when": "~Feb 2",
+   "id": "buy_r50",
+   "date": "2026-12-28",
+   "what": "Buy the Rapid EOD 50K ($165 with CLUB), paid from payouts",
+   "detail": "Once the payouts you keep (after the tax pot) reach $165: 100 in 100 runs get there. It fills your 5th funded slot (about $1,969 a month); the bot runs one Rapid today, so it needs your yes.",
+   "usd": -165.0,
+   "when": "~Dec 28",
    "status": "later"
   },
   {
@@ -149,6 +141,30 @@
    "what": "All 5 funded slots full",
    "detail": "MFFU's limit: 1 Builder 50K + 2 Builder 25K + Rapids, 5 funded in all (90 in 100 runs get there in 6 months). Then only re-buys.",
    "when": "~Feb 8",
+   "status": "later"
+  },
+  {
+   "id": "n25_pay",
+   "date": "2027-02-09",
+   "what": "First payout: Zlarior's 25K #2",
+   "detail": "Middle case, 9 in 10 runs not before Dec 22, and more than 1 in 10 get none by mid-May; about $800 to you. 31 in 100 runs pay by Jan 15; 24 in 100 lose the account first (a re-buy).",
+   "when": "~Feb 9",
+   "status": "later"
+  },
+  {
+   "id": "z50_pay",
+   "date": "2027-02-10",
+   "what": "First payout: Zlarior's funded 50K",
+   "detail": "Middle case, 8 in 10 runs between Dec 30 and May 18; about $1,600 to you. 27 in 100 runs pay by Jan 15; 31 in 100 lose the account first (a re-buy).",
+   "when": "~Feb 10",
+   "status": "later"
+  },
+  {
+   "id": "r25_pay",
+   "date": "2027-02-10",
+   "what": "First payout: Rapid EOD 25K",
+   "detail": "Middle case, 9 in 10 runs not before Jan 5, and more than 1 in 10 get none by mid-May; about $690 to you. 23 in 100 runs pay by Jan 15; 18 in 100 lose the account first (a re-buy).",
+   "when": "~Feb 10",
    "status": "later"
   },
   {
@@ -187,9 +203,9 @@
   "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
  ],
  "sources": [
-  "research/lab/money_plan.json (2026-11-18)",
+  "research/lab/money_plan.json (2026-11-18) + research/lab/payday_plan.json (2026-11-20)",
   "research/lab/rapid25.json",
-  "business/accounts.json (2026-11-18)",
+  "business/accounts.json (2026-11-20)",
   "tools/board.py gather"
  ]
 }

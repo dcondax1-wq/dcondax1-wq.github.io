@@ -22,7 +22,7 @@
 <script src="../olympus/themes.js?v=o8"></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../pc_feed.js?v=n4"></script>
-<link rel="stylesheet" href="business.css?v=4">
+<link rel="stylesheet" href="business.css?v=5">
 <style>
   main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
@@ -78,6 +78,11 @@
   .eq { width: 100%; height: 56px; display: block; margin: 8px 0 2px; }
   .planned li { margin: 8px 0; } .planned small { display: block; opacity: .7; font-size: .8rem; margin-top: 2px; }
   .mf-links a { display: inline-block; min-height: 44px; min-width: 44px; line-height: 44px; margin-right: 20px; }
+  /* 2026-11-20 (owner: "cleaner ... looks good", the "funky" bottom): the links in the page's gold, not the browser's blue / purple; alone (not
+     framed in Jarvis) there is no orb, so the page ends 40 px + the home bar under the last line, not in a 176 px empty band */
+  main#app a.back, .mf-links a { color: var(--ag-gold-hi, #dcbd6e); text-decoration: none; font-weight: 600; }
+  main#app a.back:active, .mf-links a:active { opacity: .7; }
+  html:not(.framed) main#app { padding-bottom: calc(40px + var(--sb, env(safe-area-inset-bottom, 0px))); }
 </style>
 </head>
 <body>
@@ -97,12 +102,12 @@
     lost). Sim funded starts at $0: clear the buffer ($1,100 on 25K, $2,100 on 50K), then at least $250 / $500 above it, 2 trading days a cycle, best
     day at most 50% of the cycle, 48 hours after the first trade; you keep 80%. MFFU's own dashboard updates once a day after the close (5:01-11:59 PM
     ET); this page every time your PC reports (about every 15 minutes).</p>
-  <nav class="mf-links" aria-label="Other account pages"><a href="accounts.html">My Accounts</a><a href="../board/">Board</a></nav>
+  <nav class="mf-links" aria-label="Other account pages"><a href="../hub/zeus.html">ZEUS</a><a href="accounts.html">My Accounts</a><a href="../board/">Board</a></nav>
   <p class="note" id="foot"></p>
 </main>
 <script src="payoutcoach.js?v=1"></script>
 <script src="mffumodel.js?v=2"></script>
-<script src="mffucenter.js?v=1"></script>
+<script src="mffucenter.js?v=2"></script>
 <script src="../edge_chip.js?v=1"></script>
 <script src="mffu.js?v=4"></script>
 </body>

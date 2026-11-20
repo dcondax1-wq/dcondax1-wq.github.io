@@ -93,7 +93,10 @@ export function mountCore(el, opts) {
     S = w; dpr = px / w;
     if (r3) r3.size(w, Math.min(d, tier > 1 ? 2 : tier ? 1.5 : 1));
   }
-  const live = () => !dead && !still && !document.hidden && onScreen;
+  let scrolling = false, scrollT = 0;       // revamp 2026-11-20: no core frame while a finger scrolls the page (the owner's "lag"); back 250 ms after
+  const live = () => !dead && !still && !document.hidden && onScreen && !scrolling;
+  const onScroll = () => { if (!scrolling) { scrolling = true; kick(); } clearTimeout(scrollT); scrollT = setTimeout(() => { scrolling = false; kick(); }, 250); };
+  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
   // off-screen (an app open over Jarvis): the render core releases its buffers (MSAA scene buffer, bloom chain), not just the loop
   function kick() {
     if (r3) {
@@ -476,6 +479,7 @@ export function mountCore(el, opts) {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
       document.removeEventListener('visibilitychange', onVis);
+      document.removeEventListener('scroll', onScroll, true); clearTimeout(scrollT);
       if (mq) { if (mq.removeEventListener) mq.removeEventListener('change', onMq); else if (mq.removeListener) mq.removeListener(onMq); }
       if (io) io.disconnect();
       if (ro) ro.disconnect();

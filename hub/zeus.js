@@ -139,7 +139,12 @@
     var md = /^(\d{4})-(\d{2})-(\d{2})$/.exec(day);
     var when = md ? MON[+md[2] - 1] + ' ' + (+md[3]) : day;
     var old = md && okN(nowS) ? (nowS - Date.parse(day + 'T22:00:00Z') / 1000) > 4 * 86400 : false;
-    return { day: day, when: when, rows: rows, ideas: ideas, old: !!old, t: okN(t) ? t : null,
+    // real fill cost per bot (tools/fill_cost.py via learned.json bots[].fills.line, night-atlasfills 2026-11-20)
+    var fills = (c && Array.isArray(c.bots) ? c.bots : []).map(function (b) {
+      return isObj(b) && isObj(b.fills) && typeof b.fills.line === 'string' && b.fills.line
+        ? { name: String(b.name || b.id || ''), text: b.fills.line } : null;
+    }).filter(Boolean).slice(0, 4);
+    return { day: day, when: when, rows: rows, ideas: ideas, old: !!old, t: okN(t) ? t : null, fills: fills,
              src: useZ ? 'From your PC\'s nightly learning (live feed)' : 'Cloud copy (Claude\'s nightly run' + (c.built ? ', ' + c.built : '') + ')' };
   }
 
@@ -161,18 +166,67 @@
       .catch(function () { return null; }).then(function (j) { clearTimeout(tm); return j; });
   }
 
-  function drawStrip(pl, rows) {
+  // ---- the Accounts view (owner 2026-11-20: "everything: accounts, info ... trades taken and closed, results of it. In a clean manner"):
+  // the PC strip, the Live feed (newest entries + exits of every account), one card per account: stage, balance, today's $, $ to pass /
+  // payout, the open trade with its live $ at the PC's price, its last 5 trades (../olympus/acct_live.js, from the PC's ext "at")
+  var drawn = false, feedSeen = null, liveWas = {};
+  function drawFeed(trs, now, lite) {
+    var box = $('feed'), ol = $('feedList'), AL = root.ACCT_LIVE;
+    if (!box || !ol) return [];
+    var ev = AL ? AL.feed(trs, now, 5) : [], seen = {};
+    ol.replaceChildren();
+    ev.forEach(function (e) {
+      var k = e.kind + ':' + e.key + ':' + e.t; seen[k] = 1;
+      var li = el('li', 'zs-ev ' + e.kind + (feedSeen && !feedSeen[k] ? ' new' : ''));
+      var mid = el('span', 'zs-ev-m'); mid.appendChild(el('b', '', e.name));
+      mid.appendChild(el('small', '', e.when + ' · ' + (e.kind === 'exit' ? e.text.replace(/ [+-]?\$[\d,]+/, '').replace(/ \((.*)\)$/, ' · $1') : 'in ' + e.text)));
+      li.appendChild(mid);
+      li.appendChild(el('span', 'zs-ev-v ' + (e.kind === 'exit' ? (e.cls || '') : 'in'), e.kind === 'exit' ? usd(e.usd, true) : 'IN'));
+      ol.appendChild(li);
+    });
+    feedSeen = seen;
+    var t = lite && lite.at && +lite.at.t ? +lite.at.t : lite && +lite.t ? +lite.t : null;
+    box.classList.toggle('quiet', !ev.length || !t || now - t > 1800);
+    if (!ev.length) ol.appendChild(el('li', 'zs-feed-none', 'No trades in the PC\'s feed yet. Every entry and exit shows here the moment the PC reports it, newest first.'));
+    return ev;
+  }
+
+  function drawOpen(a, o) {
+    var box;
+    if (!o) { box = el('div', 'zs-open flat'); box.appendChild(el('b', '', 'No open trade')); a.appendChild(box); return; }
+    box = el('div', 'zs-open');
+    box.appendChild(el('b', '', 'Open: ' + o.text));
+    var lv = el('span', 'zs-live' + (o.live > 0 ? ' pos' : o.live < 0 ? ' neg' : ''), o.live == null ? 'live $ -' : usd(o.live, true));
+    box.appendChild(lv);
+    var AL = root.ACCT_LIVE;
+    var bits = [];
+    if (o.s != null) bits.push('stop ' + AL.px(o.s) + (o.risk != null ? ' (' + usd(o.risk) + ')' : ''));
+    if (o.tg != null) bits.push('target ' + AL.px(o.tg) + (o.gain != null ? ' (' + usd(o.gain, true) + ')' : ''));
+    bits.push('since ' + o.when + (o.price != null ? ' · price ' + AL.px(o.price) : ''));
+    box.appendChild(el('small', '', bits.join(' · ')));
+    a.appendChild(box);
+    return lv;
+  }
+
+  // the owner's names (owner 2026-11-18: "Zlarior 50K", "Zlarior 25K #2", "ATLAS 25K"): the plan's short "Zlarior" / "ATLAS" gets its size
+  var SIZED = { zlarior: 'Zlarior 50K', atlas: 'ATLAS 25K' };
+  function fullName(r) { return /\d\s*K\b/i.test(String(r.name)) ? r.name : SIZED[r.key] || r.name; }
+
+  function drawStrip(pl, rows, data, now) {
     var s = $('pc');
     s.className = 'zs-pc ' + (pl.silent ? 'bad' : 'good');
     s.setAttribute('role', pl.silent ? 'alert' : 'status');
     s.replaceChildren();
     s.appendChild(el('span', 'zs-dot'));
     s.appendChild(el('b', '', pl.text));
+    var AL = root.ACCT_LIVE, lite = data && data.lite, trs = [];
+    try { trs = AL ? AL.trades(lite, data && data.plan) : []; } catch (e) { trs = []; }
+    var ev = drawFeed(trs, now, lite);
     var box = $('accts'); box.replaceChildren();
-    rows.forEach(function (r) {
-      var a = el('article', 'zs-acct'); a.setAttribute('data-key', r.key);
+    rows.forEach(function (r, i) {
+      var a = el('article', 'zs-acct' + (drawn ? '' : ' in')); a.setAttribute('data-key', r.key); a.style.setProperty('--i', String(i));
       var top = el('div', 'zs-top');
-      top.appendChild(el('h3', '', r.name));
+      top.appendChild(el('h3', '', fullName(r)));
       top.appendChild(el('span', 'zs-chip ' + r.cls, (r.planOnly ? 'PLAN · ' : '') + r.chip));
       a.appendChild(top);
       var mid = el('div', 'zs-mid');
@@ -180,10 +234,35 @@
       mid.appendChild(el('span', 'zs-today' + (r.today > 0 ? ' pos' : r.today < 0 ? ' neg' : ''), r.todayText));
       a.appendChild(mid);
       a.appendChild(el('p', 'zs-goal', r.goal));
+      var mine = trs.filter(function (x) { return x.key === r.key || x.name === r.name; }), k = mine.length ? mine[0].key : r.key;
+      if (AL && !r.planOnly) {
+        var o = AL.open(mine, k, lite && lite.price, lite && +lite.t, now), lv = drawOpen(a, o);
+        if (lv && o && o.live != null) {
+          if (liveWas[r.key] != null && Math.round(liveWas[r.key]) !== Math.round(o.live)) {
+            lv.classList.add('flash'); setTimeout(function () { lv.classList.remove('flash'); }, 320);
+          }
+          liveWas[r.key] = o.live;
+        }
+        var ls = AL.last(mine, k, 5, now);
+        if (ls.length) {
+          a.appendChild(el('p', 'zs-trs-h', 'Last ' + (ls.length === 1 ? 'trade' : ls.length + ' trades')));
+          var ul = el('ul', 'zs-trs');
+          ls.forEach(function (t) {
+            var li = el('li', 'zs-tr');
+            li.appendChild(el('time', '', t.when));
+            li.appendChild(el('span', '', t.text + (t.why ? ' · ' + t.why : '') + (t.r != null ? ' · ' + (t.r > 0 ? '+' : '') + t.r.toFixed(1) + 'R' : '')));
+            li.appendChild(el('b', t.cls, usd(t.usd, true)));
+            ul.appendChild(li);
+          });
+          a.appendChild(ul);
+        }
+      }
       a.appendChild(el('p', 'zs-src', 'Source: ' + r.src));
       box.appendChild(a);
     });
     if (!rows.length) box.appendChild(el('p', 'zs-empty', 'No accounts to show yet: the PC has not reported and the plan file did not load.'));
+    drawn = drawn || rows.length > 0;
+    return ev;
   }
 
   function drawToday(lines, nt) {
@@ -218,6 +297,7 @@
     var ul = el('ul');
     L.rows.forEach(function (r) { var li = el('li'); li.appendChild(el('b', '', r.name + ' ')); li.appendChild(d.createTextNode(r.text)); ul.appendChild(li); });
     box.appendChild(ul);
+    (L.fills || []).forEach(function (f) { box.appendChild(el('p', 'zs-src', (f.name ? f.name + ': ' : '') + f.text)); });
     if (L.ideas) box.appendChild(el('p', 'zs-idea', L.ideas + ' idea' + (L.ideas === 1 ? '' : 's') + ' for you on the Decide card: a yes only lets Claude test it.'));
     box.appendChild(el('p', 'zs-src', L.src + '. Advice only: ZEUS changed nothing.'));
   }
@@ -231,13 +311,13 @@
         var data = v[0], evj = v[1], lite = data.lite, now = nowS();
         try { drawLearned(learned(lite, v[2], now)); } catch (e) { /* never the page */ }
         var s = ZC.summary(data, now);                               // the Board's pick + the MFFU cards, BLITZ left out (zeus_core.js)
-        drawStrip(s.pc, s.rows);
+        var ev = drawStrip(s.pc, s.rows, data, now);
         try { if (root.EDGE_CHIP) root.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
         var cal = calendar(evj);
         drawToday([windowLine('lit', now, cal, lite), windowLine('atlas', now, cal, lite)], notes(evj, now, 7));
         $('stamp').textContent = 'Checked ' + new Date(now * 1000).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }) + ' ET'
           + (s.label ? ' · ' + s.label : '');
-        root.ZEUS_PAGE.last = { pc: s.pc, rows: s.rows, mode: s.mode };
+        root.ZEUS_PAGE.last = { pc: s.pc, rows: s.rows, mode: s.mode, feed: ev };
         root.ZEUS_PAGE.ready = true;
       })
       .then(function () { busy = false; }, function () { busy = false; root.ZEUS_PAGE.ready = true; });
@@ -251,7 +331,11 @@
 
   root.ZEUS_PAGE = { load: load, last: null, ready: false };
   function start() {
-    var rb = $('refresh'); if (rb) rb.addEventListener('click', load);
+    var rb = $('refresh');
+    if (rb) {
+      rb.addEventListener('click', function () { rb.classList.remove('spin'); void rb.offsetWidth; rb.classList.add('spin'); load(); });
+      rb.addEventListener('animationend', function () { rb.classList.remove('spin'); });
+    }
     weekly();
     load();
     setInterval(function () { if (!d.hidden) load(); }, 60000);

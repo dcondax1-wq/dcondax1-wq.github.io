@@ -180,3 +180,7 @@ html[data-oly-lite="1"] .sheet-card { animation: none; }
 /* the work-week link (2026-11-17): opens business/schedule.html */
 .weeklink { display: grid; gap: 2px; min-height: 44px; padding: 10px 14px; text-decoration: none; color: inherit; }
 .weeklink b { color: var(--ag-gold, #c8a24a); }
+
+/* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
+   seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }

@@ -1469,9 +1469,78 @@
   // {kind: kalshi_live_pub, st: off | live | paused | stopped | idle, net, f, o, cap, stop, u, why} rides the same PC ext post (key kalshi_live).
   // No card, or st off = the page keeps saying "PAUSED: ready to go live when you type the phrase" and "$0 at risk".
   const KLV = { j: null };
-  function klOk(j) { return isObj(j) && j.kind === 'kalshi_live_pub' && ['off', 'live', 'paused', 'stopped', 'idle'].includes(j.st); }
+  function klOk(j) { return isObj(j) && j.kind === 'kalshi_live_pub' && ['off', 'paper', 'live', 'paused', 'stopped', 'idle'].includes(j.st); }
+
+  // ---- K8 status card (night-kalshi8 2026-11-20): the card's k8 block (engine/kalshi_clock.card_k8: m L|P, nx next window, b bankroll,
+  // s $ a bet, td [bets, won, net] today, l last 10 'WLW..', wk / dd [$ used, stop], wr [bets, % won], lp loop). Without it: the $55 rule
+  // + the next window computed here (weekdays: London 10:15 = gold DOWN, 16:45 ET = gold + silver UP; Thanksgiving/early closes skip the evening).
+  const K8 = { nx: null, tm: 0 };
+  function tzEpoch(y, mo, d, h, mi, tz) {            // the epoch (ms) of a wall time in a time zone, no library
+    let g = Date.UTC(y, mo, d, h, mi);
+    for (let k = 0; k < 2; k++) {
+      const p = {}; for (const x of new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date(g))) p[x.type] = +x.value || 0;
+      g += Date.UTC(y, mo, d, h, mi) - Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute);
+    }
+    return g;
+  }
+  const K8_SKIP_PM = ['2026-11-26', '2026-11-27', '2026-12-24', '2026-12-25', '2027-01-01', '2027-03-26'], K8_SKIP_AM = ['2026-12-25', '2026-12-28', '2027-01-01', '2027-03-26', '2027-03-29'];
+  function k8Next(now) {
+    try {
+      for (let a = 0; a < 9; a++) {
+        const t = new Date(now + a * 86400000), p = {};
+        for (const x of new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' }).formatToParts(t)) p[x.type] = x.value;
+        if (p.weekday === 'Sat' || p.weekday === 'Sun') continue;
+        const y = +p.year, mo = +p.month - 1, d = +p.day, iso = `${p.year}-${p.month}-${p.day}`;
+        const c = [];
+        if (!K8_SKIP_AM.includes(iso)) c.push(tzEpoch(y, mo, d, 10, 15, 'Europe/London'));
+        if (!K8_SKIP_PM.includes(iso)) c.push(tzEpoch(y, mo, d, 16, 45, 'America/New_York'));
+        const n = c.filter((x) => x + 20000 > now).sort((u, v) => u - v)[0];
+        if (n) return n;
+      }
+    } catch (_) { /* old browsers: no countdown */ }
+    return null;
+  }
+  function k8Tick() {
+    const el = $('#k8s-cd');
+    if (!el) return;
+    const now = Date.now();
+    if (!K8.nx || K8.nx + 20000 < now) K8.nx = k8Next(now);
+    if (!K8.nx) { el.textContent = '–'; return; }
+    const x = Math.max(0, Math.round((K8.nx + 20000 - now) / 1000)), h = Math.floor(x / 3600), m = Math.floor((x % 3600) / 60);
+    let at = '';
+    try { at = new Date(K8.nx).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' }) + ' ET'; } catch (_) { at = ''; }
+    el.textContent = x <= 0 ? 'now' : `${h ? h + 'h ' : ''}${m}m${h ? '' : ' ' + (x % 60) + 's'}${at ? ' (' + at + ')' : ''}`;
+  }
+  function k8Show(j) {
+    const k = isObj(j) && isObj(j.k8) ? j.k8 : null, g = $('#k8s-g'), x = $('#k8s-x'), mm = $('#k8s-m');
+    if (!g || !x) return;
+    if (k && num(k.nx)) K8.nx = num(k.nx) * 1000;
+    if (!K8.tm) { K8.tm = setInterval(k8Tick, 1000); }
+    k8Tick();
+    if (!k) return;
+    const live = j.st === 'live' || j.st === 'paused', led = k.m === 'L' ? 'live' : 'paper', td = arr(k.td), age = rwAge({ updated: j.u });
+    if (mm) { mm.textContent = live ? (j.st === 'paused' ? 'PAUSED' : 'LIVE') : j.st === 'stopped' ? 'STOPPED' : 'PAPER'; mm.className = 'k8s-m' + (j.st === 'live' ? ' live' : ''); }
+    const cell = (t, v, c, id) => `<div><dt>${t}</dt><dd class="${c || ''}"${id ? ' id="' + id + '"' : ''}>${v}</dd></div>`;
+    g.innerHTML = cell('Bankroll', esc(usd(k.b))) + cell('A bet', esc(usd(k.s)))
+      + cell(`Today (${led})`, num(td[0]) ? `${esc(fmtN(td[0]))} bet${td[0] === 1 ? '' : 's'}, ${esc(usd(td[2], true))}` : 'no bets yet', num(td[0]) ? cls(td[2]) : '')
+      + cell('Next window', '…', '', 'k8s-cd');
+    k8Tick();
+    const l = String(k.l || '').replace(/[^WL]/g, '').slice(-10), bar = (t, a) => {
+      const u = num(arr(a)[0]) || 0, st = num(arr(a)[1]) || 0, f = st ? Math.min(1, Math.max(0, u / st)) : 0;
+      return `<span>${t}</span><span>${esc(usd(-u))} of ${esc(usd(-st))}</span><i><b class="${f > 0.8 ? 'red' : f > 0.5 ? 'hot' : ''}" style="width:${Math.round(f * 100)}%"></b></i>`;
+    };
+    const wr = arr(k.wr);
+    x.innerHTML = `<p class="krw-f">Last ${l.length || 0} results (${led}), oldest first</p><div class="k8s-l">${l ? l.split('').map((c) => `<span class="${c === 'W' ? 'w' : ''}">${c}</span>`).join('') : '<em class="muted">none yet</em>'}</div>`
+      + `<div class="k8s-b">${bar('This week', k.wk)}${bar('From the peak (OFF)', k.dd)}</div>`
+      + `<p class="krw-f">${num(wr[0]) ? `${esc(fmtN(wr[0]))} bets, ${esc(String(wr[1]))}% won (OFF under 58% after 60). ` : ''}${k.lp ? 'Running on the PC' : 'The PC is not running it right now'} · <span class="krw-age${age.old ? ' old' : ''}">updated ${esc(age.s)}${age.old ? ' (late)' : ''}</span></p>`;
+  }
   function klShow() {
     const j = KLV.j, ln = $('#kpaused-live'), hd = $('#kpaused-h'), risk = $('#kpaused-risk');
+    k8Show(j);
+    if (j && j.st === 'paper' && ln) {
+      ln.innerHTML = '<b>K8, the gold and silver clock bot · PAPER:</b> running on the PC with no money (the K8 status card below). Live only when you type the phrase on the PC\'s private page (your PC link :8444/kalshi-live/).';
+      return;
+    }
     if (!ln || !klOk(j) || j.st === 'off') return;
     const cap = num(j.cap), stop = num(j.stop), age = rwAge({ updated: j.u });
     const lim = cap != null && stop != null ? ` Limits: ${usd(cap)} total, stop at ${MINUS}${usd(stop)} a day.` : '';
@@ -2242,6 +2311,7 @@
   scanLoad();
   rewardsLoad();
   k1Load();
+  k8Show(null);                                       // the K8 status card: the next-window countdown from the first paint
   offline();
 })();
 

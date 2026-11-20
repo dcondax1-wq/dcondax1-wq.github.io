@@ -193,3 +193,7 @@ label.f input, label.f select, .input-row input { border-radius: 13px; backgroun
 label.f.amt input { font: 700 28px/1 var(--ag-num, -apple-system, sans-serif); font-variant-numeric: tabular-nums; }
 .go { border-color: var(--oly-th-a11, #e2c47a); background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--g-gold)); color: var(--ag-on-gold, #1b1610); font-weight: 700; box-shadow: 0 1px 0 rgba(255, 246, 220, .35) inset, 0 6px 14px rgba(0, 0, 0, .25); }
 @media (max-width: 360px) { #app .hero .big { font-size: 34px; } }
+
+/* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
+   seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }

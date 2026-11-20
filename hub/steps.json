@@ -1,0 +1,110 @@
+{
+ "v": 1,
+ "updated": "2026-11-20",
+ "note": "Your steps (hub/steps.html): the owner's open to-dos in order. Source: STATE.md 'Waiting on the owner' and the docs named in each src. The lead keeps it current. No account ids, no addresses: <your PC link> stands for your own PC link.",
+ "items": [
+  {
+   "id": "rapid-add",
+   "n": 1,
+   "title": "Add the Rapid EOD 25K",
+   "what": "Tell the bot about your new Rapid EOD 25K account so it starts trading it.",
+   "why": "This is the account with the $500 daily loss limit (a soft pause); the bot already sizes to stay above it. Until it is added it trades nothing.",
+   "where": "Phone",
+   "optional": false,
+   "steps": [
+    "Turn Tailscale on. Open the line below in your browser.",
+    "Pick Rapid EOD 25K, tap the account name in the list.",
+    "Type I ACCEPT LIVE RISK, press Add. It waits for the bot to be flat, then starts by itself."
+   ],
+   "copy": "I ACCEPT LIVE RISK",
+   "copy_note": "The phrase to type. The page is: <your PC link>:8444/add-account/",
+   "src": "docs/RAPID_EOD_SETUP.md, engine/account_box.py"
+  },
+  {
+   "id": "atlas-room",
+   "n": 2,
+   "title": "ATLAS keeps trading under $100 of room",
+   "what": "Let ATLAS keep taking trades even when less than $100 of room is left.",
+   "why": "You said yes on Nov 19. Without it ATLAS stops early and misses winners.",
+   "where": "PC",
+   "optional": false,
+   "steps": [
+    "At the PC, wait until ATLAS is flat (no open trade).",
+    "Open a terminal in the bot folder and run the line below.",
+    "It prints the new setting. Nothing else to do."
+   ],
+   "copy": "python -X utf8 -m engine.account_b --min-room 0",
+   "copy_note": "Run it at the PC only when ATLAS is flat.",
+   "src": "STATE.md 'Waiting on the owner' 0, engine/account_b.py"
+  },
+  {
+   "id": "phone-remote",
+   "n": 3,
+   "title": "Phone Remote, one time",
+   "what": "Tell the phone app which repo to send commands through.",
+   "why": "After this, Update now / Pause / Flatten / Status work from the phone when you cannot reach the PC. Safety, not money.",
+   "where": "Phone",
+   "optional": false,
+   "steps": [
+    "Phone app > More > Remote.",
+    "In the repo box type your Olympus repo (owner/olympus), the way you named it on GitHub.",
+    "Tap Save repo. It is kept on that phone only."
+   ],
+   "copy": "owner/olympus",
+   "copy_note": "Replace owner with your own GitHub name; the box remembers it.",
+   "src": "docs/REMOTE_CONTROL.md"
+  },
+  {
+   "id": "kalshi-live",
+   "n": 4,
+   "title": "Kalshi K8 live, Monday before 4:44 PM ET",
+   "what": "Give the Kalshi bot a key and start it with real money, $2.50 a bet.",
+   "why": "Monday's windows only trade if it is on before 4:44 PM ET. Real money: the loss is limited to what you put in.",
+   "where": "Phone",
+   "optional": false,
+   "steps": [
+    "kalshi.com > Profile Settings > API Keys > Create. Never paste the key in chat.",
+    "Open <your PC link>:8444/kalshi-live/ and paste the key there, Save.",
+    "Pick $2.50 (marked the rule), type the phrase below, tap Start LIVE."
+   ],
+   "copy": "I ACCEPT KALSHI LIVE RISK",
+   "copy_note": "The phrase to type, yourself.",
+   "src": "research/writeups/kalshi-k8-monday-2026-11-20.md"
+  },
+  {
+   "id": "combo-test",
+   "n": 5,
+   "title": "Optional: test the 50K combo in Sim",
+   "what": "Try the 50K combo on the practice account (Sim101) first. Then, after one Sim day, turn on fast entry.",
+   "why": "No real money in Sim. It shows whether the combo and the faster entry behave before they touch a funded account.",
+   "where": "PC",
+   "optional": true,
+   "steps": [
+    "At the PC, run the first line below (Sim101 only).",
+    "Let it run one Sim day.",
+    "Then, if it looked fine, run the fast entry line (second one)."
+   ],
+   "copy": "python -X utf8 -m engine.combo50k --on --account \"Sim101\"",
+   "copy2": "python -X utf8 -m engine.fast_entry --on",
+   "copy_note": "First line: the combo on Sim101. Second line (copy2): fast entry, after one Sim day.",
+   "src": "engine/combo50k.py, engine/fast_entry.py"
+  },
+  {
+   "id": "pc-on",
+   "n": 6,
+   "title": "Keep the PC and NinjaTrader on, 02:00 to 15:30 ET",
+   "what": "Do not sleep or close the PC or NinjaTrader on trading days.",
+   "why": "Nov 10 and 11 trades were missed because the PC was silent. A silent PC is a missed trade, and a missed trade is missed $.",
+   "where": "PC",
+   "optional": false,
+   "steps": [
+    "Leave the PC on and awake from 02:00 to 15:30 ET, Monday to Friday.",
+    "Leave NinjaTrader open and connected.",
+    "Check from the phone any time with the line below."
+   ],
+   "copy": "python -X utf8 tools/pc_doctor.py",
+   "copy_note": "At the PC: a health check. Your phone also warns when the PC goes silent.",
+   "src": "STATE.md (PC silent, Nov 10-11), docs/SELF_HEAL.md"
+  }
+ ]
+}

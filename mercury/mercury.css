@@ -51,3 +51,13 @@ details > summary { min-height: 44px; display: flex; align-items: center; cursor
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 html[data-oly-lite="1"] .stage { height: 150px; }
+
+/* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
+   seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+/* night-siteqa 2026-11-20: hold the room of the words that land with the deal list, so the cards under them do not jump down
+   (a slow phone measured CLS 0.19-0.8: the status line, the headline and the pick card all grew at once) */
+#status { min-height: 2.9em; }
+#headline { min-height: 2.4em; }
+#asof { min-height: 1.45em; }
+#pickCard { min-height: 260px; }

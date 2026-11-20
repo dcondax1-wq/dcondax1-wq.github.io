@@ -150,3 +150,7 @@ html[data-oly-lite="1"] .s2d .flame, html[data-oly-lite="1"] .sheet { animation:
 .attrib { display: inline-flex; align-items: center; justify-self: start; min-height: 44px; min-width: 44px; font-size: 12px; color: var(--ag-muted); text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 360px) { .chips { grid-template-columns: minmax(0, 1fr); } }
 html[data-oly-lite="1"] .chartbox { background: var(--oly-th-n3, #14110e); }
+
+/* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
+   seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }

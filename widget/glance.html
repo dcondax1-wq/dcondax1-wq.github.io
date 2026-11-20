@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus Glance</title>
+<meta name="description" content="OLYMPUS GLANCE: every account's balance, today's $, $ to pass or to payout, the drawdown room, PC status and the next Kalshi window, on one big screen.">
+<meta name="theme-color" content="#14110e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="light dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Glance">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../business/apple-touch-icon.png">
+<!-- GLANCE (night-revamp-dash 2026-11-20): the "bigger widget" the owner asked for. Add to Home Screen opens it full screen.
+     Data: olympus-widget.js (the same code the Scriptable widget runs): the PC's 15-minute public status post first (LIVE), else the
+     site's home.json (PAPER / SITE), else this browser's last good copy (CACHED). Read only; text only through textContent. -->
+<link rel="stylesheet" href="widget.css?v=1">
+</head>
+<body>
+<main id="app" aria-busy="true">
+  <header class="top">
+    <div><h1>Glance</h1><p class="sub" id="sub">Your money at one look</p></div>
+    <span id="src" class="tag paper">LOADING</span>
+  </header>
+
+  <section class="card fade" aria-labelledby="hTotal">
+    <div class="g-hero">
+      <div><p class="muted" id="hTotal" style="margin:0 0 4px">Today's $ · all accounts</p><div id="today" class="g-big num">—</div></div>
+      <div class="g-pc"><span id="pcDot" class="dot"></span><span id="pcLabel">Checking the PC...</span></div>
+    </div>
+    <p class="wait" id="model"></p>
+  </section>
+
+  <section class="card fade" aria-labelledby="hAcc" style="animation-delay:.05s">
+    <div class="row"><h2 id="hAcc">Accounts</h2><span class="sp"></span><span class="muted" style="font-size:.75rem">ring = drawdown room left</span></div>
+    <div id="accts"><div class="skel"></div></div>
+  </section>
+
+  <section class="card fade" aria-labelledby="hK" style="animation-delay:.1s">
+    <div class="row"><h2 id="hK">Kalshi clock</h2><span class="sp"></span><span class="tag paper">PAPER</span></div>
+    <p><b id="kNext" class="num">—</b> <span id="kIn" class="muted"></span></p>
+    <p class="muted" id="kPaper" style="font-size:.85rem"></p>
+  </section>
+
+  <nav class="links fade" aria-label="Open" style="animation-delay:.15s">
+    <a href="../business/goals.html">Goals<small>$ to pass, dates, the ladder</small></a>
+    <a href="../business/accounts.html">Accounts<small>room, rules, next buy</small></a>
+    <a href="../hub/zeus.html">ZEUS<small>what the bots do now</small></a>
+    <a href="../kalshi/">Kalshi<small>the clock bets</small></a>
+  </nav>
+  <p class="foot" style="margin-top:14px"><span id="age">—</span><span id="upd">—</span></p>
+  <p class="foot"><a href="./">Get the real iPhone widget (Scriptable) &rarr;</a></p>
+</main>
+<script src="olympus-widget.js?v=w1"></script>
+<script src="glance.js?v=1"></script>
+</body>
+</html>

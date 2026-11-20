@@ -930,6 +930,19 @@ html.framed .note.sample { top: 56px; }
 .krw-f { font-size: 13px; opacity: .85; margin-top: 4px !important; }
 @media (max-width: 359px) { .krw-g { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .krw-age.old { color: var(--warn); }
+/* ---- K8 status card (night-kalshi8 2026-11-20, kalshi.js k8Show): mode, bankroll, today, next window, last 10, how far each stop is */
+.k8s { display: block; margin-top: 8px; }
+.k8s h2 { margin: 2px 0 4px; font: 700 15px/1.3 var(--fh); display: flex; align-items: center; gap: 8px; }
+.k8s-m { font: 800 12px/1 var(--fh); letter-spacing: .06em; padding: 4px 7px; border-radius: 6px; border: 1px solid rgba(var(--warn-rgb), .6); color: var(--warn); }
+.k8s-m.live { border-color: rgba(var(--up-rgb, 34, 197, 94), .7); color: var(--up, #16a34a); }
+.k8s-l { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px; }
+.k8s-l span { width: 24px; height: 24px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font: 800 12px/1 var(--fh); color: #fff; background: var(--down, #dc2626); }
+.k8s-l span.w { background: var(--up, #16a34a); }
+.k8s-b { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 10px; font-size: 13.5px; align-items: center; }
+.k8s-b i { grid-column: 1 / -1; display: block; height: 7px; border-radius: 4px; background: var(--dim2); overflow: hidden; margin: 3px 0 8px; }
+.k8s-b i b { display: block; height: 100%; background: var(--up, #16a34a); }
+.k8s-b i b.hot { background: var(--warn); }
+.k8s-b i b.red { background: var(--down, #dc2626); }
 /* the Kalshi home (2026-11-18): what we tested, the other Kalshi apps, the bar; phone first, rows at least 44 px */
 .khub { display: block; margin-top: 8px; }
 .khub h2 { margin: 4px 0 6px; font: 700 15px/1.3 var(--fh); }

@@ -44,6 +44,7 @@
     ['nemesis', 'nemesis/', 'Nemesis', 'Losing trades', 'What went wrong, trade by trade', 'bots', 'trades', 'losses losers losing mistakes what went wrong', ''],
     ['kronos', 'kronos/', 'Kronos', 'P&L calendar', 'Daily P&L, best weekday and hour', 'bots', 'trades', 'pnl calendar days money daily', ''],
     ['trading', 'trading/', 'Trading', 'Every trade', "Today's $, the calendar, the stats and the payout rules", 'bots', 'trades', 'trades trading calendar stats payout payouts rules today pnl', ''],
+    ['why', 'why/', 'Why', 'Why we win and lose', 'Why our trades win and lose, per bot', 'bots', 'trades', 'why win lose losses wins reasons anatomy bot', ''],
     ['apollo', 'apollo/', 'Apollo', 'Weekly review', "The week's review and one rule for next week", 'bots', 'review', 'weekly review week lessons rule', ''],
     ['journal', 'journal/', 'Mnemosyne', 'Trade journal', 'A 10-second journal: what your habits cost', 'bots', 'review', 'journal diary notes habits mistakes log mnemosyne', ''],
     ['kratos', 'kratos/', 'Kratos', 'Discipline score', 'A 0-100 score a day: plan, stop, size, hours', 'bots', 'review', 'discipline score rules habits', ''],
@@ -66,6 +67,8 @@
     ['arbiter', 'arbiter/', 'Arbiter', 'Spreads and funding', 'Paper-only spreads: net yearly return', 'money', 'ideas', 'spreads funding arbitrage crypto yield', ''],
     ['agency', 'agency/', 'Agency', 'Website agency', 'Local-business leads, demo sites and calls', 'money', 'ideas', 'website websites agency web design clients leads crm pipeline calls cold call call list script side business', ''],
     ['business', 'business/', 'Business', 'All my businesses', 'Every side business: next step, money, 7-day launch', 'money', 'ideas', 'business businesses side hustle agency products gigs instagram income launch checklist next step money plan', ''],
+    // (2026-11-20 night-gatefix) the iPhone widget (night-revamp-dash, widget/): last of the money rows, so each tab's best stays Ledger / Hera / Oikos / Mint
+    ['widget', 'widget/', 'Widget', 'iPhone widget', 'Your accounts on the Home Screen, plus the Glance page', 'money', 'real', 'widget glance home screen scriptable iphone phone balance accounts', ''],
     // ---- Plan & Day: calendar, shifts, tasks, habits
     ['planner', 'planner/', 'Planner', 'Day and week plan', 'Sessions, shifts, tasks, habits and notes', 'plan', 'plan', 'calendar tasks todo habits schedule plan focus shift work', ''],
     ['mind', 'mind/', 'Mind', 'Your notes as a brain', 'Your vault as a living 3D brain', 'plan', 'plan', 'obsidian notes vault memory brain', ''],

@@ -51,8 +51,8 @@
     listState = 'loading';
     var left = 0, fin = function () { if (--left > 0) return; listState = window.OLYMPUS_APPS_LIST ? 'done' : 'failed'; var w = waiters; waiters = []; w.forEach(function (f) { try { f(); } catch (e) { /* */ } }); };
     var add = function (src) { left++; var s = d.createElement('script'); s.async = true; s.src = src; s.onload = fin; s.onerror = fin; (d.head || root).appendChild(s); };
-    if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l6' : 'olympus/apps-list.js?v=l6');
-    if (!doors()) add(isPC ? '/js/next/doors.js?v=d6' : 'olympus/doors.js?v=d6');      // the four doors (same file on both sites)
+    if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l7' : 'olympus/apps-list.js?v=l7');
+    if (!doors()) add(isPC ? '/js/next/doors.js?v=d7' : 'olympus/doors.js?v=d7');      // the four doors (same file on both sites)
     if (!left) { left = 1; fin(); }
   }
   function apps() {
@@ -164,6 +164,7 @@
     '.oly-l .oly-chip i,.oly-l .oly-tile .oly-g{display:grid;place-items:center;font-style:normal;border-radius:50%;color:var(--c);background:rgba(var(--cr),.12);border:1.5px solid var(--c)}',
     '.oly-l .oly-chip i{width:28px;height:28px;font:700 14px/1 var(--oly-th-display, "Iowan Old Style",Palatino,Georgia,serif)}',
     '.oly-l .oly-gr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.oly-l.pc .oly-gr{grid-template-columns:repeat(3,minmax(0,1fr))}',
+    '.oly-l .oly-arc{margin:10px 0 0}.oly-l .oly-arc>summary{min-height:44px;display:flex;align-items:center;padding:0 4px;font:600 13px -apple-system,system-ui,sans-serif;color:var(--oly-th-n22, #9a8f7d);cursor:pointer;list-style:none}.oly-l .oly-arc>summary::-webkit-details-marker{display:none}.oly-l .oly-arc>summary::after{content:"\u203a";margin-left:8px;transition:transform .2s}.oly-l .oly-arc[open]>summary::after{transform:rotate(90deg)}.oly-l .oly-arc .oly-tile{opacity:.82}',
     '.oly-l .oly-tile{position:relative;display:flex;align-items:center;gap:11px;min-height:64px;padding:10px 12px;border-radius:16px;text-decoration:none;color:var(--oly-th-n37, #f3ece0);min-width:0;background:var(--oly-th-n5, #26211b);border:1px solid var(--oly-th-n8, #3a3228);border-left:3px solid var(--gc,var(--oly-th-a8, #c8a24a));-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}',
     '.oly-l .oly-tile:hover,.oly-l .oly-tile:focus-visible{border-color:var(--gc,var(--oly-th-a8, #c8a24a));outline:0}.oly-l .oly-tile:active{background:var(--oly-th-n6, #2e271f)}',
     '.oly-l .oly-tile .oly-g{flex:none;width:40px;height:40px;font:700 18px/1 var(--oly-th-display, "Iowan Old Style",Palatino,Georgia,serif)}',
@@ -277,9 +278,15 @@
         });
         sec.appendChild(ks);
       } else sec.appendChild(el('h3', '', g[1]));
-      var gr = el('div', 'oly-gr');
-      list.forEach(function (a) { var t = tile(a, n++, false); st.tiles[a.id] = t; gr.appendChild(t); });
-      sec.appendChild(gr); frag.push(sec);
+      var gr = el('div', 'oly-gr'), arc = D && D.archived ? list.filter(function (a) { return D.archived(a.id); }) : [];
+      list.forEach(function (a) { if (arc.indexOf(a) >= 0) return; var t = tile(a, n++, false); st.tiles[a.id] = t; gr.appendChild(t); });
+      sec.appendChild(gr);
+      if (arc.length) {                                        // night-revamp-main 2026-11-20: the weak / duplicate apps, folded at the end of the door (doors.js ARCHIVE)
+        var ad = el('details', 'oly-arc'), ag = el('div', 'oly-gr'); ad.appendChild(el('summary', '', 'Archive · ' + arc.length + ' older pages'));
+        arc.forEach(function (a) { var t = tile(a, n++, false); st.tiles[a.id] = t; ag.appendChild(t); });
+        ad.appendChild(ag); sec.appendChild(ad);
+      }
+      frag.push(sec);
     });
     els.body.replaceChildren.apply(els.body, frag);
     st.apps.forEach(function (a) { paintDot(a.id); });
@@ -293,6 +300,7 @@
     [].forEach.call(els.body.querySelectorAll('.oly-tile, .oly-dk'), function (t) { t.hidden = !(!q || hit(t)); if (!t.hidden && t.className === 'oly-dk') keys++; });
     st.apps.forEach(function (a) { if (st.tiles[a.id] && !st.tiles[a.id].hidden) shown++; });
     els.body.querySelectorAll('section, .oly-fav').forEach(function (s) { s.hidden = !s.querySelector('.oly-tile:not([hidden]), .oly-dk:not([hidden])'); });
+    els.body.querySelectorAll('details.oly-arc').forEach(function (x) { if (q) { if (!x.open) { x.open = true; x.setAttribute('data-auto', '1'); } } else if (x.getAttribute('data-auto')) { x.open = false; x.removeAttribute('data-auto'); } });
     if (st.apps.length) { els.em.hidden = shown + keys > 0; if (!shown && !keys) els.em.textContent = 'No app matches "' + st.q.trim().slice(0, 40) + '".'; }
     renderRecent();
   }

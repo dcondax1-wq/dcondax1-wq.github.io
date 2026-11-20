@@ -436,7 +436,9 @@ function mountConstellation(home, ext) {
   const LV = { ok: '160,176,96', warn: '224,176,96', bad: '201,106,74', off: '154,143,125' };   // AGORA: olive, sunrise, terracotta, stone
   let raf = 0, last = 0, t0 = performance.now(), W = 0, H = 0, dpr = 1, drawn = 0;
   const live = () => !document.hidden && root.dataset.mode === 'jarvis' && stage.getClientRects().length > 0;
-  const animated = () => (root.dataset.fx === 'high' || root.dataset.fx === 'ultra') && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let scrolling = false, scrollT = 0;     // revamp 2026-11-20 (the owner's "lag"): the constellation holds still while a finger scrolls, back 250 ms after
+  document.addEventListener('scroll', () => { scrolling = true; clearTimeout(scrollT); scrollT = setTimeout(() => { scrolling = false; if (typeof kick === 'function') kick(); }, 250); }, { capture: true, passive: true });
+  const animated = () => (root.dataset.fx === 'high' || root.dataset.fx === 'ultra') && !matchMedia('(prefers-reduced-motion: reduce)').matches && !scrolling;
   function size() {
     const r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1);
     const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));

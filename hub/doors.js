@@ -37,10 +37,15 @@
     var list = el('div', 'dr-list'); list.setAttribute('aria-labelledby', 'doorH');
     dr.items.forEach(function (it) { list.appendChild(row(it.label, it.greek, href(it.href), dr.id)); });
     out.appendChild(list);
-    var apps = dr.ids.map(function (x) { return byId[x]; }).filter(Boolean);
+    var all = dr.ids.map(function (x) { return byId[x]; }).filter(Boolean), arch = D.archived || function () { return false; };
+    var apps = all.filter(function (a) { return !arch(a.id); }), old = all.filter(function (a) { return arch(a.id); });
     if (apps.length) {
       var det = el('details', 'dr-all'), sum = el('summary', '', 'All apps in ' + dr.title + ' (' + apps.length + ')');
       det.appendChild(sum); var al = el('div', 'dr-list'); apps.forEach(function (a) { al.appendChild(appRow(a)); }); det.appendChild(al); out.appendChild(det);
+    }
+    if (old.length) {                                          // night-revamp-main 2026-11-20: the weak / duplicate pages, folded (olympus/doors.js ARCHIVE)
+      var ad = el('details', 'dr-all dr-arc'), as = el('summary', '', 'Archive: ' + old.length + ' older pages');
+      ad.appendChild(as); var ol = el('div', 'dr-list'); old.forEach(function (a) { ol.appendChild(appRow(a)); }); ad.appendChild(ol); out.appendChild(ad);
     }
   }
   function showFind(text) {

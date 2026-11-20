@@ -1,7 +1,7 @@
 {
  "v": 1,
- "updated": "2026-11-18",
- "note": "Live numbers come from your PC. The rest is the plan. Every $ a month is an ESTIMATE from the Jul-Oct 2026 trades, after fees. In the 2021-25 test it made about $0, so treat it as a maybe. Prices with the CLUB code (40% off): Builder 25K $63, Builder 50K $91.80, Rapid EOD 50K $165 ($275 list).",
+ "updated": "2026-11-20",
+ "note": "Live numbers come from your PC. The rest is the plan. Every $ a month is an ESTIMATE from the Jul-Oct 2026 trades, after fees. In the 2021-25 test it made about $0, so treat it as a maybe. Prices with the CLUB code (40% off): Builder 25K $63, Builder 50K $91.80, Rapid EOD 25K $97.20 ($162 list), Rapid EOD 50K $165 ($275 list).",
  "accounts": [
   {
    "key": "zlarior",
@@ -49,14 +49,18 @@
   },
   {
    "key": "rapid1",
-   "name": "Rapid EOD 25K (next)",
+   "pc": [
+    "rapid"
+   ],
+   "match": "rapideod25k",
+   "name": "Rapid EOD 25K",
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
-   "status": "waiting",
-   "bots": "Zlarior + ATLAS from day one (passes in ~4-5 weeks instead of ~2 months)",
-   "next": "Next buy when budget allows; the bot support is being built",
-   "payout": "eval ~4-5 weeks, then daily; first payout about mid-late Jan",
-   "usd_month": "~$970",
+   "status": "buying",
+   "bots": "Zlarior + ATLAS on one account (never two trades at once; ATLAS <= $250 a trade)",
+   "next": "Bought (DLL version: $500 daily loss = a pause for the day). Add it on the PC page /add-account/ (or ADD_ACCOUNT.bat option 5), then START BOT + the phrase. Pass: +$1,500 in 4+ days, no day over 30% ($450; the bot keeps a day under $427), $1,000 EOD floor",
+   "payout": "pass ~25 trading days (~Dec 23 if started Nov 20), then daily; first payout about early Feb (~$690 to you)",
+   "usd_month": "~$1,000",
    "cost": "$97.20 (CLUB)"
   },
   {
@@ -82,7 +86,7 @@
   "Yes/no: keep $1,000 in each Rapid when taking payouts",
   "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
  ],
- "limits": "MFFU lets you hold 5 funded accounts: 1 Builder 50K, 2 Builder 25K, 3 Rapid EOD 50K. Up to 10 evals.",
+ "limits": "MFFU lets you hold 5 funded accounts: 1 Builder 50K, 2 Builder 25K, 3 Rapid EOD 50K, 3 Rapid EOD 25K (5 in all). Up to 10 evals.",
  "rules": [
   [
    "Builder 50K",
@@ -95,6 +99,10 @@
   [
    "Rapid EOD 50K",
    "Pass: make $3,000 in at least 4 days; no single day over 30% of it. Funded: payouts every day after $2,100; you keep 90%; no open trade 2 min before and after big news (CPI, jobs, Fed)."
+  ],
+  [
+   "Rapid EOD 25K",
+   "Pass: make $1,500 in at least 4 days; no single day over 30% of it. Max loss $1,000 from your best close, 2 minis / 20 micros, flat by 4:10 PM ET. Funded: payouts every day after $1,100 profit, $500 min, then $250 profit between payouts; you keep 90%; no open trade 2 min before and after big news (CPI, jobs, Fed)."
   ]
  ],
  "about_pc": "pc = the PC's own ids of this account (accounts / board cards in the PC feed). Pages and tools/board.py match live numbers by these ids or the Name, never by plan size."

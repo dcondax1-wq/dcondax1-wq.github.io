@@ -17,7 +17,8 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a6">
 <script src="../olympus/themes.js?v=o8"></script>
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="business.css?v=4">
+<link rel="stylesheet" href="business.css?v=5">
+<link rel="stylesheet" href="dashkit.css?v=2"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
 <style>
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
   .pace { font: 700 17px var(--ag-sans); line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
@@ -57,6 +58,11 @@
     <p class="note" id="light"></p>
   </section>
 
+  <section class="ag-card card" data-dash="edge" aria-label="Edge health over time"></section>
+  <section class="ag-card card" data-dash="months" aria-label="Dollars per month"></section>
+  <section class="ag-card card" data-dash="equity" aria-label="Equity 2026"></section>
+  <section class="ag-card card" data-dash="trades" aria-label="Wins, losses, best and worst"></section>
+
   <section class="ag-card card" aria-labelledby="chH">
     <h2 id="chH">What changed in the code</h2>
     <ol class="plain" id="changes"></ol>
@@ -83,5 +89,6 @@
   <p class="note" id="foot"></p>
 </main>
 <script src="week.js?v=3"></script>
+<script src="dashkit.js?v=1"></script>
 </body>
 </html>

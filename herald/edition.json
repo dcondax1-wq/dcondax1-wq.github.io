@@ -1,13 +1,13 @@
 {
  "v": 1,
- "date": "2026-11-19",
+ "date": "2026-11-20",
  "number": 2,
- "built": "2026-11-19T11:46:32Z",
+ "built": "2026-11-20T07:09:42Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
   "motto": "Only what the files say",
-  "date_words": "Thursday, 19 November 2026"
+  "date_words": "Friday, 20 November 2026"
  },
  "label": "Some stories rest on sample data and say so.",
  "lead": {
@@ -168,9 +168,9 @@
    "standfirst": "Who is building what today, straight from the lead's roster.",
    "body": [
     "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
-    "On the bench today: Hellas: A world of 200+ cities built from the real research data.",
-    "Next to it: Pinakes: A browser for every table of data OLYMPUS has.",
-    "And a third: Fixer: Fixing the broken tests and phone-layout bugs in old apps.",
+    "On the bench today: Theme finisher: One calm AGORA look in every app; a unique accent per app.",
+    "Next to it: Hellas: A world of 200+ cities built from the real research data.",
+    "And a third: Pinakes: A browser for every table of data OLYMPUS has.",
     "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
     "The roster was last updated at 2026-11-11T01:10:00Z."
    ],
@@ -180,6 +180,16 @@
      "src": "handoff/agents_now.json",
      "calc": "count of agents",
      "raw": 10
+    },
+    {
+     "t": "Theme finisher",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "One calm AGORA look in every app; a unique accent per app",
+     "src": "handoff/agents_now.json",
+     "quote": true
     },
     {
      "t": "Hellas",
@@ -198,16 +208,6 @@
     },
     {
      "t": "A browser for every table of data OLYMPUS has",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Fixer",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Fixing the broken tests and phone-layout bugs in old apps",
      "src": "handoff/agents_now.json",
      "quote": true
     },
@@ -488,8 +488,8 @@
     "The newest batch in the index is stamped 26-11-15: 7 runs kept there, 1 adopted, 6 open.",
     "Adopted, from the risk family: ATLAS zombie-eval rule: give an eval up under $200 of room + 1 micro 'last bull…",
     "Still open, from the LIT research family: LIT deep edge (2026-11-15): base.",
-    "On the rejected shelf, so nobody redoes it: BLITZ review.",
-    "197 write-ups explain the results in plain language."
+    "On the rejected shelf, so nobody redoes it: Payday levers + cross-bot loss cuts.",
+    "203 write-ups explain the results in plain language."
    ],
    "facts": [
     {
@@ -560,15 +560,15 @@
      "quote": true
     },
     {
-     "t": "BLITZ review",
+     "t": "Payday levers + cross-bot loss cuts",
      "src": "archive/index.json",
      "quote": true
     },
     {
-     "t": "197",
+     "t": "203",
      "src": "archive/index.json",
      "at": "counts/writeups",
-     "raw": 197
+     "raw": 203
     },
     {
      "t": "98",
@@ -709,9 +709,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 197 write-ups.",
-    "The newest lesson on file, dated 2026-11-19, reads: After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famou…",
-    "It was filed under \"rejected\" and comes from research/writeups/third-strategy-2026-11-18.md."
+    "The research shelf now counts 208 write-ups.",
+    "The newest lesson on file, dated 2026-11-20, reads: Found and fixed - a phone 'Start trading' that re-armed after the owner's STOP, an old remote stop that could stop Friday's bot, a false 'not polling' push after every START / Re-arm, an alarm storm…",
+    "It was filed under \"finding\" and comes from research/writeups/redteam-live-2026-11-20.md."
    ],
    "facts": [
     {
@@ -743,28 +743,28 @@
      "quote": true
     },
     {
-     "t": "197",
+     "t": "208",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 197
+     "raw": 208
     },
     {
-     "t": "2026-11-19",
+     "t": "2026-11-20",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "After reading the rejected list (ORBs, gap fades, every VWAP / band / RSI / turtle-soup fade, level sweep-reclaims in all 9 windows, the lunch squeeze / value-area / 80% rule / London fade, the famou…",
+     "t": "Found and fixed - a phone 'Start trading' that re-armed after the owner's STOP, an old remote stop that could stop Friday's bot, a false 'not polling' push after every START / Re-arm, an alarm storm…",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "rejected",
+     "t": "finding",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/third-strategy-2026-11-18.md",
+     "t": "research/writeups/redteam-live-2026-11-20.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }
@@ -829,19 +829,19 @@
   {
    "id": "new-apps",
    "kicker": "Openings",
-   "headline": "1 new app opens on the agora",
+   "headline": "2 new apps open on the agora",
    "standfirst": "What was added to the app bar since the last edition.",
    "body": [
-    "1 new app has opened since the last edition: Why.",
-    "That brings the bar to 76 apps.",
+    "2 new apps have opened since the last edition: Why, Widget.",
+    "That brings the bar to 77 apps.",
     "Each one reads only published files and falls back to labelled demo data, so none can be blank."
    ],
    "facts": [
     {
-     "t": "1",
+     "t": "2",
      "src": "jarvis/apps.js",
      "calc": "count of app ids not in the last edition's list",
-     "raw": 1
+     "raw": 2
     },
     {
      "t": "Why",
@@ -849,10 +849,15 @@
      "quote": true
     },
     {
-     "t": "76",
+     "t": "Widget",
+     "src": "jarvis/apps.js",
+     "quote": true
+    },
+    {
+     "t": "77",
      "src": "jarvis/apps.js",
      "calc": "count of app ids in jarvis/apps.js",
-     "raw": 76
+     "raw": 77
     }
    ],
    "sources": [
@@ -973,45 +978,51 @@
   "level": "calm",
   "text": "Calm: nothing rated medium or high is on today's calendar.",
   "src": "pythia/events.json",
-  "events": [],
+  "events": [
+   {
+    "time": "09:30",
+    "title": "Monthly options expiration (third Friday)",
+    "impact": "low"
+   }
+  ],
   "note": "From the saved calendar. It is not a forecast of price."
  },
  "quiz": [
   {
-   "id": "f1",
-   "topic": "flat",
-   "q": "What time is the bot flat by?",
-   "o": [
-    "15:55 New York time",
-    "16:10, the firm's limit",
-    "Whenever the trade ends"
-   ],
-   "a": 0,
-   "why": "Flat at 15:55 ET. MFFU requires flat by 16:10, so 15:55 leaves a margin."
-  },
-  {
-   "id": "s3",
+   "id": "s4",
    "topic": "stop",
-   "q": "Price is close to your stop and you feel sure it will turn. Move the stop further away?",
+   "q": "Why is the stop at the protected low or high?",
    "o": [
-    "No. A stop never moves away from price",
-    "Yes, give the trade room",
-    "Yes, but only by a few points"
+    "If price takes it, the trade idea is wrong",
+    "It is always the tightest stop",
+    "It makes the target bigger"
    ],
    "a": 0,
-   "why": "The stop only ever moves toward safety: to break-even at 1R. Widening it turns a small loss into a big one."
+   "why": "That level is where the idea is proven wrong, so the loss is cut exactly there."
   },
   {
-   "id": "t1",
+   "id": "t2",
    "topic": "target",
-   "q": "How many targets does the plan have?",
+   "q": "Price reaches the target. You",
    "o": [
-    "One: the VIX-band objective, banked at 8R",
-    "Two or three, scaling out",
-    "None, I trail by feel"
+    "Bank it",
+    "Wait for a bit more",
+    "Move the target up"
    ],
    "a": 0,
-   "why": "One clear target, banked. No greed, no scaling by feel."
+   "why": "The target is the plan. Bank it and the trade is done."
+  },
+  {
+   "id": "g4",
+   "topic": "greed",
+   "q": "You missed a big move and feel FOMO. You",
+   "o": [
+    "Let it go: no chase outside the plan",
+    "Chase it",
+    "Chase it with bigger size"
+   ],
+   "a": 0,
+   "why": "No setup, no trade. The next valid setup comes; chasing costs money."
   }
  ],
  "interviews": [
@@ -1057,22 +1068,22 @@
    ]
   },
   {
-   "id": "builder:a1d36b03",
-   "name": "Ergasterion",
-   "title": "Build agent, factory",
+   "id": "builder:a43a2dae",
+   "name": "Jarvis home",
+   "title": "Build agent, jarvis",
    "src": "handoff/agents_now.json",
    "qa": [
     {
      "q": "What are you building?",
-     "a": "The agent factory: watch every worker and what it learned."
+     "a": "A clean, beautiful Jarvis first screen with a golden-hour courtyard."
     },
     {
      "q": "Where does your work live?",
-     "a": "On my own branch, worktree-agent-a1d36b031da943214. The lead merges it when it is ready."
+     "a": "On my own branch, worktree-agent-a43a2daec19cf8666. The lead merges it when it is ready."
     },
     {
      "q": "Which part of OLYMPUS is yours?",
-     "a": "The factory area."
+     "a": "The jarvis area."
     }
    ]
   }
@@ -1172,6 +1183,7 @@
   "tree",
   "tyche",
   "why",
+  "widget",
   "zenith"
  ],
  "press": {

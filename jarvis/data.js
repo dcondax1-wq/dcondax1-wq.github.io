@@ -332,11 +332,15 @@ export function kalshiRetry() { K.n404 = 0; return kalshiFetch(true); }
 export function refreshKalshi() { return kalshiBackedOff() ? (K.at = Date.now(), Promise.resolve()) : kalshiFetch(); }
 // the PC feed carries Kalshi (its paper tests or the K8 live card): then the PC is Kalshi's source and nothing else is asked
 const pcHasKalshi = () => { const v = liveView(); return !!(v && !v.cached && (isObj(v.kpaper) || isObj(v.klive))); };
+// wait for the live read (the PC feed) before asking the site copy only when it may carry Kalshi: a fresh view is there (a refresh), or
+// the last view this phone saw had Kalshi from the PC. With no view yet (a first open) or a saved one without Kalshi, the site copy is
+// asked at once, next to the live read (night-jarvisfix 2026-11-20: waiting left the Kalshi card on "Loading Kalshi…" 2-5 s behind the bots)
+const pcMayCarryKalshi = () => { const v = liveView(); return !!(v && (!v.cached || isObj(v.kpaper) || isObj(v.klive))); };
 function kalshiFetch(force) {
   if (K.busy) return K.busy;
   K.busy = (async () => {
     try {
-      try { await (L.busy || Promise.resolve()); await pcFeedReady(); } catch (_) { /* the PC feed is optional */ }
+      if (pcMayCarryKalshi()) { try { await (L.busy || Promise.resolve()); await pcFeedReady(); } catch (_) { /* the PC feed is optional */ } }
       if (!force && pcHasKalshi()) { K.state = 'waiting'; K.n404++; K.at = Date.now(); K.busy = null; emit('kalshi'); return; }
       let lr = null, lj = null;             // this site's own copy (pc_publish puts the feed next to the pages); HTML or junk = not published
       try { lr = await get(URLS.kalshiLocal + '?t=' + Math.floor(Date.now() / 60000), { cache: 'no-cache' }); } catch (_) { lr = null; }

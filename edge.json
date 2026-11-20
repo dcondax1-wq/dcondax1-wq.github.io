@@ -2,12 +2,12 @@
  "v": 1,
  "kind": "le-edge",
  "src": "tools/edge_health.py",
- "built": "2026-11-19T06:42:44+00:00",
+ "built": "2026-11-19T23:40:36+00:00",
  "eh": {
-  "d": "2026-11-06",
+  "d": "2026-11-19",
   "z": [
    "G",
-   3.8,
+   4.6,
    3.9
   ],
   "a": [
@@ -16,19 +16,19 @@
    2.8,
    "2026-10-16"
   ],
-  "t": 1795070564
+  "t": 1795131636
  },
  "bots": {
   "lit": {
    "name": "Zlarior",
    "sessions": 40,
-   "to": "2026-11-06",
-   "n": 20,
-   "tpw": 2.5,
-   "win": 55.0,
-   "pf": 3.84,
+   "to": "2026-11-19",
+   "n": 17,
+   "tpw": 2.12,
+   "win": 52.9,
+   "pf": 4.62,
    "pf_r": 3.16,
-   "usd_month": 3440,
+   "usd_month": 3147,
    "light": "GREEN",
    "basis": "backtest of the live settings on the newest bars (LIT size rule)"
   },

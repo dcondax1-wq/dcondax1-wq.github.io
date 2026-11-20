@@ -66,3 +66,7 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 
 /* phone-fit 2026-11-10 (tools/phone_fit_audit.py): gain / loss words at least 4.5:1 on the raised panels */
 .pos, .ag-good, .pill.ok { color: #a0ac6e; } .neg, .ag-bad, .pill.bad { color: #e08a6b; }
+
+/* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
+   seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
+html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }

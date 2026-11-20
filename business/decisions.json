@@ -1,7 +1,7 @@
 {
  "v": 1,
  "kind": "olympus-decisions",
- "updated": "2026-11-18",
+ "updated": "2026-11-20",
  "note": "The Decide card (business/decide.js on the Board + ZEUS pages). Claude keeps this list. A tap only posts an owner note (POST /inbox/board on the PC link); Claude applies it next session by the CLAUDE.md rules, then sets status to yes / no / later / done. Nothing here changes a live setting.",
  "items": [
   {
@@ -93,7 +93,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "done",
    "source": "research/writeups/stack-one-account-2026-11-16.md",
    "applies": "add the ATLAS $500 lane to the 50K's funded account once MFFU funds it (lead wires, Sim first)",
    "added": "2026-11-16",
@@ -106,7 +106,8 @@
    "risk": "Zlarior 50K no payout in 6 months 9.5% -> 4.2%",
    "recommend": "yes",
    "recommend_why": "More money in both 2026 halves without a real jump in risk.",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "closed_note": "Replaced by zlarior-atlas-50k (2026-11-19): same question, newer proof (ATLAS at half size in the eval, full size once funded)."
   },
   {
    "id": "atlas-on-rapid",
@@ -262,6 +263,87 @@
    "recommend": "yes",
    "recommend_why": "Yes: it only fixes the page. Your MFFU path already has the better next buys, and a LucidPro account would also need its own rules set up and checked first.",
    "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+  },
+  {
+   "id": "zlarior-atlas-50k",
+   "question": "Zlarior's Builder 50K: ATLAS trades it too (one position at a time, first bot in keeps it; ATLAS at half its size until the eval passes, full size once funded)?",
+   "why": "Best of 12 rule sets fixed before testing: it keeps most of the extra money and halves the evals that die in 2 weeks (9% -> 4% Jul-Oct); it beat Zlarior alone in Jan-Jun, Jul-Oct and 2021-25, with MFFU's move to live after payout 5 counted.",
+   "impact": "+$696 a month in a Jul-Oct-like market (+$392 if the live account after payout 5 is worth nothing), +$1,649 Jan-Jun-like (+$466), +$26 2021-25-like; 2022-like -$141; after the extra eval fees.",
+   "impact_usd": 696,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/one-account-combo-final-2026-11-19.md",
+   "applies": "the lead builds research/lab/combo_50k.json on Zlarior's 50K: ATLAS added, one position (first in keeps it), ATLAS at 50% of its own size in the eval and 100% once funded; Sim test first; a yes replaces the funded-only card atlas-on-50k-funded",
+   "added": "2026-11-19",
+   "usd_month": 696,
+   "usd_month_by": {
+    "jan_jun": 1649,
+    "jul_oct": 696,
+    "y2021_25": 26
+   },
+   "risk": "likely, not sure: 1 Jul-Oct-like stretch in 7 gives $0 or less (no ATLAS size or eval guard fixes that), and without ATLAS's 5 best Jul-Oct days the gain is about $0; evals dying in 2 weeks 0.5% -> 4.4% (Jul-Oct), 7% (2021-25-like); 2022-like $141 a month less than Zlarior alone",
+   "recommend": "yes",
+   "recommend_why": "The pre-registered winner: beats Zlarior alone in Jan-Jun and Jul-Oct by more than the noise, about even in 2021-25, 2-week eval fails under 5%, still ahead with worse fills. Sim first; re-check on Nov-Dec days.",
+   "valued": "2026-11-19 tools/money/combo_account.py final (12 pre-registered rule sets, 2,000 day- and week-block runs x 6 months, MFFU move to live after payout 5; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+  },
+  {
+   "id": "atlas-funded-keep-trading",
+   "question": "ATLAS's funded 25K: keep trading 1 micro when the room drops under $100, instead of stopping for good?",
+   "why": "Today the bot gives the funded account up at $100 of room. Small 1-micro trades that still fit can climb back: about 1 in 5 such accounts recover in a 2026-like market.",
+   "impact": "+$3 a month in a Jul-Oct-like market (+$10 Jan-Jun-like, +$4 2021-25-like); chance of losing the account in 6 months 10.5% -> 9.5% (9.8% -> 7.7% Jan-Jun-like); first payout unchanged.",
+   "impact_usd": 3,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "yes",
+   "source": "research/writeups/atlas-more-money-2026-11-19.md",
+   "applies": "data/account_b.json \"min_room\": 0 (built key: the funded stuck line $100 -> none; Claude changes it only after your yes)",
+   "added": "2026-11-19",
+   "usd_month": 3,
+   "usd_month_by": {
+    "jan_jun": 10,
+    "jul_oct": 3,
+    "y2021_25": 4
+   },
+   "risk": "None found: a 1-micro trade only goes on when its full stop-out fits the room; a stranded account still holds one of the 2 funded 25K places until you close it",
+   "recommend": "yes",
+   "recommend_why": "It never pays less on any of the 600 test paths; it only keeps alive an account the bot would abandon. Small money, no downside.",
+   "valued": "2026-11-19 tools/atlas_more.py (600 week-block paths from today's account, MFFU Builder 25K funded rules, costs in)",
+   "answered": "2026-11-19 ~20:00 ET in chat (\"Yes\")",
+   "closed_note": "Owner YES. To apply: data/account_b.json on the PC \"min_room\": 0 (no CLI yet: next chat adds `python -m engine.account_b --min-room 0` and gives the owner the one line at the PC)."
+  },
+  {
+   "id": "kalshi-stake-ladder",
+   "question": "Kalshi K8: start at $8 a bet (not $15) and step up with the cash: $10 from $67, $15 from $100?",
+   "why": "$15 a bet on $55 means 3 losses in a row (the test had a streak of 8) leave too little to bet. Betting about 15% of the cash keeps the pot alive while it grows.",
+   "impact": "Chance the $55 is wiped out in the first 4 weeks: 7.9% -> 0.2% as tested, 24.8% -> 3.3% if the edge is half as good; median after 4 weeks $467 -> $430 (-$37) if the edge holds.",
+   "impact_usd": -37,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "done",
+   "source": "research/writeups/money-ideas-2026-11-20.md",
+   "applies": "the K8 page's own bet pick ($5 / $8 / $10 / $15): pick $8 Monday, move up by the ladder (no code change); an automatic ladder in engine/kalshi_clock.py only after your yes",
+   "added": "2026-11-20",
+   "usd_month": -37,
+   "usd_month_by": {
+    "held_out_oct_nov": -37,
+    "train_aug_sep": -43,
+    "half_edge": -36
+   },
+   "risk": "If the edge is real you grow a bit slower in week 1-2 (about $37 less after 4 weeks); if it fades you lose $10-20 instead of the whole $55",
+   "recommend": "yes",
+   "recommend_why": "Same money within 8% when it works, about 25-40x less chance of being wiped out before it can work. The pot is too small for $15 bets.",
+   "valued": "2026-11-20 tools/money/kalshi_bankroll.py (the 105 held-out + 128 earlier K8 bets of the 3 live legs, whole days resampled, 20,000 paths of 20 trading days, fees and real prices in)",
+   "closed_note": "Replaced the same night by the K8 bot's own sizing (night-kalshi8, engine/kalshi_clock.py BANKROLL): each bet = 4.5% of the cash ($2.50 at $55, grows by itself as the cash grows), with stops at 15% a day, 25% a week and 35% from the peak. An $8 bet would trip the day stop after one loss, so the bot itself would refuse a second $8 bet."
   }
  ]
 }

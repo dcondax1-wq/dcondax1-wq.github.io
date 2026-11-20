@@ -3302,26 +3302,32 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('mess
 
 // ===================================================================== SETTINGS
 // ===================================================================== REMOTE CONTROL (engine/remote_ctl.py, docs/REMOTE_CONTROL.md)
-// The PC bot reads control/command.json on the repo's `control` branch every ~60 s. This page builds the exact JSON (a
-// fresh id + ts) and opens GitHub's editor for that file; the owner pastes and commits. Nothing here talks to the PC or
-// holds a token: GitHub (the owner's own login) carries the command. A command expires 15 min after it is made.
+// The PC bot reads control/command.json on the `control` branch of the repo it updates from every ~60 s. This page builds
+// the exact JSON (a fresh id + ts) and opens GitHub's editor for that file; the owner pastes and commits. Nothing here talks
+// to the PC or holds a token: GitHub (the owner's own login) carries the command. A command expires 15 min after it is made.
+// 2026-11-20: the PC updates from the backup repo (update_source.json: <second account>/olympus) and
+// engine/remote_ctl.control_source reads ITS `control` branch; the old account (extras.repo) is gone. This site is public,
+// so the backup account's name is not in this file (the public-page tests forbid it): the owner types "<account>/olympus"
+// once on this page (saved on the phone only), or a build may pass extras.control_repo.
 const RC_CMDS = [
   ['status', 'Status', 'A fresh heartbeat now and a phone notice with what the bot is doing', ''],
+  ['update', 'Update now', 'Get the newest bot version now (self-tests first, rolls back on failure), then a restart', 'gated'],
+  ['pausetom', 'Pause until tomorrow', 'No new entries for the rest of today; an open trade keeps its stop and target', ''],
   ['flatten', 'Flatten', 'Close the open position now. The bot keeps running; no new entry until the next trading day', ''],
   ['stop', 'Stop after flat', 'Stop the bot once the trade or armed setup is finished', ''],
   ['stopnow', 'Stop now', 'Close the position, then stop the bot', ''],
   ['kill', 'KILL', 'Same as HOLD TO KILL: flatten everything, stop, auto-resume off. Restart only at the PC', 'danger'],
-  ['update', 'Update', 'Run the auto-update now (main only, self-tests, rolls back on failure), outside 01:50-16:00 ET', 'gated'],
   ['restart', 'Restart server', 'Restart the PC server; the eval comes back only with auto-resume on', 'gated'],
   ['start', 'Start on Sim101', 'Start the bot on the Sim101 practice account (never a real account)', ''],
   ['present', "I'm here", 'Check in for 4 hours: MFFU wants you watching while the bot trades (presence log)', ''],
-  ['pausetom', 'Pause until tomorrow', 'No new entries for the rest of today; an open trade keeps its stop and target', ''],
   ['pauseat', 'Pause until a time', 'No new entries until the time below (New York time); open trades keep their rules', ''],
   ['resume', 'Resume entries', 'Lift the pause: new entries allowed again', ''],
 ];
 const RCTL = { cmd: store.get('rcCmd', 'status'), made: null };
-const rcRepo = () => D?.extras?.repo || 'demetrades2000-coder/nq-liquidity-engine';
-const rcEdit = () => `https://github.com/${rcRepo()}/edit/control/control/command.json`;
+const RC_REPO_OK = /^[A-Za-z0-9][A-Za-z0-9_.-]{0,38}\/olympus$/i;   // <account>/olympus: the backup repo, nothing else
+const RC_WHEN = 'The PC acts within ~60 s; Update now and Restart only when the bot is flat, never 01:50-16:00 ET on a weekday.';
+const rcRepo = () => { const r = String(store.get('rcRepo', '') || D?.extras?.control_repo || '').trim(); return RC_REPO_OK.test(r) ? r : ''; };
+const rcEdit = () => rcRepo() ? `https://github.com/${rcRepo()}/edit/control/control/command.json` : '';
 function rcBuild(cmd) {
   const ts = Math.floor(Date.now() / 1000), rnd = Math.random().toString(36).slice(2, 6);
   const c = { stopnow: 'stop', pausetom: 'pause', pauseat: 'pause', resume: 'resume_entries' }[cmd] || cmd;
@@ -3356,19 +3362,23 @@ VIEWS.remote = (el) => {
   el.innerHTML = head('System · remote', 'Remote control', 'Send one safe command to the PC bot through GitHub. Free, from anywhere; the PC picks it up within about a minute.')
     + `<div class="card"><div class="card-h"><h3>PC bot</h3>${chip(pcOk ? 'heartbeat ' + Math.round(hbAge / 60) + ' min ago' : 'PC silent', pcOk ? 'good' : 'warn')}</div>
       <div class="pcline"><span class="dot ${state[1] === 'good' ? '' : 'warn'}"></span><span>${esc(state[0])}</span></div>
+      ${rm?.via ? `<div class="note">Reads commands from <span class="mono">${esc(rm.via)}</span>.</div>` : ''}
       ${rm?.pending_stop ? '<div class="note">A stop is waiting for the bot to be flat.</div>' : ''}
       ${rm?.error ? `<div class="note">Last fetch: ${esc(rm.error)}</div>` : ''}
       <div class="note">The result also comes as a phone notification, and shows here after the next cloud run.</div></div>
     ${rcYouCard(rm)}
     <div class="card"><div class="card-h"><h3>1 · Pick a command</h3></div>
       <div class="rc-grid" id="rcGrid">${RC_CMDS.map(([id, l, d, k]) => `<button type="button" class="rc-cmd ${k} ${id === RCTL.cmd ? 'on' : ''}" data-rc="${id}"><b>${esc(l)}</b><span>${esc(d)}</span></button>`).join('')}</div>
-      ${RCTL.cmd === 'pauseat' ? `<label class="row"><span><b>Pause until (New York time)</b></span><input type="time" id="rcPauseAt" value="${esc(store.get('rcPauseAt', '10:00'))}"></label>` : ''}</div>
+      ${RCTL.cmd === 'pauseat' ? `<label class="row"><span><b>Pause until (New York time)</b></span><input type="time" id="rcPauseAt" value="${esc(store.get('rcPauseAt', '10:00'))}"></label>` : ''}
+      <div class="note" id="rcWhen">${esc(RC_WHEN)}</div></div>
     <div class="card"><div class="card-h"><h3>2 · Copy it and open GitHub</h3>${chip('valid until ' + until)}</div>
       <div class="rc-json" id="rcJson">${esc(m.json)}</div>
       <div class="rc-act"><button class="btn primary rc-big" type="button" id="rcGo">${icon('ext')}Copy and open GitHub</button>
         <button class="btn ghost" type="button" id="rcCopy">${icon('check')}Copy only</button>
         <button class="btn ghost" type="button" id="rcNew">${icon('refresh')}New id</button></div>
-      <div class="note">Opens <span class="mono">${esc(rcEdit().replace('https://', ''))}</span> (sign in once; the GitHub app works too: branch <b>control</b>, file <b>control/command.json</b>, edit).</div></div>
+      ${rcRepo() ? `<div class="note">Opens <span class="mono" style="overflow-wrap:anywhere">${esc(rcEdit().replace('https://', ''))}</span> (signed in as the backup account; the GitHub app works too: repo <b>olympus</b>, branch <b>control</b>, file <b>control/command.json</b>, the pencil). <button class="btn ghost" type="button" id="rcRepoEdit">Change repo</button></div>`
+        : `<label class="row"><span><b>Once: your backup repo</b><span class="small mut">The repo the PC updates from: your second GitHub account, a slash, olympus. Saved on this phone only.</span></span><input type="text" id="rcRepo" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="account/olympus" value=""></label>
+        <div class="rc-act"><button class="btn ghost" type="button" id="rcRepoSave">${icon('check')}Save repo</button></div>`}</div>
     <div class="card"><div class="card-h"><h3>3 · Paste and commit</h3></div>
       <ol class="list"><li>In the editor, select all the text and paste (replace everything).</li>
         <li>Tap <b>Commit changes</b> (straight to the <b>control</b> branch).</li>
@@ -3381,9 +3391,18 @@ VIEWS.remote = (el) => {
   const copy = (t) => navigator.clipboard?.writeText ? navigator.clipboard.writeText(t) : Promise.reject(new Error('no clipboard'));
   $('#rcGo').onclick = () => {                 // copy and open in the same tap (a popup after an await is blocked on iOS)
     const t = fresh();
+    if (!rcEdit()) { copy(t).catch(() => null); toast('Copied. Type your backup repo below first (account/olympus), then tap again', 4500); $('#rcRepo')?.focus(); return; }
     copy(t).then(() => toast('Copied: paste it in the editor and commit')).catch(() => toast('Copy the text above by hand', 4000));
     window.open(rcEdit(), '_blank', 'noopener');
   };
+  const rs = $('#rcRepoSave');
+  if (rs) rs.onclick = () => {
+    const v = String($('#rcRepo').value || '').trim().replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$|\/+$/g, '');
+    if (!RC_REPO_OK.test(v)) { toast('Write it as account/olympus', 3500); return; }
+    store.set('rcRepo', v); toast('Saved on this phone'); render(true);
+  };
+  const re = $('#rcRepoEdit');
+  if (re) re.onclick = () => { store.set('rcRepo', ''); render(true); };
   $('#rcCopy').onclick = () => { const t = fresh(); copy(t).then(() => toast('Copied')).catch(() => toast('Select the text above and copy it', 4000)); };
   $('#rcNew').onclick = () => { rcBuild(RCTL.cmd); $('#rcJson').textContent = RCTL.made.json; toast('New id and time'); };
 };

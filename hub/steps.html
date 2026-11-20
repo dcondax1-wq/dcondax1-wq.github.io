@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="steps">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your steps</title>
+<meta name="description" content="Your steps: what you still have to do, in order, with where, why in dollars or safety, and the exact line to type or tap.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Steps">
+<link rel="icon" href="icon.svg">
+<!-- YOUR STEPS (2026-11-20; owner: "I am tired of repeating myself"). Data: steps.json; steps.js draws it with textContent only; Done ticks live in this phone's localStorage. Public page: no ids, no addresses (<your PC link>). Read only. -->
+<link rel="stylesheet" href="../olympus/agora.css?v=a6">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
+.st-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.st-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.st-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); }
+.st-title { margin: 14px 0 2px; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.st-sub { margin: 0 0 6px; color: var(--ag-soft, #cfc4b2); }
+.st-count { margin: 0 2px 10px; color: var(--ag-gold-hi, #dcbd6e); font-weight: 700; }
+.st-list { display: grid; gap: 12px; }
+.st-card { border-radius: 14px; padding: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); }
+.st-card.is-done { opacity: .55; border-left-color: var(--ag-olive-text, #a0ac6e); }
+.st-head { display: flex; gap: 12px; align-items: flex-start; }
+.st-n { flex: none; width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--ag-gold, #c8a24a); color: var(--ag-on-gold, #1b1610); font-weight: 800; }
+.st-t { min-width: 0; flex: 1; }
+.st-t h2 { margin: 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.25 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
+.st-what { margin: 4px 0 0; color: var(--ag-soft, #cfc4b2); }
+.st-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+.st-tag { padding: 4px 10px; border-radius: 999px; border: 1px solid var(--ag-line, #3a3228); color: var(--ag-soft, #cfc4b2); font-size: .8125rem; }
+.st-where { border-color: var(--ag-gold, #c8a24a); color: var(--ag-gold-hi, #dcbd6e); font-weight: 700; }
+.st-why { margin: 10px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--ag-s1, #1b1713); color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
+.st-why b { color: var(--ag-gold-hi, #dcbd6e); }
+.st-steps { margin: 10px 0 0; padding-left: 22px; }
+.st-steps li { margin: 6px 0; overflow-wrap: anywhere; }
+.st-copy { display: flex; align-items: stretch; gap: 8px; margin-top: 10px; }
+.st-copy code { flex: 1; min-width: 0; display: flex; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--ag-night, #14110e); border: 1px solid var(--ag-line, #3a3228);
+  font: 600 .8125rem/1.35 var(--ag-mono, ui-monospace, Menlo, monospace); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; word-break: break-word; user-select: all; -webkit-user-select: all; }
+.st-copy button { flex: none; min-width: 64px; min-height: 44px; border-radius: 10px; border: 1px solid var(--ag-gold, #c8a24a); background: transparent; color: var(--ag-gold-hi, #dcbd6e); font: 700 .875rem var(--ag-sans, system-ui); cursor: pointer; }
+.st-copy button:active { background: var(--ag-s4, #332b22); }
+.st-cnote { margin: 4px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); overflow-wrap: anywhere; }
+.st-done { display: flex; align-items: center; gap: 12px; min-height: 52px; margin-top: 10px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); font-weight: 700; cursor: pointer; }
+.st-done input { width: 28px; height: 28px; accent-color: var(--ag-gold, #c8a24a); margin: 0; }
+.st-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<script src="steps.js?v=1" defer></script>
+<script src="../olympus/warp.js?v=w2" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
+</head>
+<body>
+<main class="st-main" id="steps">
+  <nav class="st-nav" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">How do I</a></nav>
+  <h1 class="st-title">Your steps</h1>
+  <p class="st-sub">What is still yours to do, in order. Tick Done when finished; the tick stays on this phone.</p>
+  <p class="st-count" id="count" role="status" aria-live="polite">Loading...</p>
+  <section class="st-list" id="list" aria-label="Your steps"></section>
+  <p class="st-foot">Read only: nothing here can trade or change a bot.</p>
+</main>
+</body>
+</html>

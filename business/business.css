@@ -8,6 +8,7 @@ button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--ag-gold, var(--oly-th-a8, #c8a24a)); outline-offset: 2px; }
 [hidden] { display: none !important; }
 #app { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: calc(var(--st) + 14px) calc(var(--sr) + 16px) calc(176px + var(--sb)) calc(var(--sl) + 16px); }
+:where(html:not(.framed)) #app { padding-bottom: calc(40px + var(--sb)); }   /* night-siteqa 2026-11-20: standalone (no Jarvis orb): the page ends 40 px + the home bar under the last line, not in a 176 px empty band (the "funky" bottom); framed in Jarvis the orb's seat stays */
 html.framed #app { padding-top: 12px; }
 .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
@@ -61,6 +62,7 @@ svg text { font-family: var(--ag-sans); }
 .links { display: flex; flex-wrap: wrap; gap: 6px; }
 .links a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ag-line); color: var(--ag-soft); text-decoration: none; font-size: 13px; }
 .moves ol, .item ol { margin: 0; padding: 0; display: grid; gap: 4px; list-style: none; }
+.week ol, .moves ol, .item ol { grid-template-columns: minmax(0, 1fr); } .chk { overflow-wrap: anywhere; }   /* night-siteqa: a long step (a link, a file name) wrapped, not 94 px off the phone's right edge */
 #app .moves, #app .item { overflow: visible; }
 .acct { padding: 10px 0; border-top: 1px solid var(--ag-line); display: grid; gap: 6px; }
 .acct:first-child { border-top: 0; padding-top: 0; }
@@ -82,3 +84,6 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 .door2 { display: grid; gap: 4px; min-height: 44px; padding: 12px 14px; text-decoration: none; color: inherit; align-content: start; }
 .door2 h2 { margin: 0; font-size: 16px; color: var(--ag-gold); }
 .door2 .note { font-size: 12px; }
+/* night-siteqa 2026-11-20: "<- Business" on every Business page in the gold of the AGORA links (it showed the browser's default blue / purple, underlined) */
+main#app a.back { color: var(--ag-gold-hi, var(--ag-gold, #dcbd6e)); text-decoration: none; font-weight: 600; }
+main#app a.back:active { opacity: .7; }

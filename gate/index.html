@@ -47,9 +47,10 @@
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
   var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a4'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g10'; h.appendChild(l);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g11'; h.appendChild(l);
+  var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s3'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o6', 'pc_feed.js?v=pf1', 'olympus/gate-catalog.js?v=nv3', 'olympus/hub-status.js?v=h2', 'gate/gate.js?v=g8'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o8', 'pc_feed.js?v=pf1', 'olympus/gate-catalog.js?v=nv5', 'olympus/hub-status.js?v=h2', 'gate/gate.js?v=g8'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;

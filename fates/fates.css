@@ -205,6 +205,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .live { font-size: 13px; }
 .live .dot { box-shadow: none; }
 @media (max-height: 800px) { .story { display: none; } }
+/* night-siteqa 2026-11-20: with the live gauge on (the PC's feed), a 390 x 844 iPhone had Spin again / Next 10 / Lab cut off under the home bar:
+   the gauge replaces the story line on phones up to 900 px tall (and the caption too when the 2021-25 note is on) */
+@media (max-height: 900px) { #ui:has(#gauge:not([hidden])) .story { display: none; } #ui:has(#gauge:not([hidden])):has(#weak:not([hidden])) .cap { display: none; } }
 .live { padding: 8px 12px; border-radius: 12px; background: rgba(29, 25, 20, .92); border: 1px solid var(--line); }
 .live:empty { display: none; }
 

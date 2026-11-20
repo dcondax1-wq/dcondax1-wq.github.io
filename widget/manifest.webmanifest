@@ -1,0 +1,17 @@
+{
+  "name": "Olympus Glance",
+  "short_name": "Glance",
+  "description": "Every account's balance, today's $, $ to pass or to payout, the drawdown room, PC status and the next Kalshi window on one screen.",
+  "id": "./glance.html",
+  "start_url": "./glance.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14110e",
+  "theme_color": "#14110e",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "../business/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "../business/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

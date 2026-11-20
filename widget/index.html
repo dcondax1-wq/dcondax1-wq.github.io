@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus Widget</title>
+<meta name="description" content="OLYMPUS WIDGET: put your accounts on the iPhone Home Screen as a real widget (small, medium, large) with the free Scriptable app, or add the big Glance page.">
+<meta name="theme-color" content="#14110e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="light dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Widget">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../business/apple-touch-icon.png">
+<!-- WIDGET (night-revamp-dash 2026-11-20): iOS cannot put a web app on the Home Screen as a widget; Scriptable (free) can run a
+     script as one. This page: 3 steps + a copy button for olympus-widget.js + a live preview drawn by the same code. -->
+<link rel="stylesheet" href="widget.css?v=1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div><h1>iPhone widget</h1><p class="sub">Your accounts on the Home Screen, free</p></div>
+    <span class="tag live">FREE</span>
+  </header>
+
+  <section class="card fade" aria-labelledby="hSteps">
+    <h2 id="hSteps">3 steps (2 minutes)</h2>
+    <ol class="steps">
+      <li><b>Get Scriptable</b> (free, App Store, by Simon Støvring). <a href="https://apps.apple.com/app/scriptable/id1405459188" rel="noopener">Open the App Store</a></li>
+      <li><b>Copy the script</b> with the button below. In Scriptable tap <b>+</b>, paste, tap the title and name it <b>Olympus</b>, tap Done.</li>
+      <li><b>Add the widget:</b> long-press the Home Screen, tap <b>+</b> (top left), find <b>Scriptable</b>, pick the <b>Large</b> size (or Small / Medium), Add Widget. Long-press it, <b>Edit Widget</b>, Script = <b>Olympus</b>.</li>
+    </ol>
+    <div class="row" style="flex-wrap:wrap">
+      <button type="button" class="btn" id="copy">Copy the script</button>
+      <a class="btn ghost" href="olympus-widget.js" download="Olympus.js" style="text-decoration:none;display:inline-flex;align-items:center">Download</a>
+    </div>
+    <p class="muted" style="font-size:.8rem;margin-top:10px">Optional: in Edit Widget, Parameter <b>light</b> or <b>dark</b> fixes the look; <b>small</b> / <b>medium</b> / <b>large</b> forces a layout. It refreshes about every 15 minutes (iOS decides the exact time). Tap it to open the site.</p>
+  </section>
+
+  <section class="card fade" aria-labelledby="hShow" style="animation-delay:.05s">
+    <h2 id="hShow">What it shows</h2>
+    <p class="soft">Each account: balance, today's $, $ to pass (or $ to payout once funded), drawdown room. PC status, the next Kalshi clock window, when it last refreshed. A <b>LIVE · PC</b> tag means the numbers came from your PC's 15-minute post; <b>PAPER · SITE</b> = the site copy; <b>CACHED</b> = no signal, the last good copy with its age.</p>
+    <p class="muted" style="font-size:.8rem">Read only: it reads the same public numbers the site shows, sends nothing, holds no password or key and cannot place or arm anything.</p>
+  </section>
+
+  <section class="card fade" aria-labelledby="hBig" style="animation-delay:.1s">
+    <h2 id="hBig">Want it bigger?</h2>
+    <p class="soft">Open the <a href="glance.html">Glance page</a>, tap Share, <b>Add to Home Screen</b>. It opens full screen like a giant widget and refreshes every minute while open.</p>
+    <a class="btn ghost" href="glance.html" style="text-decoration:none;display:inline-flex;align-items:center">Open Glance &rarr;</a>
+  </section>
+
+  <section class="card fade" aria-labelledby="hCode" style="animation-delay:.15s">
+    <div class="row"><h2 id="hCode">The script</h2><span class="sp"></span><span class="muted" id="size" style="font-size:.75rem"></span></div>
+    <pre class="code" id="code">Loading...</pre>
+  </section>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var code = document.getElementById('code'), toast = document.getElementById('toast'), text = '';
+  function say(s) { toast.textContent = s; toast.classList.add('on'); setTimeout(function () { toast.classList.remove('on'); }, 2200); }
+  fetch('olympus-widget.js', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); }).then(function (t) {
+    text = t; code.textContent = t; document.getElementById('size').textContent = Math.round(t.length / 1024) + ' KB · ' + t.split('\n').length + ' lines';
+  }).catch(function () { code.textContent = 'Could not load the script. Use Download instead.'; });
+  function fallback() {
+    var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta); return ok;
+  }
+  document.getElementById('copy').addEventListener('click', function () {
+    if (!text) { say('Still loading, try again'); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { say('Copied. Paste it in Scriptable'); }, function () { say(fallback() ? 'Copied. Paste it in Scriptable' : 'Copy failed: use Download'); });
+    } else say(fallback() ? 'Copied. Paste it in Scriptable' : 'Copy failed: use Download');
+  });
+})();
+</script>
+</body>
+</html>

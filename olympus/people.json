@@ -1,6 +1,6 @@
 {
  "v": 1,
- "asof": "2026-11-19",
+ "asof": "2026-11-20",
  "note": "The people of OLYMPUS: one named character per real worker. Built by tools/people_build.py from handoff/agents_now.json, the Archive, the app list and git (when present). A person only says what that worker's own files say. Nothing here is a trade.",
  "git": false,
  "people": [
@@ -2950,6 +2950,29 @@
    },
    "bio": "Why our trades win and lose, per bot, in plain $",
    "appName": "Why"
+  },
+  {
+   "id": "villager:widget",
+   "name": "Sotiris Θ",
+   "title": "Lives in Widget",
+   "kind": "villager",
+   "area": "money",
+   "app": "widget",
+   "seed": 3809239019,
+   "temperament": "wry",
+   "voice": {
+    "pitch": 0.88,
+    "rate": 1.03
+   },
+   "sources": [
+    "../widget/jarvis.json"
+   ],
+   "home": {
+    "scene": "athens",
+    "place": "widget"
+   },
+   "bio": "Your accounts as an iPhone widget + the big Glance page",
+   "appName": "Widget"
   },
   {
    "id": "villager:clio",

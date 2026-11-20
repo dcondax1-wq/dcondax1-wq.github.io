@@ -13,7 +13,8 @@
  *   homeOf(id)            the door's landing: its home page, else the Doors page at that door (hub/doors.html#<id>)
  *   doorOf(id)            the door id of an app ('more' when it is in no list: a new app lands in More until it is filed)
  *   words(app)            the plain search words of an app (its name, purpose, id, its door, its shortcut labels, WORDS)
- *   find(q, apps)         { items: [{ door, item }], apps: [app] }: every word of q must match (case-insensitive) */
+ *   find(q, apps)         { items: [{ door, item }], apps: [app] }: every word of q must match (case-insensitive)
+ *   ARCHIVE, archived(id) the weak / duplicate apps folded under "Archive" in their door (2026-11-20 revamp); still in `ids`, still found */
 (function (g) {
   'use strict';
   var DOORS = [
@@ -34,15 +35,15 @@
     { id: 'money', title: 'Money', line: 'Business, taxes, payouts, the fleet plan and the household', colour: '#7f8a52',
       items: [
         { label: 'Business', greek: 'Business', href: 'business/', app: 'business', words: 'business money models next step side income' },
+        { label: 'Widget + Glance', greek: 'Widget', href: 'widget/', app: 'widget', words: 'widget glance home screen scriptable accounts iphone' },
         { label: 'Real money', greek: 'Ledger', href: 'ledger/', app: 'ledger', words: 'money cash fees payouts profit net spend paid scoreboard' },
         { label: 'Taxes', greek: 'Business · Taxes', href: 'business/taxes.html', app: '', words: 'taxes tax irs estimated quarterly 30% pot set aside' },
         { label: 'Payout plan', greek: 'Hera', href: 'hera/', app: 'hera', words: 'payout payouts plan 12 month what to buy next roadmap' },
         { label: 'Fleet plan', greek: 'Business · Fleet Plan', href: 'business/plan.html', app: '', words: 'fleet plan accounts 6 months buy rapid builder monte carlo' },
         { label: 'Household', greek: 'Oikos', href: 'oikos/', app: 'oikos', words: 'household bills budget leaks buckets home spending' },
         { label: 'More work', greek: 'Business · More Work', href: 'business/work.html', app: '', words: 'work jobs side work freelance agency websites income' },
-        { label: 'Work week', greek: 'Business · Work Week', href: 'business/schedule.html', app: '', words: 'schedule week calendar checks review payout day' }
       ],
-      ids: ['business', 'ledger', 'hera', 'plutus', 'chrysos', 'oikos', 'agency', 'mercury', 'mint', 'mintcity', 'harmonia', 'hermes', 'argo', 'arbiter'] },
+      ids: ['business', 'widget', 'ledger', 'hera', 'plutus', 'chrysos', 'oikos', 'agency', 'mercury', 'mint', 'mintcity', 'harmonia', 'hermes', 'argo', 'arbiter'] },
     { id: 'kalshi', title: 'Kalshi', line: 'The Kalshi bot and its edges. Paused: paper only, no real bets', colour: '#b5a642',
       items: [
         { label: 'Kalshi bot', greek: 'Kalshi', href: 'kalshi/', app: 'kalshi', words: 'kalshi bot balance bets open p&l paused rewards' },
@@ -66,6 +67,15 @@
       ids: ['compass', 'helios', 'herald', 'stoa', 'hestia', 'inbox', 'planner', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium',
         'ergasterion', 'settings', 'bridge', 'atlas', 'cities', 'datacity', 'observatory', 'tree', 'prometheus', 'hephaestus', 'clio', 'archive', 'pinakes', 'colosseum'] }
   ];
+  // ARCHIVE (night-revamp-main 2026-11-20, owner: "a lot of those arenas are shit. We need the main stuff."): these apps stay in their door
+  // (every app is still in exactly one door, every URL works, search still finds them) but the Doors page, the launcher and Jarvis's
+  // switcher show them folded under "Archive" at the end of the door, so each door opens on the few pages he uses. Audit:
+  // research/handoff/2026-11-20/revamp-main/AUDIT.md. To bring one back: take its id out of this list.
+  var ARCHIVE = ['apollo', 'ares', 'delphi', 'epilogue', 'forum', 'kratos', 'labyrinth', 'moirai', 'nemesis', 'odeon', 'pythia', 'argus', 'oracle', 'pantheon',
+    'pheme', 'kairos', 'chronos',
+    'plutus', 'mint', 'mintcity', 'harmonia', 'hermes', 'argo', 'arbiter',
+    'herald', 'stoa', 'hestia', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium', 'ergasterion', 'bridge', 'datacity',
+    'observatory', 'tree', 'prometheus', 'hephaestus', 'archive', 'pinakes', 'colosseum'];
   // plain words for apps that are not a door shortcut (or need more): what the owner would type
   var WORDS = {
     business: 'taxes tax accounts fleet plan side work', ledger: 'tax taxes', board: 'board notes accounts events claude what the bot knows', demeter: 'account health drawdown payout rules dials', labyrinth: 'size sizing micros eval risk',
@@ -82,6 +92,8 @@
   for (i = 0; i < DOORS.length; i++) for (j = 0; j < DOORS[i].ids.length; j++) byId[DOORS[i].ids[j]] = DOORS[i].id;
   function door(id) { for (var k = 0; k < DOORS.length; k++) if (DOORS[k].id === id) return DOORS[k]; return null; }
   function doorOf(id) { return byId[id] || 'more'; }
+  var arc = {}; for (i = 0; i < ARCHIVE.length; i++) arc[ARCHIVE[i]] = 1;
+  function archived(id) { return !!arc[id]; }                    // folded under Archive (still in its door)
   function homeOf(id) { var d = door(id); return d && d.home ? d.home : 'hub/doors.html#' + (d ? d.id : 'zeus'); }
   function words(a) {
     if (!a) return '';
@@ -99,7 +111,7 @@
     for (var n = 0; n < list.length; n++) if (list[n] && all(words(list[n]))) res.apps.push(list[n]);
     return res;
   }
-  var api = { VERSION: 1, DOORS: DOORS, WORDS: WORDS, door: door, doorOf: doorOf, homeOf: homeOf, words: words, find: find, ALL: 'gate/index.html#az', PAGE: 'hub/doors.html' };
+  var api = { VERSION: 2, DOORS: DOORS, WORDS: WORDS, ARCHIVE: ARCHIVE, archived: archived, door: door, doorOf: doorOf, homeOf: homeOf, words: words, find: find, ALL: 'gate/index.html#az', PAGE: 'hub/doors.html' };
   g.OLYMPUS_DOORS = api;
   if (typeof module === 'object' && module && module.exports) module.exports = api;
 }(typeof window !== 'undefined' ? window : typeof globalThis !== 'undefined' ? globalThis : this));

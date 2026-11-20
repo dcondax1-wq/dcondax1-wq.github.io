@@ -20,18 +20,58 @@
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
 body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
 .zs-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(28px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
-.zs-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-.zs-nav a, .zs-nav button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none;
-  border: 1px solid var(--ag-line, #3a3228); background: transparent; font: inherit; cursor: pointer; }
+.zs-nav { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; }
+.zs-nav a, .zs-nav button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 11px; border-radius: 12px; color: var(--ag-soft, #cfc4b2);
+  text-decoration: none; white-space: nowrap; border: 1px solid var(--ag-line, #3a3228); background: transparent; font: inherit; cursor: pointer; box-sizing: border-box; }
+.zs-nav .zs-sp { flex: 1; }
+.zs-nav #refresh { padding: 0; width: 44px; font-size: 1.15rem; }
+.zs-nav #refresh.spin { animation: zs-spin .7s linear; }
+@keyframes zs-spin { to { transform: rotate(360deg); } }
 .zs-title { margin: 14px 0 0; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); letter-spacing: .06em; }
 .zs-sub { margin: 2px 0 12px; color: var(--ag-soft, #cfc4b2); }
 .zs-h2 { margin: 22px 2px 8px; font: 700 var(--ag-fs-h2, 1.375rem)/1.15 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); border-bottom: 1px solid var(--ag-gold, #c8a24a); padding-bottom: 6px; }
+.zs-pc { transition: background-color .3s, border-color .3s; }
 .zs-pc { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 14px; border-radius: 14px; box-sizing: border-box; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s2, #221d17); }
 .zs-pc b { font-weight: 700; overflow-wrap: anywhere; }
 .zs-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ag-muted, #a89c88); }
 .zs-pc.good b { color: var(--ag-olive-text, #a0ac6e); } .zs-pc.good .zs-dot { background: #8fbf6a; }
 .zs-pc.bad { background: #8f1d1d; border: 2px solid #ff5a4f; color: #fff; } .zs-pc.bad b { color: #fff; font-size: 1.05rem; } .zs-pc.bad .zs-dot { background: #ff5a4f; }
-.zs-accts { display: grid; gap: 8px; margin-top: 8px; }
+.zs-accts { display: grid; gap: 10px; margin-top: 10px; }
+/* the Live feed strip (owner 2026-11-20): the newest entries and exits of every account, newest first; its height is held from the first paint */
+.zs-feed { margin-top: 10px; padding: 10px 14px 6px; border-radius: 14px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); min-height: 92px; box-sizing: border-box; }
+.zs-feed-h { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font: 700 .8125rem/1.2 var(--ag-sans, system-ui); color: var(--ag-soft, #cfc4b2); letter-spacing: .02em; }
+.zs-feed-h i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #8fbf6a; box-shadow: 0 0 0 0 rgba(143,191,106,.6); animation: zs-pulse 2.4s ease-out infinite; }
+.zs-feed.quiet .zs-feed-h i { background: var(--ag-muted, #a89c88); animation: none; }
+@keyframes zs-pulse { 0% { box-shadow: 0 0 0 0 rgba(143,191,106,.55); } 70%, 100% { box-shadow: 0 0 0 7px rgba(143,191,106,0); } }
+.zs-feed ol { list-style: none; margin: 0; padding: 0; display: grid; }
+.zs-ev { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 10px; align-items: center; min-height: 44px; padding: 5px 0; border-top: 1px solid rgba(200,184,150,.10);
+  font-variant-numeric: tabular-nums; font-size: .9375rem; box-sizing: border-box; }
+.zs-ev:first-child { border-top: 0; }
+.zs-ev-m { min-width: 0; display: flex; flex-direction: column; gap: 1px; } .zs-ev-m b { color: var(--ag-text, #f3ece0); font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.zs-ev-m small { color: var(--ag-muted, #a89c88); font-size: .8125rem; line-height: 1.3; overflow-wrap: anywhere; }
+.zs-ev-v { white-space: nowrap; font-weight: 700; text-align: right; } .zs-ev-v.pos { color: #8fbf6a; } .zs-ev-v.neg { color: #ff8a7a; }
+.zs-ev-v.in { font: 700 .6875rem/1 var(--ag-sans, system-ui); padding: 4px 7px; border-radius: 999px; color: var(--ag-aegean-text, #7fa7c2); border: 1px solid currentColor; letter-spacing: .04em; }
+.zs-ev.new { animation: zs-in .5s cubic-bezier(.2,.7,.2,1) both; }
+.zs-feed-none { color: var(--ag-soft, #cfc4b2); font-size: .875rem; margin: 6px 0 2px; }
+/* an account card: stage, balance, today's $, the open trade (live $), $ to pass / payout, the last 5 trades */
+.zs-acct { position: relative; overflow: hidden; }
+.zs-acct.in { animation: zs-in .42s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@keyframes zs-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.zs-acct.skel { min-height: 148px; border-left-color: var(--ag-line, #3a3228); }
+.zs-acct.skel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(243,236,224,.05) 50%, transparent 70%); transform: translateX(-100%); animation: zs-shine 1.6s ease-in-out infinite; }
+@keyframes zs-shine { to { transform: translateX(100%); } }
+.zs-sk { height: 14px; border-radius: 7px; background: var(--ag-s3, #2b241d); margin: 8px 0; } .zs-sk.w1 { width: 40%; height: 18px; } .zs-sk.w2 { width: 55%; height: 26px; } .zs-sk.w3 { width: 70%; }
+.zs-open { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; margin: 10px 0 0; padding: 8px 10px; border-radius: 10px; background: rgba(143,191,106,.07); border: 1px solid rgba(143,191,106,.35); }
+.zs-open b { font-weight: 700; min-width: 0; overflow-wrap: anywhere; } .zs-open .zs-live { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; transition: opacity .3s; }
+.zs-open .zs-live.pos { color: #8fbf6a; } .zs-open .zs-live.neg { color: #ff8a7a; } .zs-open .zs-live.flash { opacity: .35; }
+.zs-open small { grid-column: 1 / -1; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.zs-open.flat { background: none; border-style: dashed; border-color: var(--ag-line, #3a3228); } .zs-open.flat b { font-weight: 600; color: var(--ag-soft, #cfc4b2); }
+.zs-trs { list-style: none; margin: 10px 0 0; padding: 0; display: grid; }
+.zs-trs-h { margin: 10px 0 2px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-tr { display: grid; grid-template-columns: 4.6em minmax(0, 1fr) auto; gap: 0 8px; align-items: baseline; min-height: 26px; padding: 2px 0; border-top: 1px solid rgba(200,184,150,.10);
+  font-size: .875rem; font-variant-numeric: tabular-nums; }
+.zs-tr time { color: var(--ag-muted, #a89c88); font-size: .8125rem; white-space: nowrap; } .zs-tr span { color: var(--ag-soft, #cfc4b2); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.zs-tr b { text-align: right; white-space: nowrap; } .zs-tr b.pos { color: #8fbf6a; } .zs-tr b.neg { color: #ff8a7a; }
 .zs-acct { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); }
 .zs-top { display: flex; align-items: center; gap: 8px; }
 .zs-top h3 { margin: 0; flex: 1; min-width: 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.2 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
@@ -90,19 +130,23 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 <script src="../edge_chip.js?v=1" defer></script>
 <script src="../business/decide.js?v=2" defer></script>
 <script src="../olympus/zeus_core.js?v=4" defer></script>
-<script src="zeus.js?v=4" defer></script>
+<script src="../olympus/acct_live.js?v=1" defer></script>
+<script src="zeus.js?v=6" defer></script>
 <script src="../olympus/warp.js?v=w2" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
 </head>
 <body>
 <main class="zs-main" id="zeus">
-  <nav class="zs-nav" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="doors.html#zeus">All ZEUS apps</a><a href="help.html" id="helpBtn">Help</a><button type="button" id="refresh" aria-label="Refresh">Refresh</button></nav>
+  <nav class="zs-nav" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="doors.html#zeus">ZEUS apps</a><span class="zs-sp"></span><a href="help.html" id="helpBtn">Help</a><button type="button" id="refresh" aria-label="Refresh" title="Refresh">&#8635;</button></nav>
   <h1 class="zs-title">ZEUS</h1>
   <p class="zs-sub">Trading: your accounts, today, and every trading page.</p>
 
   <section aria-labelledby="hLive">
-    <h2 class="zs-h2" id="hLive">Right now</h2>
+    <h2 class="zs-h2" id="hLive">Accounts</h2>
     <div id="pc" class="zs-pc" role="status" aria-live="polite"><span class="zs-dot"></span><b>Asking your PC...</b></div>
-    <div id="accts" class="zs-accts"></div>
+    <!-- the Live feed (olympus/acct_live.js feed): the newest entries and exits of every account, from the PC's status post (ext "at") -->
+    <div id="feed" class="zs-feed quiet" aria-labelledby="hFeed"><p class="zs-feed-h" id="hFeed"><i></i>Live feed: entries and exits</p><ol id="feedList"></ol></div>
+    <!-- one card per account (zeus.js): two calm placeholders from the first paint, so nothing jumps when the numbers land -->
+    <div id="accts" class="zs-accts"><article class="zs-acct skel" aria-hidden="true"><div class="zs-sk w1"></div><div class="zs-sk w2"></div><div class="zs-sk w3"></div></article><article class="zs-acct skel" aria-hidden="true"><div class="zs-sk w1"></div><div class="zs-sk w2"></div><div class="zs-sk w3"></div></article></div>
     <!-- ZEUS edge chip (../edge_chip.js): Zlarior + ATLAS last 40 sessions vs 2026; zeus.js hands it the PC status -->
     <div id="edgeChip" data-edge-chip data-edge-src="../edge.json"></div>
   </section>

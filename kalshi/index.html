@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k40">
+<link rel="stylesheet" href="kalshi.css?v=k42">
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
      2026-11-14 (team T2: a light look is light here too, like everywhere). The <head> paints the engine's copy of the look before the first
@@ -65,7 +65,12 @@
   <!-- the live line (night-klive 2026-11-19): engine/kalshi_live.py, OFF until the owner types the phrase at the PC (KALSHI_LIVE.bat); its <=200-byte
        card (key kalshi_live, the PC's ntfy ext post) turns this into LIVE / PAUSED from the phone / STOPPED with today's $ (kalshi.js klShow) -->
   <div class="note" id="kpaused" role="note" style="border-color: rgba(var(--warn-rgb), .5)"><p><b style="color: var(--warn)" id="kpaused-h">Kalshi: PAUSED</b> for real money. Paper tests running: <span id="kpaused-rw">rewards (no numbers yet)</span>, <span id="kpaused-k1">K1 rules (not running yet)</span>. <span id="kpaused-risk">$0 at risk.</span></p>
-    <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAUSED:</b> ready to go live when you type the phrase on the PC (double-click KALSHI_LIVE.bat). Small limits, checked before every order; it switches itself off after any stop. Pause or flatten from the phone: ZEUS Safety.</p></div>
+    <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAPER:</b> the PC records every window with no money. Live only when you type the phrase on the PC's private page (your PC link :8444/kalshi-live/). Small limits, checked before every order; it switches itself off after any stop.</p></div>
+  <!-- K8 status (night-kalshi8 2026-11-20): engine/kalshi_clock.card_k8 rides the PC's card (key kalshi_live, block k8); kalshi.js k8Show.
+       Without the PC's numbers it still shows the $55 rule and the next window (computed here from the clock legs). -->
+  <section class="note k8s" id="k8s" aria-label="K8 status"><h2>K8 status <b class="k8s-m" id="k8s-m">PAPER</b></h2>
+    <dl class="krw-g" id="k8s-g"><div><dt>Bankroll</dt><dd>$55.00</dd></div><div><dt>A bet</dt><dd>$2.50</dd></div><div><dt>Today</dt><dd>no bets yet</dd></div><div><dt>Next window</dt><dd id="k8s-cd">…</dd></div></dl>
+    <div id="k8s-x"><p class="krw-f">No numbers from the PC yet. At most 3 bets a day; stop at −$8.00 a day and −$13.75 a week (25%); OFF at −$19.25 from the peak (35%).</p></div></section>
   <section class="note krw" id="krw" aria-label="Rewards test (paper)" hidden></section>
   <section class="note krw" id="kk1" aria-label="K1 rules test (paper)"><p><b>K1 rules test (paper)</b> No numbers yet. It was meant to run on the Kalshi server, but nothing there reaches this page. It now starts on the PC with the next update, and its numbers will show here. $0 at risk.</p></section>
   <section class="note khub" id="khub" aria-label="Kalshi home">
@@ -102,11 +107,11 @@
   <p class="foot" id="foot"></p>
 </main>
 <script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json"></script>
-<script src="../olympus/gate-nav.js?v=g5" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
-<script src="../olympus/intro-app.js?v=i8" data-app="kalshi" data-name="Kalshi" data-glyph="K" data-color="#8fa07a" defer></script><!-- the app intro without the kit (olympus/intro-app.js) -->
+<script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/intro-app.js?v=i9" data-app="kalshi" data-name="Kalshi" data-glyph="K" data-color="#8fa07a" defer></script><!-- the app intro without the kit (olympus/intro-app.js) -->
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k40" defer></script>
+<script src="kalshi.js?v=k42" defer></script>
 </body>
 </html>

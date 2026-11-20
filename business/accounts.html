@@ -18,7 +18,8 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a6">
 <script src="../olympus/themes.js?v=o8" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="business.css?v=4">
+<link rel="stylesheet" href="business.css?v=5">
+<link rel="stylesheet" href="dashkit.css?v=2"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
 <style>
   .acc { display: grid; gap: 12px; }
   .acc .ag-card { padding: 14px 16px; }
@@ -50,6 +51,9 @@
   <a class="back" href="./">&larr; Business</a>
   <header class="top"><div class="brand"><div><h1 class="ag-title">My Accounts</h1><p class="sub">Every eval and funded account, one page</p></div></div></header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="ag-card card" data-dash="cockpit" aria-label="Your accounts now (live)"></section>
+  <section class="ag-card card" data-dash="payday" aria-label="Payday calendar"></section>
+
   <p class="note"><a href="mffu.html">My accounts (MFFU view) &rarr;</a> each account the way MFFU shows it.</p>
   <section class="ag-card card" aria-labelledby="sumH">
     <div class="row2"><h2 id="sumH">At a glance</h2><span class="pill warn">ESTIMATE</span></div>
@@ -74,5 +78,7 @@
 <script src="payoutcard.js?v=2"></script>
 <script src="mffumodel.js?v=2"></script>
 <script src="accounts.js?v=5"></script>
+<script src="../widget/olympus-widget.js?v=w1"></script><!-- live accounts: the PC post, else the site copy -->
+<script src="dashkit.js?v=1"></script>
 </body>
 </html>

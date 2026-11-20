@@ -1083,6 +1083,71 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
   document.addEventListener('DOMContentLoaded', function () { new MutationObserver(watch).observe(document.body, { childList: true }); });
 })();
 </script>
+<style id="oly-shell">/* night-revamp-main: olympus/shell.css INLINE (the one design layer, last). Inline on Zenith so a slow site never holds the first frame
+   (the service worker keeps index.html, not a new sheet: tests.test_zenith_mode h). Keep in step with olympus/shell.css (tests.test_olympus_shell checks it). */
+:root {
+  --o-bg: var(--oly-th-n3, #14110e);
+  --o-surface: var(--oly-th-n4, #1d1914);
+  --o-surface-2: var(--oly-th-n5, #26211b);
+  --o-surface-3: var(--oly-th-n6, #302a22);
+  --o-bar: rgba(var(--oly-th-n3-rgb, 20,17,14), .96);
+  --o-ink: var(--oly-th-n37, #f3ece0);
+  --o-ink-2: var(--oly-th-n30, #cfc4b2);
+  --o-muted: var(--oly-th-n22, #9a8f7d);
+  --o-line: rgba(var(--oly-th-n37-rgb, 243,236,224), .09);
+  --o-line-2: rgba(var(--oly-th-n37-rgb, 243,236,224), .16);
+  --o-accent: var(--oly-th-a8, #c8a24a);
+  --o-accent-ink: var(--oly-th-a11, #dac08b);
+  --o-good: var(--oly-th-g9, #b6c17d);
+  --o-bad: var(--oly-th-r9, #e0795a);
+  --o-warn: var(--oly-th-warn, #e0b060);
+  --o-font: -apple-system, "SF Pro Text", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --o-font-display: var(--oly-th-display, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif);
+  --o-font-num: "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+  --o-fs-xs: 12px; --o-fs-sm: 13.5px; --o-fs-md: 15px; --o-fs-lg: 17px; --o-fs-xl: 22px; --o-fs-2xl: 30px;
+  --o-1: 4px; --o-2: 8px; --o-3: 12px; --o-4: 16px; --o-5: 20px; --o-6: 24px; --o-8: 32px;
+  --o-gutter: 16px;
+  --o-r-sm: 10px; --o-r-md: 14px; --o-r-lg: 20px; --o-r-pill: 999px;
+  --o-ease: cubic-bezier(.2, .8, .2, 1); --o-dur-1: 120ms; --o-dur-2: 200ms; --o-dur-3: 320ms;
+  --o-shadow-1: 0 1px 2px rgba(0, 0, 0, .28);
+  --o-shadow-2: 0 6px 20px rgba(0, 0, 0, .28);
+  --o-sat: var(--jz-sa-top, env(safe-area-inset-top, 0px));
+  --o-sab: var(--jz-sa-bottom, env(safe-area-inset-bottom, 0px));
+  --o-bar-h: 56px;                                   
+  --o-bar-total: calc(var(--o-bar-h) + var(--o-sab)); 
+}
+html[data-oly-scheme="light"] {
+  --o-bg: var(--oly-th-n3, #f6f2ea); --o-surface: var(--oly-th-n4, #ffffff); --o-surface-2: var(--oly-th-n5, #f1ece2); --o-surface-3: var(--oly-th-n6, #e8e1d3);
+  --o-bar: rgba(var(--oly-th-n3-rgb, 246,242,234), .96);
+  --o-ink: var(--oly-th-n37, #1d1a15); --o-ink-2: var(--oly-th-n30, #3f382e); --o-muted: var(--oly-th-n22, #6f6656);
+  --o-line: rgba(var(--oly-th-n37-rgb, 29,26,21), .10); --o-line-2: rgba(var(--oly-th-n37-rgb, 29,26,21), .18);
+  --o-shadow-1: 0 1px 2px rgba(40, 30, 10, .08); --o-shadow-2: 0 6px 20px rgba(40, 30, 10, .10);
+}
+@media (max-width: 760px) {
+  html:root:not(#o) nav#tabs.tabs {
+    left: 0; right: 0; bottom: 0; height: var(--o-bar-total); padding: 4px max(8px, env(safe-area-inset-right, 0px)) var(--o-sab) max(8px, env(safe-area-inset-left, 0px));
+    gap: 0; border-radius: 0; border: 0; border-top: .5px solid var(--o-line-2);
+    background: var(--o-bar) !important; box-shadow: none;
+    -webkit-backdrop-filter: saturate(1.4) blur(18px); backdrop-filter: saturate(1.4) blur(18px);
+  }
+  html:root:not(#o) nav#tabs.tabs::before { content: none; display: none; }
+  html:root:not(#o) nav#tabs.tabs a, html:root:not(#o) nav#tabs.tabs button { height: calc(var(--o-bar-h) - 5px); border-radius: var(--o-r-sm); gap: 2px; font-size: 11px; font-weight: 600; letter-spacing: .01em;
+    background: none; box-shadow: none; color: var(--o-muted); }
+  html:root:not(#o) nav#tabs.tabs a.on, html:root:not(#o) nav#tabs.tabs button.on { background: none; box-shadow: none; color: var(--o-accent-ink); }
+  html:root:not(#o) nav#tabs.tabs .pl-tabind { display: none; }        
+  html:root:not(#o) nav#tabs.tabs a .ico { width: 24px; height: 24px; }
+  html:root:not(#o) nav#tabs.tabs a.on .ico { color: var(--o-accent); }
+  html:root:not(#o) .page { padding-bottom: calc(var(--o-bar-total) + 28px); }
+  html:root:not(#o) .toast { bottom: calc(var(--o-bar-total) + 12px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html *, html *::before, html *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+@media (pointer: coarse) {
+  html[data-oly-page="gate"] :is(.g-card, .g-hub, .g-q, .g-dr),
+  html[data-oly-page="today"] :is(.card, .tile, .stat, .trade, .mn-card, .sd-card) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+</style>
 </head>
 <body>
 <!-- deep space (2026-10-29): the static CSS sky paints at once; the WebGL scene (fx.js, space.js) fades in over it -->
@@ -1113,7 +1178,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
   <nav class="tabs" id="tabs" aria-label="Main"></nav>
 </div>
 <div class="toast" id="toast"></div>
-<script src="main.js?v=w12" defer></script><!-- the Zenith app itself (QA Round 7: was a 422 KB inline script; deferred so the skeleton paints first) -->
+<script src="main.js?v=w13" defer></script><!-- the Zenith app itself (QA Round 7: was a 422 KB inline script; deferred so the skeleton paints first) -->
 <script type="module">import * as T from "./olympus/truth.js?v=r10"; window.OLYMPUS_TRUTH = T;</script><!-- one source for drawdown / balance / data age (QA round 6) -->
 <script src="extras.js?v=3" defer></script>
 <script src="hub.js?v=11" defer></script>
@@ -1122,7 +1187,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
 <script src="live.js?v=4" defer></script>
 <script src="intel.js?v=1" defer></script>
 <script src="tradepics.js?v=3" defer></script>
-<script src="brain.js?v=7" defer></script>
+<script src="brain.js?v=8" defer></script>
 <script src="alerts.js?v=6" defer></script><script src="ai.js?v=2" defer></script>
 <script src="perfcore.js?v=1" defer></script>
 <script src="perf.js?v=1" defer></script>
@@ -1154,7 +1219,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
 <script src="zenithcore.js?v=2" defer></script>
 <script src="zenith.js?v=2" defer></script>
 <script src="zenith_hero.js?v=5" defer></script>
-<script src="launcher.js?v=l16" defer></script>
+<script src="launcher.js?v=l17" defer></script>
 <script src="zenith_money.js?v=4" defer></script>
 <script src="moneynowcore.js?v=q11" defer></script>
 <script src="moneynow.js?v=1" defer></script>
