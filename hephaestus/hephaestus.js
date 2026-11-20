@@ -223,7 +223,7 @@ function card() {
 }
 function postCard() {
   if (S.demo || !O || !O.framed) return;
-  try { window.parent.postMessage({ jarvis: 1, href: location.href, card: card() }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io')); } catch (_) { /* not inside Jarvis */ }
+  try { window.parent.postMessage({ jarvis: 1, href: location.href, card: card() }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io')); } catch (_) { /* not inside Jarvis */ }
 }
 
 // ------------------------------------------------------------------------------------------------ start

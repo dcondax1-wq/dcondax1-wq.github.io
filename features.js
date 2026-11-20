@@ -50,7 +50,7 @@
   feat('Goals', 'My goals: $10K month', 'This month so far against $10,000, one bar split into jobs, Kalshi and prop payouts.', 'goals', 1);
   feat('Goals', 'My goals: Stingray 3LT', 'Saved against the $38,000 target (stretch marker at $46,000), days left to Feb 22 2027, $ a week needed, on pace or behind by $X.', 'goals', 1);
   feat('Goals', 'My goals: C8 Z06', 'Saved against $60,000, one bar, no date.', 'goals', 1);
-  feat('Goals', 'The 9-account stack', 'Each planned prop account (MFFU 50K, two 25Ks, four LucidPro, two FundedNext): not bought, eval, passed, funded or paying, and the $ a month once all are funded.', 'goals', 1);
+  feat('Goals', 'The 9-account stack', 'Each planned prop account (MFFU only: the 50K, the 25Ks, the Rapid EOD 25K and 50K): not bought, eval, passed, funded or paying, and the $ a month once all are funded.', 'goals', 1);
   feat('Goals', 'Next money step', 'One line: the payout to request, the passed eval to switch, or the next evals to buy with the code to use.', 'goals', 1);
   // ---- Today (new)
   feat('Today', 'Today’s plan card', 'One card: what the bot waits for, the window, killzones, news.', 'today', 1);

@@ -4,4 +4,4 @@ rem installs Git and Python if missing, gets the bot, sets the eval numbers from
 rem ONE_TIME_SETUP. Live trading is never turned on. Same as the one line in docs\MOVE_TO_MAIN_PC.md. Works from any folder.
 setlocal EnableExtensions
 title Liquidity Engine - FRESH START
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://demetrades2000-coder.github.io/nq-dashboard/pc/FRESH_START.ps1 | iex" & echo. & pause & exit /b
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://dcondax1-wq.github.io/pc/FRESH_START.ps1 | iex" & echo. & pause & exit /b

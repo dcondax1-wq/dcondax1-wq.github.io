@@ -13,7 +13,7 @@ import * as G from './gate.js?v=g2';           // JOB 47: the owner's adoption c
 const O = window.OLYMPUS || null;   // the OLYMPUS kit (../olympus/olympus.js): one 3D quality for every app, the veil, themes
 
 const ZOOM_MIN = 0.6, ZOOM_MAX = 7;
-const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
+const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
 
 const $ = (id) => document.getElementById(id);
 const app = $('app'), canvas = $('stage'), ctx = canvas.getContext('2d', { alpha: false });

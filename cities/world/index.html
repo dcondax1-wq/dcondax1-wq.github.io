@@ -16,7 +16,7 @@
 <link rel="preload" href="world.json" as="fetch" crossorigin>
 <link rel="modulepreload" href="../../jarvis/three.module.min.js">
 <link rel="stylesheet" href="../../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="world.css?v=w2">
+<link rel="stylesheet" href="world.css?v=w3">
 <!-- the world-to-world jump (olympus/warp.js + warp.css, phone QA 2026-11-19): without this opt-in a jump INTO the World was a View Transition
      the page refused ("ViewTransition opt-in disabled"), and the kit read that as "Cities could not load". Now it arrives like every app. -->
 <style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../../olympus/warp.css?v=w3" media="print" onload="this.media='all'">
@@ -25,6 +25,7 @@
 <script src="../../olympus/gate-nav.js?v=g6" defer></script>
 <script src="../../olympus/warp.js?v=w3" defer></script><!-- the shared jump out of the World to an app (ow-main.js go()) -->
 <script src="../../olympus/sfx.js?v=s4" async></script>
+<script src="../frame-safe.js?v=1" defer></script><!-- cities3: the parent's bottom safe area when framed in Jarvis (the dock off the home bar) -->
 </head>
 <body>
 <div id="poster" aria-hidden="true">
@@ -68,6 +69,6 @@
 <main class="flat" id="flat" hidden></main>
 <div class="flash" id="flash" aria-hidden="true"></div>
 <noscript><p style="position:fixed;left:16px;right:16px;top:45%;text-align:center;color:#ccd">Olympus World needs JavaScript.</p></noscript>
-<script type="module" src="ow-main.js?v=w3"></script>
+<script type="module" src="ow-main.js?v=w4"></script>
 </body>
 </html>

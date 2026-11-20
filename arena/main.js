@@ -11,7 +11,7 @@ import { desk } from './rhythm.js';
 import { illustratedColosseum } from './illustration.js?v=c2';
 
 const O = window.OLYMPUS || null;
-const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
+const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
 const REFRESH_MS = 60000;
 (function () {   // static local artwork only (no event/user data), parsed as SVG and added as a DOM node (never as an HTML string); a parse error = no artwork
   const host = document.getElementById('arena-illustration');

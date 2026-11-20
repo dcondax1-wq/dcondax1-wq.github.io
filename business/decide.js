@@ -47,7 +47,38 @@
     return { text: noteText(item, ans), decision: String(item.id), answer: ans };
   }
 
-  const api = { ANSWERS, onPc, openItems, answers, noteText, body, last: null, ok: null };
+  // ---- the ranked view (day-arenas 2026-11-20, business/plan.html "Answer these first"): pure, node-tested in tests/test_decide.py
+  const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+  const usdM = (v) => (v == null ? '$?' : (v > 0 ? '+$' : v < 0 ? '-$' : '$') + Math.abs(Math.round(v)).toLocaleString('en-US'));
+  /** $ a month for one card: the fleet plan's whole-fleet number (business/fleet_plan.json top_decide) first, else the card's own usd_month */
+  function monthUsd(item, fleet) {
+    const top = isObj(fleet) && Array.isArray(fleet.top_decide) ? fleet.top_decide : [];
+    const f = top.find((x) => isObj(x) && x.id === item.id);
+    if (f && num(f.usd) != null) return { usd: num(f.usd), by: 'fleet plan' };
+    if (num(item.usd_month) != null) return { usd: num(item.usd_month), by: 'this card' };
+    return { usd: num(item.impact_usd), by: 'this card' };
+  }
+  /** a second, independent check: a skeptic write-up named in the card's source / notes / checked field */
+  const checkedTwice = (item) => /skeptic/i.test([item.source, item.notes, item.checked, item.skeptic].map((x) => (x == null ? '' : typeof x === 'string' ? x : JSON.stringify(x))).join(' '));
+  /** one plain sentence: what saying yes changes, in $ a month, and the risk change */
+  function sentence(item, m) {
+    let risk = String(item.risk || '').split(/;\s+/)[0].trim();
+    if (risk.length > 150) risk = risk.slice(0, 150).replace(/\s+\S*$/, '') + '...';
+    if ((risk.match(/\(/g) || []).length > (risk.match(/\)/g) || []).length) risk += ')';       // a clause cut inside its brackets
+    return `Yes = ${usdM(m.usd)} a month (${m.by})` + (risk ? `; risk: ${/\.\.\.$/.test(risk) ? risk : risk.replace(/\.$/, '')}` : '') + (/\.\.\.$/.test(risk) ? '' : '.');
+  }
+  /** decisions.json (+ fleet_plan.json, + the board's answers) -> { now: [3], later: [...], done: [...] }, open cards by $ a month */
+  function rank(doc, fleet, got) {
+    const items = isObj(doc) && Array.isArray(doc.items) ? doc.items.filter((d) => isObj(d) && d.id && d.question) : [];
+    const g = isObj(got) ? got : {};
+    const row = (d) => { const m = monthUsd(d, fleet); return { item: d, usd: m.usd, by: m.by, sentence: sentence(d, m), twice: checkedTwice(d), got: g[d.id] || null }; };
+    const open = items.filter((d) => String(d.status || 'open') === 'open' && !(g[d.id] && g[d.id].answer !== 'later')).map(row)
+      .sort((a, b) => (b.usd == null ? -1e9 : b.usd) - (a.usd == null ? -1e9 : a.usd));
+    const done = items.filter((d) => String(d.status || 'open') !== 'open' || (g[d.id] && g[d.id].answer !== 'later')).map(row);
+    return { now: open.slice(0, 3), later: open.slice(3), done };
+  }
+
+  const api = { ANSWERS, onPc, openItems, answers, noteText, body, monthUsd, checkedTwice, sentence, rank, last: null, ok: null };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (typeof document === 'undefined') return;
   root.DECIDE = api;
@@ -68,7 +99,21 @@
     + '.dc-btns button.yes{border-color:#8fbf6a}.dc-btns button.no{border-color:#ff8a7a}.dc-btns button.on{background:var(--ag-gold,#c8a24a);color:#14110e}.dc-btns button:disabled{opacity:.6}'
     + '.dc-off{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--ag-s1,#1b1713);border:1px dashed var(--ag-line,#3a3228)}'
     + '.dc-off b{display:block;min-height:24px}.dc-off small{display:block;margin-top:4px;color:var(--ag-muted,#a89c88);font-size:.8125rem;overflow-wrap:anywhere}'
-    + '.dc-say{color:var(--ag-sun,#e0b060)}.dc-foot{margin:10px 0 0;color:var(--ag-muted,#a89c88);font-size:.8125rem}';
+    + '.dc-say{color:var(--ag-sun,#e0b060)}.dc-foot{margin:10px 0 0;color:var(--ag-muted,#a89c88);font-size:.8125rem}'
+    // the ranked view (plan.html): text-safe tokens only, so dark and light read the same
+    + '.dc.rk .dc-rec.y{color:var(--ag-olive-text,#a0ac6e)}.dc.rk .dc-rec.n{color:var(--ag-terra-text,#e08a6b)}'
+    + '.dc-sec{margin:16px 0 0;font:700 .8125rem/1.2 var(--ag-sans,system-ui);letter-spacing:.04em;text-transform:uppercase;color:var(--ag-muted,#a89c88)}'
+    + '.dc.rk .dc-item.now{margin-top:10px;padding:12px;border:1px solid var(--ag-line-gold,rgba(200,162,74,.32));border-radius:14px;background:var(--ag-s1,#1b1713)}'
+    + '.dc-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 6px}'
+    + '.dc-tag{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;border-radius:99px;font:700 .6875rem/1 var(--ag-sans,system-ui);border:1px solid var(--ag-line,#3a3228);color:var(--ag-soft,#cfc4b2)}'
+    + '.dc-tag.now{border-color:var(--ag-gold,#c8a24a);color:var(--ag-gold-hi,#dcbd6e)}.dc-tag.twice{border-color:var(--ag-olive,#7f8a52);color:var(--ag-olive-text,#a0ac6e)}'
+    + '.dc-usd{margin-left:auto;font:700 1.05rem/1 var(--ag-num,system-ui);font-variant-numeric:tabular-nums;color:var(--ag-text,#f3ece0)}'
+    + '.dc-usd.up{color:var(--ag-olive-text,#a0ac6e)}.dc-usd.dn{color:var(--ag-terra-text,#e08a6b)}'
+    + '.dc-line{margin:6px 0 0;font:500 .95rem/1.4 var(--ag-sans,system-ui);color:var(--ag-soft,#cfc4b2);overflow-wrap:anywhere}'
+    + '.dc.rk .dc-more{margin-top:4px;border:0;padding:0}.dc.rk .dc-more summary{min-height:40px;font-size:.875rem;color:var(--ag-muted,#a89c88)}'
+    + '.dc.rk details{margin-top:12px;border-top:1px solid var(--ag-line,#3a3228);padding-top:4px}'
+    + '.dc.rk summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font:700 .95rem var(--ag-sans,system-ui);color:var(--ag-gold,#c8a24a)}'
+    + '.dc-done{margin:8px 0 0;font-size:.875rem;color:var(--ag-soft,#cfc4b2);overflow-wrap:anywhere}.dc-done b{color:var(--ag-text,#f3ece0)}';
 
   async function getJSON(u, ms) {
     const ac = typeof AbortController === 'function' ? new AbortController() : null, tm = ac ? setTimeout(() => ac.abort(), ms || 6000) : 0;
@@ -83,12 +128,35 @@
 
   function itemView(item, st, pc) {
     const box = el('article', 'dc-item'); box.dataset.id = item.id;
+    const R = st.rk && st.rk[item.id];
+    if (R) {                                    // the ranked view: tags, $ a month and the one plain sentence above the question
+      if (R.now) box.classList.add('now');
+      const top = el('div', 'dc-top');
+      if (R.now) top.appendChild(el('span', 'dc-tag now', 'Answer now'));
+      if (R.twice) top.appendChild(el('span', 'dc-tag twice', 'Checked twice'));
+      top.appendChild(el('span', 'dc-usd ' + (R.usd > 0 ? 'up' : R.usd < 0 ? 'dn' : ''), usdM(R.usd) + ' a month'));
+      box.appendChild(top);
+    }
     box.appendChild(el('p', 'dc-q', item.question));
-    if (item.why) box.appendChild(el('p', 'dc-why', 'Why: ' + item.why));
-    if (item.impact) box.appendChild(el('p', 'dc-imp', '$: ' + item.impact));
-    if (item.recommend) box.appendChild(el('p', 'dc-rec ' + (item.recommend === 'yes' ? 'y' : item.recommend === 'no' ? 'n' : 'l'),
-      'Claude says ' + String(item.recommend).toUpperCase() + (item.recommend_why ? ': ' + item.recommend_why : '')));
-    if (item.risk) box.appendChild(el('p', 'dc-risk', 'Risk: ' + item.risk));
+    if (R) {
+      // compact: the sentence, Claude's call in one line, then the full why / $ / risk folded (one tap)
+      box.appendChild(el('p', 'dc-line', R.sentence));
+      if (item.recommend) box.appendChild(el('p', 'dc-rec ' + (item.recommend === 'yes' ? 'y' : item.recommend === 'no' ? 'n' : 'l'),
+        'Claude says ' + String(item.recommend).toUpperCase() + (item.recommend_why ? ': ' + String(item.recommend_why).split(/(?<=\.)\s+/)[0] : '')));
+      const more = el('details', 'dc-more'); more.appendChild(el('summary', null, 'Why and the numbers'));
+      if (item.why) more.appendChild(el('p', 'dc-why', 'Why: ' + item.why));
+      if (item.impact) more.appendChild(el('p', 'dc-imp', '$: ' + item.impact));
+      if (item.recommend_why) more.appendChild(el('p', 'dc-why', 'Claude: ' + item.recommend_why));
+      if (item.risk) more.appendChild(el('p', 'dc-risk', 'Risk: ' + item.risk));
+      if (item.source) more.appendChild(el('p', 'dc-risk', 'Source: ' + item.source));
+      box.appendChild(more);
+    } else {
+      if (item.why) box.appendChild(el('p', 'dc-why', 'Why: ' + item.why));
+      if (item.impact) box.appendChild(el('p', 'dc-imp', '$: ' + item.impact));
+      if (item.recommend) box.appendChild(el('p', 'dc-rec ' + (item.recommend === 'yes' ? 'y' : item.recommend === 'no' ? 'n' : 'l'),
+        'Claude says ' + String(item.recommend).toUpperCase() + (item.recommend_why ? ': ' + item.recommend_why : '')));
+      if (item.risk) box.appendChild(el('p', 'dc-risk', 'Risk: ' + item.risk));
+    }
     const got = st.got[item.id];
     if (got) box.appendChild(el('p', 'dc-sent', 'You said ' + WORD[got.answer] + (got.t ? ' (' + ET(got.t) + ')' : '') + '. Claude applies it next session; nothing live changes until then.'));
     if (pc) {
@@ -122,7 +190,7 @@
         st.got[item.id] = { answer: ans, t: Math.floor(Date.now() / 1000) };
         const fresh = itemView(item, st, true);
         const old = st.list.querySelector('.dc-item[data-id="' + item.id + '"]');
-        if (old) st.list.replaceChild(fresh, old);
+        if (old && old.parentNode) old.parentNode.replaceChild(fresh, old);
         const s2 = fresh.querySelector('.dc-say'); if (s2) s2.textContent = j.said || 'Saved for Claude.';
         api.last.sent.push(b);
         return;
@@ -141,6 +209,7 @@
     const boardSrc = rootEl.getAttribute('data-decide-board') || '../board/board.json';
     const [doc, board] = await Promise.all([getJSON(src), getJSON(boardSrc)]);
     const pc = onPc(location.pathname);
+    if (rootEl.getAttribute('data-decide-mode') === 'rank') return mountRanked(rootEl, doc, board, pc);
     while (rootEl.firstChild) rootEl.removeChild(rootEl.firstChild);
     const items = openItems(doc);
     api.ok = !!doc;
@@ -156,6 +225,44 @@
     for (const d of items) st.list.appendChild(itemView(d, st, pc));
     rootEl.appendChild(st.list);
     if (doc.updated) rootEl.appendChild(el('p', 'dc-foot', 'List kept by Claude, updated ' + doc.updated + '.'));
+    rootEl.hidden = false;
+    return api.last;
+  }
+
+  // "Answer these first" (business/plan.html, data-decide-mode="rank"): the open cards by $ a month (the fleet plan's number when
+  // ./fleet_plan.json is there), the top 3 marked "Answer now", the rest under Later, answered ones under Done. Same taps, same send().
+  async function mountRanked(rootEl, doc, board, pc) {
+    const fleet = await getJSON(rootEl.getAttribute('data-decide-fleet') || 'fleet_plan.json', 4000);
+    const st = { got: answers(isObj(board) ? board.events : []), list: null, rk: {} };
+    const R = rank(doc, fleet, st.got);
+    R.now.forEach((r) => { st.rk[r.item.id] = { ...r, now: true }; });
+    R.later.forEach((r) => { st.rk[r.item.id] = { ...r, now: false }; });
+    api.ok = !!doc;
+    api.last = { onPc: pc, ids: R.now.concat(R.later).map((r) => r.item.id), now: R.now.map((r) => r.item.id), later: R.later.map((r) => r.item.id),
+      done: R.done.map((r) => r.item.id), fleet: !!fleet, sent: [], got: st.got };
+    while (rootEl.firstChild) rootEl.removeChild(rootEl.firstChild);
+    rootEl.classList.add('dc', 'rk');
+    const n = R.now.length + R.later.length;
+    rootEl.appendChild(el('h2', null, n ? 'Answer these first (' + n + ' open)' : 'Nothing to decide right now'));
+    rootEl.appendChild(el('p', 'dc-hint', (fleet ? 'Ranked by $ a month for the whole fleet (the fleet plan), estimates. ' : 'Ranked by $ a month on each card, estimates. ')
+      + (pc ? 'Each tap is a note for Claude; nothing live changes until Claude applies it.' : 'Answers only from your PC link (Tailscale); nothing is written here.')));
+    st.list = el('div', 'dc-list'); rootEl.appendChild(st.list);
+    for (const r of R.now) st.list.appendChild(itemView(r.item, st, pc));
+    if (R.later.length) {
+      const d = el('details', 'dc-later'); d.appendChild(el('summary', null, 'Later (' + R.later.length + ')'));
+      for (const r of R.later) d.appendChild(itemView(r.item, st, pc));
+      st.list.appendChild(d);
+    }
+    if (R.done.length) {
+      const d = el('details', 'dc-donebox'); d.appendChild(el('summary', null, 'Done (' + R.done.length + ')'));
+      for (const r of R.done) {
+        const g = r.got, said = g ? 'You said ' + WORD[g.answer] + (g.t ? ' (' + ET(g.t) + ')' : '') : 'Closed: ' + String(r.item.status || 'done');
+        const p = el('p', 'dc-done'); p.appendChild(el('b', null, r.item.question)); p.appendChild(document.createTextNode(' ' + said + (r.item.closed_note ? '. ' + r.item.closed_note : '.')));
+        d.appendChild(p);
+      }
+      st.list.appendChild(d);
+    }
+    if (doc && doc.updated) rootEl.appendChild(el('p', 'dc-foot', 'List kept by Claude, updated ' + doc.updated + '.'));
     rootEl.hidden = false;
     return api.last;
   }

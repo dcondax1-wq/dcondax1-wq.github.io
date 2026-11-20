@@ -621,7 +621,7 @@ function postJarvisCard(note) {
   fetch('jarvis.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((card) => {
     if (!card) return;
     const n = note || PLUS.councilNote(STATE.d), lines = [...(STATE.flip && STATE.flip.flipped ? [`The Council flipped: ${STATE.flip.from} to ${STATE.flip.to}.`] : []), ...n.lines].slice(0, 4);
-    window.parent.postMessage({ jarvis: 1, href: location.href, card: { ...card, lines: lines.length ? lines : card.lines, t: Math.floor(Date.now() / 1000) } }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io'));
+    window.parent.postMessage({ jarvis: 1, href: location.href, card: { ...card, lines: lines.length ? lines : card.lines, t: Math.floor(Date.now() / 1000) } }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io'));
   }).catch(() => {});
 }
 const postNote = (note) => postJarvisCard(note);

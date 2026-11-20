@@ -440,7 +440,7 @@ function postCard() {
   const card = { v: 1, name: 'ODEON', status: { level: S.demo ? 'warn' : 'ok', label: S.demo ? 'Demo reel only' : `${S.trades.length} reels ready` },
     kpis: [{ label: 'Reels', value: String(S.trades.length) }, { label: 'Latest', value: dayLabel(t.day) }, { label: 'Last reel', value: fmtR(t.r), delta: fmtUsd(t.usd) }],
     lines: [`${t.bot} ${t.side.toLowerCase()} ${dayLabel(t.day)}: ${fmtUsd(t.usd)}`], t: Math.floor(Date.now() / 1000), open: '#reels', theme: '#14110e' };
-  try { window.parent.postMessage({ jarvis: 1, href: location.href, card }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io')); } catch (e) { /* not in Jarvis */ }
+  try { window.parent.postMessage({ jarvis: 1, href: location.href, card }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io')); } catch (e) { /* not in Jarvis */ }
 }
 
 // ---------------------------------------------------------------- themes (OLYMPUS)

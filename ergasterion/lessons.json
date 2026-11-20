@@ -2,8 +2,18 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-20",
- "say": "This week we wrote down 40 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
+ "say": "This week we wrote down 41 lessons. The strongest (2 files agree): Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real Ni… What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
  "week": [
+  {
+   "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
+   "cat": "NQ strategy",
+   "d": "2026-11-20",
+   "strength": 2,
+   "sources": [
+    "research/writeups/nq-speed-fills-2026-11-20.md",
+    "research/writeups/nq-live-reliability-2026-11-20.md"
+   ]
+  },
   {
    "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
    "cat": "money",
@@ -72,15 +82,6 @@
    "sources": [
     "research/writeups/atlas-risk-real-fills-2026-11-20.md"
    ]
-  },
-  {
-   "text": "Tested and rejected: Zlarior edge, 5 pre-registered ideas (2026-11-20, lit-edge-2026-11-20.md, tools/research/litedge.py,",
-   "cat": "NQ strategy",
-   "d": "2026-11-20",
-   "strength": 1,
-   "sources": [
-    "docs/TESTED_AND_REJECTED.md"
-   ]
   }
  ],
  "top": [
@@ -104,6 +105,16 @@
     "research/writeups/kalshi_edge_C.md",
     "research/writeups/kalshi_edge_B.md",
     "research/writeups/kalshi_edge_A.md"
+   ]
+  },
+  {
+   "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
+   "cat": "NQ strategy",
+   "d": "2026-11-20",
+   "strength": 2,
+   "sources": [
+    "research/writeups/nq-speed-fills-2026-11-20.md",
+    "research/writeups/nq-live-reliability-2026-11-20.md"
    ]
   },
   {
@@ -154,16 +165,6 @@
    "sources": [
     "research/writeups/rapid25-lit-lane-2026-11-18.md",
     "research/writeups/builder25k-eval-sizing-2026-11-17.md"
-   ]
-  },
-  {
-   "text": "No single fact has a bin that loses in both halves; 425 two-fact loser cells picked on Jan-Jun keep losing in Jul-Oct 88 times against 95 expected by chance.",
-   "cat": "NQ strategy",
-   "d": "2026-11-15",
-   "strength": 2,
-   "sources": [
-    "research/writeups/2026-11-15-lit-deep.md",
-    "research/writeups/lit-retail-entries.md"
    ]
   }
  ],

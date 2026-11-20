@@ -4,8 +4,8 @@
 // pooled pulses: thousands of buildings in about a dozen calls. Everything that moves is computed on the GPU from uTime.
 import * as THREE from '../../jarvis/three.module.min.js';
 import { createRenderer } from '../../olympus/render.js';
-import * as SH from './ow-shaders.js?v=w3';
-import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w3';
+import * as SH from './ow-shaders.js?v=w4';
+import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w4';
 
 const MOON = new THREE.Vector3(0.28, 0.2, -1).normalize();
 
@@ -74,10 +74,19 @@ export function createWorld(opts) {
   const rc = createRenderer({ canvas, scene, camera, env: 'none', bloomMax: 0.8, maxDpr: 2, quality: opts.quality || undefined,
     bloom: { strength: 0.5, radius: 0.55, threshold: 0.95 }, grade: { vignette: 0.3, grain: 0.014, saturation: 1.06, aberration: 0.0005 } });
   // ---- shared uniforms
-  const U = { uTime: { value: 0 }, uMoonDir: { value: MOON }, uFogDensity: { value: 0.0016 }, uDay: { value: 1e4 }, uWarp: { value: 0 }, uDusk: { value: 0 } };
+  const U = { uTime: { value: 0 }, uMoonDir: { value: MOON }, uFogDensity: { value: 0.0016 }, uDay: { value: 1e4 }, uWarp: { value: 0 }, uDusk: { value: 0 }, uNoon: { value: 0 }, uSunDir: { value: new THREE.Vector3(0.42, 0.075, -1).normalize() }, uLightDir: { value: new THREE.Vector3() }, uLightCol: { value: new THREE.Vector3() } };
   // the sky follows the market clock (revamp-cities): the NQ cash session = golden hour, the hours round it = blue hour, else night
   let dusk = skyFor(opts.sky), duskTo = dusk;
-  U.uDusk.value = dusk;
+  const SUN0 = new THREE.Vector3(0.42, 0.075, -1).normalize(), SUN1 = new THREE.Vector3(0.5, 0.62, -0.62).normalize();
+  const LC0 = new THREE.Vector3(0.12, 0.15, 0.26), LC1 = new THREE.Vector3(1.25, 0.66, 0.34), LC2 = new THREE.Vector3(1.7, 1.52, 1.28);
+  const setLightK = (v) => {   // cities3: 0 night .. 1 golden .. 2 day; the sun, the key light's direction and colour once here, not per pixel
+    const dk = Math.min(1, v), nn = Math.max(0, Math.min(1, v - 1));
+    U.uDusk.value = dk; U.uNoon.value = nn;
+    U.uSunDir.value.copy(SUN0).lerp(SUN1, nn).normalize();
+    U.uLightDir.value.copy(U.uMoonDir.value).normalize().lerp(U.uSunDir.value, dk).normalize();
+    U.uLightCol.value.copy(LC0).lerp(LC1, dk).lerp(LC2, nn);
+  };
+  setLightK(dusk);
   const TW = 64, TH = Math.max(1, Math.ceil(plan.slots / TW));
   const tex = new Uint8Array(TW * TH * 4);
   const placeTex = new THREE.DataTexture(tex, TW, TH, THREE.RGBAFormat);
@@ -189,7 +198,7 @@ export function createWorld(opts) {
   rings.renderOrder = 3; rings.frustumCulled = false;
   scene.add(rings);
   // ---- LED displays: ticker bands round the tallest towers (the Gate, ZEUS, the Kalshi bot, Business); text = setDisplay(row, line)
-  const ROWS = 4, TXW = 2048, TXH = 128;
+  const ROWS = 4, TXW = 3072, TXH = 128;   // cities3: 3072 wide = about 72 letters a row (the live district lines)
   const txt = document.createElement('canvas'); txt.width = TXW; txt.height = TXH * ROWS;
   const tg = txt.getContext('2d');
   tg.fillStyle = '#000'; tg.fillRect(0, 0, TXW, TXH * ROWS);
@@ -206,19 +215,20 @@ export function createWorld(opts) {
   }
   const dn = bandSpec.length, dA = new Float32Array(dn * 4), dB = new Float32Array(dn * 4), dC = new Float32Array(dn * 3), dP = new Float32Array(dn);
   bandSpec.forEach((b, k) => {
-    const circ = 2 * Math.PI * b.r, rep = Math.max(1, Math.round(circ / (b.h * 16)));
-    dA.set([b.x, b.y, b.z, b.r], k * 4); dB.set([b.h, b.row, rep, reduced ? 0 : 0.035 / rep], k * 4);            // reduced motion: the text stands still dC.set(b.col, k * 3); dP[k] = b.place;
+    const circ = 2 * Math.PI * b.r, rep = Math.max(1, Math.round(circ / (b.h * 24)));
+    dA.set([b.x, b.y, b.z, b.r], k * 4); dB.set([b.h, b.row, rep, reduced ? 0 : 0.035 / rep], k * 4);            // reduced motion: the text stands still
+    dC.set(b.col, k * 3); dP[k] = b.place;                                                                // cities3: this line sat inside the comment above (black bands)
   });
   const bandGeo = new THREE.CylinderGeometry(1, 1, 1, 32, 1, true).translate(0, 0.5, 0);
   const bands = new THREE.Mesh(instanced(bandGeo, [['aBand', dA, 4], ['aBand2', dB, 4], ['aCol', dC, 3], ['aPlace', dP, 1]], dn),
-    new THREE.ShaderMaterial({ vertexShader: SH.BAND_VS, fragmentShader: SH.BAND_FS, uniforms: { ...U, ...PU, uText: { value: txtTex }, uRows: { value: ROWS } }, side: THREE.DoubleSide, extensions: { derivatives: true } }));
+    new THREE.ShaderMaterial({ vertexShader: SH.BAND_VS, fragmentShader: SH.BAND_FS, uniforms: { ...U, ...PU, uText: { value: txtTex }, uRows: { value: ROWS }, uTexW: { value: TXW } }, side: THREE.DoubleSide, extensions: { derivatives: true } }));
   bands.frustumCulled = false; bands.renderOrder = 2;
   scene.add(bands);
   const shown = new Array(ROWS).fill('');
   function setDisplay(row, text) {
     const r = Math.max(0, Math.min(ROWS - 1, row | 0));
     let t = String(text || '').replace(/\s+/g, ' ').trim().toUpperCase();
-    if (t.length > 48) t = t.slice(0, 48).replace(/\s+\S*$/, '') + ' \u2026';                // one row holds about 48 letters
+    if (t.length > 72) t = t.slice(0, 72).replace(/\s+\S*$/, '') + ' \u2026';                // one row holds about 48 letters
     if (!t || shown[r] === t) return false;
     shown[r] = t;
     tg.fillStyle = '#000'; tg.fillRect(0, r * TXH, TXW, TXH);
@@ -475,9 +485,9 @@ export function createWorld(opts) {
     focus += (focusTo - focus) * (1 - Math.exp(-Math.min(dt, 0.1) * 7));
     U.uWarp.value = warp;
     if (t0 - skyAt > 30000) { skyAt = t0; duskTo = skyFor(opts.sky); }        // the market clock, checked every 30 s
-    if (Math.abs(duskTo - dusk) > 1e-4) { dusk += (duskTo - dusk) * (1 - Math.exp(-Math.min(dt, 0.1) * 0.8)); U.uDusk.value = dusk; }
+    if (Math.abs(duskTo - dusk) > 1e-4) { dusk += (duskTo - dusk) * (1 - Math.exp(-Math.min(dt, 0.1) * 0.8)); setLightK(dusk); }
     warpMesh.visible = warp > 0.01;
-    const bs = 0.5 + warp * 0.18;
+    const bs = 0.5 - 0.3 * U.uNoon.value + warp * 0.18;   // daylight: less glow, the city reads as buildings
     if (Math.abs(bs - bloomNow) > 0.004) { bloomNow = bs; rc.setBloom({ strength: bs }); }
     applyCam();
     if (opts.onFrame) opts.onFrame(dt, t);
@@ -557,7 +567,7 @@ export function createWorld(opts) {
     step(ms, noDraw) { if (!manual) return false; vnow += ms; frame(Math.min(ms, 100) / 1000, vnow / 1000); if (!noDraw) rc.draw(); return true; },
     /** the share of the screen height the subject moves up (a card covers the bottom): 0..0.3 */
     /** the sky: 'night' | 'blue' | 'dusk' (golden hour) | 'auto' (the market clock) */
-    setSky(k) { opts.sky = k; duskTo = skyFor(k); if (reduced || manual) { dusk = duskTo; U.uDusk.value = dusk; } },
+    setSky(k) { opts.sky = k; duskTo = skyFor(k); if (reduced || manual) { dusk = duskTo; setLightK(dusk); } },
     setFocus(f, now) { focusTo = clamp(+f || 0, 0, 0.3); if (reduced || now) focus = focusTo; },
     skipIntro() { if (introT >= 0) { introT = -1; grow.fill(1); texDirty = true; pose = clampPose(homePose(world), world); } },
     state() {

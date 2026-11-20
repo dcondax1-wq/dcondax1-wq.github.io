@@ -53,7 +53,7 @@ export const LIMITS = Object.freeze({ bytes: 8192, name: 40, label: 48, kpis: 3,
 export const ASCEND_ID = 'ascend';
 export const ASCEND_NAME = 'Ascend';
 // Ascend's link once the owner sends it (owner: "send it and it is built in"): then "Add Ascend" adds it with one tap.
-// Always another site, never under demetrades2000-coder.github.io (see SAME_SITE_WARN). Empty: "Add Ascend" asks for the link.
+// Always another site, never under dcondax1-wq.github.io (see SAME_SITE_WARN). Empty: "Add Ascend" asks for the link.
 export const ASCEND_URL = '';
 // ------------------------------------------------------------------ OLYMPUS: every built-in app, one row each (2026-11-03)
 // Adding an app to OLYMPUS is one row in BUILT_INS, nothing else: its folder on the dashboard site (../<id>/) holds its
@@ -160,7 +160,7 @@ export function byGroup(list) {
   return home.length ? [{ group: null, apps: home }].concat(out) : out;
 }
 
-// Every page on Jarvis's origin (demetrades2000-coder.github.io) can read what Jarvis and the Planner keep in localStorage
+// Every page on Jarvis's origin (dcondax1-wq.github.io) can read what Jarvis and the Planner keep in localStorage
 // (AI keys, the Planner's sync token). Ours there: the dashboard site's root page (Zenith), jarvis/ and every built-in's
 // folder; a link anywhere else on that origin is still added, with this warning in the result and on the app.
 export const SAME_SITE_WARN = "same-site apps can read Jarvis's saved keys";

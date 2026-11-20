@@ -1,9 +1,9 @@
 # FRESH START launcher (owner 2026-11-04): the one line on the main PC. It shows what it will do, asks, then downloads
 # scripts/move_bot.ps1 from this site (pc/move_bot.ps1, published with every build) and runs it with -Fresh.
-#   powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://demetrades2000-coder.github.io/nq-dashboard/pc/FRESH_START.ps1 | iex"
+#   powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://dcondax1-wq.github.io/pc/FRESH_START.ps1 | iex"
 # Nothing is saved before you answer Y. Live trading is never armed (the setup defaults to Sim101 practice).
 $ErrorActionPreference = 'Stop'
-$site = 'https://demetrades2000-coder.github.io/nq-dashboard/pc'
+$site = 'https://dcondax1-wq.github.io/pc'
 # any unexpected failure ends with ONE plain sentence of what to do, never a stack trace
 try {
     Write-Host ""

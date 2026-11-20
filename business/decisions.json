@@ -15,7 +15,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "no",
    "source": "research/writeups/payout-policy-funded25-2026-11-17.md",
    "applies": "engine/funded_life builder25k ask_above 750 -> 1000 (push line only)",
    "added": "2026-11-17",
@@ -28,7 +28,8 @@
    "risk": "25K #2 no payout in 6 months 16.9% -> 18.5%; in a 2021-25-like market it costs $6 a month",
    "recommend": "no",
    "recommend_why": "Keep the $750 ping: waiting for $1,000 pays the same or a little less and each payout comes 2-5 trading days later. At real fills it is a little safer on ATLAS's 25K, but room 40% does that job much better; on the 25K #2 it still costs about $5 a month.",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data"
   },
   {
    "id": "zlarior-funded25",
@@ -41,7 +42,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "no",
    "source": "research/writeups/funded25-lit-atlas-2026-11-17.md",
    "applies": "python -X utf8 -m engine.lit25 --funded \"<Name>\" --start <day> (added DISARMED; you arm it)",
    "added": "2026-11-17",
@@ -54,7 +55,8 @@
    "risk": "ATLAS 25K no payout in 6 months 1.4% -> 0.7%; ATLAS 25K funded account lost 10.2% -> 26.3%; in a 2021-25-like market it costs $26 a month",
    "recommend": "no",
    "recommend_why": "More money, but more risk: ATLAS 25K: the funded account is lost 26 in 100 times instead of 10. Not worth it now.",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data"
   },
   {
    "id": "rapid25-lit-bank",
@@ -67,7 +69,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "no",
    "source": "research/writeups/rapid-launch-2026-11-20.md",
    "applies": "python -X utf8 -m engine.rapid --lit-bank on (built OFF)",
    "added": "2026-11-18",
@@ -80,7 +82,9 @@
    "risk": "At real fills: Rapid 25K eval fails within 60 trading days 0.5% -> 3.1% (Jan-Jun-like) and 2.0% -> 2.7% (Jul-Oct-like); funded Rapid lost in 6 months 27.2% -> 28.7% / 38.0% -> 39.1%; eval passes in about 21-30 trading days instead of 26-33.",
    "recommend": "no",
    "recommend_why": "Not yet: the money is real (+$101 a month Jul-Oct-like) but at real fills the eval fails 6x as often in a Jan-Jun-like market (0.5% -> 3.1%), over the 1-point limit set before the test. A yes is fine if you prefer a faster pass; it stays built OFF.",
-   "valued": "2026-11-20 tools/money/rapid25_launch.py (real fills: ATLAS 10 ticks a side, LIT unchanged; Rapid 25K LIT + ATLAS $250, keep $500, 1,000 paths; $ a month after fees and MFFU's split, before the 30% tax pot; design research/second/rapid25_launch_design.md)"
+   "valued": "2026-11-20 tools/money/rapid25_launch.py (real fills: ATLAS 10 ticks a side, LIT unchanged; Rapid 25K LIT + ATLAS $250, keep $500, 1,000 paths; $ a month after fees and MFFU's split, before the 30% tax pot; design research/second/rapid25_launch_design.md)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "checked": "research/writeups/skeptic-atlas-streak-2026-11-20.md"
   },
   {
    "id": "atlas-on-50k-funded",
@@ -120,7 +124,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "research/writeups/stack-one-account-2026-11-16.md",
    "applies": "Rapid preset already built LIT + ATLAS ($250 on the 25K, $500 on a 50K); a no turns ATLAS off there",
    "added": "2026-11-16",
@@ -133,7 +137,10 @@
    "risk": "At real fills: a funded Rapid lost in 6 months 38.0% with ATLAS vs 14.1% without (Jul-Oct-like; 27.2% vs 5.6% Jan-Jun-like), but without ATLAS half the runs never get paid; no payout in 6 months 15.1% vs 50.0%. A $150 ATLAS lane is safer (28.8% lost) but pays $93-366 a month less. Launch check (same paths): ATLAS alone makes $707 / $141 a month, below both together, so no ATLAS-only option. With both, 12% / 26% of runs lose the first Rapid before any payout (re-buy $97.20).",
    "recommend": "yes",
    "recommend_why": "Keep ATLAS on the Rapid (it is already built that way): even at real fills it adds about $600 a month in a Jul-Oct-like market, and without it the 30% rule skips most of Zlarior's trades and half of the runs see no payout in 6 months.",
-   "valued": "2026-11-20 tools/atlas_risk.py (real fills: ATLAS 10 ticks a side, LIT unchanged; the Rapid 25K as built, keep $500, 1,000 paths; $ a month after fees and MFFU's split, before the 30% tax pot)"
+   "valued": "2026-11-20 tools/atlas_risk.py (real fills: ATLAS 10 ticks a side, LIT unchanged; the Rapid 25K as built, keep $500, 1,000 paths; $ a month after fees and MFFU's split, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "already the built default: the Rapid trades LIT + ATLAS once added",
+   "checked": "research/writeups/skeptic-atlas-streak-2026-11-20.md"
   },
   {
    "id": "keep-1000-rapid",
@@ -146,7 +153,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "no",
    "source": "research/writeups/rapid-levers-2026-11-16.md",
    "applies": "Rapid funded payout rule: the 25K keeps $500 above the buffer today (a yes raises it to $1,000); the 50K preset keeps $1,000 already",
    "added": "2026-11-16",
@@ -159,7 +166,8 @@
    "risk": "Rapid 25K no payout in 6 months 10.4% -> 11.5%; Rapid 25K funded account lost 28.3% -> 19.7%; in a 2021-25-like market it costs $3 a month",
    "recommend": "no",
    "recommend_why": "Keep $500 on the Rapid 25K (as built): payouts come sooner for about the same money. $1,000 is the safer choice (fewer accounts lost), so a yes is fine if you prefer safety. A Rapid 50K keeps $1,000 already.",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data"
   },
   {
    "id": "ask-mffu-parallel",
@@ -172,7 +180,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "research/writeups/mffu-rules-audit-2026-11-17.md",
    "applies": "Claude drafts the message to MFFU support; you send it",
    "added": "2026-11-17",
@@ -186,7 +194,9 @@
    "recommend": "yes",
    "recommend_why": "Free, and it protects every future payout: send the message (Claude drafts it). Buy the fresh 50K only when your budget round allows ($91.80).",
    "unlocks": true,
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "Claude drafts the message; the owner sends it"
   },
   {
    "id": "cloud-alerts",
@@ -199,7 +209,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "tools/pc_silent_check.py, docs/BOTS_BACK.md",
    "usd_month": 0,
    "usd_month_by": {
@@ -210,7 +220,9 @@
    "risk": "None: free GitHub minutes on the backup repo; it only reads the PC's report.",
    "recommend": "yes",
    "recommend_why": "Free, and a silent PC is the biggest threat to the funded accounts (7 days without a trade wipes a funded account's profit).",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "Claude builds a small PC-silent cloud check; the owner enables Actions + one secret"
   },
   {
    "id": "atlas-funded-room-40",
@@ -223,7 +235,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "research/writeups/atlas-health-2026-11-18.md",
    "applies": "ATLAS's funded sizing 60% -> 40% of the room (engine/account_b funded preset; Claude changes it only after your yes, Sim check first)",
    "added": "2026-11-19",
@@ -236,7 +248,9 @@
    "risk": "At real fills the funded 25K is lost in 6 months 14.0% of the time instead of 21.7% (Jul-Oct-like), 11.0% instead of 17.6% (Jan-Jun-like); 2021-25-like 98% either way. Backtest fills: 10.2% -> 5.8%.",
    "recommend": "yes",
    "recommend_why": "At real fills (ATLAS's entries fill about 10 ticks late) 60% of the room is too big for $887: 40% loses the account about a third less often (1 in 7 instead of 1 in 5) for about the same money. It passed the pre-registered bar at 6 and 10 ticks; the cost is a first payout about 3-8 trading days later.",
-   "valued": "2026-11-20 tools/atlas_risk.py (real fills: ATLAS 10 ticks a side; 1,000 week-block paths from today's $887 room, MFFU Builder 25K funded rules; $ a month = payouts to you after MFFU's split, before the 30% tax pot)"
+   "valued": "2026-11-20 tools/atlas_risk.py (real fills: ATLAS 10 ticks a side; 1,000 week-block paths from today's $887 room, MFFU Builder 25K funded rules; $ a month = payouts to you after MFFU's split, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "live after a code review + tests this weekend (Sunday 18:00 ET session)"
   },
   {
    "id": "drop-lucid-account4",
@@ -249,7 +263,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "docs/ACCOUNT_4.md",
    "applies": "Claude swaps the Business page's account #4 line (business/businesscore.js ACCOUNT4 + its Python twin, tests.test_money_door) for the Money plan's next buys; nothing live changes",
    "added": "2026-11-19",
@@ -262,7 +276,8 @@
    "risk": "None: words on a page; no account, order or setting changes.",
    "recommend": "yes",
    "recommend_why": "Yes: it only fixes the page. Your MFFU path already has the better next buys, and a LucidPro account would also need its own rules set up and checked first.",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data"
   },
   {
    "id": "zlarior-atlas-50k",
@@ -275,7 +290,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "later",
    "source": "research/writeups/one-account-combo-final-2026-11-19.md",
    "applies": "the lead builds research/lab/combo_50k.json on Zlarior's 50K: ATLAS added, one position (first in keeps it), ATLAS at 50% of its own size in the eval and 100% once funded; Sim test first; a yes replaces the funded-only card atlas-on-50k-funded",
    "added": "2026-11-19",
@@ -288,7 +303,9 @@
    "risk": "likely, not sure: 1 Jul-Oct-like stretch in 7 gives $0 or less (no ATLAS size or eval guard fixes that), and without ATLAS's 5 best Jul-Oct days the gain is about $0; evals dying in 2 weeks 0.5% -> 4.4% (Jul-Oct), 7% (2021-25-like); 2022-like $141 a month less than Zlarior alone",
    "recommend": "yes",
    "recommend_why": "The pre-registered winner: beats Zlarior alone in Jan-Jun and Jul-Oct by more than the noise, about even in 2021-25, 2-week eval fails under 5%, still ahead with worse fills. Sim first; re-check on Nov-Dec days.",
-   "valued": "2026-11-19 tools/money/combo_account.py final (12 pre-registered rule sets, 2,000 day- and week-block runs x 6 months, MFFU move to live after payout 5; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "valued": "2026-11-19 tools/money/combo_account.py final (12 pre-registered rule sets, 2,000 day- and week-block runs x 6 months, MFFU move to live after payout 5; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "later: turn it on the day the 50K passes (today $1,025 room; adding ATLAS mid-eval raises the early-blow odds)"
   },
   {
    "id": "atlas-funded-keep-trading",
@@ -356,7 +373,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "research/writeups/atlas-edge-2026-11-20.md",
    "applies": "ATLAS's funded sizing: after 2 losing ATLAS trades in a row, 1 micro until a winner (engine/account_b funded preset; Claude builds it only after your yes, Sim check first)",
    "added": "2026-11-20",
@@ -368,7 +385,10 @@
    },
    "risk": "At real fills the funded 25K is lost in 6 months 12.2% of the time instead of 17.6% (Jan-Jun-like) and 10.9% instead of 21.7% (Jul-Oct-like). With room 40% too: 10.1% and 7.7% (room 40% alone: 11.0% and 14.0%). 2021-25-like: 96% either way. Independent check (2026-11-20, research/writeups/skeptic-atlas-streak-2026-11-20.md): the safety holds on 3 path seeds and in every 2021-25 year, but it costs more when market days are shuffled one by one: Jul-Oct-like $372 -> $319 a month (-$53), lost 23.5% -> 18.5%. On top of room 40%: Jul-Oct-like lost 14.0% -> 7.7% for $0, Jan-Jun-like 11.0% -> 10.1% for -$49 a month.",
    "recommend": "yes",
-   "recommend_why": "It is the only one of 15 tested changes that passed, and an independent re-check confirms it makes losing the account less likely in every test. But it is weaker than first said: in a Jan-Jun-like market a plain smaller size (room 40%) is as safe and pays more, so its real value is in a Jul-Oct-like market, where losing trades come in bunches: there, with room 40%, it nearly halves the chance of losing the account (14% -> 8%) at the same money. Say yes if keeping the account matters more to you than about $25-50 a month; tap room 40% first."
+   "recommend_why": "It is the only one of 15 tested changes that passed, and an independent re-check confirms it makes losing the account less likely in every test. But it is weaker than first said: in a Jan-Jun-like market a plain smaller size (room 40%) is as safe and pays more, so its real value is in a Jul-Oct-like market, where losing trades come in bunches: there, with room 40%, it nearly halves the chance of losing the account (14% -> 8%) at the same money. Say yes if keeping the account matters more to you than about $25-50 a month; tap room 40% first.",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "live after a code review + tests this weekend, together with room 40%",
+   "checked": "research/writeups/skeptic-atlas-streak-2026-11-20.md"
   },
   {
    "id": "rapid-atlas-size-10t",
@@ -381,7 +401,7 @@
     "no",
     "later"
    ],
-   "status": "open",
+   "status": "yes",
    "source": "research/writeups/rapid-launch-2026-11-20.md",
    "applies": "engine/rapid.py: ATLAS's Rapid lane sizes on stop + 10 ticks; LIT unchanged (Claude applies the patch only after your yes, Sim check first)",
    "added": "2026-11-20",
@@ -394,7 +414,9 @@
    "risk": "Funded Rapid lost in 6 months 27.2% -> 24.0% (Jan-Jun-like), 38.0% -> 34.5% (Jul-Oct-like); days over MFFU's $500 pause 1.1 per 100 -> 0; eval pass unchanged.",
    "recommend": "yes",
    "recommend_why": "Safer for a small cost: about 3-4 fewer Rapids lost per 100 for $31-141 a month.",
-   "valued": "2026-11-20 ATLAS 10 ticks a side, 1,000 paths (rapid-launch-2026-11-20.md)"
+   "valued": "2026-11-20 ATLAS 10 ticks a side, 1,000 paths (rapid-launch-2026-11-20.md)",
+   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
+   "next": "live after a code review + tests this weekend (Rapid lane only)"
   }
  ]
 }

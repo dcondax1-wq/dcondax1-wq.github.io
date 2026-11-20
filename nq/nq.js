@@ -5,7 +5,7 @@
 // ?demo=1 the example; ?demo=1&silent=4d (or 90m, 5h) the example with a silent PC; ?flat=1 the 2D columns; ?howto=1 opens the sheet.
 import * as C from './nqcore.js?v=d4';   // d1 (polish2 2026-11-19): the CME trading day
 import * as T from '../olympus/truth.js';
-import * as D from './nqdesk.js?v=4';
+import * as D from './nqdesk.js?v=5';
 import { unpack as unpackBars } from './nqbars.js?v=b1';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
 
 const O = window.OLYMPUS || null;
@@ -197,7 +197,7 @@ function closeSheet() {
 }
 
 // ------------------------------------------------------------------------------------------------ nqdash3: accounts, thinking, quality (nqdesk.js)
-// the PC's chart post (nqchart.js keeps it in window.NQCHART.S.post): its open trades with the stop as it is now and the last bar's close
+// the PC's chart post (the live chart module keeps it in window.NQCHART.S.post): its open trades with the stop as it is now and the last bar's close
 function chartOf(post) {
   try {
     if (!post || typeof post !== 'object') return null;
@@ -273,7 +273,7 @@ function tryScene() {
   try { if (M.mount($('scene3d'), S.view.columns)) { S.scene = 'webgl'; $('scene3d').hidden = false; $('fallback').style.visibility = 'hidden'; renderScene(); } } catch (_) { S.scene = '2d'; }
 }
 window.addEventListener('nq3d', tryScene);
-window.addEventListener('nq-bars', () => { if (S.ready) renderDesk(); });   // a new chart post (nqchart.js): the open trade's stop and $ now
+window.addEventListener('nq-bars', () => { if (S.ready) renderDesk(); });   // a new chart post (the live chart module): the open trade's stop and $ now
 
 async function refresh() {
   if (S.forced || document.hidden) return;

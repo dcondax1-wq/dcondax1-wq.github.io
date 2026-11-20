@@ -140,7 +140,7 @@ function slim(j) {                          // what Jarvis needs, also kept for 
   const bz = HIDB() ? null : b.blitz && !b.blitz.error ? b.blitz : j && j.blitz && !j.blitz.error ? j.blitz : null;
   const num = (x) => (x == null || x === '' || !Number.isFinite(+x) ? null : +x);
   const trades = (Array.isArray(b.trades) ? b.trades : []).filter((x) => !(x && x.acct === 'blitz' && HIDB())).slice(-8).map((x) => x && ({ acct: x.acct, side: x.side, qty: x.qty, exit: x.exit, usd: num(x.usd), r: num(x.r),
-    entry_t: x.entry_t, exit_t: x.exit_t, open: !!x.open, day: x.day })).filter(Boolean);
+    entry_t: x.entry_t, exit_t: x.exit_t, open: !!x.open, day: x.day, src: x.src === 'paper' ? 'paper' : undefined, member: typeof x.member === 'string' ? x.member.slice(0, 12) : undefined })).filter(Boolean);
   const health = (b.health && Array.isArray(b.health.items) ? b.health.items : []).slice(0, 8).map((x) => x && ({ key: x.key, label: x.label, value: x.value, ok: x.ok, warn: !!x.warn, detail: x.detail })).filter(Boolean);
   const lines = (Array.isArray(b.lines) ? b.lines : []).slice(0, 4).map((x) => x && ({ level: x.level, text: x.text })).filter((x) => x && x.text);
   // the PC's own health (live.json "pc_health", engine/live_publish.pc_health_summary): CPU / RAM / disk / NinjaTrader lines

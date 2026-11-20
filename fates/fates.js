@@ -394,7 +394,7 @@ function hookTheme() {
 function postCard() {
   try {
     const card = C.jarvisCard(S.data);
-    if (card && !S.demo && window.parent !== window) window.parent.postMessage({ jarvis: 1, href: location.href, card }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io'));
+    if (card && !S.demo && window.parent !== window) window.parent.postMessage({ jarvis: 1, href: location.href, card }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io'));
   } catch (_) { /* outside Jarvis */ }
 }
 

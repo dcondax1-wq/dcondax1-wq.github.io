@@ -100,7 +100,7 @@
 <script type="module">
 // QA round 6: the hero card shows the REAL Zlarior drawdown when the site has home.json (olympus/truth.js, the same number as Home, NQ,
 // Aegis and Helios); without it the example stays, labelled. The rest of the page keeps its example numbers: it shows how each piece looks.
-import * as T from './truth.js?v=r10';
+import * as T from './truth.js?v=r11';
 (async () => {
   let home = null;
   try { const r = await fetch('../home.json', { cache: 'no-cache' }); home = r.ok ? await r.json() : null; } catch (_) { home = null; }

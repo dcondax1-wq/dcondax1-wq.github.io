@@ -241,21 +241,79 @@ export function planWorld(w, opts) {
     stats: { instances: n, data, filler: n - data, places: N } };
 }
 
-/** the sky for the market clock (US Eastern): the NQ cash session 9:30-16:00 on a weekday = golden hour (1), an hour round it = blue
- * hour (0.5), else night (0). sky: 'night' | 'blue' | 'dusk' forces one (the ?sky= query, captures); anything else = the clock. */
+/** the sun's height over New York (degrees) at a moment: the NOAA short formula (about 0.5 degree), no table, no network */
+export function sunElevation(date) {
+  const rad = Math.PI / 180, ms = (date || new Date()).getTime();
+  const n = ms / 86400000 + 2440587.5 - 2451545.0;
+  const L = (280.460 + 0.9856474 * n) % 360, g = ((357.528 + 0.9856003 * n) % 360) * rad;
+  const lam = (L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * rad, eps = (23.439 - 0.0000004 * n) * rad;
+  const dec = Math.asin(Math.sin(eps) * Math.sin(lam)), ra = Math.atan2(Math.cos(eps) * Math.sin(lam), Math.cos(lam));
+  const gmst = ((18.697374558 + 24.06570982441908 * n) % 24 + 24) % 24;
+  const lat = 40.71 * rad, lon = -74.01;
+  const ha = (gmst * 15 + lon) * rad - ra;
+  return Math.asin(Math.sin(lat) * Math.sin(dec) + Math.cos(lat) * Math.cos(dec) * Math.cos(ha)) / rad;
+}
+/** the light of the World (cities3 2026-11-20, owner: "sky from real ET time (day/dusk/night)"): the real sun over New York.
+ * 0 = night, 0.5 = blue hour, 1 = golden hour (sunrise / sunset), 2 = full day; smooth in between.
+ * sky: 'night' | 'blue' | 'dusk' | 'day' forces one (the ?sky= query, captures); anything else = the real clock. */
 export function skyFor(sky, date) {
   if (sky === 'night') return 0;
   if (sky === 'blue') return 0.5;
-  if (sky === 'dusk' || sky === 'day') return 1;
+  if (sky === 'dusk' || sky === 'golden') return 1;
+  if (sky === 'day') return 2;
   try {
-    const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
-    const parts = Object.fromEntries(f.formatToParts(date || new Date()).map((x) => [x.type, x.value]));
-    if (parts.weekday === 'Sat' || parts.weekday === 'Sun') return 0;
-    const m = (+parts.hour % 24) * 60 + +parts.minute;
-    if (m >= 570 && m < 960) return 1;
-    if (m >= 510 && m < 1020) return 0.5;
-    return 0;
+    const e = sunElevation(date);
+    if (!Number.isFinite(e)) return 0;
+    if (e <= -10) return 0;
+    if (e < -4) return 0.5 * (e + 10) / 6;
+    if (e < 0) return 0.5 + 0.5 * (e + 4) / 4;
+    if (e < 6) return 1;
+    if (e < 16) return 1 + (e - 6) / 10;
+    return 2;
   } catch (e) { return 0; }
+}
+/** cities3 2026-11-20 (owner: "districts for NQ / Kalshi / Money with LIVE numbers on billboards from the real JSON feeds"): the three
+ * district LED lines from the PC feed (lite = PC_FEED.fetchLatest: board.lit / board.atlas / accounts, price) and kalshi.json. Text only;
+ * a missing number is left out, never made up. -> { nq, kalshi, money } (upper case is the LED's job). */
+export function billboards(lite, kal, nowS) {
+  const L = lite && typeof lite === 'object' ? lite : {}, b = L.board && typeof L.board === 'object' ? L.board : {};
+  const n = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+  const acc = [];
+  for (const k of ['lit', 'atlas']) {
+    const c = b[k];
+    if (!c || typeof c !== 'object' || c.configured === false || n(c.balance) == null || c.balance < 1000) continue;
+    acc.push({ name: k === 'lit' ? 'Zlarior' : 'ATLAS', bal: c.balance, room: n(c.room), today: n(c.today_pnl), toPass: /funded/i.test(String(c.status || c.stage || '')) ? null : n(c.to_target) });
+  }
+  for (const a of Array.isArray(L.accounts) ? L.accounts : []) {
+    if (!a || typeof a !== 'object' || !['eval', 'funded'].includes(String(a.kind)) || /cloud|blitz|paper/i.test(`${a.id} ${a.name} ${a.badge || ''}`)) continue;
+    const e = a.eval || a.funded || {};
+    if (n(e.balance) == null || acc.some((x) => Math.abs(x.bal - e.balance) < 0.01)) continue;
+    const m = /(\d+)\s*k\b/i.exec(String(a.name || a.plan || ''));
+    acc.push({ name: (m ? m[1] + 'K' : 'acct') + (/#\s*\d/.test(String(a.name)) ? ' ' + /#\s*\d+/.exec(String(a.name))[0].replace(/\s/g, '') : ''),
+      bal: e.balance, room: n(e.room), today: n((a.pnl || {}).today), toPass: a.kind === 'funded' ? null : n(e.to_target) });
+  }
+  const out = { nq: '', kalshi: '', money: '' };
+  const price = n(L.price);
+  out.nq = ['NQ' + (price != null ? ' ' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''),
+    ...acc.map((a) => a.name + ' ' + usd(a.bal) + (a.today ? ' (' + usd(a.today, true) + ')' : ''))].join('  ·  ');
+  const K = kal && typeof kal === 'object' ? kal : null;
+  if (K) {
+    const bal = n(K.balance), td = n(K.today_pnl), tot = n(K.total_pnl);
+    const c2 = (v) => (v < 0 ? '-' : '') + '$' + Math.abs(v).toFixed(2);
+    out.kalshi = ['KALSHI' + (bal != null ? ' ' + (bal < 1000 ? c2(bal) : usd(bal)) : ''), td != null ? 'today ' + usd(td, true) : '', tot != null ? 'all time ' + usd(tot, true) : '',
+      K.running === false ? 'bot paused' : K.running ? 'bot on' : ''].filter(Boolean).join('  ·  ');
+  }
+  if (acc.length) {
+    const day = acc.reduce((s, a) => s + (a.today || 0), 0), pass = acc.filter((a) => a.toPass != null && a.toPass > 0);
+    out.money = ['MONEY  today ' + usd(day, true), 'room ' + acc.map((a) => usd(a.room)).join(' / '), pass.length ? 'to pass ' + pass.map((a) => usd(a.toPass)).join(' / ') : ''].filter(Boolean).join('  ·  ');
+  }
+  return out;
+}
+/** plain words for the sky (the chip under the title) */
+export function skyWords(v, date) {
+  let am = false;
+  try { am = +new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', hour12: false }).format(date || new Date()) % 24 < 12; } catch (e) { am = false; }
+  return v >= 1.6 ? 'Day' : v >= 0.85 ? (am ? 'Sunrise' : 'Sunset') : v >= 0.3 ? (am ? 'Dawn' : 'Dusk') : 'Night';
 }
 
 // ------------------------------------------------------------------------------------------------ the camera

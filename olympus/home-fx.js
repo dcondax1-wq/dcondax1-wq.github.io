@@ -35,6 +35,17 @@
   /* hfx-intro stays on: removing it later restyles the whole page (a 70 ms task on a slow phone); the stagger only targets fixed sections */
   var ST = { frames: 0, draws: 0, still: false, why: '', hero: false, tweens: 0, slow: 0, maxDraw: 0 };
   var now = function () { return W.performance && performance.now ? performance.now() : Date.now(); };
+  /* cities3 2026-11-20 (owner: "intro skippable"): the first tap, key or scroll in the first 1.3 s finishes every intro animation at once
+     (Web Animations finish(): no class change, so no restyle of the page) */
+  if (R.classList.contains('hfx-intro') && d.getAnimations) {
+    var t0i = now(), skipped = false;
+    var skip = function () {
+      if (skipped || now() - t0i > 1300) return; skipped = true;
+      try { d.getAnimations().forEach(function (a) { var n = a.animationName || ''; if (/^hfx-(rise|up|draw|spin)$/.test(n) && a.playState !== 'finished') a.finish(); }); } catch (e) { /* old browser: it ends by itself */ }
+      ST.introSkipped = true;
+    };
+    ['pointerdown', 'keydown', 'wheel', 'touchmove'].forEach(function (ev) { d.addEventListener(ev, skip, { passive: true, once: true, capture: true }); });
+  }
 
   /* ------------------------------------------------------------------ the one loop */
   var raf = 0, heroOn = false, hero = null, tweens = [];
@@ -214,7 +225,7 @@
       }
     }
   }
-  var PRESS = '.g-dr, .dr-door, .g-q, .g-hub, .dr-row, a.g-fact', pressed = null, pressAt = 0;
+  var PRESS = '.g-dr, .dr-door, .g-q, .g-hub, .dr-row, a.g-fact, a.g-acct', pressed = null, pressAt = 0;
   function release() { if (pressed) { var p = pressed; pressed = null; p.classList.remove('hfx-press'); } }
   function sfx(name) { try { var S = W.OLYMPUS_SFX; if (S && S.play && !(W.OLYMPUS_QUIET && W.OLYMPUS_QUIET())) S.play(name); } catch (e) { /* silent */ } }
   d.addEventListener('pointerdown', function (e) {
@@ -253,11 +264,11 @@
     }
     ST.tweens = tweens.length;
   }
-  function countUps(box) {
-    var vs = box.querySelectorAll('.g-fv');
+  function countUps(box, sel) {
+    var vs = box.querySelectorAll(sel || '.g-fv');
     for (var i = 0; i < vs.length; i++) {
       var el = vs[i], txt = (el.textContent || '').trim(), m = MONEY.exec(txt); if (!m) continue;
-      var cell = el.parentNode, lab = cell && cell.querySelector('.g-fl'), sub = cell && cell.querySelector('.g-fsub');
+      var cell = el.parentNode, lab = cell && cell.querySelector('.g-fl, .g-an, .g-mtl'), sub = cell && cell.querySelector('.g-fsub');
       var key = (cell && cell.getAttribute('data-go') || '') + '|' + (lab ? lab.textContent : '') + '|' + (sub ? sub.textContent : '');
       var to = parseFloat(m[2].replace(/,/g, '')) * (m[1] === '-' || m[1] === '−' ? -1 : 1), from = key in seen ? seen[key] : 0;
       seen[key] = to;
@@ -293,6 +304,8 @@
     var go = function () { countUps(box); var c = box.querySelector('[data-win]'); if (c) ring(c); };
     new MutationObserver(go).observe(box, { childList: true });
     if (box.querySelector('.g-fv')) go();
+    var mb = d.getElementById('money');   // cities3: the money row's balances and today's total count up the same way
+    if (mb) { var gm = function () { countUps(mb, '.g-mv, .g-mtv'); }; new MutationObserver(gm).observe(mb, { childList: true }); if (mb.querySelector('.g-acct:not(.g-skel)')) gm(); }
   }
 
   /* ------------------------------------------------------------------ sound: the engine, when the page is idle */

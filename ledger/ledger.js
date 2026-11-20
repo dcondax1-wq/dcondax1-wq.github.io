@@ -441,7 +441,7 @@ function card2() {
 }
 function postCard() {
   if (S.demo || !O || !O.framed || !S.model) return;
-  try { window.parent.postMessage({ jarvis: 1, href: location.href, card: card2() }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io')); } catch (_) { /* not inside Jarvis */ }
+  try { window.parent.postMessage({ jarvis: 1, href: location.href, card: card2() }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io')); } catch (_) { /* not inside Jarvis */ }
 }
 
 // ------------------------------------------------------------------------------------------------ start

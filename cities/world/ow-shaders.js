@@ -14,12 +14,21 @@ uniform float uTime;
 uniform vec3 uMoonDir;
 uniform float uFogDensity;
 uniform float uDusk;
+uniform float uNoon;   // cities3: the real New York daylight on top of uDusk (0 = dusk / night as before .. 1 = full day)
 float hash12(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
 float hash13(vec3 p3) { p3 = fract(p3 * 0.1031); p3 += dot(p3, p3.zyx + 31.32); return fract((p3.x + p3.y) * p3.z); }
-vec3 sunDir() { return normalize(vec3(0.42, 0.075, -1.0)); }
-vec3 lightDir() { return normalize(mix(uMoonDir, sunDir(), uDusk)); }
-vec3 lightCol() { return mix(vec3(0.12, 0.15, 0.26), vec3(1.25, 0.66, 0.34), uDusk); }
+uniform vec3 uSunDir; uniform vec3 uLightDir; uniform vec3 uLightCol;   // cities3: worked out once a frame on the CPU (ow-scene.js setLightK), not per pixel
+vec3 sunDir() { return uSunDir; }
+vec3 lightDir() { return uLightDir; }
+vec3 lightCol() { return uLightCol; }
+vec3 daySky(vec3 d) {
+  float h = d.y;
+  vec3 c = mix(vec3(0.44, 0.52, 0.62), vec3(0.20, 0.38, 0.70), smoothstep(0.0, 0.3, h));
+  c = mix(c, vec3(0.09, 0.22, 0.55), smoothstep(0.3, 0.95, h));
+  return mix(c, vec3(0.20, 0.22, 0.25), 1.0 - smoothstep(-0.3, 0.0, h));     // the sun's glow is drawn once on the dome (SKY_FS), not in every reflection / fog lookup
+}
 vec3 skyCol(vec3 d) {
+  if (uNoon > 0.999) return daySky(d);                 // full day: the night sky is not worked out (uniform branch, the same for every pixel)
   float h = d.y;
   vec3 zen = mix(vec3(0.0030, 0.0055, 0.018), vec3(0.016, 0.042, 0.13), uDusk);
   vec3 mid = mix(vec3(0.010, 0.016, 0.044), vec3(0.07, 0.10, 0.24), uDusk);
@@ -31,16 +40,16 @@ vec3 skyCol(vec3 d) {
   c += vec3(1.0, 0.5, 0.2) * (pow(s, 14.0) * 0.3 + pow(s, 120.0) * 1.0) * uDusk * smoothstep(-0.05, 0.12, 0.35 - h);
   c += vec3(0.05, 0.08, 0.15) * pow(max(dot(d, uMoonDir), 0.0), 20.0) * 0.6 * (1.0 - uDusk);
   c = mix(c, mix(vec3(0.008, 0.009, 0.016), vec3(0.05, 0.05, 0.07), uDusk), 1.0 - smoothstep(-0.3, 0.0, h));
-  return c;
+  return uNoon > 0.001 ? mix(c, daySky(d), uNoon) : c;
 }
 vec3 fogged(vec3 col, vec3 wp) {
   vec3 dv = wp - cameraPosition;
   float d = length(dv);
   float hfade = exp(-max(wp.y, 0.0) * 0.022);
-  float f = 1.0 - exp(-pow(d * uFogDensity * mix(1.0, 0.72, uDusk), 1.35) * (0.35 + 0.9 * hfade));
+  float f = 1.0 - exp(-pow(d * uFogDensity * mix(mix(1.0, 0.72, uDusk), 0.42, uNoon), 1.35) * (0.35 + 0.9 * hfade));
   vec3 dir = dv / max(d, 1e-3);
   vec3 far = skyCol(vec3(dir.x, max(dir.y, 0.0) * 0.4 + 0.015, dir.z));
-  vec3 fc = mix(mix(vec3(0.006, 0.009, 0.020), vec3(0.05, 0.05, 0.085), uDusk), far, smoothstep(0.25, 0.95, f));
+  vec3 fc = mix(mix(mix(vec3(0.006, 0.009, 0.020), vec3(0.05, 0.05, 0.085), uDusk), vec3(0.36, 0.43, 0.52), uNoon), far, smoothstep(0.25, 0.95, f));
   return mix(col, fc, clamp(f, 0.0, 1.0));
 }
 `;
@@ -128,8 +137,9 @@ void main() {
   alb = mix(alb, vec3(0.035, 0.036, 0.042), cap + mast);
   // light: the sky dome, the moon (dusk: a low sun), the city's own orange light from below, a contact shadow at the foot
   float hemi = N.y * 0.5 + 0.5;
-  vec3 skyAmb = mix(vec3(0.09, 0.12, 0.24), vec3(0.22, 0.25, 0.38), uDusk);
-  vec3 grdAmb = mix(vec3(0.07, 0.045, 0.03), vec3(0.22, 0.16, 0.12), uDusk);
+  vec3 skyAmb = mix(mix(vec3(0.09, 0.12, 0.24), vec3(0.22, 0.25, 0.38), uDusk), vec3(0.5, 0.58, 0.72), uNoon);
+  vec3 grdAmb = mix(mix(vec3(0.07, 0.045, 0.03), vec3(0.22, 0.16, 0.12), uDusk), vec3(0.26, 0.23, 0.2), uNoon);
+  alb = mix(alb, alb * vec3(2.3, 2.4, 2.6) + vec3(0.02), uNoon);   // daylight: glass reads blue-grey, stone reads stone
   vec3 L = lightDir();
   float ndl = max(dot(N, L), 0.0);
   vec3 col = alb * (mix(grdAmb, skyAmb, hemi) + lightCol() * ndl * 2.2);
@@ -155,7 +165,7 @@ void main() {
     vec2 lo = smoothstep(vec2(0.13, 0.22) - fw, vec2(0.13, 0.22) + fw, fp);
     vec2 hi = 1.0 - smoothstep(vec2(0.87, 0.86) - fw, vec2(0.87, 0.86) + fw, fp);
     float win = lo.x * lo.y * hi.x * hi.y;
-    float lf = clamp(litF * 0.48, 0.0, 1.0) * mix(1.0, 0.62, uDusk);
+    float lf = clamp(litF * 0.48, 0.0, 1.0) * mix(1.0, 0.62, uDusk) * mix(1.0, 0.45, uNoon);
     if (vault > 0.5) lf = step(vF.y, vTop * litF) * 0.92 + 0.05;                     // an account: lit up to its progress
     // floors are lit in runs (an office floor, a row of flats): the picture is lit floors with a few dark rooms, not noise
     float run = hash12(vec2(floor(id.x / 2.0), id.y) + seed * 41.0);
@@ -178,7 +188,7 @@ void main() {
     float lobby = (1.0 - step(0.5, part)) * (1.0 - smoothstep(FH * 0.8, FH * 1.0, vF.y - vY0)) * step(3.0, vTop) * (1.0 - filler * 0.6);
     float lit = (w * mix(1.0, 1.2, bright) * mix(1.0, 0.85, filler) + lobby * 0.7) * light * (1.0 - ruin) * (1.0 - scaf * 0.6);
     col = mix(col, col * 0.4, win * detail * (1.0 - on));                               // a dark window is darker than the wall
-    col += wc * lit * mix(0.42, 0.4, uDusk);
+    col += wc * lit * mix(0.42, 0.4, uDusk) * mix(1.0, 0.25, uNoon);
     // glass towers: a slim spandrel line between floors catches the sky
     col += env * 0.08 * glass * (1.0 - smoothstep(0.0, 0.08, fp.y)) * detail;
     // scaffolding: an amber frame on what is still being tested
@@ -273,14 +283,14 @@ void main() {
     float dash = step(0.5, fract((xz.x + xz.y) * 0.45));
     float lanes = max(lane.x * ave.x, lane.y * ave.y) * inCity * dash * detail;
     float wet = vnoise(xz * 0.35) * 0.5 + vnoise(xz * 1.3) * 0.5;
-    vec3 asphalt = mix(vec3(0.0045, 0.005, 0.0065), vec3(0.03, 0.03, 0.035), uDusk);
-    vec3 block = mix(vec3(0.010, 0.010, 0.012), vec3(0.06, 0.055, 0.05), uDusk);
+    vec3 asphalt = mix(mix(vec3(0.0045, 0.005, 0.0065), vec3(0.03, 0.03, 0.035), uDusk), vec3(0.11, 0.115, 0.125), uNoon);
+    vec3 block = mix(mix(vec3(0.010, 0.010, 0.012), vec3(0.06, 0.055, 0.05), uDusk), vec3(0.26, 0.25, 0.23), uNoon);
     col = mix(block, asphalt, st);
     col = mix(col, block * 1.8 + vec3(0.004), pave);
     vec3 sodium = uStreet;
     float lampAvg = mix(0.14, 1.0, detail);                // far away: the lamps' average, not a moire
     col += sodium * mix(0.06, lamps * 0.5, detail) * (st + pave * 0.8) * lampAvg * (1.0 - uDusk * 0.7) * mix(1.0, 0.5, smoothstep(60.0, 260.0, cameraPosition.y));
-    col += sodium * lampCore * 2.4 * (1.0 - uDusk * 0.5);
+    col += sodium * lampCore * 2.4 * (1.0 - uDusk * 0.5) * (1.0 - uNoon);
     col += glow * (0.05 + 0.22 * st);
     col += vec3(1.0, 0.82, 0.55) * lanes * 0.12;
     // wet asphalt: the sky and the lamps in it at a grazing angle
@@ -301,7 +311,7 @@ void main() {
     float pl = 1.0 - step(uPlaza - 0.4, r);
     float rays = smoothstep(0.985, 1.0, cos(ang * 16.0)) * smoothstep(7.0, uPlaza, r);
     float rings = smoothstep(0.96, 1.0, cos(r * 1.1));
-    vec3 stone = mix(vec3(0.010, 0.010, 0.012), vec3(0.07, 0.065, 0.06), uDusk) + skyCol(reflect(-V, vec3(0.0, 1.0, 0.0))) * fr * 0.6;
+    vec3 stone = mix(mix(vec3(0.010, 0.010, 0.012), vec3(0.07, 0.065, 0.06), uDusk), vec3(0.32, 0.3, 0.27), uNoon) + skyCol(reflect(-V, vec3(0.0, 1.0, 0.0))) * fr * 0.6;
     col = mix(col, stone + vec3(1.0, 0.78, 0.45) * (rays * 0.16 + rings * 0.05) + glow * 0.1, pl);
     alpha = mix(0.88, 0.95, pl);
     col = mix(vec3(0.004, 0.008, 0.016), col, smoothstep(0.02, 0.6, land));
@@ -313,7 +323,7 @@ void main() {
     float fr = 0.02 + 0.98 * pow(1.0 - max(dot(n, V), 0.0), 5.0);
     vec3 rv = reflect(-V, n);
     float glint = pow(max(dot(rv, lightDir()), 0.0), mix(300.0, 60.0, uDusk));
-    col = mix(vec3(0.002, 0.004, 0.009), vec3(0.02, 0.03, 0.05), uDusk) + skyCol(rv) * fr * mix(0.9, 0.55, uDusk) + lightCol() * glint * mix(4.0, 1.6, uDusk) + glow * 0.04;
+    col = mix(mix(vec3(0.002, 0.004, 0.009), vec3(0.02, 0.03, 0.05), uDusk), vec3(0.03, 0.10, 0.15), uNoon) + skyCol(rv) * fr * mix(mix(0.9, 0.55, uDusk), 0.8, uNoon) + lightCol() * glint * mix(4.0, 1.6, uDusk) + glow * 0.04;
     alpha = 0.62;
     // a satellite town's island: dark blocks, a lit street grid (its average from afar), the town's glow
     float town = 0.0;
@@ -326,7 +336,7 @@ void main() {
     if (town > 0.0) {
       vec2 g = abs(fract(xz / 3.2 + 0.5) - 0.5) * 3.2;
       float stG = (1.0 - smoothstep(0.42, 0.6 + px, min(g.x, g.y)));
-      vec3 tc = mix(vec3(0.008, 0.008, 0.010), vec3(0.06, 0.055, 0.05), uDusk);
+      vec3 tc = mix(mix(vec3(0.008, 0.008, 0.010), vec3(0.06, 0.055, 0.05), uDusk), vec3(0.24, 0.24, 0.22), uNoon);
       tc += uStreet * mix(0.12, stG * 0.3, detail) * (1.0 - uDusk * 0.7) * min(town, 1.6) + glow * 0.05;
       col = mix(col, tc, min(town, 1.0));
       alpha = mix(alpha, 0.92, min(town, 1.0));
@@ -360,8 +370,8 @@ void main() {
     vec2 uv = d.xz / (d.y + 0.06) * 1.6 + vec2(uTime * 0.004, uTime * 0.0015);
     float n = vn(uv) * 0.55 + vn(uv * 2.3 + 7.1) * 0.3 + (uAurora > 0.0 ? vn(uv * 5.1 + 3.3) * 0.15 : 0.075);
     cover = smoothstep(0.5, 0.82, n) * smoothstep(0.02, 0.12, d.y) * (1.0 - smoothstep(0.45, 0.95, d.y) * 0.6);
-    vec3 under = mix(vec3(0.07, 0.035, 0.022), vec3(0.75, 0.38, 0.2), uDusk) * exp(-d.y * 3.0) + mix(vec3(0.012, 0.014, 0.026), vec3(0.2, 0.2, 0.3), uDusk);
-    float rim = pow(max(dot(d, normalize(mix(uMoonDir, sunDir(), uDusk))), 0.0), 6.0);
+    vec3 under = mix(mix(vec3(0.07, 0.035, 0.022), vec3(0.75, 0.38, 0.2), uDusk) * exp(-d.y * 3.0) + mix(vec3(0.012, 0.014, 0.026), vec3(0.2, 0.2, 0.3), uDusk), vec3(0.92, 0.94, 0.98), uNoon);
+    float rim = pow(max(dot(d, uLightDir), 0.0), 6.0);
     col = mix(col, under + lightCol() * rim * 0.25, cover * 0.85);
   }
   // stars (a few, between the clouds) and a faint Milky Way, night only
@@ -370,14 +380,16 @@ void main() {
   float s = hash13(cell);
   float star = step(0.9968, s) * (1.0 - smoothstep(0.08, 0.42, length(fract(sc) - 0.5)));
   float tw = 0.55 + 0.45 * sin(uTime * (1.0 + s * 3.0) + s * 80.0);
-  float night = 1.0 - uDusk;
+  float night = (1.0 - uDusk) * (1.0 - uNoon);
   col += vec3(0.85, 0.9, 1.0) * star * tw * up * (1.0 + 3.0 * step(0.9994, s)) * (1.0 - cover) * night;
   float bq = dot(d, normalize(vec3(0.35, 0.55, -0.75))) * 3.2;
   col += vec3(0.04, 0.04, 0.075) * exp(-bq * bq) * up * (0.5 + 0.5 * hash13(floor(d * 90.0))) * (1.0 - cover) * night;
   // the moon and its halo (night); at dusk the sun's disc sits on the horizon
   float m = dot(d, uMoonDir);
   col += (vec3(0.95, 0.93, 0.85) * smoothstep(0.99955, 0.99975, m) * 3.0 * (1.0 - cover * 0.7) + vec3(0.2, 0.25, 0.4) * pow(max(m, 0.0), 300.0)) * night;
-  col += vec3(4.0, 2.2, 1.0) * smoothstep(0.99968, 0.99985, dot(d, sunDir())) * uDusk;
+  col += mix(vec3(4.0, 2.2, 1.0), vec3(3.0, 2.9, 2.6), uNoon) * smoothstep(0.99968, 0.99985, dot(d, sunDir())) * uDusk;
+  float sd = max(dot(d, sunDir()), 0.0);
+  col += vec3(1.0, 0.92, 0.75) * (pow(sd, 8.0) * 0.25 + pow(sd, 600.0) * 4.0) * uNoon;
   gl_FragColor = vec4(col, 1.0);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -411,7 +423,7 @@ void main() {
   vec2 g = vec2(a * 3.0, y * 260.0);
   float wl = step(0.62, hash12(floor(g) + col0)) * inTown;
   float pt = (1.0 - smoothstep(0.15, 0.45, length(fract(g) - 0.5)));
-  c += mix(vec3(1.0, 0.62, 0.32), vec3(0.7, 0.82, 1.0), step(0.7, hash12(floor(g) * 1.3))) * wl * pt * 1.4 * (1.0 - uDusk * 0.6);
+  c += mix(vec3(1.0, 0.62, 0.32), vec3(0.7, 0.82, 1.0), step(0.7, hash12(floor(g) * 1.3))) * wl * pt * 1.4 * (1.0 - uDusk * 0.6) * (1.0 - uNoon);
   c += vec3(1.0, 0.55, 0.28) * town * 0.05 * (1.0 - y) * (1.0 - uDusk);
   gl_FragColor = vec4(c, 1.0);
   #include <tonemapping_fragment>
@@ -437,10 +449,11 @@ void main() {
 }
 `;
 export const HALO_FS = /* glsl */`
+uniform float uNoon;
 varying vec2 vUv; varying vec3 vC;
 void main() {
   float d = length(vUv);
-  float a = exp(-d * d * 5.0) * (1.0 - smoothstep(0.8, 1.0, d));
+  float a = exp(-d * d * 5.0) * (1.0 - smoothstep(0.8, 1.0, d)) * (1.0 - 0.75 * uNoon);
   gl_FragColor = vec4(vC * a, 1.0);
 }
 `;
@@ -473,8 +486,9 @@ void main() {
 }
 `;
 export const TRAFFIC_FS = /* glsl */`
+uniform float uNoon;
 varying vec3 vC; varying vec2 vUv;
-void main() { float t = clamp(vUv.y + 0.5, 0.0, 1.0); float a = exp(-vUv.x * vUv.x * 14.0) * pow(t, 2.2) * (1.0 - smoothstep(0.92, 1.0, t) * 0.4); gl_FragColor = vec4(vC * a * 2.2, 1.0); }
+void main() { float t = clamp(vUv.y + 0.5, 0.0, 1.0); float a = exp(-vUv.x * vUv.x * 14.0) * pow(t, 2.2) * (1.0 - smoothstep(0.92, 1.0, t) * 0.4) * (1.0 - 0.6 * uNoon); gl_FragColor = vec4(vC * a * 2.2, 1.0); }
 `;
 
 // ------------------------------------------------------------------------------------------------ searchlight beams
@@ -496,8 +510,9 @@ void main() {
 }
 `;
 export const BEAM_FS = /* glsl */`
+uniform float uNoon;
 varying float vY; varying vec3 vC; varying float vEdge;
-void main() { float a = pow(clamp(1.0 - vY, 0.0, 1.0), 1.6) * smoothstep(0.0, 0.8, vEdge) * 0.075; gl_FragColor = vec4(vC * a, 1.0); }
+void main() { float a = pow(clamp(1.0 - vY, 0.0, 1.0), 1.6) * smoothstep(0.0, 0.8, vEdge) * 0.05 * (1.0 - uNoon); gl_FragColor = vec4(vC * a, 1.0); }
 `;
 
 // ------------------------------------------------------------------------------------------------ rings: crowns, progress arcs, shock waves
@@ -518,6 +533,7 @@ void main() {
 }
 `;
 export const RING_FS = /* glsl */`
+uniform float uNoon;
 varying vec2 vP; varying vec4 vArc; varying vec4 vC; varying float vSel;
 void main() {
   float a = atan(vP.y, vP.x) / 6.2831853 + 0.5;
@@ -526,7 +542,7 @@ void main() {
   float ticks = step(0.75, fract(a * 72.0));
   float band = smoothstep(1.0 - vArc.z, 1.0 - vArc.z * 0.6, r) * (1.0 - smoothstep(0.985, 1.0, r));
   float k = band * (arc * 1.0 + (1.0 - arc) * 0.18 + ticks * 0.15);
-  gl_FragColor = vec4(vC.rgb * vC.a * k * 0.55, 1.0);
+  gl_FragColor = vec4(vC.rgb * vC.a * k * 0.55 * (1.0 - 0.6 * uNoon), 1.0);
 }
 `;
 
@@ -591,12 +607,12 @@ void main() {
 }
 `;
 export const BAND_FS = COMMON + /* glsl */`
-uniform sampler2D uText; uniform float uRows;
+uniform sampler2D uText; uniform float uRows; uniform float uTexW;
 varying vec2 vUv; varying vec4 vB2; varying vec3 vC; varying vec3 vW; varying float vG;
 void main() {
   if (vG < 0.02) discard;
   float u = fract(vUv.x * vB2.z + uTime * vB2.w);                              // reads left to right from outside, scrolls right to left
-  vec2 cells = vec2(2048.0 * 0.25, 128.0 * 0.25);                              // one LED per 4 x 4 canvas pixels
+  vec2 cells = vec2(uTexW * 0.25, 128.0 * 0.25);                              // one LED per 4 x 4 canvas pixels
   vec2 q = vec2(u, vUv.y) * cells;
   vec2 fw = fwidth(q);
   float detail = 1.0 - smoothstep(0.35, 0.9, max(fw.x, fw.y));

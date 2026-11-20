@@ -62,15 +62,55 @@
     return out;
   }
 
-  function parseLatest(text) {
+  // INTEGRITY (day-security 2026-11-20): anyone can post to the public topic. A post dated more than SKEW_S in the future is never
+  // believed (one forged post with t = 2099 used to win for 12 h on every page). Once status_feed.json has "vk" (the PC's public
+  // ECDSA P-256 verify key, tools/status_sign.py), fetchLatest keeps only posts whose ,"sg":"..."} signs the exact text before it.
+  const SKEW_S = 600, SIG_FIELD = ',"sg":"', SIG_RX = /^[A-Za-z0-9_-]{86}$/, VK_RX = /^[A-Za-z0-9_-]{87}$/;
+  const tooNew = (j, m, now) => [j.t, j.rt, isObj(j.reporter) ? j.reporter.t : 0, isObj(j.brd) ? j.brd.t : 0, isObj(m) ? m.time : 0]
+    .some((x) => okN(+x) && +x > now + SKEW_S);
+  function splitSig(text) {
+    const t = String(text || '');
+    if (!t.endsWith('"}')) return null;
+    const i = t.lastIndexOf(SIG_FIELD);
+    if (i <= 0) return null;
+    const sig = t.slice(i + SIG_FIELD.length, -2);
+    return SIG_RX.test(sig) ? { orig: t.slice(0, i) + '}', sig } : null;
+  }
+  const unb64u = (s) => { const b = atob(String(s).replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((String(s).length + 3) % 4)); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
+  const subtle = () => (typeof crypto !== 'undefined' && crypto.subtle) || null;
+  const KEYS = new Map();
+  async function verifyText(text, vk) {
+    try {
+      const S = subtle(), sp = splitSig(text);
+      if (!S || !sp || !VK_RX.test(String(vk || ''))) return false;
+      if (!KEYS.has(vk)) KEYS.set(vk, S.importKey('raw', unb64u(vk), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']));
+      const key = await KEYS.get(vk);
+      const data = new TextEncoder().encode('le-status-v1\n' + sp.orig);
+      return await S.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, unb64u(sp.sig), data);
+    } catch (e) { return false; }
+  }
+  /** the ndjson lines of an ntfy poll whose message is signed by vk (every other line dropped) */
+  async function keepSigned(text, vk) {
+    const out = [];
+    for (const line of String(text || '').split('\n')) {
+      if (!line.trim()) continue;
+      let m;
+      try { m = JSON.parse(line); } catch (e) { continue; }
+      if (isObj(m) && typeof m.message === 'string' && await verifyText(m.message, vk)) out.push(line);
+    }
+    return out.join('\n');
+  }
+
+  function parseLatest(text, nowS) {
     let best = null, bestT = -1;
-    const exts = [];
+    const exts = [], now = okN(+nowS) ? +nowS : Date.now() / 1000;
     for (const line of String(text || '').split('\n')) {
       if (!line.trim()) continue;
       let m, j;
       try { m = JSON.parse(line); } catch (e) { continue; }
       if (!isObj(m) || (m.event && m.event !== 'message') || typeof m.message !== 'string') continue;
       try { j = JSON.parse(m.message); } catch (e) { continue; }
+      if (isObj(j) && tooNew(j, m, now)) continue;
       if (isObj(j) && j.kind === EXT_KIND) { if (!j.rt && okN(+m.time)) j.rt = +m.time; exts.push(j); continue; }
       if (!isObj(j) || j.kind !== 'le-live' || !okN(+j.t) || +j.t <= 0) continue;
       const rt = +((isObj(j.reporter) && j.reporter.t) || m.time || j.t);
@@ -114,7 +154,7 @@
     }
     for (const u of feedUrls(feed)) {
       try {
-        const j = await shared('poll ' + u, async () => { const r = await f(u, { cache: 'no-store' }); return r && r.ok ? parseLatest(await r.text()) : null; });
+        const j = await shared('poll ' + u, async () => { const r = await f(u, { cache: 'no-store' }); if (!r || !r.ok) return null; const t = await r.text(); return parseLatest(feed.vk ? await keepSigned(t, feed.vk) : t); });
         if (j) return SHARED ? copy(j) : j;
       } catch (e) { /* next */ }
     }
@@ -424,7 +464,7 @@
   }
 
   const API = { FRESH_S, EXT_KIND, EXT_MAX_S, parseLatest, merge, feedUrls, fetchLatest, mergeBoard, boardOver, weekOf, cmeDay, toLive, overlayHome,
-    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver };
+    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, splitSig, SKEW_S };
   root.PC_FEED = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof window !== 'undefined' ? window : globalThis);

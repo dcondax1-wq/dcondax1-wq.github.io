@@ -306,7 +306,7 @@ function loop(now) {
 
 async function main() {
   addEventListener('error', (e) => S.errors.push(String(e.message || e)));
-  S.lib = await loadLibrary('library.json?v=a4');
+  S.lib = await loadLibrary('library.json?v=a6');
   S.ix = indexOf(S.lib); S.byId = Object.fromEntries(S.lib.entries.map((e) => [e.id, e]));
   $('demo').hidden = S.lib.src === 'file';
   $('sub').textContent = `${S.lib.entries.length} short notes on your strategy and rules. Tap a shelf to read, or take the quiz.`;
@@ -324,7 +324,7 @@ async function main() {
       const r = S.hall.canvas.getBoundingClientRect(); return { x: r.left + (v.x + 1) / 2 * r.width, y: r.top + (1 - v.y) / 2 * r.height, front: v.z < 1 && v.z > -1 }; },
     errors: S.errors };
   if (window.parent !== window) fetch('jarvis.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((card) => {
-    if (card) window.parent.postMessage({ jarvis: 1, href: location.href, card: { ...card, t: Math.floor(Date.now() / 1000) } }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io'));
+    if (card) window.parent.postMessage({ jarvis: 1, href: location.href, card: { ...card, t: Math.floor(Date.now() / 1000) } }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io'));
   }).catch(() => {});
 }
 main().catch((e) => { S.errors.push(String(e)); O?.fail?.('Athena could not start'); });

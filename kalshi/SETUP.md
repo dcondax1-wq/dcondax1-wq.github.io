@@ -29,7 +29,7 @@ else is written anywhere.
 ## 1. Get the script and check it
 ```
 mkdir -p ~/kalshi_jarvis && cd ~/kalshi_jarvis
-curl -fsSL https://demetrades2000-coder.github.io/nq-dashboard/kalshi/kalshi_status_vm.py -o ~/kalshi_jarvis/kalshi_status_vm.py
+curl -fsSL https://dcondax1-wq.github.io/kalshi/kalshi_status_vm.py -o ~/kalshi_jarvis/kalshi_status_vm.py
 python3 --version && git --version && sha256sum kalshi_status_vm.py
 ```
 **If the owner's message includes `sha256 <hex>`, check it and stop on a mismatch.** Put his hex in place of `<hex>`

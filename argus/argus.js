@@ -357,7 +357,7 @@ function postCard() {
   if (!S.R || window.parent === window) return;
   const card = cardOf(S.R, nowS());
   S.card = card;
-  try { window.parent.postMessage({ jarvis: 1, href: location.href, card }, (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io')); } catch (_) { /* no parent */ }
+  try { window.parent.postMessage({ jarvis: 1, href: location.href, card }, (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io')); } catch (_) { /* no parent */ }
 }
 
 async function main() {

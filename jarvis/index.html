@@ -120,12 +120,16 @@ window.addEventListener('error', function (e) {
 <script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
-<script src="../pc_feed.js?v=n4" id="pcFeedJs" async></script>
+<script src="../pc_feed.js?v=n5" id="pcFeedJs" async></script>
 <script src="../olympus/themes.js?v=o9" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <style>.booted #bootfx{display:none}
 /* the start note works without jarvis.css (the stylesheet may be what did not arrive) */
 [hidden]{display:none!important}
+/* the business chips (day-jarvis 2026-11-20): one scrolling row of the owner's daily questions, in the HTML so they are there at first paint */
+.bizchips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 10px}
+.bchip{min-width:0;min-height:44px;padding:6px 8px;border-radius:12px;border:1px solid var(--oly-th-gold,rgba(200,162,74,.55));background:rgba(20,16,10,.55);color:var(--oly-th-n10,#f3ece0);font:600 15px/1.1 var(--fb,system-ui,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;touch-action:manipulation}
+.bchip:active{transform:scale(.97);background:rgba(200,162,74,.22)}
 .boot{position:fixed;left:16px;right:16px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:95;padding:12px 14px;border-radius:14px;background:rgba(29,25,20,.96);border:1px solid rgba(200,162,74,.5);color:#f3ece0;font:15px/1.35 -apple-system,system-ui,sans-serif;display:flex;gap:10px;align-items:center;justify-content:space-between}
 .boot small{display:block;margin-top:4px;color:#9a8f7d;font-size:12px;word-break:break-word}
 .boot .boot-b{display:flex;gap:8px;flex:none}
@@ -1109,6 +1113,7 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
         <button class="pillb" id="vset" type="button" title="Voice settings">Voice ⚙</button>
       </div>
       <p class="hint2">Tap to talk · hold for voice mode</p>
+      <div class="bizchips" id="bizchips" role="group" aria-label="Ask about the business"><button class="bchip" type="button" data-say="How are my accounts?">Accounts</button><button class="bchip" type="button" data-say="Is ATLAS in a trade?">In a trade?</button><button class="bchip" type="button" data-say="How much room does Zlarior have?">Room left</button><button class="bchip" type="button" data-say="When is my first payout?">Payout</button><button class="bchip" type="button" data-say="What did the bots do today?">Today</button><button class="bchip" type="button" data-say="What did the bots do this week?">This week</button><button class="bchip" type="button" data-say="What&#39;s on the news today?">News</button><button class="bchip" type="button" data-say="What should I do today?">To-do</button><button class="bchip" type="button" data-say="How&#39;s Kalshi?">Kalshi</button></div>
       <div class="sugs" id="sugs"></div>
       <div class="talk" id="talk" aria-live="polite"></div>
       <div id="brainp"></div>
@@ -1364,6 +1369,23 @@ const rawSet = (k, v) => { try { if (v == null) localStorage.removeItem(k); else
 const visible = () => document.visibilityState === 'visible';
 const FIRST_RUN = raw('jarvis.seen') == null;                  // the very first open on this phone (before the what's-new toast marks it): the tour is offered once
 const safe = (f, d = null) => { try { return f(); } catch (_) { return d; } };
+// day-jarvis 2026-11-20 (speed): on a phone the 3D core is built in a quiet moment (2.5 s without a touch, then an idle slice), so the
+// first taps (the business chips, the mic) never wait behind its shader compile; a computer builds it at once, as before
+const QUIET_MS = 2500;
+let lastInput = Date.now();
+for (const ev of ['pointerdown', 'keydown', 'wheel', 'touchmove']) window.addEventListener(ev, () => { lastInput = Date.now(); }, { passive: true, capture: true });
+const COARSE = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);      // read once: matchMedia in a busy moment forces a style pass
+const phoneNow = () => COARSE && Math.min(innerWidth, innerHeight) < 600;
+function whenQuiet(fn) {
+  const go = () => {
+    const w = Math.max(QUIET_MS - (Date.now() - lastInput), 6000 - performance.now());   // a phone: never in the first 6 s (the first taps)
+    if (phoneNow() && w > 0) { setTimeout(go, w + 50); return; }
+    const run = () => { if (phoneNow() && Date.now() - lastInput < QUIET_MS) go(); else fn(); };   // a tap meanwhile: wait again
+    if (window.requestIdleCallback) requestIdleCallback(run, { timeout: 2000 }); else setTimeout(run, 60);
+  };
+  go();
+}
+
 
 // ------------------------------------------------------------------ settings kept on this phone
 let vo = null;                                               // her voice out (voice-out.js): the switch, the iPhone's unlock, speaking
@@ -1415,6 +1437,8 @@ ready.vault = Promise.all([load('obsidian', './obsidian.js', (m) => typeof m.cre
   .then(([ob, me]) => { if (ob && me) { vault = ob.createVault(); brainDeps.memory = window.__jarvisMemory = me.createMemory({ vault,
     addTodos: (list) => { let n = 0; for (const t of list || []) if (assistant && assistant.addTodo) { assistant.addTodo(t); n++; } return n; },       // "pull my tasks from Obsidian" (memory.js; asks first)
     todos: () => (assistant ? assistant.todos() : []) }); } return vault; }).catch(() => null);
+// the business answers (biz.js, day-jarvis 2026-11-20): accounts, trades, room, payout, news, to-do, Kalshi from the real feeds, before the brain
+ready.biz = load('biz', './biz.js?v=b1', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
 ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianSheet === 'function').then((m) => { assist = m; return m; });
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
@@ -1964,7 +1988,7 @@ function mountCore3d() {
 // the 3D core loads once the boot screen is gone (its first frames would hold up the boot log)
 let bootEnd = null;
 const bootDone = new Promise((ok) => { bootEnd = ok; });
-ready.core.then((m) => { if (m) bootDone.then(mountCore3d); });
+ready.core.then((m) => { if (m) bootDone.then(() => (phoneNow() ? whenQuiet(mountCore3d) : mountCore3d())); });
 bootDone.then(() => setTimeout(voiceMod, 1500));
 let coreRT = 0;
 window.addEventListener('resize', () => { clearTimeout(coreRT); coreRT = setTimeout(() => { const w = Math.round($('#stage').getBoundingClientRect().width); if (core && w && Math.abs(w - coreSize) > 8) mountCore3d(); }, 300); }, { passive: true });
@@ -2090,7 +2114,7 @@ const regApp = (id) => D.listApps().find((x) => x.id === id) || null;
 const notOnSite = (a) => !!(a && a.id && mods.apps && ((typeof mods.apps.missing === 'function' && safe(() => { const r = regApp(a.id); return !!r && mods.apps.missing(r); }, false))
   || (a.builtin && absentNow(a.id) && !safe(() => mods.apps.cachedStatus(a), null))));
 let cardsT = 0;
-const cardsSoon = () => { clearTimeout(cardsT); cardsT = setTimeout(() => { if (active === 'home') safe(renderCards); }, 60); };
+const cardsSoon = () => { clearTimeout(cardsT); cardsT = setTimeout(() => { if (active === 'home') safe(renderCards); }, 350); };   // the status cards arrive in batches: one redraw per batch
 function renderCards() {
   safe(renderGrid);
   const list = D.listApps().filter((a) => !(a.builtin && a.live)), A = mods.apps;
@@ -2125,6 +2149,7 @@ function refreshStatusCards() {
   statusAt = Date.now();
   const arch = safe(() => { const m = JSON.parse(localStorage.getItem(ARCH_KEY) || '{}'); return m && typeof m === 'object' && !Array.isArray(m) ? m : {}; }, {}) || {};
   let archNew = false;
+  const todo = [];
   for (const a of D.listApps()) {
     if (!a.url || !a.statusUrl) continue;                       // Zenith, the Planner, Kalshi: the shell's own cards
     if (a.builtin && absentNow(a.id)) continue;                 // its folder is not on this site (remembered for a day): not asked again
@@ -2132,13 +2157,20 @@ function refreshStatusCards() {
       if (statusAt - (+arch[a.id] || 0) < ABSENT_MS) continue;
       arch[a.id] = statusAt; archNew = true;
     }
+    todo.push(a);
+  }
+  // day-jarvis 2026-11-20 (speed): 6 apps per idle slice, not all ~40 at once (each answer is checked and kept by apps.js: together they
+  // were ~0.5 s of main thread right after the start, on a phone-speed CPU)
+  const one = (a) => {
     const p = safe(() => A.appStatus(a));
     if (p && typeof p.then === 'function') p.then((card) => {
       if (card) statusCards[a.id] = card;
       if (a.builtin) markAbsent(a.id, !card && typeof A.statusError === 'function' && safe(() => A.statusError(a), '') === 'http 404');
       cardsSoon();
     }).catch(() => null);
-  }
+  };
+  const slice = () => { for (const a of todo.splice(0, 6)) one(a); if (todo.length) { if (window.requestIdleCallback) requestIdleCallback(slice, { timeout: 1500 }); else setTimeout(slice, 120); } };
+  slice();
   if (archNew) safe(() => localStorage.setItem(ARCH_KEY, JSON.stringify(arch)));   // private mode: asked again next time
 }
 document.addEventListener('submit', (e) => {
@@ -2513,7 +2545,12 @@ function renderSugs() {
   if (!Array.isArray(s) || !s.length) s = builtinBrain.suggestions();
   $('#sugs').innerHTML = s.slice(0, 5).map((x) => `<button class="sug" type="button" data-say="${esc(x)}">${esc(x)}</button>`).join('');
 }
+const bizDeps = { facts: D.getFacts, refreshLive: D.refreshLive, refreshKalshi: D.refreshKalshi, kalshiView: D.kalshiView };
 async function think(text, voice) {                    // the brain's answer; any error or a 25 s silence = the built-in answer
+  try {                                                // the business questions first (biz.js): the real feeds, $ first, source + age
+    const bm = mods.biz || (await within(ready.biz, 2500));
+    if (bm && bm.match(text)) { const r = await within(bm.ask(text, bizDeps), 15e3); if (r && typeof r.text === 'string' && r.text) return r; }
+  } catch (_) { /* the brain answers */ }
   try {
     const r = await within(Promise.resolve().then(() => brain.ask(text, { voice: !!voice })), 25e3);
     if (r && typeof r.text === 'string' && r.text) return r;
@@ -2598,7 +2635,9 @@ async function answer(t, voice) {
   setState('thinking'); sfx('tap');
   // nothing loaded yet for what is asked: fetch it first (an answer from data that is still loading would be wrong)
   const F = safe(() => D.getFacts(), {}) || {};
-  if (/\bkalshi\b/i.test(t) && !F.kalshi) await D.refreshKalshi();
+  const bizQ = !!(mods.biz && safe(() => mods.biz.match(t), null));   // biz.js fetches what it needs itself (and says how old it is)
+  if (bizQ) { /* straight to the answer: no pause, no double fetch */ }
+  else if (/\bkalshi\b/i.test(t) && !F.kalshi) await D.refreshKalshi();
   else if (/\b(bot|bots|room|target|p&l|pnl|profit|status|zlarior|atlas|blitz|armed|recap|game ?plan|traded)\b/i.test(t) && !(F.live && !F.live.cached)) await within(D.refreshLive(), 9000);
   else if (/\b(bitcoin|btc|ethereum|eth|solana|crypto)\b/i.test(t) && !(F.extras && F.extras.crypto)) await within(D.refreshCrypto(), 6000);
   else await new Promise((ok) => setTimeout(ok, 220));
@@ -3236,7 +3275,9 @@ const fx = (() => {
   }
   // perf v2 (2026-11-14): the 3D backdrop hides this canvas (html[data-bg3d=on]); it then draws nothing and gives its backing store back
   // (3840 x 2160 on a 4K screen: 33 MB redrawn 30 times a second behind the 3D sky). The loop comes back when the 3D backdrop goes (lost / off).
-  const behind3d = () => root.dataset.bg3d === 'on' || !starC.getClientRects().length;
+  // the layout read at most once a second (day-jarvis 2026-11-20: every frame it forced a layout, ~0.3 s in the first seconds on a phone)
+  let b3At = -1e9, b3Off = false;
+  const behind3d = () => { if (root.dataset.bg3d === 'on') return true; const n = performance.now(); if (n - b3At > 1000) { b3At = n; b3Off = !starC.getClientRects().length; } return b3Off; };
   function frame(t) {
     raf = 0;
     if (active !== 'home' || !visible() || level() === 'off' || behind3d()) return;
@@ -3662,12 +3703,12 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <!-- the home backdrop and the portal jump on the OLYMPUS render core (docs/OLYMPUS_RENDER.md): each self-contained, each optional -->
-<script type="module" src="./backdrop.js?v=b5"></script>
+<script type="module" src="./backdrop.js?v=b6"></script>
 <script type="module" src="./portal.js?v=p2"></script>
 <script src="./welcome.js?v=w1" defer></script>
 <script type="module" src="./transitions.js?v=t7"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
-<script src="../olympus/zeus_core.js?v=4" defer></script>
+<script src="../olympus/zeus_core.js?v=5" defer></script>
 <script src="../olympus/doors.js?v=d8" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>

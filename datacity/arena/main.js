@@ -6,7 +6,7 @@ import { openLedger } from './ledger.js';
 import * as HUD from './hud.js';
 
 const O = window.OLYMPUS || null;
-const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
+const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
 const REFRESH_MS = 60000;
 // the demo's phone: what a linked Planner, vault and Kalshi feed would show on Friday 2026-10-30 at 17:00 ET
 const DEMO_FACTS = { planner: true, habits: true, vault: true, kalshi: true, tasksToday: 4, doneToday: 3, habitToday: true, noteToday: false,

@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../pc_feed.js?v=n4"></script><script src="../business/payoutcoach.js?v=1"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
+<script src="../pc_feed.js?v=n5"></script><script src="../business/payoutcoach.js?v=1"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
 <script src="../olympus/olympus.js?v=o15" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
 <script src="../olympus/a11y.js" defer></script>
@@ -33,7 +33,7 @@
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="nq.css?v=a4q">
 <link rel="stylesheet" href="../nqdeep.css?v=1">
-<link rel="stylesheet" href="nqdesk.css?v=4">
+<link rel="stylesheet" href="nqdesk.css?v=5">
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
@@ -52,7 +52,24 @@
     <button type="button" class="btn primary" id="bannerBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
   </section>
 
-  <!-- nqdash3 2026-11-20 (nqdesk.js): every MFFU account at a glance, a live / stale dot from the PC's 15-minute report -->
+  <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars with every entry, stop and target; its own module -->
+  <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
+    <div class="row"><h2 id="chartH">Live chart</h2><span class="pill" id="chartPill">Loading</span></div>
+    <p class="note" id="chartAsOf" hidden></p>
+    <div class="chartbox" id="chartBox" role="img" aria-label="The NQ chart with our trades">
+      <div class="chart" id="chart"></div>
+      <p class="chartmsg" id="chartMsg">Loading the PC's chart...</p>
+    </div>
+    <div class="chips" id="chartChips" role="group" aria-label="Show the trades of"></div>
+    <div class="row chartfoot"><p class="note ckey" id="chartKey" hidden>Arrow = entry (its colour = the account's dot) · round dot = exit + $ · red line stop, green target, dashed entry</p>
+      <button type="button" class="btn" id="chartWhole" hidden>Whole day</button></div>
+    <h3 class="cth" id="chartTradesH" hidden>Today's trades on the chart</h3>
+    <ol class="ctrades" id="chartTrades"></ol>
+    <p class="note">The bars come from your PC's NinjaTrader about every hour while the bots trade (01:50-16:10 ET) and right after each entry or exit; it never shows made-up prices. Tap a trade to see it on the chart.</p>
+    <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
+  </section>
+
+    <!-- nqdash3 2026-11-20 (nqdesk.js): every MFFU account at a glance, a live / stale dot from the PC's 15-minute report -->
   <section class="ag-card card" id="acctCard" aria-labelledby="acctH">
     <div class="row"><h2 id="acctH">Accounts</h2><span class="pill" id="acctPill">Loading</span></div>
     <div class="dk-strip" id="acctStrip" role="list" aria-label="Each MFFU account"></div>
@@ -71,23 +88,6 @@
     <h2 id="dayH">The bots' day</h2>
     <div id="dayLine"></div>
     <a class="dk-more" href="../kairos/">The full day ring (Kairos)</a>
-  </section>
-
-  <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars with every entry, stop and target; its own module -->
-  <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
-    <div class="row"><h2 id="chartH">Live chart</h2><span class="pill" id="chartPill">Loading</span></div>
-    <p class="note" id="chartAsOf" hidden></p>
-    <div class="chartbox" id="chartBox" role="img" aria-label="The NQ chart with our trades">
-      <div class="chart" id="chart"></div>
-      <p class="chartmsg" id="chartMsg">Loading the PC's chart...</p>
-    </div>
-    <div class="chips" id="chartChips" role="group" aria-label="Show the trades of"></div>
-    <div class="row chartfoot"><p class="note ckey" id="chartKey" hidden>Arrow = entry (its colour = the account's dot) · round dot = exit + $ · red line stop, green target, dashed entry</p>
-      <button type="button" class="btn" id="chartWhole" hidden>Whole day</button></div>
-    <h3 class="cth" id="chartTradesH" hidden>Today's trades on the chart</h3>
-    <ol class="ctrades" id="chartTrades"></ol>
-    <p class="note">The bars come from your PC's NinjaTrader about every hour while the bots trade (01:50-16:10 ET) and right after each entry or exit; it never shows made-up prices. Tap a trade to see it on the chart.</p>
-    <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
   </section>
 
   <section class="ag-card card" id="sceneCard" aria-labelledby="sceneH">
@@ -164,7 +164,7 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r16"></script>
+<script type="module" src="nq.js?v=r18"></script>
 <script type="module" src="nqchart.js?v=c2"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l1" data-src="nqscene.js?v=q6c" data-skip="lite" data-event="nq3d" defer></script>

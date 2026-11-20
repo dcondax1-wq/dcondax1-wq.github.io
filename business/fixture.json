@@ -47,25 +47,25 @@
    }
   ],
   "account4": {
-   "name": "LucidPro 50K (copies Zlarior)",
+   "name": "Rapid EOD 50K",
+   "now": "Rapid EOD 25K",
+   "then": "a fresh Builder 50K",
    "price": [
-    120,
-    135
+    165,
+    165
    ],
-   "adds_month": 810.0,
-   "sale": [
-    "2026-11-19",
-    "2026-12-01"
-   ],
-   "doc": "docs/ACCOUNT_4.md",
+   "code": "CLUB",
+   "adds_month": 1969.0,
+   "sale": null,
+   "doc": "business/fleet_plan.json",
    "buy_on": "2026-12-24",
    "in_sale": false,
    "after": "Zlarior (LIT)",
-   "text": "Account #4: buy the LucidPro 50K (copies Zlarior) about 2026-12-24, the day Zlarior (LIT)'s first payout is in your bank ($120-135 with a code; adds about $810 a month, estimate)."
+   "text": "Next buys (MFFU only): the Rapid EOD 25K now (added today), then the Rapid EOD 50K about 2026-12-24, the day Zlarior (LIT)'s first payout is in your bank ($165 with code CLUB; adds about $1,969 a month, estimate), then a fresh Builder 50K."
   },
   "first_payout_to_you": 1800.0,
   "funded_month": 884.0,
-  "funded_month_with_4": 1694.0,
+  "funded_month_with_4": 2853.0,
   "first": {
    "name": "Zlarior (LIT)",
    "bank": "2026-12-24",
@@ -97,12 +97,20 @@
   "monthly": 0,
   "next_buys": [
    {
-    "what": "LucidPro 50K (account #4, copies Zlarior)",
+    "what": "MFFU Rapid EOD 25K (added today)",
     "usd": [
-     120,
-     135
+     97.2,
+     97.2
     ],
-    "when": "the day the first MFFU payout is in your bank (docs/ACCOUNT_4.md)"
+    "when": "now (code CLUB, your price)"
+   },
+   {
+    "what": "MFFU Rapid EOD 50K, then a fresh Builder 50K",
+    "usd": [
+     165,
+     165
+    ],
+    "when": "from the first payout in your bank, about Jan 5 (business/fleet_plan.json; code CLUB)"
    },
    {
     "what": "A new MFFU eval after a failed one",
@@ -536,7 +544,7 @@
   },
   {
    "id": "m-account4",
-   "what": "Account #4: not yet. Buy the LucidPro 50K about 2026-12-24 (money in the bank first).",
+   "what": "Next buy after the Rapid EOD 25K: the Rapid EOD 50K about 2026-12-24 (money in the bank first; MFFU only).",
    "minutes": 0,
    "usd": [
     0,
@@ -1003,16 +1011,18 @@
    }
   ],
   "new_account": {
-   "plan": "LucidPro 50K copy of Zlarior",
-   "price": 134.4
+   "plan": "MFFU Rapid EOD 50K",
+   "price": 165.0,
+   "research_price": 134.4
   },
   "rules": [
    "Buy the next account only from a payout that reached your bank: one new account per payout, and only when the payout money holds two of its price (one to buy, one kept for a re-buy).",
-   "MFFU funds only ONE Builder 50K a person: account #3 and up are LucidPro 50K copies of Zlarior (Lucid allows 5 funded).",
+   "MFFU only (owner 2026-11-20): the next accounts are the Rapid EOD 25K now, then the Rapid EOD 50K and a fresh Builder 50K from payouts.",
    "Stop rule: at most 2 re-buys from your own pocket ($183.60); past that stop and rethink.",
    "Prop money: you can lose only the fees, never more; a bad week inside an account is the firm's money."
   ],
   "notes": [
+   "The table was worked out at $134.40 an account (an older plan); the MFFU Rapid EOD 50K costs $165, about $31 more a buy.",
    "Every account copies the SAME Zlarior signal (daily correlation about 0.94): a bad week hits all of them at once, so more accounts multiply the good months AND the empty ones.",
    "Backtest of 2026 (where LIT works); on 2021-25 (no edge) the same plan makes about $0 a month. Nothing is promised.",
    "ATLAS's $ is the stored research estimate (a different bot), added from month 3."
@@ -1032,16 +1042,16 @@
   "export": "TradingView CME_MINI:NQ1! 1-minute chart (all hours, B-ADJ off), Export chart data from Nov 19 to today, save in data/tv_exports/, then: python data/import_futures.py csv NQ data/tv_exports/<file>.csv (5m and ES1! 5m the same way). Or start the PC bot: its heartbeat pushes the NinjaTrader bars.",
   "note": "A warning, not a switch: the bots trade the same either way. GREEN = LIT's last 40 sessions look like 2026, RED = like 2021-25 (about $0). Past weeks do not forecast the next ones; it says what the market has been.",
   "atlas": {
-   "light": "AMBER",
-   "data_to": "2026-10-16",
-   "pf_r40": 1.89,
-   "pf_r40_2026_h1": 2.83,
+   "light": "GREEN",
+   "data_to": "2026-11-19",
+   "pf_r40": 2.38,
+   "pf_r40_2026_h1": 2.82,
    "pf_r40_2021_25": 1.06,
-   "r_week40": 0.99,
-   "tpw40": 3.0,
-   "usd_pf40_eval_sized": 1.41
+   "r_week40": 2.39,
+   "tpw40": 3.38,
+   "usd_pf40_eval_sized": 2.27
   },
   "source": "tools/edge_health.py -> research/lab/edge_health.json",
-  "built": "2026-11-19T23:40:36+00:00"
+  "built": "2026-11-20T11:07:47+00:00"
  }
 }

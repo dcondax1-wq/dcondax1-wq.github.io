@@ -8,7 +8,7 @@ rem (data\_cfd_archive ...) there. Never touched: the bot's data and state, acco
 rem workspaces, templates, settings and orders. If the bot or NinjaTrader is running, their folders are skipped and only
 rem temp files, caches and Windows junk are cleaned. It ends with "Done: freed X GB".
 rem Log: logs\clean_storage-YYYYMMDD-HHMM.txt. Table only, deletes nothing: CLEAN_STORAGE.bat -DryRun
-rem Works from the bot folder, or downloaded alone (then it fetches the script from https://demetrades2000-coder.github.io/nq-dashboard/pc/).
+rem Works from the bot folder, or downloaded alone (then it fetches the script from https://dcondax1-wq.github.io/pc/).
 rem docs\PC_PERFORMANCE.md
 setlocal EnableExtensions
 title Liquidity Engine - CLEAN STORAGE
@@ -22,7 +22,7 @@ goto :web
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\clean_storage.ps1" %* & echo. & pause & exit /b
 
 :web
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$t = Join-Path $env:TEMP 'le_clean_storage.ps1'; try { Invoke-WebRequest -Uri 'https://demetrades2000-coder.github.io/nq-dashboard/pc/clean_storage.ps1' -OutFile $t -UseBasicParsing -TimeoutSec 60 } catch { Write-Host '  [FIX] Could not download the cleaner. Check the internet and double-click again, or send Claude a photo of this window.'; exit 1 }; & powershell -NoProfile -ExecutionPolicy Bypass -File $t" & echo. & pause & exit /b
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$t = Join-Path $env:TEMP 'le_clean_storage.ps1'; try { Invoke-WebRequest -Uri 'https://dcondax1-wq.github.io/pc/clean_storage.ps1' -OutFile $t -UseBasicParsing -TimeoutSec 60 } catch { Write-Host '  [FIX] Could not download the cleaner. Check the internet and double-click again, or send Claude a photo of this window.'; exit 1 }; & powershell -NoProfile -ExecutionPolicy Bypass -File $t" & echo. & pause & exit /b
 
 :nops
 echo  [FIX] Windows PowerShell not found. Send a photo of this window to Claude.

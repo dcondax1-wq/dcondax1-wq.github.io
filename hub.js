@@ -512,7 +512,7 @@
         : F.map((f) => `<div class="card"><div class="card-h"><h3>${icon('prop')}${esc(f.name || '')}</h3>${f.bots_allowed === false ? chip('no bots', 'bad') : f.verdict ? chip(esc(f.verdict)) : ''}</div>
           ${f.note || f.summary ? `<p class="small mut" style="margin:0 0 8px">${esc(f.note || f.summary)}</p>` : ''}${(f.plans || []).map((p) => planCard(f, p)).join('')}</div>`).join(''))
       + `<div class="card"><div class="card-h"><h3>${icon('star')}What to buy next</h3></div>
-          <p class="lead" style="margin-top:0">${nxt ? esc(typeof nxt === 'string' ? nxt : nxt.text || '') : FU ? `Next to the Builder 50K: a <b>LucidPro 50K</b> and a <b>FundedNext Rapid Daily 50K</b> (~${usd(FU.trio?.H2?.net_per_month)} a month for the three on Jul–Oct trades, ${usd(FU.trio?.H2?.months4_6_per_month)} once all are funded). One bot routes to one account today.` : 'See the funded-firms write-up.'}</p></div>`
+          <p class="lead" style="margin-top:0">${nxt ? esc(typeof nxt === 'string' ? nxt : nxt.text || '') : FU ? `MFFU only (owner 2026-11-20): the <b>Rapid EOD 25K</b> now, then the <b>Rapid EOD 50K</b> and a fresh <b>Builder 50K</b> from payouts (the Money Plan ranks them in $ a month).` : 'See the funded-firms write-up.'}</p></div>`
       + payoutCal(P) + bizPnl(P) + bizTools();
     const tx = el.querySelector('#bzTaxCsv');
     if (tx) tx.onclick = () => { const t = (HUBD().biz || {}).tax || {}; const q = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;

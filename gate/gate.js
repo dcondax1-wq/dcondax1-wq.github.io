@@ -308,7 +308,17 @@
       accts.push({ key: k, name: a.name + ' ' + a.size, room: num(a.room), mll: num(a.mll) });
       today += num(a.today) || 0;
     });
-    return { t: t, pcT: ages.pc.t, pcAge: ages.pc.age, cloudAge: ages.cloud ? ages.cloud.age : null, running: running, accts: accts, today: today, win: nextWindow(home, t), truth: !!T, has: true };
+    /* cities3 2026-11-20 (owner: "a one-glance money row"): EVERY real account (Zlarior 50K, ATLAS funded 25K, Zlarior 25K #2, later Rapid) as a card:
+       balance, drawdown room, $ to pass (eval) or $ to the payout ask (funded, board.atlas.funded.to_ask), today's $ */
+    var cards = [];
+    ['lit', 'atlas'].forEach(function (k) {
+      var a = A[k]; if (!a || !a.has) return;
+      var fd = obj(obj(board[k]).funded), funded = a.kind === 'funded' || obj(board[k]).stage === 'funded';
+      cards.push({ key: k, name: a.name, size: a.size, kind: funded ? 'funded' : 'eval', balance: num(a.balance), room: num(a.room), mll: num(a.mll), toPass: funded ? null : num(a.toTarget),
+        toAsk: funded ? (num(fd.to_ask) != null ? num(fd.to_ask) : num(a.toTarget)) : null, askAt: funded ? num(fd.ask_at_balance) : null, today: num(a.today) || 0 });
+    });
+    if (T && T.extraOf) { try { T.extraOf(home).forEach(function (a) { cards.push({ key: a.key, name: a.name, size: a.size, kind: a.kind, balance: num(a.balance), room: num(a.room), mll: num(a.mll), toPass: num(a.toTarget), toAsk: null, askAt: null, today: num(a.today) || 0 }); today += num(a.today) || 0; }); } catch (e) { /* the two bots' rows stay */ } }
+    return { t: t, pcT: ages.pc.t, pcAge: ages.pc.age, cloudAge: ages.cloud ? ages.cloud.age : null, running: running, accts: accts, cards: cards, today: today, win: nextWindow(home, t), truth: !!T, has: true };
   }
   /* one fact of the grid: a label, the number, one small line; a tap opens the app that holds the detail */
   function fact(box, label, value, sub, cls, to, key) {
@@ -332,10 +342,13 @@
     badge.className = 'g-badge ' + st[1]; badge.textContent = st[2]; line.textContent = st[3];
     clear(dl);
     var old = st[0] === 'stale' || from === 'cache';
+    drawMoney(N, from, old);
     if (from !== 'none') {
-      N.accts.forEach(function (a) { fact(dl, 'Drawdown left', money(a.room), 'of ' + money(a.mll) + ' max loss, ' + a.name, '', 'aegis/index.html', 'aegis'); });
-      if (!N.accts.length) fact(dl, 'Drawdown left', 'Not in the report', '', '', 'nq/index.html', 'nq');
-      fact(dl, old ? 'Last report day' : 'Today', moneyS(N.today), N.accts.length > 1 ? 'both eval accounts' : 'the eval account', N.today > 0.5 ? 'up' : N.today < -0.5 ? 'down' : '', 'nq/index.html', 'nq');
+      /* the owner reads these first (lead, round 4): drawdown left per account and today's $, then the window; the money row above adds balances */
+      var dd = N.cards && N.cards.length ? N.cards : (N.accts || []);
+      dd.forEach(function (a) { fact(dl, 'Drawdown left', money(a.room), 'of ' + money(a.mll) + ' max loss, ' + acctName(a), num(a.room) != null && num(a.mll) && a.room / a.mll < 0.35 ? 'down' : '', 'aegis/index.html', 'aegis'); });
+      if (!dd.length) fact(dl, 'Drawdown left', 'Not in the report', '', '', 'nq/index.html', 'nq');
+      fact(dl, old ? 'Last report day' : 'Today', moneyS(N.today), dd.length > 1 ? plural(dd.length, 'account') : 'the eval account', N.today > 0.5 ? 'up' : N.today < -0.5 ? 'down' : '', 'nq/index.html', 'nq');
     }
     var W = N.win || nextWindow({}, nowS());
     fact(dl, 'Trade window', W.open ? 'Open now' : W.label.replace(/ 02:00-15:30 ET$/, ' 02:00 ET'), W.open ? 'until 15:30 ET' : inWords(W.inS), '', 'kairos/index.html', 'kairos');
@@ -350,11 +363,48 @@
     S.now = { state: st[0], label: st[2], from: from || 'live', truth: !!N.truth };
     S.N = N;
   }
+  /* cities3 2026-11-20: the money row = one swipeable strip of account cards (+ Kalshi), each a tap to its detail. The strip keeps its height
+     from the first paint (a placeholder card), so nothing below jumps when the numbers land (CLS 0). */
+  function drawMoney(N, from, old) {
+    var box = $('money'); if (!box) return;
+    clear(box);
+    var cards = from === 'none' ? [] : (N.cards || (N.accts || []).map(function (a) {   // a copy this phone saved before the money row: the drawdown it knew
+      return { key: a.key, name: a.name, size: '', kind: 'eval', balance: null, room: num(a.room), mll: num(a.mll), toPass: null, toAsk: null, today: null };
+    }));
+    var strip = el('div', 'g-mstrip'); strip.setAttribute('role', 'list');
+    cards.forEach(function (c) {
+      var a = el('a', 'g-acct g-acct-' + c.kind); a.setAttribute('role', 'listitem');
+      a.href = base + (c.kind === 'funded' ? 'business/mffu.html' : 'aegis/index.html'); a.setAttribute('data-go', c.key);
+      a.setAttribute('aria-label', acctName(c) + ', ' + (c.kind === 'funded' ? 'funded' : 'eval') + ': balance ' + (c.balance != null ? money(c.balance) : 'unknown') + '. Drawdown left ' + money(c.room) + ' of ' + money(c.mll) + ' max loss, ' + c.name + '.' + (c.today != null ? ' Today ' + moneyS(c.today) + '.' : ''));
+      var top = el('span', 'g-atop'); top.appendChild(el('b', 'g-an', acctName(c))); top.appendChild(el('i', 'g-ak', c.kind === 'funded' ? 'Funded' : 'Eval')); a.appendChild(top);
+      a.appendChild(el('span', 'g-mv g-abal', c.balance != null ? money(c.balance) : '—'));
+      var frac = c.room != null && c.mll ? Math.max(0, Math.min(1, c.room / c.mll)) : 0;
+      var bar = el('span', 'g-abar' + (frac < 0.35 ? ' low' : '')); var fill = el('i'); fill.style.width = Math.round(frac * 100) + '%'; bar.appendChild(fill); a.appendChild(bar);
+      var goal = c.kind === 'funded' ? (c.toAsk != null ? (c.toAsk <= 0 ? 'Payout ready' : money(c.toAsk) + ' to payout') : 'Funded') : (c.toPass != null ? (c.toPass <= 0 ? 'Target hit' : money(c.toPass) + ' to pass') : '');
+      a.appendChild(el('span', 'g-aln g-agoal', goal || (c.kind === 'funded' ? 'Funded' : '')));
+      if (c.today != null) { var ln = el('span', 'g-aln', (old ? 'last day ' : 'today ')); ln.appendChild(el('b', 'g-aday ' + (c.today > 0.5 ? 'up' : c.today < -0.5 ? 'down' : ''), moneyS(c.today))); a.appendChild(ln); }
+      strip.appendChild(a);
+    });
+    var X = S.extra, K = X && X.K;
+    if (K && K.has) {
+      var k = el('a', 'g-acct g-acct-kalshi'); k.setAttribute('role', 'listitem'); k.href = base + 'kalshi/index.html'; k.setAttribute('data-go', 'kalshi');
+      var kt = el('span', 'g-atop'); kt.appendChild(el('b', 'g-an', 'Kalshi')); kt.appendChild(el('i', 'g-ak', K.paper === false ? 'Live' : 'Bot')); k.appendChild(kt);
+      k.appendChild(el('span', 'g-mv g-abal', K.balance != null ? money(K.balance) : 'Bot on'));
+      k.appendChild(el('span', 'g-aln', K.age != null && HSok() ? 'updated ' + w.OLYMPUS_HUB_STATUS.shortAge(K.age) : 'gold + silver clock bets'));
+      if (K.today != null) { var kl = el('span', 'g-aln g-agoal', 'today '); kl.appendChild(el('b', 'g-aday ' + (K.today > 0.5 ? 'up' : K.today < -0.5 ? 'down' : ''), moneyS(K.today))); k.appendChild(kl); }
+      strip.appendChild(k);
+    }
+    if (!strip.firstChild) { var e = el('div', 'g-acct g-aempty'); e.appendChild(el('b', 'g-an', 'No account numbers here')); e.appendChild(el('span', 'g-aln', 'They show when your PC reports.')); strip.appendChild(e); }
+    box.appendChild(strip);
+    box.setAttribute('data-n', String(cards.length));
+  }
+  function acctName(a) { var n = String(a.name || ''); return a.size && n.indexOf(a.size) < 0 ? n + ' ' + a.size : n; }   // "Zlarior 25K #2" keeps its own size
+  function HSok() { return !!(w.OLYMPUS_HUB_STATUS && w.OLYMPUS_HUB_STATUS.shortAge); }
   /* Kalshi and the plan: only when they have something real (kalshi.json reached the page; the Planner's summary is today's) */
   function drawExtra(box) {
     var X = S.extra, HS = w.OLYMPUS_HUB_STATUS; if (!X || !HS) return;
     var K = X.K, P = X.P;
-    if (K && K.has) fact(box, 'Kalshi', K.balance != null ? money(K.balance) : 'Bot on', K.today != null ? 'today ' + moneyS(K.today) : (K.age != null ? 'updated ' + HS.shortAge(K.age) : ''), K.today != null ? (K.today > 0.5 ? 'up' : K.today < -0.5 ? 'down' : '') : '', 'kalshi/index.html', 'kalshi');
+    if (K && K.has && !$('money')) fact(box, 'Kalshi', K.balance != null ? money(K.balance) : 'Bot on', K.today != null ? 'today ' + moneyS(K.today) : (K.age != null ? 'updated ' + HS.shortAge(K.age) : ''), K.today != null ? (K.today > 0.5 ? 'up' : K.today < -0.5 ? 'down' : '') : '', 'kalshi/index.html', 'kalshi');
     if (P && P.has && P.shift) fact(box, 'My shift', P.shift.now ? 'Now' + (P.shift.end ? ' to ' + P.shift.end : '') : P.shift.start + (P.shift.end ? '-' + P.shift.end : ''), P.shift.title, '', 'planner/index.html', 'planner');
     else if (P && P.has && P.next) fact(box, 'Next on your plan', P.next.start, P.next.title, '', 'planner/index.html', 'planner');
   }
@@ -412,7 +462,7 @@
         drawNow(N, fromPc ? 'pc' : 'live');
         drawHubs(N, true);
         drawQuick();
-        var keep = { pcT: N.pcT, pcAge: N.pcAge, running: N.running, accts: N.accts, today: N.today };
+        var keep = { pcT: N.pcT, pcAge: N.pcAge, running: N.running, accts: N.accts, cards: N.cards, today: N.today };
         lsSet(LS_NOW, { saved: nowS(), N: keep });
         S.nowDone = true;
       };

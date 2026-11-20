@@ -45,7 +45,7 @@ trap {
 }
 if ($env:LE_T_BOOM) { throw 'test: unexpected failure' }
 $Repo = 'https://github.com/demetrades2000-coder/nq-liquidity-engine.git'
-$SiteHome = 'https://demetrades2000-coder.github.io/nq-dashboard/home.json'
+$SiteHome = 'https://dcondax1-wq.github.io/home.json'
 $BeatFreshS = 360       # a heartbeat from ANOTHER PC newer than 6 minutes = that PC is still running the bot
 $SiteLagS = 1200        # the site is rebuilt every ~15 minutes: a copy this young can hide a PC that stopped a moment ago
 function Say([string]$Kind, [string]$Text) {

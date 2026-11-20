@@ -301,3 +301,65 @@ html[data-oly-style] :is(.g-q, .g-azbtn) { background: var(--oly-th-card-bg) !im
 .g-azwide { margin-top: 12px; }
 @media (prefers-reduced-motion: no-preference) { .g-hub:active { transform: none; background: var(--o-surface-2, var(--ag-s2)); } }
 @media (hover: hover) { .g-hub:hover { background: var(--o-surface-2, var(--ag-s2)); } }
+
+/* ---- cities3 2026-11-20: the money row (owner: "one-glance money row: all accounts: balance, room, to-pass/payout; Kalshi") ----
+   One swipeable strip of fixed-size cards: no layout shift (the placeholders are the same size), scroll-snap, no sideways page scroll. */
+.g-money { display: flex; flex-direction: column; gap: 4px; margin: 0 -4px; min-width: 0; }
+.g-mtot { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 0 4px; min-height: 26px; }
+.g-mtl { color: var(--ag-muted); font-size: .8125rem; }
+.g-mtv { font: 650 1.375rem/1.1 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-text); }
+.g-mtv.up, .g-aday.up { color: var(--ag-olive-text); } .g-mtv.down, .g-aday.down { color: var(--ag-terra-text); }
+.g-mstrip { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; padding: 2px 4px 4px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.g-mstrip::-webkit-scrollbar { display: none; }
+.g-acct { flex: 0 0 152px; height: 100px; box-sizing: border-box; scroll-snap-align: start; display: flex; flex-direction: column; gap: 1px; padding: 8px 11px 8px; border-radius: var(--o-r-md, 14px);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .015)), var(--o-surface-2, var(--ag-s2)); border: 1px solid var(--o-line-2, var(--ag-line)); color: var(--ag-text); text-decoration: none;
+  position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+.g-acct::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: var(--ag-gold, #c9a45c); opacity: .75; }
+.g-acct-funded::before { background: var(--ag-olive-text, #9fbf6a); } .g-acct-kalshi::before { background: #7aa7ff; }
+.g-acct.g-skel { border-color: transparent; opacity: .45; } .g-acct.g-skel::before { display: none; }
+.g-acct.g-aempty { flex-basis: 100%; height: 100px; justify-content: center; }
+.g-atop { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
+.g-an { font: 600 .8125rem/1.2 var(--ag-sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.g-ak { font: 600 .5625rem/1 var(--ag-sans); font-style: normal; letter-spacing: .03em; text-transform: uppercase; padding: 3px 5px; border-radius: 999px; border: 1px solid var(--ag-line); color: var(--ag-muted); flex: none; }
+.g-acct-funded .g-ak { color: var(--ag-olive-text); border-color: currentColor; }
+.g-abal { font: 650 1.1875rem/1.1 var(--ag-num); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.g-abar { display: block; height: 5px; border-radius: 3px; background: rgba(255, 255, 255, .09); overflow: hidden; margin: 3px 0 1px; }
+.g-abar i { display: block; height: 100%; border-radius: 3px; background: var(--ag-olive-text, #9fbf6a); transition: width .6s ease; }
+.g-abar.low i { background: var(--ag-terra-text, #e08a6a); }
+.g-aln { font: 400 .75rem/1.25 var(--ag-sans); color: var(--ag-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-agoal { color: var(--ag-text); }
+.g-aday { margin-top: auto; padding-top: 1px; font: 600 .8125rem/1.2 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-muted); }
+@media (prefers-reduced-motion: reduce) { .g-abar i { transition: none; } }
+html[data-oly-scheme="light"] .g-acct { background: var(--oly-th-card-bg, #fff); }
+html[data-oly-scheme="light"] .g-abar { background: rgba(0, 0, 0, .08); }
+/* the trade window as one full-width line under the money row (the ring stays in its corner) */
+.g-facts a.g-fact[data-win] { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 8px; min-height: 44px; padding: 9px 46px 9px 12px; }
+.g-facts a.g-fact[data-win] .g-fl { padding-right: 0 !important; }
+.g-facts a.g-fact[data-win] .g-fv { font-size: 1.0625rem; margin: 0; }
+.g-facts a.g-fact[data-win] .g-fsub { margin: 0; }
+.g-facts a.g-fact[data-win] .hfx-ring { top: 50%; margin-top: -13px; }
+.g-now:has(#money) { gap: 8px; }
+/* round 4 (lead): the drawdown-left and today's $ facts are back in #nowFacts, as compact tiles; the money row above is balances only */
+.g-money .g-mtot { display: none; }
+.g-agoal b { font-weight: 650; }
+.g-now:has(#money) .g-nowline { font-size: .9375rem; }
+.g-now:has(#money) .g-facts { gap: 6px; }
+.g-now:has(#money) .g-facts .g-fact { padding: 7px 10px; min-height: 44px; }
+.g-now:has(#money) .g-facts .g-fact.g-skel { min-height: 56px; }
+.g-now:has(#money) .g-facts .g-fl { font-size: .75rem; }
+.g-now:has(#money) .g-facts .g-fv { font-size: 1.125rem; margin-top: 1px; }
+.g-now:has(#money) .g-facts .g-fsub { font-size: .6875rem; line-height: 1.25; margin-top: 1px; }
+/* the window sits next to Today when that row has room (2 accounts), else it takes the whole row as one line */
+.g-now:has(#money) .g-facts a.g-fact[data-win]:nth-child(even) { grid-column: auto; flex-direction: column; padding: 7px 10px; }
+.g-now:has(#money) .g-facts a.g-fact[data-win]:nth-child(even) .g-fv { font-size: 1.125rem; }
+.g-now:has(#money) .g-facts a.g-fact[data-win]:nth-child(even) .hfx-ring { top: 8px; margin-top: 0; }
+.g-aln .g-aday { font: inherit; font-weight: 650; }
+.g-now:has(#money) { gap: 6px; padding-top: 12px; padding-bottom: 12px; }
+.g-now:has(#money) .g-facts .g-fact { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
+.g-now:has(#money) .g-money { margin-top: 2px; }
+.g-now:has(#money) .g-facts .g-fsub { line-height: 1.15; }
+.g-now:has(#money) .g-facts .g-fv { line-height: 1.1; }
+.g-now:has(#money) .g-nowfoot { margin-top: -2px; font-size: .75rem; }
+.g-now:has(#money) .g-aln { line-height: 1.2; }
+.g-now:has(#money) .g-facts .g-fact { padding-top: 4px; padding-bottom: 5px; }
+.g-now:has(#money) .g-mstrip { padding-bottom: 2px; }

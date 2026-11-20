@@ -3,7 +3,7 @@
 
 ONE FILE. Python 3.9+, standard library only (+ 'cryptography' for the not-recommended --from-api). It imports nothing
 from the nq-liquidity-engine repo or from the Kalshi bot, so it can be copied anywhere. Public copy:
-https://demetrades2000-coder.github.io/nq-dashboard/kalshi/kalshi_status_vm.py (steps for the bot's own Claude chat:
+https://dcondax1-wq.github.io/kalshi/kalshi_status_vm.py (steps for the bot's own Claude chat:
 .../kalshi/SETUP.md). In the repo it is tools/kalshi_kit/public/kalshi_status_vm.py, and engine/kalshi_publish.py loads
 this same file, so both give the same kalshi.json for the same input.
 

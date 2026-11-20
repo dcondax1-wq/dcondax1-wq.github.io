@@ -10,7 +10,7 @@ import { deck, animateCounts } from './cards.js';
 import { createFx } from './fx.js';
 import { renderPNG, renderWeekPNG, share } from './share.js';
 
-const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://demetrades2000-coder.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
+const JARVIS_ORIGIN = (/^https?:/.test(location.protocol) ? location.origin : 'https://dcondax1-wq.github.io');   // Jarvis is on the same origin as the app; the old address only when opened from a file
 const PERIODS = [['week', 'Week'], ['month', 'Month'], ['all', 'All time']];
 const PEERS_WAIT_MS = 1500;
 const O = window.OLYMPUS || null;   // the OLYMPUS kit (../olympus/olympus.js): one 3D quality for every app, the veil

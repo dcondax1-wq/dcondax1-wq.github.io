@@ -6,7 +6,7 @@ rem dim the screen while plugged in), offers to switch off startup apps (Y/N for
 rem Windows search indexing during market hours, and ends with a health line (uptime, memory, disk, temperature when Windows shows it).
 rem Windows asks once (click Yes) for the power plan. Everything is undone by UNDO_PC_TUNE.bat. Table only: PC_CARE.bat -DryRun
 rem Health only: PC_CARE.bat -CheckOnly. NinjaTrader and the bot are never closed or touched.
-rem Works from the bot folder, or downloaded alone (then it fetches the script from https://demetrades2000-coder.github.io/nq-dashboard/pc/).
+rem Works from the bot folder, or downloaded alone (then it fetches the script from https://dcondax1-wq.github.io/pc/).
 rem docs\PC_PERFORMANCE.md
 setlocal EnableExtensions
 title Liquidity Engine - PC CARE
@@ -20,7 +20,7 @@ goto :web
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\pc_care.ps1" %* & echo. & pause & exit /b
 
 :web
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$t = Join-Path $env:TEMP 'le_pc_care.ps1'; try { Invoke-WebRequest -Uri 'https://demetrades2000-coder.github.io/nq-dashboard/pc/pc_care.ps1' -OutFile $t -UseBasicParsing -TimeoutSec 60 } catch { Write-Host '  [FIX] Could not download PC Care. Check the internet and double-click again, or send Claude a photo of this window.'; exit 1 }; & powershell -NoProfile -ExecutionPolicy Bypass -File $t" & echo. & pause & exit /b
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$t = Join-Path $env:TEMP 'le_pc_care.ps1'; try { Invoke-WebRequest -Uri 'https://dcondax1-wq.github.io/pc/pc_care.ps1' -OutFile $t -UseBasicParsing -TimeoutSec 60 } catch { Write-Host '  [FIX] Could not download PC Care. Check the internet and double-click again, or send Claude a photo of this window.'; exit 1 }; & powershell -NoProfile -ExecutionPolicy Bypass -File $t" & echo. & pause & exit /b
 
 :nops
 echo  [FIX] Windows PowerShell not found. Send a photo of this window to Claude.

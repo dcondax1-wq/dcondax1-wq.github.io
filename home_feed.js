@@ -24,7 +24,7 @@
     return Promise.race([import(url(src)).then(() => window[global] || null, () => null), new Promise((ok) => setTimeout(() => ok(window[global] || null), 4000))]);
   }
   // the PC's newest post (core + ext), asked once per page as soon as this script runs; 3.5 s at most
-  API.ready = Promise.all([need('PC_FEED', 'pc_feed.js?v=n4'), need('PAYOUT_COACH', 'business/payoutcoach.js?v=1')]).then(([F]) => {
+  API.ready = Promise.all([need('PC_FEED', 'pc_feed.js?v=n5'), need('PAYOUT_COACH', 'business/payoutcoach.js?v=1')]).then(([F]) => {
     if (!F || !F.fetchLatest) return null;
     return Promise.race([F.fetchLatest({ feedUrl: url('status_feed.json'), fetch: orig }), new Promise((r) => setTimeout(() => r(null), 3500))]);
   }).then((lite) => { API.lite = lite || null; return API.lite; }).catch(() => null);

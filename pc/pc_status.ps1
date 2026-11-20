@@ -30,7 +30,7 @@ trap {
 }
 if ($env:LE_T_BOOM) { throw 'test: unexpected failure' }
 
-$SiteHome = 'https://demetrades2000-coder.github.io/nq-dashboard/home.json'
+$SiteHome = 'https://dcondax1-wq.github.io/home.json'
 $Sep = [System.IO.Path]::DirectorySeparatorChar
 function J2([string]$A, [string]$B) { return [System.IO.Path]::Combine($A, $B) }
 function Line([string]$Kind, [string]$Label, [string]$Text) {

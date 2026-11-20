@@ -11,7 +11,7 @@
  *            localStorage 'oly.launcher.status'): green = running well, amber = needs a look, red = a problem, grey = not updated
  *            for 30 minutes, no dot = the app has no status card. A failed fetch keeps the last dot.
  *   links    phone (the site's own origin): the app's folder, "<app>/", in this tab. PC dashboard (localhost:8766 / web_next, which has no apps):
- *            the public site, https://demetrades2000-coder.github.io/nq-dashboard/<app>/, in a new tab.
+ *            the public site, https://dcondax1-wq.github.io/<app>/, in a new tab.
  *   recent   localStorage 'oly.launcher.recent' = ["oracle", ...], newest first, 4 kept.
  *   quality  LITE / reduced motion (ZenithFX when the page has it, else prefers-reduced-motion): no entrance animation, no glow sweep, no tilt.
  * Read-only: it only reads jarvis.json files and links to pages; it never posts, writes to a bot or touches an account.
@@ -20,7 +20,7 @@
   'use strict';
   if (window.OLYMPUS_LAUNCHER) return;
   var d = document, root = d.documentElement;
-  var PUBLIC = (function () { var o = get('oly.public'); if (o && /^https:\/\/[^ ]+\/$/.test(o)) return o; return 'https://demetrades2000-coder.github.io/nq-dashboard/'; })();   // the PC dashboard has no apps of its own: a site address saved as localStorage 'oly.public' overrides the default
+  var PUBLIC = (function () { var o = get('oly.public'); if (o && /^https:\/\/[^ ]+\/$/.test(o)) return o; return 'https://dcondax1-wq.github.io/'; })();   // the PC dashboard has no apps of its own: a site address saved as localStorage 'oly.public' overrides the default
   var RECENT_KEY = 'oly.launcher.recent', STATUS_KEY = 'oly.launcher.status', RECENT_MAX = 4, FAV_KEY = 'oly.launcher.fav', FAV_MAX = 12, PRESS_MS = 520, STATUS_TTL = 5 * 60 * 1000, GONE_TTL = 24 * 3600 * 1000, STALE_S = 30 * 60, FETCH_MS = 5000, PARALLEL = 4;
   var GROUPS = [['trading', 'Trading'], ['life', 'Life'], ['money', 'Money']];   // the old groups: only when olympus/doors.js did not load
   function doors() { var D = window.OLYMPUS_DOORS; return D && D.DOORS && D.DOORS.length ? D : null; }

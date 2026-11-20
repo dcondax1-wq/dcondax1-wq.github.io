@@ -80,7 +80,7 @@
       `One bot, many accounts: LIT copies through engine/multi_account.py (built, OFF), ATLAS on its own account (engine/account_b.py, built, OFF). An ATLAS copy on a 2nd account is not built yet (step 2).`,
       'Never opposite positions across your own accounts: ATLAS waits while LIT holds or arms the other side, and is closed when LIT enters against it.',
       `Total $ at risk at the same time across all accounts: at most ${usd(S.day_cap_usd)}; above it every account of that signal is cut by the same factor (min 1 micro). One bad day across all accounts: stop new entries once the day's loss reaches ${usd(S.day_cap_usd)}.`,
-      'Per firm: MFFU 1 funded Builder 50K + 2 funded Builder 25Ks (LIT once, ATLAS once there); Lucid bots and copiers allowed, 5 funded per household (sources say 5 or 10: the plan keeps 4); FundedNext copying your own accounts allowed, no futures cap found. Max contracts per plan: MFFU 25K 20 micros, 50Ks 40.',
+      'Per firm: MFFU 1 funded Builder 50K + 2 funded Builder 25Ks (LIT once, ATLAS once there); MFFU only (owner 2026-11-20): the next accounts are MFFU Rapid EOD (the 25K now, the 50K from payouts). Max contracts per plan: MFFU 25K 20 micros, 50Ks 40.',
       'Buy two accounts a week apart (they should not pass or fail on the same days). Grow from payouts: the cash rule keeps the ladder self-funding after the first $300.',
     ];
     return card('Rules of the ladder', `<ul class="sc-ul">${li.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`);

@@ -46,13 +46,13 @@
   try { if (window.top !== window) d.documentElement.className += ' framed'; } catch (e) { d.documentElement.className += ' framed'; }
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
-  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a4'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g11'; h.appendChild(l);
+  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a7'; h.appendChild(k);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g13'; h.appendChild(l);
   var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s5'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
-  var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x1'; h.appendChild(x);   /* night-effects: the living home (hero, glass doors, intro) */
+  var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);   /* night-effects: the living home (hero, glass doors, intro) */
   try { if (localStorage.getItem('oly.homefx') !== 'off') d.documentElement.className += ' hfx' + (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches ? '' : ' hfx-intro'); } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o9', 'pc_feed.js?v=pf1', 'olympus/gate-catalog.js?v=nv5', 'olympus/hub-status.js?v=h2', 'gate/gate.js?v=g9', 'olympus/home-fx.js?v=x1'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o9', 'pc_feed.js?v=n5', 'olympus/gate-catalog.js?v=nv5', 'olympus/hub-status.js?v=h2', 'gate/gate.js?v=g11', 'olympus/home-fx.js?v=x2'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -96,6 +96,7 @@
   <section class="g-card g-now" id="now" aria-labelledby="nowH" data-state="loading">
     <div class="g-nowhead"><h2 id="nowH">Right now</h2><span class="g-badge" id="nowBadge">Checking</span></div>
     <p class="g-nowline" id="nowLine" role="status" aria-live="polite">Looking for the bots' numbers...</p>
+    <div class="g-money" id="money" aria-label="Your accounts"><div class="g-mstrip"><i class="g-acct g-skel"></i><i class="g-acct g-skel"></i><i class="g-acct g-skel"></i></div></div><!-- cities3: the money row, every account one glance (gate.js drawMoney); the placeholders hold its height (CLS 0) -->
     <div class="g-facts" id="nowFacts" aria-hidden="true"><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i></div><!-- perf v2: four calm placeholder tiles hold the space the facts take, so the hubs below never jump when the numbers arrive (CLS) -->
     <a class="g-btn primary" id="bringBack" data-to="nq/index.html?howto=1" href="nq/index.html?howto=1" hidden>Bring the bots back</a>
     <p class="g-nowfoot" id="nowFoot"></p>

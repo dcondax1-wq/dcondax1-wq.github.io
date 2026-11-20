@@ -68,7 +68,8 @@
     $('kNext').textContent = k ? k.text + ' · ' + k.name : 'No window in the next week';
     $('kIn').textContent = k ? 'in ' + (k.in_s < 3600 ? Math.max(1, Math.round(k.in_s / 60)) + ' min' : Math.round(k.in_s / 3600) + ' h') : '';
     const kp = d.kpaper;
-    $('kPaper').textContent = kp ? 'Paper rewards so far: ' + W.usd(kp.net, true) + (kp.per100 != null ? ' (' + kp.per100.toFixed(2) + ' $ a day per $100)' : '') + (kp.t ? ', updated ' + W.ago(now - kp.t) : '') : 'Paper rewards: no numbers yet.';
+    const kb = d.kbal;   // cities3: the Kalshi bot's real balance + today when kalshi.json has them
+    $('kPaper').textContent = (kb ? 'Balance $' + kb.balance.toFixed(2) + (kb.today != null ? ', today ' + W.usd(kb.today, true) : '') + (kb.age_s != null ? ' (' + W.ago(kb.age_s) + ')' : '') + '. ' : '') + (kp ? 'Paper rewards so far: ' + W.usd(kp.net, true) + (kp.per100 != null ? ' (' + kp.per100.toFixed(2) + ' $ a day per $100)' : '') + (kp.t ? ', updated ' + W.ago(now - kp.t) : '') : 'Paper rewards: no numbers yet.');
     $('age').textContent = (m.src === 'PC' ? 'PC posted ' : m.src === 'SITE' ? 'Site built ' : 'Saved ') + (m.t ? W.ago(now - m.t) : '—');
     $('upd').textContent = 'Checked ' + new Date(now * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     $('app').setAttribute('aria-busy', 'false');

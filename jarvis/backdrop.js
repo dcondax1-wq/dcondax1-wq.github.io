@@ -31,12 +31,25 @@ const level = () => (['ultra', 'high', 'low', 'off'].indexOf(root.dataset.fx) >=
 // the home screen is up and the backdrop layer is shown (the shell hides .bgfx outside Jarvis mode)
 const onHome = () => { const h = document.getElementById('home'), b = document.querySelector('.bgfx'); return !!h && !h.hidden && !!b && b.getClientRects().length > 0; };
 
+// a phone: wait for 2.5 s without a touch, a key or a scroll (then an idle slice); checked again before each heavy step
+function quiet() {
+  return new Promise((ok) => {
+    const chk = () => {
+      const w = Math.max(QUIET_MS - (Date.now() - lastInput), 6000 - performance.now());   // a phone: never in the first 6 s (the first taps)
+      if (phoneNow() && w > 0) { setTimeout(chk, w + 50); return; }
+      if (window.requestIdleCallback) requestIdleCallback(() => (phoneNow() && Date.now() - lastInput < QUIET_MS ? chk() : ok()), { timeout: 2000 }); else setTimeout(ok, 30);
+    };
+    chk();
+  });
+}
 async function mount() {
+  await quiet();
   const host = document.querySelector('.bgfx');
   if (!host) { state.state = 'off'; return; }
   const probe = document.createElement('canvas');
   if (!probe.getContext('webgl2')) { state.state = 'off'; return; }     // no WebGL2: the 2D layers stay
   const [T, RC, M] = await Promise.all([import('./three.module.min.js'), import('../olympus/render.js'), import('../olympus/materials.js')]);
+  await quiet();                                                     // the module parse and the scene build in separate tasks (a tap in between wins)
   const style = document.createElement('style'); style.id = STYLE_ID; style.textContent = CSS; document.head.appendChild(style);
   probe.className = 'jbackdrop'; probe.setAttribute('aria-hidden', 'true');
   host.insertBefore(probe, host.firstChild);
@@ -47,6 +60,7 @@ async function mount() {
   const K = colours();
   const rc = RC.createRenderer({ canvas: probe, scene, camera, quality: level(), env: 'night', tint: K.c, maxDpr: 1.25, msaa: false, adapt: false, exposure: 0.85,
     theme: null, bloom: { strength: 0.22, radius: 0.6, threshold: 0.9 }, grade: { vignette: 0.35, grain: 0.015, aberration: 0 } });
+  await quiet();                                                     // the renderer + its environment, then the scene: separate tasks
 
   // sky: nebula + stars (both added light, no fog)
   const nebula = M.nebula({ colors: [K.c, K.c2, K.c3, '#4b3a52'], count: 10, radius: 70, size: 85, opacity: 0.10 }); nebula.position.y = 12; scene.add(nebula);
@@ -187,7 +201,19 @@ async function mount() {
 
 // once Jarvis has booted (the boot log or the OLYMPUS intro gone) and the page is idle: compiling the shaders and the
 // environment takes the main thread for a moment, and that must never hold up the boot screen or the intro
-const start = () => mount().catch((e) => { state.state = 'off'; state.error = String((e && (e.stack || e.message)) || e); delete root.dataset.bg3d; });
+const start = () => {
+  // effects off = the flat 2D sky: the 3D scene is never built (day-jarvis 2026-11-20: it was built anyway and drew one still frame,
+  // ~2 s of main thread on a phone-speed CPU for nothing)
+  if (level() === 'off') { state.state = 'off'; state.why = 'effects off'; return; }
+  // a phone: the scene is built only after 2.5 s without a touch, a key or a scroll, so a first tap is never stuck behind the
+  // shader compile (the owner's first taps: the business chips, the mic)
+  mount().catch((e) => { state.state = 'off'; state.error = String((e && (e.stack || e.message)) || e); delete root.dataset.bg3d; });
+};
+const QUIET_MS = 2500;
+let lastInput = Date.now();
+const COARSE = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+const phoneNow = () => COARSE && Math.min(innerWidth, innerHeight) < 600;
+for (const ev of ['pointerdown', 'keydown', 'wheel', 'touchmove']) window.addEventListener(ev, () => { lastInput = Date.now(); }, { passive: true, capture: true });
 const booted = () => !document.getElementById('bootfx') && (!window.__olyIntro || window.__olyIntro.done);
 const idle = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 600));
 let waited = 0;

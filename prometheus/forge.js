@@ -684,7 +684,7 @@ function renderNoGl(g) {
 function postJarvisCard() {
   if (window.parent === window) return;
   fetch('jarvis.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((card) => {
-    if (card) window.parent.postMessage({ jarvis: 1, href: location.href, card: { ...card, t: Math.floor(Date.now() / 1000) } }, (location.origin && location.origin !== 'null' ? location.origin : 'https://demetrades2000-coder.github.io'));
+    if (card) window.parent.postMessage({ jarvis: 1, href: location.href, card: { ...card, t: Math.floor(Date.now() / 1000) } }, (location.origin && location.origin !== 'null' ? location.origin : 'https://dcondax1-wq.github.io'));
   }).catch(() => {});
 }
 

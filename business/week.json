@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 07:01 ET",
+ "built": "2026-11-20 10:04 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 20 7:00 ET",
+ "pc": "PC last reported Nov 20 9:30 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49192.78,
-   "src": "PC live, Nov 20 6:57 ET",
+   "src": "PC live, Nov 20 9:27 ET",
    "room": 1024.58,
    "to_pass": 3807.22,
    "trades": 1,
@@ -46,28 +46,28 @@
    "name": "ATLAS",
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
-   "end": 24887.2,
-   "src": "PC live, Nov 20 6:57 ET",
-   "room": 887.2,
+   "end": 25401.38,
+   "src": "PC live, Nov 20 9:27 ET",
+   "room": 1401.38,
    "to_pass": null,
-   "trades": 2,
-   "win_pct": 50,
-   "usd_week": 1679.09,
+   "trades": 3,
+   "win_pct": 67,
+   "usd_week": 2193.27,
    "best_day": {
     "day": "2026-11-17",
     "usd": 1791.89
    },
    "strat": "ATLAS",
    "start": 23208.11,
-   "wins": 1,
+   "wins": 2,
    "losses": 1,
-   "r_week": null,
+   "r_week": 6.63,
    "room_start": -791.89,
    "consistency": {
     "rule": "funded: best day at most 50% of the cycle profit",
-    "line": "best day 11-17 +$1,792: the cycle profit is not positive yet."
+    "line": "best day 11-17 +$1,792 = 446% of the cycle profit (over 50%: payout waits for more days)."
    },
-   "status_line": "Payout: Not yet: need $1,463 more."
+   "status_line": "Payout: Not yet: need $3,182 more."
   },
   {
    "key": "fresh25",
@@ -75,7 +75,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25000.0,
-   "src": "PC live, Nov 20 6:57 ET",
+   "src": "PC live, Nov 20 9:27 ET",
    "room": 1000.0,
    "to_pass": 1500.0,
    "trades": 1,
@@ -123,11 +123,11 @@
   },
   {
    "name": "ATLAS",
-   "trades": 2,
+   "trades": 3,
    "target": "2-4 a week",
-   "pf": 15.89,
-   "usd": 1679.09,
-   "win_pct": 50,
+   "pf": 20.44,
+   "usd": 2193.27,
+   "win_pct": 67,
    "exp_tpw": [
     3.12,
     4.38
@@ -140,7 +140,7 @@
    "exp_usd_week": 92.0,
    "plan_usd_month": 500.0,
    "verdict": "ahead",
-   "why": "+$1,679 vs about $92 expected"
+   "why": "+$2,193 vs about $92 expected"
   }
  ],
  "light": {
@@ -150,14 +150,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Gate: shell.css?v=s5 (the arenas kit bump missed the gate's inline loader), vault rebuilt on the...",
-   "Land tool: tools/land_branch.py",
-   "Batch 2 wiring fix: merged apps keep their own launch folders (test_apps_list a: row = folder +...",
-   "Land batch 2 (day-arenas r2, day-nqdash3 r2-3, day-kalshi r2-3, day-litedge r1-2, day-brief r1-2,...",
-   "Dionysus: say plainly the hero is the retired crypto bot; round 3 write-up in REPORT",
-   "Weekly review round 2: trades from the PC's status post (cloud can build it), each bot vs its...",
-   "Dionysus absorbs Kalshi City + Sibyl as plain cards: Kalshi fee table (K8 row), bet size vs going...",
-   "Round 3: audit MERGE verdicts: NQ gets GO/WAIT/HALT per account (Ares), the bots' day line..."
+   "Batch 3: cities3 round 4 (Right now card money facts first) + arenas round 5 (pulse test feeds its...",
+   "Round 4 (lead): Right now keeps the owner's money facts first (drawdown left per account, today's...",
+   "Tests: 0 open Decide cards is a real state (owner answered every card): decide d + week_more...",
+   "Land batch 3: safety + security (cross-site guard on the bot server incl. tailscale...",
+   "ATLAS funded status note shows the real share (40%) + the streak rule; test_account_b_funded pins...",
+   "Owner YES (2026-11-20): ATLAS funded 25K room 40% + 1 micro after 2 losses ON (engine/account_b...",
+   "skeptic round 4: check scripts + results saved",
+   "skeptic round 4: live patches (account_b FIX FIRST one line, rapid SAFE), rapid-atlas-size-10t HOLDS"
   ]
  },
  "next": {
@@ -185,8 +185,8 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 7690.0,
-  "line": "On pace for $7,690 a month (estimate: this week's +$1,420 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
+  "usd_month": 10470.0,
+  "line": "On pace for $10,470 a month (estimate: this week's +$1,934 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
   "basis": "this week"
  },
  "twins": {
@@ -381,42 +381,13 @@
    "news": []
   }
  ],
- "weekend": [
-  {
-   "id": "zlarior-atlas-50k",
-   "question": "Zlarior's Builder 50K: ATLAS trades it too (one position at a time, first bot in keeps it; ATLAS at half its size until the eval passes, full size once funded)?",
-   "usd_month": 696.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "atlas-on-rapid",
-   "question": "Rapid EOD: ATLAS trades it next to Zlarior from day one?",
-   "usd_month": 609.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "zlarior-funded25",
-   "question": "Funded 25K: Zlarior (LIT) trades it too, next to ATLAS?",
-   "usd_month": 125.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "rapid25-lit-bank",
-   "question": "Rapid 25K: Zlarior trades 1 micro and takes profit at the day's room (instead of skipping most trades)?",
-   "usd_month": 101.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "ask-mffu-parallel",
-   "question": "Ask MFFU to say yes in writing: a 2nd Builder 50K and a 2nd 25K eval while the current ones run?",
-   "usd_month": 56.0,
-   "src": "Decide card"
-  }
+ "weekend": [],
+ "missing": [
+  "PC live numbers: last report Nov 20 9:30 ET (34 min ago)"
  ],
- "missing": [],
  "sources": {
   "trades": "data pipe (pulled), PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 20 7:00 ET"
+  "board_pc": "Nov 20 9:30 ET"
  }
 }

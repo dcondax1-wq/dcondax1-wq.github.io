@@ -21,7 +21,7 @@
   const SITE = 'https://dcondax1-wq.github.io/';
   const FEED_DEFAULT = { ntfy: 'https://ntfy.sh', topic: 'olympus-nq-status-dec434bd8a54f135' };   // public, the same as status_feed.json
   const FRESH_S = 20 * 60;          // the PC posts every 15 minutes: older than 20 min = stale (red)
-  const VERSION = 'w1';
+  const VERSION = 'w2';   // cities3 2026-11-20: every account (compact rows past 3), Kalshi's real balance + today, extra-large (iPad) up to 6
   // Scriptable has ListWidget; a browser also has a global Request (the Fetch API), so Request alone does not mean Scriptable
   const IS_SCRIPTABLE = typeof ListWidget !== 'undefined' && typeof Request !== 'undefined';
 
@@ -91,7 +91,11 @@
     };
   }
   function shortPlan(p) { const m = String(p || '').match(/(\d+)K/i); return m ? m[1] + 'K' : ''; }
-  function sameAcct(a, b) { return okN(a.balance) && okN(b.balance) && Math.abs(a.balance - b.balance) < 0.01 && a.target_balance === b.target_balance; }
+  function sameAcct(a, b) {
+    if (okN(a.balance) && okN(b.balance) && Math.abs(a.balance - b.balance) < 0.01 && a.target_balance === b.target_balance) return true;
+    // cities3: the same drawdown floor AND room to the cent = the same account even when one copy's balance is off (a bot card mid-update)
+    return okN(a.floor) && okN(b.floor) && okN(a.room) && okN(b.room) && Math.abs(a.floor - b.floor) < 0.01 && Math.abs(a.room - b.room) < 0.01 && a.target_balance === b.target_balance;
+  }
 
   // the extra eval / funded cards of the PC post (Zlarior 25K #2 ...) in the board-card keys
   function extraCards(list, seen) {
@@ -213,6 +217,12 @@
   }
 
   // ------------------------------------------------------------------ fetch (Scriptable Request or browser fetch)
+  // kalshi.json (the site's copy of the Kalshi bot's feed): balance + today's $ when it has them, with its age; else null (never made up)
+  function kalshiBal(k, now) {
+    if (!isObj(k) || !okN(k.balance)) return null;
+    const t = okN(k.t) ? k.t : null;
+    return { balance: k.balance, today: okN(k.today_pnl) ? k.today_pnl : null, running: k.running === true, age_s: t != null && okN(now) ? Math.max(0, now - t) : null };
+  }
   async function getText(url, timeoutS) {
     try {
       if (IS_SCRIPTABLE) { const r = new Request(url); r.timeoutInterval = timeoutS || 12; return await r.loadString(); }
@@ -228,12 +238,12 @@
   async function load(opt) {
     const o = opt || {}, site = o.site || SITE, now = o.now || Date.now() / 1000;
     const feed = await getJSON(site + 'status_feed.json');
-    const [nd, home, rw] = await Promise.all([getText(feedUrl(feed)), getJSON(site + 'home.json'), getJSON(site + 'kalshi/rewards.json')]);
+    const [nd, home, rw, kj] = await Promise.all([getText(feedUrl(feed)), getJSON(site + 'home.json'), getJSON(site + 'kalshi/rewards.json'), getJSON(site + 'kalshi.json')]);
     const m = pick(parseLite(nd), home, o.cached || null, now);
-    return { m, kalshi: kalshiNext(now), kpaper: kalshiPaper(rw), now };
+    return { m, kalshi: kalshiNext(now), kpaper: kalshiPaper(rw), kbal: kalshiBal(kj, now), now };
   }
 
-  const API = { VERSION, SITE, FRESH_S, usd, ago, etHM, parseLite, fromLite, fromHome, pick, kalshiNext, kalshiPaper, feedUrl, load, card };
+  const API = { VERSION, SITE, FRESH_S, usd, ago, etHM, parseLite, fromLite, fromHome, pick, kalshiNext, kalshiPaper, kalshiBal, feedUrl, load, card };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   if (root && typeof root === 'object') root.OLY_WIDGET = API;
 
@@ -315,9 +325,22 @@
       }
     }
   }
+  // one compact line per account (when more accounts than rich rows fit): name + stage, today, goal, balance
+  function acctLine(w, c, size) {
+    const r = w.addStack(); r.centerAlignContent();
+    const dot = r.addText('●'); dot.font = Font.systemFont(size - 3); dot.textColor = c.room_frac != null && c.room_frac < 0.35 ? P.bad : P.good;
+    r.addSpacer(4);
+    txt(r, c.name, size, P.ink, { semi: true }); r.addSpacer(4);
+    txt(r, usd(c.today, true), size - 1, money(c.today), { semi: true });
+    r.addSpacer();
+    txt(r, usd(c.to_go) + ' ' + c.to_label, size - 2, P.gold);
+    r.addSpacer(6);
+    txt(r, usd(c.balance), size, P.ink, { bold: true });
+  }
   function kalshiLine(w, d, size) {
-    const k = d.kalshi, kp = d.kpaper, r = w.addStack(); r.centerAlignContent();
+    const k = d.kalshi, kp = d.kpaper, kb = d.kbal, r = w.addStack(); r.centerAlignContent();
     txt(r, 'Kalshi', size, P.gold, { semi: true }); r.addSpacer(5);
+    if (kb) { txt(r, '$' + kb.balance.toFixed(2), size, P.ink, { semi: true }); r.addSpacer(4); if (kb.today != null) { txt(r, usd(kb.today, true), size, money(kb.today)); r.addSpacer(5); } }
     txt(r, k ? 'next ' + k.text + (k.soon ? ' (' + Math.max(1, Math.round(k.in_s / 60)) + ' min)' : '') : 'no window this week', size, k && k.soon ? P.warn : P.soft);
     r.addSpacer();
     if (kp) txt(r, 'paper ' + usd(kp.net, true), size, money(kp.net));
@@ -353,10 +376,12 @@
     top.addSpacer();
     if (big && m && m.price) { const tr = top.addStack(); tr.layoutVertically(); txt(tr, 'NQ', 9, P.muted); txt(tr, m.price.toFixed(2), 13, P.soft, { mono: true }); }
     w.addSpacer(big ? 8 : 4);
-    const n = big ? 3 : 2;
+    const xl = F === 'extraLarge' || F === 'extralarge';
+    const rich = big ? 3 : 2, max = xl ? 6 : big ? 5 : 4;
     if (!accts.length) txt(w, 'No account numbers yet: the PC has not posted and the site has none.', 11, P.soft, { lines: 2 });
-    accts.slice(0, n).forEach((c, i) => { if (i) w.addSpacer(big ? 8 : 5); acctRow(w, c, true, big); });
-    if (accts.length > n) { w.addSpacer(2); txt(w, '+' + (accts.length - n) + ' more: tap to open', 9, P.muted); }
+    if (accts.length <= rich || xl) accts.slice(0, max).forEach((c, i) => { if (i) w.addSpacer(big ? 8 : 5); acctRow(w, c, true, big); });
+    else accts.slice(0, max).forEach((c, i) => { if (i) w.addSpacer(big ? 6 : 3); acctLine(w, c, big ? 12 : 11); });   // every account, one line each
+    if (accts.length > max) { w.addSpacer(2); txt(w, '+' + (accts.length - max) + ' more: tap to open', 9, P.muted); }
     w.addSpacer();
     if (big && m && m.pc.model) { txt(w, m.pc.model, 9, P.muted, { lines: 1 }); w.addSpacer(4); }
     kalshiLine(w, d, big ? 10 : 9);

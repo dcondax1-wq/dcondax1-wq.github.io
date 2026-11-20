@@ -1,6 +1,6 @@
 // BUSINESS page (ES module): reads ./business.json (the PC's own, tools/biz_publish.py) else ./fixture.json (DEMO), and ../home.json (the
 // published evals) for the payout plan (businesscore.planPayouts = engine/payout_plan.py). Sends nothing. The ONE money place (2026-11-16).
-import * as C from './businesscore.js?v=3';
+import * as C from './businesscore.js?v=4';
 
 const $ = (id) => document.getElementById(id);
 const KEY = 'business.week.v1';
@@ -95,7 +95,7 @@ function renderDoor(doc, ticks) {
   const dl = $('door'); dl.textContent = '';
   kv(dl, 'First trading payout to you', S.firstPayout);
   kv(dl, 'Once funded, all accounts', S.funded);
-  if (plan && plan.funded_month_with_4) kv(dl, 'With a 4th account', `${C.money(plan.funded_month_with_4)} a month`);
+  if (plan && plan.funded_month_with_4) kv(dl, 'With the Rapid EOD 50K too', `${C.money(plan.funded_month_with_4)} a month`);
   kv(dl, 'Side work by month 3', S.business);
   kv(dl, 'Spent so far (evals)', S.spent);
   kv(dl, 'Real money in so far', S.real);

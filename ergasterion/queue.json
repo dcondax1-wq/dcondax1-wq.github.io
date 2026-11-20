@@ -190,8 +190,15 @@
   ]
  },
  "writeups": {
-  "count": 220,
+  "count": 224,
   "latest": [
+   {
+    "date": "2026-11-20",
+    "title": "Skeptic check of the two live sizing patches (ATLAS funded switches in engine/account_b.py, ATLAS 10-tick siz…",
+    "status": "account",
+    "summary": "(2) account_b.patch applied to a pc copy with FUNDED_ON = {funded_room_pct 0.4, streak_shrink 2}: never a larger size than today on 3,168 funded states (882 smaller), eval stage identical, Rapid lane untouched (RapidAtl…",
+    "file": "research/writeups/skeptic-live-patches-2026-11-20.md"
+   },
    {
     "date": "2026-11-20",
     "title": "Skeptic check of Decide card atlas-funded-streak-1micro (after 2 ATLAS losses in a row, 1 micro until a win)…",
@@ -201,10 +208,24 @@
    },
    {
     "date": "2026-11-20",
+    "title": "Security check - who can see, fake or touch the bot (2026-11-20)",
+    "status": "findings",
+    "summary": "Read-only check of the public site, the public ntfy status channel, the phone remote, the private Tailscale pages and the repo history.",
+    "file": "research/writeups/security-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
     "title": "Regime guard - can a pre-session market signal (volatility risk premium, 1-year ATR percentile, 1-year trend-…",
     "status": "rejected",
     "summary": "None of the signals is more common in 2021-25 than in 2026 (bad-day share 2021-25 25-40% vs 2026 13-65%…",
     "file": "research/writeups/regime-guard-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "Red team 2 of the live bot (2026-11-20) - Thanksgiving / Christmas half days, restarts mid-trade, a 4th accou…",
+    "status": "finding",
+    "summary": "MFFU does not auto-close at a CME half-day halt (Thanksgiving 11-26 13:00 ET, 11-27 and 12-24 13:15 ET) and the bot's own flat at halt - 5 min runs only while the bot runs; a STOP, crash or restart without resume left a…",
+    "file": "research/writeups/redteam-live2-2026-11-20.md"
    },
    {
     "date": "2026-11-20",
@@ -243,38 +264,17 @@
    },
    {
     "date": "2026-11-20",
+    "title": "NQ bot speed and fills - where the 2.7 s from bar open to order go, 2 free speed-ups (-56% bot work, same tra…",
+    "status": "finding",
+    "summary": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
+    "file": "research/writeups/nq-speed-fills-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
     "title": "NQ live bot reliability - every way a backtest trade can miss the account, the fix or alarm for each, entry t…",
     "status": "finding",
     "summary": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
     "file": "research/writeups/nq-live-reliability-2026-11-20.md"
-   },
-   {
-    "date": "2026-11-20",
-    "title": "New strategy for the extra accounts (Rapid EOD 25K) - ICT ATM range + ES/NQ SMT as the trigger, MES as the tr…",
-    "status": "rejected",
-    "summary": "Every SMT set loses money in all three periods (PF 0.57-0.99, gross PF before costs 0.59-1.05): SMT used as the trigger has no edge, on NQ or on ES.",
-    "file": "research/writeups/newstrat-ict-smt-2026-11-20.md"
-   },
-   {
-    "date": "2026-11-20",
-    "title": "Money ideas (2026-11-20, night-moneyideas)",
-    "status": "finding",
-    "summary": "Ranked by $ a month per hour of the owner's time, at his real MFFU prices: answer 4 open Decide cards (about +$1,650 a month in a Jul-Oct 2026-like market, about +$34 in a 2021-25-like one); the 5th funded slot must be…",
-    "file": "research/writeups/money-ideas-2026-11-20.md"
-   },
-   {
-    "date": "2026-11-20",
-    "title": "Zlarior eval rescue (2026-11-20) - from today's hole, keep the live sizing, smaller room share, pause on the…",
-    "status": "rejected",
-    "summary": "Room 0.3 cuts the 50K blow to 11% / 10% and passes slightly more often (78% / 74%) but 5-7 sessions later and $49 / $77 a month less; room 0.2 less again.",
-    "file": "research/writeups/lit-eval-rescue-2026-11-20.md"
-   },
-   {
-    "date": "2026-11-20",
-    "title": "Zlarior (LIT) edge 2026-11-20 - 5 new pre-registered ideas (limit 2 ticks better, stale-sweep skip, news-day…",
-    "status": "rejected",
-    "summary": "Five genuinely new single versions were written down and committed before any run (research/lit/litedge_design_2026-11-20.md), scored exactly like the 2026-11-19 batch - the live LIT trades, costs in, LIT size, the live…",
-    "file": "research/writeups/lit-edge-2026-11-20.md"
    }
   ]
  },
@@ -372,9 +372,23 @@
   {
    "d": "2026-11-20",
    "who": "atlas",
+   "text": "(2) account_b.patch applied to a pc copy with FUNDED_ON = {funded_room_pct 0.4, streak_shrink 2}: never a larger size than today on 3,168 funded states (882 smaller), eval stage identical, Rapid lane untouched (RapidAtl…",
+   "src": "research/writeups/skeptic-live-patches-2026-11-20.md",
+   "kind": "account"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "atlas",
    "text": "Holds on 2 more seeds (Jul-Oct-like 23.5 - 12.5%, 23.8 - 11.7%) and lowers the loss odds in every 2021-25 year (but 89-99% are still lost).",
    "src": "research/writeups/skeptic-atlas-streak-2026-11-20.md",
    "kind": "verdicts"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "dev",
+   "text": "Read-only check of the public site, the public ntfy status channel, the phone remote, the private Tailscale pages and the repo history.",
+   "src": "research/writeups/security-2026-11-20.md",
+   "kind": "findings"
   },
   {
    "d": "2026-11-20",
@@ -382,6 +396,13 @@
    "text": "None of the signals is more common in 2021-25 than in 2026 (bad-day share 2021-25 25-40% vs 2026 13-65%…",
    "src": "research/writeups/regime-guard-2026-11-20.md",
    "kind": "rejected"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "dev",
+   "text": "MFFU does not auto-close at a CME half-day halt (Thanksgiving 11-26 13:00 ET, 11-27 and 12-24 13:15 ET) and the bot's own flat at halt - 5 min runs only while the bot runs; a STOP, crash or restart without resume left a…",
+   "src": "research/writeups/redteam-live2-2026-11-20.md",
+   "kind": "finding"
   },
   {
    "d": "2026-11-20",
@@ -417,6 +438,13 @@
    "text": "At least one payout by Dec 31 62% / by Jan 15 81% in a Jul-Oct-like market (77% / 90% Jan-Jun-like, 15% / 21% 2021-25-like); the first one is almost always ATLAS's 25K ($800 to you). 8 pre-registered levers judged on pa…",
    "src": "research/writeups/payday-plan-2026-11-20.md",
    "kind": "done"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "dev",
+   "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
+   "src": "research/writeups/nq-speed-fills-2026-11-20.md",
+   "kind": "finding"
   },
   {
    "d": "2026-11-20",
@@ -830,37 +858,28 @@
    "text": "Part A closes the open items from the Plutus fix - lit_funded_firms.py rerun with today's live trades and the live presets (eval room 0.8, funded 60% / = $1,500 / winner = $2,000), the Builder 25K row refreshed, BLITZ g…",
    "src": "research/writeups/2026-11-04_lit_ideas_round3.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-11-04",
-   "who": "lit",
-   "text": "Scale-in at LIT size re-measured with a bootstrap over sessions and over weeks and with only the best 1, 2 or 3 trades removed.",
-   "src": "research/writeups/2026-11-04_lit_ideas_round2.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-04",
-   "who": "lit",
-   "text": "No management change (partials, stair stops, stale exits, news exits, a later cut) and no entry-window or per-session change holds in both halves.",
-   "src": "research/writeups/2026-11-04_lit_ideas_night.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-04",
-   "who": "atlas",
-   "text": "The owner's ATLAS 25K passes its eval often (2-week pass / fail 65.5 / 0.0 and 43.5 / 0.0) but the funded account pays only $586 / $519 a month (6-month Monte Carlo, to you, 80% split). 39 versions on the same ATLAS tra…",
-   "src": "research/writeups/2026-11-04_atlas_round3.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-03",
-   "who": "dev",
-   "text": "The owner's TikTok \"it likes moves\" tree, built our own way on real CME NQ1! bars. 80 root rules (prior-day, overnight, Asia, London and opening-range highs and lows; fade after a sweep or trade the break; 1R / 2R; 60 /…",
-   "src": "research/writeups/2026-11-03-strategy-tree.md",
-   "kind": "rejected"
   }
  ],
  "lessons": [
+  {
+   "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-20",
+   "kind": "finding",
+   "strength": 2,
+   "merged": 2,
+   "sources": [
+    {
+     "src": "research/writeups/nq-speed-fills-2026-11-20.md",
+     "d": "2026-11-20"
+    },
+    {
+     "src": "research/writeups/nq-live-reliability-2026-11-20.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
   {
    "text": "Holds on 2 more seeds (Jul-Oct-like 23.5 - 12.5%, 23.8 - 11.7%) and lowers the loss odds in every 2021-25 year (but 89-99% are still lost).",
    "cat": "NQ strategy",
@@ -892,6 +911,21 @@
    ]
   },
   {
+   "text": "MFFU does not auto-close at a CME half-day halt (Thanksgiving 11-26 13:00 ET, 11-27 and 12-24 13:15 ET) and the bot's own flat at halt - 5 min runs only while the bot runs; a STOP, crash or restart without resume left a…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-20",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/redteam-live2-2026-11-20.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
+  {
    "text": "Neither beats a coin in all three periods, so the brief shows the call as context only.",
    "cat": "process",
    "who": "dev",
@@ -902,21 +936,6 @@
    "sources": [
     {
      "src": "research/writeups/premarket-brief-2026-11-20.md",
-     "d": "2026-11-20"
-    }
-   ]
-  },
-  {
-   "text": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-20",
-   "kind": "finding",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/nq-live-reliability-2026-11-20.md",
      "d": "2026-11-20"
     }
    ]
@@ -1785,25 +1804,6 @@
      "d": "2026-10-29"
     }
    ]
-  },
-  {
-   "text": "(1m for 2026, 5m for 2021-25), costs in ($1.90 a micro, 1 tick on every market and stop fill, limits only when traded through, every same-bar tie booked against us), picked on 2026 Jan-Jun, checked on Jul-Oct, 2021-25 o…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-10-28",
-   "kind": "promising",
-   "strength": 2,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/scalp-momentum.md",
-     "d": "2026-10-28"
-    },
-    {
-     "src": "research/writeups/lit-gap-audit.md",
-     "d": "2026-10-20"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1966,8 +1966,24 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up (findings): Security check - who can see, fake or touch the bot (2026-11-20)",
+   "src": "research/writeups/security-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up (finding): Red team of tonight's live code (2026-11-20) - what could stop the bot, slow an order, send a wrong order or…",
    "src": "research/writeups/redteam-live-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Red team 2 of the live bot (2026-11-20) - Thanksgiving / Christmas half days, restarts mid-trade, a 4th accou…",
+   "src": "research/writeups/redteam-live2-2026-11-20.md"
   },
   {
    "t": 1795176000,
@@ -1992,6 +2008,14 @@
    "ok": true,
    "text": "Write-up (finding): NQ live bot reliability - every way a backtest trade can miss the account, the fix or alarm for each, entry t…",
    "src": "research/writeups/nq-live-reliability-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): NQ bot speed and fills - where the 2.7 s from bar open to order go, 2 free speed-ups (-56% bot work, same tra…",
+   "src": "research/writeups/nq-speed-fills-2026-11-20.md"
   },
   {
    "t": 1795176000,
@@ -2048,6 +2072,14 @@
    "ok": true,
    "text": "Write-up (finding): ATLAS funded 25K at real fills - room 40% now wins, keep trading (don't pause), $750 ping and the Rapid ATLAS…",
    "src": "research/writeups/atlas-risk-real-fills-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (account): Skeptic check of the two live sizing patches (ATLAS funded switches in engine/account_b.py, ATLAS 10-tick siz…",
+   "src": "research/writeups/skeptic-live-patches-2026-11-20.md"
   },
   {
    "t": 1795172820,
@@ -3952,46 +3984,14 @@
    "ok": true,
    "text": "Write-up (rejected): LIT all hours - trading the whole CME day (Asia, 15:30-16:00, more trades a day, re-arming, the 18:00 F-BoS,…",
    "src": "research/writeups/lit-all-hours.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT advanced report ch2-4 - thesis boundary, session carryover, weak reactions, ES same event, owner's sessio…",
-   "src": "research/writeups/lit-adv-continuation.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT advanced report ch.7 audit (clocks, bar edges, unresolved records) and experiment 5 (NQ/ES divergence at…",
-   "src": "research/writeups/lit-adv-audit-smt.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): LIT trade selection - can we pick and size LIT setups like an experienced trader?",
-   "src": "research/writeups/lit-trade-selection.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): LIT higher-time-frame confluences - draw on liquidity, dealing ranges, PO3, bias, structure, HTF FVGs and tim…",
-   "src": "research/writeups/lit-htf-confluences.md"
   }
  ],
  "pipeline": {
   "src": "archive/index.json",
   "built": "2026-11-20",
   "counts": {
-   "ideas": 2344,
-   "testing": 534,
+   "ideas": 2345,
+   "testing": 535,
    "adopted": 98,
    "rejected": 1712
   },
@@ -4040,10 +4040,10 @@
    },
    {
     "name": "ATLAS",
-    "runs": 57,
+    "runs": 58,
     "adopted": 1,
     "rejected": 46,
-    "open": 10
+    "open": 11
    },
    {
     "name": "timing",
@@ -4096,6 +4096,13 @@
    }
   ],
   "moves": [
+   {
+    "id": "atlas_fresh_fixed",
+    "title": "ATLAS at a fixed $250 a trade, to the newest bars (edge-health input)",
+    "family": "ATLAS",
+    "verdict": "open",
+    "d": "2026-11-20"
+   },
    {
     "id": "lit_s2_thin_thin_x0p75",
     "title": "S2 edge (2026-11-15): thin:thinx0.75",
@@ -4228,13 +4235,6 @@
     "family": "risk",
     "verdict": "rejected",
     "d": "2026-11-15"
-   },
-   {
-    "id": "atlas_deep_today",
-    "title": "ATLAS today on the Builder 25K (account-B rules, fees at $43): the deep-edge ba…",
-    "family": "risk",
-    "verdict": "open",
-    "d": "2026-11-15"
    }
   ]
  },
@@ -4282,10 +4282,10 @@
    "file": "data/NQ_1d.csv"
   },
   {
-   "name": "VIX_1d.csv",
+   "name": "tv_mnq_5m_2026-10-16.csv",
    "last": "2026-10-16",
    "days": 35,
-   "file": "data/VIX_1d.csv"
+   "file": "data/tv_mnq_5m_2026-10-16.csv"
   }
  ],
  "mind": {
@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795176060,
+   "t": 1795187040,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,111 +4387,111 @@
   "available": true,
   "commits": [
    {
-    "t": 1795176005,
-    "s": "Gate: shell.css?v=s5 (the arenas kit bump missed the gate's inline loader), vault rebuilt on the merged tree"
+    "t": 1795185729,
+    "s": "test_atlas_funded_switches restores the repo FUNDED_ON after importing test_account_b_funded (redteam2 batch-…"
    },
    {
-    "t": 1795175995,
-    "s": "Merge branch 'local-landtool' into claude/clever-heisenberg-51zwcr"
+    "t": 1795184987,
+    "s": "Batch 3: cities3 round 4 (Right now card money facts first) + arenas round 5 (pulse test feeds its own fixtur…"
    },
    {
-    "t": 1795175983,
-    "s": "Merge branch 'land-batch2' into claude/clever-heisenberg-51zwcr"
+    "t": 1795184981,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into land-batch3"
    },
    {
-    "t": 1795175893,
-    "s": "Land tool: tools/land_branch.py (preview in a temp worktree; land one branch: known conflicts, bump, fix-ups,…"
+    "t": 1795184981,
+    "s": "Merge remote-tracking branch 'olympus/day-cities3' into land-batch3"
    },
    {
-    "t": 1795175552,
-    "s": "Batch 2 wiring fix: merged apps keep their own launch folders (test_apps_list a: row = folder + jarvis.json),…"
+    "t": 1795184951,
+    "s": "Round 4 (lead): Right now keeps the owner's money facts first (drawdown left per account, today's $), the win…"
    },
    {
-    "t": 1795174980,
-    "s": "Land batch 2 (day-arenas r2, day-nqdash3 r2-3, day-kalshi r2-3, day-litedge r1-2, day-brief r1-2, day-fleet,…"
+    "t": 1795184564,
+    "s": "Merge origin/pc into day-cities3 (gate head: pc's agora a7 / shell s5 + our gate g12 / home-fx x2; Data City…"
    },
    {
-    "t": 1795174863,
-    "s": "Merge branch 'land2-atlasedge' into land-batch2"
+    "t": 1795184533,
+    "s": "Tests: 0 open Decide cards is a real state (owner answered every card): decide d + week_more weekend accept it"
    },
    {
-    "t": 1795174863,
-    "s": "Merge branch 'land2-rapid' into land-batch2"
+    "t": 1795180898,
+    "s": "Land batch 3: safety + security (cross-site guard on the bot server incl. tailscale X-Forwarded-Host, old-acc…"
    },
    {
-    "t": 1795174863,
-    "s": "Merge branch 'land2-newstrat' into land-batch2"
+    "t": 1795180601,
+    "s": "Merge remote-tracking branch 'olympus/day-cities3' into land-batch3"
    },
    {
-    "t": 1795174846,
-    "s": "Merge branch 'land2-fleet' into land-batch2"
+    "t": 1795180572,
+    "s": "Merge remote-tracking branch 'olympus/day-speed' into land-batch3"
    },
    {
-    "t": 1795174846,
-    "s": "Merge branch 'land2-brief' into land-batch2"
+    "t": 1795180566,
+    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into land-batch3"
    },
    {
-    "t": 1795174832,
-    "s": "Merge branch 'land2-litedge' into land-batch2"
+    "t": 1795180566,
+    "s": "Merge remote-tracking branch 'olympus/day-newstrat' into land-batch3"
    },
    {
-    "t": 1795174831,
-    "s": "Merge branch 'land2-kalshi' into land-batch2"
+    "t": 1795180566,
+    "s": "Merge remote-tracking branch 'olympus/day-quality' into land-batch3"
    },
    {
-    "t": 1795174831,
-    "s": "Merge branch 'land2-nqdash3' into land-batch2"
+    "t": 1795180565,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into land-batch3"
    },
    {
-    "t": 1795174831,
-    "s": "Merge branch 'land2-arenas' into land-batch2"
+    "t": 1795180565,
+    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into land-batch3"
    },
    {
-    "t": 1795174803,
-    "s": "Dionysus: say plainly the hero is the retired crypto bot; round 3 write-up in REPORT"
+    "t": 1795180565,
+    "s": "Merge remote-tracking branch 'olympus/day-redteam2' into land-batch3"
    },
    {
-    "t": 1795174728,
-    "s": "Weekly review round 2: trades from the PC's status post (cloud can build it), each bot vs its backtest twin,…"
+    "t": 1795180565,
+    "s": "Merge remote-tracking branch 'olympus/day-security' into land-batch3"
    },
    {
-    "t": 1795174728,
-    "s": "Dionysus absorbs Kalshi City + Sibyl as plain cards: Kalshi fee table (K8 row), bet size vs going broke, what…"
+    "t": 1795180558,
+    "s": "test_pulse: the browser part serves its own home.json, trades.json and rules.json and checks each card's exac…"
    },
    {
-    "t": 1795174666,
-    "s": "Round 3: audit MERGE verdicts: NQ gets GO/WAIT/HALT per account (Ares), the bots' day line (Kairos), replay a…"
+    "t": 1795180547,
+    "s": "ATLAS funded status note shows the real share (40%) + the streak rule; test_account_b_funded pins the base 25…"
    },
    {
-    "t": 1795174483,
-    "s": "Dionysus merge: test work in progress snapshot"
+    "t": 1795180469,
+    "s": "Merge remote-tracking branch 'origin/pc' into day-arenas"
    },
    {
-    "t": 1795174475,
-    "s": "Dionysus merge: work in progress snapshot (helper still running)"
+    "t": 1795179728,
+    "s": "Owner YES (2026-11-20): ATLAS funded 25K room 40% + 1 micro after 2 losses ON (engine/account_b FUNDED_ON, Bu…"
    },
    {
-    "t": 1795174460,
-    "s": "Kalshi K8 live day view: big countdown to the next live window, what the bot will do, $ left before each stop…"
+    "t": 1795179560,
+    "s": "skeptic round 4: check scripts + results saved"
    },
    {
-    "t": 1795174294,
-    "s": "ATLAS funded switches: apply-on-yes patch (OFF by default) for room 40% and 2-losses-1-micro, tests 35/35, Si…"
+    "t": 1795179543,
+    "s": "skeptic round 4: live patches (account_b FIX FIRST one line, rapid SAFE), rapid-atlas-size-10t HOLDS"
    },
    {
-    "t": 1795174253,
-    "s": "Merge pc into day-brief"
+    "t": 1795179510,
+    "s": "Decide drop-lucid-account4 (owner YES, MFFU only): the Business page's account #4 line is now the MFFU next b…"
    },
    {
-    "t": 1795174214,
-    "s": "skeptic: report + lead wires for round 3"
+    "t": 1795179352,
+    "s": "PC watch: .github/workflows/pc-watch.yml (every 30 min weekdays, read-only, Actions-cache state, runs tools/p…"
    }
   ],
   "branches": [
    {
     "name": "claude/clever-heisenberg-51zwcr",
-    "t": 1795176005,
-    "s": "Gate: shell.css?v=s5 (the arenas kit bump missed the gate's inline loader), vault rebuilt on the me…"
+    "t": 1795185729,
+    "s": "test_atlas_funded_switches restores the repo FUNDED_ON after importing test_account_b_funded (redte…"
    }
   ]
  }
