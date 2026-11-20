@@ -36,13 +36,22 @@
   ol.dates b { font-family: var(--ag-num); white-space: nowrap; }
   .src a { overflow-wrap: anywhere; min-height: 32px; display: inline-block; }
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
+  .calc select { min-height: 44px; width: 100%; padding: 0 10px; border-radius: 12px; border: 1px solid var(--ag-line); background: var(--ag-raise); color: inherit; font: inherit; }
+  .ticks { display: grid; gap: 4px; font-size: .9rem; } .ticks label { display: flex; align-items: center; gap: 10px; min-height: 44px; } .ticks input { width: 22px; height: 22px; }
+  ol.wf, ol.ladder { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+  ol.wf li { display: flex; justify-content: space-between; gap: 10px; margin: 0; padding: 9px 0; border-bottom: 1px solid var(--ag-line); }
+  ol.wf b { font-family: var(--ag-num); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  ol.wf li.you b { color: var(--ag-gold); font-size: 1.15rem; }
+  ol.ladder li { display: grid; gap: 3px; margin: 0; padding: 10px 0; border-bottom: 1px solid var(--ag-line); } ol.ladder span { font-size: .9rem; }
+  .tbl { overflow-x: auto; } .tbl table { width: 100%; border-collapse: collapse; font-size: .88rem; font-variant-numeric: tabular-nums; }
+  .tbl th, .tbl td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--ag-line); vertical-align: top; } .tbl th { font-weight: 600; color: var(--ag-soft); } .tbl small { color: var(--ag-soft); }
   main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
 </style>
 </head>
 <body>
 <main id="app" class="tx">
   <a class="back" href="./">&larr; Business</a>
-  <header class="top"><div class="brand"><div><h1 class="ag-title">Taxes</h1><p class="sub">US federal rules for 2026, in plain words</p></div></div></header>
+  <header class="top"><div class="brand"><div><h1 class="ag-title">Taxes</h1><p class="sub">Keep the most of every payout: 2026 and 2027 rules, in plain words</p></div></div></header>
 
   <section class="ag-card card" id="s-min" aria-labelledby="minH">
     <div class="row"><h2 id="minH">In one minute</h2><span class="pill warn">NOT ADVICE</span></div>
@@ -51,7 +60,8 @@
       <li>You pay <b>income tax</b> plus <b>15.3% self-employment tax</b> on 92.35% of your profit (about 14% of profit).</li>
       <li>Eval fees, resets, data, platform and a business share of the PC and internet <b>lower the profit</b>.</li>
       <li>Pay four times a year. Next date: <b id="nextDue">Jan 15, 2027</b>.</li>
-      <li><b>The rule: move 30% of every payout to a separate tax pot the day it lands.</b></li>
+      <li><b>The rule: move 30% of every payout to a separate tax pot the day it lands</b> (Maryland: 30% for our expected year, 40% if you also have a day job: table below).</li>
+      <li>Then: 10% eval reserve, 10% retirement, 20% live-account fund, the rest is yours.</li>
     </ul>
   </section>
 
@@ -63,7 +73,7 @@
       <dt>Where it goes</dt><dd>Schedule C (profit or loss) and Schedule SE (self-employment tax) with your Form 1040.</dd>
       <dt>SE tax</dt><dd>15.3% = 12.4% Social Security + 2.9% Medicare, on 92.35% of profit. Half of it is deducted from your income.</dd>
       <dt>Not 60/40</dt><dd>The futures 60/40 rule is for your own contracts. A payout is the firm paying you, so treat it as normal income.</dd>
-      <dt>QBI</dt><dd>Likely up to 20% of the profit off your income tax (Form 8995). It does not lower SE tax.</dd>
+      <dt>QBI</dt><dd>Likely up to 20% of the profit off your income tax (Form 8995); from 2026 at least $400 if you have $1,000+ of active business income. It does not lower SE tax.</dd>
       <dt>Losing year</dt><dd>If fees beat payouts and you run it like a business, the loss can lower other income. Ask a pro.</dd>
     </dl>
   </section>
@@ -100,15 +110,84 @@
   <section class="ag-card card" id="s-pot" aria-labelledby="potH">
     <div class="row"><h2 id="potH">Set aside per payout</h2><span class="pill warn">ESTIMATE</span></div>
     <div class="calc">
-      <label>Payout received ($)<input id="pay" type="number" inputmode="decimal" min="0" step="1" value="1000"></label>
+      <label>Payout received ($)<input id="pay" type="number" inputmode="decimal" min="0" step="1" value="800"></label>
       <label>Tax pot (%)<input id="pct" type="number" inputmode="numeric" min="0" max="60" step="1" value="30"></label>
+      <label>Your year, after fees<select id="year"><option value="5000">up to $5,000</option><option value="15000">$5,000 - $15,000</option><option value="30000">$15,000 - $30,000</option><option value="60000" selected>$30,000 - $60,000</option><option value="100000">over $60,000</option></select></label>
+      <label>Live fund so far ($)<input id="liveHave" type="number" inputmode="decimal" min="0" step="1" value="0"></label>
     </div>
+    <div class="ticks">
+      <label><input id="job" type="checkbox"> I also have a day job</label>
+    </div>
+    <input id="resHave" type="hidden" value="0">
     <div class="out" aria-live="polite">
-      <div><span>To the tax pot</span><b id="pot">$300</b></div>
-      <div><span>Yours to keep</span><b id="mine">$700</b></div>
+      <div><span>To the tax pot</span><b id="pot">$240</b></div>
+      <div><span>After tax</span><b id="mine">$560</b></div>
     </div>
+    <ol class="wf" aria-live="polite">
+      <li><span>1. Tax pot (separate savings)</span><b id="wfPot">$240</b></li>
+      <li><span>2. Eval reserve, 10% until $320</span><b id="wfRes">$80</b></li>
+      <li><span>3. Retirement, 10% (Roth IRA / Solo 401(k))</span><b id="wfRet">$80</b></li>
+      <li><span>4. Live-account fund, 20% until $5,000</span><b id="wfLive">$160</b></li>
+      <li class="you"><span>5. Yours to spend</span><b id="wfYours">$240</b></li>
+    </ol>
+    <p class="note" id="wfDue">Pay the $240 tax pot to the IRS and Maryland by Jan 15, 2027 (1040-ES, Sep - Dec 2026).</p>
     <p class="note" id="month">At $2,800 a month: $840 to the pot, $1,960 yours, about $2,520 ready each quarter.</p>
-    <p class="note">Why 30%: on $2,800 a month with no other job the federal tax is roughly 18%; with a day job it is closer to 30%, and most states add more. 30% covers both. Leftover pot money after you file is yours.</p>
+    <p class="note">The "payout" is what lands in your bank (MFFU keeps 20%, so a $1,000 request = $800). Picking your year and the day-job box fills the Maryland % from the table below; you can still type your own. A full bucket gives its share back to you.</p>
+  </section>
+
+  <section class="ag-card card" id="s-pct" aria-labelledby="pctH">
+    <div class="row"><h2 id="pctH">How much to set aside</h2><span class="pill info">Maryland 2026</span></div>
+    <div class="tbl" role="region" aria-label="Set-aside table" tabindex="0">
+      <table>
+        <thead><tr><th>Profit a year (after fees)</th><th>Only trading</th><th>Plus a $50k day job</th></tr></thead>
+        <tbody>
+          <tr><td>$5,000</td><td><b>15%</b><br><small>$706</small></td><td><b>35%</b><br><small>$1,589 - $1,638</small></td></tr>
+          <tr><td>$15,000</td><td><b>20%</b><br><small>$2,584 - $2,662</small></td><td><b>35%</b><br><small>$4,768 - $4,914</small></td></tr>
+          <tr><td>$30,000</td><td><b>25%</b><br><small>$6,858 - $7,082</small></td><td><b>40%</b><br><small>$10,674 - $10,967</small></td></tr>
+          <tr><td>$60,000</td><td><b>30%</b><br><small>$16,381 - $16,898</small></td><td><b>40%</b><br><small>$23,112 - $23,715</small></td></tr>
+          <tr><td>$100,000</td><td><b>35%</b><br><small>$31,740 - $32,647</small></td><td><b>45%</b><br><small>$40,153 - $41,154</small></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Federal income tax + 15.3% self-employment tax + Maryland state tax + county tax, single, 2026 (2027 is within 1 point). The $ range = the lowest county rate (2.25%, Worcester) to the highest (3.30%); the % uses the highest, rounded up to the next 5%. It leaves out the 20% QBI deduction on purpose (likely, not certain for prop payouts): if it applies you get 2-5 points back when you file. <b>Our expected year (~$30,000 - $60,000, no day job): 30%.</b> With a day job: 40%.</p>
+  </section>
+
+  <section class="ag-card card" id="s-pen" aria-labelledby="penH">
+    <h2 id="penH">Never pay a penalty</h2>
+    <ul>
+      <li><b>Your 2026 tax was $0?</b> (a full year, no tax owed) Then there is no underpayment penalty for 2027 at all. You still owe the 2027 tax by Apr 15, 2028, so keep the pot anyway.</li>
+      <li><b>Otherwise:</b> by each due date pay a quarter of 100% of your 2026 total tax (110% if your 2026 income was over $150,000). Then no penalty, however big 2027 gets.</li>
+      <li><b>Day job trick:</b> raise the extra withholding on your W-4 at work. Withholding counts as paid evenly all year, even if you add it in December.</li>
+      <li>Pay from the pot on the four dates above, free at IRS Direct Pay. Keep every confirmation number.</li>
+    </ul>
+  </section>
+
+  <section class="ag-card card" id="s-ladder" aria-labelledby="ladH">
+    <div class="row"><h2 id="ladH">Keep more: do this at $X a year</h2><span class="pill">ladder</span></div>
+    <ol class="ladder">
+      <li><b>Day 1, any amount</b><span>Separate savings for the tax pot. Save every MFFU receipt (eval fees, resets, data, NinjaTrader). Write down the business % of the PC and internet. Each $100 of fees saves you about $15 - $30 of tax.</span></li>
+      <li><b>Under $15,000</b><span>Your income tax is near $0, so a <b>Roth IRA</b> beats a deduction: up to $7,500 a year (2026 and 2027) goes in after tax and comes out tax free later. Open one free at any big broker.</span></li>
+      <li><b>$15,000 - $30,000</b><span>Open a free <b>Solo 401(k)</b> (Fidelity, Schwab, E*TRADE). Pick <b>Roth</b> while your bracket is 10-12%; pick traditional once part of your income is taxed at 22%. You can put in up to about 93% of the profit at this level.</span></li>
+      <li><b>$30,000 - $60,000</b><span>Solo 401(k), traditional on the part above the 12% bracket. Example: $6,000 in at $60,000 saves about $1,060 of federal + Maryland tax (about $1,670 with a day job). If you buy your own health insurance, it is deductible too. An <b>HSA</b> only if your health plan is a high-deductible one ($4,400 a year single).</span></li>
+      <li><b>About $60,000+, steady for a year</b><span>Talk to a CPA about an <b>S-corp</b>. Break-even in Maryland is around $49,000 profit: below it the payroll, the extra return and the $300 report cost more than it saves. About $1,450 saved at $60,000, $2,600 at $100,000, $4,150 at $150,000. Check first that MFFU will pay a business.</span></li>
+      <li><b>LLC?</b><span>An LLC only protects your personal things; it changes no tax by itself (a one-owner LLC is taxed just like you now). In Maryland it costs $100 + $300 every year, so only worth it with the S-corp.</span></li>
+    </ol>
+    <p class="note">Retirement money is locked until about 59 1/2 (Roth IRA contributions, not growth, can come out any time). Deadlines: a sole owner can open a Solo 401(k) for a year even after Dec 31, up to the tax filing date (Apr 15, no extension), and put that first year's employee money in by then; employer money can wait until the filing date with extensions. A SEP-IRA can be opened up to the filing date with extensions but allows less at these incomes. 2027 limits: 401(k) $25,500, IRA $7,500, HSA $4,500.</p>
+  </section>
+
+  <section class="ag-card card" id="s-live" aria-labelledby="liveH">
+    <div class="row"><h2 id="liveH">When to open a live account</h2><span class="pill warn">YOUR MONEY</span></div>
+    <dl class="rules">
+      <dt>The trigger</dt><dd><b>$5,000 in the live fund, all from payouts, and at least 4 payouts received.</b> At 20% of each payout that is about 6 - 9 months.</dd>
+      <dt>Start at</dt><dd><b>1 MNQ per bot</b> (LIT and ATLAS, at most 2 micros open). Add 1 micro per bot for each extra $5,000.</dd>
+      <dt>Stop rule</dt><dd>If the account falls to $2,500, stop live and go back to prop only.</dd>
+      <dt>Why $5,000</dt><dd>On the bots' real trades at 1 MNQ: chance of losing half in a year 0% in a 2026-like market, 9% if the market turns like 2021-25 (no edge). At $3,000: 1% / 25%. At $1,000: 14% / 60%.</dd>
+      <dt>What it makes</dt><dd>About $1,540 a month at 1 MNQ each in a Jul-Oct 2026-like market, about $120 in a 2021-25-like one. Backtests overstate.</dd>
+      <dt>Why it pays</dt><dd>Your own futures gains are taxed 60/40 (Form 6781) and have <b>no self-employment tax</b>. In Maryland, $30,000 of prop payouts with no other job: about $6,800 tax; $30,000 of live futures gains: about $1,840 (all Maryland, $0 federal). With a day job: about $9,700 vs $6,000.</dd>
+      <dt>Margin</dt><dd>Day-trading margin for 1 MNQ is $100 at NinjaTrader and AMP (NQ $1,000); holding overnight needs about $4,600 for MNQ, $46,000 for NQ (checked Nov 20, 2026). The bots close the same day. The pattern-day-trader rule was for stock margin accounts only (and is being retired); futures never had it.</dd>
+      <dt>Losses</dt><dd>A net 60/40 loss can be carried back 3 years against 60/40 gains (Form 6781). Prop fees can't.</dd>
+    </dl>
+    <p class="note">Prop first, live as an add-on: a prop account risks only its fee ($43 - $97). Keep every MFFU slot full (max 2 funded Builder 25K, 1 Builder 50K, 5 funded in all); after the 5th payout a Builder moves to MFFU live and the sim accounts go dormant. Never trade against yourself across accounts (MFFU bans hedging). The live account stays paper-off until you arm it yourself.</p>
   </section>
 
   <section class="ag-card card" id="s-kalshi" aria-labelledby="kalH">
@@ -122,8 +201,18 @@
   </section>
 
   <section class="ag-card card" id="s-state" aria-labelledby="stH">
-    <h2 id="stH">Your state</h2>
-    <p class="lead">Most states tax this too and many want their own quarterly payments. No personal income tax: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, Wyoming (New Hampshire and Washington can still tax business receipts above a size). Check your state's revenue website.</p>
+    <div class="row"><h2 id="stH">Your state: Maryland</h2><span class="pill warn">TELL CLAUDE</span></div>
+    <dl class="rules">
+      <dt>State tax</dt><dd>2% rising to 4.75% from $3,000 (5% from $100,000; new 6.25% / 6.5% top brackets above $500,000 / $1,000,000). Standard deduction $3,350, personal exemption $3,200.</dd>
+      <dt>County tax</dt><dd>On top: 2.25% to 3.30% depending on your county (most are 3.20%; Anne Arundel and Frederick use bands). It adds about $700 - $1,000 at $30,000.</dd>
+      <dt>SE income</dt><dd>Taxed at the same state + county rates. No extra Maryland self-employment tax.</dd>
+      <dt>Futures 60/40</dt><dd>Maryland has no lower rate for capital gains: your own futures gains are taxed like normal income (about 6% - 8% with the county), plus a 2% surcharge only if your income is over $350,000. Still far less than prop income.</dd>
+      <dt>Quarterly</dt><dd>Maryland wants its own estimates (Form 502D with a PV voucher, or online) on the same 4 dates as the IRS once you expect to owe over $500. No penalty if you pay 110% of last year's Maryland tax or 90% of this year's; late money costs about 0.9% a month. Pay the Maryland part from the same pot.</dd>
+      <dt>Retirement</dt><dd>Maryland starts from your federal income, so a traditional Solo 401(k), SEP or HSA lowers Maryland tax too.</dd>
+      <dt>LLC</dt><dd>$100 to form, then a $300 annual report every Apr 15 (even with no income). No tax change by itself.</dd>
+      <dt>S-corp</dt><dd>Maryland follows the federal S election (still the $300 report), plus Maryland unemployment tax (1% - 2.6% of the first $8,500 of your salary).</dd>
+    </dl>
+    <p class="note"><b>Tell Claude your county and whether you have a day job</b>: the % above then becomes one exact number.</p>
   </section>
 
   <section class="ag-card card" id="s-rec" aria-labelledby="recH">
@@ -149,7 +238,7 @@
 
   <footer class="ag-card card src" aria-labelledby="srcH">
     <h2 id="srcH">Education, not tax advice</h2>
-    <p class="note">General US federal rules checked on IRS.gov on Nov 17, 2026. Your own numbers, state and situation can change the answer. Sources:</p>
+    <p class="note">General US federal rules checked on IRS.gov on Nov 17 and Nov 20, 2026. Your own numbers, state and situation can change the answer. Sources:</p>
     <ul class="note">
       <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/estimated-taxes" rel="noopener" target="_blank">IRS: Estimated taxes</a></li>
       <li><a href="https://www.irs.gov/publications/p505" rel="noopener" target="_blank">IRS: Publication 505 (dates, 110% rule)</a></li>
@@ -160,11 +249,20 @@
       <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/simplified-option-for-home-office-deduction" rel="noopener" target="_blank">IRS: Home office, simplified</a></li>
       <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/how-long-should-i-keep-records" rel="noopener" target="_blank">IRS: How long to keep records</a></li>
       <li><a href="https://www.irs.gov/individuals/free-tax-return-preparation-for-qualifying-taxpayers" rel="noopener" target="_blank">IRS: Free help (VITA)</a></li>
+      <li><a href="https://www.irs.gov/pub/irs-drop/rp-26-35.pdf" rel="noopener" target="_blank">IRS: Rev. Proc. 2026-35 (2027 brackets)</a></li>
+      <li><a href="https://www.irs.gov/pub/irs-drop/n-26-66.pdf" rel="noopener" target="_blank">IRS: Notice 2026-66 (2027 401(k) / IRA limits)</a></li>
+      <li><a href="https://www.irs.gov/pub/irs-pdf/p560.pdf" rel="noopener" target="_blank">IRS: Pub 560 (Solo 401(k), SEP)</a></li>
+      <li><a href="https://www.irs.gov/pub/irs-pdf/f6781.pdf" rel="noopener" target="_blank">IRS: Form 6781 (60/40, loss carryback)</a></li>
+      <li><a href="https://www.irs.gov/businesses/small-businesses-self-employed/s-corporation-employees-shareholders-and-corporate-officers" rel="noopener" target="_blank">IRS: S-corp reasonable salary</a></li>
+      <li><a href="https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/forms/worksheets/2026-pv-worksheet.pdf" rel="noopener" target="_blank">Maryland: 2026 estimated tax worksheet (rates, deduction, dates)</a></li>
+      <li><a href="https://www.marylandcomptroller.gov/content/dam/mdcomp/md/state-payroll/memos/2026/2026-maryland-state-and-local-withholding-information.pdf" rel="noopener" target="_blank">Maryland: 2026 county rates</a></li>
+      <li><a href="https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/legal-publications/technical-bulletins/tb-58.pdf" rel="noopener" target="_blank">Maryland: TB-58 (capital gains, 2% surcharge)</a></li>
+      <li><a href="https://dat.maryland.gov/businesses/Documents/FEES.pdf" rel="noopener" target="_blank">Maryland SDAT: LLC fees</a></li>
       <li><a href="https://help.myfundedfutures.com/en/articles/13337287-your-1099-tax-documents" rel="noopener" target="_blank">MFFU: Your 1099 tax documents</a></li>
       <li><a href="https://help.kalshi.com/en/articles/13823849-what-tax-documentation-does-kalshi-provide" rel="noopener" target="_blank">Kalshi: Tax documentation</a></li>
     </ul>
   </footer>
 </main>
-<script src="taxes.js?v=1"></script>
+<script src="taxes.js?v=3"></script>
 </body>
 </html>

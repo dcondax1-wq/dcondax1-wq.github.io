@@ -5,6 +5,10 @@
 // (../pc_feed.js: board_trades + "at", read here once per refresh, used for trades only while it is fresh: C.feedRows).
 import * as C from './tradingcore.js';
 import * as T from '../olympus/truth.js';
+import * as DK from '../nq/nqdesk.js?v=2';
+import * as NB from '../nq/nqbars.js?v=b1';
+import * as PR from '../nq/payready.js?v=1';
+import * as MG from './merged.js?v=1';     // round 3: Odeon reels + the Why study as cards   // nqdash3 round 2: payout readiness per funded account   // the PC's chart post (le-bars): an open trade's stop as it is now and the last price   // nqdash3: the accounts strip (the same cards as the NQ page)
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -336,13 +340,73 @@ function renderDeep() {
   safe(() => D.heat($('dHeat'), R, t)); safe(() => D.streaks($('dStreak'), R, t));
   safe(() => D.extremes($('dExt'), R, t)); safe(() => D.timeline($('dTime'), R, 6, t));
 }
+// nqdash3: the accounts strip. The PC's post laid over home.json the NQ way (pc_feed.js homeOver: the accounts, the payout line); DEMO = the NQ page's example
+function renderAccts() {
+  const box = $('acctStrip'); if (!box) return;
+  try {
+    const now = nowS(), F = window.PC_FEED;
+    let home = S.demo ? agesToTimes(S.nqfx && S.nqfx.home, now) : S.home0;
+    if (!S.demo && S.lite && F && F.homeOver) home = F.homeOver(S.home0, S.lite, now, window.PAYOUT_COACH || null);
+    let chart = S.chart;
+    if (S.demo && S.nqfx && S.nqfx.chart) { const cp = agesToTimes(S.nqfx.chart, now), b = NB.unpack(cp); chart = { opens: cp.open || [], last: b.length ? b[b.length - 1][4] : null, t: +cp.t || null }; }
+    const A = DK.accounts(home, S.biz, now, chart);
+    DK.draw.accounts(box, A); for (const c of box.children) c.setAttribute('role', 'listitem');
+    const n = A.filter((a) => a.dot === 'live').length, p = $('acctPill');
+    if (p) { p.textContent = S.demo ? 'DEMO' : `${n} of ${A.filter((a) => a.dot !== 'plan').length} live`; p.className = 'pill ' + (S.demo ? 'warn' : n ? 'ok' : 'bad'); }
+  } catch (_) { /* the rest of the page still draws */ }
+}
+// the chart post, read like the NQ page's live chart does (../status_feed.json -> ntfy "<topic>-bars"): only its open trades and last close are used here
+async function fetchChart() {
+  try {
+    const feed = await getJSON('../status_feed.json');
+    for (const u of NB.feedUrls(feed)) {
+      const ac = typeof AbortController === 'function' ? new AbortController() : null, tm = ac ? setTimeout(() => ac.abort(), 8000) : 0;
+      let txt = null;
+      try { const r = await fetch(u, { cache: 'no-store', ...(ac ? { signal: ac.signal } : {}) }); txt = r.ok ? await r.text() : null; } catch (_) { txt = null; } finally { clearTimeout(tm); }
+      const p = txt ? NB.parse(txt) : null;
+      if (p) { const b = NB.unpack(p); return { opens: Array.isArray(p.open) ? p.open : [], last: b.length ? b[b.length - 1][4] : null, t: +p.t || null }; }
+    }
+  } catch (_) { /* no chart post: the strip shows the report's numbers alone */ }
+  return null;
+}
+// payout readiness (../nq/payready.js): the PC's funded tracker from its ntfy post (S.lite = mf + board), the coach's MFFU rules; DEMO = the NQ example
+function renderPay() {
+  const box = $('payReady'); if (!box) return;
+  try {
+    const td = C.etParts ? C.etParts(nowS()).day : new Date().toISOString().slice(0, 10);
+    let lite = S.lite, src = "From your PC's 15-minute report (its funded tracker). MFFU's rules as the payout coach codes them.";
+    if (S.demo) {
+      lite = JSON.parse(JSON.stringify((S.nqfx && S.nqfx.payready_lite) || {})); src = 'EXAMPLE numbers (DEMO).';
+      for (const r of (lite.mf && lite.mf.a) || []) if (typeof r.lt_days_ago === 'number') { const t = new Date(td + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() - r.lt_days_ago); r.lt = t.toISOString().slice(0, 10); }
+    } else if (!lite) src = "Your PC's report has not arrived on this page yet: the tracker fills in from it.";
+    const L = PR.model(lite, S.demo ? null : S.home0, S.biz, window.PAYOUT_COACH || null, td);
+    PR.draw(box, L);
+    const p = $('payReadyPill'), ready = L.filter((a) => a.status === 'ready').length;
+    if (p) { p.textContent = ready ? `${ready} READY` : L.length ? 'Not yet' : 'No funded account'; p.className = 'pill ' + (ready ? 'ok' : 'warn'); }
+    const s2 = $('payReadySrc'); if (s2) s2.textContent = src;
+  } catch (_) { /* the rest of the page still draws */ }
+}
+// round 3: the reels (Odeon, ~0.5 MB) and the Why study load once, when their card is about to show
+function watchMerged() {
+  if (S.mgWatch) return; S.mgWatch = true;
+  // the Why study is small (~15 KB): drawn with the first paint (no jump); the reels file (~0.5 MB) waits for its card, whose list has a fixed height
+  getJSON('../why/why.json').then((w) => { try { MG.drawWhy($('why'), MG.why(w)); } catch (_) { /* nothing */ } });
+  const jobs = [['reelsCard', async () => { const o = await getJSON('../odeon/trades.json', 12000); MG.drawReels($('reels'), MG.reels(o), 8); }]];
+  for (const [id, job] of jobs) {
+    const card = $(id); if (!card) continue;
+    const go = () => job().catch(() => {}).finally(() => card.classList.remove('mg-lazy'));
+    if (!('IntersectionObserver' in window)) { go(); continue; }
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' });
+    io.observe(card);
+  }
+}
 function renderFiltered() { renderCal(); renderTrades(); renderEdge(); renderEquity(); renderDeep(); }
 function render() {
   model();
   $('demo').hidden = !S.demo;
   if (!S.srcPicked) { S.src = C.defaultSrc(S.rows); S.srcPicked = true; }
   if (S.acct !== 'all' && !S.srcPicked2) { S.srcPicked2 = true; if (C.liveAccounts(S.rows).some((a) => a.k === S.acct)) S.src = 'live'; }
-  renderBanner(); renderToday(); renderFilters(); renderFiltered(); renderStats(); renderRules(); renderTwins();
+  renderBanner(); renderToday(); renderAccts(); renderPay(); watchMerged(); renderFilters(); renderFiltered(); renderStats(); renderRules(); renderTwins();
   const n = C.counts(S.rows);
   say(`${S.live.head} ${n.live} live, ${n.paper} paper and ${n.backtest} backtest trades.${S.demo ? ' Example numbers, not real.' : ''}`);
   S.ready = true;
@@ -363,8 +427,10 @@ function settleBoxes() {
 }
 async function refresh() {
   if (S.forced || document.hidden) return;
-  const home = await withFeed(await getJSON('../home.json'));
+  const raw = await getJSON('../home.json'), home = await withFeed(raw);
   if (home) S.home = home;
+  if (raw) S.home0 = raw;
+  { const c = await fetchChart(); if (c) S.chart = c; }
   render();
 }
 async function boot() {
@@ -380,8 +446,10 @@ async function boot() {
   $('sheetClose').addEventListener('click', closeSheet); $('veil').addEventListener('click', closeSheet);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
   const [fx, file, home, rules, biz] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('./trades.json'), S.forced ? null : getJSON('../home.json'), getJSON('../ledger/rules.json'), getJSON('../business/accounts.json')]);
-  S.fixture = fx; S.file = file; S.home = home; S.rules = rules; S.biz = biz;
+  S.fixture = fx; S.file = file; S.home = home; S.home0 = home; S.rules = rules; S.biz = biz;
+  S.nqfx = (!file || S.forced) ? await getJSON('../nq/fixture.json') : null;
   render();
+  if (!S.forced) fetchChart().then((c) => { if (c) { S.chart = c; renderAccts(); } });
   if (!S.forced) withFeed(home).then((hm) => { if ((hm !== home || S.lite) && !S.forced) { S.home = hm || S.home; render(); } });
   setInterval(() => { if (!document.hidden) { renderBanner(); renderToday(); } }, 60000);
   setInterval(refresh, 5 * 60000);
@@ -389,5 +457,5 @@ async function boot() {
   const A = window.AGORA;
   if (A && A.pull) A.pull(async () => { await refresh(); if (A.toast) A.toast(S.forced ? 'Demo numbers: nothing to refresh' : 'Up to date'); });
 }
-window.TRADING = { S, C, ready: () => S.ready, render, openDay, closeSheet, stepMonth };
+window.TRADING = { S, C, DK, ready: () => S.ready, render, openDay, closeSheet, stepMonth };
 boot().catch((e) => { say('Something went wrong: ' + (e && e.message ? e.message : e)); try { if (O && O.fail) O.fail('Trading could not start'); } catch (_) { /* nothing */ } });

@@ -8,7 +8,7 @@ const $ = (id) => document.getElementById(id);
 function h(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = String(text); return e; }
 const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); };
 const sign = (v) => (v > 0 ? 'pos' : v < 0 ? 'neg' : '');
-const S = { book: null, edges: null, whatif: null, fixture: null, demo: false, pick: '', now: 0, ready: false, hl: null, wi: null, g: null };
+const S = { learned: null, sugg: null, sibyl: null, sibylFwd: null, k8: null, book: null, edges: null, whatif: null, fixture: null, demo: false, pick: '', now: 0, ready: false, hl: null, wi: null, g: null };
 const SRC = { feed: 'Live feed', site: 'The site\'s copy (the live feed was not reachable)', demo: 'Example numbers' };
 
 async function getJSON(url, ms) {
@@ -71,9 +71,74 @@ function renderScan() {
   if (hl.edges != null) box.appendChild(h('p', 'note', `${hl.edges} kinds of bet checked, ${hl.proven} look proven. Looking back, not a promise.`));
 }
 
+function renderK8() {                       // K8 today: the site's ../kalshi/k8.json (Kalshi's public results); absent = the panel hides
+  const card = $('k8Card'), k = S.k8 ? C.k8Panel(S.k8, S.now * 1000) : null;
+  card.hidden = !k;
+  if (!k) return;
+  $('k8Note').textContent = `Kalshi's public results${k.through ? ' through ' + k.through : ''}, not our bets. Fair = the price where the bet breaks even after the fee.`;
+  const ul = $('k8Legs'); clear(ul);
+  for (const L of k.legs) {
+    const li = h('li', 'k8leg'); li.appendChild(h('b', '', `${L.at ? L.at + ' ET ' : ''}${L.name}`));
+    li.appendChild(h('span', 'note', `fair ${L.fair == null ? '–' : L.fair + '¢'}${L.rate == null ? '' : ` · won ${Math.round(L.rate * 100)}%${L.n ? ' of ' + L.n : ''}`}`));
+    const wl = h('span', 'k8wl'); for (const c of L.last10.split('')) wl.appendChild(h('i', c === 'W' ? 'w' : 'l', c)); if (!L.last10) wl.appendChild(h('span', 'note', 'no results yet'));
+    li.appendChild(wl); ul.appendChild(li);
+  }
+  const pc = (x) => (x == null ? '–' : Math.round(x * 100) + '%');
+  const pr = $('k8Pool'); clear(pr);
+  pr.appendChild(h('span', '', 'All legs, won last 30: ')); pr.appendChild(h('b', k.l30, pc(k.r30))); pr.appendChild(h('span', '', ' · last 60: ')); pr.appendChild(h('b', k.l60, pc(k.r60)));
+  pr.appendChild(h('span', '', ` · OFF under ${Math.round(k.min * 100)}%`));
+  const v = $('k8Verdict'); v.textContent = k.verdict; v.className = 'pill ' + ({ ok: 'ok', watch: 'warn', off: 'bad' }[k.level] || '');
+  $('k8Noise').textContent = k.noise; $('k8Noise').hidden = !k.noise;
+}
+
+// ------------------------------------------------------------------------------------------------ merged from Kalshi City + Sibyl (day-kalshi 2026-11-20)
+// Plain cards only (no 3D, no blur). Everything but the fee rule comes from the OLD crypto bot's study, retired 2026-11-19: labelled as history, never live.
+function k8Price() {                        // K8's average entry (cents) from k8.json's live legs, to mark the fee row it pays
+  const legs = S.k8 && Array.isArray(S.k8.legs) ? S.k8.legs.filter((x) => x && x.live === true && Number.isFinite(x.avg_c)) : [];
+  return legs.length ? legs.reduce((a, x) => a + x.avg_c, 0) / legs.length : null;
+}
+function renderFees() {
+  const f = C.feeTable(S.learned), card = $('feeCard'); card.hidden = !f; if (!f) return;
+  const kp = k8Price(), near = kp == null ? -1 : f.rows.reduce((bi, r, i) => (Math.abs(r.price - kp) < Math.abs(f.rows[bi].price - kp) ? i : bi), 0);
+  const tb = $('feeRows'); clear(tb);
+  f.rows.forEach((r, i) => { const tr = h('tr', i === near ? 'k8' : ''); tr.appendChild(h('td', '', r.price + '¢' + (i === near ? ' (K8)' : ''))); tr.appendChild(h('td', '', r.fee.toFixed(2) + '¢')); tr.appendChild(h('td', '', r.be.toFixed(1) + '%')); tb.appendChild(tr); });
+  const k = near >= 0 ? f.rows[near] : null;
+  $('feeLead').textContent = k ? `K8 buys near ${Math.round(kp)}¢. There the fee is about ${k.fee.toFixed(2)}¢ a contract, so a bet must win more than ${k.be.toFixed(1)}% just to break even.`
+    : 'The fee is biggest near 50¢ and tiny near 99¢. "Must win" is how often a bet at that price has to win just to break even.';
+  $('feeNote').textContent = `Kalshi's own fee rule, the same for every bet. ${f.gross != null && f.net != null && f.total != null ? `The ${C.OLD_WORD} made ${C.usdS(f.gross)} before fees, paid ${C.usd(f.total)} in fees and ended at ${C.usdS(f.net)}${f.bets ? ` over ${f.bets.toLocaleString('en-US')} bets` : ''}.` : ''}`;
+}
+function renderRuin() {
+  const r = C.ruinTable(S.learned), card = $('ruinCard'); card.hidden = !r; if (!r) return;
+  $('ruinLead').textContent = `Starting from ${C.usd(r.bank)}, close to K8's $55: the bigger each bet, the more often the money ran out. Small fixed bets almost never went broke.`;
+  const ul = $('ruinRows'); clear(ul);
+  for (const x of r.rows) { const li = h('li', 'bet ' + (x.ruin > 0.1 ? 'bad' : x.ruin < 0.01 ? 'ok' : '')); li.appendChild(h('b', '', `${C.pct(x.ruin, x.ruin < 0.01 ? 1 : 0)} went broke`)); li.appendChild(h('span', 'note', `${x.policy.replace('(today)', '(what the old bot used)')}${x.median != null ? ' · middle result ' + C.usd(x.median) : ''}`)); ul.appendChild(li); }
+  $('ruinNote').textContent = `A ${r.days || 90}-day simulation of the old bot's late-favourite bets, ${r.perDay || 12} a day (${C.OLD_WORD}). "Broke" = under ${C.usd(r.floor || 6)}. Looking back, not a promise.`;
+}
+function renderLessons() {
+  const L = C.oldLessons(S.learned, S.sugg), card = $('lessonCard'); card.hidden = !L; if (!L) return;
+  $('lessonHead').textContent = L.head ? L.head.replace(/(\d+)-(\d+)c\b/g, '$1–$2¢').replace(/(\d+)c\+/g, '$1¢ and up') : 'What lost money for the old bot.';
+  const ul = $('lessonRows'); clear(ul);
+  for (const i of L.items) { const li = h('li', 'bet bad'); li.appendChild(h('b', '', `${i.verdict === 'stop' ? 'Lost' : 'Weak'}: ${i.kind}, ${C.usdS(i.net)} over ${i.n} bets`)); li.appendChild(h('span', 'note', i.rule)); ul.appendChild(li); }
+  const nt = $('lessonNotes'); clear(nt); for (const n of L.notes) nt.appendChild(h('li', '', n));
+  $('lessonNote').textContent = `History of the ${C.OLD_WORD}${L.bets ? ', ' + L.bets.toLocaleString('en-US') + ' settled bets' : ''}${L.day ? ', study of ' + L.day : ''}. The crypto bot is retired; this is what not to repeat.`;
+}
+function renderSibyl() {
+  const v = C.sibylView(S.sibyl, S.sibylFwd), card = $('sibylCard'); card.hidden = !v; if (!v) return;
+  $('sibylHead').textContent = v.counts ? `${v.counts.worthy} paper pick${v.counts.worthy === 1 ? '' : 's'} of ${v.counts.edges} kinds of bet${v.asof ? ' (study of ' + v.asof + ')' : ''}.` : 'No pick file right now.';
+  const ul = $('sibylRows'); clear(ul);
+  for (const p of v.picks) { const li = h('li', 'bet'); li.appendChild(h('b', '', p.title)); li.appendChild(h('span', 'note', `${p.edge == null ? '' : C.cents(p.edge / 100) + ' per $1 after fees (cautious) · '}${p.win == null ? '' : 'won ' + C.pct(p.win, 1) + ' · '}n=${p.n} bets`)); ul.appendChild(li); }
+  if (v.counts && !v.picks.length) ul.appendChild(h('li', 'note', 'No kind of bet clears the cautious test. Staying out is a result.'));
+  const o = v.own, pill = $('sibylPill');
+  if (!o) { $('sibylOwn').textContent = 'Its own paper record has not started yet.'; pill.textContent = 'Paper'; pill.className = 'pill'; return; }
+  pill.textContent = o.claim ? `Record n=${o.n}` : `Collecting n=${o.n}`; pill.className = 'pill ' + (o.claim ? 'info' : 'warn');
+  $('sibylOwn').textContent = o.claim ? `Its own paper record since ${o.start}: ${o.wins} won of ${o.n}, net ${C.usdS(o.net)}. ${o.open} still open.`
+    : `Its own paper record since ${o.start}: ${o.n} settled, ${o.open} open. Under ${C.SIBYL_MIN} settled bets: no claim yet.`;
+}
+
 function render() {
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
-  renderHero(); renderGuard(); renderBets(); renderWhatIf(); renderScan();
+  renderHero(); renderK8(); renderGuard(); renderBets(); renderWhatIf(); renderScan();
+  for (const [f, id] of [[renderFees, 'feeCard'], [renderRuin, 'ruinCard'], [renderLessons, 'lessonCard'], [renderSibyl, 'sibylCard']]) { try { f(); } catch (_) { $(id).hidden = true; } }   // a junk file hides only its own card
   say(`${S.book.name}: balance ${C.usd(S.book.balance)}. ${S.g.title}. ${S.g.text}`);
   S.ready = true;
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
@@ -82,7 +147,12 @@ function render() {
 async function boot() {
   const q = new URLSearchParams(location.search), forced = q.get('demo') === '1', at = q.get('at');
   S.now = at && Number.isFinite(Date.parse(at)) ? Date.parse(at) / 1000 : Date.now() / 1000;
-  const [fx, feed, edges, wi] = await Promise.all([getJSON('./fixture.json'), forced ? null : getFeed(5000), forced ? null : getJSON('../kalshicity/edges.json'), forced ? null : getJSON('../kalshicity/whatif.json')]);
+  const [fx, feed, edges, wi, k8, lr, sg, sb, sf] = await Promise.all([getJSON('./fixture.json'), forced ? null : getFeed(5000), forced ? null : getJSON('../kalshicity/edges.json'), forced ? null : getJSON('../kalshicity/whatif.json'),
+    forced ? null : getJSON('../kalshi/k8.json', 3000), forced ? null : getJSON('../kalshicity/learned.json', 4000), forced ? null : getJSON('../kalshicity/suggestions.json', 4000),
+    forced ? null : getJSON('../money/sibyl.json', 4000), forced ? null : getJSON('../money/sibyl_forward.json', 4000)]);
+  const obj = (x) => (x && typeof x === 'object' && !Array.isArray(x) ? x : null);
+  S.k8 = obj(k8);
+  S.learned = obj(lr); S.sugg = obj(sg); S.sibyl = obj(sb); S.sibylFwd = obj(sf);
   S.fixture = fx; const book = C.chooseBook(feed, edges, fx); if (!book) throw new Error('no numbers');
   S.book = book; S.demo = book.src === 'demo';
   S.edges = S.demo ? (fx && fx.edges) || null : edges; S.whatif = S.demo ? (fx && fx.whatif) || null : wi;

@@ -219,3 +219,4 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .verdict b.v { color: #c9a06a; }
 .gauge [data-warn="1"] .v, .gauge [data-id="dd"][data-warn="1"] .v, .gauge [data-id="odds"][data-warn="1"] .v { color: var(--ag-terra-text, #e08a6b); }
 .verdict b.v, .cap .k.v { color: #c9a06a; }
+.lab .folded { padding: 0 12px 12px; }  /* day-arenas: Moirai / Labyrinth folded in */

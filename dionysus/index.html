@@ -27,7 +27,7 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b77a8a'); r.setProperty('--oly-accent-rgb', '183, 122, 138'); })();</script>
-<link rel="stylesheet" href="dionysus.css?v=a1q">
+<link rel="stylesheet" href="dionysus.css?v=a3">
 </head>
 <body>
 <main id="app">
@@ -38,11 +38,19 @@
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <section class="ag-card card hero" aria-labelledby="botName">
     <div class="row"><h2 id="botName">Kalshi bot</h2><span class="pill" id="botPill">...</span></div>
+    <p class="note" id="retNote"><b>Old crypto bot, retired 2026-11-19</b>: its numbers below are history, not a bot that trades now. Today's Kalshi bot is K8 (the card below and the Kalshi page).</p>
     <p class="big ag-num" id="bal">$0.00</p>
     <p class="note">Balance</p>
     <div class="tiles" id="heroTiles"></div>
     <p class="note" id="srcNote"></p>
     <p class="banner">Suggestions only. Nothing on this page places, changes or stops a bet.</p>
+  </section>
+  <section class="ag-card card k8" id="k8Card" aria-labelledby="k8H" hidden>
+    <div class="row"><h2 id="k8H">K8 today</h2><span class="pill" id="k8Verdict">...</span></div>
+    <p class="note" id="k8Note"></p>
+    <ul class="plain" id="k8Legs"></ul>
+    <p class="k8pool" id="k8Pool"></p>
+    <p class="lead" id="k8Noise"></p>
   </section>
   <section class="ag-card card" id="guardCard" aria-labelledby="guardH">
     <div class="row"><h2 id="guardH">The guard</h2><span class="pill" id="guardPill">...</span></div>
@@ -69,8 +77,53 @@
     <div id="scan"></div>
   </section>
 
+  <!-- merged from Kalshi City + Sibyl (day-kalshi 2026-11-20, AUDIT revamp-main): plain cards, no 3D, no blur. Each hides when its file is missing or junk. -->
+  <section class="ag-card card" id="feeCard" aria-labelledby="feeH" hidden>
+    <div class="row"><h2 id="feeH">What Kalshi's fee costs</h2><span class="pill info">Any bet</span></div>
+    <p class="lead" id="feeLead"></p>
+    <table class="ftab" aria-describedby="feeLead"><thead><tr><th scope="col">Price</th><th scope="col">Fee per contract</th><th scope="col">Must win</th></tr></thead><tbody id="feeRows"></tbody></table>
+    <p class="note" id="feeNote"></p>
+  </section>
+  <section class="ag-card card" id="ruinCard" aria-labelledby="ruinH" hidden>
+    <div class="row"><h2 id="ruinH">Bet size vs going broke</h2><span class="pill">Old bot (retired)</span></div>
+    <p class="lead" id="ruinLead"></p>
+    <ul class="plain" id="ruinRows"></ul>
+    <p class="note" id="ruinNote"></p>
+  </section>
+  <section class="ag-card card" id="lessonCard" aria-labelledby="lessonH" hidden>
+    <div class="row"><h2 id="lessonH">What the old bot taught</h2><span class="pill">Old bot (retired)</span></div>
+    <p class="lead" id="lessonHead"></p>
+    <ul class="plain" id="lessonRows"></ul>
+    <ul class="plain dots" id="lessonNotes"></ul>
+    <p class="note" id="lessonNote"></p>
+  </section>
+  <section class="ag-card card" id="sibylCard" aria-labelledby="sibylH" hidden>
+    <div class="row"><h2 id="sibylH">Sibyl's paper picks</h2><span class="pill" id="sibylPill">Paper</span></div>
+    <p class="lead" id="sibylHead"></p>
+    <ul class="plain" id="sibylRows"></ul>
+    <p class="note" id="sibylOwn"></p>
+    <p class="note">Built from the old bot's study (retired). Paper only: Sibyl never places a bet.</p>
+  </section>
+  <section class="ag-card card" id="wordsCard" aria-labelledby="wordsH">
+    <details>
+      <summary id="wordsH">Kalshi words, in plain English</summary>
+      <dl class="words">
+        <dt>Contract</dt><dd>One yes/no ticket. It pays $1 if you are right and $0 if you are wrong.</dd>
+        <dt>Price (¢)</dt><dd>What one contract costs. 50¢ means the market thinks it is a coin flip.</dd>
+        <dt>Fee</dt><dd>Kalshi's cut on every buy: biggest near 50¢ (about 1.75¢ a contract), tiny near 99¢.</dd>
+        <dt>Fair / break-even</dt><dd>The price where a bet neither makes nor loses money after the fee, given how often it wins.</dd>
+        <dt>Win rate</dt><dd>How often the bet won. It has to beat the break-even rate to make money.</dd>
+        <dt>R</dt><dd>One unit of risk: what one bet can lose. +2R = made twice the bet.</dd>
+        <dt>EV</dt><dd>Expected value: what a bet is worth on average, after the fee.</dd>
+        <dt>n</dt><dd>How many bets a number is based on. Under 30 is mostly luck.</dd>
+        <dt>Paper</dt><dd>Written down as if bet, with no money. Nothing is bought.</dd>
+      </dl>
+    </details>
+  </section>
+
   <p class="foot" id="foot">Dionysus reads the public Kalshi feed and the site's own Kalshi study files, read only. It sends nothing and cannot place or change a bet. Kalshi runs on real money: the study looks back, it is not a promise.</p>
+  <nav class="older" aria-label="Older pages"><span class="note">Older pages (archive):</span> <a class="btn" href="../sibyl/">Sibyl</a> <a class="btn" href="../kalshicity/">Kalshi City</a></nav>
 </main>
-<script type="module" src="dionysus.js?v=a2"></script>
+<script type="module" src="dionysus.js?v=a4"></script>
 </body>
 </html>

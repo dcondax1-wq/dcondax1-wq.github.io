@@ -3,6 +3,7 @@
 // window.DEMETER is the test hook. ?acct=atlas&size=1.5 opens a given account and size.
 import * as C from './demetercore.js';
 import * as T from '../olympus/truth.js';
+const nameOf = (a) => (String(a.name || '').includes(String(a.size || '~')) || !a.size ? String(a.name || '') : `${a.name} ${a.size}`);   // day-arenas: never 'Zlarior 25K #2 25K'
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -35,14 +36,14 @@ function renderPicker() {
   const box = $('pick'); clear(box);
   for (const a of S.accounts) {
     const b = h('button', 'pickbtn'); b.type = 'button'; b.dataset.key = a.key; b.setAttribute('aria-pressed', a.key === S.sel ? 'true' : 'false');
-    b.setAttribute('aria-label', `${a.name} ${a.size}: ${a.room != null ? C.drawdownLine(a.room, a.mll) : 'no numbers yet'}`);
+    b.setAttribute('aria-label', `${nameOf(a)}: ${a.room != null ? C.drawdownLine(a.room, a.mll) : 'no numbers yet'}`);
     b.appendChild(dialSvg(a, true)); b.appendChild(h('b', '', a.name)); b.appendChild(h('span', 'note', a.size));
     b.addEventListener('click', () => { S.sel = a.key; render(); }); box.appendChild(b);
   }
 }
 
 function renderDial(a) {
-  $('dialH').textContent = `${a.name} ${a.size}`;
+  $('dialH').textContent = nameOf(a);
   const hl = C.health(a), p = $('dialPill'); p.textContent = hl.text; p.className = 'pill ' + (hl.level === 'off' ? '' : hl.level);
   const box = $('dialBox'); clear(box); box.appendChild(dialSvg(a, false));
   $('dd').textContent = a.room != null ? C.drawdownLine(a.room, a.mll) : a.has ? 'Drawdown is not reported yet.' : 'No numbers yet. The dial fills the moment the bot reports this account.';

@@ -106,6 +106,8 @@
     draw(M.pick({ site, lite, plan, fixture, demo }, nowS()));
     try { if (window.EDGE_CHIP && !demo) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
     try { if (window.PAYOUT_CARD && !demo) window.PAYOUT_CARD.mount($('payouts'), { plan, lite, title: 'Payouts', titleClass: 'sect' }); } catch (e) { /* never the page */ }
+    window.BOARD.data = { lite, plan, demo };                       // nqdash3: payready_mount.js (payout readiness) reads it
+    try { window.dispatchEvent(new Event('board-data')); } catch (e) { /* the readiness card waits */ }
   }
 
   window.BOARD = { load, last: null };

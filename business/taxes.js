@@ -1,5 +1,5 @@
 // TAXES page (classic script, nothing leaves the phone). The next 4 federal estimated-tax due dates from today's date and a
-// set-aside calculator (payout -> tax pot -> yours). Drawn with textContent only. Education, not tax advice.
+// set-aside calculator (payout -> tax pot -> yours) and the payout waterfall (2026-11-20). Drawn with textContent only. Education, not tax advice.
 (function (root) {
   'use strict';
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -55,7 +55,26 @@
     return { payout: r2(P), pct: Q, pot, yours: r2(P - pot) };
   }
 
-  const api = { DEFAULT_PCT, dueDates, split, fmtDate, iso, usd };
+  // keep-the-most (2026-11-20, tools/money/keep_most.py -> research/lab/keep_most.json): the set-aside % in MARYLAND
+  // (federal + SE + state + the highest county rate, 3.30%) by the year's profit after fees, rounded UP to the next 5,
+  // safe default = no QBI. [up to $ a year, only trading, + a $50k day job]
+  const POT_TABLE = [[5000, 15, 35], [15000, 20, 35], [30000, 25, 40], [60000, 30, 40], [Infinity, 35, 45]];
+  function potPct(yearProfit, dayJob) {
+    const y = toNum(yearProfit); const row = POT_TABLE.find((r) => (y == null ? 30000 : y) <= r[0]) || POT_TABLE[POT_TABLE.length - 1];
+    return row[dayJob ? 2 : 1];
+  }
+  const LIVE_TARGET = 5000, RESERVE_TARGET = 320;
+  // the day a payout lands: tax pot, eval reserve (10% until $320), retirement 10%, live fund (20% until $5,000), the rest yours
+  function waterfall(received, pct, liveBanked, reserveBanked) {
+    const s = split(received, pct), P = s.payout;
+    const lb = Math.max(0, toNum(liveBanked) || 0), rb = Math.max(0, toNum(reserveBanked) || 0);
+    const reserve = r2(Math.min(P * 0.10, Math.max(0, RESERVE_TARGET - rb)));
+    const retire = r2(P * 0.10);
+    const live = r2(Math.min(P * 0.20, Math.max(0, LIVE_TARGET - lb)));
+    return { payout: P, pct: s.pct, pot: s.pot, reserve, retire, live, yours: r2(P - s.pot - reserve - retire - live) };
+  }
+
+  const api = { DEFAULT_PCT, dueDates, split, fmtDate, iso, usd, potPct, waterfall, LIVE_TARGET, RESERVE_TARGET };
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TAXES = api;
   if (typeof document === 'undefined') return;
@@ -76,10 +95,22 @@
     const s = split($('pay').value, $('pct').value), m = split(2800, s.pct);
     $('pot').textContent = usd(s.pot); $('mine').textContent = usd(s.yours);
     $('month').textContent = 'At $2,800 a month: ' + usd(m.pot) + ' to the pot, ' + usd(m.yours) + ' yours, about ' + usd(r2(m.pot * 3)) + ' ready each quarter.';
+    if (!$('wfYours')) return;
+    const w = waterfall($('pay').value, s.pct, $('liveHave') ? $('liveHave').value : 0, $('resHave') ? $('resHave').value : 0);
+    $('wfPot').textContent = usd(w.pot); $('wfRes').textContent = usd(w.reserve); $('wfRet').textContent = usd(w.retire);
+    $('wfLive').textContent = usd(w.live); $('wfYours').textContent = usd(w.yours);
+    const d = dueDates(new Date(), 1)[0];
+    if (d && $('wfDue')) $('wfDue').textContent = 'Pay the ' + usd(w.pot) + ' tax pot to the IRS and Maryland by ' + fmtDate(d.due) + ' (1040-ES, ' + d.period + ').';
+  }
+  function suggest() {
+    const y = $('year'), j = $('job'); if (!y || !$('pct')) return;
+    $('pct').value = String(potPct(y.value, j && j.checked));
+    drawCalc();
   }
   function start() {
     drawDates();
-    for (const id of ['pay', 'pct']) { const e = $(id); if (e) e.addEventListener('input', drawCalc); }
+    for (const id of ['pay', 'pct', 'liveHave', 'resHave']) { const e = $(id); if (e) e.addEventListener('input', drawCalc); }
+    for (const id of ['year', 'job']) { const e = $(id); if (e) e.addEventListener('change', suggest); }
     if ($('pay')) drawCalc();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();

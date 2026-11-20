@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora">
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="kronos"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -27,7 +28,8 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="kronos.css?v=a1q">
+<link rel="stylesheet" href="kronos.css?v=a1qd">
+<link rel="stylesheet" href="../olympus/shell.css?v=s4"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -36,6 +38,7 @@
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="pulse" data-pulse="strip" data-pulse-app="kronos" aria-label="Today, drawdown left, to pass" aria-busy="true"><div class="pu-part pu-strip"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card hero" aria-labelledby="heroH">
     <h2 id="heroH">Today in $</h2>
     <div class="ballbox">
@@ -55,6 +58,7 @@
     <p class="note" id="monthNote"></p>
   </section>
   <section class="pl-place" data-polis-life="amphorae" aria-label="The storeroom: one amphora per trade" hidden></section>
+  <section class="pulse" data-pulse="stats" data-pulse-app="kronos" aria-label="Streak, setups, weekdays" aria-busy="true"><div class="pu-part pu-stats"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card" aria-labelledby="wkH">
     <h2 id="wkH">Which weekday pays</h2>
     <ul class="plain bars" id="wkRows"></ul>
@@ -77,5 +81,6 @@
 </main>
 <script type="module" src="kronos.js?v=a1"></script>
 <script type="module" src="kronosdial.js?v=q6c" onerror="window.KRONOS_DIAL_FAIL = 1"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

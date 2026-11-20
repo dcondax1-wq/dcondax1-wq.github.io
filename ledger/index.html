@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora" data-oly-light>
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -21,6 +21,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="ledger"></script>
@@ -31,6 +32,7 @@
 <script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c2b280'); r.setProperty('--oly-accent-rgb', '194, 178, 128'); })();</script>
 <link rel="stylesheet" href="ledger.css?v=s3bq">
+<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <canvas id="vault" aria-label="A golden vault with a pile of coins that grows with your net profit" role="img"></canvas>
@@ -54,6 +56,7 @@
     <button type="button" role="tab" id="t-tax" data-tab="tax" aria-selected="false" aria-controls="p-tax" tabindex="-1">Taxes</button>
     <button type="button" role="tab" id="t-list" data-tab="list" aria-selected="false" aria-controls="p-list" tabindex="-1">Entries</button>
   </nav>
+  <section class="pulse" data-pulse="money,strip" data-pulse-app="ledger" aria-label="Payouts and fees, accounts today" aria-busy="true"><div class="pu-part pu-money"></div><div class="pu-part pu-strip"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="panel" id="p-over" role="tabpanel" aria-labelledby="t-over"></section>
   <section class="panel" id="p-acct" role="tabpanel" aria-labelledby="t-acct" hidden></section>
   <section class="panel" id="p-cash" role="tabpanel" aria-labelledby="t-cash" hidden></section>
@@ -80,6 +83,7 @@
     <div class="row-b"><button type="submit" class="go" id="fSave" data-oly-cue="success">Save</button><button type="button" class="del" id="fDelete" data-oly-cue="warning" hidden>Delete</button></div>
   </form>
 </section>
-<script type="module" src="ledger.js?v=s3"></script>
+<script type="module" src="ledger.js?v=s3d"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
     { id: 'cities', label: 'Cities', url: '../cities/cities.json', type: 'map', detail: 'City atlas and routing' },
     { id: 'arena', label: 'Arena', url: '../arena/events.json', type: 'events', detail: 'Verified activity events' },
     { id: 'oracle', label: 'Oracle', url: '../oracle/prophecy.json', type: 'forecast', detail: 'Published forecast state' },
-    { id: 'kalshi', label: 'Kalshi City', url: '../kalshicity/scan.json', type: 'market', detail: 'Published market scan' },
+    // Kalshi City's scan.json is gone for good (written only from the retired kalshi-feed repo, 2026-11-19): no source here asks for it
     { id: 'learning', label: 'Learning', url: '../kalshicity/learning_log.json', type: 'lessons', detail: 'Append-only Kalshi City lessons; lesson dates do not show when the publisher last ran' }
   ];
   const $ = (id) => document.getElementById(id);

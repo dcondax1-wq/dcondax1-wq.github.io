@@ -89,3 +89,8 @@ html[data-oly-scheme="light"] {
   html[data-oly-page="gate"] :is(.g-card, .g-hub, .g-q, .g-dr),
   html[data-oly-page="today"] :is(.card, .tile, .stat, .trade, .mn-card, .sd-card) { -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
+/* the main apps (day-arenas 2026-11-20: Aegis, Demeter, Hera, Ledger, Business, Journal, Helios, Compass, Fates; <html data-oly-shell="app">):
+   the same rule, no live blur behind the cards that scroll; their own fixed bars and sheets keep theirs */
+@media (pointer: coarse) {
+  html[data-oly-shell="app"] :is(.card, .ag-card, .tile, .hero, .pu-part, .ag-stat, .act, .pickbtn) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

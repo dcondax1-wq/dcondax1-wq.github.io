@@ -36,7 +36,7 @@
     return { banner: true, level: age <= STALE_S ? 'warn' : 'bad', age: age, title: 'Last report from your PC: ' + ageWords(age) + ' ago.', text: SILENT };
   }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  var box = null, sig = '';
+  var box = null, sig = '', bootAt = Date.now(), GRACE = 4000, graceT = 0;
   function mount() {
     var pg = document.getElementById('page'); if (!pg || !pg.parentNode) return null;
     if (box && box.parentNode === pg.parentNode) return box;
@@ -50,7 +50,12 @@
     var b = mount(); if (!b) return;
     // before the router has set PAGE (the first draw, at load) Home is read from the address, so the strip is in place before Home paints
     var home = false; try { home = typeof PAGE !== 'undefined' && PAGE != null ? PAGE === 'today' : !/^#\/(?!today\b)[a-z]/.test(location.hash); } catch (e) { home = false; }
-    var m = model(data(), Date.now() / 1000), s = (home ? 1 : 0) + '|' + (m.banner ? m.level + m.title : '');
+    var m = model(data(), Date.now() / 1000);
+    // day-arenas 2026-11-20 (CLS 0.30 on Home): the cloud copy is often older than the PC's own status post, which lands 0.5-3 s later
+    // (pc_feed.js). Drawing the 2-line banner from the cloud copy, then folding it to the 1-line strip, moved the whole Home twice.
+    // So the first GRACE ms show the strip; the banner comes only if the PC is still silent after that (draw again at GRACE).
+    if (m.banner && Date.now() - bootAt < GRACE) { m = { banner: false }; clearTimeout(graceT); graceT = setTimeout(draw, GRACE - (Date.now() - bootAt) + 20); }
+    var s = (home ? 1 : 0) + '|' + (m.banner ? m.level + m.title : '');
     if (s === sig) return; sig = s;
     b.hidden = !home;
     b.dataset.level = m.banner ? m.level : 'ok';

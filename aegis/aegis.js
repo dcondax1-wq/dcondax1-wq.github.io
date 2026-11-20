@@ -4,6 +4,7 @@
 import * as C from './aegiscore.js';
 import * as HF from '../olympus/hero-flat.js';
 import * as T from '../olympus/truth.js';
+const nameOf = (a) => (String(a.name || '').includes(String(a.size || '~')) || !a.size ? String(a.name || '') : `${a.name} ${a.size}`);   // day-arenas: never 'Zlarior 25K #2 25K'
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -25,7 +26,7 @@ const LEVEL = { ok: 'ok', warn: 'warn', bad: 'bad', off: '' };
 function renderChips() {
   const box = $('accts'); clear(box);
   for (const a of S.built.accounts) {
-    const b = h('button', 'ag-chip', `${a.name} ${a.size}`); b.type = 'button'; b.dataset.acct = a.key; b.setAttribute('aria-pressed', a.key === S.key ? 'true' : 'false');
+    const b = h('button', 'ag-chip', nameOf(a)); b.type = 'button'; b.dataset.acct = a.key; b.setAttribute('aria-pressed', a.key === S.key ? 'true' : 'false');
     b.addEventListener('click', () => { S.key = a.key; S.risk = null; render(); }); box.appendChild(b);
   }
 }
@@ -94,7 +95,7 @@ function renderAll() {
   const ul = $('all'); clear(ul);
   for (const a of S.built.accounts) {
     const hl = C.health(a), li = h('li'), b = h('button', 'acard'); b.type = 'button'; b.setAttribute('aria-pressed', a.key === S.key ? 'true' : 'false'); b.dataset.acct = a.key;
-    b.appendChild(h('b', '', `${a.name} ${a.size}`)); b.appendChild(h('span', 'pill ' + (LEVEL[hl.level] || ''), hl.text));
+    b.appendChild(h('b', '', nameOf(a))); b.appendChild(h('span', 'pill ' + (LEVEL[hl.level] || ''), hl.text));
     b.appendChild(h('small', '', a.has && a.room != null ? C.drawdownLine(a.room, a.mll) : 'No live numbers yet'));
     b.addEventListener('click', () => { S.key = a.key; S.risk = null; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
     li.appendChild(b); ul.appendChild(li);

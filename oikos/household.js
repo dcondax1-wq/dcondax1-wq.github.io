@@ -43,7 +43,10 @@ function render(v) {
 
 async function start() {
   const q = new URLSearchParams(location.search);
-  H.doc = q.get('demo') === '1' ? null : await getJSON('../money/household.json');
+  // day-arenas 2026-11-20: household.json is served only over the PC's private link (engine/live_site MONEY_KEEP), never on the public site:
+  // the public site does not ask for it (it was a 404 on every open); the PC's link and a local test server still do
+  const priv = /^(localhost|127\.|10\.|192\.168\.|100\.)|\.ts\.net$/.test(location.hostname) || q.get('own') === '1';
+  H.doc = q.get('demo') === '1' || !priv ? null : await getJSON('../money/household.json');
   H.v = view(H.doc);
   try { render(H.v); } catch (_) { /* the card stays hidden; Oikos itself is not affected */ }
   H.ready = true;

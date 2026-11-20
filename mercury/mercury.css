@@ -26,8 +26,8 @@ html.framed #app { padding-top: 12px; }
 .note { margin: 0; font-size: 13px; color: var(--ag-muted); }
 .big { margin: 0; font-size: clamp(20px, 6vw, 26px); line-height: 1.2; }
 .ans { margin: 0; font: 600 clamp(20px, 6vw, 25px)/1.2 var(--ag-serif); }
-.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: #211c16; white-space: nowrap; }
-.pill.ok { color: var(--ag-olive); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--ag-s1, #211c16); white-space: nowrap; }
+.pill.ok { color: var(--ag-olive-text); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra-text); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
 .pill.gold { color: var(--ag-gold); border-color: #5a4825; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); text-decoration: none; }
 .hero { border-color: #5a4825; }
@@ -35,7 +35,7 @@ html.framed #app { padding-top: 12px; }
 .stage canvas { width: 100%; height: 100%; display: block; }
 .stage.off { display: none; }
 .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.list li { display: grid; gap: 6px; padding: 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-width: 0; }
+.list li { display: grid; gap: 6px; padding: 12px; border-radius: var(--ag-radius-s, 12px); background: var(--ag-s1, #211c16); border: 1px solid var(--ag-line); min-width: 0; }
 .list li.empty { color: var(--ag-muted); font-size: 14px; }
 .it-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 .it-top h3 { margin: 0; font-size: 17px; overflow-wrap: anywhere; }

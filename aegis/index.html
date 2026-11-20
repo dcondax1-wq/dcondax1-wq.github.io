@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora" data-oly-light>
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="aegis"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -28,7 +29,8 @@
 <script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="aegis.css?v=a2q">
+<link rel="stylesheet" href="aegis.css?v=a2qd">
+<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -39,6 +41,7 @@
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <p id="src" class="note" data-truth="source"></p>
 
+  <section class="pulse" data-pulse="hero:room,strip" data-pulse-app="aegis" aria-label="Drawdown left, today, to pass" aria-busy="true"><div class="pu-part pu-hero"></div><div class="pu-part pu-strip"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card" aria-labelledby="acctH">
     <h2 id="acctH">Which account?</h2>
     <div class="seg" id="accts" role="group" aria-label="Account"></div>
@@ -80,6 +83,7 @@
   <!-- night-feedsB 2026-11-18: the olive grove (olympus/polis.json) is the cloud's snapshot of its paper twin ("MFFU 50K Eval $49,900"),
        not your accounts: it is left out of Aegis, where every number must be the PC's -->
 
+  <section class="pulse" data-pulse="bots" data-pulse-app="aegis" aria-label="What each bot is waiting for" aria-busy="true"><div class="pu-part pu-bots"></div><p class="pu-note pu-age"></p></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card" aria-labelledby="rulesH">
     <h2 id="rulesH">The prop firm rules, plain</h2>
     <ul class="plain" id="rules"></ul>
@@ -89,6 +93,7 @@
 </main>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l1" data-src="shieldload.js?v=a1" data-skip="lite" data-event="aegis-shield" defer></script>
-<script type="module" src="aegis.js?v=r7"></script>
+<script type="module" src="aegis.js?v=r7d"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

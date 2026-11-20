@@ -1,0 +1,16 @@
+/* round 3: Trade reels (Odeon) + Why we win / lose (Why). Tokens only; the lazy cards keep their height until filled (no layout jump). */
+.mg-lazy { min-height: 260px; }
+.mg-fixed { height: 432px; overflow: hidden; }           /* 8 reels x 54 px: the list fills in without moving the page */
+.mg-reels { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.mg-l small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mg-reel { display: flex; justify-content: space-between; align-items: center; gap: 10px; height: 50px; box-sizing: border-box; overflow: hidden; padding: 6px 2px; border-top: 1px solid var(--ag-line-soft, var(--ag-line)); color: var(--ag-text); text-decoration: none; }
+.mg-l { display: grid; gap: 2px; min-width: 0; } .mg-l b { font-size: 14px; } .mg-l small { color: var(--ag-muted); font-size: 12px; overflow-wrap: anywhere; }
+.mg-r { flex: none; font-weight: 700; } .mg-r.pos { color: var(--ag-olive-text, #8fa05a); } .mg-r.neg { color: var(--ag-terra-text, #c0603c); }
+.mg-why { display: grid; gap: 6px; padding: 10px 0; border-top: 1px solid var(--ag-line-soft, var(--ag-line)); } .mg-why > b { color: var(--ag-text); }
+.mg-bars { display: grid; gap: 6px; }
+.mg-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; font-size: 13px; color: var(--ag-soft); }
+.mg-bar i { grid-column: 1 / -1; display: block; height: 6px; width: var(--w, 0); border-radius: 999px; background: var(--ag-terra-text, #c0603c); opacity: .75; transform-origin: left; animation: mg-grow .8s ease both; }
+.mg-bar small { color: var(--ag-text); font-weight: 600; }
+.mg-more { display: inline-flex; align-items: center; min-height: 44px; color: var(--ag-gold, #c8a24a); font-weight: 700; text-decoration: none; justify-self: start; }
+@keyframes mg-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .mg-bar i { animation: none; } }

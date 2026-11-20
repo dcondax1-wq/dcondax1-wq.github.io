@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora">
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="clio"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -26,7 +27,8 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d8c9a8'); r.setProperty('--oly-accent-rgb', '216, 201, 168'); })();</script>
-<link rel="stylesheet" href="clio.css?v=a1q">
+<link rel="stylesheet" href="clio.css?v=a1qd">
+<link rel="stylesheet" href="../olympus/shell.css?v=s4"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -61,7 +63,8 @@
   </section>
 
   <p class="foot" id="foot">Clio only reads; it sends and keeps nothing. Each $ a month is copied from the write-up itself: past trades, not a promise.</p>
+  <nav class="folded" aria-label="Libraries folded into Clio"><a href="../archive/">Archive: every test</a><a href="../pinakes/">Pinakes: tables</a></nav><!-- day-arenas: the audit's MERGE verdicts -->
 </main>
-<script type="module" src="clio.js?v=a1"></script>
+<script type="module" src="clio.js?v=a1d"></script>
 </body>
 </html>

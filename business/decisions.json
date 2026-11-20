@@ -60,27 +60,27 @@
    "id": "rapid25-lit-bank",
    "question": "Rapid 25K: Zlarior trades 1 micro and takes profit at the day's room (instead of skipping most trades)?",
    "why": "Today the 30% best-day guard skips 60-65% of Zlarior's trades there. Banking at the room passes and pays sooner, but fails a little more.",
-   "impact": "+$83 a month in a Jul-Oct-like market (+$10 Jan-Jun-like, +$7 2021-25-like); first payout about 5 trading days sooner.",
-   "impact_usd": 83,
+   "impact": "At real fills (ATLAS 10 ticks a side): +$101 a month in a Jul-Oct-like market (+$24 Jan-Jun-like, +$1 2021-25-like); first payout about 6-9 days sooner. At backtest fills it was +$83.",
+   "impact_usd": 101,
    "options": [
     "yes",
     "no",
     "later"
    ],
    "status": "open",
-   "source": "research/writeups/rapid25-lit-lane-2026-11-18.md",
+   "source": "research/writeups/rapid-launch-2026-11-20.md",
    "applies": "python -X utf8 -m engine.rapid --lit-bank on (built OFF)",
    "added": "2026-11-18",
-   "usd_month": 83,
+   "usd_month": 101,
    "usd_month_by": {
-    "jan_jun": 10,
-    "jul_oct": 83,
-    "y2021_25": 7
+    "jan_jun": 24,
+    "jul_oct": 101,
+    "y2021_25": 1
    },
-   "risk": "Rapid 25K no payout in 6 months 10.4% -> 7.9%; Rapid 25K funded account lost 28.3% -> 32.2%; Rapid 25K eval fails in 3 months 0.1% -> 0.6%; Rapid 25K eval passes in about 21 trading days instead of 25",
-   "recommend": "yes",
-   "recommend_why": "More money in both 2026 halves without a real jump in risk.",
-   "valued": "2026-11-18 tools/money/money_plan.py (same paths for every account; $ a month to you after fees and MFFU's cut, before the 30% tax pot)"
+   "risk": "At real fills: Rapid 25K eval fails within 60 trading days 0.5% -> 3.1% (Jan-Jun-like) and 2.0% -> 2.7% (Jul-Oct-like); funded Rapid lost in 6 months 27.2% -> 28.7% / 38.0% -> 39.1%; eval passes in about 21-30 trading days instead of 26-33.",
+   "recommend": "no",
+   "recommend_why": "Not yet: the money is real (+$101 a month Jul-Oct-like) but at real fills the eval fails 6x as often in a Jan-Jun-like market (0.5% -> 3.1%), over the 1-point limit set before the test. A yes is fine if you prefer a faster pass; it stays built OFF.",
+   "valued": "2026-11-20 tools/money/rapid25_launch.py (real fills: ATLAS 10 ticks a side, LIT unchanged; Rapid 25K LIT + ATLAS $250, keep $500, 1,000 paths; $ a month after fees and MFFU's split, before the 30% tax pot; design research/second/rapid25_launch_design.md)"
   },
   {
    "id": "atlas-on-50k-funded",
@@ -112,7 +112,7 @@
   {
    "id": "atlas-on-rapid",
    "question": "Rapid EOD: ATLAS trades it next to Zlarior from day one?",
-   "why": "On the Rapid 25K the 30% best-day rule skips most of Zlarior's trades: alone it passes in about 42 trading days, with ATLAS about 25.",
+   "why": "On the Rapid 25K the 30% best-day rule skips most of Zlarior's trades. Launch check 2026-11-20 at real fills: LIT alone passes the eval in only 25-42% of runs within 60 trading days, ATLAS alone 49-64%, both together 81-86% (median 26-33 days).",
    "impact": "At real fills (ATLAS 10 ticks a side): +$609 a month in a Jul-Oct-like market (+$1,662 Jan-Jun-like, -$28 2021-25-like); first payout about Feb 18 with ATLAS, while without it half the runs see no payout in 6 months. At backtest fills it was +$817 a month (+$2,084 Jan-Jun-like, +$7 2021-25-like).",
    "impact_usd": 609,
    "options": [
@@ -130,7 +130,7 @@
     "jul_oct": 609,
     "y2021_25": -28
    },
-   "risk": "At real fills: a funded Rapid lost in 6 months 38.0% with ATLAS vs 14.1% without (Jul-Oct-like; 27.2% vs 5.6% Jan-Jun-like), but without ATLAS half the runs never get paid; no payout in 6 months 15.1% vs 50.0%. A $150 ATLAS lane is safer (28.8% lost) but pays $93-366 a month less.",
+   "risk": "At real fills: a funded Rapid lost in 6 months 38.0% with ATLAS vs 14.1% without (Jul-Oct-like; 27.2% vs 5.6% Jan-Jun-like), but without ATLAS half the runs never get paid; no payout in 6 months 15.1% vs 50.0%. A $150 ATLAS lane is safer (28.8% lost) but pays $93-366 a month less. Launch check (same paths): ATLAS alone makes $707 / $141 a month, below both together, so no ATLAS-only option. With both, 12% / 26% of runs lose the first Rapid before any payout (re-buy $97.20).",
    "recommend": "yes",
    "recommend_why": "Keep ATLAS on the Rapid (it is already built that way): even at real fills it adds about $600 a month in a Jul-Oct-like market, and without it the 30% rule skips most of Zlarior's trades and half of the runs see no payout in 6 months.",
    "valued": "2026-11-20 tools/atlas_risk.py (real fills: ATLAS 10 ticks a side, LIT unchanged; the Rapid 25K as built, keep $500, 1,000 paths; $ a month after fees and MFFU's split, before the 30% tax pot)"
@@ -344,6 +344,57 @@
    "recommend_why": "Same money within 8% when it works, about 25-40x less chance of being wiped out before it can work. The pot is too small for $15 bets.",
    "valued": "2026-11-20 tools/money/kalshi_bankroll.py (the 105 held-out + 128 earlier K8 bets of the 3 live legs, whole days resampled, 20,000 paths of 20 trading days, fees and real prices in)",
    "closed_note": "Replaced the same night by the K8 bot's own sizing (night-kalshi8, engine/kalshi_clock.py BANKROLL): each bet = 4.5% of the cash ($2.50 at $55, grows by itself as the cash grows), with stops at 15% a day, 25% a week and 35% from the peak. An $8 bet would trip the day stop after one loss, so the bot itself would refuse a second $8 bet."
+  },
+  {
+   "id": "atlas-funded-streak-1micro",
+   "question": "ATLAS's funded 25K: after 2 losing trades in a row, trade 1 micro until the next win?",
+   "why": "A losing streak is what drains the $887 room and closes the account. Shrinking to 1 micro during a streak keeps most of the money and loses the account far less often.",
+   "impact": "At real fills (10 ticks a side), from today's account: -$22 a month in a Jan-Jun-like market ($503 -> $481), +$6 Jul-Oct-like ($402 -> $408), -$1 2021-25-like; first payout about a week later (Dec 30 instead of Dec 23 Jan-Jun-like; Jan 12 instead of Jan 7 Jul-Oct-like). With room 40% also on: $478 / $394 a month.",
+   "impact_usd": -22,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/atlas-edge-2026-11-20.md",
+   "applies": "ATLAS's funded sizing: after 2 losing ATLAS trades in a row, 1 micro until a winner (engine/account_b funded preset; Claude builds it only after your yes, Sim check first)",
+   "added": "2026-11-20",
+   "usd_month": -22,
+   "usd_month_by": {
+    "jan_jun": -22,
+    "jul_oct": 6,
+    "y2021_25": -1
+   },
+   "risk": "At real fills the funded 25K is lost in 6 months 12.2% of the time instead of 17.6% (Jan-Jun-like) and 10.9% instead of 21.7% (Jul-Oct-like). With room 40% too: 10.1% and 7.7% (room 40% alone: 11.0% and 14.0%). 2021-25-like: 96% either way. Independent check (2026-11-20, research/writeups/skeptic-atlas-streak-2026-11-20.md): the safety holds on 3 path seeds and in every 2021-25 year, but it costs more when market days are shuffled one by one: Jul-Oct-like $372 -> $319 a month (-$53), lost 23.5% -> 18.5%. On top of room 40%: Jul-Oct-like lost 14.0% -> 7.7% for $0, Jan-Jun-like 11.0% -> 10.1% for -$49 a month.",
+   "recommend": "yes",
+   "recommend_why": "It is the only one of 15 tested changes that passed, and an independent re-check confirms it makes losing the account less likely in every test. But it is weaker than first said: in a Jan-Jun-like market a plain smaller size (room 40%) is as safe and pays more, so its real value is in a Jul-Oct-like market, where losing trades come in bunches: there, with room 40%, it nearly halves the chance of losing the account (14% -> 8%) at the same money. Say yes if keeping the account matters more to you than about $25-50 a month; tap room 40% first."
+  },
+  {
+   "id": "rapid-atlas-size-10t",
+   "question": "Rapid 25K: size ATLAS for its real fills (assume a 10-tick worse stop)?",
+   "why": "ATLAS's real fills are ~10 ticks worse than its backtest, so a full stop costs up to a third more than planned and can push the day past MFFU's $500 pause.",
+   "impact": "-$31 a month in a Jul-Oct-like market (-$141 Jan-Jun-like, +$4 2021-25-like); fewer Rapids lost; same first payout date.",
+   "impact_usd": -31,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/rapid-launch-2026-11-20.md",
+   "applies": "engine/rapid.py: ATLAS's Rapid lane sizes on stop + 10 ticks; LIT unchanged (Claude applies the patch only after your yes, Sim check first)",
+   "added": "2026-11-20",
+   "usd_month": -31,
+   "usd_month_by": {
+    "jan_jun": -141,
+    "jul_oct": -31,
+    "y2021_25": 4
+   },
+   "risk": "Funded Rapid lost in 6 months 27.2% -> 24.0% (Jan-Jun-like), 38.0% -> 34.5% (Jul-Oct-like); days over MFFU's $500 pause 1.1 per 100 -> 0; eval pass unchanged.",
+   "recommend": "yes",
+   "recommend_why": "Safer for a small cost: about 3-4 fewer Rapids lost per 100 for $31-141 a month.",
+   "valued": "2026-11-20 ATLAS 10 ticks a side, 1,000 paths (rapid-launch-2026-11-20.md)"
   }
  ]
 }

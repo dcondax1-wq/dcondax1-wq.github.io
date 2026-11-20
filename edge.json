@@ -2,7 +2,7 @@
  "v": 1,
  "kind": "le-edge",
  "src": "tools/edge_health.py",
- "built": "2026-11-19T23:40:36+00:00",
+ "built": "2026-11-20T11:07:47+00:00",
  "eh": {
   "d": "2026-11-19",
   "z": [
@@ -11,12 +11,12 @@
    3.9
   ],
   "a": [
-   "A",
-   1.9,
+   "G",
+   2.4,
    2.8,
-   "2026-10-16"
+   "2026-11-19"
   ],
-  "t": 1795131636
+  "t": 1795172867
  },
  "bots": {
   "lit": {
@@ -35,14 +35,14 @@
   "atlas": {
    "name": "ATLAS",
    "sessions": 40,
-   "to": "2026-10-16",
-   "n": 24,
-   "tpw": 3.0,
-   "win": 58.3,
-   "pf": 1.41,
-   "pf_r": 1.89,
-   "usd_month": 411,
-   "light": "AMBER",
+   "to": "2026-11-19",
+   "n": 27,
+   "tpw": 3.38,
+   "win": 48.1,
+   "pf": 2.27,
+   "pf_r": 2.38,
+   "usd_month": 1797,
+   "light": "GREEN",
    "basis": "the stored ATLAS run at eval size (not re-run on the newest bars)"
   }
  }

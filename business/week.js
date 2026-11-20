@@ -31,7 +31,9 @@
     kv(dl, 'Start of week', usd(a.start));
     kv(dl, 'Now', usd(a.end));
     kv(dl, 'Trades', a.trades == null ? 'unknown' : String(a.trades) + (a.win_pct == null ? '' : ' · ' + a.win_pct + '% won'));
-    kv(dl, 'Room above the floor', a.room == null ? '-' : usd(a.room));
+    if (a.wins != null) kv(dl, 'Won / lost', a.wins + ' / ' + a.losses + (a.r_week == null ? '' : ' · ' + (a.r_week > 0 ? '+' : '') + a.r_week + 'R'));
+    kv(dl, 'Room above the floor', a.room == null ? '-' : (a.room_start != null ? usd(a.room_start) + ' → ' : '') + usd(a.room));
+    if (a.to_pass != null) kv(dl, 'To pass', (a.to_pass_start != null ? usd(a.to_pass_start) + ' → ' : '') + usd(a.to_pass));
     kv(dl, 'Best day', (a.consistency && a.consistency.line) || '-');
     box.appendChild(dl);
     if (a.status_line) box.appendChild(el('p', 'y', a.status_line));
@@ -58,7 +60,73 @@
     return box;
   }
 
+  function trade(t, label) {
+    const box = el('div', 'acc');
+    const top = el('div', 'row');
+    top.appendChild(el('h3', null, label + ': ' + t.bot + ' ' + (t.side || '') + ' ' + md(t.day) + (t.time ? ' ' + t.time + ' ET' : '')));
+    const v = num(t.usd);
+    top.appendChild(el('span', 'pill' + (v != null && v >= 0 ? ' ok' : ' bad'), usd(v, true) + (t.r != null ? ' · ' + (t.r > 0 ? '+' : '') + t.r + 'R' : '')));
+    box.appendChild(top);
+    box.appendChild(el('p', 'y', 'Exit: ' + (t.exit || '-') + (t.mfe_r != null ? ' · best it got: +' + t.mfe_r + 'R' : '') + ' · account ' + (t.acct || '-')));
+    box.appendChild(el('p', 'why', 'Lesson: ' + (t.lesson || '-')));
+    return box;
+  }
+
+  function twin(b) {
+    const box = el('div', 'acc');
+    const top = el('div', 'row');
+    top.appendChild(el('h3', null, b.name));
+    top.appendChild(el('span', 'pill' + (b.error ? ' warn' : b.verdict === 'same as the twin' ? ' ok' : ' bad'), b.error ? 'not run' : b.verdict));
+    box.appendChild(top);
+    if (b.error) { box.appendChild(el('p', 'y', b.error)); return box; }
+    box.appendChild(el('p', 'y', b.line || ''));
+    const rows = b.rows || [];
+    if (rows.length) {
+      const tb = el('table', 'tw');
+      const hr = el('tr');
+      for (const h of ['Day', 'Setup', 'Twin', 'Live', 'Status']) hr.appendChild(el('th', null, h));
+      tb.appendChild(hr);
+      for (const r of rows) {
+        const tr = el('tr');
+        tr.appendChild(el('td', null, md(r.day).replace(/^(\w+), /, '$1 ') + ' ' + r.time));
+        tr.appendChild(el('td', null, (r.who || '-') + ' ' + (r.side || '').toLowerCase()));
+        tr.appendChild(el('td', null, r.twin_r == null ? '-' : (r.twin_r > 0 ? '+' : '') + r.twin_r + 'R ' + (r.twin_exit || '')));
+        tr.appendChild(el('td', null, r.live_r == null ? (r.live_usd == null ? '-' : usd(r.live_usd, true)) : (r.live_r > 0 ? '+' : '') + r.live_r + 'R'));
+        tr.appendChild(el('td', r.status === 'missed' || r.status === 'extra' ? 'down' : null, r.status));
+        tb.appendChild(tr);
+      }
+      box.appendChild(tb);
+    } else box.appendChild(el('p', 'y', 'No trade by the twin or live this week.'));
+    return box;
+  }
+
+  function drawMore(D) {
+    const we = D.weekend || [];
+    list($('weekend'), we.map((c) => (c.usd_month == null ? '$?' : usd(c.usd_month, true)) + ' a month: ' + c.question), 'Nothing waiting on you.');
+    const bw = $('bw'); bw.textContent = '';
+    if (D.best) bw.appendChild(trade(D.best, 'Best'));
+    if (D.worst) bw.appendChild(trade(D.worst, 'Worst'));
+    if (!D.best && !D.worst) bw.appendChild(el('p', 'note', 'No closed live trade this week.'));
+    const T = D.twins || {};
+    $('twNote').textContent = (T.days && T.days.length ? 'Replayed ' + md(T.days[0]) + ' to ' + md(T.days[T.days.length - 1]) + ' on the same bars. ' : '') + (T.note || '');
+    const tw = $('twins'); tw.textContent = '';
+    for (const b of T.bots || []) tw.appendChild(twin(b));
+    const K = D.kalshi;
+    $('k8').textContent = K && K.line ? K.line + ' (from the ' + K.src + ')' : 'No K8 numbers reached here this week.';
+    $('k8Mode').textContent = K && K.mode === 'live' ? 'LIVE' : 'PAPER';
+    const cal = $('cal'); cal.textContent = '';
+    for (const d of D.calendar || []) {
+      const li = el('li', d.status === 'open' ? null : d.status);
+      li.appendChild(el('b', null, md(d.date) + ': '));
+      const nw = (d.news || []).map((n) => n.time + ' ' + n.event + ' (Tier ' + n.tier + ')').join('; ');
+      li.appendChild(document.createTextNode(d.text + (nw ? '. News: ' + nw : '')));
+      cal.appendChild(li);
+    }
+    if (!(D.calendar || []).length) cal.appendChild(el('li', null, 'Calendar not readable.'));
+  }
+
   function draw(D) {
+    drawMore(D);
     const W = D.week || {};
     $('wk').textContent = 'Week of ' + (W.label || '?') + (W.complete ? '' : ' (so far: ' + (W.sessions_done || '?') + ' of 5 days)');
     $('status').textContent = 'Built ' + (D.built || '?') + '. ' + (D.pc || '');

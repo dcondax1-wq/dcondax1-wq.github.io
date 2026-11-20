@@ -1343,28 +1343,11 @@
       + `<p class="why-t">${esc(m.text)}</p>${m.enough ? '<button type="button" class="why-b" data-act="jump" data-v="sec-whatif">What to change <em aria-hidden="true">›</em></button>' : ''}</section>`;
   }
 
-  // ---- the forward test strip (bottom of the what-if card): reads ../kalshicity/forward.json (tools/kalshi_forward.py) when it exists
+  // ---- the forward test strip (bottom of the what-if card): RETIRED (2026-11-20). ../kalshicity/forward.json came only from tools/kalshi_forward.py on
+  // the retired kalshi-feed repo (suspended account, 2026-11-19), so it will never exist again: the page no longer asks for it and says so plainly.
   function fwdStrip() {
-    const f = S.fwd, ok = isObj(f) && f.kind === 'kalshi-forward' && Array.isArray(f.sets) && num(f.bets) != null;
-    const tail = ' The 90–95¢ band was picked after the fact, so this is the real test.';
-    if (!ok) return '<div class="wi-fwd" id="wi-fwd"><b>Forward test</b> · collecting: 0 bets so far. Rules A, B and C will be counted on new bets only, from the day it starts.' + esc(tail) + '</div>';
-    const by = {};
-    f.sets.filter(isObj).forEach((x) => { by[x.id] = x; });
-    const n = num(f.bets), nets = ['A', 'B', 'C', 'asis'].filter((id) => by[id] && num(by[id].net) != null)
-      .map((id) => `${id === 'asis' ? 'bot' : id} <span class="${cls(by[id].net)}">${esc(usdA(num(by[id].net), true))}</span>`).join(' · ');
-    const head = f.collecting || n < 30 ? `collecting: ${esc(fmtN(n))} bet${n === 1 ? '' : 's'} so far${f.start_day ? ` (since ${esc(String(f.start_day).slice(0, 10))}, 30 needed to judge)` : ''}` : esc(String(f.text || '').slice(0, 200));
-    return `<div class="wi-fwd" id="wi-fwd"><b>Forward test</b> · ${head}${n > 0 && nets ? `<span class="wi-fn">${nets}</span>` : ''}${isObj(f.flags) && f.flags.may_be_incomplete ? ' May be incomplete: more than 40 bets happened between two checks.' : ''}${esc(tail)}</div>`;
-  }
-  async function fwd() {
-    if (S.fwdAsk) return;
-    S.fwdAsk = true;
-    let ac = null, tm = 0, r = null, j = null;
-    try { ac = new AbortController(); tm = setTimeout(() => ac.abort(), 4000); } catch (_) { ac = null; }
-    try { r = await fetch('../kalshicity/forward.json', { cache: 'no-cache', signal: ac ? ac.signal : undefined }); if (r && r.ok) j = await r.json(); } catch (_) { j = null; } finally { clearTimeout(tm); }
-    if (!isObj(j) || j.kind !== 'kalshi-forward') return;
-    S.fwd = j;
-    const el = $('#wi-fwd');
-    if (el) { const t = document.createElement('div'); t.innerHTML = fwdStrip(); if (t.firstElementChild) el.replaceWith(t.firstElementChild); }
+    return '<div class="wi-fwd" id="wi-fwd"><b>Forward test</b> · retired: it counted the old Kalshi bot\'s new bets, and that bot\'s feed was switched off on 2026-11-19. '
+      + 'The K8 gold and silver bot is tested on paper on the PC instead (the K8 status card at the top).</div>';
   }
 
   // ---- "Rewards test (paper)" (owner 2026-11-17): tools/kalshi_rewards_paper.py keeps pretend two-sided orders on Kalshi's paid-liquidity markets.
@@ -1500,10 +1483,70 @@
     } catch (_) { /* old browsers: no countdown */ }
     return null;
   }
+  // ---- K8 LIVE DAY (day-kalshi round 3): the next LIVE window (05:15 / 16:45 ET) as a big countdown, what the bot will do there,
+  // the $ left before each stop (and how many $2.50 bets still fit), from the card's dy / wk / dd and the $55 rule. No order, no key.
+  const K8V = { key: '' };
+  const k8Cost = () => { const s = num(K8D.k && K8D.k.s) || 2.5; return s + 0.09; };        // a bet + its worst fee (5 contracts: 9c)
+  function k8NextLive(now) {
+    const legs = k8Legs().filter((L) => L.live);
+    for (let a = 0; a < 9; a++) {
+      const D = k8Day(now + a * 86400000);
+      if (D.wd === 'Sat' || D.wd === 'Sun') continue;
+      const by = {};
+      for (const L of legs) {
+        if (k8Skip(L.sk, D.iso)) continue;
+        const t = tzEpoch(D.y, D.mo, D.d, L.o[0], L.o[1], L.tz);
+        if (t + 20000 > now - 900000) (by[t] = by[t] || []).push(L);
+      }
+      const ts = Object.keys(by).map(Number).sort((x, y) => x - y);
+      for (const t of ts) if (t + 900000 > now) return { t, legs: by[t], D, today: a === 0 };
+    }
+    return null;
+  }
+  function k8Left() {                                 // $ left before each stop: [label, left, stop]
+    const k = K8D.k || {}, R = K8D.j && isObj(K8D.j.rule) ? K8D.j.rule : {};
+    const pair = (a, st) => { const u = num(arr(a)[0]) || 0, s = num(arr(a)[1]) || st; return [Math.max(0, s - u), s]; };
+    return [['Today', ...pair(k.dy, num(R.day_stop) || 8)], ['This week', ...pair(k.wk, num(R.week_stop) || 13.75)], ['From the peak', ...pair(k.dd, num(R.dd_stop) || 19.25)]];
+  }
+  function k8Live(now) {
+    const big = $('#k8d-big'), at = $('#k8d-at'), lab = $('#k8d-lab'), x = $('#k8d-x');
+    if (!big || !x) return;
+    const W = k8NextLive(now);
+    if (!W) { big.textContent = '–'; return; }
+    const s = Math.round((W.t + 20000 - now) / 1000);
+    const hh = Math.floor(Math.max(0, s) / 3600), mm = Math.floor((Math.max(0, s) % 3600) / 60), ss = Math.max(0, s) % 60;
+    const pad = (v) => String(v).padStart(2, '0');
+    const names = W.legs.map((L) => L.n).join(' + ');
+    big.textContent = s > 0 ? `${hh ? hh + ':' : ''}${pad(mm)}:${pad(ss)}` : 'betting now';
+    if (lab) lab.textContent = s > 0 ? `Next live bet: ${names}` : `In the window: ${names}`;
+    if (at) at.textContent = `${W.today ? 'today' : W.D.wd + ' ' + W.D.md} ${k8HM(W.t)} ET (the bot buys at +20 s; results at ${k8HM(W.t + 900000)} ET)`;
+    const st = KLV.j && KLV.j.st, live = st === 'live', left = k8Left(), cost = k8Cost();
+    const fit = Math.max(0, Math.floor(Math.min(left[0][1], left[1][1], left[2][1]) / cost + 1e-9));
+    const used = num(arr(K8D.k && K8D.k.td)[0]) || 0, slots = Math.max(0, 3 - (W.today ? used : 0));
+    const key = [W.t, st, JSON.stringify(left), used, K8D.j ? K8D.j.through : ''].join('|');
+    if (key === K8V.key) return;
+    K8V.key = key;
+    const fair = {};
+    for (const L of k8Legs()) fair[L.c] = L.x || {};
+    const n = W.legs.length, will = n > Math.min(fit, slots) ? Math.min(fit, slots) : n;
+    const what = !live ? `<p class="k8d-w paper"><b>PAPER:</b> at ${esc(k8HM(W.t))}:20 ET it records ${esc(names)} with no money. Real bets start only after you type the phrase on :8444/kalshi-live/.</p>`
+      : will <= 0 ? `<p class="k8d-w stop"><b>It will NOT bet:</b> ${fit <= 0 ? 'a stop is reached (no $2.50 bet fits in the $ left below)' : 'today\'s 3 bets are used'}.</p>`
+        : `<p class="k8d-w live"><b>At ${esc(k8HM(W.t))}:20 ET it buys ${will < n ? will + ' of ' : ''}${esc(names)}</b>: ${W.legs.map((L) => (L.n.indexOf('DOWN') >= 0 ? 'NO' : 'YES')).join(' / ')}, about 4-6 contracts each at up to 70¢, at most $2.50 a bet (+ 7-9¢ fee). It skips a bet if the price is over 70¢ or a stop would be passed. A push comes when it is in, and one with the result.</p>`;
+    const legs = W.legs.map((L) => {
+      const f = fair[L.c], p = num(f.last_c), fc = num(f.fair_c), ed = p != null && fc != null ? Math.round(fc) - Math.round(p) : null;
+      return `<li data-leg="${esc(L.c)}"><span>${esc(L.n)}</span><span>last ${esc(k8c(p))} · fair ${esc(k8c(fc))}${ed == null ? '' : ` · <b class="${ed > 0 ? 'k8-g' : 'k8-r'}">${ed > 0 ? '+' : ed < 0 ? MINUS : ''}${Math.abs(ed)}¢</b>`}</span></li>`;
+    }).join('');
+    const rows = left.map(([t, l, s]) => `<div><dt>${esc(t)}</dt><dd class="${l < cost ? 'red' : l < 2 * cost ? 'hot' : ''}">${esc(usd(l))} <i>of ${esc(usd(s))}</i></dd></div>`).join('');
+    x.innerHTML = what + `<ul class="k8d-l" id="k8d-legs">${legs}</ul><p class="krw-f">Last = what Kalshi takers paid at +20 s on the last day; fair = where the bet breaks even (its win rate minus the fee).</p>`
+      + `<p class="k8w-h">Left before each stop</p><dl class="krw-g k8d-s" id="k8d-s">${rows}</dl>`
+      + `<p class="krw-f" id="k8d-fit">Room for <b>${esc(fmtN(fit))}</b> more $2.50 bet${fit === 1 ? '' : 's'} before the tightest stop${W.today ? `; ${esc(fmtN(slots))} of today's 3 left` : ''}.</p>`;
+  }
   function k8Tick() {
+    const now = Date.now();
+    try { k8Live(now); } catch (_) { /* the live-day view never stops the countdown */ }
+    try { k8Win(now); } catch (_) { /* the windows list never stops the countdown */ }
     const el = $('#k8s-cd');
     if (!el) return;
-    const now = Date.now();
     if (!K8.nx || K8.nx + 20000 < now) K8.nx = k8Next(now);
     if (!K8.nx) { el.textContent = '–'; return; }
     const x = Math.max(0, Math.round((K8.nx + 20000 - now) / 1000)), h = Math.floor(x / 3600), m = Math.floor((x % 3600) / 60);
@@ -1517,7 +1560,8 @@
     if (k && num(k.nx)) K8.nx = num(k.nx) * 1000;
     if (!K8.tm) { K8.tm = setInterval(k8Tick, 1000); }
     k8Tick();
-    if (!k) return;
+    if (!k) { k8Extra(); return; }
+    K8D.k = k;
     const live = j.st === 'live' || j.st === 'paused', led = k.m === 'L' ? 'live' : 'paper', td = arr(k.td), age = rwAge({ updated: j.u });
     if (mm) { mm.textContent = live ? (j.st === 'paused' ? 'PAUSED' : 'LIVE') : j.st === 'stopped' ? 'STOPPED' : 'PAPER'; mm.className = 'k8s-m' + (j.st === 'live' ? ' live' : ''); }
     const cell = (t, v, c, id) => `<div><dt>${t}</dt><dd class="${c || ''}"${id ? ' id="' + id + '"' : ''}>${v}</dd></div>`;
@@ -1531,9 +1575,166 @@
     };
     const wr = arr(k.wr);
     x.innerHTML = `<p class="krw-f">Last ${l.length || 0} results (${led}), oldest first</p><div class="k8s-l">${l ? l.split('').map((c) => `<span class="${c === 'W' ? 'w' : ''}">${c}</span>`).join('') : '<em class="muted">none yet</em>'}</div>`
-      + `<div class="k8s-b">${bar('This week', k.wk)}${bar('From the peak (OFF)', k.dd)}</div>`
+      + `<div class="k8s-b">${bar('Today (day stop)', Array.isArray(k.dy) ? k.dy : [Math.max(0, -(num(td[2]) || 0)), k8Rule().day])}${bar('This week', k.wk)}${bar('From the peak (OFF)', k.dd)}</div>`
       + `<p class="krw-f">${num(wr[0]) ? `${esc(fmtN(wr[0]))} bets, ${esc(String(wr[1]))}% won (OFF under 58% after 60). ` : ''}${k.lp ? 'Running on the PC' : 'The PC is not running it right now'} · <span class="krw-age${age.old ? ' old' : ''}">updated ${esc(age.s)}${age.old ? ' (late)' : ''}</span></p>`;
+    k8Extra();
   }
+  // ---- K8 day dashboard (day-kalshi 2026-11-20, live Monday 11-23 with $55): today's 5 windows with a countdown each, price vs fair per
+  // live leg, the last 5 bets, the day stop bar (above), edge health. From the card's new dy / e / lg (missing on an old PC: those parts
+  // hide or fall back) and the site's own k8.json (Kalshi's PUBLIC results at the bot's +20 s price: the strategy's health, not our bets;
+  // missing = the parts that need it hide). Leg codes as engine/kalshi_clock.LEG_CODE.
+  const K8L = [
+    { c: 'g5', n: 'gold DOWN', tz: 'Europe/London', o: [10, 15], live: true, sk: 'uk' },
+    { c: 's5', n: 'silver DOWN', tz: 'Europe/London', o: [10, 15], live: false, sk: 'uk' },
+    { c: 's16', n: 'silver DOWN', tz: 'America/New_York', o: [16, 0], live: false, sk: 'cme' },
+    { c: 'g17', n: 'gold UP', tz: 'America/New_York', o: [16, 45], live: true, sk: 'cme' },
+    { c: 's17', n: 'silver UP', tz: 'America/New_York', o: [16, 45], live: true, sk: 'cme' }];
+  const K8D = { j: null, k: null, day: '' };
+  const K8_WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  function k8Rule() {
+    const r = K8D.j && isObj(K8D.j.rule) ? K8D.j.rule : {}, g = (key, d) => { const x = num(r[key]); return x == null ? d : x; };
+    return { day: g('day_stop', 8), win: g('min_win', 0.58), creep: g('creep_max', 0.58), after: g('after', 60) };
+  }
+  function k8Legs() {                                // the 5 legs; k8.json's live / paper flag, time zone and open time win when it has them
+    const by = {};
+    for (const x of arr(K8D.j && K8D.j.legs)) if (isObj(x) && typeof x.code === 'string') by[x.code] = x;
+    return K8L.map((L) => {
+      const x = by[L.c] || {}, m = /^(\d{1,2}):(\d{2})$/.exec(String(x.open || ''));
+      return Object.assign({}, L, { live: typeof x.live === 'boolean' ? x.live : L.live, tz: x.tz === 'Europe/London' || x.tz === 'America/New_York' ? x.tz : L.tz,
+        o: m && +m[1] < 24 && +m[2] < 60 ? [+m[1], +m[2]] : L.o, x });
+    });
+  }
+  function k8Day(ms) {                               // the New York date of a moment
+    const p = {};
+    for (const x of new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' }).formatToParts(new Date(ms))) p[x.type] = x.value;
+    return { y: +p.year, mo: +p.month - 1, d: +p.day, iso: `${p.year}-${p.month}-${p.day}`, wd: p.weekday, md: `${p.month}-${p.day}` };
+  }
+  const k8HM = (ms) => { try { return new Date(ms).toLocaleTimeString('en-GB', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); } catch (_) { return ''; } };
+  function k8Skip(sk, iso) {
+    const extra = K8D.j && isObj(K8D.j.skip) ? arr(K8D.j.skip[sk]) : [];
+    return (sk === 'uk' ? K8_SKIP_AM : K8_SKIP_PM).includes(iso) || extra.includes(iso);
+  }
+  function k8Rows(now) {                             // today's windows while one is still to come or running, else the next weekday's
+    const legs = k8Legs();
+    for (let a = 0; a < 9; a++) {
+      const D = k8Day(now + a * 86400000);
+      if (D.wd === 'Sat' || D.wd === 'Sun') continue;
+      const rows = legs.map((L) => ({ L, t: tzEpoch(D.y, D.mo, D.d, L.o[0], L.o[1], L.tz), skip: k8Skip(L.sk, D.iso) }));
+      if (rows.some((r) => !r.skip && (a > 0 || r.t + 900000 > now))) return { D, rows, today: a === 0 };
+    }
+    return null;
+  }
+  function k8Cd(r, now) {                            // "in 2h 14m" until the bet goes in (+20 s), "now" during the 15 minutes, then "done"
+    if (r.skip) return r.L.sk === 'uk' ? 'skipped (UK holiday)' : 'skipped (CME holiday)';
+    const s = Math.round((r.t + 20000 - now) / 1000);
+    if (s > 0) { const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return 'in ' + (h ? `${h}h ${m}m` : m ? `${m}m` : `${s}s`); }
+    return now < r.t + 900000 ? 'now' : 'done';
+  }
+  function k8Win(now) {
+    const el = $('#k8s-w');
+    if (!el) return;
+    const W = k8Rows(now);
+    if (!W) { el.innerHTML = ''; K8D.day = ''; return; }
+    const key = W.D.iso + '|' + W.rows.map((r) => r.L.c + (r.L.live ? 1 : 0) + (r.skip ? 1 : 0) + r.t).join();
+    if (key !== K8D.day) {
+      K8D.day = key;
+      el.innerHTML = `<p class="k8w-h">${W.today ? 'Today' : 'Next'}, ${esc(W.D.wd)} ${esc(W.D.md)} · New York time</p><ul class="k8w">`
+        + W.rows.map((r, i) => `<li class="${r.L.live ? 'lv' : 'pp'}${r.skip ? ' sk' : ''}" data-leg="${esc(r.L.c)}"><b>${esc(k8HM(r.t))}</b><span>${esc(r.L.n)}${r.L.live ? '' : ' <i>paper only</i>'}</span><em id="k8w-${i}"></em></li>`).join('') + '</ul>';
+      k8Extra();
+    }
+    W.rows.forEach((r, i) => {
+      const e = document.getElementById('k8w-' + i);
+      if (!e) return;
+      const t = k8Cd(r, now);
+      if (e.textContent !== t) { e.textContent = t; e.className = t === 'now' ? 'now' : t === 'done' || r.skip ? 'done' : ''; }
+    });
+  }
+  const k8c = (x) => (x == null ? '–' : Math.round(x) + '¢');
+  function k8Price(now) {                            // per live leg: paid today (our bet) or Kalshi's last price at +20 s, vs the break-even (fair) price
+    const W = k8Rows(now), day = k8Day(now).md, lg = arr(K8D.k && K8D.k.lg);
+    const rows = k8Legs().filter((L) => L.live).map((L) => {
+      let mine = null;
+      for (const b of lg) if (Array.isArray(b) && b[0] === L.c && b[1] === day && num(b[3]) != null) mine = b;
+      const paid = mine ? num(mine[3]) : num(L.x.last_c), fair = num(L.x.fair_c);
+      if (fair == null) return '';
+      const r = W && W.rows.filter((x) => x.L.c === L.c)[0], ed = paid == null ? null : Math.round(fair) - Math.round(paid);
+      const from = mine ? 'our bet today' : L.x.last_day ? `Kalshi, ${String(L.x.last_day).slice(5, 10)}` : 'Kalshi';
+      return `<li data-leg="${esc(L.c)}"><span>${esc(L.n)} ${esc(r ? k8HM(r.t) : '')} <i>${esc(from)}</i></span>`
+        + `<span>paid ${esc(k8c(paid))} · fair ${esc(k8c(fair))}${ed == null ? '' : ` · <b class="${ed > 0 ? 'k8-g' : 'k8-r'}">edge ${ed > 0 ? '+' : ed < 0 ? MINUS : ''}${Math.abs(ed)}¢</b>`}</span></li>`;
+    }).filter(Boolean);
+    if (!rows.length) return '';
+    const th = K8D.j && typeof K8D.j.through === 'string' ? K8D.j.through.slice(0, 10) : '';
+    return `<div class="k8p" id="k8s-pf"><p class="k8w-h">Price vs fair (fair = where the bet breaks even after the fee)</p><ul>${rows.join('')}</ul>`
+      + `<p class="krw-f">Fair prices from Kalshi's public results${th ? ' through ' + esc(th) : ''}, not our bets.</p></div>`;
+  }
+  function k8Log(now) {                              // the last 5 bets in plain words, newest first
+    const lg = K8D.k && Array.isArray(K8D.k.lg) ? K8D.k.lg.filter(Array.isArray) : null;
+    if (!lg) return '';
+    const D = k8Day(now), by = {};
+    for (const L of k8Legs()) by[L.c] = L;
+    const li = lg.slice(-5).reverse().map((b) => {
+      const L = by[b[0]], m = /^(\d{2})-(\d{2})$/.exec(String(b[1] || ''));
+      let wd = '', hm = '';
+      if (m) {
+        const y = +m[1] > D.mo + 2 ? D.y - 1 : D.y;
+        wd = K8_WD[new Date(Date.UTC(y, +m[1] - 1, +m[2], 12)).getUTCDay()];
+        if (L) hm = k8HM(tzEpoch(y, +m[1] - 1, +m[2], L.o[0], L.o[1], L.tz));
+      }
+      const n = num(b[2]), c = num(b[3]), pnl = num(b[4]), r = b[5];
+      const res = r === 'W' ? `WON ${usd(pnl, true)}` : r === 'L' ? `LOST ${usd(pnl, true)}` : 'open';
+      return `<li class="${r === 'W' ? 'w' : r === 'L' ? 'l' : 'o'}">${esc(`${wd} ${m ? b[1] : ''} ${L ? L.n + ' ' + hm : 'a K8 bet'}`.replace(/\s+/g, ' ').trim())}: `
+        + `${esc(n != null && c != null ? `${fmtN(n)} at ${Math.round(c)}¢` : 'size not known')}, <b>${esc(res)}</b></li>`;
+    });
+    return `<div class="k8g" id="k8s-log"><p class="k8w-h">Last ${li.length || ''} bets (${K8D.k.m === 'L' ? 'live' : 'paper'}), newest first</p>`
+      + (li.length ? `<ul>${li.join('')}</ul>` : '<p class="krw-f">No bets yet.</p>') + '</div>';
+  }
+  function k8Health() {                              // win rate last 30 / 60 vs the 58% OFF line, price paid last 30 vs the 58¢ line
+    const R = k8Rule(), e = K8D.k && Array.isArray(K8D.k.e) ? K8D.k.e : null, pool = K8D.j && isObj(K8D.j.pool) ? K8D.j.pool : null;
+    let r30 = null, r60 = null, p30 = null, src = '';
+    if (e && e.some((x) => num(x) != null)) { r30 = num(e[0]); r60 = num(e[1]); p30 = num(e[2]); src = `our bets (${K8D.k.m === 'L' ? 'live' : 'paper'})`; }
+    else if (pool) { const f = (x) => (num(x) == null ? null : num(x) * 100); r30 = f(pool.r30); r60 = f(pool.r60); p30 = num(pool.avg30_c); src = 'Kalshi results, not our bets'; }
+    if (r30 == null && r60 == null && p30 == null) return '<div class="k8e" id="k8s-eh" data-v="none"><p class="k8w-h">Edge health</p><p class="krw-f">No numbers yet.</p></div>';
+    const W = R.win * 100, C = R.creep * 100;
+    const lv = (x, bad, watch) => (x == null ? -1 : bad(x) ? 2 : watch(x) ? 1 : 0);
+    const a = [lv(r30, (x) => x < W, (x) => x < W + 5), lv(r60, (x) => x < W, (x) => x < W + 5), lv(p30, (x) => x > C, (x) => x > C - 5)];
+    const worst = Math.max.apply(null, a), V = ['Healthy', 'Watch', 'OFF line crossed'][worst], vc = ['ok', 'watch', 'off'][worst];
+    const lc = ['ok', 'watch', 'off'], row = (t, v, i, line) => `<span>${t}</span><b class="${a[i] < 0 ? '' : lc[a[i]]}">${v}</b><span>${line}</span>`;
+    const pc = (x) => (x == null ? 'not enough yet' : Math.round(x) + '%');
+    const why = worst === 2 ? (a[2] === 2 ? ' Paying too much: the edge is gone at these prices.' : ' Winning too little.') + (src.startsWith('our') ? ` The bot switches itself OFF${num(arr(K8D.k.wr)[0]) != null && num(arr(K8D.k.wr)[0]) < R.after ? ` once it has ${fmtN(R.after)} bets` : ''}.` : '')
+      : worst === 1 ? ' Close to a line (within 5 points): keep an eye on it.' : '';
+    return `<div class="k8e" id="k8s-eh" data-v="${vc}"><p class="k8w-h">Edge health · ${esc(src)}</p><div class="k8e-g">`
+      + row('Won, last 30', pc(r30), 0, `OFF under ${Math.round(W)}%`) + row('Won, last 60', pc(r60), 1, `OFF under ${Math.round(W)}%`)
+      + row('Paid, last 30', p30 == null ? 'not enough yet' : (Math.round(p30 * 10) / 10) + '¢', 2, `OFF above ${Math.round(C)}¢`)
+      + `</div><p class="k8e-v ${vc}"><b>${V}</b>${esc(why)}</p></div>`;
+  }
+  function k8Switch() {                              // each live leg's own last 20 windows and the pause rule (card ls: [code, won, of, paused, obeyed])
+    const ls = arr(K8D.k && K8D.k.ls).filter((x) => Array.isArray(x) && num(x[1]) != null && num(x[2]) != null);
+    if (!ls.length) return '';
+    const name = {}; k8Legs().forEach((L) => { name[L.c] = L.n; });
+    const obey = ls.some((x) => x[4] === 1);
+    return `<div class="k8e" id="k8s-ls"><p class="k8w-h">Each bet's last 20 windows · pause at 10 won, resume at 12${obey ? '' : ' (shown only: the bot does not pause on it yet)'}</p><ul class="k8l">`
+      + ls.map((x) => {
+        const n = esc(name[x[0]] || x[0]), w = num(x[1]), o = num(x[2]);
+        const t = o < 20 ? `${n}: ${w} of ${o} so far` : x[3] === 1 ? `${n} ${obey ? 'paused' : 'would pause'}: won ${w} of the last ${o} (resumes at 12)` : `${n}: won ${w} of the last ${o}`;
+        return `<li class="${x[3] === 1 ? 'off' : ''}" data-leg="${esc(String(x[0]))}">${t}</li>`;
+      }).join('') + '</ul></div>';
+  }
+  function k8Extra() {
+    const el = $('#k8s-y');
+    if (!el) return;
+    const now = Date.now();
+    let h = '';
+    try { h = k8Price(now) + k8Log(now) + k8Health() + k8Switch(); } catch (_) { h = ''; }
+    if (el.innerHTML !== h) el.innerHTML = h;
+  }
+  async function k8Load() {                          // the site's own k8.json (same folder), 3 s at most; not an object = absent
+    const j = await rwGet('k8.json', 3000);
+    K8D.j = isObj(j) && (j.kind === 'k8_plan' || Array.isArray(j.legs)) ? j : null;
+    K8D.day = '';
+    try { k8Win(Date.now()); } catch (_) { /* nothing */ }
+    k8Extra();
+  }
+
   function klShow() {
     const j = KLV.j, ln = $('#kpaused-live'), hd = $('#kpaused-h'), risk = $('#kpaused-risk');
     k8Show(j);
@@ -1576,9 +1777,10 @@
       + `<p class="muted wi-f">Net = the past bets replayed (B and C shrunk to 2% of today's ${esc(usdA(m.balance))} = ${esc(usdA(m.cap))} a bet). Worst dip and ruin (balance under $6) come from 400 seeded runs of the next ${WI_BETS} bets drawn from the same price bands at the bot's usual ${esc(usdA(m.t0))} bet. A past replay is not a promise.</p>${fwdStrip()}</section>`;
   }
 
-  // ================================================================== "Where the money is" (2026-11-04): tools/kalshi_scan.py -> ../kalshicity/scan.json
+  // ================================================================== "Where the money is" (2026-11-04). Its ../kalshicity/scan.json came only from the retired
+  // kalshi-feed repo (2026-11-19) and is no longer asked for (2026-11-20): the card works from the feed's own price bands, else the dated sample.
   // The top 5 slices of the bot's bets worth a paper test and the top 5 to avoid, each with the fee-adjusted EV per $1 risked and its 95% range. LOOKING
-  // BACK, NOT PROVEN. Reads scan.json when the site has it; else the same maths on this feed's own price bands (30+ bets each); else a dated sample from
+  // BACK, NOT PROVEN. The maths on this feed's own price bands (30+ bets each); else a dated sample from
   // the research, labelled as such. Never blank.
   const SC_FIXTURE = { label: 'Sample from the 2026-11-04 research, not your live numbers', test: [
     { name: '95–97¢ bets', ev: 0.015, n: 715, fragile: false, text: '95–97¢ bets: won 97.8% of 715 bets against 96.1% priced. After Kalshi\'s fee that is +1.5¢ on every $1 risked. It made $137 on $9,182 bet.' },
@@ -1595,14 +1797,9 @@
       return { name, ev: e, ev_lo: e0, n: r.n, pnl: r.pnl, fragile, text };
     });
     const pos = cells.filter((c) => c.ev > 0).sort((a, b) => (a.fragile - b.fragile) || (a.fragile ? b.ev - a.ev : b.ev_lo - a.ev_lo)), neg = cells.filter((c) => c.ev < 0).sort((a, b) => a.pnl - b.pnl);
-    return { label: 'From this feed\'s price bands only (the full scan, with coins and times of day, arrives with the next engine run)', test: pos.slice(0, 5), avoid: neg.slice(0, 5), n: cells.length };
+    return { label: 'From this feed\'s price bands only', test: pos.slice(0, 5), avoid: neg.slice(0, 5), n: cells.length };
   }
   function scanModel(k, v) {
-    const j = S.scan;
-    if (isObj(j) && j.kind === 'kalshi-scan' && Array.isArray(j.test) && Array.isArray(j.avoid)) {
-      const ok = (c) => isObj(c) && typeof c.name === 'string' && num(c.ev) != null && typeof c.text === 'string';
-      return { src: 'scan', label: String(j.label || '').slice(0, 300), head: String(j.headline || '').slice(0, 300), n: num(j.cells_scanned) || 0, test: j.test.filter(ok).slice(0, 5), avoid: j.avoid.filter(ok).slice(0, 5) };
-    }
     const b = scanFromBands(k, v);
     if (b.test.length || b.avoid.length) return { src: 'bands', label: b.label, head: '', n: b.n, test: b.test, avoid: b.avoid };
     return { src: 'fixture', label: SC_FIXTURE.label, head: '', n: 0, test: SC_FIXTURE.test, avoid: SC_FIXTURE.avoid };
@@ -1619,18 +1816,6 @@
       + `<h3 class="sc-g">Avoid</h3>${m.avoid.length ? m.avoid.map((c, i) => item(c, 'avoid', i)).join('') : '<p class="muted">No slice with 30+ bets is clearly negative.</p>'}`
       + '<p class="muted wi-f">EV per $1 = (win rate − price − Kalshi\'s fee) ÷ price, at equal size. The slices overlap and were picked from many, so the best-looking ones are partly luck: paper-test, never bet on one.</p></section>';
   }
-  async function scanLoad() {
-    if (S.scanAsk) return;
-    S.scanAsk = true;
-    let ac = null, tm = 0, r = null, j = null;
-    try { ac = new AbortController(); tm = setTimeout(() => ac.abort(), 4000); } catch (_) { ac = null; }
-    try { r = await fetch('../kalshicity/scan.json', { cache: 'no-cache', signal: ac ? ac.signal : undefined }); if (r && r.ok) j = await r.json(); } catch (_) { j = null; } finally { clearTimeout(tm); }
-    if (!isObj(j) || j.kind !== 'kalshi-scan') return;
-    S.scan = j;
-    const k = previewing() ? sample() : S.k;
-    if (S.v && k && !S.scrub) swap('sec-scan', scanHtml(k, S.v));
-  }
-
   // ---- when nothing is open (a paused bot, a quiet hour): never a blank card, the history stays and the page says what comes back
   function restHtml(k, v) {
     if (v.pos.length) return '';
@@ -2307,11 +2492,11 @@
   } catch (_) { /* no font loading API */ }
   kit();
   city();
-  fwd();
-  scanLoad();
   rewardsLoad();
   k1Load();
   k8Show(null);                                       // the K8 status card: the next-window countdown from the first paint
+  k8Load();                                           // + the K8 day dashboard's k8.json (Kalshi's public results), again every 15 min
+  setInterval(k8Load, 15 * 60e3);
   offline();
 })();
 

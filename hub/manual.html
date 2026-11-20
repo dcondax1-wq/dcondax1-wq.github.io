@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en" data-oly-page="manual">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Owner manual</title>
+<meta name="description" content="Owner manual: who is who (accounts, bots, hours), a normal day and week, money and payouts, every word the pages use, and 10 emergency cards with at most 3 steps.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Manual">
+<link rel="icon" href="icon.svg">
+<!-- OWNER MANUAL (2026-11-20, day-manual; owner 2026-11-19: "It's getting confusing ... I need to know exactly what's happening,
+     how much, or what I need to do"). One page: emergency cards, who is who, a normal day / week, money, words. Same facts as
+     docs/OWNER_MANUAL.md (tests.test_owner_manual checks every copy line is in both and is a real command). Plain HTML: reads
+     with no JS and no network (offline once cached). manual.js only adds Copy, the colour switch and #sos-<n>. Read only. -->
+<script>try { var m = localStorage.getItem('olympus.manual.mode'); if (m === 'dark' || m === 'light') document.documentElement.setAttribute('data-mode', m); } catch (e) {}</script>
+<link rel="stylesheet" href="manual.css?v=m1">
+<script src="manual.js?v=m1" defer></script>
+</head>
+<body>
+<main class="mn-main" id="manual">
+  <nav class="mn-top" aria-label="Back"><a href="../gate/index.html">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">How do I</a><button class="mn-mode" id="mode" type="button" aria-label="Colours: Auto. Tap to change">Auto</button></nav>
+  <h1 class="mn-title">Owner manual</h1>
+  <p class="mn-sub">Everything in one place: who trades what, what happens when, the money, and what to do when something goes wrong.</p>
+  <nav class="mn-jump" aria-label="Sections"><a class="sos" href="#sos">SOS</a><a href="#cast">Who</a><a href="#day">Day</a><a href="#money">Money</a><a href="#words">Words</a></nav>
+
+  <!-- ===================================================================== EMERGENCY -->
+  <section id="sos" aria-labelledby="sos-h">
+    <h2 id="sos-h">Emergency</h2>
+    <p class="mn-lead">First: an open trade's <a class="g" href="#g-stop">stop and target</a> sit at the broker. They still work if the PC, NinjaTrader or the internet dies.</p>
+    <div class="mn-sos">
+      <details id="sos-1"><summary><span class="n">1</span><b>The PC is off or says PC SILENT</b><i aria-hidden="true">&#8250;</i></summary>
+        <ol><li>A trade open? Its stop and target still work. To get out now: <b>Tradovate / MFFU app</b> on the phone &gt; the account &gt; <b>Flatten</b>.</li>
+          <li>At the PC: double-click <b>PC_DOCTOR.bat</b>. It only looks. Read MOST LIKELY CAUSE and run the line under NEXT STEP.</li>
+          <li>Still silent 20 min later: send Claude a photo of the PC_DOCTOR window. The bot never chases a missed entry.</li></ol></details>
+
+      <details id="sos-2"><summary><span class="n">2</span><b>A trade is open and the bot looks stuck</b><i aria-hidden="true">&#8250;</i></summary>
+        <p class="mn-calm">Do nothing first: the stop and target close the trade even if the bot is frozen.</p>
+        <ol><li>Want out now: your PC link + <b>:8444/safety/</b> &gt; <b>FLATTEN</b> (tap twice). The bot keeps running, no new entry today.</li>
+          <li>That page does not open: Tradovate / MFFU app &gt; the account &gt; Flatten.</li>
+          <li>Never add a stop by hand. Tell Claude what you saw.</li></ol></details>
+
+      <details id="sos-3"><summary><span class="n">3</span><b>NinjaTrader disconnected</b><i aria-hidden="true">&#8250;</i></summary>
+        <ol><li>At the PC: NinjaTrader &gt; <b>Connections</b> &gt; connect again (or close and reopen NinjaTrader).</li>
+          <li>Keep the MNQ chart with <b>LE_BarFeed</b> open. The bot blocks new entries while bars are old and trades again by itself.</li>
+          <li>Not back in a few minutes and a trade is open: Tradovate / MFFU app &gt; Flatten.</li></ol></details>
+
+      <details id="sos-4"><summary><span class="n">4</span><b>An alert says something went wrong</b><i aria-hidden="true">&#8250;</i></summary>
+        <ol><li>Read the alert: most say what to do. "FLATTEN BY HAND" = NinjaTrader &gt; <b>Flatten Everything</b>.</li>
+          <li>At the PC: double-click <b>HEALTH_CHECK.bat</b>. Each red line says its fix.</li>
+          <li>Not clear: send Claude the alert text. "Entry blocked" = a guard refused an unsafe order: nothing to do.</li></ol></details>
+
+      <details id="sos-5"><summary><span class="n">5</span><b>An account hit the daily loss limit</b><i aria-hidden="true">&#8250;</i></summary>
+        <p class="mn-calm">A <a class="g" href="#g-dll">DLL</a> hit is a pause for today, not a fail.</p>
+        <ol><li>Nothing to do: orders show <a class="g" href="#g-limit0">Limit 0</a> and the bot stays off that account by itself.</li>
+          <li>Check its status on the MFFU dashboard (Active / Failed / Passed).</li>
+          <li>Do not trade it by hand. It trades again after 18:00 ET.</li></ol></details>
+
+      <details id="sos-6"><summary><span class="n">6</span><b>An update is blocked</b><i aria-hidden="true">&#8250;</i></summary>
+        <p class="mn-calm">The old version keeps trading. Nothing is broken.</p>
+        <ol><li>Phone says "update blocked by a local change in X": send Claude that line. Never edit files in the bot folder.</li>
+          <li>To try again at the PC after 16:00 ET, bot <a class="g" href="#g-flat">flat</a>: double-click <b>UPDATE.bat</b>.</li>
+          <li>[OK] = done. [FIX] = that line says what (for example: a trade is open, run it after it closes).</li></ol>
+        <div class="mn-copy"><code>python -X utf8 -m engine.autoupdate --source-status</code><button type="button">Copy</button></div>
+        <p class="mn-note">At the PC, read only: says whether the PC is connected to your backup repo.</p></details>
+
+      <details id="sos-7"><summary><span class="n">7</span><b>The phone site shows old numbers</b><i aria-hidden="true">&#8250;</i></summary>
+        <ol><li>Look at the top of ZEUS: "PC reported X min ago". Under 30 min = the numbers are live (the PC reports every 15 min).</li>
+          <li>Red <a class="g" href="#g-silent">PC SILENT</a> = the PC is quiet, not the site: see card 1.</li>
+          <li>The page itself looks old: close the Home Screen app fully (swipe it away) and open it again.</li></ol></details>
+
+      <details id="sos-8"><summary><span class="n">8</span><b>Stop everything right now</b><i aria-hidden="true">&#8250;</i></summary>
+        <ol><li>At the PC: <b>http://localhost:8766</b> &gt; Bot Control &gt; <b>HOLD TO KILL</b> (hold the red button). It flattens every account, cancels orders, stops the bot, auto-resume off.</li>
+          <li>From the phone: your PC link + <b>:8444/safety/</b> &gt; <b>KILL</b> (tap twice). The same, and it also stops Kalshi when Kalshi is live.</li>
+          <li>PC out of reach: Tradovate / MFFU app &gt; Flatten. Starting again is only at the PC, with your live phrase.</li></ol>
+        <div class="mn-copy"><code>python -X utf8 -m engine.phone_safety --on</code><button type="button">Copy</button></div>
+        <p class="mn-note">Once, at the PC: turns the phone KILL / FLATTEN / PAUSE buttons on. Off again: the same line with --off.</p></details>
+
+      <details id="sos-9"><summary><span class="n">9</span><b>Add an account</b><i aria-hidden="true">&#8250;</i></summary>
+        <ol><li>Buy it at MFFU with the CLUB code. Open NinjaTrader: the new account shows in the Accounts tab.</li>
+          <li>Open <b>http://localhost:8766/add-account/</b> on the PC (or your PC link + <b>/add-account/</b> on the phone). Pick the plan, type or tap the Name, type <b>I ACCEPT LIVE RISK</b>.</li>
+          <li>Tap Add. It starts trading once the bot is flat. Check it at the PC with the line below.</li></ol>
+        <div class="mn-copy"><code>python -X utf8 -m engine.accounts status</code><button type="button">Copy</button></div>
+        <p class="mn-note">One line per account: armed or not, and your MFFU slots.</p></details>
+
+      <details id="sos-10"><summary><span class="n">10</span><b>Turn Kalshi off</b><i aria-hidden="true">&#8250;</i></summary>
+        <p class="mn-calm">Kalshi is on paper today: no real money moves until you type the Kalshi phrase.</p>
+        <ol><li>Live and you want it off: your PC link + <b>:8444/kalshi-live/</b> &gt; <b>STOP</b> (one tap).</li>
+          <li>Or phone KILL (card 8): it stops Kalshi too.</li>
+          <li>At the PC: double-click <b>KALSHI_STOP.bat</b>, type Y. It cancels every resting Kalshi order and switches Kalshi OFF.</li></ol></details>
+    </div>
+    <p class="mn-note">"Your PC link" = your PC's private Tailscale address (the one LIVE_LINK.bat showed). Never share it.</p>
+  </section>
+
+  <!-- ===================================================================== CAST -->
+  <section id="cast" aria-labelledby="cast-h">
+    <h2 id="cast-h">Who is who</h2>
+    <p class="mn-lead">Numbers from the PC's report on Nov 20, 6:00 ET. Live numbers: <a href="zeus.html">ZEUS</a>.</p>
+    <h3>Your accounts (all MFFU)</h3>
+    <div class="mn-cards">
+      <div class="mn-card"><h4>Zlarior 50K</h4><p class="mn-money">$49,193 · needs +$3,807 to pass · $1,025 <a class="g" href="#g-room">room</a></p>
+        <p>Builder 50K <a class="g" href="#g-eval">eval</a> ($91.80). Traded by Zlarior.</p><div class="mn-tags"><span class="mn-tag real">Real money</span><span class="mn-tag">Eval</span></div></div>
+      <div class="mn-card"><h4>ATLAS 25K</h4><p class="mn-money">$24,887 · first $1,000 payout at about $27,100 · $887 room</p>
+        <p>Builder 25K <b>funded</b> ($63). Traded by ATLAS.</p><div class="mn-tags"><span class="mn-tag real">Real money</span><span class="mn-tag">Funded</span></div></div>
+      <div class="mn-card"><h4>Zlarior 25K #2</h4><p class="mn-money">$25,000 · needs +$1,500 to pass · $1,000 room</p>
+        <p>Builder 25K eval ($63). Traded by Zlarior. No trade yet.</p><div class="mn-tags"><span class="mn-tag real">Real money</span><span class="mn-tag">Eval</span></div></div>
+      <div class="mn-card"><h4>Rapid EOD 25K</h4><p class="mn-money">Bought ($97.20), not on the PC yet</p>
+        <p>Zlarior + ATLAS will trade it once you add it: <a href="#sos-9">card 9</a>. <a class="g" href="#g-dll">DLL</a> $500.</p><div class="mn-tags"><span class="mn-tag">To add</span></div></div>
+    </div>
+    <h3>The bots</h3>
+    <div class="mn-cards">
+      <div class="mn-card"><h4>Zlarior (strategy LIT)</h4><p>Waits for price to run past an old high or low (a <a class="g" href="#g-sweep">sweep</a>), snap back, then trades the turn: stop 1 tick past the extreme, one target.</p>
+        <p class="mn-money">Enters 02:00-15:30 ET (most 02:00-08:00). Max 1 trade a day, about 2-4 a week.</p><div class="mn-tags"><span class="mn-tag real">Zlarior 50K + 25K #2</span></div></div>
+      <div class="mn-card"><h4>ATLAS (3 small strategies)</h4><p>London EMA pullback, MACD at a sweep, New York level reclaim: small, quick trades.</p>
+        <p class="mn-money">MACD 02:00-05:00 + 09:30-11:00 · EMA 03:00-09:30 (not Mondays) · level reclaim 09:30-12:00 ET.</p><div class="mn-tags"><span class="mn-tag real">ATLAS 25K funded</span></div></div>
+      <div class="mn-card"><h4>K8 (Kalshi clock bot)</h4><p>Small bets on gold and silver 15-minute price markets on Kalshi.</p>
+        <p class="mn-money">05:15-05:30 ET (gold down) and 16:45-17:00 ET (gold + silver up), weekdays. With $55: $2.50 a bet, max 3 a day, worst week -$13.75.</p><div class="mn-tags"><span class="mn-tag paper">Paper until you type the Kalshi phrase</span></div></div>
+      <div class="mn-card"><h4>BLITZ</h4><p>A test strategy on paper only. Hidden on the pages on purpose.</p><div class="mn-tags"><span class="mn-tag paper">Paper, never real money</span></div></div>
+      <div class="mn-card"><h4>ZEUS</h4><p>The name for the whole PC bot: it runs Zlarior and ATLAS through NinjaTrader and reports to your phone.</p></div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== DAY & WEEK -->
+  <section id="day" aria-labelledby="day-h">
+    <h2 id="day-h">A normal day (ET)</h2>
+    <p class="mn-lead">You do nothing. The PC runs by itself; the phone tells you.</p>
+    <ul class="mn-rows">
+      <li><b>Every 15 min</b><span>The PC sends a report.<small>ZEUS / Board: "PC reported X min ago". Over 30 min = red PC SILENT.</small></span></li>
+      <li><b>01:50</b><span>Trading hours start: no updates until 16:00.</span></li>
+      <li><b>02:00-15:30</b><span>Zlarior and ATLAS look for entries.<small>Push at each entry ("Zlarior 50K: LONG 4 MNQ ... risk $178, target +$450") and each exit ("closed +$312 (target) ... $3,495 to pass").</small></span></li>
+      <li><b>07:30</b><span>Morning brief push.<small>Each account's $, overnight trades, today's news, what needs you.</small></span></li>
+      <li><b>16:10</b><span>Every bot is flat (MFFU rule).<small>Orders show Limit 0 until 18:00: normal.</small></span></li>
+      <li><b>16:15</b><span>Day summary push with the day's $.</span></li>
+      <li><b>17:00-18:00</b><span>Market break. The PC updates itself if flat (17:02) and sends the day's data to Claude.</span></li>
+      <li><b>Every hour</b><span>Self-heal fixes small PC faults.<small>A push only when it could NOT fix something.</small></span></li>
+      <li><b>23:00-07:00</b><span>Quiet hours: pushes still come, no sound.</span></li>
+    </ul>
+    <h3>A normal week</h3>
+    <ul class="mn-rows">
+      <li><b>Sun 18:00</b><span>Market opens. The bot must be running (after a weekend update: START BOT at the PC).</span></li>
+      <li><b>Mon-Fri</b><span>Trading days. Many days have 0 trades: normal. Zlarior aims for 2-4 a week.</span></li>
+      <li><b>Fri 16:15</b><span>Weekly review: <a href="../business/week.html">ZEUS this week</a>.</span></li>
+      <li><b>Fri / Sat</b><span>Evals take code updates only now (17:02), so nothing stops them midweek.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================================================================== MONEY -->
+  <section id="money" aria-labelledby="money-h">
+    <h2 id="money-h">Money</h2>
+    <ul class="mn-rows">
+      <li><b>Payout</b><span>ATLAS's 25K at about <b>$27,100</b>, 2+ traded days, no day over half the profit: ask MFFU for <b>$1,000</b> after the close.<small>The bot never asks MFFU for you. Exact $ left: <a href="../business/accounts.html#coach">Payout coach</a>.</small></span></li>
+      <li><b>You keep</b><span>Builder <b>80%</b> ($1,000 = $800 to you). Rapid <b>90%</b>.</span></li>
+      <li><b>Tax pot</b><span>The day it lands, move <b>30%</b> to savings: $800 in = $240 to the pot, about $560 yours.<small>Next estimated tax payment: Jan 15, 2027 (IRS Direct Pay, 1040-ES). Not tax advice. <a href="../business/taxes.html">Taxes</a>.</small></span></li>
+      <li><b>New accounts</b><span>Max $150 of your own money on evals; after that, paid from a payout.</span></li>
+      <li><b>Where</b><span><a href="../business/mffu.html">My accounts (MFFU view)</a> = each account like MFFU shows it.</span></li>
+    </ul>
+    <div class="mn-copy"><code>python -X utf8 -m engine.account_b --payout YYYY-MM-DD=1000</code><button type="button">Copy</button></div>
+    <p class="mn-note">At the PC, after MFFU paid (put your date in). The next cycle counts from $26,100.</p>
+  </section>
+
+  <!-- ===================================================================== WORDS -->
+  <section id="words" aria-labelledby="words-h">
+    <h2 id="words-h">Words the pages use</h2>
+    <dl class="mn-words">
+      <div id="g-room"><dt>Room</dt><dd>$ between the balance and the account's floor. $0 room = the account fails. The bot sizes every trade inside it.</dd></div>
+      <div id="g-dd"><dt>Drawdown / max loss</dt><dd>How far an account may fall from its best close before it fails: 50K $2,000, 25K $1,000.</dd></div>
+      <div id="g-floor"><dt>Floor</dt><dd>The balance where the account fails (best close minus the max loss). It moves up with your best close.</dd></div>
+      <div id="g-pass"><dt>To pass</dt><dd>$ still needed to pass an eval: 50K +$3,000, 25K +$1,500 from the start.</dd></div>
+      <div id="g-eval"><dt>Eval / funded</dt><dd>Eval = the test you pay for. Funded = passed: real payouts.</dd></div>
+      <div id="g-dll"><dt>DLL</dt><dd>Daily loss limit. MFFU's soft one: hit it and the account pauses for the day, it does not fail. Builders $1,000, Rapid EOD 25K $500. The bot sizes so one full stop stays inside it.</dd></div>
+      <div id="g-eod"><dt>EOD</dt><dd>End of day: a Rapid EOD account measures its max loss from the day's closing balance, not every tick.</dd></div>
+      <div id="g-limit0"><dt>Limit 0</dt><dd>MFFU lets the account hold 0 contracts now: 16:10-18:00 ET daily (normal), or it hit its DLL, failed or passed.</dd></div>
+      <div id="g-r"><dt>R</dt><dd>One unit of risk = what the trade loses at its stop. +2R = won twice the risk.</dd></div>
+      <div id="g-pf"><dt>PF (profit factor)</dt><dd>$ won divided by $ lost. Above 1 makes money; 2 = $2 won per $1 lost.</dd></div>
+      <div id="g-win"><dt>Win %</dt><dd>Share of trades that made money.</dd></div>
+      <div id="g-twin"><dt>Twin</dt><dd>The same trade in the backtest. Live vs twin shows whether the bot trades as tested.</dd></div>
+      <div id="g-edge"><dt>Edge check / edge light</dt><dd>GREEN = the last 40 sessions look like the tested strategy. AMBER = weaker, watch. RED = advice to size down. It never changes anything by itself.</dd></div>
+      <div id="g-cb"><dt>Circuit breaker</dt><dd>Live trades vs the twin: WATCH, SIZE DOWN or PAUSE advice. Advice only.</dd></div>
+      <div id="g-sweep"><dt>Sweep</dt><dd>Price runs past an old high or low (where stops sit), then turns.</dd></div>
+      <div id="g-stop"><dt>Stop / target</dt><dd>The exit if wrong (1 tick past the sweep) and the one exit if right. Both sit at the broker, so they work even if the PC dies.</dd></div>
+      <div id="g-mnq"><dt>MNQ / micro</dt><dd>Micro Nasdaq future: $2 per point.</dd></div>
+      <div id="g-flat"><dt>Flat</dt><dd>No open trade.</dd></div>
+      <div id="g-armed"><dt>Armed</dt><dd>A real account switched on to trade. Only you arm it, by typing I ACCEPT LIVE RISK.</dd></div>
+      <div id="g-paper"><dt>Paper / Sim</dt><dd>Pretend trades, no money.</dd></div>
+      <div id="g-silent"><dt>PC SILENT</dt><dd>The PC has not reported for 30+ minutes.</dd></div>
+      <div id="g-kill"><dt>Kill switch</dt><dd>Close everything, cancel orders, stop the bot, auto-resume off: <a href="#sos-8">card 8</a>.</dd></div>
+      <div id="g-decide"><dt>Decide card</dt><dd>A yes / no question for you on the <a href="../board/">Board</a>, with the $ impact.</dd></div>
+      <div id="g-lab"><dt>ZEUS Lab</dt><dd>Ideas tested every night. Nothing changes without your yes.</dd></div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="where-h">
+    <h2 id="where-h">Where to look</h2>
+    <nav class="mn-links" aria-label="Pages"><a href="zeus.html">ZEUS: live numbers</a><a href="../board/">Board: what happened</a><a href="../business/mffu.html">My accounts (MFFU)</a><a href="../trading/">Trades</a><a href="steps.html">Your steps</a><a href="help.html">How do I...?</a><a href="../pythia/">Holidays / news</a><a href="../kalshi/">Kalshi</a></nav>
+  </section>
+  <p class="mn-foot">Read only: nothing on this page can trade or change a bot. Checked against the code on Nov 20, 2026.</p>
+</main>
+</body>
+</html>

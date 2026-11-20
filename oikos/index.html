@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora" data-oly-light>
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -20,6 +20,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="oikos"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -28,6 +29,7 @@
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="oikos.css?v=a2q">
+<link rel="stylesheet" href="../olympus/shell.css?v=s4"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -44,6 +46,12 @@
     <p class="note" id="fillNote"></p>
   </section>
 
+  <a class="ag-card card taxpot" href="../business/taxes.html" data-oly-cue="open"><!-- day-arenas: the tax pot lives on Business > Taxes -->
+    <span class="tp-k">Tax pot, every payout</span>
+    <span class="tp-v ag-num">30%</span>
+    <span class="tp-s">Maryland: 30% for the expected year, 40% if you also have a day job. Next due: Jan 15, 2027 (1040-ES). Open Taxes &rsaquo;</span>
+  </a>
+  <section class="pulse" data-pulse="money" data-pulse-app="oikos" aria-label="Prop fees and payouts" aria-busy="true"><div class="pu-part pu-money"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card" aria-labelledby="srcH">
     <h2 id="srcH">Where the numbers come from</h2>
     <p class="note" id="srcNote"></p>
@@ -129,6 +137,7 @@
   <p class="foot" id="foot">Oikos only reads and plans. It never trades, moves money or changes the bot. Every $ is an estimate from what you entered, not a promise; one bad month can fail every account at once. The tax % is a rule of thumb, not tax advice. Your sliders and imports stay on this phone.</p>
 </main>
 <script type="module" src="oikos.js?v=a2"></script>
-<script type="module" src="household.js?v=h1"></script>
+<script type="module" src="household.js?v=h1d"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

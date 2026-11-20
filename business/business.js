@@ -228,11 +228,14 @@ function renderProp(p) {
 }
 
 (async function main() {
-  const ownRaw = await getJSON('./business.json');
+  // day-arenas 2026-11-20 (audit: 404 business/business.json): the PC's own business.json is private and never on the public site
+  // (tools/biz_publish.py, gitignored), so the public site does not ask for it at all; the PC's own link and a test server still do
+  const priv = /^(localhost|127\.|10\.|192\.168\.|100\.)|\.ts\.net$/.test(location.hostname) || /[?&]own=1/.test(location.search);
+  const ownRaw = priv ? await getJSON('./business.json') : null;
   const own = C.clean(ownRaw);
   const raw = own ? ownRaw : await getJSON('./fixture.json');
   const doc = own || C.clean(raw);
-  if (!doc) { $('status').textContent = 'No numbers yet. On the PC, run: python tools/biz_publish.py'; READY = true; return; }
+  if (!doc) { $('status').textContent = 'No numbers yet. On the PC, run: python tools/biz_publish.py'; READY = true; lift(); return; }
   doc.x = C.cleanExtra(raw);
   doc.state = C.dataState(own ? doc : { ...doc, sample: true }, Date.now());   // the fixture is the example whatever it says
   const home = await getJSON('../home.json');
@@ -241,5 +244,7 @@ function renderProp(p) {
   const accts = C.accountsFromHome(home);          // the published evals: the plan follows them live
   doc.livePlan = accts.length ? C.planPayouts(accts, C.localDay(new Date())) : null;
   render(doc);
-  READY = true;
-})();
+  READY = true; lift();
+})().catch((e) => { READY = true; lift(); try { $('status').textContent = 'Something went wrong: ' + (e && e.message ? e.message : e); } catch (_) { /* no status line */ } });
+// day-arenas 2026-11-20: tell the kit the page is drawn, so the loading veil lifts at once (it waited its full 12 s before: no ready() call)
+function lift() { try { const O = window.OLYMPUS; if (O && typeof O.ready === 'function') O.ready(); } catch (_) { /* no kit */ } }

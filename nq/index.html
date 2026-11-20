@@ -33,6 +33,7 @@
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="nq.css?v=a4q">
 <link rel="stylesheet" href="../nqdeep.css?v=1">
+<link rel="stylesheet" href="nqdesk.css?v=4">
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
@@ -49,6 +50,27 @@
     <p class="btitle" id="bannerTitle">Last report from your PC: unknown.</p>
     <p class="btext" id="bannerText">The bots may still be trading; this page just is not hearing from them.</p>
     <button type="button" class="btn primary" id="bannerBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
+  </section>
+
+  <!-- nqdash3 2026-11-20 (nqdesk.js): every MFFU account at a glance, a live / stale dot from the PC's 15-minute report -->
+  <section class="ag-card card" id="acctCard" aria-labelledby="acctH">
+    <div class="row"><h2 id="acctH">Accounts</h2><span class="pill" id="acctPill">Loading</span></div>
+    <div class="dk-strip" id="acctStrip" role="list" aria-label="Each MFFU account"></div>
+    <p class="dk-legend" aria-hidden="true"><span><i class="dk-dot live"></i>live</span><span><i class="dk-dot stale"></i>stale (no report for 20 min)</span><span><i class="dk-dot plan"></i>planned</span></p>
+  </section>
+
+  <!-- round 3 (Ares merged here): can each account's bot trade right now? -->
+  <section class="ag-card card" id="gateCard" aria-labelledby="gateH">
+    <div class="row"><h2 id="gateH">GO / WAIT / HALT</h2><span class="pill" id="gatePill"></span></div>
+    <div class="dk-gates" id="gates"></div>
+    <a class="dk-more" href="../ares/">Check a trade by hand (the Ares calculator)</a>
+  </section>
+
+  <!-- round 3 (Kairos merged here): the trading day on one line -->
+  <section class="ag-card card" id="dayCard" aria-labelledby="dayH">
+    <h2 id="dayH">The bots' day</h2>
+    <div id="dayLine"></div>
+    <a class="dk-more" href="../kairos/">The full day ring (Kairos)</a>
   </section>
 
   <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars with every entry, stop and target; its own module -->
@@ -85,6 +107,13 @@
     <p class="note" id="planNote" hidden></p>
   </section>
 
+  <!-- nqdash3: what each bot is thinking: before the trade (lean, news, levels, window, what it waits for), in it, after it -->
+  <section class="ag-card card" id="thinkCard" aria-labelledby="thinkH">
+    <div class="row"><h2 id="thinkH">What the bots are thinking</h2><span class="pill" id="thinkPill"></span></div>
+    <div class="dk-bots" id="think"></div>
+    <p class="note">From the PC's own report (its brain glance). The lean is the side of the setup it has armed; it never trades a lean alone.</p>
+  </section>
+
   <section id="bots" class="cards" aria-label="Each account"></section>
 
   <section class="ag-card card" id="newsCard" aria-labelledby="newsH">
@@ -97,6 +126,19 @@
     <h2 id="tradesH">The last 10 trades</h2>
     <p class="note" id="tradesNote"></p>
     <ol class="trades" id="trades"></ol>
+  </section>
+
+  <section class="ag-card card" id="qualCard" aria-labelledby="qualH">
+    <div class="row"><h2 id="qualH">Quality checks</h2><span class="pill" id="qualPill"></span></div>
+    <div id="qual"></div>
+    <p class="note">Is everything on this page fresh and does the bot do what its backtest does? A red one is worth a look.</p>
+  </section>
+
+  <!-- round 3 (Chronos merged here): replay a past day; its trade file (~0.5 MB) loads only when this card comes into view -->
+  <section class="ag-card card dk-lazy" id="pastCard" aria-labelledby="pastH">
+    <h2 id="pastH">Replay a past day</h2>
+    <div id="pastDays"><p class="note">Loading when you get here...</p></div>
+    <a class="dk-more" href="../chronos/">All days (Chronos)</a>
   </section>
 
   <section class="ag-card card" id="factsCard" aria-labelledby="factsH">
@@ -122,8 +164,8 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r12"></script>
-<script type="module" src="nqchart.js?v=c1"></script>
+<script type="module" src="nq.js?v=r16"></script>
+<script type="module" src="nqchart.js?v=c2"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l1" data-src="nqscene.js?v=q6c" data-skip="lite" data-event="nq3d" defer></script>
 </body>

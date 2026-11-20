@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora">
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="chrysos"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -26,7 +27,8 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="chrysos.css?v=a1q">
+<link rel="stylesheet" href="chrysos.css?v=a1qd">
+<link rel="stylesheet" href="../olympus/shell.css?v=s4"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -45,6 +47,7 @@
     <div class="tiles" id="tiles"></div>
   </section>
 
+  <section class="pulse" data-pulse="money" data-pulse-app="chrysos" aria-label="Real fees and payouts so far" aria-busy="true"><div class="pu-part pu-money"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card wrong" id="wrongCard" aria-labelledby="wrongH">
     <h2 id="wrongH">What if the bot does worse?</h2>
     <ul class="plain" id="wrong"></ul>
@@ -93,5 +96,6 @@
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l1" data-src="towerload.js?v=a1" data-skip="lite" data-event="chrysos-tower" defer></script>
 <script type="module" src="chrysos.js?v=q6c"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

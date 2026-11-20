@@ -170,7 +170,10 @@
     });
   }
   async function loadNeeds() {
-    const list = apps.filter((a) => a.live && a.path), found = [];
+    // day-arenas 2026-11-20: the rooms folded under Archive (olympus/doors.js) are never "what needs me now": their stale research feeds
+    // (Odeon, Data City, Daphne, Pantheon ...) filled the strip and hid what a trader must act on
+    const D = window.OLYMPUS_DOORS, gone = (id) => !!(D && typeof D.archived === 'function' && D.archived(id));
+    const list = apps.filter((a) => a.live && a.path && !gone(a.id)), found = [];
     let asked = 0, answered = 0, i = 0;
     const worker = async () => {
       while (i < list.length) {

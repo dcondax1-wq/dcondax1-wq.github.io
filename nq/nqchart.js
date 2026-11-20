@@ -196,6 +196,7 @@ async function refresh(force) {
     S.fetchedAt = Date.now();
     if (r.post || !S.post) { S.post = r.post; S.why = r.why; }       // a failed poll keeps the last good bars on the screen
     render();
+    try { window.dispatchEvent(new Event('nq-bars')); } catch (e) { /* the desk cards redraw on their own minute */ }
   } finally { S.busy = false; }
 }
 

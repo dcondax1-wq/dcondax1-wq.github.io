@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora" data-oly-light>
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -20,6 +20,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="business"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -30,6 +31,7 @@
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="business.css?v=5">
 <link rel="stylesheet" href="dashkit.css?v=2"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
+<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -38,6 +40,7 @@
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="snap" class="tag demo" hidden>SNAPSHOT</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="pulse" data-pulse="strip,money" data-pulse-app="business" aria-label="Today, payouts and fees" aria-busy="true"><div class="pu-part pu-strip"></div><div class="pu-part pu-money"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card" data-dash="cockpit" aria-label="Your accounts now (live)"></section>
 
   <a class="ag-card card door2 mffu-top" href="mffu.html" style="display:grid;margin:0 0 12px"><h2>My accounts (MFFU view) &rarr;</h2><p class="note">Every MFFU account the way MFFU shows it: status, start date, balance, floor, target, days, payout. Live from your PC.</p></a>
@@ -133,9 +136,11 @@
   </section>
 
   <p class="foot">This page only reads. It never trades, posts, emails or calls anyone.</p>
+  <nav class="folded" aria-label="Money views folded into Business"><a href="../harmonia/">Harmonia: balance</a><a href="../mint/">Mint: five streams</a></nav><!-- day-arenas: the audit's MERGE verdicts -->
 </main>
-<script type="module" src="business.js?v=4"></script>
+<script type="module" src="business.js?v=4d"></script>
 <script src="../widget/olympus-widget.js?v=w1"></script><!-- live accounts: the PC post, else the site copy -->
 <script src="dashkit.js?v=1"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

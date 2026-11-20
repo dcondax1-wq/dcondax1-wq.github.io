@@ -46,7 +46,7 @@ function bars(ins) {
   items.forEach(([k, label, usd, n], i) => {
     const x = 12 + i * (w + gap), hh = Math.max(n ? 2 : 0, Math.abs(usd) * scale), y = usd >= 0 ? mid - hh : mid;
     svg.appendChild(sv('rect', { x, y, width: w, height: hh, rx: 3, fill: usd < 0 ? '#c96a4a' : '#aeb86e', opacity: n ? 1 : 0.25 }));
-    svg.appendChild(sv('text', { x: x + w / 2, y: 70, 'text-anchor': 'middle', fill: '#dcd1c2', 'font-size': 10.5 }, `${label} (${n})`));
+    svg.appendChild(sv('text', { x: x + w / 2, y: 70, 'text-anchor': 'middle', style: 'fill: var(--ag-soft, #dcd1c2)', 'font-size': 10.5 }, `${label} (${n})`));
   });
 }
 

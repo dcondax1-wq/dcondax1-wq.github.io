@@ -3,6 +3,7 @@
 // ?demo=1&now=2026-11-10T14:00:00Z opens a given view.
 import * as C from './compasscore.js';
 import * as HF from '../olympus/hero-flat.js';
+import * as T from '../olympus/truth.js';
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -134,7 +135,10 @@ async function boot() {
   S.found = [['home.json', home], ['money/index.json', money], ['ledger/rules.json', rules], ['odeon/trades.json', odeon]].filter((x) => x[1]).map((x) => x[0]);
   const real = !S.forced && (S.found.length > 0);
   S.demo = !real;
-  S.inp = real ? { home, money, rules, odeon, journal: readLS('journal.v1'), ledger: readLS('ledger.v1') } : C.demoInputs(fx, S.now);
+  // day-arenas 2026-11-20: home.json through the shared truth layer (the PC's own live status over the cloud copy), like Helios and Aegis:
+  // the raw cloud copy said 'Bot not connected' while the PC was live
+  const canon = real && home ? T.canonHome(await T.withPcFeed(home), S.now / 1000) : home;
+  S.inp = real ? { home: canon, money, rules, odeon, journal: readLS('journal.v1'), ledger: readLS('ledger.v1') } : C.demoInputs(fx, S.now);
   S.state = loadState();
   render();
   await startRose();

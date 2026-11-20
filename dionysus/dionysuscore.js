@@ -86,3 +86,92 @@ export function jarvisCard(book, g) {
   return { v: 1, name: 'Dionysus', status: { level: lvl, label: str(g.title, 48) }, kpis: [{ label: 'Balance', value: usd(book.balance) }, { label: 'Today', value: usdS(book.today) }, { label: 'Week', value: usdS(book.week) }],
     lines: [str(g.text, 118), str('Suggestions only: nothing here changes a bet.', 118)], t: 1793394000, theme: '#14110e' };
 }
+
+// ------------------------------------------------------------------------------------------------ K8 today (day-kalshi 2026-11-20)
+// The site's ../kalshi/k8.json (Kalshi's PUBLIC results at the K8 bot's +20 s price: the strategy's health, not our bets). The 3 live legs
+// with today's New York time, the fair (break-even) price, the last 10 W / L; the pool's win rate last 30 / 60 vs the 58% OFF line; the
+// noise sentence. Not an object, or no live leg = null (the panel hides). nowMs picks the day for the time (London legs move with the clocks).
+const K8_ET = (y, mo, d, h, mi, tz) => {   // the epoch (ms) of a wall time in a time zone, no library
+  let g = Date.UTC(y, mo, d, h, mi);
+  for (let k = 0; k < 2; k++) {
+    const p = {};
+    for (const x of new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date(g))) p[x.type] = +x.value || 0;
+    g += Date.UTC(y, mo, d, h, mi) - Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute);
+  }
+  return g;
+};
+export function k8Panel(j, nowMs) {
+  if (!isObj(j) || !Array.isArray(j.legs)) return null;
+  const now = num(nowMs) == null ? Date.now() : num(nowMs), p = {};
+  try { for (const x of new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date(now))) p[x.type] = +x.value; } catch (_) { return null; }
+  const legs = j.legs.filter((x) => isObj(x) && x.live === true).slice(0, 5).map((x) => {
+    const m = /^(\d{1,2}):(\d{2})$/.exec(String(x.open || '')), tz = x.tz === 'Europe/London' ? 'Europe/London' : 'America/New_York';
+    let at = '';
+    if (m) { try { at = new Date(K8_ET(p.year, p.month - 1, p.day, +m[1], +m[2], tz)).toLocaleTimeString('en-GB', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); } catch (_) { at = ''; } }
+    const name = str(x.name, 60).replace(/\s*\d{1,2}:\d{2}(-\d{1,2}:\d{2})?\s*ET\s*$/, '') || 'K8 leg', fair = num(x.fair_c);
+    return { name, at, fair: fair == null ? null : Math.round(fair), last10: String(x.last10 || '').replace(/[^WL]/g, '').slice(-10), rate: num(x.rate), n: num(x.n) };
+  });
+  if (!legs.length) return null;
+  const pool = isObj(j.pool) ? j.pool : {}, min = isObj(j.rule) && num(j.rule.min_win) != null ? num(j.rule.min_win) : 0.58;
+  const r30 = num(pool.r30), r60 = num(pool.r60), W = min * 100;
+  const lv = (x) => (x == null ? '' : x * 100 < W ? 'off' : x * 100 < W + 5 ? 'watch' : 'ok');
+  const worst = [lv(r30), lv(r60)].indexOf('off') >= 0 ? 'off' : [lv(r30), lv(r60)].indexOf('watch') >= 0 ? 'watch' : r30 == null && r60 == null ? '' : 'ok';
+  return { legs, r30, r60, min, l30: lv(r30), l60: lv(r60), level: worst, verdict: { ok: 'Healthy', watch: 'Watch', off: 'OFF line crossed', '': 'No numbers yet' }[worst],
+    noise: str(isObj(j.noise) ? j.noise.plain : '', 300), through: str(j.through, 10) };
+}
+
+// ------------------------------------------------------------------------------------------------ merged from Kalshi City + Sibyl (day-kalshi 2026-11-20)
+// AUDIT 2026-11-20: Dionysus is the one Kalshi desk; the useful parts of kalshicity/ (learned.json fees + ruin, suggestions.json) and sibyl/ (money/sibyl.json
+// picks, money/sibyl_forward.json paper record) show here as plain cards. All of it comes from the OLD crypto bot's study (retired 2026-11-19): history, never live.
+// Not the expected shape = null (the card hides).
+const OLD = 'old bot (retired)';
+export const OLD_WORD = OLD;
+const c2 = (x) => Math.round(x * 10000) / 100;                       // dollars -> cents, 2 dp
+/** learned.json fees -> Kalshi's fee per contract and the break-even win rate at each price (the same fee rule for any Kalshi bet, K8 too) */
+export function feeTable(L) {
+  const f = isObj(L) && isObj(L.fees) ? L.fees : null; if (!f || !Array.isArray(f.rows)) return null;
+  const rows = f.rows.filter(isObj).map((r) => ({ price: num(r.price), fee: num(r.fee_per_contract), be: num(r.breakeven_win_rate) }))
+    .filter((r) => r.price != null && r.price > 0 && r.price < 1 && r.fee != null && r.fee >= 0 && r.be != null && r.be > 0 && r.be <= 1).slice(0, 12)
+    .map((r) => ({ price: Math.round(r.price * 100), fee: c2(r.fee), be: Math.round(r.be * 1000) / 10 }));
+  if (!rows.length) return null;
+  const src = isObj(L.source) ? L.source : {};
+  return { rows, total: num(f.total), staked: num(f.staked), gross: num(f.pnl_gross), net: num(f.pnl_net), day: str(src.generated_utc, 10), bets: num(src.bets) };
+}
+/** learned.json headline + suggestions.json stop / pause rows -> what the old bot taught */
+export function oldLessons(L, S) {
+  const head = isObj(L) ? str(L.headline, 240) : '';
+  const items = (isObj(S) && Array.isArray(S.items) ? S.items : []).filter((i) => isObj(i) && (i.verdict === 'stop' || i.verdict === 'pause') && num(i.net_usd) != null && str(i.kind, 60))
+    .slice(0, 5).map((i) => ({ verdict: i.verdict, kind: str(i.kind, 60), net: r2(num(i.net_usd)), n: Math.max(0, Math.round(num(i.n) || 0)), rule: str(i.rule, 200) }));
+  const notes = (isObj(S) && Array.isArray(S.not_proven) ? S.not_proven : []).map((x) => str(x, 240)).filter(Boolean).slice(0, 3);
+  if (!head && !items.length) return null;
+  const src = isObj(L) && isObj(L.source) ? L.source : {};
+  return { head, items, notes, bets: num(src.bets), day: str(src.generated_utc, 10) };
+}
+/** learned.json ruin -> how often a small bankroll was wiped out at each bet size (90-day simulation of the old bot's late favourite) */
+export function ruinTable(L) {
+  const r = isObj(L) && isObj(L.ruin) ? L.ruin : null; if (!r || !Array.isArray(r.rows) || num(r.bankroll) == null) return null;
+  const rows = r.rows.filter(isObj).map((x) => ({ policy: str(x.policy, 40), ruin: num(x.p_ruin), half: num(x.p_below_half), median: num(x.median_end) }))
+    .filter((x) => x.policy && x.ruin != null && x.ruin >= 0 && x.ruin <= 1).slice(0, 8);
+  if (!rows.length) return null;
+  return { rows, bank: r2(num(r.bankroll)), floor: num(r.floor), days: num(r.horizon_days), perDay: num(r.bets_per_day) };
+}
+/** Sibyl's scanner file (money/sibyl.json) + its own paper ledger (money/sibyl_forward.json) -> the picks and the forward record. A 'sample' (demo) file is ignored. */
+export const SIBYL_MIN = 30;
+export function sibylView(sib, fwd) {
+  let picks = null, counts = null, head = '', asof = '';
+  if (isObj(sib) && sib.id === 'sibyl' && Array.isArray(sib.items) && sib.status !== 'sample' && sib.demo !== true) {
+    picks = sib.items.filter((i) => isObj(i) && i.picked === true && str(i.title, 60)).slice(0, 3)
+      .map((i) => ({ title: str(i.title, 60), n: Math.max(0, Math.round(num(i.n) || 0)), edge: num(i.edge_c), win: num(i.win), be: num(i.break_even) }));
+    counts = { edges: isObj(sib.counts) ? Math.round(num(sib.counts.edges) || 0) : sib.items.length, worthy: isObj(sib.counts) ? Math.round(num(sib.counts.worthy) || 0) : picks.length };
+    head = isObj(sib.headline) ? str(sib.headline.text, 300) : ''; asof = str(sib.asof, 10);
+  }
+  let own = null;
+  if (isObj(fwd) && fwd.kind === 'sibyl-forward' && Array.isArray(fwd.bets)) {
+    const bets = fwd.bets.filter((b) => isObj(b) && num(b.stake_usd) > 0);
+    const done = bets.filter((b) => (b.status === 'won' || b.status === 'lost') && num(b.pnl_usd) != null), wins = done.filter((b) => b.status === 'won').length;
+    own = { start: str(fwd.start_day, 10), recorded: bets.length, open: bets.filter((b) => !['won', 'lost', 'void'].includes(b.status)).length, n: done.length, wins, claim: done.length >= SIBYL_MIN,
+      net: done.length >= SIBYL_MIN ? r2(done.reduce((s, b) => s + num(b.pnl_usd), 0)) : null };
+  }
+  if (!picks && !own) return null;
+  return { picks: picks || [], counts, head, asof, own };
+}

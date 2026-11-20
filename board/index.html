@@ -24,6 +24,7 @@
 <script src="../olympus/themes.js?v=o9" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
 <script src="../olympus/a11y.js" defer></script>
 <link rel="stylesheet" href="board.css?v=b3b">
+<link rel="stylesheet" href="../nq/payready.css?v=1">
 <style>
   .payouts .pc-coach { margin: 0 0 12px; padding: 14px 16px; } .payouts .row2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .payouts h3 { margin: 0; font-size: 1.05rem; } .payouts .meta { opacity: .8; font-size: .85rem; overflow-wrap: anywhere; }
@@ -54,6 +55,9 @@
   <p class="hint"><a href="../business/mffu.html">My accounts (MFFU view) &rarr;</a> every account the way MFFU shows it: dates, floor, target, days, payout.</p>
   <div id="accounts" class="accounts"></div>
   <div id="payouts" class="payouts" hidden></div>
+  <!-- nqdash3 round 2 (../nq/payready.js): payout readiness per funded account: eligible yes / no and why, $ and days to the ask, projected date, MFFU steps -->
+  <section class="ag-card" id="payReadyCard" aria-labelledby="payReadyH"><h2 id="payReadyH">Payout readiness</h2><div id="payReady" class="pr-list"></div>
+    <p class="hint" id="payReadySrc"></p></section>
   <section id="waitBox" class="ag-card wait" hidden><h2>Waiting on you</h2><ol id="waiting"></ol></section>
   <section class="ag-card feedbox"><h2>What happened, newest first</h2><ul id="feed" class="feed" aria-live="polite"></ul><p id="feedEmpty" class="hint" hidden>No events yet. The PC adds them as they happen.</p></section>
   <section class="ag-card notebox">
@@ -72,6 +76,7 @@
 <script src="../edge_chip.js?v=1"></script>
 <script src="../business/decide.js?v=2"></script>
 <script src="boardmodel.js?v=b6"></script>
-<script src="board.js?v=b8"></script>
+<script src="board.js?v=b9"></script>
+<script type="module" src="payready_mount.js?v=1"></script>
 </body>
 </html>

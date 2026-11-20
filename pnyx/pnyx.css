@@ -23,17 +23,17 @@ html.framed #app { padding-top: 12px; }
 .lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
 .note { margin: 0; font-size: 13px; color: var(--ag-muted); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 8px; }
-.tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-width: 0; }
+.tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: var(--ag-s1, #211c16); border: 1px solid var(--ag-line); min-width: 0; }
 .tile small { display: block; font-size: 12px; color: var(--ag-muted); }
 .tile b { display: block; margin-top: 2px; font: 700 20px/1.15 var(--ag-num); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .tile span { display: block; margin-top: 2px; font-size: 12px; color: var(--ag-soft); }
-.pos { color: var(--ag-olive); } .neg { color: var(--ag-terra); }
+.pos { color: var(--ag-olive-text, #a0ac6e); } .neg { color: var(--ag-terra-text, #e08a6b); }
 .kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; margin: 0; font-size: 14px; }
 .kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
-.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: #211c16; }
-.pill.ok { color: var(--ag-olive); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--ag-s1, #211c16); }
+.pill.ok { color: var(--ag-olive-text); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra-text); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); }
-.btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: #2a2217; }
+.btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: var(--ag-s3, #2a2217); }
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .ag-bar { height: 10px; } .ag-bar.red > i { background: linear-gradient(90deg, #7a3a24, var(--ag-terra)); } .ag-bar.green > i { background: linear-gradient(90deg, #5a6338, var(--ag-olive)); } .ag-bar.amber > i { background: linear-gradient(90deg, #9c6b3c, var(--ag-sun)); }
 .ag-bar > i { transition: width .45s ease-out; }
@@ -49,8 +49,8 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; } .row h2 { margin: 0; }
 .pill { white-space: nowrap; }
 .pick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.pickbtn { display: grid; justify-items: center; gap: 0; min-height: 44px; padding: 8px 4px 10px; border-radius: 14px; border: 1px solid var(--ag-line); background: #211c16; color: var(--ag-text); text-align: center; }
-.pickbtn[aria-pressed="true"] { border-color: var(--ag-gold); background: #2a2217; box-shadow: inset 0 0 0 1px var(--ag-gold); }
+.pickbtn { display: grid; justify-items: center; gap: 0; min-height: 44px; padding: 8px 4px 10px; border-radius: 14px; border: 1px solid var(--ag-line); background: var(--ag-s1, #211c16); color: var(--ag-text); text-align: center; }
+.pickbtn[aria-pressed="true"] { border-color: var(--ag-gold); background: var(--ag-s3, #2a2217); box-shadow: inset 0 0 0 1px var(--ag-gold); }
 .pickbtn b { font: 700 15px var(--ag-serif); } .pickbtn .note { font-size: 12px; }
 .dial { display: block; width: 100%; height: auto; } .dial.small { max-width: 110px; }
 .dialbox { max-width: 320px; width: 100%; margin: 0 auto; }
@@ -65,7 +65,7 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 .stopbox { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; gap: 8px; align-items: end; }
 .step { padding: 0; min-width: 56px; font-size: 18px; }
 .fld { display: grid; gap: 4px; min-width: 0; font-size: 13px; color: var(--ag-soft); }
-.fld input { min-height: 44px; width: 100%; padding: 0 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: #211c16; color: var(--ag-text); font: 600 17px var(--ag-num); font-variant-numeric: tabular-nums; }
+.fld input { min-height: 44px; width: 100%; padding: 0 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-s1, #211c16); color: var(--ag-text); font: 600 17px var(--ag-num); font-variant-numeric: tabular-nums; }
 .fld.big input { min-height: 56px; font-size: 24px; text-align: center; }
 .flds { display: grid; gap: 10px; margin: 8px 0; }
 .lad { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -76,7 +76,7 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 .lad td:last-child, .lad th:last-child { text-align: right; }
 
 /* phone-fit 2026-11-10 (tools/phone_fit_audit.py): gain / loss words at least 4.5:1 on the raised panels */
-.pos, .ag-good, .pill.ok { color: #a0ac6e; } .neg, .ag-bad, .pill.bad { color: #e08a6b; }
+.pos, .ag-good, .pill.ok { color: var(--ag-olive-text, #a0ac6e); } .neg, .ag-bad, .pill.bad { color: var(--ag-terra-text, #e08a6b); }
 
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */

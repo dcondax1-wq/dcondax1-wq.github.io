@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora">
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="mercury"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -26,7 +27,8 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="mercury.css?v=a1r">
+<link rel="stylesheet" href="mercury.css?v=a1rd">
+<link rel="stylesheet" href="../olympus/shell.css?v=s4"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -79,8 +81,10 @@
   </section>
 
   <p class="foot" id="foot">Mercury reads public pages and this site's own file, and sends nothing. Every saving is an estimate: the percent off times your own price for that plan (Builder 25K $63, ATLAS 25K $43, Builder 50K $91.80), or a reference price for a firm you do not use. A sale is only a saving if you would have bought anyway. This is not income.</p>
+  <section class="pulse" data-pulse="money" data-pulse-app="mercury" aria-label="Real fees and payouts so far" aria-busy="true"><div class="pu-part pu-money"></div></section><!-- day-arenas: olympus/pulse.js -->
 </main>
 <script type="module" src="mercury.js?v=a2"></script>
 <script type="module" src="mercury3d.js?v=a1"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

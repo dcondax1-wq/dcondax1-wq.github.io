@@ -28,7 +28,7 @@
         { label: 'Trades', greek: 'Trading', href: 'trading/', app: 'trading', words: 'trades history calendar stats fills today pnl p&l' },
         { label: 'Drawdown left', greek: 'Aegis', href: 'aegis/', app: 'aegis', words: 'risk drawdown stop loss max loss limit room guard dll mll' },
         { label: 'Rules', greek: 'Pnyx', href: 'pnyx/', app: 'pnyx', words: 'rules prop firm mffu calculator micros contracts size stop' },
-        { label: 'Payout rules', greek: 'Trading · payout check', href: 'trading/#rulesCard', app: '', words: 'payout payouts withdraw request rules consistency best day' }
+        { label: 'Payout rules', greek: 'Trading · payout check', href: 'trading/#rulesCard', app: '', words: 'payout payouts withdraw request rules consistency best day payout ready readiness when request how much days left' }
       ],
       ids: ['zenith', 'nq', 'board', 'why', 'trading', 'aegis', 'pnyx', 'demeter', 'labyrinth', 'fates', 'moirai', 'odeon', 'nemesis', 'kronos', 'apollo', 'journal',
         'kratos', 'epilogue', 'ares', 'argus', 'oracle', 'pantheon', 'pythia', 'pheme', 'kairos', 'chronos', 'forum', 'delphi'] },
@@ -47,9 +47,9 @@
     { id: 'kalshi', title: 'Kalshi', line: 'The Kalshi bot and its edges. Paused: paper only, no real bets', colour: '#b5a642',
       items: [
         { label: 'Kalshi bot', greek: 'Kalshi', href: 'kalshi/', app: 'kalshi', words: 'kalshi bot balance bets open p&l paused rewards' },
-        { label: 'Kalshi desk', greek: 'Dionysus', href: 'dionysus/', app: 'dionysus', words: 'kalshi desk guard what if scan suggestions' },
-        { label: 'Edges map', greek: 'Kalshi City', href: 'kalshicity/', app: 'kalshicity', words: 'kalshi edges city learned' },
-        { label: 'Paper picks', greek: 'Sibyl', href: 'sibyl/', app: 'sibyl', words: 'kalshi picks prediction markets edges fees paper ruin' },
+        { label: 'Kalshi desk', greek: 'Dionysus', href: 'dionysus/', app: 'dionysus', words: 'kalshi desk k8 today guard what if scan suggestions sibyl picks kalshi city edges' },
+        { label: 'Kalshi fees + going broke', greek: 'Dionysus · fees', href: 'dionysus/#feeCard', app: '', words: 'kalshi fee fees break even must win fair price ruin broke bet size bankroll' },
+        { label: 'What the old bot taught', greek: 'Dionysus · lessons', href: 'dionysus/#lessonCard', app: '', words: 'kalshi lessons learned old bot retired edges stop xrp 90-95 paper picks sibyl' },
         { label: 'Bets wheel', greek: 'Tyche', href: 'tyche/', app: 'tyche', words: 'kalshi bets wheel fortune' }
       ],
       ids: ['kalshi', 'dionysus', 'kalshicity', 'sibyl', 'tyche'] },
@@ -71,11 +71,12 @@
   // (every app is still in exactly one door, every URL works, search still finds them) but the Doors page, the launcher and Jarvis's
   // switcher show them folded under "Archive" at the end of the door, so each door opens on the few pages he uses. Audit:
   // research/handoff/2026-11-20/revamp-main/AUDIT.md. To bring one back: take its id out of this list.
-  var ARCHIVE = ['apollo', 'ares', 'delphi', 'epilogue', 'forum', 'kratos', 'labyrinth', 'moirai', 'nemesis', 'odeon', 'pythia', 'argus', 'oracle', 'pantheon',
+  var ARCHIVE = ['apollo', 'ares', 'delphi', 'epilogue', 'forum', 'kratos', 'labyrinth', 'moirai', 'nemesis', 'odeon', 'why', 'pythia', 'argus', 'oracle', 'pantheon',
     'pheme', 'kairos', 'chronos',
     'plutus', 'mint', 'mintcity', 'harmonia', 'hermes', 'argo', 'arbiter',
     'herald', 'stoa', 'hestia', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium', 'ergasterion', 'bridge', 'datacity',
-    'observatory', 'tree', 'prometheus', 'hephaestus', 'archive', 'pinakes', 'colosseum'];
+    'observatory', 'tree', 'prometheus', 'hephaestus', 'archive', 'pinakes', 'colosseum',
+    'sibyl', 'kalshicity'];   // day-kalshi 2026-11-20: merged into Dionysus (plain cards); the old pages stay reachable
   // plain words for apps that are not a door shortcut (or need more): what the owner would type
   var WORDS = {
     business: 'taxes tax accounts fleet plan side work', ledger: 'tax taxes', board: 'board notes accounts events claude what the bot knows', demeter: 'account health drawdown payout rules dials', labyrinth: 'size sizing micros eval risk',

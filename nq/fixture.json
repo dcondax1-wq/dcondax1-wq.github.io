@@ -34,7 +34,81 @@
       "text": "No more checks today; the next at 11:00 ET on the next trading day."
      },
      "today": []
+    },
+    "glance": {
+     "v": 1,
+     "t_ago_min": 4,
+     "bots": [
+      {
+       "id": "lit",
+       "name": "Zlarior",
+       "on": true,
+       "mode": "LIVE",
+       "wait": "One trade taken today (the limit is one a day). Next chance tomorrow 02:00 ET.",
+       "why": "09:41 LONG setup traded (TIME +0.80R). One trade a day: done until tomorrow.",
+       "arm": [
+        {
+         "side": "LONG",
+         "text": "forming",
+         "trig": "Swept the Asia low; it needs a 5-minute close back above 26,262 to arm."
+        }
+       ],
+       "lv": [
+        [
+         "Asia high",
+         26468.5,
+         184.8
+        ],
+        [
+         "Prev day high",
+         26520.0,
+         236.3
+        ],
+        [
+         "Asia low",
+         26254.25,
+         -29.5
+        ],
+        [
+         "London low",
+         26231.0,
+         -52.8
+        ]
+       ],
+       "day": 312,
+       "room": 1420,
+       "mll": 2000
+      },
+      {
+       "id": "atlas",
+       "name": "ATLAS",
+       "on": true,
+       "mode": "LIVE",
+       "wait": "SHORT open since 03:45 ET; stop moved to break-even.",
+       "arm": [],
+       "lv": [
+        [
+         "EMA 20",
+         26301.4,
+         17.7
+        ],
+        [
+         "S/R 26,120",
+         26120.0,
+         -163.8
+        ]
+       ],
+       "day": -14,
+       "room": 840,
+       "mll": 1000
+      }
+     ]
     }
+   },
+   "reporter": {
+    "t_ago_min": 4,
+    "server": true,
+    "na_ago_min": 18
    }
   },
   "board": {
@@ -51,7 +125,11 @@
     "profit": 420,
     "today_pnl": 312,
     "status": "open",
-    "waiting": "One trade taken today (the limit is one a day). Next chance tomorrow from 02:00 ET."
+    "waiting": "One trade taken today (the limit is one a day). Next chance tomorrow from 02:00 ET.",
+    "window": {
+     "open": false,
+     "text": "next entry window Mon 02:00-15:30 ET"
+    }
    },
    "atlas": {
     "name": "ATLAS",
@@ -63,10 +141,26 @@
     "target_balance": 26500,
     "profit": 210,
     "today_pnl": -60,
-    "status": "open",
-    "waiting": "Done for today (1 trade a day)."
+    "status": "funded",
+    "waiting": "Done for today (1 trade a day).",
+    "window": {
+     "open": true,
+     "text": "London EMA window 02:00-05:00 ET"
+    },
+    "payout_text": "Ask the full $1,000 at a $27,100 balance (payout coach)."
    },
    "trades": [
+    {
+     "acct": "atlas",
+     "src": "live",
+     "key": "ema_lon_vix",
+     "member": "EMA",
+     "side": "SHORT",
+     "usd": 194,
+     "r": null,
+     "open": true,
+     "entry_t_ago_min": 85
+    },
     {
      "acct": "lit",
      "src": "live",
@@ -203,6 +297,201 @@
      "open": false,
      "exit_t_ago_min": 10200,
      "entry_t_ago_min": 10216
+    }
+   ]
+  },
+  "pc_feed": {
+   "t_ago_min": 4,
+   "report_t_ago_min": 4
+  },
+  "accounts": [
+   {
+    "id": "mffu50k_eval",
+    "name": "Zlarior 50K",
+    "source": "pc",
+    "live": true,
+    "conn": {
+     "t_ago_min": 4
+    },
+    "eval": {
+     "balance": 50420,
+     "room": 1420,
+     "mll": 2000,
+     "to_target": 2580,
+     "today": 312,
+     "status": "open"
+    }
+   },
+   {
+    "id": "b25k_2",
+    "name": "Zlarior 25K #2",
+    "source": "pc",
+    "live": true,
+    "conn": {
+     "t_ago_min": 4
+    },
+    "eval": {
+     "balance": 25118,
+     "room": 1000,
+     "mll": 1000,
+     "to_target": 1382,
+     "today": 0,
+     "status": "open"
+    }
+   },
+   {
+    "id": "atlas",
+    "name": "ATLAS",
+    "source": "pc",
+    "live": true,
+    "from_board": true,
+    "conn": {
+     "t_ago_min": 4
+    },
+    "eval": {
+     "balance": 25210,
+     "room": 840,
+     "mll": 1000,
+     "to_target": 1890,
+     "today": -14,
+     "status": "funded"
+    }
+   }
+  ]
+ },
+ "chart": {
+  "v": 1,
+  "kind": "le-bars",
+  "tf": 300,
+  "tick": 0.25,
+  "n": 18,
+  "p0": 105536,
+  "b": [
+   0,
+   8,
+   19,
+   -13,
+   0,
+   8,
+   41,
+   -35,
+   0,
+   8,
+   28,
+   -22,
+   0,
+   8,
+   67,
+   -61,
+   0,
+   8,
+   51,
+   -45,
+   0,
+   26,
+   6,
+   18,
+   0,
+   8,
+   60,
+   -54,
+   0,
+   8,
+   55,
+   -49,
+   0,
+   21,
+   6,
+   13,
+   0,
+   8,
+   56,
+   -50,
+   0,
+   8,
+   51,
+   -45,
+   0,
+   19,
+   6,
+   11,
+   0,
+   8,
+   48,
+   -42,
+   0,
+   33,
+   6,
+   25,
+   0,
+   8,
+   41,
+   -35,
+   0,
+   8,
+   41,
+   -35,
+   0,
+   37,
+   6,
+   29,
+   0,
+   8,
+   17,
+   -11
+  ],
+  "t0_ago_min": 93,
+  "t_ago_min": 3,
+  "open": [
+   {
+    "k": "atlas25f",
+    "s": -1,
+    "q": 1,
+    "t_ago_min": 85,
+    "e": 26380.75,
+    "sl": 26379.5,
+    "tp": 26122.75,
+    "be": 1
+   }
+  ],
+  "closed": [],
+  "note": "EXAMPLE: the lead's real case of 2026-11-20 (ATLAS short 1 MNQ @ 26,380.75, stop moved to 26,379.50, target 26,122.75)"
+ },
+ "payready_lite": {
+  "note": "EXAMPLE: ATLAS funded 25K, allowed but smaller ($26,520 balance)",
+  "board": {
+   "atlas": {
+    "status": "funded",
+    "balance": 26520,
+    "room": 1420,
+    "mll": 1000,
+    "plan": "MFFU Builder 25K funded"
+   }
+  },
+  "mf": {
+   "a": [
+    {
+     "id": "atlas",
+     "nm": "ATLAS 25K funded",
+     "l4": "0000",
+     "lt_days_ago": 1,
+     "eq": [
+      650,
+      840,
+      1010,
+      1190,
+      1300,
+      1520
+     ],
+     "f": {
+      "cp": 1520,
+      "bd": 420,
+      "cd": 5,
+      "pn": 0,
+      "mr": 420,
+      "st": "building",
+      "ft": "2026-11-10"
+     }
     }
    ]
   }

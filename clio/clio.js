@@ -90,8 +90,10 @@ async function openReader(r, from) {
 
 async function boot() {
   const q = new URLSearchParams(location.search), forced = q.get('demo') === '1';
-  const [fx, idx, data] = await Promise.all([getJSON('./fixture.json'), forced ? null : getJSON('../writeups/index.json'), forced ? null : getJSON('../data.json', 12000)]);
-  let list = forced ? null : C.normIndex(idx) || C.normIndex(data);
+  // day-arenas 2026-11-20: data.json (8+ MB) only when the small writeups/index.json is missing: a phone no longer downloads both every open
+  const [fx, idx] = await Promise.all([getJSON('./fixture.json'), forced ? null : getJSON('../writeups/index.json')]);
+  let list = forced ? null : C.normIndex(idx);
+  if (!list && !forced) list = C.normIndex(await getJSON('../data.json', 12000));
   if (!list) { list = C.normIndex(fx); S.demo = true; }
   if (!list) throw new Error('no library');
   S.all = list; S.q = q.get('q') || ''; $('q').value = S.q;

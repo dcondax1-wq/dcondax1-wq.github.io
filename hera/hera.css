@@ -23,17 +23,17 @@ html.framed #app { padding-top: 12px; }
 .lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
 .note { margin: 0; font-size: 13px; color: var(--ag-muted); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 8px; }
-.tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-width: 0; }
+.tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: var(--ag-s1, #211c16); border: 1px solid var(--ag-line); min-width: 0; }
 .tile small { display: block; font-size: 12px; color: var(--ag-muted); }
 .tile b { display: block; margin-top: 2px; font: 700 20px/1.15 var(--ag-num); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .tile span { display: block; margin-top: 2px; font-size: 12px; color: var(--ag-soft); }
-.pos { color: var(--ag-olive); } .neg { color: var(--ag-terra); }
+.pos { color: var(--ag-olive-text, #a0ac6e); } .neg { color: var(--ag-terra-text, #e08a6b); }
 .kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; margin: 0; font-size: 14px; }
 .kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
-.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: #211c16; }
-.pill.ok { color: var(--ag-olive); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--ag-s1, #211c16); }
+.pill.ok { color: var(--ag-olive-text); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra-text); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 15px var(--ag-sans); }
-.btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: #2a2217; }
+.btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: var(--ag-s3, #2a2217); }
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .ag-bar { height: 10px; } .ag-bar.red > i { background: linear-gradient(90deg, #7a3a24, var(--ag-terra)); } .ag-bar.green > i { background: linear-gradient(90deg, #5a6338, var(--ag-olive)); } .ag-bar.amber > i { background: linear-gradient(90deg, #9c6b3c, var(--ag-sun)); }
 .ag-bar > i { transition: width .45s ease-out; }
@@ -53,7 +53,7 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 .slide input[type=range] { width: 100%; min-height: 44px; margin: 0; accent-color: #c8a24a; background: transparent; }
 .mh { margin: 4px 0 0; font-size: 17px; }
 .plain { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; color: var(--ag-soft); }
-.plain li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: #211c16; border: 1px solid var(--ag-line); }
+.plain li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--ag-s1, #211c16); border: 1px solid var(--ag-line); }
 .plain li b { color: var(--ag-text); font-weight: 600; }
 .plain li.top { border-color: var(--ag-gold); }
 #cav { list-style: disc; padding-left: 20px; } #cav li { background: none; border: 0; padding: 0; display: list-item; }
@@ -62,3 +62,15 @@ details { display: block; }
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+/* day-arenas: the fleet cash plan (fleet.js, ../business/fleet_plan.json from day-fleet); fixed height, CLS 0 */
+#fleetPlan .fp-body { height: 330px; overflow: hidden; }
+.fp-empty { margin: 8px 0 0; color: var(--ag-muted); font-size: 14px; line-height: 1.45; }
+.fp-months { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; height: 150px; margin-top: 8px; }
+.fp-m { display: grid; grid-template-rows: 16px 1fr 16px; justify-items: center; min-width: 0; }
+.fp-bars { position: relative; width: 70%; max-width: 28px; height: 100%; }
+.fp-bars i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 4px 4px 2px 2px; min-height: 2px; }
+.fp-mid { background: var(--ag-gold, #c8a24a); opacity: .9; } .fp-bad { background: var(--ag-bronze, #9c6b3c); left: 25% !important; right: 25% !important; z-index: 1; }
+.fp-v, .fp-k { font: 600 11px/16px var(--ag-num); color: var(--ag-soft); white-space: nowrap; font-variant-numeric: tabular-nums; } .fp-k { color: var(--ag-muted); }
+.fp-next { margin: 8px 0 4px; font: 600 14px/1.35 var(--ag-sans); color: var(--ag-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fp-card { display: flex; justify-content: space-between; gap: 10px; height: 30px; align-items: center; border-top: 1px solid var(--ag-line-soft, rgba(243, 236, 224, .07)); font-size: 13px; color: var(--ag-soft); }
+.fp-card span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }

@@ -452,6 +452,24 @@
     "label": "Your steps"
    },
    "src": "STATE.md 'Waiting on the owner', hub/steps.json"
+  },
+  {
+   "id": "manual",
+   "q": "The owner manual: who is who, money, words, emergencies",
+   "words": "manual guide emergency sos kill switch stop everything glossary words room drawdown dll eod pf twin edge accounts bots zlarior atlas k8 blitz day week payout tax",
+   "where": "Phone: the Owner manual page (works offline)",
+   "steps": [
+    "Open the Owner manual. SOS = 10 emergency cards, each 3 steps or less.",
+    "Who = every account and bot, with its hours. Day = what the PC does by itself and when the phone pings you.",
+    "Money = payouts and the tax pot. Words = every word the pages use."
+   ],
+   "copy": "",
+   "copy_note": "",
+   "link": {
+    "href": "manual.html",
+    "label": "Owner manual"
+   },
+   "src": "docs/OWNER_MANUAL.md, hub/manual.html"
   }
  ]
 }

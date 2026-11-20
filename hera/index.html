@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora">
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="hera"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -26,7 +27,8 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c96a4a'); r.setProperty('--oly-accent-rgb', '192, 96, 63'); })();</script>
-<link rel="stylesheet" href="hera.css?v=a1q">
+<link rel="stylesheet" href="hera.css?v=a1qe">
+<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -41,6 +43,11 @@
     <p class="lead" id="bigText"></p>
     <div class="seg" id="vers" role="group" aria-label="Which half of 2026 the plan is based on"></div>
     <p class="note" id="bigNote"></p>
+  </section>
+  <section class="pulse" data-pulse="hero:payout,money" data-pulse-app="hera" aria-label="Next payout, fees vs payouts" aria-busy="true"><div class="pu-part pu-hero"></div><div class="pu-part pu-money"></div></section><!-- day-arenas: olympus/pulse.js -->
+  <section class="ag-card card" id="fleetPlan" aria-labelledby="fpH"><!-- day-arenas: the fleet cash plan (fleet.js, ../business/fleet_plan.json from day-fleet) -->
+    <h2 id="fpH">The fleet, month by month (estimate)</h2>
+    <div class="fp-body" aria-live="polite"></div>
   </section>
   <section class="ag-card card" aria-labelledby="chartH">
     <h2 id="chartH">The 12 months</h2>
@@ -74,7 +81,10 @@
   </section>
 
   <p class="foot" id="foot">Hera reads the site's roadmap file and sends nothing. The plan is a study of 2026 paper results: not a promise and not advice. Prices are your real ones ($91.80 / $63 / $43, one-time).</p>
+  <nav class="folded" aria-label="Money plans folded into Hera"><a href="../plutus/">Plutus: accounts plan</a><a href="../argo/">Argo: money goals</a></nav><!-- day-arenas: the audit's MERGE verdicts -->
 </main>
-<script type="module" src="hera.js?v=a1"></script>
+<script type="module" src="hera.js?v=a1d"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
+<script type="module" src="fleet.js?v=1"></script>
 </body>
 </html>

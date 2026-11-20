@@ -29,14 +29,14 @@ function renderChips() {
 function drawChart(v) {
   const svg = $('chart'); clear(svg);
   const g = C.chart(v.months, 360, 220, { l: 54 }); if (!g) return;
-  for (const t of g.grid) { svg.appendChild(sv('line', { x1: g.pad.l, x2: 350, y1: t.y, y2: t.y, stroke: '#2f2820', 'stroke-width': 1 })); svg.appendChild(sv('text', { x: g.pad.l - 6, y: t.y + 4, 'text-anchor': 'end', fill: '#9a8f7d', 'font-size': 11 }, C.money(t.v))); }
+  for (const t of g.grid) { svg.appendChild(sv('line', { x1: g.pad.l, x2: 350, y1: t.y, y2: t.y, style: 'stroke: var(--ag-line, #2f2820)', 'stroke-width': 1 })); svg.appendChild(sv('text', { x: g.pad.l - 6, y: t.y + 4, 'text-anchor': 'end', fill: '#9a8f7d', 'font-size': 11 }, C.money(t.v))); }
   svg.appendChild(sv('line', { x1: g.pad.l, x2: 350, y1: g.zeroY, y2: g.zeroY, stroke: '#6b5d48', 'stroke-width': 1.5, 'stroke-dasharray': '4 4' }));
   svg.appendChild(sv('path', { d: g.band, fill: '#c8a24a', opacity: 0.16 }));
   svg.appendChild(sv('path', { d: g.line, fill: 'none', stroke: '#c8a24a', 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
-  v.months.forEach((m, i) => { if (i % 2 === 0 || i === v.months.length - 1) svg.appendChild(sv('text', { x: g.x(i), y: 212, 'text-anchor': 'middle', fill: '#cfc4b2', 'font-size': 11 }, C.monthLabel(m))); });
+  v.months.forEach((m, i) => { if (i % 2 === 0 || i === v.months.length - 1) svg.appendChild(sv('text', { x: g.x(i), y: 212, 'text-anchor': 'middle', style: 'fill: var(--ag-soft, #cfc4b2)', 'font-size': 11 }, C.monthLabel(m))); });
   const i = Math.max(0, Math.min(v.months.length - 1, S.month - 1)), m = v.months[i];
-  svg.appendChild(sv('line', { x1: g.x(i), x2: g.x(i), y1: g.pad.t, y2: 196, stroke: '#f3ece0', 'stroke-width': 1, opacity: 0.4 }));
-  svg.appendChild(sv('circle', { cx: g.x(i), cy: g.y(m.cum), r: 6, fill: '#14110e', stroke: '#e0b060', 'stroke-width': 3 }));
+  svg.appendChild(sv('line', { x1: g.x(i), x2: g.x(i), y1: g.pad.t, y2: 196, style: 'stroke: var(--ag-text, #f3ece0)', 'stroke-width': 1, opacity: 0.4 }));
+  svg.appendChild(sv('circle', { cx: g.x(i), cy: g.y(m.cum), r: 6, style: 'fill: var(--ag-night, #14110e)', stroke: '#e0b060', 'stroke-width': 3 }));
   $('chartNote').textContent = `The line is the average path (${C.money(v.months[v.months.length - 1].cum)} at the end); the shaded band holds 8 paths in 10. The big number above is the middle path, so the two differ a little.`;
   svg.setAttribute('aria-label', `Cash to you over ${v.months.length} months, typical path. It ends near ${C.money(v.months[v.months.length - 1].cum)}. The shaded band is the range of 8 paths in 10.`);
 }
@@ -66,15 +66,15 @@ function drawCalendar(res) {
   svg.setAttribute('viewBox', `0 0 360 ${rows.length * rh + 28}`);
   rows.forEach((r, i) => {
     const y = 16 + i * rh;
-    svg.appendChild(sv('text', { x: 4, y: y + 5, fill: '#f3ece0', 'font-size': 13, 'font-weight': 600 }, r.short));
-    svg.appendChild(sv('rect', { x: L, y: y - 4, width: W, height: 8, rx: 4, fill: '#2b251d' }));
+    svg.appendChild(sv('text', { x: 4, y: y + 5, style: 'fill: var(--ag-text, #f3ece0)', 'font-size': 13, 'font-weight': 600 }, r.short));
+    svg.appendChild(sv('rect', { x: L, y: y - 4, width: W, height: 8, rx: 4, style: 'fill: var(--ag-s4, #2b251d)' }));
     svg.appendChild(sv('rect', { x: L + r.x0 * W, y: y - 4, width: Math.max(6, (r.x1 - r.x0) * W), height: 8, rx: 4, fill: '#9c6b3c' }));
     svg.appendChild(sv('circle', { cx: L + r.xt * W, cy: y, r: 7, fill: '#e0b060', stroke: '#14110e', 'stroke-width': 2 }));
-    svg.appendChild(sv('text', { x: L + r.xt * W, y: y + 21, 'text-anchor': 'middle', fill: '#cfc4b2', 'font-size': 11 }, C.dayWord(r.typical)));
+    svg.appendChild(sv('text', { x: L + r.xt * W, y: y + 21, 'text-anchor': 'middle', style: 'fill: var(--ag-soft, #cfc4b2)', 'font-size': 11 }, C.dayWord(r.typical)));
   });
   const tx = L + ax.today * W;
-  svg.appendChild(sv('line', { x1: tx, x2: tx, y1: 4, y2: rows.length * rh + 6, stroke: '#f3ece0', 'stroke-width': 1, opacity: 0.5, 'stroke-dasharray': '3 3' }));
-  svg.appendChild(sv('text', { x: tx, y: rows.length * rh + 22, 'text-anchor': 'middle', fill: '#f3ece0', 'font-size': 11 }, 'today'));
+  svg.appendChild(sv('line', { x1: tx, x2: tx, y1: 4, y2: rows.length * rh + 6, style: 'stroke: var(--ag-text, #f3ece0)', 'stroke-width': 1, opacity: 0.5, 'stroke-dasharray': '3 3' }));
+  svg.appendChild(sv('text', { x: tx, y: rows.length * rh + 22, 'text-anchor': 'middle', style: 'fill: var(--ag-text, #f3ece0)', 'font-size': 11 }, 'today'));
   svg.setAttribute('aria-label', 'First payout window for each account: the bar runs from a quick run to a slow run, the dot is the typical date.');
 }
 

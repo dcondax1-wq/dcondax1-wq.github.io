@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k44">
+<link rel="stylesheet" href="kalshi.css?v=k47">
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
      2026-11-14 (team T2: a light look is light here too, like everywhere). The <head> paints the engine's copy of the look before the first
@@ -68,9 +68,22 @@
     <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAPER:</b> the PC records every window with no money. Live only when you type the phrase on the PC's private page (your PC link :8444/kalshi-live/). Small limits, checked before every order; it switches itself off after any stop.</p></div>
   <!-- K8 status (night-kalshi8 2026-11-20): engine/kalshi_clock.card_k8 rides the PC's card (key kalshi_live, block k8); kalshi.js k8Show.
        Without the PC's numbers it still shows the $55 rule and the next window (computed here from the clock legs). -->
+  <!-- K8 live day (day-kalshi round 3): the big countdown to the next LIVE window, what the bot will do, $ left before each stop, and how
+       to switch K8 off (as coded: the PC page STOP, ZEUS Safety, KALSHI_STOP.bat, the Kalshi app). kalshi.js k8Live. -->
+  <section class="note k8d" id="k8d" aria-label="K8 live day"><h2>K8 live day</h2>
+    <div class="k8d-cd"><span class="k8d-lab" id="k8d-lab">Next live bet</span><b class="k8d-big" id="k8d-big">…</b><span class="k8d-at" id="k8d-at"></span></div>
+    <div id="k8d-x"></div>
+    <div class="k8d-help" id="k8d-help"><p class="k8w-h">If something looks wrong</p><ol>
+      <li><b>Phone:</b> your PC link <b>:8444/kalshi-live/</b> &rarr; <b>STOP (off now)</b>. One tap; no new bets.</li>
+      <li><b>Phone:</b> the ZEUS Safety page &rarr; <b>PAUSE</b> (no new Kalshi bets until 4 PM ET or RESUME) or <b>KILL</b> (off + the kill switch).</li>
+      <li><b>PC:</b> double-click <b>KALSHI_STOP.bat</b>, type Y: cancels anything waiting and switches Kalshi off.</li>
+      <li><b>Kalshi app:</b> Portfolio &rarr; cancel any open order (an unfilled K8 order dies by itself 40 s after the open).</li></ol>
+      <p class="krw-f">A bet that already filled is held to its result and settles by itself within 15 minutes. To start again: type the phrase on :8444/kalshi-live/.</p></div></section>
   <section class="note k8s" id="k8s" aria-label="K8 status"><h2>K8 status <b class="k8s-m" id="k8s-m">PAPER</b></h2>
     <dl class="krw-g" id="k8s-g"><div><dt>Bankroll</dt><dd>$55.00</dd></div><div><dt>A bet</dt><dd>$2.50</dd></div><div><dt>Today</dt><dd>no bets yet</dd></div><div><dt>Next window</dt><dd id="k8s-cd">…</dd></div></dl>
-    <div id="k8s-x"><p class="krw-f">No numbers from the PC yet. At most 3 bets a day; stop at −$8.00 a day and −$13.75 a week (25%); OFF at −$19.25 from the peak (35%).</p></div></section>
+    <div id="k8s-w" class="k8w-box" aria-label="Today's K8 windows"></div>
+    <div id="k8s-x"><p class="krw-f">No numbers from the PC yet. At most 3 bets a day; stop at −$8.00 a day and −$13.75 a week (25%); OFF at −$19.25 from the peak (35%).</p></div>
+    <div id="k8s-y"></div></section>
   <section class="note krw" id="krw" aria-label="Rewards test (paper)" hidden></section>
   <section class="note krw" id="kk1" aria-label="K1 rules test (paper)"><p><b>K1 rules test (paper)</b> No numbers yet. It was meant to run on the Kalshi server, but nothing there reaches this page. It now starts on the PC with the next update, and its numbers will show here. $0 at risk.</p></section>
   <section class="note khub" id="khub" aria-label="Kalshi home">
@@ -112,6 +125,6 @@
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k44" defer></script>
+<script src="kalshi.js?v=k47" defer></script>
 </body>
 </html>

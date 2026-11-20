@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora" data-oly-light>
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="helios"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -28,7 +29,8 @@
 <script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="helios.css?v=a4q">
+<link rel="stylesheet" href="helios.css?v=a4qe">
+<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -51,6 +53,17 @@
     <p class="note" id="signs"></p>
   </section>
 
+  <section class="pulse" data-pulse="strip,bots,stats" data-pulse-app="helios" aria-label="Today, the bots, the trades" aria-busy="true"><div class="pu-part pu-strip"></div><div class="pu-part pu-bots"></div><div class="pu-part pu-stats"></div><p class="pu-note pu-age"></p></section><!-- day-arenas: olympus/pulse.js -->
+  <section class="ag-card card" id="nqBrief" aria-labelledby="brH"><!-- day-arenas: the NQ pre-market brief (brief.js, ../nq/brief.json from day-brief) -->
+    <div class="row"><h2 id="brH">NQ before the open</h2><span class="br-day"></span></div>
+    <div class="br-body" aria-live="polite"></div>
+  </section>
+  <section class="ag-card card" id="riskWeek" aria-labelledby="rwH"><!-- day-arenas: Pythia's risk calendar folded in (riskweek.js) -->
+    <div class="row"><h2 id="rwH">Market risk, next 5 trading days</h2><a class="pill" href="../pythia/" data-oly-cue="tap">Pythia &rsaquo;</a></div>
+    <ul aria-live="polite"></ul>
+    <p class="note">Red = a big release (CPI, jobs, Fed). LIT trades its normal rules on every one of these days; the choice to sit out is yours.</p>
+    <nav class="folded" aria-label="Briefings folded into Helios"><a href="../pythia/">Pythia: 14 days</a><a href="../delphi/">Delphi: go / no-go</a><a href="../forum/">Forum: the desk</a></nav>
+  </section>
   <section class="ag-card card" aria-labelledby="accH">
     <h2 id="accH">Drawdown left</h2>
     <ul class="cards" id="accts"></ul>
@@ -89,5 +102,8 @@
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l1" data-src="sunload.js?v=a1" data-skip="lite" data-event="helios-sun" defer></script>
 <script type="module" src="helios.js?v=r7"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
+<script type="module" src="riskweek.js?v=1"></script>
+<script type="module" src="brief.js?v=1"></script>
 </body>
 </html>

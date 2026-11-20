@@ -3,6 +3,8 @@
 // Inputs are published files only: home.json (the live accounts), ledger/rules.json (MFFU's limits) and fixture.json (DEMO). Planning and warning only: it never places, changes or blocks an order.
 // Every dollar of risk carries its R (1R = the planned loss of one full stop; the R wears a ~ when the stop is a stand-in).
 
+// day-arenas: 'Zlarior 25K #2' already names its size: never 'Zlarior 25K #2 25K'
+export const nameOf = (a) => (String(a.name || '').includes(String(a.size || '~')) || !a.size ? String(a.name || '') : `${a.name} ${a.size}`);
 export const PLANS = {
   zlarior: { key: 'zlarior', name: 'Zlarior', bot: 'LIT', size: '50K', label: 'MFFU Builder 50K', plan: 'builder_50k', risk: 425 },
   atlas: { key: 'atlas', name: 'ATLAS', bot: 'ATLAS', size: '25K', label: 'MFFU Builder 25K', plan: 'builder_25k', risk: 150 },
@@ -171,7 +173,7 @@ export function shieldOf(a) {
 /** the one-line answer for the status */
 export function sayLine(a) {
   if (!a.has || a.room == null) return `${a.name}: no live numbers yet.`;
-  return `${a.name} ${a.size}: ${drawdownLine(a.room, a.mll)}. ${health(a).text}.`;
+  return `${nameOf(a)}: ${drawdownLine(a.room, a.mll)}. ${health(a).text}.`;
 }
 
 export function jarvisCard(a, risk) {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora">
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -19,6 +19,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/olympus.js?v=o15" data-app="demeter"></script>
 <script src="../olympus/intro-app.js?v=i10" defer></script>
@@ -26,7 +27,8 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#9aa564'); r.setProperty('--oly-accent-rgb', '154, 165, 100'); })();</script>
-<link rel="stylesheet" href="demeter.css?v=a1q">
+<link rel="stylesheet" href="demeter.css?v=a1qd">
+<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -35,6 +37,7 @@
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <section class="pulse" data-pulse="hero:pass" data-pulse-app="demeter" aria-label="Distance to pass" aria-busy="true"><div class="pu-part pu-hero"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card" aria-labelledby="pickH">
     <h2 id="pickH">Pick an account</h2>
     <div class="pick" id="pick"></div>
@@ -64,7 +67,9 @@
   </section>
 
   <p class="foot" id="foot">Demeter reads the site's own files and sends nothing. The what-if is a thought experiment: it never changes the bot's size. 1R = one normal loss in $ (the account's average losing trade); a ~ means no history yet, so the plan's usual risk is used. Rules: MFFU's pages as checked on 2026-10-18; re-check before a payout.</p>
+  <section class="pulse" data-pulse="money,bots" data-pulse-app="demeter" aria-label="Payouts, fees and the bots" aria-busy="true"><div class="pu-part pu-money"></div><div class="pu-part pu-bots"></div><p class="pu-note pu-age"></p></section><!-- day-arenas: olympus/pulse.js -->
 </main>
-<script type="module" src="demeter.js?v=a2"></script>
+<script type="module" src="demeter.js?v=a2d"></script>
+<script type="module" src="../olympus/pulse.js?v=p2"></script>
 </body>
 </html>

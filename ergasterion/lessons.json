@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-20",
- "say": "This week we wrote down 34 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
+ "say": "This week we wrote down 40 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
  "week": [
   {
    "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
@@ -74,8 +74,8 @@
    ]
   },
   {
-   "text": "Tested and rejected: Payday levers + cross-bot loss cuts (2026-11-20, payday-plan-2026-11-20.md, tools/money/payday_plan.py,",
-   "cat": "process",
+   "text": "Tested and rejected: Zlarior edge, 5 pre-registered ideas (2026-11-20, lit-edge-2026-11-20.md, tools/research/litedge.py,",
+   "cat": "NQ strategy",
    "d": "2026-11-20",
    "strength": 1,
    "sources": [
@@ -169,6 +169,13 @@
  ],
  "changed": [
   {
+   "text": "This matches the earlier finding that SMT does not mark better LIT trades.",
+   "was": "",
+   "cat": "NQ strategy",
+   "d": "2026-11-20",
+   "source": "research/writeups/newstrat-ict-smt-2026-11-20.md"
+  },
+  {
    "text": "A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
    "was": "",
    "cat": "NQ strategy",
@@ -202,20 +209,13 @@
    "cat": "NQ strategy",
    "d": "2026-10-31",
    "source": "research/writeups/blitz-streak-size-2026-10-31.md"
-  },
-  {
-   "text": "If shuffled outcomes do as well, the previous result carries no information.",
-   "was": "",
-   "cat": "NQ strategy",
-   "d": "2026-10-31",
-   "source": "research/writeups/blitz-streak-size-2026-10-31.md"
   }
  ],
  "counts": {
-  "NQ strategy": 45,
+  "NQ strategy": 46,
   "Kalshi": 2,
   "money": 3,
-  "process": 10,
+  "process": 9,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."
