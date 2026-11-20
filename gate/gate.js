@@ -339,6 +339,7 @@
     }
     var W = N.win || nextWindow({}, nowS());
     fact(dl, 'Trade window', W.open ? 'Open now' : W.label.replace(/ 02:00-15:30 ET$/, ' 02:00 ET'), W.open ? 'until 15:30 ET' : inWords(W.inS), '', 'kairos/index.html', 'kairos');
+    if (dl.lastChild) { dl.lastChild.setAttribute('data-win', W.open ? 'open' : 'shut'); dl.lastChild.setAttribute('data-ins', String(Math.round(W.inS || 0))); }   /* night-effects: the market-clock ring (olympus/home-fx.js) */
     drawExtra(dl);
     dl.hidden = false; dl.removeAttribute('aria-hidden');
     btn.hidden = !(st[0] === 'stale');

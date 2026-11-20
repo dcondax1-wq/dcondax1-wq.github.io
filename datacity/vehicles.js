@@ -5,8 +5,8 @@
 //   Monorail   an elevated loop just outside the districts: ribbon track, pylons, a station at every district and three trains of six cars
 // Decor only: nothing here is data. The market's mood (uFlow: the VIX, slower when the futures market is closed) sets the traffic speed.
 import * as THREE from '../jarvis/three.module.min.js';
-import { FOG } from './shaders.js';
-import { pick } from './skyline.js';
+import { FOG } from './shaders.js?v=dcgfx12';
+import { pick } from './skyline.js?v=dcgfx15';
 import { PROFILES } from './caps.js';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
 
@@ -18,31 +18,63 @@ const mulberry = (a) => () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.i
 
 // ------------------------------------------------------------------------------------------------ ground cars
 const CAR_VS = `
-attribute vec4 aSeg; attribute vec3 aCar; attribute vec3 aColor;
+attribute vec4 aSeg; attribute vec3 aCar; attribute vec3 aColor; attribute float aPart;
 uniform float uTime; uniform float uFlow;
-varying vec3 vC; varying vec3 vL; varying float vFD; varying vec3 vN;
+varying vec3 vC; varying vec3 vL; varying float vFD; varying vec3 vN; varying float vPart;
 void main(){
   vec2 d = aSeg.zw - aSeg.xy; float len = max(length(d), 0.001); vec2 dir = d / len;
   float t = fract(uTime * aCar.x * uFlow / len + aCar.y);
   vec2 p = mix(aSeg.xy, aSeg.zw, t);
-  vec3 lp = position * vec3(aCar.z, 1.0, 1.0);
+  vec3 lp = position * vec3(aPart > 0.5 ? 1.0 : aCar.z, 1.0, 1.0);
   vec2 w = vec2(lp.x * dir.x - lp.z * dir.y, lp.x * dir.y + lp.z * dir.x);
   vec3 wp = vec3(p.x + w.x, 0.05 + lp.y, p.y + w.y);
-  vC = aColor; vL = position; vN = normalize(vec3(normal.x * dir.x - normal.z * dir.y, normal.y, normal.x * dir.y + normal.z * dir.x));
+  vC = aColor; vL = position; vPart = aPart; vN = normalize(vec3(normal.x * dir.x - normal.z * dir.y, normal.y, normal.x * dir.y + normal.z * dir.x));
   vec4 mv = viewMatrix * vec4(wp, 1.0); vFD = -mv.z; gl_Position = projectionMatrix * mv;
 }`;
 const CAR_FS = `
 uniform float uDay; uniform float uTime;
-varying vec3 vC; varying vec3 vL; varying float vFD; varying vec3 vN;
+varying vec3 vC; varying vec3 vL; varying float vFD; varying vec3 vN; varying float vPart;
 ${FOG}
 void main(){
-  vec3 col = vC * mix(0.55, 0.9, uDay) * (0.45 + 0.55 * max(vN.y, 0.0) + 0.2 * abs(vN.x));
-  float front = step(0.36, vL.x) * step(abs(abs(vL.z) - 0.2), 0.1) * step(0.04, vL.y);
-  float back = step(vL.x, -0.36) * step(abs(abs(vL.z) - 0.2), 0.1) * step(0.04, vL.y);
-  col += vec3(1.0, 0.95, 0.75) * front * 2.2 + vec3(1.0, 0.1, 0.18) * back * 1.8;
-  col += vC * 0.25 * (1.0 - uDay);
-  gl_FragColor = vec4(mix(col, uFog, fogAmount(vFD, 0.0)), 1.0);
+  float fa = fogAmount(vFD, 0.0);
+  if (vPart > 0.5) {                                   // revamp 2026-11-20: the light on the road (head-light wash ahead, a red tail streak behind)
+    float head = step(0.0, vL.x);
+    float u = head > 0.5 ? (vL.x - 0.45) / 2.4 : (-0.45 - vL.x) / 1.7;
+    float a = pow(clamp(1.0 - u, 0.0, 1.0), 2.2) * exp(-vL.z * vL.z * (head > 0.5 ? 9.0 : 22.0)) * (1.0 - uDay * 0.8) * (1.0 - fa);
+    vec3 c = head > 0.5 ? vec3(1.0, 0.93, 0.78) * 0.55 : vec3(1.0, 0.08, 0.06) * 0.8;
+    gl_FragColor = vec4(c, a * (head > 0.5 ? 0.45 : 0.75));
+    return;
+  }
+  vec3 paint = mix(vec3(0.05, 0.055, 0.07), vC, 0.3);                                 // dark paint (the colour a hint), not toy neon
+  vec3 col = paint * mix(0.6, 1.0, uDay) * (0.45 + 0.55 * max(vN.y, 0.0) + 0.2 * abs(vN.x));
+  col += vec3(0.45, 0.5, 0.6) * pow(max(vN.y, 0.0), 4.0) * 0.08;                        // the roof catches the sky
+  float front = step(0.36, vL.x) * step(abs(abs(vL.z) - 0.17), 0.07) * step(0.08, vL.y) * step(vL.y, 0.2);
+  float back = step(vL.x, -0.36) * step(abs(vL.z), 0.22) * step(0.12, vL.y) * step(vL.y, 0.2);
+  col += vec3(1.0, 0.96, 0.85) * front * 3.0 + vec3(1.0, 0.06, 0.05) * back * 2.4;
+  gl_FragColor = vec4(mix(col, uFog, fa), 1.0);
 }`;
+
+/** a car (a box without its bottom) + one flat quad on the road (aPart 1): the head-light wash ahead, the red tail streak behind; 12 triangles as before */
+function carGeo() {
+  const b = new THREE.BoxGeometry(0.9, 0.32, 0.46);
+  b.translate(0, 0.16, 0);
+  const pos = [...b.attributes.position.array], nor = [...b.attributes.normal.array], part = new Array(pos.length / 3).fill(0);
+  const idx = [...b.index.array.slice(0, 18), ...b.index.array.slice(24)];            // no bottom face (never seen): the light quad costs no triangle
+  const quad = (x0, x1, hw, k) => {
+    const base = pos.length / 3;
+    pos.push(x0, 0.012, -hw, x1, 0.012, -hw, x1, 0.012, hw, x0, 0.012, hw);
+    for (let i = 0; i < 4; i++) { nor.push(0, 1, 0); part.push(k); }
+    idx.push(base, base + 2, base + 1, base, base + 3, base + 2);
+  };
+  quad(-2.15, 2.85, 0.42, 1);                                                          // one quad: the head-light wash ahead, the tail streak behind
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  g.setAttribute('aPart', new THREE.Float32BufferAttribute(part, 1));
+  g.setIndex(idx);
+  b.dispose();
+  return g;
+}
 
 export class Cars {
   constructor(L, U, quality) {
@@ -58,16 +90,16 @@ export class Cars {
       car.set([2.2 + rnd() * 2.6, rnd(), 0.8 + rnd() * 0.7], i * 3);
       c.setHex(pal[Math.floor(rnd() * pal.length)]); col.set([c.r, c.g, c.b], i * 3);
     }
-    const g = new THREE.BoxGeometry(0.9, 0.32, 0.46);
-    g.translate(0, 0.16, 0);
+    const g = carGeo();
     const inst = new THREE.InstancedBufferGeometry();
     inst.index = g.index;
-    for (const k of ['position', 'normal']) inst.setAttribute(k, g.getAttribute(k));
+    for (const k of ['position', 'normal', 'aPart']) inst.setAttribute(k, g.getAttribute(k));
     inst.setAttribute('aSeg', new THREE.InstancedBufferAttribute(seg, 4));
     inst.setAttribute('aCar', new THREE.InstancedBufferAttribute(car, 3));
     inst.setAttribute('aColor', new THREE.InstancedBufferAttribute(col, 3));
     inst.instanceCount = n;
-    this.mesh = new THREE.Mesh(inst, new THREE.ShaderMaterial({ vertexShader: CAR_VS, fragmentShader: CAR_FS, uniforms: pick(U, 'uTime', 'uFlow', 'uFog', 'uFogD', 'uHaze', 'uDay') }));
+    this.mesh = new THREE.Mesh(inst, new THREE.ShaderMaterial({ vertexShader: CAR_VS, fragmentShader: CAR_FS, uniforms: pick(U, 'uTime', 'uFlow', 'uFog', 'uFogD', 'uHaze', 'uDay'),
+      transparent: true }));                         // the light quads blend over the road; the bodies write alpha 1
     this.mesh.frustumCulled = false; this.mesh.renderOrder = 3;
     this.geo = inst; this.total = n;
     this.setQuality(quality);
@@ -105,11 +137,11 @@ varying vec3 vC; varying vec3 vL; varying float vFD; varying vec3 vN;
 ${FOG}
 void main(){
   vec3 col = mix(vec3(0.05, 0.06, 0.1), vC * 0.6, 0.35 + 0.65 * max(vN.y, 0.0)) * mix(0.8, 1.2, uDay);
-  col += vC * (1.0 - smoothstep(-0.05, 0.02, vL.y)) * 1.3;                          // the glowing underside
+  col += vC * (1.0 - smoothstep(-0.05, 0.02, vL.y)) * 0.35;                         // a soft glow under it (revamp: no big coloured blobs)
   float tip = step(0.28, abs(vL.z));
   float blink = step(0.5, fract(uTime * 1.3 + vC.r * 3.0));
-  col += tip * (vL.z > 0.0 ? vec3(0.1, 1.0, 0.35) : vec3(1.0, 0.1, 0.1)) * (1.2 + blink * 1.6) * step(0.0, vL.y);
-  col += vec3(1.0, 0.95, 0.8) * step(0.46, vL.x) * 1.6;
+  col += tip * (vL.z > 0.0 ? vec3(0.1, 1.0, 0.35) : vec3(1.0, 0.1, 0.1)) * (0.4 + blink * 1.4) * step(0.0, vL.y);
+  col += vec3(1.0, 0.95, 0.8) * step(0.46, vL.x) * 1.4;
   gl_FragColor = vec4(mix(col, uFog, fogAmount(vFD, 20.0)), 1.0);
 }`;
 

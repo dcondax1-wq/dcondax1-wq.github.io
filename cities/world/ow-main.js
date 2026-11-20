@@ -4,7 +4,7 @@
 // the four doors; every app is a tower you tap to open; every learning place is real data. Live: the PC feed (../../pc_feed.js: a bot
 // in a trade pulses), the Board's events, the edge light and the Lab's newest verdicts. Read only: GET only, nothing armed, no orders,
 // text only through textContent, no browser storage. No WebGL (or 3D switched off): a plain list of the same city, never blank.
-import * as C from './ow-core.js?v=w1';
+import * as C from './ow-core.js?v=w3';
 
 const d = document, $ = (s) => d.querySelector(s);
 const O = () => window.OLYMPUS || null;
@@ -47,8 +47,8 @@ async function boot() {
   else {
     try {
       S.plan = C.planWorld(w, { tier: O() && O().lite && O().lite() ? 'low' : 'high' });
-      const M = await import('./ow-scene.js?v=w1');
-      S.scene = M.createWorld({ canvas: $('#c'), world: w, plan: S.plan, reduced, manual: qs.get('clock') === 'manual', tier: O() && O().lite && O().lite() ? 'low' : 'high',
+      const M = await import('./ow-scene.js?v=w3');
+      S.scene = M.createWorld({ canvas: $('#c'), world: w, plan: S.plan, reduced, sky: qs.get('sky') || 'auto', manual: qs.get('clock') === 'manual', tier: O() && O().lite && O().lite() ? 'low' : 'high',
         onTap, onFrame, onUser: () => { hideHint(); if (S.tour) setTour(false); }, onIntroDone: () => showHint() });
       S.mode = '3d';
       setTimeout(() => d.body.classList.add('live3d'), 6000);                 // the first frame normally lifts the poster (onFrame); never stuck on it
@@ -397,6 +397,7 @@ function startTicker() {
     const l = S.feed[S.tick];
     const t = $('#tickText');
     t.textContent = l.text; t.classList.remove('in'); void t.offsetWidth; t.classList.add('in');
+    if (S.scene && S.scene.setDisplay) S.scene.setDisplay(0, l.text);         // the Gate's LED band shows the same line (revamp-cities)
     const i = l.id != null ? S.byId.get(l.id) : null;
     if (S.scene && i != null && !S.history && S.sel < 0 && qs.get('clock') !== 'manual') S.scene.burst(i, { dur: 1.8 });
   };
@@ -432,6 +433,14 @@ async function live() {
     if (on) parts.push(`${name} is in a trade · ${pos[k].side}`);
   }
   S.live.trading = { lit: !!pos.lit, atlas: !!pos.atlas };
+  // the LED bands round ZEUS, the Kalshi bot and Business: the live line, else what each district holds (text only, never markup)
+  if (S.scene && S.scene.setDisplay) {
+    const dist = (id) => (S.world.districts || []).find((x) => x.id === id) || {};
+    const learn = (id) => (S.world.places || []).filter((p) => p.district === id && p.kind !== 'app').length;
+    S.scene.setDisplay(1, parts.length ? parts.join(' · ') : 'ZEUS · NQ · ' + $('#pcText').textContent);
+    S.scene.setDisplay(2, 'KALSHI · ' + (dist('kalshi').apps || 0) + ' apps · ' + learn('kalshi') + ' places learning');
+    S.scene.setDisplay(3, 'MONEY · ' + (dist('money').apps || 0) + ' apps · ' + learn('money') + ' places learning');
+  }
   chip.textContent = parts.join(' · ');
   chip.classList.toggle('on', parts.length > 0);
   // the edge light dims a bot whose light is not green

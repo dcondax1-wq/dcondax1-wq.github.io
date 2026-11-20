@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-20",
- "say": "This week we wrote down 30 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
+ "say": "This week we wrote down 31 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
  "week": [
   {
    "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
@@ -55,6 +55,15 @@
    ]
   },
   {
+   "text": "The owner's keep-trading YES is right (the old $100 stop loses 20.3 / 23.5%).",
+   "cat": "NQ strategy",
+   "d": "2026-11-20",
+   "strength": 1,
+   "sources": [
+    "research/writeups/atlas-risk-real-fills-2026-11-20.md"
+   ]
+  },
+  {
    "text": "Tested and rejected: Payday levers + cross-bot loss cuts (2026-11-20, payday-plan-2026-11-20.md, tools/money/payday_plan.py,",
    "cat": "process",
    "d": "2026-11-20",
@@ -70,15 +79,6 @@
    "strength": 1,
    "sources": [
     "docs/TESTED_AND_REJECTED.md"
-   ]
-  },
-  {
-   "text": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
-   "cat": "NQ strategy",
-   "d": "2026-11-20",
-   "strength": 1,
-   "sources": [
-    "research/writeups/nq-live-reliability-2026-11-20.md"
    ]
   }
  ],

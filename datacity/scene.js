@@ -3,26 +3,29 @@
 // the canvas and the billboards' canvases; city.js drives it.
 import * as THREE from '../jarvis/three.module.min.js';
 import { COLORS } from './util.js';
-import * as SH from './shaders.js?v=dcgfx11';
-import { Skyline, pick } from './skyline.js';
-import { Rays, SunRays, FogLayers, Rain, Traffic, Beam, Billboards } from './fx.js';
+import * as SH from './shaders.js?v=dcgfx12';
+import { Skyline, pick } from './skyline.js?v=dcgfx15';
+import { Rays, SunRays, FogLayers, Rain, Traffic, Beam, Billboards } from './fx.js?v=dcgfx15';
 import { createRenderer } from '../olympus/render.js';          // the OLYMPUS render core: ACES, MSAA, bloom, the film finish, tiers
 import { Landmarks } from './landmarks.js';
-import { Outskirts } from './outskirts.js?v=dcgfx4';
-import { SatelliteTowns } from './towns.js?v=dcgfx4';
-import { Streams } from './streams.js?v=dcgfx3';
+import { Outskirts } from './outskirts.js?v=dcgfx5';
+import { SatelliteTowns } from './towns.js?v=dcgfx5';
+import { Streams } from './streams.js?v=dcgfx4';
 import { routes } from './routes.js';
-import { Cars, Flyers, Airships, Monorail } from './vehicles.js';
-import { River, Ships } from './water.js';
-import { Signs } from './signs.js';
-import { Fireworks } from './fireworks.js';
-import { KitFx } from './kitfx.js';
+import { Cars, Flyers, Airships, Monorail } from './vehicles.js?v=dcgfx15';
+import { River, Ships } from './water.js?v=dcgfx15';
+import { Signs } from './signs.js?v=dcgfx15';
+import { Fireworks } from './fireworks.js?v=dcgfx15';
+import { KitFx } from './kitfx.js?v=dcgfx15';
 import { PROFILES, phoneHint, profileOf } from './caps.js?v=dcgfx2';
 import { Link } from './links.js';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
+import { ARCH } from './kinds.js';
+const ARCH_CROWN = ARCH.map((a) => a[2]);       // the crown / spire above the roof, per building type (the blinker sits on its tip)
 
-const FOG = { night: (NEON ? 0x070a1c : 0x3a2e46), day: (NEON ? 0x9fbbe2 : 0xc2cfd2), dusk: (NEON ? 0x4a2a4a : 0x7a4a52), storm: (NEON ? 0x2a3140 : 0x4c4650) };
-const DENSITY = { night: 0.0024, day: 0.0015 };
+// revamp 2026-11-20 (research/handoff/2026-11-20/revamp-cities/LOOK.md): the fog IS the horizon colour (blue hour, the city's warm glow in it)
+const FOG = { night: (NEON ? 0x1b2134 : 0x3a2e46), day: (NEON ? 0x7f8fab : 0xc2cfd2), dusk: (NEON ? 0x8a6a72 : 0x7a4a52), storm: (NEON ? 0x2a303c : 0x4c4650) };
+const DENSITY = { night: 0.00105, day: 0.0008 };     // revamp: a little thinner (the height fog in shaders.js FOG adds the ground layer)
 const FLOW = { hq: 1600, lq: 420 };
 const STARS = { hq: 1800, lq: 450 };
 const PINS = 64;
@@ -95,7 +98,7 @@ export class CityScene {
     // 0..1 screen value; the PBR landmarks tone-map themselves. Tier from OLYMPUS.fx() (followed live); the app steps down itself.
     this.phone = phoneHint();                                  // v3: a phone gets the phone-safe caps (caps.js) and a pixel ratio of at most 1.5
     this.rc = createRenderer({ canvas, scene: this.scene, camera: this.camera, space: 'display', env: 'night', adapt: false, maxDpr: this.phone ? PROFILES.phone.dpr : PROFILES.full.dpr,
-      bloom: { strength: (NEON ? 0.62 : 0.2), radius: (NEON ? 0.5 : 0.4), threshold: (NEON ? 0.8 : 0.86) }, grade: { grain: (NEON ? 0.035 : 0.02), vignette: (NEON ? 0.26 : 0.24), aberration: (NEON ? 0.002 : 0), saturation: (NEON ? 1.04 : 0.92) },
+      bloom: { strength: (NEON ? 0.42 : 0.2), radius: (NEON ? 0.55 : 0.4), threshold: (NEON ? 0.86 : 0.86) }, grade: { grain: (NEON ? 0.02 : 0.02), vignette: (NEON ? 0.3 : 0.24), aberration: (NEON ? 0 : 0), saturation: (NEON ? 1.02 : 0.92) },
       bloomMax: NEON ? 0.7 : undefined,                       // the neon night glows (the AGORA cap .25 holds for the marble look)
       onQuality: (lv) => this._tier(lv) });
     // the look pass (olympus/look.js): a colour grade in the ONE finish pass (0 draw calls); no depth of field (the district names stay sharp)
@@ -106,7 +109,7 @@ export class CityScene {
     this.profile = profileOf(this.rc.quality(), this.phone, !!window.OLYMPUS?.saver?.());
     this.caps = PROFILES[this.profile];
     const v3 = () => new THREE.Vector3();
-    this.U = { uTime: { value: 0 }, uFog: { value: new THREE.Color(FOG.night) }, uFogD: { value: DENSITY.night }, uHaze: { value: 0.2 },
+    this.U = { uTime: { value: 0 }, uFog: { value: new THREE.Color().setHex(FOG.night, THREE.LinearSRGBColorSpace) }, uFogD: { value: DENSITY.night }, uHaze: { value: 0.2 },
                uDay: { value: 0 }, uDusk: { value: 0 }, uToday: { value: 0 }, uWet: { value: 0.6 }, uRain: { value: 0 }, uPR: { value: 1 },
                uAccent: { value: new THREE.Color((NEON ? 0x3fd8ff : 0xd39556)) }, uSun: { value: v3().set(0, -1, 0) }, uCloud: { value: 0 }, uFlash: { value: 0 },
                uGrow: { value: opts.calm ? 1 : 0 }, uFlow: { value: 1 } };  // the rise on load (0 -> 1); the data streams' speed
@@ -120,6 +123,7 @@ export class CityScene {
     this.towns = new SatelliteTowns(L, this.U, this.quality, this.caps);
     this.scene.add(this.towns.group);
     this._glow();
+    this._blinkers();
     this._streets(opts.winRate);
     this._tower();
     this._names();
@@ -157,16 +161,18 @@ export class CityScene {
 
   _sky() {
     this.sky = new THREE.Mesh(new THREE.SphereGeometry(1500, 32, 16), new THREE.ShaderMaterial({ vertexShader: SH.SKY_VS,
-      fragmentShader: SH.SKY_FS, uniforms: pick(this.U, 'uSun', 'uDay', 'uDusk', 'uCloud', 'uFlash', 'uAccent'), side: THREE.BackSide, depthWrite: false }));
+      fragmentShader: SH.SKY_FS, uniforms: pick(this.U, 'uSun', 'uDay', 'uDusk', 'uCloud', 'uFlash', 'uAccent', 'uFog', 'uTime'), side: THREE.BackSide, depthWrite: false }));
     this.sky.renderOrder = -1;
     this.scene.add(this.sky);
-    const n = STARS.hq, p = new Float32Array(n * 3);
+    const n = STARS.hq, p = new Float32Array(n * 3), size = new Float32Array(n), ph = new Float32Array(n);
     for (let i = 0; i < n; i++) {
-      const a = Math.random() * Math.PI * 2, h = 0.08 + Math.random() * 0.9, r = 1400, flat = Math.sqrt(1 - h * h);
+      const a = Math.random() * Math.PI * 2, h = 0.1 + Math.pow(Math.random(), 0.8) * 0.88, r = 1400, flat = Math.sqrt(1 - h * h);
       p.set([Math.cos(a) * r * flat, h * r, Math.sin(a) * r * flat], i * 3);
+      size[i] = 1.0 + Math.pow(Math.random(), 8) * 2.0; ph[i] = Math.random();             // tiny, a few brighter; each twinkles slowly
     }
-    this.stars = points({ position: [p, 3] }, new THREE.PointsMaterial({ color: (NEON ? 0xcfd8ff : 0xe8dcc0), size: (NEON ? 1.6 : 1.4), sizeAttenuation: false,
-      transparent: true, opacity: 0.85, depthWrite: false, fog: false }));
+    this.stars = points({ position: [p, 3], aSize: [size, 1], aPh: [ph, 1] }, new THREE.ShaderMaterial({ vertexShader: SH.STAR_VS, fragmentShader: SH.STAR_FS,
+      uniforms: { ...pick(this.U, 'uTime', 'uPR'), uA: { value: 0.85 } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    this.stars.frustumCulled = false;
     this.scene.add(this.stars);
   }
 
@@ -194,19 +200,32 @@ export class CityScene {
       p.set([it.x, it.h + 0.35, it.z], k * 3);
       col.setHex(it.color);
       c.set([col.r, col.g, col.b], k * 3);
-      size[k] = it.kind === 'd' ? 9 : it.kind === 's' ? 8 : b.cls === 'gold' ? 7 : it.pulse ? 5 : always ? 2.6 : 3.2;
+      size[k] = it.kind === 'd' ? 5 : it.kind === 's' ? 4.5 : b.cls === 'gold' ? 3.6 : it.pulse ? 3 : always ? 1.6 : 2.2;   // small hot points, no fat halos (LOOK.md)
       pulse[k] = it.pulse;
       seed[k] = golden(i);
       today[k] = always ? 0 : b.td === 2 ? 2 : 1;               // 1 / 2: only with the Today layer on (2 = fired, cyan)
     });
     // the last point: the LIT tower's cyan beacon (it was its own Points draw)
-    p.set([0, 96, 0], (n - 1) * 3); c.set([0.25, 0.85, 1.0], (n - 1) * 3); size[n - 1] = 42; pulse[n - 1] = 1; seed[n - 1] = 0.2; today[n - 1] = 0;
+    p.set([0, 96, 0], (n - 1) * 3); c.set([0.25, 0.85, 1.0], (n - 1) * 3); size[n - 1] = 18; pulse[n - 1] = 1; seed[n - 1] = 0.2; today[n - 1] = 0;
     this.glowMat = new THREE.ShaderMaterial({ vertexShader: SH.GLOW_VS, fragmentShader: SH.GLOW_FS, uniforms: pick(this.U, 'uTime', 'uPR', 'uDay', 'uToday'),
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
     const glow = points({ position: [p, 3], aColor: [c, 3], aSize: [size, 1], aPulse: [pulse, 1], aSeed: [seed, 1], aToday: [today, 1] }, this.glowMat);
     glow.renderOrder = 3;
     glow.frustumCulled = false;
     this.scene.add(glow);
+  }
+
+  /** red aviation blinkers on the tallest tops (one Points draw, GPU-animated) */
+  _blinkers() {
+    const top = this.L.items.map((it, i) => [it.h, i]).filter(([h, i]) => h > 7 && this.L.items[i].kind !== 'ship').sort((a, b) => b[0] - a[0]).slice(0, 220);
+    const n = top.length + 1, p = new Float32Array(n * 3), ph = new Float32Array(n);
+    top.forEach(([h, i], k) => { const it = this.L.items[i]; p.set([it.x, h * (1 + (ARCH_CROWN[it.arch] || 0)) + 0.25, it.z], k * 3); ph[k] = golden(i * 7); });
+    p.set([0, 95.5, 0], (n - 1) * 3); ph[n - 1] = 0.5;                                  // the LIT spire's tip
+    this.blink = points({ position: [p, 3], aPh: [ph, 1] }, new THREE.ShaderMaterial({ vertexShader: SH.BLINK_VS, fragmentShader: SH.BLINK_FS,
+      uniforms: pick(this.U, 'uTime', 'uPR', 'uDay', 'uGrow'), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    this.blink.frustumCulled = false;
+    this.blink.renderOrder = 3;
+    this.scene.add(this.blink);
   }
 
   _streets(winRate) {
@@ -266,7 +285,7 @@ export class CityScene {
     this.tower.add(new THREE.Mesh(mergeSimple(parts), tm));
     const ringGeo = [[0.9, 19], [14, 8.2], [37, 6.6], [62, 5.1], [78, 4.2], [94, 3.4]].map(([y, r]) => { const g = new THREE.TorusGeometry(r, y < 2 ? 0.18 : 0.11, 6, 64); g.rotateX(Math.PI / 2); g.translate(0, y, 0); return g; });
     const merged = mergeSimple(ringGeo);
-    this.tower.add(new THREE.Mesh(merged, new THREE.MeshBasicMaterial({ color: COLORS.lit, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false })));
+    this.tower.add(new THREE.Mesh(merged, new THREE.MeshBasicMaterial({ color: COLORS.lit, transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false })));
     const name = textSprite2(NEON ? [['CITY CAPITAL', '#ffd36b', 0.86, 112], ['LIT · ZLARIOR', '#7fe9ff', 1.0, 103]] : [['City Capital', '#d79e64', 0.86, 112], ['LIT · Zlarior', '#ddac7b', 1.0, 103]]);
     this.towerName = name;
     this.towerTitle = null;
@@ -337,14 +356,19 @@ export class CityScene {
     U.uHaze.value = 0.15 + w.haze;
     U.uWet.value = Math.min(1, 0.45 + w.rain * 0.8);
     U.uRain.value = w.rain;
-    const fog = new THREE.Color(FOG.night).lerp(new THREE.Color(FOG.day), sun.day).lerp(new THREE.Color(FOG.dusk), sun.dusk * 0.6 * (1 - sun.day * 0.5));
-    if (w.storm || w.rain > 0) fog.lerp(new THREE.Color(FOG.storm), 0.35 + w.rain * 0.2);
-    U.uFog.value.copy(fog);
+    // the city's shaders write screen colours: uFog takes the palette's hex as it is (no sRGB -> linear step, which made the old
+    // night fog near-black); three's own materials and the background get the same colour through the usual colour management
+    const F = this._fogC || (this._fogC = { d: new THREE.Color(), t: new THREE.Color(), lin: THREE.LinearSRGBColorSpace });
+    const fogD = F.d.setHex(FOG.night, F.lin).lerp(F.t.setHex(FOG.day, F.lin), sun.day).lerp(F.t.setHex(FOG.dusk, F.lin), sun.dusk * 0.6 * (1 - sun.day * 0.5));
+    if (w.storm || w.rain > 0) fogD.lerp(F.t.setHex(FOG.storm, F.lin), 0.35 + w.rain * 0.2);
+    U.uFog.value.copy(fogD);
+    const fog = (F.out || (F.out = new THREE.Color())).setRGB(fogD.r, fogD.g, fogD.b, THREE.SRGBColorSpace);   // reused: no allocation per sky step
     U.uFogD.value = (DENSITY.night + (DENSITY.day - DENSITY.night) * sun.day) * (1 + w.haze * 0.5);
     this.scene.background = fog;
     this.scene.fog.color.copy(fog);
     this.scene.fog.density = U.uFogD.value;
     this.stars.material.opacity = 0.85 * (1 - sun.day) * (1 - U.uCloud.value * 0.8);
+    this.stars.material.uniforms.uA.value = this.stars.material.opacity;
     this.stars.visible = this.stars.material.opacity > 0.02;
     this.rain.set(w.rain);
     this.sunRays.set(U.uSun.value, U.uDusk.value * (1 - U.uCloud.value * 0.7), sun.day);
@@ -354,7 +378,7 @@ export class CityScene {
     this._sun = sun; this._wx = w;
     this.kit?.set(sun, w, U, this.caps);
     U.uFlow.value = (sun.open ? 1 : 0.4) * (0.75 + Math.min(1.2, (w.vix || 16) / 22));            // the market drives the data streams
-    const bk = +((NEON ? 0.55 : 0.12) + (NEON ? 0.5 : 0.1) * (1 - sun.day) + (NEON ? 0.12 : 0.04) * U.uCloud.value).toFixed(2);                  // more glow at night, less by day
+    const bk = +((NEON ? 0.3 : 0.12) + (NEON ? 0.22 : 0.1) * (1 - sun.day) + (NEON ? 0.06 : 0.04) * U.uCloud.value).toFixed(2);                  // more glow at night, less by day
     if (bk !== this.bloomK) { this.bloomK = bk; this.rc.setBloom({ strength: bk }); }
     this.rc.renderer.toneMappingExposure = 1 + 0.12 * sun.day - 0.1 * (w.storm ? 1 : 0);
     return '#' + fog.getHexString();

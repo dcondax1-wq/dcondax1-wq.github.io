@@ -4,7 +4,7 @@
 // "landmarks", always drawn in full. Per-building state (search dim, the Today layer, watch / selected) lives in instanced
 // attributes, written only when it changes, never per frame.
 import * as THREE from '../jarvis/three.module.min.js';
-import * as SH from './shaders.js';
+import * as SH from './shaders.js?v=dcgfx12';
 import { ARCH } from './kinds.js';
 import { PROFILES } from './caps.js';
 

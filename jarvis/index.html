@@ -15,7 +15,7 @@
 <link rel="icon" href="icon-192.png?v=j5">
 <!-- dark from the first paint, even before (or without) the stylesheet: never a white screen -->
 <style>html,body{background:#14110e;color:#f3ece0;margin:0}</style>
-<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w2" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
+<style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="../olympus/warp.css?v=w3" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <script>
 // before the first paint: the saved theme (localStorage 'jtheme', as the old Jarvis kept it; default Agora, marble and gold since 2026-11-09), the effects level and the boot screen
 (function () {
@@ -121,7 +121,7 @@ window.addEventListener('error', function (e) {
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
 <script src="../pc_feed.js?v=n4" id="pcFeedJs" async></script>
-<script src="../olympus/themes.js?v=o8" id="olyThemesJs" async></script>
+<script src="../olympus/themes.js?v=o9" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <style>.booted #bootfx{display:none}
 /* the start note works without jarvis.css (the stylesheet may be what did not arrive) */
@@ -151,7 +151,7 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
 </head>
 <body>
 <div class="oly" id="olyIntro" aria-hidden="true"></div>
-<script src="entry.js?v=e1" defer id="olyEntryJs"></script>
+<script src="entry.js?v=e2" defer id="olyEntryJs"></script>
 <script id="olympus-intro">
 /* OLYMPUS intro (2026-11-03, owner: "INSANE, about 10 seconds, ending on my logo"). It plays over Jarvis while Jarvis starts
  * underneath and never holds Jarvis up. One WebGL1 full-screen shader (procedural storm, ridge, marble columns) plus one

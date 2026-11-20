@@ -323,7 +323,20 @@ function closeSheet() {
 }
 
 // ------------------------------------------------------------------------------------------------ start
-function renderFiltered() { renderCal(); renderTrades(); renderEdge(); renderEquity(); }
+// ------------------------------------------------------------------------------------------------ 9. deep dive (../nqdeep.js, night-nqdash2 2026-11-20)
+function renderDeep() {
+  const K = window.NQ_DEEP; if (!K || !$('deep')) return;
+  const R = C.pick(S.rows, F()), t = K.core.tag(R, nowS()), D = K.draw;
+  $('deepSrc').textContent = srcTag();
+  const safe = (fn) => { try { fn(); } catch (e) { /* one box failing never blanks the page */ } };
+  safe(() => D.underwater($('dUnder'), R, t));
+  const bot = S.bot === 'ATLAS' ? 'ATLAS' : 'LIT', ak = curAcct() !== 'all' ? curAcct() : C.BOTS[bot].ak;
+  safe(() => D.twin($('dTwin'), S.rows.filter((r) => r.bot === bot && !r.open), bot, ak, nowS()));
+  safe(() => D.dist($('dDistR'), R, 'r', t)); safe(() => D.dist($('dDistUsd'), R, 'usd', t));
+  safe(() => D.heat($('dHeat'), R, t)); safe(() => D.streaks($('dStreak'), R, t));
+  safe(() => D.extremes($('dExt'), R, t)); safe(() => D.timeline($('dTime'), R, 6, t));
+}
+function renderFiltered() { renderCal(); renderTrades(); renderEdge(); renderEquity(); renderDeep(); }
 function render() {
   model();
   $('demo').hidden = !S.demo;

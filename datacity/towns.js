@@ -2,8 +2,8 @@
 // Forty-eight named-by-coordinate clusters are kept in one InstancedMesh; quality profiles thin towers
 // evenly across every town so even LITE retains the complete outer network.
 import * as THREE from '../jarvis/three.module.min.js';
-import * as SH from './shaders.js';
-import { archUniforms, towerGeo } from './skyline.js';
+import * as SH from './shaders.js?v=dcgfx12';
+import { archUniforms, towerGeo } from './skyline.js?v=dcgfx15';
 import { PROFILES } from './caps.js?v=dcgfx2';
 import { SATELLITE_TOWNS } from './satellites.js?v=dcgfx1';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble

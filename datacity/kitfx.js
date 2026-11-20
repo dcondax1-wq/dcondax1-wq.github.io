@@ -73,8 +73,8 @@ export class KitFx {
     for (const n of NAMES) if (!want[n]) this._off(n);
     if (want.godRays) {
       this._on('godRays', () => {
-        const hs = [FX.godRays(this.target, lo({ position: [0, 78, 0], length: 74, intensity: 0.7, spread: 0.16, color: (NEON ? '#9fe9ff' : '#9ebcd2'), seed: 4 }))];
-        if (sp.temple && kc.godGroups > 1) hs.push(FX.godRays(this.target, lo({ position: [sp.temple.x, 92, sp.temple.z], length: 90, intensity: 0.66, spread: 0.12, color: (NEON ? '#ffe3a0' : '#deb081'), seed: 9 })));
+        const hs = [FX.godRays(this.target, lo({ position: [0, 78, 0], length: 74, intensity: 0.3, spread: 0.12, color: (NEON ? '#9fe9ff' : '#9ebcd2'), seed: 4 }))];
+        if (sp.temple && kc.godGroups > 1) hs.push(FX.godRays(this.target, lo({ position: [sp.temple.x, 92, sp.temple.z], length: 90, intensity: 0.28, spread: 0.1, color: (NEON ? '#ffe3a0' : '#deb081'), seed: 9 })));
         return { stopped: false, stop() { hs.forEach((x) => x.stop()); this.stopped = true; } };
       });
     }

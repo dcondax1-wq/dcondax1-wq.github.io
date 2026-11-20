@@ -758,6 +758,6 @@
     olyWarpBoot(window, document);
     var d = document, me = d.currentScript;
     if (window.OLYMPUS_WARP || !me || !me.src || d.querySelector('script[src*="olympus/warp.js"]')) return;
-    var s = d.createElement('script'); s.src = new URL('warp.js?v=w2', me.src).href; s.async = true; (d.head || d.documentElement).appendChild(s);
+    var s = d.createElement('script'); s.src = new URL('warp.js?v=w3', me.src).href; s.async = true; (d.head || d.documentElement).appendChild(s);
   } catch (e) { /* plain page loads */ }
 })();

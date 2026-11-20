@@ -6,8 +6,8 @@
 //   Cranes    gantry cranes on the north quay with blinking red lights (one instanced draw, one for the lights)
 // Decor only (the data ships of LIT's trades are moored in layout.js's pier rows).
 import * as THREE from '../jarvis/three.module.min.js';
-import { FOG, HASH } from './shaders.js';
-import { pick } from './skyline.js';
+import { FOG, HASH } from './shaders.js?v=dcgfx12';
+import { pick } from './skyline.js?v=dcgfx15';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
 
 const SHIPS = { hq: 9, lq: 4 };
@@ -28,8 +28,8 @@ void main(){
   float NoV = clamp(dot(N, V), 0.0, 1.0);
   float fres = 0.02 + 0.98 * pow(1.0 - NoV, 4.0);
   vec3 R = reflect(-V, N);
-  vec3 top = mix(vec3(${NEON ? '0.004' : '0.16'},${NEON ? '0.007' : '0.13'},${NEON ? '0.028' : '0.26'}), vec3(${NEON ? '0.14' : '0.42'},${NEON ? '0.40' : '0.56'},${NEON ? '0.86' : '0.68'}), uDay), hor = mix(vec3(${NEON ? '0.07' : '0.48'},${NEON ? '0.05' : '0.30'},${NEON ? '0.17' : '0.28'}), vec3(${NEON ? '0.70' : '0.88'},${NEON ? '0.83' : '0.86'},${NEON ? '0.96' : '0.76'}), uDay);
-  vec3 sky = mix(hor, top, smoothstep(0.0, 0.55, R.y));
+  vec3 top = mix(vec3(${NEON ? '0.03,0.05,0.10' : '0.16,0.13,0.26'}), vec3(${NEON ? '0.30,0.45,0.75' : '0.42,0.56,0.68'}), uDay), hor = mix(uFog + vec3(0.10,0.055,0.025), vec3(${NEON ? '0.80,0.84,0.90' : '0.88,0.86,0.76'}), uDay);   // revamp: the sky dome's blue hour
+  vec3 sky = mix(hor, top, smoothstep(0.0, 0.5, R.y));
   sky += vec3(1.0,0.42,0.22) * uDusk * 0.5 * exp(-abs(R.y)*5.0);
   vec3 sd = normalize(uSun);
   float sunSpec = pow(max(dot(R, vec3(sd.x, abs(sd.y) + 0.05, sd.z)), 0.0), 120.0) * (0.35 + 0.65 * smoothstep(-0.1, 0.2, sd.y + 0.1));

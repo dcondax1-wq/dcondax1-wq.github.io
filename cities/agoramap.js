@@ -27,7 +27,8 @@ export const LOOK = {
   life: { tint: '#9ba85f', land: ['#59603f', '#3e4430'], name: 'Life' },
   obsidian: { tint: '#9d8aae', land: ['#574e50', '#3d3638'], name: 'Obsidian' },
 };
-const MARBLE = ['#bfae92', '#b09f86', '#c8b99d', '#a69680', '#c2ad90', '#b6a58a'];
+// revamp-cities 2026-11-20 (owner: "not some 2000's looking play-doh"): night stone and dark glass, not pale clay; warm and cool lit windows
+const MARBLE = ['#4d5262', '#444a5a', '#575b6b', '#4a4e5c', '#545060', '#3f4656'];
 const shade = (hex, k) => {
   const n = parseInt(hex.slice(1), 16);
   const f = (v) => Math.round(clamp(v * k, 0, 255));
@@ -512,16 +513,19 @@ export class AgoraMap {
       return;
     }
     g.fillStyle = shade(col, 0.95); g.fillRect(fx, top, w, h);
-    g.fillStyle = shade(col, 0.6); g.beginPath(); g.moveTo(fx + w, top); g.lineTo(fx + w + d, top - d * 0.5); g.lineTo(fx + w + d, y - d * 0.5); g.lineTo(fx + w, y); g.fill();
-    g.fillStyle = shade(col, 1.18); g.beginPath(); g.moveTo(fx, top); g.lineTo(fx + d, top - d * 0.5); g.lineTo(fx + w + d, top - d * 0.5); g.lineTo(fx + w, top); g.fill();
+    g.fillStyle = shade(col, 0.72); g.fillRect(fx, y - h * 0.35, w, h * 0.35);                 // the lower floors in the street's shadow
+    g.fillStyle = shade(col, 0.55); g.beginPath(); g.moveTo(fx + w, top); g.lineTo(fx + w + d, top - d * 0.5); g.lineTo(fx + w + d, y - d * 0.5); g.lineTo(fx + w, y); g.fill();
+    g.fillStyle = shade(col, 1.25); g.beginPath(); g.moveTo(fx, top); g.lineTo(fx + d, top - d * 0.5); g.lineTo(fx + w + d, top - d * 0.5); g.lineTo(fx + w, top); g.fill();
+    g.fillStyle = 'rgba(255,226,170,.55)'; g.fillRect(fx, top, w, Math.max(0.6, sc * 0.35));    // the roof edge catches the light
     if (b.kind === 'dome') { g.fillStyle = '#b97b4d'; g.beginPath(); g.ellipse(x + d * 0.4, top - d * 0.35, w * 0.5, w * 0.42, 0, Math.PI, TAU); g.fill(); }
     if (b.kind === 'obelisk') { g.fillStyle = shade(col, 1.2); g.beginPath(); g.moveTo(fx, top); g.lineTo(x + d * 0.3, top - w * 1.2); g.lineTo(fx + w, top); g.fill(); }
     if (w * 1 > 3.2) {                                           // lantern windows (only when big enough to read)
-      const cols = Math.max(1, Math.floor(w / 2.8)), rows = Math.max(2, Math.floor(h / 3.6)), ww = Math.max(0.9, w / cols * 0.42), wh = Math.max(1, h / rows * 0.4);
+      const cols = Math.max(1, Math.floor(w / 2.2)), rows = Math.max(2, Math.floor(h / 2.6)), ww = Math.max(0.8, w / cols * 0.5), wh = Math.max(0.8, h / rows * 0.42);
+      const cool = (b.seed & 3) === 0;                                                       // offices: cool white, homes: warm
       let z = b.seed;
       for (let r2 = 0; r2 < rows; r2++) for (let c2 = 0; c2 < cols; c2++) {
         z = (Math.imul(z, 1103515245) + 12345) >>> 0;
-        if ((z >>> 16) / 65536 < lit) { g.fillStyle = (z & 8) ? 'rgba(255,214,140,.92)' : 'rgba(255,190,105,.85)'; g.fillRect(fx + (c2 + 0.3) * (w / cols), top + (r2 + 0.35) * (h / rows), ww, wh); }
+        if ((z >>> 16) / 65536 < lit * 0.85) { g.fillStyle = cool ? ((z & 8) ? 'rgba(214,232,255,.92)' : 'rgba(176,206,250,.8)') : ((z & 8) ? 'rgba(255,214,140,.95)' : 'rgba(255,186,98,.85)'); g.fillRect(fx + (c2 + 0.25) * (w / cols), top + (r2 + 0.3) * (h / rows), ww, wh); }
       }
     }
   }

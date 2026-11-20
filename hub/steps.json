@@ -38,8 +38,25 @@
    "src": "STATE.md 'Waiting on the owner' 0, engine/account_b.py"
   },
   {
+   "id": "atlas-room40",
+   "title": "Safer ATLAS on the funded 25K: risk 40% of the room",
+   "what": "Say yes on the Decide card 'atlas-funded-room-40'.",
+   "why": "At ATLAS's real fills (about 11 ticks worse than the test), losing the funded account in 6 months drops from about 22% to 14% (Jul-Oct-like), for about $9 a month less and a first payout ~12 days later.",
+   "where": "Phone",
+   "optional": false,
+   "steps": [
+    "Open ZEUS (or the Board) and find the Decide card.",
+    "Tap Yes on 'ATLAS's funded 25K: risk 40% of the room'.",
+    "Claude applies it in the next chat."
+   ],
+   "copy": "Decide atlas-funded-room-40: YES",
+   "copy_note": "Or paste this line to Claude in chat.",
+   "src": "research/writeups/atlas-risk-real-fills-2026-11-20.md",
+   "n": 3
+  },
+  {
    "id": "phone-remote",
-   "n": 3,
+   "n": 4,
    "title": "Phone Remote, one time",
    "what": "Tell the phone app which repo to send commands through.",
    "why": "After this, Update now / Pause / Flatten / Status work from the phone when you cannot reach the PC. Safety, not money.",
@@ -56,7 +73,7 @@
   },
   {
    "id": "kalshi-live",
-   "n": 4,
+   "n": 5,
    "title": "Kalshi K8 live, Monday before 4:44 PM ET",
    "what": "Give the Kalshi bot a key and start it with real money, $2.50 a bet.",
    "why": "Monday's windows only trade if it is on before 4:44 PM ET. Real money: the loss is limited to what you put in.",
@@ -73,7 +90,7 @@
   },
   {
    "id": "combo-test",
-   "n": 5,
+   "n": 6,
    "title": "Optional: test the 50K combo in Sim",
    "what": "Try the 50K combo on the practice account (Sim101) first. Then, after one Sim day, turn on fast entry.",
    "why": "No real money in Sim. It shows whether the combo and the faster entry behave before they touch a funded account.",
@@ -91,7 +108,7 @@
   },
   {
    "id": "pc-on",
-   "n": 6,
+   "n": 7,
    "title": "Keep the PC and NinjaTrader on, 02:00 to 15:30 ET",
    "what": "Do not sleep or close the PC or NinjaTrader on trading days.",
    "why": "Nov 10 and 11 trades were missed because the PC was silent. A silent PC is a missed trade, and a missed trade is missed $.",
@@ -105,6 +122,23 @@
    "copy": "python -X utf8 tools/pc_doctor.py",
    "copy_note": "At the PC: a health check. Your phone also warns when the PC goes silent.",
    "src": "STATE.md (PC silent, Nov 10-11), docs/SELF_HEAL.md"
+  },
+  {
+   "id": "update-unblock",
+   "title": "Only if Friday's PC update says 'local changes ... dash.json'",
+   "what": "Put one generated file back so the PC can update.",
+   "why": "A site build from last night's code may leave that file changed; the next update would then wait for you.",
+   "where": "PC",
+   "optional": true,
+   "steps": [
+    "Only if you get that alert after 4 PM ET Friday.",
+    "At the PC, in the bot folder, run the line below.",
+    "Then wait an hour or double-click UPDATE.bat when the bots are flat."
+   ],
+   "copy": "git checkout -- tools/web_public/business/dash.json",
+   "copy_note": "Safe: it only restores a file the bot builds.",
+   "src": "STATE.md 'Waiting on the owner'",
+   "n": 8
   }
  ]
 }

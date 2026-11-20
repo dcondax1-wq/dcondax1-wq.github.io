@@ -6,8 +6,8 @@
 //   Beam        the search beam: a column of light onto the found / opened building, with a ring on the ground
 //   Billboards  holographic boards round the plaza cycling the top discoveries (plain text drawn on a canvas)
 import * as THREE from '../jarvis/three.module.min.js';
-import * as SH from './shaders.js';
-import { pick } from './skyline.js';
+import * as SH from './shaders.js?v=dcgfx12';
+import { pick } from './skyline.js?v=dcgfx15';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
 
 const CARS = { hq: 1500, lq: 420 };
@@ -26,13 +26,13 @@ export class Rays {
     this.n = towerBeams;
     const geo = rayGeo(), color = new Float32Array(n * 3), alpha = new Float32Array(n), c = new THREE.Color();
     this.mesh = new THREE.InstancedMesh(geo, new THREE.ShaderMaterial({ vertexShader: SH.RAY_VS, fragmentShader: SH.RAY_FS,
-      uniforms: { ...pick(U, 'uTime', 'uDay', 'uHaze'), uGain: { value: 1 }, uFlip: { value: 0 } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-      side: THREE.DoubleSide }), n);
-    for (let i = 0; i < towerBeams; i++) { c.setHex((NEON ? 0x3fd8ff : 0xd39556)); color.set([c.r, c.g, c.b], i * 3); alpha[i] = 0.55; }
+      uniforms: { ...pick(U, 'uTime', 'uDay', 'uHaze'), uGain: { value: 0.4 }, uFlip: { value: 0 } }, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide }), n);          // revamp 2026-11-20: thin, faint beams (LOOK.md), no fat searchlights
+    for (let i = 0; i < towerBeams; i++) { c.setHex((NEON ? 0x3fd8ff : 0xd39556)); color.set([c.r, c.g, c.b], i * 3); alpha[i] = 0.2; }
     this.fixed = [];
     L.districts.forEach((d, k) => {
       const i = towerBeams + k;
-      c.setHex(d.color); color.set([c.r, c.g, c.b], i * 3); alpha[i] = 0.32;
+      c.setHex(d.color); color.set([c.r, c.g, c.b], i * 3); alpha[i] = 0.22;
       this.fixed.push([i, d.cx, d.cz, 18 + d.half * 0.25, d.half * 0.2]);
     });
     geo.setAttribute('aColor', new THREE.InstancedBufferAttribute(color, 3));
@@ -42,7 +42,7 @@ export class Rays {
     const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
     for (const [i, x, z, len, w] of this.fixed) {        // the district sky beams lean a little outwards
       e.set(Math.sin(x) * 0.08, 0, Math.cos(z) * 0.08);
-      m4.compose(new THREE.Vector3(x, 0, z), q.setFromEuler(e), new THREE.Vector3(w, 220 + len * 3, w));
+      m4.compose(new THREE.Vector3(x, 0, z), q.setFromEuler(e), new THREE.Vector3(Math.min(w, 3.5), 220 + len * 3, Math.min(w, 3.5)));
       this.mesh.setMatrixAt(i, m4);
     }
     this._m4 = m4; this._q = q; this._e = e;
@@ -54,7 +54,7 @@ export class Rays {
     for (let i = 0; i < this.n; i++) {
       const a = t * 0.25 + (i / this.n) * Math.PI * 2;
       e.set(Math.cos(a) * 0.55, 0, Math.sin(a) * 0.55, 'XYZ');
-      m4.compose(new THREE.Vector3(0, 48, 0), q.setFromEuler(e), new THREE.Vector3(16, 260, 16));
+      m4.compose(new THREE.Vector3(0, 48, 0), q.setFromEuler(e), new THREE.Vector3(5, 260, 5));
       this.mesh.setMatrixAt(i, m4);
     }
     this.mesh.instanceMatrix.needsUpdate = true;
@@ -116,7 +116,7 @@ export class FogLayers {
 
   setQuality(q, caps) { const n = caps?.fog ?? (q === 'hq' ? 3 : 1); this.planes.forEach((p, k) => { p.visible = k < n; }); }
 
-  setHaze(h) { this.planes.forEach((p, k) => { p.material.uniforms.uAlpha.value = [0.16, 0.11, 0.08][k] * (0.6 + h * 1.4); }); }
+  setHaze(h) { this.planes.forEach((p, k) => { p.material.uniforms.uAlpha.value = [0.12, 0.07, 0.045][k] * (0.6 + h * 1.2); }); }
 }
 
 export class Rain {

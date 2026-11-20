@@ -1,0 +1,51 @@
+{
+ "v": 1,
+ "src": "data/news/events.csv (the bot's high-impact US calendar), copied by tools/nqdash_export.py",
+ "built": "2026-11-20",
+ "from": "2026-11-13",
+ "to": "2026-12-18",
+ "events": [
+  {
+   "date": "2026-11-13",
+   "time": "08:30",
+   "title": "PPI (producer inflation)",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-11-18",
+   "time": "14:00",
+   "title": "FOMC minutes (Oct meeting)",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-12-04",
+   "time": "08:30",
+   "title": "Non-Farm Payrolls (jobs report)",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-12-09",
+   "time": "14:00",
+   "title": "FOMC rate decision + projections",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-12-09",
+   "time": "14:30",
+   "title": "FOMC press conference",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-12-10",
+   "time": "08:30",
+   "title": "CPI (consumer inflation)",
+   "impact": "high",
+   "country": "USD"
+  }
+ ]
+}

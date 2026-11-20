@@ -5,7 +5,7 @@
    (main#app > header.top > .brand + .tags). olympus/agora-ui.js adds the behaviour (icons, charts, back row, compact bar, sheet, toast, pull). */
 
 /* ================================================================================================ 1. tokens */
-@import url("warp.css?v=w2"); /* the world-to-world arrival (olympus/warp.js): render-blocking, before the first frame */
+@import url("warp.css?v=w3"); /* the world-to-world arrival (olympus/warp.js): render-blocking, before the first frame */
 :root, :root[data-theme="agora"] {
   /* colour: warm night, marble panels, bronze lines; every text token is >= 4.5:1 on every surface below (docs/DESIGN_AGORA.md table) */
   --ag-night: var(--oly-th-n3, #14110e); --ag-panel: var(--oly-th-n4, #1d1914); --ag-raise: var(--oly-th-n5, #26211b); --ag-line: var(--oly-th-n8, #3a3228);

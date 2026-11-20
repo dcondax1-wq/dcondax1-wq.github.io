@@ -2,8 +2,8 @@
 // draw, the same neon-window shader as the data buildings). They are scenery, not data: no tap, no card, no result behind them.
 // Tall spires stand nearer the districts, a few gold-lit megatowers mark the ring, everything fades into the fog.
 import * as THREE from '../jarvis/three.module.min.js';
-import * as SH from './shaders.js';
-import { towerGeo, archUniforms } from './skyline.js';
+import * as SH from './shaders.js?v=dcgfx12';
+import { towerGeo, archUniforms } from './skyline.js?v=dcgfx15';
 import { PROFILES } from './caps.js';
 import { boulevardPlan, skylineForm } from './districtform.js';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble

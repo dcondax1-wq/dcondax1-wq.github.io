@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-20",
  "number": 2,
- "built": "2026-11-20T07:09:42Z",
+ "built": "2026-11-20T07:57:17Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -709,7 +709,7 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 208 write-ups.",
+    "The research shelf now counts 209 write-ups.",
     "The newest lesson on file, dated 2026-11-20, reads: Found and fixed - a phone 'Start trading' that re-armed after the owner's STOP, an old remote stop that could stop Friday's bot, a false 'not polling' push after every START / Re-arm, an alarm storm…",
     "It was filed under \"finding\" and comes from research/writeups/redteam-live-2026-11-20.md."
    ],
@@ -743,10 +743,10 @@
      "quote": true
     },
     {
-     "t": "208",
+     "t": "209",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 208
+     "raw": 209
     },
     {
      "t": "2026-11-20",

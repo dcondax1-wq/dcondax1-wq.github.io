@@ -87,16 +87,25 @@ export function planWorld(w, opts) {
   const o = opts || {}, low = o.tier === 'low' || o.tier === 'off';
   const C = +w.cell || 7, PL = +w.plaza || 26, R = +w.R || 120;
   const out = [];
-  const push = (pi, x, y, z, sx, sy, sz, seed, st, lit, rgb, born, part, tilt, filler) => out.push([pi, x, y, z, sx, sy, sz, seed, st, lit, rgb, born, part, tilt, filler]);
-  const stack = (pi, x, z, fw, fd, h, seed, st, lit, rgb, born, filler, r) => {
+  // revamp-cities (2026-11-20): every piece also has a SHAPE (chamfer 0..0.3 = a box .. an octagon, taper 0..1 = straight .. a point), one
+  // instanced geometry draws them all (ow-scene prism()): slab towers, octagonal towers, tapered crowns and pyramid caps in the same draw call
+  const push = (pi, x, y, z, sx, sy, sz, seed, st, lit, rgb, born, part, tilt, filler, ch, tp) => out.push([pi, x, y, z, sx, sy, sz, seed, st, lit, rgb, born, part, tilt, filler, ch || 0, tp || 0]);
+  const stack = (pi, x, z, fw, fd, h, seed, st, lit, rgb, born, filler, r, style) => {
+    // style: 0 a slab, 1 an octagonal tower, 2 a tapered tower (a crown); a tall one gets a setback and, at the top, a mast or a pyramid cap
+    const sty = style != null ? style : (r() < 0.34 ? 1 : r() < 0.12 ? 2 : 0);
+    const ch = sty === 1 ? 0.1 + r() * 0.14 : sty === 2 ? 0.06 + r() * 0.08 : 0;
     if (h > 8 && st !== S.RUIN) {
-      const hb = h * 0.66;
-      push(pi, x, 0, z, fw, hb, fd, seed, st, lit, rgb, born, 0, 0, filler);
-      const s2 = 0.62 + r() * 0.16;
-      push(pi, x, hb, z, fw * s2, h - hb, fd * s2, seed + 0.13, st, lit, rgb, born, 1, 0, filler);
-      if (h > 15 && !low) push(pi, x, h, z, 0.12, h * 0.2, 0.12, seed + 0.31, st, lit, rgb, born, 2, 0, filler);
+      const hb = h * (sty === 2 ? 0.74 : 0.6 + r() * 0.12);
+      push(pi, x, 0, z, fw, hb, fd, seed, st, lit, rgb, born, 0, 0, filler, ch, 0);
+      const s2 = sty === 2 ? 0.86 : 0.62 + r() * 0.16, tp = sty === 2 ? 0.42 : r() < 0.22 ? 0.16 : 0;
+      push(pi, x, hb, z, fw * s2, h - hb, fd * s2, seed + 0.13, st, lit, rgb, born, 1, 0, filler, ch, tp);
+      if (h > 15 && !low) {
+        const top = (1 - tp);
+        if (sty === 2 || r() < 0.08) push(pi, x, h, z, fw * s2 * top * 0.98, Math.min(6, h * 0.12), fd * s2 * top * 0.98, seed + 0.31, st, lit, rgb, born, 4, 0, filler, ch, 1);
+        else push(pi, x, h, z, 0.12, h * 0.2, 0.12, seed + 0.31, st, lit, rgb, born, 2, 0, filler);
+      }
     } else {
-      push(pi, x, 0, z, fw, h, fd, seed, st, lit, rgb, born, 0, st === S.RUIN ? 0.22 : 0, filler);
+      push(pi, x, 0, z, fw, h, fd, seed, st, lit, rgb, born, 0, st === S.RUIN ? 0.22 : 0, filler, st === S.RUIN ? 0 : ch * 0.6, 0);
     }
   };
   const warm = [[1, 0.72, 0.42], [0.78, 0.86, 1], [1, 0.9, 0.75]].map((c) => c.map((v) => Math.pow(v, 2.2)));
@@ -114,7 +123,7 @@ export function planWorld(w, opts) {
       const c = cells[0] || [Math.round(p.x / C), Math.round(p.z / C)];
       const cx = c[0] * C, cz = c[1] * C, code = b[0] || 120;
       const h = heightOf('app', code), fw = 2.7 + (code / 255) * 1.5;
-      stack(pi, cx, cz, fw, fw * (0.82 + r() * 0.18), h, r(), S.CROWN, 0.6, hue, 0, 0, r);
+      stack(pi, cx, cz, fw, fw * (0.82 + r() * 0.18), h, r(), S.CROWN, 0.6, hue, 0, 0, r, code % 3 === 0 ? 2 : 1);
       top = h;
       for (let k = 0; k < (low ? 2 : 4); k++) {
         const sx = k & 1 ? 1 : -1, sz = k & 2 ? 1 : -1, hh = 1.4 + r() * 3.2;
@@ -178,35 +187,75 @@ export function planWorld(w, opts) {
     const pf = (0.32 + lvl * 0.055) * (low ? 0.55 : 1);
     for (let a = -1; a <= 1; a++) for (let e = -1; e <= 1; e++) {
       if (r() > pf) continue;
-      const tall = r() < 0.05 * lvl / 9;
-      const h = (0.9 + Math.pow(r(), 1.7) * (0.6 + lvl * 1.15)) * (tall ? 2.1 : 1);
+      const core = Math.exp(-Math.pow(Math.hypot(cx, cz) / (R * 0.46), 2));         // revamp-cities: a real downtown, the skyline falls away outward
+      const tall = r() < 0.05 * lvl / 9 + 0.07 * core;
+      const h = Math.min(29, (0.9 + Math.pow(r(), 1.7) * (0.6 + lvl * 1.15)) * (tall ? 2.3 : 1) * (1 + 0.55 * core));
       const c = mixc(warm[(a + e + 3) % 3], dh, 0.28);
       const fw = FOOT * (0.62 + r() * 0.38), fd = FOOT * (0.62 + r() * 0.38);
       if (h > 8) stack(N, cx + a * LOT, cz + e * LOT, fw, fd, h, r(), S.LIT, 0.24 + r() * 0.2, c, 0, 1, r);
       else push(N, cx + a * LOT, 0, cz + e * LOT, fw, h, fd, r(), S.LIT, 0.2 + r() * 0.24, c, 0, 0, 0, 1);
     }
   }
+  // revamp-cities (2026-11-20): the wider world round the island: satellite towns across the water (owner: "dozens and hundreds of
+  // cities"), each a small downtown that falls away to low streets, in its district's light. Part of the plaza's growth (index N).
+  const towns = [];
+  const tr = rng(4242), nT = low ? 9 : 18;
+  for (let t = 0; t < nT; t++) {
+    const ang = (t / nT) * Math.PI * 2 + (tr() - 0.5) * 0.25, rad = R + 150 + tr() * 520 + (t % 3) * 90;
+    const tx = Math.cos(ang) * rad, tz = Math.sin(ang) * rad, trad = 22 + tr() * 30 + rad * 0.03;
+    towns.push([tx, tz, trad]);
+    const d = districtAt(w, tx, tz), dh = hex(d && d.hue);
+    const step = 3.2, kk = Math.floor(trad / step);
+    for (let i = -kk; i <= kk; i++) for (let j = -kk; j <= kk; j++) {
+      const x = tx + i * step + (tr() - 0.5) * 0.6, z = tz + j * step + (tr() - 0.5) * 0.6;
+      const dd = Math.hypot(x - tx, z - tz) / trad;
+      if (dd > 1 || tr() > (low ? 0.14 : 0.2) * (1.15 - dd * 0.5)) continue;
+      const core = Math.exp(-dd * dd * 5);
+      const h = (0.8 + Math.pow(tr(), 2) * 2.5) * (1 + core * (4 + tr() * 7));
+      const c = mixc(warm[(((i + j) % 3) + 3) % 3], dh, 0.2);
+      if (h > 8) stack(N, x, z, 2.1 + tr() * 0.6, 2.1 + tr() * 0.6, h, tr(), S.LIT, 0.3 + tr() * 0.25, c, 0, 1, tr);
+      else push(N, x, 0, z, 1.8 + tr() * 0.9, h, 1.8 + tr() * 0.9, tr(), S.LIT, 0.22 + tr() * 0.25, c, 0, 0, 0, 1, tr() < 0.2 ? 0.15 : 0, 0);
+    }
+  }
   // the Gate on the plaza: the tallest spire of the city, four searchlights and three crown rings (place index N = 'the plaza')
   const gold = hex('#ffd890');
   const gr = rng(7);
-  stack(N, 0, 0, 5.2, 5.2, 46, 0.5, S.CROWN, 0.7, gold, 0, 0, gr);
+  stack(N, 0, 0, 5.2, 5.2, 46, 0.5, S.CROWN, 0.7, gold, 0, 0, gr, 2);
   for (const [k, rad, y] of [[0, 8, 41], [1, 12.5, 33]]) rings.push([0, y, 0, rad, 1, (k % 2 ? -1 : 1) * (0.12 + k * 0.05), 0.08 + k * 0.03, 0.05 * k, gold, 1.0 - k * 0.25, N]);
   for (let k = 0; k < 4; k++) beams.push([0, 46, 0, 1.0, 230, 4.0, 0.13 + k * 0.025, k * 1.57, k % 2 ? hex('#9fc4ff') : gold, N]);
   // the four districts glow over their wedges (place indices N+1..N+4)
   halos.push([0, 30, 0, 30, gold[0], gold[1], gold[2], 0.45, N]);
   // flat arrays
   const n = out.length;
-  const pos = new Float32Array(n * 3), size = new Float32Array(n * 3), info = new Float32Array(n * 4), tint = new Float32Array(n * 3), misc = new Float32Array(n * 4);
+  const pos = new Float32Array(n * 3), size = new Float32Array(n * 3), info = new Float32Array(n * 4), tint = new Float32Array(n * 3), misc = new Float32Array(n * 4), shape = new Float32Array(n * 2);
   out.forEach((b, k) => {
     pos[k * 3] = b[1]; pos[k * 3 + 1] = b[2]; pos[k * 3 + 2] = b[3];
     size[k * 3] = b[4]; size[k * 3 + 1] = b[5]; size[k * 3 + 2] = b[6];
     info[k * 4] = b[0]; info[k * 4 + 1] = b[7] % 1; info[k * 4 + 2] = b[8]; info[k * 4 + 3] = b[9];
     tint[k * 3] = b[10][0]; tint[k * 3 + 1] = b[10][1]; tint[k * 3 + 2] = b[10][2];
     misc[k * 4] = b[11]; misc[k * 4 + 1] = b[12]; misc[k * 4 + 2] = b[13]; misc[k * 4 + 3] = b[14];
+    shape[k * 2] = b[15]; shape[k * 2 + 1] = b[16];
   });
   const data = out.filter((b) => !b[14] && b[0] < N).length;
-  return { places, n, pos, size, info, tint, misc, halos, rings, beams, R, C, PL, slots: N + 1 + (w.districts || []).length,
+  return { places, n, pos, size, info, tint, misc, shape, halos, rings, beams, towns, R, C, PL, slots: N + 1 + (w.districts || []).length,
     stats: { instances: n, data, filler: n - data, places: N } };
+}
+
+/** the sky for the market clock (US Eastern): the NQ cash session 9:30-16:00 on a weekday = golden hour (1), an hour round it = blue
+ * hour (0.5), else night (0). sky: 'night' | 'blue' | 'dusk' forces one (the ?sky= query, captures); anything else = the clock. */
+export function skyFor(sky, date) {
+  if (sky === 'night') return 0;
+  if (sky === 'blue') return 0.5;
+  if (sky === 'dusk' || sky === 'day') return 1;
+  try {
+    const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false });
+    const parts = Object.fromEntries(f.formatToParts(date || new Date()).map((x) => [x.type, x.value]));
+    if (parts.weekday === 'Sat' || parts.weekday === 'Sun') return 0;
+    const m = (+parts.hour % 24) * 60 + +parts.minute;
+    if (m >= 570 && m < 960) return 1;
+    if (m >= 510 && m < 1020) return 0.5;
+    return 0;
+  } catch (e) { return 0; }
 }
 
 // ------------------------------------------------------------------------------------------------ the camera
@@ -231,14 +280,14 @@ export function clampPose(p, w) {
   for (const k of ['tx', 'ty', 'tz', 'dist', 'yaw', 'pitch']) if (!isFinite(q[k])) q[k] = k === 'dist' ? 150 : k === 'pitch' ? 0.6 : 0;
   return q;
 }
-export function homePose(w) { const R = (w && +w.R) || 130; return { tx: 0, ty: 0, tz: -R * 0.42, dist: R * 1.5, yaw: -0.38, pitch: 0.62 }; }
+export function homePose(w) { const R = (w && +w.R) || 130; return { tx: 0, ty: 12, tz: -R * 0.32, dist: R * 1.12, yaw: -0.38, pitch: 0.25 }; }   // revamp-cities: a skyline view with the horizon in it
 export function overviewPose(w) { const R = (w && +w.R) || 130; return { tx: 0, ty: 0, tz: -R * 0.08, dist: R * 3.1, yaw: -0.35, pitch: 1.12 }; }
 export function districtPose(w, d) {
   if (!d) return homePose(w);
   const len = Math.hypot(d.x, d.z) || 1;
   const span = Math.abs(((d.a1 - d.a0) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI)) || 1;
   const R = (w && +w.R) || 130;
-  return { tx: d.x, ty: 0, tz: d.z, dist: clamp(R * (0.45 + span * 0.22), 70, R * 1.25), yaw: Math.atan2(-d.x / len, -d.z / len), pitch: 0.82 };
+  return { tx: d.x, ty: 0, tz: d.z, dist: clamp(R * (0.45 + span * 0.22), 70, R * 1.25), yaw: Math.atan2(-d.x / len, -d.z / len), pitch: 0.6 };
 }
 /** a place: frame it from the plaza side (or keep the current yaw), close enough to read its buildings */
 export function placePose(pl, cur) {

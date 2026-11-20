@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 208,
+  "count": 209,
   "latest": [
    {
     "date": "2026-11-20",
@@ -226,6 +226,13 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/kalshi-k8-monday-2026-11-20.md"
+   },
+   {
+    "date": "2026-11-20",
+    "title": "ATLAS funded 25K at real fills - room 40% now wins, keep trading (don't pause), $750 ping and the Rapid ATLAS…",
+    "status": "finding",
+    "summary": "The owner's keep-trading YES is right (the old $100 stop loses 20.3 / 23.5%).",
+    "file": "research/writeups/atlas-risk-real-fills-2026-11-20.md"
    },
    {
     "date": "2026-11-20",
@@ -268,13 +275,6 @@
     "status": "rejected",
     "summary": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
     "file": "research/writeups/lit-more-money-2026-11-19.md"
-   },
-   {
-    "date": "2026-11-19",
-    "title": "Kalshi red team on K8 (the friend's 15-minute gold / silver clock bets)",
-    "status": "the",
-    "summary": "",
-    "file": "research/writeups/kalshi-red-team-K8-2026-11-19.md"
    }
   ]
  },
@@ -388,6 +388,13 @@
    "who": "dev",
    "text": "Owner - \"push the NQ bot to its max ... read data faster, better fills, better timing ... fundeds paying next month\".",
    "src": "research/writeups/nq-live-reliability-2026-11-20.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-20",
+   "who": "atlas",
+   "text": "The owner's keep-trading YES is right (the old $100 stop loses 20.3 / 23.5%).",
+   "src": "research/writeups/atlas-risk-real-fills-2026-11-20.md",
    "kind": "finding"
   },
   {
@@ -851,13 +858,6 @@
    "text": "Tested honestly (fit on 2026 H1, checked on 2026 H2 and 2021-25), similarity does not predict the outcome for any bot (2026 H2 rank correlation of predicted vs real R: Zlarior +0.00 - the setups it rated best made 0.30R…",
    "src": "research/writeups/mind.md",
    "kind": "finding"
-  },
-  {
-   "d": "2026-10-29",
-   "who": "blitz",
-   "text": "Every variant ran as account C (never opposite LIT or ATLAS, closed first at their opposite entry), 2026 on 1m bars (pick on Jan-Jun, check on Jul-Oct 16), 2021-25 the same rule on 5m bars, costs in ($1.90 a micro, 1 ti…",
-   "src": "research/writeups/blitz-25k.md",
-   "kind": "rejected"
   }
  ],
  "lessons": [
@@ -872,6 +872,21 @@
    "sources": [
     {
      "src": "research/writeups/nq-live-reliability-2026-11-20.md",
+     "d": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "text": "The owner's keep-trading YES is right (the old $100 stop loses 20.3 / 23.5%).",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-20",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/atlas-risk-real-fills-2026-11-20.md",
      "d": "2026-11-20"
     }
    ]
@@ -1785,21 +1800,6 @@
      "d": "2026-10-25"
     }
    ]
-  },
-  {
-   "text": "Money on the 2026 eval path: fresh-eval 2-week pass unchanged (LIT 57.1 / 52.2), 2-week fails 5.9 / 0.0 - 0.0 / 0.0, but the drained evals no longer die - they ge…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-10-24",
-   "kind": "adopt-candidate",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/sizing-caps.md",
-     "d": "2026-10-24"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1948,6 +1948,14 @@
    "ok": true,
    "text": "Write-up (finding): ATLAS real fills - why its NinjaTrader entries fill ~11 ticks worse than the backtest, what it costs at 3 / 6…",
    "src": "research/writeups/atlas-fills-2026-11-20.md"
+  },
+  {
+   "t": 1795176000,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): ATLAS funded 25K at real fills - room 40% now wins, keep trading (don't pause), $750 ping and the Rapid ATLAS…",
+   "src": "research/writeups/atlas-risk-real-fills-2026-11-20.md"
   },
   {
    "t": 1795089600,
@@ -3972,14 +3980,6 @@
    "ok": true,
    "text": "Write-up (adopt-candidate): LIT two-week eval - how to pass the MFFU 50K in 10 sessions or less",
    "src": "research/writeups/lit-two-week-eval.md"
-  },
-  {
-   "t": 1792324800,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT tight stops and bigger size - do we need 50-60 point stops, and what if we trade more micros or 1 NQ?",
-   "src": "research/writeups/lit-tight-stops-size.md"
   }
  ],
  "pipeline": {
@@ -4361,7 +4361,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795158540,
+   "t": 1795161420,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4382,6 +4382,54 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795161416,
+    "s": "Landing fixes: gate themes o9 + 2px search spacing, widget in the jump's Money family, city poster re-encoded…"
+   },
+   {
+    "t": 1795159992,
+    "s": "Wire the cities/effects/dashboards landing: warp w3 + entry e2 everywhere, jarvis-v75, kalshi k43, nqdash_exp…"
+   },
+   {
+    "t": 1795159893,
+    "s": "Merge night-nqdash2 (Trading deep dive, payout ranges on MFFU, NQ news week + waiting-for + fill cost)"
+   },
+   {
+    "t": 1795159883,
+    "s": "Merge night-effects (living hero, glass doors, Right now count-up, one sleeping loop; gate catalog nv5 kept)"
+   },
+   {
+    "t": 1795159873,
+    "s": "Merge night-revamp-cities (World rebuilt, market-clock sky, LED displays, Data City, intro + jump)"
+   },
+   {
+    "t": 1795159824,
+    "s": "ATLAS risk at real fills landed: room 40% now recommended (lost in 6 months 21.7% - 14.0% Jul-Oct-like at 10…"
+   },
+   {
+    "t": 1795159746,
+    "s": "Merge branch 'night-atlasrisk' into claude/clever-heisenberg-51zwcr"
+   },
+   {
+    "t": 1795159725,
+    "s": "ATLAS funded 25K at real fills (night-atlasrisk): room 40% passes the pre-registered bar at 6 and 10 ticks -…"
+   },
+   {
+    "t": 1795158898,
+    "s": "night-effects: report, before/after shots + videos on the old and new code (dark + Ivory), hero draw cost in…"
+   },
+   {
+    "t": 1795158835,
+    "s": "dash.json: built only by the cloud publish (LE_DASH_BUILD=1), listed as a generated file so a PC build can ne…"
+   },
+   {
+    "t": 1795158830,
+    "s": "ATLAS risk at real fills: pre-registered design (before any run)"
+   },
+   {
+    "t": 1795158606,
+    "s": "night-effects: screenshots as webp, test_olympus_shell lets the home-fx layer sit on top of shell.css on the…"
+   },
    {
     "t": 1795158524,
     "s": "Land night-gatefix: widget in the Gate catalog (88 apps, IA doc), gate catalog nv5, Jarvis no load jump (CLS…"
@@ -4423,71 +4471,23 @@
     "s": "Site QA: Mercury holds the room of its late words (no load jump); orb-corner checks measured as inside Jarvis…"
    },
    {
+    "t": 1795153646,
+    "s": "night-effects: test_home_fx (18/18), live screenshots + 6 s video, no count-up under automation unless ?hfx=1…"
+   },
+   {
+    "t": 1795153605,
+    "s": "nqdash2: report + lead wires"
+   },
+   {
     "t": 1795153508,
     "s": "Merge branch 'night-jarvisfix' into claude/clever-heisenberg-51zwcr"
-   },
-   {
-    "t": 1795153491,
-    "s": "night-jarvisfix: Jarvis shows the Kalshi card and answers Kalshi from kalshi.json again (jarvis_hub 272/272)"
-   },
-   {
-    "t": 1795152899,
-    "s": "Site QA sweep (phone): no empty 176 px band at the end of 26 standalone pages, Fates buttons above the home b…"
-   },
-   {
-    "t": 1795152622,
-    "s": "Decide: kalshi-stake-ladder closed - the K8 bot already sizes 4.5% of the cash with day/week/peak stops (an $…"
-   },
-   {
-    "t": 1795152514,
-    "s": "Merge night-redteam: 10 live-code bugs fixed with tests (C1 alarm storm, C2 self-heal in trading hours, C3 Ra…"
-   },
-   {
-    "t": 1795151988,
-    "s": "Write-up: tests run, last small fix"
-   },
-   {
-    "t": 1795151869,
-    "s": "Redteam: fast alarm - a 'not polling' / 'feed stale' cleared by the owner's STOP sends no false 'Back to norm…"
-   },
-   {
-    "t": 1795151809,
-    "s": "writeups INDEX: redteam-live-2026-11-20"
-   },
-   {
-    "t": 1795151762,
-    "s": "Write-up: the hourly update stops at 01:20 ET"
-   },
-   {
-    "t": 1795151745,
-    "s": "Merge branch 'night-redteam' into claude/clever-heisenberg-51zwcr"
-   },
-   {
-    "t": 1795151602,
-    "s": "Write-up: C9, smaller fixes, checked-and-fine, not fixed"
-   },
-   {
-    "t": 1795151552,
-    "s": "Redteam: a self-heal 'needs you' push is silent in the owner's quiet hours (the hourly run also runs 16:00-01…"
-   },
-   {
-    "t": 1795151517,
-    "s": "Redteam: the 15-minute report's 'Bot stopped' condition is quiet on CME holidays and after an early halt (ent…"
-   },
-   {
-    "t": 1795151441,
-    "s": "Redteam: self-heal leaves old git locks alone when the running programs cannot be read (it assumed 'no git ru…"
-   },
-   {
-    "t": 1795151416,
-    "s": "Redteam: self-heal never deletes logs/supervisor.pid when the pid runs but its name is unreadable (psutil acc…"
    }
   ],
   "branches": [
    {
     "name": "claude/clever-heisenberg-51zwcr",
-    "t": 1795158524,
-    "s": "Land night-gatefix: widget in the Gate catalog (88 apps, IA doc), gate catalog nv5, Jarvis no load…"
+    "t": 1795161416,
+    "s": "Landing fixes: gate themes o9 + 2px search spacing, widget in the jump's Money family, city poster…"
    }
   ]
  }

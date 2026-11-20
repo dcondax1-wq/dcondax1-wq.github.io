@@ -14,7 +14,7 @@ import { cityResultPage, planCityNetwork } from './network-layout.js?v=n1';
 import { openDistrictWorld } from './district-world.js?v=d3';
 import { insight } from './insight.js';
 import { randomSpec, seedDataset, newSeed, cleanSeed } from './procedural.js';
-import { AgoraMap } from './agoramap.js?v=g5';
+import { AgoraMap } from './agoramap.js?v=g6';
 // Do not load/compile the 3D pipeline until this device has a usable context.
 let Stage, TIERS, BUDGETS, Rig, makePath, safeFlight, warmHex = (h) => h;
 

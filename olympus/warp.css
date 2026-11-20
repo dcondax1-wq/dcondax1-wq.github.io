@@ -7,7 +7,7 @@
         zeus    lightning: the world slams in with a jolt, a bolt flickers out of it
         money   the world turns in like a coin, a gold diamond spins away
         kalshi  the fortune wheel: it spins in, the spokes of a wheel fly out
-        city    the city rises from the ground, a skyline of light climbs past
+        city    the city rises from the ground, a skyline of lit windows climbs past
         lab     a scan line opens into the page, the line sweeps away
    2. No View Transition (older browsers): html.oly-warp-in (WARP BOOT in themes.js sets it before the first frame from the jump's
       hand-off): the flash covers the new page at once and fades, the shape plays over it.
@@ -25,7 +25,7 @@
 :root[data-oly-warp="lab"] { --ow-a: #e9d3a3; --ow-b: #86b9dc; --ow-k: #060910; }
 
 /* ------------------------------------------------------------------ 1. the View Transition (scoped: same-page transitions keep their own) */
-:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition { background: radial-gradient(circle at 50% 50%, var(--ow-b) 0, var(--ow-a) 10%, var(--ow-k) 60%); }
+:root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition { background: linear-gradient(180deg, rgba(255, 154, 90, 0) 38%, rgba(255, 154, 90, .12) 50%, rgba(255, 154, 90, 0) 62%), radial-gradient(circle at 50% 50%, var(--ow-b) 0, var(--ow-a) 5%, var(--ow-k) 42%, #05080f 78%); }
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-old(root) { animation: ow-old .3s cubic-bezier(.5, 0, .85, .45) both; }
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-new(root) { animation: ow-in .46s cubic-bezier(.1, .88, .2, 1) both; }
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::view-transition-group(*) { animation-duration: .46s; }
@@ -45,49 +45,51 @@
 /* the flash fading off the new world, and the world's shape, inside the new page (during the transition only) */
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before,
 :root.oly-warp-in::before { content: ''; position: fixed; left: 50%; top: 50%; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax; border-radius: 50%; z-index: 2147483646; pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, #fff 0, var(--ow-b) 5%, var(--ow-a) 22%, rgba(0, 0, 0, 0) 56%); animation: ow-glow .42s cubic-bezier(.2, .7, .3, 1) both; }
+  background: radial-gradient(circle at 50% 50%, #fff6e6 0, var(--ow-b) 3%, var(--ow-a) 14%, rgba(0, 0, 0, 0) 48%); animation: ow-glow .42s cubic-bezier(.2, .7, .3, 1) both; }
 :root.oly-warp-in::before { background: radial-gradient(circle at 50% 50%, #fff 0, var(--ow-b) 6%, var(--ow-a) 24%, var(--ow-k) 60%); animation-name: ow-flash-out; }
 :root:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::after,
 :root.oly-warp-in::after { content: ''; position: fixed; left: 50%; top: 50%; width: 56vmin; height: 56vmin; margin: -28vmin 0 0 -28vmin; border-radius: 50%; z-index: 2147483647; pointer-events: none;
-  box-shadow: 0 0 0 2px var(--ow-b), 0 0 34px 8px var(--ow-a), inset 0 0 34px 8px var(--ow-a); animation: ow-ring .44s cubic-bezier(.15, .8, .25, 1) both; }
+  box-shadow: 0 0 0 1px var(--ow-b), 0 0 16px 2px var(--ow-a), inset 0 0 16px 2px var(--ow-a); animation: ow-ring .44s cubic-bezier(.15, .8, .25, 1) both; }
 :root:is([data-oly-warp="home"], [data-oly-warp-back], [data-oly-page="jarvis"]:not([data-oly-warp]), [data-oly-page="gate"]:not([data-oly-warp])):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
-  box-shadow: 0 0 0 2px var(--ow-b), 0 0 46px 12px var(--ow-a), inset 0 0 46px 12px var(--ow-a), 0 0 0 22px rgba(255, 244, 216, .08); animation-name: ow-ring-home; }
+  box-shadow: 0 0 0 1px var(--ow-b), 0 0 22px 3px var(--ow-a), inset 0 0 22px 3px var(--ow-a), 0 0 0 18px rgba(255, 244, 216, .05); animation-name: ow-ring-home; }
 :root:is([data-oly-warp="zeus"], [data-oly-page="today"]:not([data-oly-warp]), [data-oly-page="zeus"]:not([data-oly-warp])):not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
-  width: 40vmin; height: 70vmin; margin: -35vmin 0 0 -20vmin; border-radius: 0; box-shadow: none; background: linear-gradient(180deg, #fff 0, var(--ow-b) 55%, var(--ow-a) 100%);
+  width: 30vmin; height: 64vmin; margin: -32vmin 0 0 -15vmin; border-radius: 0; box-shadow: none; background: linear-gradient(180deg, #f4f8ff 0, var(--ow-b) 50%, rgba(0, 0, 0, 0) 100%);
   -webkit-clip-path: polygon(58% 0, 22% 54%, 46% 54%, 34% 100%, 80% 38%, 55% 38%, 74% 0); clip-path: polygon(58% 0, 22% 54%, 46% 54%, 34% 100%, 80% 38%, 55% 38%, 74% 0); animation-name: ow-bolt; }
 :root[data-oly-warp="money"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after { border-radius: 12%; animation-name: ow-diamond; }
 :root[data-oly-warp="kalshi"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
-  width: 76vmin; height: 76vmin; margin: -38vmin 0 0 -38vmin; box-shadow: none; background: repeating-conic-gradient(from 0deg, var(--ow-b) 0 5deg, rgba(0, 0, 0, 0) 5deg 22.5deg);
+  width: 76vmin; height: 76vmin; margin: -38vmin 0 0 -38vmin; box-shadow: none; background: repeating-conic-gradient(from 0deg, var(--ow-b) 0 1.6deg, rgba(0, 0, 0, 0) 1.6deg 22.5deg);
   -webkit-mask: radial-gradient(closest-side, rgba(0, 0, 0, 0) 52%, #000 55%, #000 95%, rgba(0, 0, 0, 0) 100%); mask: radial-gradient(closest-side, rgba(0, 0, 0, 0) 52%, #000 55%, #000 95%, rgba(0, 0, 0, 0) 100%); animation-name: ow-wheel; }
 :root[data-oly-warp="city"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
-  left: 0; top: auto; bottom: 0; width: 100vw; height: 62vh; margin: 0; border-radius: 0; box-shadow: none; background: linear-gradient(0deg, var(--ow-a) 0, var(--ow-b) 40%, rgba(0, 0, 0, 0) 100%);
+  left: 0; top: auto; bottom: 0; width: 100vw; height: 62vh; margin: 0; border-radius: 0; box-shadow: none;
+  background: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0 4px, rgba(6, 9, 16, .88) 4px 9px), repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0 4px, rgba(6, 9, 16, .88) 4px 10px),
+    linear-gradient(0deg, var(--ow-a) 0, var(--ow-b) 45%, rgba(0, 0, 0, 0) 100%);
   -webkit-clip-path: polygon(0 100%, 0 62%, 7% 62%, 7% 40%, 13% 40%, 13% 70%, 19% 70%, 19% 22%, 24% 14%, 29% 22%, 29% 58%, 36% 58%, 36% 34%, 43% 34%, 43% 76%, 49% 76%, 49% 8%, 53% 0, 57% 8%, 57% 52%, 64% 52%, 64% 28%, 71% 28%, 71% 66%, 77% 66%, 77% 18%, 84% 18%, 84% 56%, 91% 56%, 91% 36%, 100% 36%, 100% 100%);
   clip-path: polygon(0 100%, 0 62%, 7% 62%, 7% 40%, 13% 40%, 13% 70%, 19% 70%, 19% 22%, 24% 14%, 29% 22%, 29% 58%, 36% 58%, 36% 34%, 43% 34%, 43% 76%, 49% 76%, 49% 8%, 53% 0, 57% 8%, 57% 52%, 64% 52%, 64% 28%, 71% 28%, 71% 66%, 77% 66%, 77% 18%, 84% 18%, 84% 56%, 91% 56%, 91% 36%, 100% 36%, 100% 100%);
   transform-origin: 50% 100%; animation-name: ow-skyline; }
 :root[data-oly-warp="lab"]:not([data-oly-warp-back]):is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after {
-  left: 0; width: 100vw; height: 3px; margin: -1.5px 0 0 0; border-radius: 0; background: var(--ow-b); box-shadow: 0 0 22px 6px var(--ow-a); animation-name: ow-scan; }
+  left: 0; width: 100vw; height: 3px; margin: -1.5px 0 0 0; border-radius: 0; background: var(--ow-b); box-shadow: 0 0 12px 2px var(--ow-a); animation-name: ow-scan; }
 :root[data-oly-warp-hop]:is(.oly-warp-vt, :active-view-transition-type(oly-warp), .oly-warp-in)::after { content: none; }
 :root[data-oly-warp-hop]:is(.oly-warp-vt, :active-view-transition-type(oly-warp))::before { animation-duration: .26s; opacity: .5; }
 
-@keyframes ow-old { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(1.6); } }
+@keyframes ow-old { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(1.35); } }
 @keyframes ow-old-home { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(.3); } }
-@keyframes ow-in { 0% { opacity: 0; transform: scale(.05); } 22% { opacity: 1; } 100% { opacity: 1; transform: none; } }
-@keyframes ow-home { 0% { opacity: 0; transform: scale(1.32); } 40% { opacity: 1; } 100% { opacity: 1; transform: none; } }
-@keyframes ow-zeus { 0% { opacity: 0; transform: scale(.04); } 20% { opacity: 1; } 62% { transform: scale(1.045); } 70% { transform: translate(-7px, 3px) scale(1.025); }
-  77% { transform: translate(6px, -3px) scale(1.012); } 85% { transform: translate(-3px, 1px); } 100% { opacity: 1; transform: none; } }
-@keyframes ow-money { 0% { opacity: 0; transform: perspective(900px) rotateY(-84deg) scale(.32); } 30% { opacity: 1; } 68% { transform: perspective(900px) rotateY(9deg) scale(1.02); } 100% { opacity: 1; transform: none; } }
-@keyframes ow-kalshi { 0% { opacity: 0; transform: rotate(-110deg) scale(.07); } 24% { opacity: 1; } 72% { transform: rotate(5deg) scale(1.02); } 100% { opacity: 1; transform: none; } }
-@keyframes ow-city { 0% { opacity: 0; transform: translateY(24%) scale(.5, .04); } 26% { opacity: 1; } 66% { transform: translateY(-1%) scale(1, 1.03); } 100% { opacity: 1; transform: none; } }
-@keyframes ow-lab { 0% { opacity: 0; transform: scale(.2, .004); } 16% { opacity: 1; transform: scale(.7, .004); } 34% { transform: scale(1, .006); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-in { 0% { opacity: 0; transform: scale(.72); } 30% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes ow-home { 0% { opacity: 0; transform: scale(1.18); } 40% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes ow-zeus { 0% { opacity: 0; transform: scale(.7); } 24% { opacity: 1; } 62% { transform: scale(1.025); } 70% { transform: translate(-4px, 2px) scale(1.014); }
+  78% { transform: translate(3px, -2px) scale(1.006); } 86% { transform: translate(-1px, 1px); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-money { 0% { opacity: 0; transform: perspective(900px) rotateY(-50deg) scale(.7); } 30% { opacity: 1; } 70% { transform: perspective(900px) rotateY(4deg) scale(1.01); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-kalshi { 0% { opacity: 0; transform: rotate(-24deg) scale(.7); } 26% { opacity: 1; } 72% { transform: rotate(1.5deg) scale(1.01); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-city { 0% { opacity: 0; transform: translateY(14%) scale(.8); } 28% { opacity: 1; } 68% { transform: translateY(-.6%) scale(1.01); } 100% { opacity: 1; transform: none; } }
+@keyframes ow-lab { 0% { opacity: 0; transform: scale(.4, .01); } 16% { opacity: 1; transform: scale(.85, .01); } 34% { transform: scale(1, .03); } 100% { opacity: 1; transform: none; } }
 @keyframes ow-hop { from { opacity: 0; transform: scale(.965); } to { opacity: 1; transform: none; } }
-@keyframes ow-glow { from { opacity: .7; transform: scale(.55); } to { opacity: 0; transform: scale(1.35); } }
+@keyframes ow-glow { from { opacity: .6; transform: scale(.55); } to { opacity: 0; transform: scale(1.35); } }
 @keyframes ow-flash-out { 0% { opacity: .7; transform: scale(1); } 100% { opacity: 0; transform: scale(1.4); } }
-@keyframes ow-ring { 0% { opacity: 0; transform: scale(.12); } 18% { opacity: 1; } 100% { opacity: 0; transform: scale(3.4); } }
-@keyframes ow-ring-home { 0% { opacity: 0; transform: scale(3.2); } 30% { opacity: 1; } 100% { opacity: 0; transform: scale(.5); } }
-@keyframes ow-bolt { 0% { opacity: 0; transform: scale(.4); } 10% { opacity: 1; } 22% { opacity: .25; } 32% { opacity: 1; } 44% { opacity: .35; } 54% { opacity: .95; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.9); } }
-@keyframes ow-diamond { 0% { opacity: 0; transform: rotate(45deg) scale(.1); } 18% { opacity: 1; } 100% { opacity: 0; transform: rotate(225deg) scale(3.2); } }
-@keyframes ow-wheel { 0% { opacity: 0; transform: rotate(0) scale(.2); } 18% { opacity: .9; } 100% { opacity: 0; transform: rotate(160deg) scale(2.6); } }
-@keyframes ow-skyline { 0% { opacity: 0; transform: scaleY(.1); } 22% { opacity: .9; } 60% { opacity: .7; transform: scaleY(1); } 100% { opacity: 0; transform: translateY(-30%) scaleY(1.3); } }
+@keyframes ow-ring { 0% { opacity: 0; transform: scale(.12); } 18% { opacity: .7; } 100% { opacity: 0; transform: scale(3.4); } }
+@keyframes ow-ring-home { 0% { opacity: 0; transform: scale(3.2); } 30% { opacity: .75; } 100% { opacity: 0; transform: scale(.5); } }
+@keyframes ow-bolt { 0% { opacity: 0; transform: scale(.5); } 10% { opacity: .55; } 22% { opacity: .12; } 32% { opacity: .5; } 44% { opacity: .15; } 54% { opacity: .4; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.7); } }
+@keyframes ow-diamond { 0% { opacity: 0; transform: rotate(45deg) scale(.1); } 18% { opacity: .75; } 100% { opacity: 0; transform: rotate(225deg) scale(3.2); } }
+@keyframes ow-wheel { 0% { opacity: 0; transform: rotate(0) scale(.2); } 18% { opacity: .6; } 100% { opacity: 0; transform: rotate(160deg) scale(2.6); } }
+@keyframes ow-skyline { 0% { opacity: 0; transform: scaleY(.1); } 22% { opacity: .85; } 60% { opacity: .65; transform: scaleY(1); } 100% { opacity: 0; transform: translateY(-18%) scale(1.15, 1.2); } }
 @keyframes ow-scan { 0% { opacity: 0; transform: scaleX(0); } 14% { opacity: 1; } 32% { transform: scaleX(1) scaleY(1); } 100% { opacity: 0; transform: scaleX(1) scaleY(90); } }
 @keyframes ow-fade-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes ow-fade-in { from { opacity: 0; } to { opacity: 1; } }

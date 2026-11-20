@@ -2,8 +2,8 @@
 // in tube lettering in the district's colour, a frame, a few flickering letters; the Harbor and the Strategies too. ONE texture atlas
 // (a canvas, one row per district), ONE instanced draw for all boards, ONE instanced draw for the poles. Text goes in as canvas text, never HTML.
 import * as THREE from '../jarvis/three.module.min.js';
-import { FOG } from './shaders.js';
-import { pick } from './skyline.js';
+import { FOG } from './shaders.js?v=dcgfx12';
+import { pick } from './skyline.js?v=dcgfx15';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
 
 const ROW_W = 640, ROW_H = 100;

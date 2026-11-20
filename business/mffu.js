@@ -149,6 +149,18 @@
       if (p.t) w.appendChild(el('p', 'note', 'Payout tracker ' + asof(p.t, now)));
       box.appendChild(w);
     }
+    // the first payout's date range (payday plan, ../nqdeep.js; night-nqdash2 2026-11-20): an ESTIMATE, said as one
+    const K = window.NQ_DEEP, PD = window.MFFU_PAGE && window.MFFU_PAGE.payday;
+    if (K && PD && !/failed|lost/.test(a.stage || '')) {
+      const P = K.core.payout(a.name, PD, 'H2', todayET(now));
+      if (P) {
+        const ps = section(box, 'First payout · ESTIMATE · most likely ' + (P.med ? K.core.shortDay(P.med) : 'not in the plan'), false, 'payday-sec');
+        const w = el('div', 'nqd-box'); K.draw.payout(w, P);
+        const other = ['H1', 'REF'].map((m) => { const o = K.core.payout(a.name, PD, m, todayET(now)); return o && o.med ? (o.market + ': ' + K.core.shortDay(o.med)) : ''; }).filter(Boolean);
+        if (other.length) w.appendChild(el('p', 'nqd-note', 'In other markets: ' + other.join(' · ') + '.'));
+        ps.appendChild(w);
+      }
+    }
     // max loss detail
     const dl = el('dl', 'kv2');
     if (m.floor != null) {
@@ -238,7 +250,8 @@
   }
 
   async function load() {
-    const [plan, board, home] = await Promise.all([getJSON('accounts.json'), getJSON('../board/board.json'), getJSON('../home.json')]);
+    const [plan, board, home, payday] = await Promise.all([getJSON('accounts.json'), getJSON('../board/board.json'), getJSON('../home.json'), getJSON('payday.json')]);
+    window.MFFU_PAGE.payday = payday;
     let lite = null;
     try { if (window.PC_FEED) lite = await window.PC_FEED.fetchLatest({ feedUrl: '../status_feed.json' }); } catch (e) { /* none */ }   // the site root's feed (no 404 for business/status_feed.json)
     try { if (window.EDGE_CHIP) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
@@ -264,7 +277,7 @@
     window.MFFU_PAGE.ready = true;
   }
 
-  window.MFFU_PAGE = { load, last: null, ready: false };
+  window.MFFU_PAGE = { load, last: null, ready: false, payday: null };
   document.addEventListener('DOMContentLoaded', () => {
     $('refresh').addEventListener('click', load);
     load();

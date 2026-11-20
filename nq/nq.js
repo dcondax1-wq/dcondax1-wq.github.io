@@ -123,9 +123,22 @@ function renderBots() {
     kv.appendChild(h('dt', '', b.funded ? 'Payout progress' : 'Eval progress')); kv.appendChild(h('dd', 'soft', b.progLine));   // a funded account has no eval to pass: its payout line (phone QA 2026-11-19)
     a.appendChild(kv);
     a.appendChild(bar(b.progress, 'gold', `${Math.round(b.progress * 100)} percent of the way to ${b.funded ? 'a payout' : 'the target'}`));
-    if (b.waiting && b.status.flame) a.appendChild(h('p', 'note', b.waiting));
+    // what it is waiting for (night-nqdash2): always shown, with whose word it is and how old; a silent PC's line is called old
+    if (b.waiting) { const w = h('p', 'note wait'); w.appendChild(h('b', '', b.status.flame ? (b.paper ? 'Waiting for (PAPER): ' : 'Waiting for (LIVE): ') : `Last said (${b.status.ageText || 'old'}): `)); w.appendChild(document.createTextNode(b.waiting)); a.appendChild(w); }
+    const K = window.NQ_DEEP, fl = K && S.learned ? K.core.fillLine(S.learned, b.bot || b.key) : null;
+    if (fl && fl.line) a.appendChild(h('p', 'note fills', `${fl.line} (LIVE fills, ZEUS nightly)`));
     box.appendChild(a);
   }
+}
+
+// ------------------------------------------------------------------------------------------------ the news week (../nqdeep.js, ./news_week.json)
+function renderNews() {
+  const K = window.NQ_DEEP, box = $('newsWeek'); if (!K || !box) return;
+  const nowS = Math.floor(Date.now() / 1000), et = C.etParts ? C.etParts(nowS) : null;
+  const day = et && et.day ? et.day : new Date().toISOString().slice(0, 10), hm = et && et.hm ? et.hm : '';
+  const N = K.core.weekNews(S.news, day, hm);
+  K.draw.news(box, N);
+  $('newsSrc').textContent = S.news && S.news.built ? `The bot's calendar, copied ${K.core.shortDay(S.news.built)}` : 'No calendar in this build';
 }
 
 // ------------------------------------------------------------------------------------------------ plan, trades, facts
@@ -185,7 +198,7 @@ function render() {
   model();
   const v = S.view;
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
-  renderBanner(); renderScene(); renderPlan(); renderBots(); renderTrades(); renderFacts();
+  renderBanner(); renderScene(); renderPlan(); renderBots(); renderNews(); renderTrades(); renderFacts();
   say(`${v.headline}${v.tight ? ` ${v.tight.name}: ${v.tight.ddLine}.` : ''}${S.demo ? ' Example numbers.' : ''}`);
   { const el = $('src'); if (el) el.textContent = srcLine(); }
   S.ready = true;
@@ -218,8 +231,8 @@ async function boot() {
   for (const b of document.querySelectorAll('[data-howto]')) b.addEventListener('click', () => openSheet(b));
   $('sheetClose').addEventListener('click', closeSheet); $('veil').addEventListener('click', closeSheet);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); else if (e.key === 'Tab' && S.sheet) { e.preventDefault(); try { $('sheetClose').focus(); } catch (_) { /* nothing */ } } });   // the sheet has one control: focus stays on it
-  const [fx, home, howto] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), getJSON('./howto.json')]);
-  S.fixture = fx; S.howto = howto;
+  const [fx, home, howto, news, learned] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), getJSON('./howto.json'), getJSON('./news_week.json'), S.forced ? null : getJSON('../hub/learned.json')]);
+  S.fixture = fx; S.howto = howto; S.news = news; S.learned = learned;
   // the PC's 15-minute status (no GitHub) first, up to 3.5 s, so the first numbers on screen are the real ones; when it is later than
   // that the cloud's copy shows (its source line says so) and the post is laid over it when it arrives, however long ntfy takes
   const post = home ? withPost(home) : Promise.resolve(home);

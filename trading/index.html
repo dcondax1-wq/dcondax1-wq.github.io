@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Trading</title>
-<meta name="description" content="OLYMPUS Trading: every trade in one place. Today per account ($ today, open trade, drawdown left, $ to pass, the 16:10 ET flat time), a calendar of daily $, the last 30 trades, 2026 H1 vs H2 stats, the payout rules check, time-of-day and weekday edges, live vs backtest twin, the equity curve, and why an order gets rejected.">
+<meta name="description" content="OLYMPUS Trading: every trade in one place. Today per account ($ today, open trade, drawdown left, $ to pass, the 16:10 ET flat time), a calendar of daily $, the last 30 trades, 2026 H1 vs H2 stats, the payout rules check, time-of-day and weekday edges, live vs backtest twin, the equity curve, a deep dive (drawdown, live vs twin in R, R and $ spread, win rate by hour and weekday, streaks, best and worst trades, a trade timeline), and why an order gets rejected.">
 <meta name="theme-color" content="#14110e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -20,10 +20,10 @@
      The hidden bot (owner 2026-11-15) is never shown. Text only through textContent / createElementNS. tradingcore.js = the pure rules (node-tested); trading.js = the page. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a6">
+<link rel="stylesheet" href="../olympus/agora.css?v=a7">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a2">
-<script src="../olympus/themes.js?v=o8"></script>
-<script src="../olympus/olympus.js?v=o14" data-app="trading"></script>
+<script src="../olympus/themes.js?v=o9"></script>
+<script src="../olympus/olympus.js?v=o15" data-app="trading"></script>
 <script src="../olympus/intro-app.js?v=i9" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/agora-ui.js?v=4" defer></script>
@@ -31,6 +31,7 @@
 <link rel="prefetch" href="../olympus/sfx.js?v=s4" as="script"><!-- the sound engine (32 KB gzipped) is not in the deferred chain the page waits on: olympus.js loads it after the page has loaded (its sound bed) or on the first cue -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="trading.css?v=3">
+<link rel="stylesheet" href="../nqdeep.css?v=1">
 </head>
 <body>
 <main id="app">
@@ -118,6 +119,21 @@
     <div class="eqleg" id="eqLeg"></div>
   </section>
 
+  <section class="ag-card card" id="deepCard" aria-labelledby="deepH">
+    <div class="row"><h2 id="deepH">9. Deep dive</h2><span class="pill" id="deepSrc"></span></div>
+    <p class="note">The same choice as the filters above (bot, data, account). Every box says where its numbers come from and how old the newest trade is.</p>
+    <div class="nqd" id="deep">
+      <div class="nqd-box" id="dUnder"></div>
+      <div class="nqd-box" id="dTwin"></div>
+      <div class="nqd-box" id="dDistR"></div>
+      <div class="nqd-box" id="dDistUsd"></div>
+      <div class="nqd-box" id="dHeat"></div>
+      <div class="nqd-box" id="dStreak"></div>
+      <div class="nqd-box" id="dExt"></div>
+      <div class="nqd-box" id="dTime"></div>
+    </div>
+  </section>
+
   <section class="ag-card card help" id="helpCard" aria-labelledby="helpH">
     <h2 id="helpH">Why was my order rejected?</h2>
     <p class="lead">"Max order quantity, Limit 0, Scope MNQ" on MFFU / Tradovate means: this account may hold 0 contracts right now. It is not a bug in the bot. Usually one of three things:</p>
@@ -138,6 +154,7 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../edge_chip.js?v=2"></script>
-<script type="module" src="trading.js?v=4"></script>
+<script src="../nqdeep.js?v=1" defer></script>
+<script type="module" src="trading.js?v=5"></script>
 </body>
 </html>

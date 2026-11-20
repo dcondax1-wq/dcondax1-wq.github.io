@@ -4,24 +4,50 @@
 // pooled pulses: thousands of buildings in about a dozen calls. Everything that moves is computed on the GPU from uTime.
 import * as THREE from '../../jarvis/three.module.min.js';
 import { createRenderer } from '../../olympus/render.js';
-import * as SH from './ow-shaders.js?v=w1';
-import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng } from './ow-core.js?v=w1';
+import * as SH from './ow-shaders.js?v=w3';
+import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w3';
 
 const MOON = new THREE.Vector3(0.28, 0.2, -1).normalize();
 
-function boxNoFloor() {
-  // a unit box standing on y = 0 (x, z in -0.5..0.5), its 5 visible faces (no floor): 20 vertices, 10 triangles
-  const P = [], N = [], I = [];
-  const face = (n, a, b, c, d) => { const o = P.length / 3; P.push(...a, ...b, ...c, ...d); for (let k = 0; k < 4; k++) N.push(...n); I.push(o, o + 1, o + 2, o, o + 2, o + 3); };
-  const x0 = -0.5, x1 = 0.5, z0 = -0.5, z1 = 0.5;
-  face([1, 0, 0], [x1, 0, z1], [x1, 0, z0], [x1, 1, z0], [x1, 1, z1]);
-  face([-1, 0, 0], [x0, 0, z0], [x0, 0, z1], [x0, 1, z1], [x0, 1, z0]);
-  face([0, 0, 1], [x0, 0, z1], [x1, 0, z1], [x1, 1, z1], [x0, 1, z1]);
-  face([0, 0, -1], [x1, 0, z0], [x0, 0, z0], [x0, 1, z0], [x1, 1, z0]);
-  face([0, 1, 0], [x0, 1, z1], [x1, 1, z1], [x1, 1, z0], [x0, 1, z0]);
+
+
+function prism(box) {
+  // revamp-cities (2026-11-20): one prism for every building piece. 8 walls round a square whose corners are cut by the instance's
+  // chamfer (0 = a box: the 4 corner walls have no width and are skipped in the shader; 0.3 = an octagon) + a roof fan; the taper
+  // narrows the top (1 = a pyramid). aCorner = (sx, sz, which side of the cut: 0 the x wall, 1 the z wall, 2 the roof's centre),
+  // aFace = (wall kind: 0 x, 1 z, 2 corner, 3 roof; the share along the wall). 48 vertices, 32 triangles.
+  const ring = [[1, -1, 0], [1, 1, 0], [1, 1, 1], [-1, 1, 1], [-1, 1, 0], [-1, -1, 0], [-1, -1, 1], [1, -1, 1]];
+  const kinds = [0, 2, 1, 2, 0, 2, 1, 2];                                   // the wall from ring[k] to ring[k+1]
+  const at = (v, c) => (v[2] === 0 ? [v[0] * 0.5, v[1] * (0.5 - c)] : v[2] === 1 ? [v[0] * (0.5 - c), v[1] * 0.5] : [0, 0]);
+  const P = [], A = [], F = [], I = [];
+  const vert = (v, y, kind, along) => { P.push(0, y, 0); A.push(v[0], v[1], v[2]); F.push(kind, along); return P.length / 3 - 1; };
+  const tri = (a, b, c, va, vb, vc, ya, yb, yc, out) => {
+    // wind each triangle so its normal points out (checked on a sample chamfer of 0.2)
+    const p = (v, y) => { const q = at(v, 0.2); return [q[0], y, q[1]]; };
+    const pa = p(va, ya), pb = p(vb, yb), pc = p(vc, yc);
+    const u = [pb[0] - pa[0], pb[1] - pa[1], pb[2] - pa[2]], w = [pc[0] - pa[0], pc[1] - pa[1], pc[2] - pa[2]];
+    const n = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]];
+    if (n[0] * out[0] + n[1] * out[1] + n[2] * out[2] >= 0) I.push(a, b, c); else I.push(a, c, b);
+  };
+  for (let k = 0; k < 8; k++) {
+    if (box && kinds[k] === 2) continue;                                    // a plain box: no corner walls (20 vertices, 10 triangles)
+    const va = ring[k], vb = ring[(k + 1) % 8], kind = kinds[k];
+    const a0 = vert(va, 0, kind, 0), b0 = vert(vb, 0, kind, 1), b1 = vert(vb, 1, kind, 1), a1 = vert(va, 1, kind, 0);
+    const qa = at(va, 0.2), qb = at(vb, 0.2), mid = [(qa[0] + qb[0]) / 2, 0, (qa[1] + qb[1]) / 2];
+    tri(a0, b0, b1, va, vb, vb, 0, 0, 1, mid); tri(a0, b1, a1, va, vb, va, 0, 1, 1, mid);
+  }
+  if (box) {
+    const rv = [0, 2, 4, 6].map((k) => vert(ring[k], 1, 3, 0)), rk = [0, 2, 4, 6].map((k) => ring[k]);
+    tri(rv[0], rv[1], rv[2], rk[0], rk[1], rk[2], 1, 1, 1, [0, 1, 0]); tri(rv[0], rv[2], rv[3], rk[0], rk[2], rk[3], 1, 1, 1, [0, 1, 0]);
+  } else {
+    const c0 = vert([0, 0, 2], 1, 3, 0);
+    const rv = ring.map((v) => vert(v, 1, 3, 0));
+    for (let k = 0; k < 8; k++) tri(c0, rv[k], rv[(k + 1) % 8], [0, 0, 2], ring[k], ring[(k + 1) % 8], 1, 1, 1, [0, 1, 0]);
+  }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
-  g.setAttribute('normal', new THREE.Float32BufferAttribute(N, 3));
+  g.setAttribute('aCorner', new THREE.Float32BufferAttribute(A, 3));
+  g.setAttribute('aFace', new THREE.Float32BufferAttribute(F, 2));
   g.setIndex(I);
   return g;
 }
@@ -46,9 +72,12 @@ export function createWorld(opts) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(55, 1, 0.5, 6000);
   const rc = createRenderer({ canvas, scene, camera, env: 'none', bloomMax: 0.8, maxDpr: 2, quality: opts.quality || undefined,
-    bloom: { strength: 0.62, radius: 0.62, threshold: 0.8 }, grade: { vignette: 0.34, grain: 0.018, saturation: 1.1, aberration: 0.0008 } });
+    bloom: { strength: 0.5, radius: 0.55, threshold: 0.95 }, grade: { vignette: 0.3, grain: 0.014, saturation: 1.06, aberration: 0.0005 } });
   // ---- shared uniforms
-  const U = { uTime: { value: 0 }, uMoonDir: { value: MOON }, uFogDensity: { value: 0.0016 }, uDay: { value: 1e4 }, uWarp: { value: 0 } };
+  const U = { uTime: { value: 0 }, uMoonDir: { value: MOON }, uFogDensity: { value: 0.0016 }, uDay: { value: 1e4 }, uWarp: { value: 0 }, uDusk: { value: 0 } };
+  // the sky follows the market clock (revamp-cities): the NQ cash session = golden hour, the hours round it = blue hour, else night
+  let dusk = skyFor(opts.sky), duskTo = dusk;
+  U.uDusk.value = dusk;
   const TW = 64, TH = Math.max(1, Math.ceil(plan.slots / TW));
   const tex = new Uint8Array(TW * TH * 4);
   const placeTex = new THREE.DataTexture(tex, TW, TH, THREE.RGBAFormat);
@@ -67,13 +96,23 @@ export function createWorld(opts) {
     placeTex.needsUpdate = true; texDirty = false;
   }
   // ---- buildings and their reflection in the wet streets / the sea
-  const box = boxNoFloor();
-  const bGeo = instanced(box, [['iPos', plan.pos, 3], ['iSize', plan.size, 3], ['iInfo', plan.info, 4], ['iTint', plan.tint, 3], ['iMisc', plan.misc, 4]], plan.n);
-  const bU = { ...U, ...PU, uMoonCol: { value: new THREE.Color(0.10, 0.13, 0.24) }, uStreet: { value: new THREE.Color(0.55, 0.32, 0.17) } };
+  // two batches (revamp-cities perf): plain boxes (10 triangles) and shaped pieces (octagons, tapers, caps: 32), each one draw + its mirror
+  const shp = plan.shape || new Float32Array(plan.n * 2);
+  const split = [[], []];
+  for (let k = 0; k < plan.n; k++) split[shp[k * 2] > 0.004 || shp[k * 2 + 1] > 0.004 ? 1 : 0].push(k);
+  const pick = (arr, size, ids) => { const o = new Float32Array(ids.length * size); ids.forEach((k, j) => { for (let c = 0; c < size; c++) o[j * size + c] = arr[k * size + c]; }); return o; };
+  const bGeos = split.map((ids, kind) => instanced(prism(kind === 0), [['iPos', pick(plan.pos, 3, ids), 3], ['iSize', pick(plan.size, 3, ids), 3], ['iInfo', pick(plan.info, 4, ids), 4],
+    ['iTint', pick(plan.tint, 3, ids), 3], ['iMisc', pick(plan.misc, 4, ids), 4], ['iShape', pick(shp, 2, ids), 2]], ids.length));
+  const STREET = new THREE.Color(0.95, 0.5, 0.2);                            // sodium
+  const bU = { ...U, ...PU, uStreet: { value: STREET } };
   const bMat = new THREE.ShaderMaterial({ vertexShader: SH.BUILD_VS, fragmentShader: SH.BUILD_FS, uniforms: bU, extensions: { derivatives: true } });
   const mMat = new THREE.ShaderMaterial({ vertexShader: SH.BUILD_VS, fragmentShader: SH.BUILD_FS, uniforms: bU, defines: { MIRROR: 1 }, side: THREE.BackSide, extensions: { derivatives: true } });
-  const buildings = new THREE.Mesh(bGeo, bMat); buildings.frustumCulled = false;
-  const mirror = new THREE.Mesh(bGeo, mMat); mirror.frustumCulled = false; mirror.renderOrder = -2;
+  const buildings = new THREE.Group(), mirror = new THREE.Group();
+  for (const g of bGeos) {
+    const b = new THREE.Mesh(g, bMat), m = new THREE.Mesh(g, mMat);
+    b.frustumCulled = m.frustumCulled = false; m.renderOrder = -2;
+    buildings.add(b); mirror.add(m);
+  }
   scene.add(mirror, buildings);
   // ---- the ground: one plane, streets and glow drawn by its shader from a small light map of the city
   const E = R + 60, S = opts.tier === 'low' ? 512 : 1024;
@@ -86,8 +125,9 @@ export function createWorld(opts) {
   const border = (world.districts || []).map((d, k, all) => { const a = hex(d.hue), b = hex(all[(k + all.length - 1) % all.length].hue); return new THREE.Vector3((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2); });
   while (border.length < 4) border.push(new THREE.Vector3());
   const arcs = (world.districts || []).map((d) => d.a0); while (arcs.length < 4) arcs.push(99);
+  const townVecs = Array.from({ length: 18 }, (_, k) => { const t = (plan.towns || [])[k]; return t ? new THREE.Vector4(t[0], t[1], t[2], 1) : new THREE.Vector4(0, 0, 0, 0); });
   const gMat = new THREE.ShaderMaterial({ vertexShader: SH.GROUND_VS, fragmentShader: SH.GROUND_FS, transparent: true, extensions: { derivatives: true },
-    uniforms: { ...U, uGlow: { value: glowTex }, uLand: { value: landTex }, uGlowRect: { value: new THREE.Vector4(-E, -E, 2 * E, 2 * E) }, uCell: { value: C }, uPlaza: { value: PL }, uR: { value: R },
+    uniforms: { ...U, uStreet: { value: STREET }, uTowns: { value: townVecs }, uGlow: { value: glowTex }, uLand: { value: landTex }, uGlowRect: { value: new THREE.Vector4(-E, -E, 2 * E, 2 * E) }, uCell: { value: C }, uPlaza: { value: PL }, uR: { value: R },
       uArcs: { value: new THREE.Vector4(...arcs.slice(0, 4)) }, uBorder: { value: border.slice(0, 4) } } });
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(5200, 5200).rotateX(-Math.PI / 2), gMat);
   ground.renderOrder = 1; ground.frustumCulled = false;
@@ -97,6 +137,11 @@ export function createWorld(opts) {
   const sky = new THREE.Mesh(new THREE.SphereGeometry(2400, 32, 16), new THREE.ShaderMaterial({ vertexShader: SH.SKY_VS, fragmentShader: SH.SKY_FS, uniforms: skyU, side: THREE.BackSide, depthWrite: false }));
   sky.renderOrder = -10; sky.frustumCulled = false;
   scene.add(sky);
+  // ---- the far shore: other towns and hills on the horizon, one draw
+  const far = new THREE.Mesh(new THREE.CylinderGeometry(1500, 1500, 70, 256, 1, true).translate(0, 35, 0),
+    new THREE.ShaderMaterial({ vertexShader: SH.FAR_VS, fragmentShader: SH.FAR_FS, uniforms: { ...U }, side: THREE.BackSide, depthWrite: false }));
+  far.renderOrder = -9; far.frustumCulled = false;
+  scene.add(far);
   // ---- halos: each place's light in the haze
   const hn = plan.halos.length, hA = new Float32Array(hn * 4), hC = new Float32Array(hn * 4), hP = new Float32Array(hn);
   plan.halos.forEach((h, k) => { hA.set([h[0], h[1], h[2], h[3]], k * 4); hC.set([h[4], h[5], h[6], h[7]], k * 4); hP[k] = h[8]; });
@@ -143,6 +188,50 @@ export function createWorld(opts) {
   const rings = new THREE.Mesh(ringGeo, new THREE.ShaderMaterial({ vertexShader: SH.RING_VS, fragmentShader: SH.RING_FS, uniforms: { ...U, ...PU }, side: THREE.DoubleSide, ...additive }));
   rings.renderOrder = 3; rings.frustumCulled = false;
   scene.add(rings);
+  // ---- LED displays: ticker bands round the tallest towers (the Gate, ZEUS, the Kalshi bot, Business); text = setDisplay(row, line)
+  const ROWS = 4, TXW = 2048, TXH = 128;
+  const txt = document.createElement('canvas'); txt.width = TXW; txt.height = TXH * ROWS;
+  const tg = txt.getContext('2d');
+  tg.fillStyle = '#000'; tg.fillRect(0, 0, TXW, TXH * ROWS);
+  const txtTex = new THREE.CanvasTexture(txt); txtTex.flipY = false; txtTex.minFilter = txtTex.magFilter = THREE.NearestFilter; txtTex.generateMipmaps = false;
+  const bandSpec = [];
+  const byHref = (h) => plan.places.findIndex((p) => p.href === h);
+  const gold = [1.0, 0.72, 0.32];
+  bandSpec.push({ x: 0, y: 29.0, z: 0, r: 3.8, h: 2.0, row: 0, col: gold, place: N });   // clear of the corners (a 5.2 square: 3.68)
+  for (const [href, row] of [['hub/zeus.html', 1], ['kalshi/', 2], ['business/', 3]]) {
+    const i = byHref(href);
+    if (i < 0) continue;
+    const p = plan.places[i], fw = 2.7 + 1.5 * clamp(((p.raw.b || [])[0] || 120) / 255, 0, 1);
+    bandSpec.push({ x: p.x, y: p.top * 0.42, z: p.z, r: fw * 0.74, h: Math.max(1.2, p.top * 0.06), row, col: p.hue.map((v) => Math.min(1, v * 1.25 + 0.1)), place: i });
+  }
+  const dn = bandSpec.length, dA = new Float32Array(dn * 4), dB = new Float32Array(dn * 4), dC = new Float32Array(dn * 3), dP = new Float32Array(dn);
+  bandSpec.forEach((b, k) => {
+    const circ = 2 * Math.PI * b.r, rep = Math.max(1, Math.round(circ / (b.h * 16)));
+    dA.set([b.x, b.y, b.z, b.r], k * 4); dB.set([b.h, b.row, rep, reduced ? 0 : 0.035 / rep], k * 4);            // reduced motion: the text stands still dC.set(b.col, k * 3); dP[k] = b.place;
+  });
+  const bandGeo = new THREE.CylinderGeometry(1, 1, 1, 32, 1, true).translate(0, 0.5, 0);
+  const bands = new THREE.Mesh(instanced(bandGeo, [['aBand', dA, 4], ['aBand2', dB, 4], ['aCol', dC, 3], ['aPlace', dP, 1]], dn),
+    new THREE.ShaderMaterial({ vertexShader: SH.BAND_VS, fragmentShader: SH.BAND_FS, uniforms: { ...U, ...PU, uText: { value: txtTex }, uRows: { value: ROWS } }, side: THREE.DoubleSide, extensions: { derivatives: true } }));
+  bands.frustumCulled = false; bands.renderOrder = 2;
+  scene.add(bands);
+  const shown = new Array(ROWS).fill('');
+  function setDisplay(row, text) {
+    const r = Math.max(0, Math.min(ROWS - 1, row | 0));
+    let t = String(text || '').replace(/\s+/g, ' ').trim().toUpperCase();
+    if (t.length > 48) t = t.slice(0, 48).replace(/\s+\S*$/, '') + ' \u2026';                // one row holds about 48 letters
+    if (!t || shown[r] === t) return false;
+    shown[r] = t;
+    tg.fillStyle = '#000'; tg.fillRect(0, r * TXH, TXW, TXH);
+    tg.font = '700 72px -apple-system, "SF Pro Display", system-ui, "Helvetica Neue", Arial, sans-serif';
+    tg.textBaseline = 'middle'; tg.fillStyle = '#fff';
+    const unit = t + '   \u2022   ', w = Math.max(1, tg.measureText(unit).width), n = Math.max(1, Math.round(TXW / w));
+    tg.save(); tg.setTransform(TXW / (n * w), 0, 0, 1, 0, 0);                   // a whole number of repeats, stretched a little: a seamless loop
+    for (let k = 0; k < n; k++) tg.fillText(unit, k * w, r * TXH + TXH * 0.54);
+    tg.restore();
+    txtTex.needsUpdate = true;
+    return true;
+  }
+  setDisplay(0, 'OLYMPUS   ' + N + ' PLACES LEARNING');
   // ---- pooled pulses: a shock wave on the ground and a pillar of light
   const pool = [];
   for (let k = 0; k < 4; k++) {
@@ -153,6 +242,16 @@ export function createWorld(opts) {
     scene.add(shock, pillar);
     pool.push({ shock, pillar, su, pu, t: 1, dur: 1, r: 10, h: 60 });
   }
+  // ---- aircraft: a few nav-light pairs and strobes crossing the sky on slow orbits (revamp-cities)
+  const pn = opts.tier === 'low' ? 3 : 6, pA = new Float32Array(pn * 3 * 4), pK = new Float32Array(pn * 3), pr = rng(77);
+  for (let k = 0; k < pn; k++) {
+    const pl = [R + 120 + pr() * 700, 90 + pr() * 170, (pr() < 0.5 ? -1 : 1) * (0.012 + pr() * 0.02), pr() * 6.28];
+    for (let j = 0; j < 3; j++) { pA.set(pl, (k * 3 + j) * 4); pK[k * 3 + j] = j; }
+  }
+  const planes = new THREE.Mesh(instanced(new THREE.PlaneGeometry(1, 1), [['aPlane', pA, 4], ['aKind', pK, 1]], pn * 3),
+    new THREE.ShaderMaterial({ vertexShader: SH.PLANE_VS, fragmentShader: SH.PLANE_FS, uniforms: { ...U }, ...additive }));
+  planes.renderOrder = 6; planes.frustumCulled = false; planes.visible = !reduced;
+  scene.add(planes);
   // ---- warp streaks (view space)
   const wn = opts.tier === 'low' ? 220 : 480, wS = new Float32Array(wn * 4), wC = new Float32Array(wn * 3), wr = rng(5);
   for (let k = 0; k < wn; k++) {
@@ -335,7 +434,7 @@ export function createWorld(opts) {
   // ------------------------------------------------------------------------------------------------ the loop
   const INTRO = 3.6;
   const startPose = { ...pose };
-  let frames = 0, fps = 0, tPrevFrame = 0, bloomNow = 0.62;
+  let frames = 0, fps = 0, tPrevFrame = 0, bloomNow = 0.5, skyAt = 0;
   const works = new Float32Array(60);
   const dists = plan.places.map((p) => Math.hypot(p.x, p.z) / R);
   function frame(dt, t) {
@@ -375,8 +474,10 @@ export function createWorld(opts) {
     stepFx(dt);
     focus += (focusTo - focus) * (1 - Math.exp(-Math.min(dt, 0.1) * 7));
     U.uWarp.value = warp;
+    if (t0 - skyAt > 30000) { skyAt = t0; duskTo = skyFor(opts.sky); }        // the market clock, checked every 30 s
+    if (Math.abs(duskTo - dusk) > 1e-4) { dusk += (duskTo - dusk) * (1 - Math.exp(-Math.min(dt, 0.1) * 0.8)); U.uDusk.value = dusk; }
     warpMesh.visible = warp > 0.01;
-    const bs = 0.62 + warp * 0.18;
+    const bs = 0.5 + warp * 0.18;
     if (Math.abs(bs - bloomNow) > 0.004) { bloomNow = bs; rc.setBloom({ strength: bs }); }
     applyCam();
     if (opts.onFrame) opts.onFrame(dt, t);
@@ -445,7 +546,7 @@ export function createWorld(opts) {
 
   const api = {
     THREE, rc, scene, camera, plan,
-    flyTo, burst, select, setTrading, setLight, project, candidates, startHistory, stopHistory, startTour, stopTour, groundAt,
+    flyTo, burst, select, setTrading, setLight, setDisplay, project, candidates, startHistory, stopHistory, startTour, stopTour, groundAt,
     pose: () => ({ ...pose }),
     setPose(p) { tween = null; introT = -1; pose = clampPose(p, world); grow.fill(1); texDirty = true; },
     flyToPlace(i, o) { const p = plan.places[i]; if (p) flyTo(placePose(p, pose), { warp: true, ms: 950, ...(o || {}), done: () => { burst(i); if (o && o.done) o.done(); } }); },
@@ -455,6 +556,8 @@ export function createWorld(opts) {
     /** ?clock=manual: advance the clock by ms and draw that frame now (frame-by-frame capture: smooth video on a machine without a GPU) */
     step(ms, noDraw) { if (!manual) return false; vnow += ms; frame(Math.min(ms, 100) / 1000, vnow / 1000); if (!noDraw) rc.draw(); return true; },
     /** the share of the screen height the subject moves up (a card covers the bottom): 0..0.3 */
+    /** the sky: 'night' | 'blue' | 'dusk' (golden hour) | 'auto' (the market clock) */
+    setSky(k) { opts.sky = k; duskTo = skyFor(k); if (reduced || manual) { dusk = duskTo; U.uDusk.value = dusk; } },
     setFocus(f, now) { focusTo = clamp(+f || 0, 0, 0.3); if (reduced || now) focus = focusTo; },
     skipIntro() { if (introT >= 0) { introT = -1; grow.fill(1); texDirty = true; pose = clampPose(homePose(world), world); } },
     state() {
@@ -462,14 +565,14 @@ export function createWorld(opts) {
       const ws = Array.from(works.slice(0, Math.min(frames, works.length))).sort((a, b) => a - b), jsMs = ws.length ? ws[ws.length >> 1] : 0;
       return { frames, fps: Math.round(fps * 10) / 10, jsMs: Math.round(jsMs * 100) / 100, tier: rc.quality(), calls: st.calls, triangles: st.triangles,
         instances: plan.n, places: N, selected, intro: introT >= 0, warp, tween: !!tween, tour: !!tour, history: !!history, pose: { ...pose },
-        mirror: mirror.visible, traffic: traffic.geometry.instanceCount, dpr: st.dpr, bloom: st.bloom, compiled: st.compiled };
+        mirror: mirror.visible, traffic: traffic.geometry.instanceCount, dusk: Math.round(dusk * 100) / 100, dpr: st.dpr, bloom: st.bloom, compiled: st.compiled };
     },
     dispose() {
       rc.stop();
       canvas.removeEventListener('pointerdown', onDown); canvas.removeEventListener('pointermove', onMove); canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp); canvas.removeEventListener('wheel', onWheel); canvas.removeEventListener('contextmenu', noMenu);
       scene.traverse((o) => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
-      placeTex.dispose(); glowTex.dispose(); landTex.dispose(); rc.dispose();
+      placeTex.dispose(); glowTex.dispose(); landTex.dispose(); txtTex.dispose(); rc.dispose();
     },
   };
   return api;

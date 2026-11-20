@@ -1,0 +1,100 @@
+/* OLYMPUS HOME FX (night-effects, 2026-11-20). Owner: "do a huge run of effects, add-ons, 3D stuff ... home page change to make it look good,
+   not like a shitty AI built it, intro effects, displays" and "lag, glitches" must go. The Gate (gate/) and the Doors (hub/doors.html).
+   Loaded after olympus/shell.css. Pairs with olympus/home-fx.js, which sets html.hfx (and .hfx-intro on the first frame).
+     hero     a living temple scene on ONE canvas behind the title (gold dust, light rays, a line-drawn temple), drawn by home-fx.js
+     doors    glass depth cards: a tint of the door's colour, a lit top edge, a sheen and a light under the finger on press, spring release
+     intro    the title letters rise, the gold rule draws, the rest follows in a short stagger (transform + opacity only)
+     now      a live pulse on "Bots on", a market-clock ring on the trade window, numbers count up (home-fx.js)
+   Rules: only transform and opacity animate; no blur over content; reduced motion = everything still (shell.css and below). */
+
+html.hfx body { position: relative; }
+.hfx-hero { position: absolute; left: 0; right: 0; top: 0; height: calc(env(safe-area-inset-top, 0px) + var(--hfx-h, 360px)); z-index: 0; pointer-events: none; overflow: hidden;
+  contain: strict; -webkit-mask-image: linear-gradient(#000 52%, transparent 98%); mask-image: linear-gradient(#000 52%, transparent 98%); }
+.hfx-hero canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+html[data-oly-page="doors"] .hfx-hero { --hfx-h: 300px; }
+html.hfx .g-main, html.hfx .dr-main { position: relative; z-index: 1; }
+
+/* ---------------------------------------------------------------- title */
+html.hfx .g-title, html.hfx .dr-title { position: relative; }
+.hfx-l { display: inline-block; background: linear-gradient(180deg, var(--o-ink, #f3ece0) 28%, color-mix(in srgb, var(--o-accent-ink, #dac08b) 78%, var(--o-ink, #f3ece0)) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+html[data-oly-scheme="light"] .hfx-l { background: linear-gradient(180deg, var(--o-ink, #1d1a15) 40%, color-mix(in srgb, var(--o-accent, #a8812f) 70%, var(--o-ink, #1d1a15)) 100%);
+  -webkit-background-clip: text; background-clip: text; }
+html.hfx .g-main .g-title::after { transform-origin: 0 50%; }
+html.hfx .g-sub, html.hfx .dr-sub { text-shadow: 0 1px 12px var(--o-bg, #14110e); }
+
+/* ---------------------------------------------------------------- doors: glass depth */
+html.hfx :is(.g-dr, .dr-door) { position: relative; overflow: hidden; isolation: isolate; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none;
+  background: radial-gradient(130% 110% at 0% 0%, color-mix(in srgb, var(--dc, #c8a24a) 17%, transparent), transparent 58%),
+              linear-gradient(180deg, color-mix(in srgb, var(--o-surface-2, #26211b) 88%, transparent), color-mix(in srgb, var(--o-surface, #1d1914) 94%, transparent));
+  border: 1px solid color-mix(in srgb, var(--dc, #c8a24a) 26%, var(--o-line-2, #3a3228));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), inset 0 -1px 0 rgba(0, 0, 0, .25), 0 14px 28px -18px rgba(0, 0, 0, .85);
+  transition: transform 560ms cubic-bezier(.3, 1.6, .5, 1), border-color 200ms ease; will-change: transform; }
+html.hfx .dr-door[aria-current="true"] { border-color: var(--dc, #c8a24a); background: radial-gradient(130% 110% at 0% 0%, color-mix(in srgb, var(--dc, #c8a24a) 30%, transparent), transparent 62%), var(--o-surface-2, #26211b); }
+html.hfx :is(.g-dr, .dr-door) b::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--dc, #c8a24a) 18%, transparent), 0 0 12px color-mix(in srgb, var(--dc, #c8a24a) 60%, transparent); }
+html.hfx :is(.g-dr, .dr-door) > :not(.hfx-glyph, .hfx-lit, .dr-tag) { position: relative; z-index: 2; }
+/* the door's emblem, faint, in the corner (an SVG from home-fx.js) */
+.hfx-glyph { position: absolute; right: -10px; bottom: -14px; width: 70px; height: 70px; z-index: 1; pointer-events: none; fill: none; stroke: var(--dc, #c8a24a); stroke-width: 1.2;
+  stroke-linecap: round; stroke-linejoin: round; opacity: .13; transform: rotate(-8deg); }
+/* the light under the finger: one soft spot, moved by transform only */
+.hfx-lit { position: absolute; left: 0; top: 0; width: 220px; height: 220px; margin: -110px 0 0 -110px; z-index: 1; pointer-events: none; border-radius: 50%; opacity: 0;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--dc, #c8a24a) 34%, transparent), transparent); transform: translate3d(var(--mx, 50%), var(--my, 50%), 0);
+  transition: opacity 420ms ease; }
+/* the sheen: a thin diagonal glint that crosses the glass on a press */
+html.hfx :is(.g-dr, .dr-door)::after { content: ""; position: absolute; top: -50%; bottom: -50%; left: 0; width: 60%; z-index: 1; pointer-events: none; opacity: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .16) 48%, rgba(255, 255, 255, .05) 56%, transparent 70%); transform: translate3d(-120%, 0, 0) rotate(0.001deg); }
+html.hfx .hfx-press { transform: scale(.962); transition-duration: 110ms; }
+html.hfx .hfx-press .hfx-lit { opacity: 1; transition-duration: 90ms; }
+html.hfx .hfx-glint::after { animation: hfx-glint 760ms cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes hfx-glint { 0% { opacity: 0; transform: translate3d(-120%, 0, 0); } 18% { opacity: 1; } 100% { opacity: 0; transform: translate3d(260%, 0, 0); } }
+html[data-oly-scheme="light"].hfx :is(.g-dr, .dr-door) { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 12px 24px -16px rgba(60, 40, 10, .35);
+  background: radial-gradient(130% 110% at 0% 0%, color-mix(in srgb, var(--dc, #c8a24a) 16%, transparent), transparent 58%), var(--o-surface, #fff); }
+html[data-oly-scheme="light"] .hfx-glyph { opacity: .16; }
+
+/* the other tiles: the same spring on press (no glass) */
+html.hfx :is(.g-q, .g-hub, .dr-row, a.g-fact) { transition: transform 520ms cubic-bezier(.3, 1.6, .5, 1), background-color 160ms ease; }
+html.hfx :is(.g-q, .g-hub, a.g-fact).hfx-press { transform: scale(.97); transition-duration: 110ms; }
+html.hfx .dr-row.hfx-press { transform: scale(.985); transition-duration: 110ms; }
+
+/* ---------------------------------------------------------------- Right now: live pulse, the clock ring, numbers */
+html.hfx .g-badge { position: relative; }
+html.hfx .g-badge.ok::after { content: ""; position: absolute; left: 10px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: currentColor;
+  animation: hfx-ping 2.2s cubic-bezier(.2, .6, .3, 1) infinite; pointer-events: none; }
+@keyframes hfx-ping { 0% { opacity: .65; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(3.4); } }
+html.hfx .g-now { position: relative; overflow: hidden; }
+html.hfx .g-now[data-state="on"]::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--o-good, #b6c17d), transparent); transform-origin: 0 50%; animation: hfx-scan 3.6s ease-in-out infinite; opacity: .7; }
+@keyframes hfx-scan { 0% { transform: translate3d(-100%, 0, 0); } 100% { transform: translate3d(100%, 0, 0); } }
+.hfx-ring { position: absolute; right: 8px; top: 8px; width: 26px; height: 26px; pointer-events: none; transform: rotate(-90deg); }
+.hfx-ring circle { fill: none; stroke-width: 3; }
+.hfx-ring .hfx-rt { stroke: var(--o-line-2, #3a3228); }
+.hfx-ring .hfx-rv { stroke: var(--o-accent, #c8a24a); stroke-linecap: round; }
+.hfx-ring[data-win="open"] .hfx-rv { stroke: var(--o-good, #b6c17d); }
+.hfx-ring .hfx-rd { fill: var(--o-accent-ink, #dac08b); stroke: none; }
+html.hfx a.g-fact[data-win]::after { display: none; }   /* the ring takes the chevron's corner */
+html.hfx a.g-fact[data-win] .g-fl { padding-right: 28px; }
+html.hfx .g-fv { font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------- intro: a short stagger on the first frame (only when home-fx.js says so) */
+html.hfx-intro .hfx-l { animation: hfx-rise 900ms cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 55ms + 80ms); }
+html.hfx-intro .g-main .g-title::after { animation: hfx-draw 900ms cubic-bezier(.6, 0, .2, 1) 520ms both; }
+html.hfx-intro :is(.g-title, .dr-title) { animation: hfx-up 720ms cubic-bezier(.2, .8, .2, 1) both; }
+html.hfx-intro :is(.g-sub, .dr-top) { --i: 1; } html.hfx-intro :is(.g-find, .dr-sub) { --i: 2; } html.hfx-intro .dr-find { --i: 3; }
+html.hfx-intro :is(.g-dr, .dr-door):nth-child(1) { --i: 3; } html.hfx-intro :is(.g-dr, .dr-door):nth-child(2) { --i: 4; }
+html.hfx-intro :is(.g-dr, .dr-door):nth-child(3) { --i: 5; } html.hfx-intro :is(.g-dr, .dr-door):nth-child(4) { --i: 6; }
+html.hfx-intro :is(.g-now, #out) { --i: 7; } html.hfx-intro .g-quick { --i: 8; } html.hfx-intro :is(.g-hubs, .dr-links) { --i: 9; }
+html.hfx-intro :is(.g-sub, .g-find, .g-dr, .g-now, .g-quick, .g-hubs, .dr-top, .dr-sub, .dr-find, .dr-door, #out, .dr-links),
+html.hfx-intro .hfx-in { animation: hfx-up 720ms cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 70ms + 260ms); }
+html.hfx-intro .hfx-ring { animation: hfx-spin 1100ms cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes hfx-rise { 0% { opacity: 0; transform: translate3d(0, .42em, 0) scale(.96); } 100% { opacity: 1; transform: none; } }
+@keyframes hfx-draw { 0% { transform: scaleX(0); opacity: 0; } 100% { transform: scaleX(1); opacity: 1; } }
+@keyframes hfx-up { 0% { opacity: 0; transform: translate3d(0, 16px, 0) scale(.985); } 100% { opacity: 1; transform: none; } }
+@keyframes hfx-spin { 0% { opacity: 0; transform: rotate(-200deg) scale(.7); } 100% { opacity: 1; transform: rotate(-90deg); } }
+
+/* ---------------------------------------------------------------- calm: reduced motion = still (the hero draws one still frame) */
+@media (prefers-reduced-motion: reduce) {
+  html.hfx .hfx-l, html.hfx .hfx-in, html.hfx .hfx-ring, html.hfx .g-title::after, html.hfx :is(.g-title, .dr-title, .g-sub, .g-find, .g-dr, .g-now, .g-quick, .g-hubs, .dr-top, .dr-sub, .dr-find, .dr-door, #out, .dr-links) { animation: none !important; opacity: 1 !important; }
+  html.hfx .hfx-ring { transform: rotate(-90deg); }
+  html.hfx .g-badge.ok::after, html.hfx .g-now[data-state="on"]::before, html.hfx :is(.g-dr, .dr-door)::after { animation: none !important; display: none; }
+  html.hfx :is(.g-dr, .dr-door, .g-q, .g-hub, .dr-row, a.g-fact) { transition: none !important; }
+}

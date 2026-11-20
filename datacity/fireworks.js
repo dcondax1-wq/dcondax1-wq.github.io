@@ -21,7 +21,7 @@ void main(){
     if (rocket) {
       float k = clamp(age / ${RISE.toFixed(2)}, 0.0, 1.0);
       p = vec3(S.x, mix(0.0, S.y, 1.0 - (1.0 - k) * (1.0 - k)), S.z);
-      if (age < ${RISE.toFixed(2)}) { size = 12.0; vA = 1.0; vC = vec3(1.0, 0.85, 0.5); }
+      if (age < ${RISE.toFixed(2)}) { size = 4.0; vA = 1.0; vC = vec3(1.0, 0.85, 0.5); }
     } else if (age > ${RISE.toFixed(2)}) {
       float a = age - ${RISE.toFixed(2)};
       float sp = 34.0 + 34.0 * aSeed.x;
@@ -32,16 +32,16 @@ void main(){
       vA = (1.0 - life) * (1.0 - life) * (0.7 + 0.3 * sin(a * 40.0 + aSeed.y * 30.0));
       vC = mix(vec3(1.0, 0.95, 0.8), C.rgb, smoothstep(0.0, 0.18, life));
       vC = mix(vC, vec3(1.0, 0.35, 0.1), smoothstep(0.55, 1.0, life));
-      size = (10.0 + 7.0 * aSeed.y) * (1.0 - 0.45 * life) * step(aSeed.y, uKeep);        // a phone keeps only part of the sparks
+      size = (3.2 + 2.4 * aSeed.y) * (1.0 - 0.45 * life) * step(aSeed.y, uKeep);    // revamp: crisp sparks, not soft blobs        // a phone keeps only part of the sparks
     }
   }
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  gl_PointSize = size * uPR * (260.0 / max(1.0, -mv.z));
+  gl_PointSize = min(size * (260.0 / max(1.0, -mv.z)), 9.0) * uPR;
   gl_Position = projectionMatrix * mv;
 }`;
 const FS = `
 varying vec3 vC; varying float vA;
-void main(){ vec2 d = gl_PointCoord - 0.5; float r = length(d); float a = (exp(-r * r * 18.0) + 0.4 * exp(-r * r * 70.0)) * vA;
+void main(){ vec2 d = gl_PointCoord - 0.5; float r = length(d); float a = (0.5 * exp(-r * r * 22.0) + exp(-r * r * 90.0)) * vA;
   if (a < 0.004) discard; gl_FragColor = vec4(vC * a * 2.2, 1.0); }`;
 
 export class Fireworks {

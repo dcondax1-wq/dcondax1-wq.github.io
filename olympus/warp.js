@@ -1,9 +1,9 @@
 /* OLYMPUS warp (olympus/warp.js + olympus/warp.css, 2026-11-19, night-warp; docs/OLYMPUS_MAP.md "Where the organizing code lives").
  * Owner: "crazy effects world to world." Every jump from one app (a world) to another is a hyperspace jump instead of a plain load.
- *   leave    the screen launches from the point you tapped: a shockwave, the page sinks into the dark, light streaks rush past in the
- *            destination world's colours (motion blur: every frame keeps a fading trail of the last), the world's own flourish
- *            (ZEUS lightning, Money gold coins, Kalshi hex rings, the cities' rising towers, the Lab's sonar, HOME: the streaks fall
- *            INWARD into a gold orb), then a white-hot flash. The page is fetched at the tap and opened at T.nav (250 ms), behind it.
+ *   leave    the screen launches from the point you tapped: a ripple, the page sinks into the night, the city's lights rush past (sodium,
+ *            head and tail lights, warm and cool windows, the world's colours; motion blur: a fading trail), the world's own flourish
+ *            (ZEUS lightning, Money gold glints, Kalshi hex rings, the cities' towers rushing past, the Lab's sonar, HOME: the streaks fall
+ *            INWARD into a gold orb), then the glow of the tunnel's exit. The page is fetched at the tap and opened at T.nav (250 ms), behind it.
  *   arrive   warp.css (render-blocking: agora.css, jarvis.css and zenith_agora.css @import it): a cross-document View Transition
  *            (Safari 18.2+, Chrome 126+): the frozen flash flies past and the new world comes out of the tunnel with its arrival
  *            signature (shape + colour). Older browsers: the same glow over the new page (WARP BOOT below, run by themes.js in
@@ -62,7 +62,7 @@
   };
   var DOOR = {        // olympus/doors.js DOORS[].ids (tests.test_warp keeps this copy equal to it)
     zeus: 'zenith nq board why trading aegis pnyx demeter labyrinth fates moirai odeon nemesis kronos apollo journal kratos epilogue ares argus oracle pantheon pythia pheme kairos chronos forum delphi',
-    money: 'business ledger hera plutus chrysos oikos agency mercury mint mintcity harmonia hermes argo arbiter',
+    money: 'business widget ledger hera plutus chrysos oikos agency mercury mint mintcity harmonia hermes argo arbiter',
     kalshi: 'kalshi dionysus kalshicity sibyl tyche',
     more: 'compass helios herald stoa hestia inbox planner mind arena athena lyceum nike gallery polis symposium ergasterion settings bridge atlas cities datacity observatory tree prometheus hephaestus clio archive pinakes colosseum'
   };
@@ -176,8 +176,11 @@
     el.className = 'oly-warp' + (fade ? ' fade' : ''); el.setAttribute('aria-hidden', 'true'); el.setAttribute('data-fam', dest.fam); el.setAttribute('data-to', dest.id);
     veil.className = 'ow-veil'; fl.className = 'ow-flash'; nm.className = 'ow-name';
     var x = (o.x / Math.max(1, W.innerWidth) * 100).toFixed(1) + '%', y = (o.y / Math.max(1, W.innerHeight) * 100).toFixed(1) + '%';
-    veil.style.background = fade ? F.k : 'radial-gradient(circle at ' + x + ' ' + y + ',' + rgba(F.k, 0.5) + ' 0,' + rgba(F.k, 0.9) + ' 38%,' + F.k + ' 75%)';
-    fl.style.background = 'radial-gradient(circle at 50% 50%,#fff 0,' + rgba(c, 0.95) + ' 4%,' + rgba(c, 0.75) + ' 13%,' + rgba(F.b, 0.45) + ' 28%,' + rgba(F.a, 0.2) + ' 44%,' + rgba(F.k, 0) + ' 60%)';
+    // the night the jump flies into (the city look): blue-hour ink, the world's own dark at the tap, a warm horizon band of city light
+    veil.style.background = fade ? F.k : 'linear-gradient(180deg,rgba(255,154,90,0) 36%,rgba(255,154,90,.13) 50%,rgba(255,154,90,0) 64%),radial-gradient(circle at ' + x + ' ' + y + ','
+      + rgba(F.k, 0.45) + ' 0,rgba(10,16,34,.88) 36%,#05080f 78%)';
+    // the exit of the tunnel: a small hot core in the world's colour, cooled at the edge (a glow, never a white screen)
+    fl.style.background = 'radial-gradient(circle at 50% 50%,#fff6e6 0,' + rgba(c, 0.85) + ' 3%,' + rgba(c, 0.5) + ' 10%,' + rgba(F.b, 0.22) + ' 24%,' + rgba(F.a, 0.08) + ' 40%,' + rgba(F.k, 0) + ' 58%)';
     nm.style.color = rgba(F.k, 0.82); nm.textContent = 'Olympus · ' + F.label;
     var b = d.createElement('b'); b.textContent = nameOf(dest); nm.appendChild(b);
     if (fade) { el.style.setProperty('--ow-t1', T.fade + 'ms'); el.appendChild(veil); }
@@ -196,14 +199,28 @@
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function easeOut(p) { return 1 - Math.pow(1 - clamp(p), 3); }
   function easeInOut(p) { p = clamp(p); return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+  // the streaks are the city's own lights (2026-11-20, the revamp-cities look): sodium street light, white head lights, warm homes, cool
+  // offices, a few red tail lights, and the destination world's two colours. Thin and tapered (a dim tail, a hot head), drawn in a few
+  // batched paths per frame (one per colour and depth), never a gradient per streak: cheap on a phone's canvas
+  var CITY = ['#ffb46b', '#fff3e0', '#ffcf8f', '#cfe3ff', '#ff4a3a'], CW = [0.24, 0.14, 0.2, 0.24, 0.05];
   function scene(dest, o, lite) {
-    var F = FAM[dest.fam] || FAM.lab, c = o.c || F.a, rnd = prng(o.seed || 7), n = lite ? 64 : 136, s = { stars: [], extra: [], bolts: [], boltAt: -1, F: F, c: c, rnd: rnd, fam: dest.fam, lite: lite };
-    var inward = dest.fam === 'home' || o.back;
+    var F = FAM[dest.fam] || FAM.lab, c = o.c || F.a, rnd = prng(o.seed || 7), n = lite ? 70 : 150, cols = CITY.concat([c, F.b]), wts = CW.concat([0.08, 0.05]);
+    var s = { stars: [], extra: [], bolts: [], boltAt: -1, F: F, c: c, rnd: rnd, fam: dest.fam, lite: lite, cols: cols, rgb: [], geo: new Float32Array(n * 6) };
+    var inward = dest.fam === 'home' || o.back, j, q, ci;
     s.inward = inward;
-    for (var j = 0; j < n; j++) s.stars.push({ a: rnd() * TAU, z: inward ? 0.04 + rnd() * 0.96 : 0.12 + rnd() * 0.88, s: 0.55 + rnd() * 0.9, w: 0.5 + rnd() * 1.7, k: rnd() });
+    s.hot = [];
+    for (j = 0; j < cols.length; j++) { s.rgb.push(rgb(cols[j])); s.hot.push(s.rgb[j].map(function (v) { return Math.round(v + (255 - v) * 0.6); })); }
+    for (j = 0; j < n; j++) {
+      q = rnd(); ci = 0; while (ci < wts.length - 1 && q > wts[ci]) { q -= wts[ci]; ci++; }
+      s.stars.push({ a: rnd() * TAU, z: inward ? 0.04 + rnd() * 0.96 : 0.12 + rnd() * 0.88, s: 0.55 + rnd() * 0.9, w: 0.5 + rnd() * 1.2, ci: ci });
+    }
     if (!lite) {
-      if (dest.fam === 'money') for (j = 0; j < 30; j++) s.extra.push({ a: rnd() * TAU, z: 0.25 + rnd() * 0.75, s: 0.7 + rnd() * 0.6, spin: 6 + rnd() * 14, ph: rnd() * TAU, r: 3 + rnd() * 4 });
-      if (dest.fam === 'city') for (j = 0; j < 26; j++) s.extra.push({ x: rnd(), h: 0.18 + rnd() * 0.55, w: 4 + rnd() * 16, d: rnd() * 0.35, lit: rnd() });
+      if (dest.fam === 'money') for (j = 0; j < 26; j++) s.extra.push({ a: rnd() * TAU, z: 0.25 + rnd() * 0.75, s: 0.7 + rnd() * 0.6, spin: 6 + rnd() * 14, ph: rnd() * TAU, r: 1.6 + rnd() * 2.2 });
+      if (dest.fam === 'city') for (j = 0; j < 12; j++) {
+        var side = j % 2 ? 1 : -1, win = [], cl = 4 + Math.floor(rnd() * 3), rw = 16 + Math.floor(rnd() * 10);
+        for (q = 0; q < cl * rw; q++) if (rnd() < 0.3) win.push([q % cl, Math.floor(q / cl), rnd() < 0.6 ? 2 : rnd() < 0.5 ? 0 : 3]);
+        s.extra.push({ x: side * (0.1 + rnd() * 0.3), h: 0.3 + rnd() * 0.45, w: 0.06 + rnd() * 0.07, d: rnd() * 0.5, side: side, cl: cl, rw: rw, win: win });
+      }
     }
     return s;
   }
@@ -222,80 +239,101 @@
   }
   function line(g, pts) { g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (var j = 1; j < pts.length; j++) g.lineTo(pts[j][0], pts[j][1]); g.stroke(); }
   function hexagon(g, x, y, r, rot) { g.beginPath(); for (var j = 0; j <= 6; j++) { var a = rot + j * TAU / 6; if (j) g.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r); else g.moveTo(x + Math.cos(a) * r, y + Math.sin(a) * r); } g.stroke(); }
+  function cs(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (a < 0 ? 0 : a > 1 ? 1 : a).toFixed(3) + ')'; }
   // one frame at time t (ms) after the tap, dt (ms) since the last
   function draw(g, s, t, dt, w, h, dpr, o) {
-    var F = s.F, p = clamp(t / T.jump), diag = Math.sqrt(w * w + h * h), j, q, x, y, r0, r1, z, a;
+    var F = s.F, p = clamp(t / T.jump), diag = Math.sqrt(w * w + h * h), j, q, x, y, r0, r1, z, a, S, G = s.geo;
     var tx = o.x * dpr, ty = o.y * dpr, e = easeInOut(Math.min(1, p * 1.25)), vx = tx + (w / 2 - tx) * e, vy = ty + (h / 2 - ty) * e;
     // motion blur: the last frame fades instead of vanishing (a trail behind every streak)
-    g.globalCompositeOperation = 'destination-out'; g.fillStyle = 'rgba(0,0,0,' + (s.lite ? 0.55 : 0.4) + ')'; g.fillRect(0, 0, w, h);
+    g.globalCompositeOperation = 'destination-out'; g.fillStyle = 'rgba(0,0,0,' + (s.lite ? 0.5 : 0.34) + ')'; g.fillRect(0, 0, w, h);
     g.globalCompositeOperation = 'lighter'; g.lineCap = 'round';
-    // the shockwave from the tap
-    q = clamp(t / 210);
-    if (q < 1) { g.strokeStyle = rgba(F.b, 0.9 * (1 - q)); g.lineWidth = (6 - 5 * q) * dpr; g.beginPath(); g.arc(tx, ty, 0.45 * diag * easeOut(q) + 1, 0, TAU); g.stroke(); }
-    // the streaks: stars on a tunnel, F / z on screen; the jump accelerates and the streaks stretch with the speed
-    var cruise = t > T.jump, v = (cruise ? 1.6 : 0.3 + 5.2 * p * p) * dt / 1000, Fz = 0.035 * diag, env = Math.min(1, t / 70) * (cruise ? 0.55 : 1);
+    // the ripple from the tap: one thin ring
+    q = clamp(t / 230);
+    if (q < 1) { g.strokeStyle = rgba(F.b, 0.5 * (1 - q)); g.lineWidth = 1.4 * dpr; g.beginPath(); g.arc(tx, ty, 0.42 * diag * easeOut(q) + 1, 0, TAU); g.stroke(); }
+    // the streaks: lights on a tunnel, F / z on screen; the jump accelerates and they stretch with the speed
+    var cruise = t > T.jump, v = (cruise ? 1.6 : 0.3 + 5.2 * p * p) * dt / 1000, Fz = 0.035 * diag, env = Math.min(1, t / 80) * (cruise ? 0.6 : 1);
     for (j = 0; j < s.stars.length; j++) {
-      var S = s.stars[j], col = S.k < 0.42 ? s.c : S.k < 0.8 ? F.b : '#ffffff', wk = S.k < 0.8 ? 1 : 0.6;   // the white ones dimmer: no white-out
+      S = s.stars[j];
       if (s.inward) { S.z += v * S.s; if (S.z > 1) { S.z = 0.035 + s.rnd() * 0.08; S.a = s.rnd() * TAU; } }
       else { S.z -= v * S.s; if (S.z < 0.03) { S.z = 0.92 + s.rnd() * 0.08; S.a = s.rnd() * TAU; } }
       z = S.z; var len = (0.02 + v * S.s * (2.5 + 9 * p));
       r1 = Fz / z; r0 = s.inward ? Fz / Math.max(0.02, z - len) : Fz / (z + len);
-      if (Math.min(r0, r1) > diag) continue;
       x = Math.cos(S.a); y = Math.sin(S.a);
-      g.strokeStyle = rgba(col, clamp((0.25 + 1.1 * (1 - z)) * env) * wk);
-      g.lineWidth = S.w * (0.6 + 2.6 * (1 - z)) * dpr * (s.lite ? 0.8 : 1);
-      g.beginPath(); g.moveTo(vx + x * r0, vy + y * r0); g.lineTo(vx + x * r1, vy + y * r1); g.stroke();
+      q = j * 6; G[q] = vx + x * r0; G[q + 1] = vy + y * r0; G[q + 2] = vx + x * r1; G[q + 3] = vy + y * r1; G[q + 4] = Math.min(r0, r1) > diag ? -1 : z; G[q + 5] = S.w;
+    }
+    // batched: per colour, the far ones (thin, dim), the near ones (wider), then the near ones' hot heads
+    for (var c = 0; c < s.rgb.length; c++) {
+      for (var pass = 0; pass < 3; pass++) {
+        var near = pass > 0, any = false;
+        g.beginPath();
+        for (j = 0; j < s.stars.length; j++) {
+          q = j * 6; z = G[q + 4];
+          if (s.stars[j].ci !== c || z < 0 || (z < 0.5) !== near) continue;
+          if (pass === 2) { g.moveTo(G[q] + (G[q + 2] - G[q]) * 0.7, G[q + 1] + (G[q + 3] - G[q + 1]) * 0.7); }
+          else g.moveTo(G[q], G[q + 1]);
+          g.lineTo(G[q + 2], G[q + 3]); any = true;
+        }
+        if (!any) continue;
+        g.strokeStyle = cs(pass === 2 ? s.hot[c] : s.rgb[c], env * (pass === 0 ? 0.42 : pass === 1 ? 0.62 : 0.45) * (c === 4 ? 1.2 : 1));
+        g.lineWidth = (pass === 0 ? 0.8 : pass === 1 ? 1.7 : 0.9) * dpr * (s.lite ? 0.85 : 1);
+        g.stroke();
+      }
     }
     if (s.lite) return;
-    // the world's own flourish
+    // the world's own flourish, kept thin (no fat beams, no big glowing rings)
     if (s.fam === 'zeus' && t > 25 && t < T.jump + 60) {
-      if (t - s.boltAt > 42) {                                   // new lightning every ~40 ms, from the edges to the centre of the jump
+      if (t - s.boltAt > 70) {                                   // a fork of lightning every ~70 ms, from an edge into the jump
         s.boltAt = t; s.bolts = [];
-        for (j = 0; j < 3; j++) {
+        for (j = 0; j < 2; j++) {
           a = s.rnd() * TAU; var ex = w / 2 + Math.cos(a) * diag * 0.6, ey = h / 2 + Math.sin(a) * diag * 0.6;
           s.bolts.push(boltPath(s, ex, ey, vx + (s.rnd() - 0.5) * 30 * dpr, vy + (s.rnd() - 0.5) * 30 * dpr, 0.34));
         }
       }
-      var fresh = clamp(1 - (t - s.boltAt) / 42);
+      var fresh = clamp(1 - (t - s.boltAt) / 70);
       for (j = 0; j < s.bolts.length; j++) {
-        g.strokeStyle = rgba(F.b, 0.22 + 0.25 * fresh); g.lineWidth = 11 * dpr; line(g, s.bolts[j]);
-        g.strokeStyle = rgba('#ffffff', 0.55 + 0.45 * fresh); g.lineWidth = 2.2 * dpr; line(g, s.bolts[j]);
+        g.strokeStyle = rgba(F.b, 0.1 + 0.16 * fresh); g.lineWidth = 5 * dpr; line(g, s.bolts[j]);
+        g.strokeStyle = rgba('#f2f6ff', 0.35 + 0.5 * fresh); g.lineWidth = 1.1 * dpr; line(g, s.bolts[j]);
       }
-    } else if (s.fam === 'money') {
+    } else if (s.fam === 'money') {                              // gold glints spinning past
       for (j = 0; j < s.extra.length; j++) {
         var C = s.extra[j]; C.z -= v * C.s * 0.8; if (C.z < 0.05) C.z = 0.9 + s.rnd() * 0.1;
         r1 = Fz * 1.4 / C.z; if (r1 > diag) continue;
-        x = vx + Math.cos(C.a) * r1; y = vy + Math.sin(C.a) * r1; q = (C.r + 9 * (1 - C.z)) * dpr; var sq = Math.abs(Math.cos(C.ph + C.spin * t / 1000));
-        g.fillStyle = rgba(s.c, 0.85 * env); g.beginPath(); g.ellipse(x, y, Math.max(0.6, q * sq), q, C.a, 0, TAU); g.fill();
-        g.fillStyle = rgba('#fff7d6', 0.7 * env * sq); g.beginPath(); g.ellipse(x, y, Math.max(0.4, q * sq * 0.45), q * 0.45, C.a, 0, TAU); g.fill();
+        x = vx + Math.cos(C.a) * r1; y = vy + Math.sin(C.a) * r1; q = (C.r + 5 * (1 - C.z)) * dpr; var sq = Math.abs(Math.cos(C.ph + C.spin * t / 1000));
+        g.fillStyle = rgba(s.c, 0.6 * env); g.beginPath(); g.ellipse(x, y, Math.max(0.5, q * sq), q, C.a, 0, TAU); g.fill();
+        g.fillStyle = rgba('#fff7d6', 0.5 * env * sq); g.fillRect(x - q * 1.6, y - 0.4 * dpr, q * 3.2, 0.8 * dpr);
       }
     } else if (s.fam === 'kalshi') {
-      for (j = 0; j < 4; j++) {
-        q = (p * 1.35 + j * 0.24) % 1.2; if (q > 1) continue;
-        g.strokeStyle = rgba(j % 2 ? F.b : s.c, 0.75 * (1 - q) * env); g.lineWidth = (2 + 6 * (1 - q)) * dpr;
+      for (j = 0; j < 3; j++) {
+        q = (p * 1.3 + j * 0.3) % 1.2; if (q > 1) continue;
+        g.strokeStyle = rgba(j % 2 ? F.b : s.c, 0.4 * (1 - q) * env); g.lineWidth = 1.2 * dpr;
         hexagon(g, vx, vy, q * q * diag * 0.75 + 4 * dpr, t / 900 * (j % 2 ? -1 : 1) + j);
       }
-    } else if (s.fam === 'city') {
-      for (j = 0; j < s.extra.length; j++) {
-        var B = s.extra[j], u = easeOut((p - B.d) / 0.6), top = h - B.h * h * u, bx = B.x * w;
-        if (u <= 0) continue;
-        var gr = g.createLinearGradient(0, h, 0, top); gr.addColorStop(0, rgba(B.lit < 0.5 ? s.c : F.b, 0.55 * env)); gr.addColorStop(1, rgba(F.b, 0));
-        g.fillStyle = gr; g.fillRect(bx - B.w * dpr / 2, top, B.w * dpr, h - top);
+    } else if (s.fam === 'city') {                               // dark towers with lit windows rush past on both sides
+      g.globalCompositeOperation = 'source-over';
+      for (j = 0; j < s.extra.length; j++) {                      // each one flies outward and grows as it nears (perspective)
+        var B = s.extra[j], u = (p - B.d) / 0.6, sp = 0.45 + 1.5 * u * u, bw = B.w * w * sp, bx = vx + B.x * w * sp - bw / 2, bh = B.h * h * (0.5 + 0.9 * u), top = h * 0.98 - bh;
+        if (u <= 0 || u > 1.2 || bx > w || bx + bw < 0) continue;
+        var fa = Math.min(1, u * 4) * env, cw2 = bw / B.cl, rh = bh / B.rw;
+        g.fillStyle = 'rgba(9,13,22,' + (0.92 * fa).toFixed(3) + ')'; g.fillRect(bx, top, bw, bh + h * 0.02);
+        g.fillStyle = rgba(F.b, 0.3 * fa); g.fillRect(bx + (B.side < 0 ? bw - dpr : 0), top, dpr, bh);
+        for (q = 0; q < B.win.length; q++) {
+          var W0 = B.win[q];
+          g.fillStyle = cs(s.rgb[W0[2]], 0.8 * fa); g.fillRect(bx + (W0[0] + 0.25) * cw2, top + (W0[1] + 0.3) * rh, cw2 * 0.42, rh * 0.36);
+        }
       }
+      g.globalCompositeOperation = 'lighter';
     } else if (s.fam === 'lab') {
-      for (j = 0; j < 4; j++) {
-        q = (p * 1.4 + j * 0.27) % 1.25; if (q > 1) continue;
-        g.strokeStyle = rgba(j % 2 ? F.b : s.c, 0.7 * (1 - q) * env); g.lineWidth = (1.5 + 3 * (1 - q)) * dpr;
+      for (j = 0; j < 3; j++) {
+        q = (p * 1.4 + j * 0.33) % 1.25; if (q > 1) continue;
+        g.strokeStyle = rgba(j % 2 ? F.b : s.c, 0.38 * (1 - q) * env); g.lineWidth = 1.1 * dpr;
         g.beginPath(); g.arc(vx, vy, q * diag * 0.7 + 2 * dpr, 0, TAU); g.stroke();
       }
-      a = t / 1000 * 7;                                          // the sweep of a radar
-      for (j = 0; j < 7; j++) { g.strokeStyle = rgba(F.b, (0.5 - j * 0.07) * env); g.lineWidth = 2 * dpr; g.beginPath(); g.moveTo(vx, vy); g.lineTo(vx + Math.cos(a - j * 0.05) * diag, vy + Math.sin(a - j * 0.05) * diag); g.stroke(); }
     } else if (s.fam === 'home') {                               // returning: the light falls into Jarvis's gold orb
-      r1 = (0.03 + 0.16 * easeOut(p)) * diag;
+      r1 = (0.03 + 0.13 * easeOut(p)) * diag;
       // drawn every frame over a fading trail ('lighter'): low alphas, or the orb piles up into a white disc (phone QA 2026-11-19)
-      var orb = g.createRadialGradient(vx, vy, 0, vx, vy, r1); orb.addColorStop(0, rgba('#ffffff', 0.42 * env)); orb.addColorStop(0.22, rgba(s.c, 0.3 * env)); orb.addColorStop(0.5, rgba(s.c, 0.16 * env)); orb.addColorStop(1, rgba(s.c, 0));
+      var orb = g.createRadialGradient(vx, vy, 0, vx, vy, r1); orb.addColorStop(0, rgba('#fff4e0', 0.3 * env)); orb.addColorStop(0.25, rgba(s.c, 0.2 * env)); orb.addColorStop(0.55, rgba(s.c, 0.08 * env)); orb.addColorStop(1, rgba(s.c, 0));
       g.fillStyle = orb; g.beginPath(); g.arc(vx, vy, r1, 0, TAU); g.fill();
-      g.strokeStyle = rgba(F.b, 0.8 * env); g.lineWidth = 2 * dpr; g.beginPath(); g.arc(vx, vy, r1 * 0.72, 0, TAU); g.stroke();
+      g.strokeStyle = rgba(F.b, 0.45 * env); g.lineWidth = 1.1 * dpr; g.beginPath(); g.arc(vx, vy, r1 * 0.72, 0, TAU); g.stroke();
     }
   }
 
