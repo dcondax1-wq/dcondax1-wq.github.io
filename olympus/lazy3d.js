@@ -2,7 +2,7 @@
  * A page's optional 3D module (and three.js behind it, ~165 kB over the wire, ~650 kB to parse) used to be a plain
  * <script type="module"> tag: fetched at once, fighting the first paint for a slow line. This classic script imports it later:
  *
- *   <script src="../olympus/lazy3d.js?v=l1" data-src="nqscene.js?v=a1" data-near="#scene3d" data-skip="lite" data-fail="NQ3D_FAIL" defer></script>
+ *   <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=a1" data-near="#scene3d" data-skip="lite" data-fail="NQ3D_FAIL" defer></script>
  *
  *   data-src    the module, relative to the page (it registers itself and fires its event exactly as before: the page code is unchanged)
  *   data-near   the element the 3D draws into: the import waits until it is within one screen of the viewport (none / missing = at once)
@@ -44,6 +44,14 @@
     });
     return rec.p;
   }
+  // a phone that asked to save data, a slow line or a small memory: the decorative 3D is skipped like LITE (the page keeps its 2D picture).
+  // iPhone Safari reports none of these, so it is never skipped there by this rule
+  function weak() {
+    try {
+      var c = navigator.connection || {}, m = navigator.deviceMemory;
+      return !!c.saveData || /(^|-)(2g|3g)$/.test(String(c.effectiveType || '')) || (typeof m === 'number' && m <= 4);
+    } catch (e) { return false; }
+  }
   function skipNow(skip) {
     var O = W.OLYMPUS;
     if (!O || !skip) return false;
@@ -69,15 +77,17 @@
       io.observe(t);
     };
     var whenAllowed = function () {
-      if (!skipNow(skip)) return webgl() ? whenNear() : noGL();     // the probe only when the 3D would be used
+      if (!skipNow(skip) && !(skip && weak())) return webgl() ? whenNear() : noGL();     // the probe only when the 3D would be used
       skips[src] = skip; tell(ev, src);                              // the page stops waiting and keeps its 2D picture
       var O = W.OLYMPUS;                                     // LITE now: wait for the owner to pick HD (never stored by the kit itself)
       if (O && O.onFx) O.onFx(function () { if (!done[src] && !skipNow(skip)) whenNear(); });
     };
-    // after the first paint: two frames after parsing (a deferred script runs just before DOMContentLoaded)
+    // after the page has loaded and the phone is idle (PERF 2026-11-20: the 3D's parse was a 0.3-1.4 s long task right on top of the
+    // first paint): window 'load', then requestIdleCallback (at most 2 s), then two frames
     var raf = W.requestAnimationFrame || function (f) { return setTimeout(f, 16); };
-    var after = function () { raf(function () { setTimeout(whenAllowed, 0); }); };
-    if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', after); else after();
+    var idle = W.requestIdleCallback ? function (f) { W.requestIdleCallback(f, { timeout: 2000 }); } : function (f) { setTimeout(f, 300); };
+    var after = function () { idle(function () { raf(function () { setTimeout(whenAllowed, 0); }); }); };
+    if (D.readyState === 'complete') after(); else W.addEventListener('load', after, { once: true });
   }
   W.OLYMPUS_LAZY3D = { skipped: skippedList, list: function () { var o = []; for (var k in done) o.push({ src: k, ok: done[k].ok, at: done[k].at, ms: done[k].ms, err: done[k].err }); return o; },
     load: function (src) { return load(src, ''); } };

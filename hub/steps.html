@@ -13,7 +13,20 @@
 <meta name="apple-mobile-web-app-title" content="Steps">
 <link rel="icon" href="icon.svg">
 <!-- YOUR STEPS (2026-11-20; owner: "I am tired of repeating myself"). Data: steps.json; steps.js draws it with textContent only; Done ticks live in this phone's localStorage. Public page: no ids, no addresses (<your PC link>). Read only. -->
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   day-manual NAV 2026-11-20: the same copy as the Doors, so this page follows the look too (it stayed dark under Ivory). */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
 body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
@@ -51,10 +64,12 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 </style>
 <script src="steps.js?v=1" defer></script>
 <script src="../olympus/warp.js?v=w3" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
+<script src="../olympus/themes.js?v=o9" defer></script><!-- the theme engine: the look picked on the Gate (Ivory, Stocks Light ...) paints this page too -->
+<script>window.addEventListener('DOMContentLoaded', function () { try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ } });</script>
 </head>
 <body>
 <main class="st-main" id="steps">
-  <nav class="st-nav" aria-label="Back"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">How do I</a></nav>
+  <nav class="st-nav" aria-label="Pages"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">Help</a><a href="manual.html">Manual</a></nav>
   <h1 class="st-title">Your steps</h1>
   <p class="st-sub">What is still yours to do, in order. Tick Done when finished; the tick stays on this phone.</p>
   <p class="st-count" id="count" role="status" aria-live="polite">Loading...</p>

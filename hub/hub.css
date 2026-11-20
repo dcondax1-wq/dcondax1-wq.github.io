@@ -135,3 +135,19 @@ html[data-oly-style] .hb-fold .hb-list { background: transparent !important; box
 html[data-oly-style] :is(.hb-title, .hb-h2, .hb-h3, .hb-bname) { font-weight: var(--oly-th-title-weight) !important; text-transform: var(--oly-th-title-case); letter-spacing: var(--oly-th-title-track) !important;
   font-style: var(--oly-th-title-style); }
 html[data-oly-style] :is(.hb-btn.primary, .hb-tab[aria-selected="true"]) { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }
+
+/* ------------------------------------------------------------------ no layout shift (day-manual NAV 2026-11-20, the PERF team's ask)
+   1. the gate-nav row has its slot from the first paint (index.html <div class="gn-row" data-gn-slot>; gate-nav.js fills it)
+   2. a hub's "Right now" box keeps its usual height while its numbers load (measured at 390 px, 2026-11-20; a hub with no facts gets none)
+   3. the blocks below the tabs stay invisible until hub.js has drawn the tabs above them (visibility: a hidden block cannot shift) */
+.hb-main .gn-row[data-gn-slot] { display: flex; min-height: 44px; }
+html[data-oly-district]:not(.hb-done) #hubIndex, html:not(.hb-done) .hb-foot,
+html[data-oly-district]:not(.hb-done) #see { visibility: hidden; }
+html[data-oly-district="today"]:not(.hb-done) #hubNow[hidden], html[data-oly-district="bots"]:not(.hb-done) #hubNow[hidden], html[data-oly-district="kalshi"]:not(.hb-done) #hubNow[hidden], html[data-oly-district="money"]:not(.hb-done) #hubNow[hidden], html[data-oly-district="plan"]:not(.hb-done) #hubNow[hidden], html[data-oly-district="research"]:not(.hb-done) #hubNow[hidden] { display: flex !important; visibility: hidden; }
+html[data-oly-district="today"] #hubNow { min-height: 99px; }
+html[data-oly-district="bots"] #hubNow { min-height: 189px; }
+html[data-oly-district="kalshi"] #hubNow { min-height: 122px; }
+html[data-oly-district="money"] #hubNow { min-height: 139px; }
+html[data-oly-district="plan"] #hubNow { min-height: 122px; }
+html[data-oly-district="research"] #hubNow { min-height: 206px; }
+html.hb-done #hubNow[hidden] { min-height: 0; }

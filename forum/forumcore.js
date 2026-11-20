@@ -72,7 +72,28 @@ export function evalOf(home) {
   return { name: txt(a.name || a.plan, 30), balance: bal, floor, target: tgt, room: bal - floor, toTarget: tgt - bal, session: num(e.session), sessions: num(e.sessions), locked: !!e.locked, status: txt(e.status, 20), mll: num(e.mll) };
 }
 
-export function brief(pan, home, p) {
+/** day-archive 2026-11-20: how old the Pantheon reading is, in whole days (pan.t epoch s, else pan.built "YYYY-MM-DD ..."); null = no date
+ *  (the bundled fixture, already DEMO-badged) or no clock passed in. The Pantheon builder stopped on Nov 3 and the Forum showed that read
+ *  as this morning's: a dated reading OLD_DAYS or more old is now labelled old on its four tablets and in the news gate. Pure: the page passes nowMs. */
+export function panAge(pan, nowMs) {
+  if (!isObj(pan) || num(nowMs) == null) return null;
+  let ms = num(pan.t) != null ? num(pan.t) * 1000 : null;
+  const m = ms == null && typeof pan.built === 'string' ? pan.built.match(/^(\d{4})-(\d\d)-(\d\d)/) : null;
+  if (m) ms = Date.UTC(+m[1], +m[2] - 1, +m[3], 16);
+  return ms == null ? null : Math.max(0, Math.floor((nowMs - ms) / 864e5));
+}
+const OLD_DAYS = 2;
+function markOld(out, pan, nowMs) {
+  const age = panAge(pan, nowMs);
+  if (age == null || age < OLD_DAYS) return out;
+  const tag = `Old: ${age} days`, why = `This reading is ${age} days old: the Pantheon feed has not updated since. Do not trade on it.`;
+  for (const it of out) if (['council', 'fear', 'calendar', 'money'].includes(it.id) && !/^(No data|Silent|No VIX)$/.test(it.stat)) {
+    it.tone = 'info'; it.stat = tag; it.line = `${why.split(':')[0]}.`; it.body = `${why} ${it.body}`;
+  }
+  return out;
+}
+
+export function brief(pan, home, p, nowMs) {
   const out = [];
   const C = isObj(pan) && isObj(pan.council) ? pan.council : null;
   // 1. the Council
@@ -110,7 +131,7 @@ export function brief(pan, home, p) {
   // 6. the plan
   out.push({ id: 'plan', title: "Today's plan", glyph: 'Λ', tone: 'info', stat: 'LIT, hands off', line: 'One trade at most. The bot does the work.',
     body: 'LIT: a sweep of a level, then a 5-minute CISD entry. One trade a day, entries 02:00-15:30 ET, the stop one tick beyond the sweep extreme, the target banked at 8R, breakeven at 1R, flat at 15:55. Paper and Sim only. Your job today: do not touch it.', color: '#aeb86e' });
-  return out;
+  return markOld(out, pan, nowMs);
 }
 
 /** The desk: four more tablets beside the avenue, from what the site already publishes (home.json accounts, an optional home.kalshi) and the
@@ -214,7 +235,9 @@ export function tradingDay(p) {
 }
 
 /** the next release from the Council: what it says and the one rule for it (half size or flat, never a guess at direction) */
-export function newsGate(pan) {
+export function newsGate(pan, nowMs) {
+  const age = panAge(pan, nowMs);
+  if (age != null && age >= OLD_DAYS) return { has: false, tone: 'info', line: `The news calendar here is ${age} days old. Check the news before you trade.` };
   const ath = godOf(pan, 'athena'), when = readingOf(ath), caution = isObj(pan) && isObj(pan.council) ? txt(pan.council.caution, 200) : '';
   if (!when && !caution) return { has: false, tone: 'info', line: 'No calendar reading right now. Check the news before you trade.' };
   const today = /today/i.test(when), tomorrow = /tomorrow/i.test(when);

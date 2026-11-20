@@ -995,8 +995,8 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
   .acc-grid i { height: 36px; }
 }
 </style>
-<link rel="stylesheet" href="space.css?v=1"><link rel="stylesheet" href="mission.css?v=2"><link rel="stylesheet" href="polish.css?v=4"><link rel="stylesheet" href="zenith.css?v=9">
-<link rel="stylesheet" href="zenith_agora.css?v=a5">
+<link rel="stylesheet" href="space.css?v=1"><link rel="stylesheet" href="mission.css?v=2"><link rel="stylesheet" href="polish.css?v=4f"><link rel="stylesheet" href="zenith.css?v=9">
+<link rel="stylesheet" href="zenith_agora.css?v=a5df">
 <!-- OLYMPUS theme (olympus/themes.js; the owner picks it on the Gate's Look row or in Jarvis: Look; key 'olympus.theme'): every colour
      of the dashboard's sheets reads a theme slot with today's AGORA colour as its fallback (tools/theme_tokenize.py), so a theme
      reaches every card, bar, hero and label; the default paints nothing (today's look, byte for byte). Zenith's own light look
@@ -1124,21 +1124,21 @@ html[data-oly-scheme="light"] {
   --o-shadow-1: 0 1px 2px rgba(40, 30, 10, .08); --o-shadow-2: 0 6px 20px rgba(40, 30, 10, .10);
 }
 @media (max-width: 760px) {
-  html:root:not(#o) nav#tabs.tabs {
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs {
     left: 0; right: 0; bottom: 0; height: var(--o-bar-total); padding: 4px max(8px, env(safe-area-inset-right, 0px)) var(--o-sab) max(8px, env(safe-area-inset-left, 0px));
     gap: 0; border-radius: 0; border: 0; border-top: .5px solid var(--o-line-2);
     background: var(--o-bar) !important; box-shadow: none;
     -webkit-backdrop-filter: saturate(1.4) blur(18px); backdrop-filter: saturate(1.4) blur(18px);
   }
-  html:root:not(#o) nav#tabs.tabs::before { content: none; display: none; }
-  html:root:not(#o) nav#tabs.tabs a, html:root:not(#o) nav#tabs.tabs button { height: calc(var(--o-bar-h) - 5px); border-radius: var(--o-r-sm); gap: 2px; font-size: 11px; font-weight: 600; letter-spacing: .01em;
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs::before { content: none; display: none; }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a, html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs button { height: calc(var(--o-bar-h) - 5px); border-radius: var(--o-r-sm); gap: 2px; font-size: 12px; font-weight: 600; letter-spacing: 0;
     background: none; box-shadow: none; color: var(--o-muted); }
-  html:root:not(#o) nav#tabs.tabs a.on, html:root:not(#o) nav#tabs.tabs button.on { background: none; box-shadow: none; color: var(--o-accent-ink); }
-  html:root:not(#o) nav#tabs.tabs .pl-tabind { display: none; }        
-  html:root:not(#o) nav#tabs.tabs a .ico { width: 24px; height: 24px; }
-  html:root:not(#o) nav#tabs.tabs a.on .ico { color: var(--o-accent); }
-  html:root:not(#o) .page { padding-bottom: calc(var(--o-bar-total) + 28px); }
-  html:root:not(#o) .toast { bottom: calc(var(--o-bar-total) + 12px); }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a.on, html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs button.on { background: none; box-shadow: none; color: var(--o-accent-ink); }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs .pl-tabind { display: none; }        
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a .ico { width: 24px; height: 24px; }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a.on .ico { color: var(--o-accent); }
+  html:root:not(#o):not([data-oly-shell="app"]) .page { padding-bottom: calc(var(--o-bar-total) + 28px); }
+  html:root:not(#o):not([data-oly-shell="app"]) .toast { bottom: calc(var(--o-bar-total) + 12px); }
 }
 @media (prefers-reduced-motion: reduce) {
   html *, html *::before, html *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
@@ -1182,7 +1182,7 @@ html[data-oly-scheme="light"] {
 <script type="module">import * as T from "./olympus/truth.js?v=r11"; window.OLYMPUS_TRUTH = T;</script><!-- one source for drawdown / balance / data age (QA round 6) -->
 <script src="extras.js?v=3" defer></script>
 <script src="hub.js?v=11d" defer></script>
-<script src="more.js?v=q6a" defer></script>
+<script src="more.js?v=q6be" defer></script>
 <script src="pc_feed.js?v=n5" defer></script>
 <script src="live.js?v=4" defer></script>
 <script src="intel.js?v=1" defer></script>
@@ -1219,7 +1219,8 @@ html[data-oly-scheme="light"] {
 <script src="zenithcore.js?v=2" defer></script>
 <script src="zenith.js?v=2" defer></script>
 <script src="zenith_hero.js?v=5" defer></script>
-<script src="launcher.js?v=l20" defer></script>
+<script src="launcher.js?v=l21" defer></script>
+<script src="olympus/a11y.js?v=a2" defer></script><!-- A11Y K9 (day-arenas DESIGN): focus ring, auto names, text growth -->
 <script src="zenith_money.js?v=4" defer></script>
 <script src="moneynowcore.js?v=q11" defer></script>
 <script src="moneynow.js?v=1" defer></script>
@@ -1229,7 +1230,7 @@ html[data-oly-scheme="light"] {
 <script src="zenith_pages.js?v=1" defer></script>
 <script src="zenith_nq.js?v=4" defer></script>
 <script src="embed.js?v=1" defer></script>
-<script src="olympus/zeus_core.js?v=5" defer></script>
+<script src="olympus/zeus_core.js?v=6" defer></script>
 <script>/* ZEUS (2026-11-18, night-zcard): Home starts with ONE ZEUS card (olympus/zeus_core.js, the same matching as hub/zeus.html): PC reported X min ago
    (red PC SILENT), one line per real account (stage, balance, $ to pass / payout, today's $), the ZEUS edge chip; a tap opens hub/zeus.html.
    Kept the first child of #page through every Home redraw; other pages never show it. Paper / cloud ledgers stay lower (Money now: "Paper test"). */

@@ -1,8 +1,8 @@
-/* OLYMPUS app intro (olympus/intro-app.js, JOB 33a; docs/CLAUDE_REFERENCE.md "App intros"): the 2.4 s entrance every app plays when it opens.
- * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i10" defer></script>
+/* OLYMPUS app intro (olympus/intro-app.js, JOB 33a; docs/CLAUDE_REFERENCE.md "App intros"): the 1.15 s entrance every app plays the first time it opens each day.
+ * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i11" defer></script>
  * Pages WITHOUT the kit name themselves on the tag (data-app / data-name / data-glyph / data-color; Bridge, Kalshi).
  *   film   the app's flavour scene (FLAVOUR) + its glyph from particles; the name letter by letter with a light sweep, a tagline; fade out
- *   once   full film once per app per launch (sessionStorage 'oly.intro.<app>'), then a 400 ms version
+ *   once   the 1.15 s film once per app per New York day (localStorage 'oly.intro.d.<app>' + sessionStorage 'oly.intro.<app>'), then nothing that day
  *   never  LITE (3D Low), reduced motion, 3D Off, ?q=off, ?intro=0, localStorage 'oly.intro' = 'off', automation (navigator.webdriver) unless ?intro=1
  *   skip   a tap, Esc, Enter or Space; it never blocks the app (a timer ends it, a hidden tab ends it, any error removes it)
  *   sound  OLYMPUS.sfx, only while the kit's Sound switch allows it
@@ -91,22 +91,26 @@
     try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { /* private mode: it plays once per page then */ }
     return null;
   };
-  var forced = /[?&]intro=1(&|$)/.test(search);
+  var forced = /[?&]intro=(1|again)(&|$)/.test(search);
   var why = '';
   if (/[?&]q=off(&|$)/.test(search)) why = 'q=off';
   else if (/[?&]intro=0(&|$)/.test(search) || ls('oly.intro') === 'off') why = 'switched off';
   else if (O.reduced()) why = 'reduced motion';
   else if (O.lite()) why = 'LITE';
   else if (navigator.webdriver && !forced) why = 'automation';
-  if (why) { st.state = 'off'; st.why = why; return; }
+  // olympus2: once per app per New York day ('oly.intro.d.<app>'), 1.15 s; a repeat visit that day plays nothing
   var seenKey = 'oly.intro.' + (O.app || 'app');
-  var seen = ss(seenKey) === '1';
-  var mode = seen ? 'short' : 'full';
-  var LEN = { full: 2.4, short: 0.4, lite: 0.7 }; // (lite is kept for old callers: LITE now plays nothing)
+  var dayKey = 'oly.intro.d.' + (O.app || 'app');
+  var today = (function () { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { return new Date().toDateString(); } })();
+  var lsSet = function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } };
+  if (!why && !/[?&]intro=again(&|$)/.test(search) && (ls(dayKey) === today || ss(seenKey) === '1')) why = 'seen today';   // ?intro=again: a capture / a test
+  if (why) { st.state = 'off'; st.why = why; return; }
+  var mode = 'full';
+  var LEN = { full: 1.15, short: 0.4, lite: 0.7 }; // short / lite: old callers only
   var LEN_S = LEN[mode];
   st.mode = mode; st.len = LEN_S;
-  // film clock tt runs 0 -> 2.6; short plays its end
-  var tt0 = mode === 'full' ? 0 : mode === 'short' ? 1.55 : 1.75, ttK = (2.6 - tt0) / LEN_S; // the film's own clock runs to 2.6; full plays it in 2.4 s
+  // film clock tt runs 0 -> 2.6; the film starts at 0.55 (the glyph gathering)
+  var tt0 = mode === 'full' ? 0.55 : mode === 'short' ? 1.55 : 1.75, ttK = (2.6 - tt0) / LEN_S;
 
   // --- small helpers
   var cl = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
@@ -142,7 +146,7 @@
     if (done) return;
     done = true; st.state = how || 'done'; st.ms = Math.round(now() - t0);
     // A hidden tab or a failed canvas never counts as a watched intro.
-    if (mode === 'full' && (st.state === 'done' || st.state === 'skipped')) ss(seenKey, '1');
+    if (mode === 'full' && (st.state === 'done' || st.state === 'skipped')) { ss(seenKey, '1'); lsSet(dayKey, today); }
     try { cancelAnimationFrame(raf); } catch (e) { /* */ }
     clearTimeout(killT);
     try { if (el && el.parentNode) el.parentNode.removeChild(el); } catch (e) { /* */ }

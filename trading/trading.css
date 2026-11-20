@@ -18,7 +18,7 @@ html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
 .brand h1 { margin: 0; }
-.brand .sub { margin: 6px 0 0; font-size: 13px; color: var(--ag-soft); }
+.brand .sub { margin: 6px 0 0; font-size: 0.9375rem; color: var(--ag-soft); }
 .tags { display: flex; gap: 6px; align-items: center; flex: none; }
 .tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); }
 .tag.demo { color: var(--oly-th-n3, #1b1610); background: var(--ag-sun); border-color: transparent; }
@@ -26,7 +26,7 @@ html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
 .card > h2, .row h2 { margin: 0; }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 8px 10px; flex-wrap: wrap; }
 .lead { margin: 0; font-size: 15px; color: var(--ag-soft); } .lead.small { font-size: 14px; }
-.note { margin: 0; font-size: 13px; color: var(--ag-muted); overflow-wrap: anywhere; }
+.note { margin: 0; font-size: 0.9375rem; color: var(--ag-muted); overflow-wrap: anywhere; }
 .pos { color: var(--ag-olive-text, var(--oly-th-g8, #a0ac6e)); } .neg { color: var(--ag-terra-text, var(--oly-th-r10, #e08a6b)); }
 .kv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, max-content); gap: 6px 12px; margin: 0; font-size: 14px; }
 .kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
@@ -57,7 +57,7 @@ html:not(.tr-edge) #zeusEdge, html:not(.tr-edge) #zeusEdge[hidden] { display: bl
 .banner[data-level="ok"] { border-color: var(--oly-th-n10, #4c5530); border-left-color: var(--ag-olive); }
 .banner p { margin: 0; }
 .btitle { font: 700 clamp(18px, 5.4vw, 22px)/1.25 var(--ag-serif); color: var(--ag-text); }
-.btext { font-size: 14px; color: var(--ag-soft); }
+.btext { font-size: 0.9375rem; color: var(--ag-soft); }
 
 /* 1. today */
 .clock { margin: 0; font: 600 16px/1.35 var(--ag-serif); color: var(--ag-text); }
@@ -107,7 +107,7 @@ a.tlink { cursor: pointer; }
 .st thead th { border-top: 0; color: var(--ag-muted); font-weight: 600; }
 
 /* 5. rules */
-.verdict { margin: 0; font-size: 14px; color: var(--ag-soft); padding-left: 10px; border-left: 3px solid var(--ag-line); }
+.verdict { margin: 0; font-size: 0.9375rem; color: var(--ag-soft); padding-left: 10px; border-left: 3px solid var(--ag-line); }
 .verdict[data-ok="true"] { border-left-color: var(--up); } .verdict[data-ok="false"] { border-left-color: var(--dn); }
 
 /* 6. bars */
@@ -152,6 +152,9 @@ html[data-oly-lite="1"] .sheet { animation: none; }
 /* LIVE per account (2026-11-18): the account filter wraps 2 a row; the LIVE table; "replay after tonight's upload" */
 #fAcct { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .st.live th:first-child { width: 32%; }
-.st.live td, .st.live th { font-size: 12px; }
+.st.live td, .st.live th { font-size: 13px; }
 .livestats { margin-bottom: 10px; }
 .later { color: var(--ag-muted); font-style: italic; }
+
+/* a11y 2026-11-20: card notes are sentences the owner reads: 15 px (the kit's .ag-card .note is 13 px) */
+main#app .ag-card .note { font-size: 0.9375rem; }

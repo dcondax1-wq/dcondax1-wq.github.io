@@ -66,10 +66,14 @@
   "research/writeups/monte-carlo-evals.md",
   "research/writeups/moving-averages.md",
   "research/writeups/nq-live-reliability-2026-11-20.md",
+  "research/writeups/nq-speed-fills-2026-11-20.md",
   "research/writeups/parameter-robustness.md",
   "research/writeups/payout-policy-funded25-2026-11-17.md",
   "research/writeups/payout-policy.md",
+  "research/writeups/rapid-launch-2026-11-20.md",
+  "research/writeups/rapid50-ready-2026-11-20.md",
   "research/writeups/redteam-live-2026-11-20.md",
+  "research/writeups/redteam-live2-2026-11-20.md",
   "research/writeups/retail-standalone.md",
   "research/writeups/risk-sizing.md",
   "research/writeups/risk-summary.md",
@@ -747,7 +751,7 @@
    "tags": [
     "rejected"
    ],
-   "title": "The graveyard: 47 lists of dead ends",
+   "title": "The graveyard: 51 lists of dead ends",
    "short": "Many ideas were tested properly and dropped. Before you suggest a new strategy idea, search here first.",
    "body": [
     "Do not redo it unless you have a genuinely new idea.",
@@ -3354,6 +3358,23 @@
    ]
   },
   {
+   "id": "l-nq-speed-fills-2026-11-20",
+   "kind": "learned",
+   "tags": [
+    "learned"
+   ],
+   "title": "NQ bot speed and fills",
+   "short": "An entry leaves ~2.65 s after the fill bar opens - 2.0 s is the poll offset by design, ~0.5 s the bot's poll (1m bars 240 ms, 5m bars 155 ms, LIT 62 ms), ~0.15 s NinjaTrader / broker; the ledger's 3-5 s stamp is taken after the fill + bracket.",
+   "body": [
+    "A finding, nothing changed, 2026-11-20.",
+    "Patch 1 (parse only the appended tail of the bar file) -68 ms, patch 2 (history cut to 150 days before the per-poll merges; LIT / ATLAS read <= ~70) -193 ms, together 493 -> 219 ms median, identical decisions.",
+    "Fast entry ON - same trades, order 2 s earlier; worth $0 to ~$160 a month depending on the unknown price path in the first seconds, so no card. Fills - ATLAS 10 / 12 / 16 ticks past the open, Zlarior 4: almost all of it timing, ~1 tick spread."
+   ],
+   "src": [
+    "research/writeups/nq-speed-fills-2026-11-20.md"
+   ]
+  },
+  {
    "id": "l-parameter-robustness",
    "kind": "learned",
    "tags": [
@@ -3408,6 +3429,43 @@
    ]
   },
   {
+   "id": "l-rapid-launch-2026-11-20",
+   "kind": "learned",
+   "tags": [
+    "learned"
+   ],
+   "title": "Rapid EOD 25K launch check",
+   "short": "MFFU's help center (read 2026-11-20) = the code for the Rapid EOD 25K with DLL - $1,500 target, $1,000 EOD trailing floor locking at +$100, DLL $500 = a soft pause (resets 6 PM ET; the bot's day also starts 18:00 ET), 2 minis / 20 micros, 30% best day...",
+   "body": [
+    "A finding, nothing changed, 2026-11-20.",
+    "At ATLAS's real fills (10 ticks a side), LIT + ATLAS makes $1,883 / $800 a month (Jan-Jun / Jul-Oct-like; -$50 2021-25-like) vs LIT alone $221 / $191 and ATLAS alone $707 / $141.",
+    "Eval passes in 80-86% of runs within 60 trading days, median 33 / 26 days; first payout median Feb 10 / Feb 18 2027 (middle half Jan 20-Mar 16 / Jan 22-Apr 13); 12% / 26% of runs lose the first Rapid before any payout; 6 months pays $11,428 / $4,945 before fees.",
+    "A full ATLAS stop at real fills overshoots its sized $ by up to ~36% (tight stops, many micros): days under -$500 1.1 per 100 traded days Jan-Jun-like -> MFFU's soft pause (never a fail). Sizing on a 10-tick stop makes that 0 and cuts the funded loss 27.2 -> 24.0% / 38.0 -> 34.5% for -$141 / -$31 a month.",
+    "Words used here: [[micro]]."
+   ],
+   "src": [
+    "research/writeups/rapid-launch-2026-11-20.md"
+   ]
+  },
+  {
+   "id": "l-rapid50-ready-2026-11-20",
+   "kind": "learned",
+   "tags": [
+    "learned"
+   ],
+   "title": "Rapid EOD 50K readiness",
+   "short": "At ATLAS's real fills (10 ticks a side, 1,000 paths) the Rapid EOD 50K with LIT + ATLAS $500 makes $5,093 / $2,295 a month (Jan-Jun / Jul-Oct-like; -$89 2021-25-like) vs a 2nd Rapid 25K $1,883 / $800; LIT alone on the 50K $803 / $791, ATLAS alone...",
+   "body": [
+    "A finding, nothing changed, 2026-11-20.",
+    "Sizing ATLAS on a 10-tick stop costs 3% / 1% ($4,944 / $2,274) and cuts the funded loss 22.7 -> 19.4% / 26.6 -> 22.7%, passing the pre-registered bar.",
+    "Eval passes in 92-94% of runs, median 22-23 trading days; first payout median 40 / 48 trading days after the buy (middle half 29-57 / 33-73); 9-16% of runs lose the first 50K before any payout; 6 months pays $29,870 / $13,858 before fees. moneybook.nextbuy's ranking re-set to the real-fill values (50K $2,295 vs 25K...",
+    "MFFU 50K rules (help center 2026-11-20) = engine presets: $3,000, $2,000 EOD locking at +$100, 3 / 30, 30% eval, 4 days, funded T1 ban, $2,100 buffer, $500 since the last, $500 min, 90%, DLL version $1,000 soft pause = the bot's own day stop. The plan page shows 4 / 40 funded in one row: the code keeps 30 (safe)."
+   ],
+   "src": [
+    "research/writeups/rapid50-ready-2026-11-20.md"
+   ]
+  },
+  {
    "id": "l-redteam-live-2026-11-20",
    "kind": "learned",
    "tags": [
@@ -3422,6 +3480,23 @@
    ],
    "src": [
     "research/writeups/redteam-live-2026-11-20.md"
+   ]
+  },
+  {
+   "id": "l-redteam-live2-2026-11-20",
+   "kind": "learned",
+   "tags": [
+    "learned"
+   ],
+   "title": "Red team 2 of the live bot (2026-11-20)",
+   "short": "MFFU does not auto-close at a CME half-day halt (Thanksgiving 11-26 13:00 ET, 11-27 and 12-24 13:15 ET) and the bot's own flat at halt - 5 min runs only while the bot runs; a STOP, crash or restart without resume left a trade open into the halt = the...",
+   "body": [
+    "A finding, nothing changed, 2026-11-20.",
+    "New engine/fastalarm haltopen rings the phone from 10 min before the halt (bot stopped) or 4 min (bot running, its close did not land). New nostop rings when the bot is stopped and a real account holds an entry whose bracket never went out (restart between fill and bracket).",
+    "Christmas / New Year closures, every MFFU rule (16:10, contracts, Rapid $500 DLL, news, best day, floor) and the day-kalshi diff checked fine."
+   ],
+   "src": [
+    "research/writeups/redteam-live2-2026-11-20.md"
    ]
   },
   {

@@ -252,6 +252,7 @@ export class AgoraMap {
     const cv = this.cv;
     cv.addEventListener('pointerdown', (e) => {
       cv.setPointerCapture && cv.setPointerCapture(e.pointerId);
+      this.touchAt = performance.now();
       this.ptr.set(e.pointerId, { x: e.clientX, y: e.clientY });
       this.fly = null;
       this.tap = this.ptr.size === 1 ? { x: e.clientX, y: e.clientY, t: performance.now(), moved: 0 } : null;
@@ -304,13 +305,19 @@ export class AgoraMap {
     for (const k of Object.keys(this.isl)) if (inBlob(this.isl[k], wx, wy, 1.05)) return { kind: 'district', key: k };
     return { kind: 'sea' };
   }
-  _tap(x, y) { this.touched = true; this.onTap(this.pick(x, y), x, y); }
+  _tap(x, y) { this.touched = true; this.touchAt = performance.now(); this.onTap(this.pick(x, y), x, y); }
 
   // ---------------------------------------------------------------- loop
   start() { if (this.running) return; this.running = true; this.last = 0; const tick = (now) => { if (!this.running) return; this.raf = requestAnimationFrame(tick); this._frame(now); }; this.raf = requestAnimationFrame(tick); }
   stop() { this.running = false; cancelAnimationFrame(this.raf); }
   _frame(now) {
     if (document.hidden) return;
+    // olympus2 perf: full speed while you touch or the camera flies; 3 s after the last touch the sea and the boats hold still (decoration) until the next touch
+    if (this.fly || this.dirty) this.busyAt = now;
+    const idle = now - (this.busyAt || 0) > 3000 && now - (this.touchAt || 0) > 3000;
+    if (this.ver !== this.verSeen) { this.verSeen = this.ver; this.verAt = now; }
+    const dataDue = this.stillVer !== this.ver && now - (this.verAt || 0) >= 300;   // new data has gone quiet: one repaint
+    if (idle && !this.dirty && !this.fly && !dataDue) { this.last = now; return; }   // at rest the picture holds (no redraw until a touch, a flight or new data)
     const gap = this.low ? 50 : 30;
     if (this.last && now - this.last < gap) return;
     const dt = this.last ? Math.min(0.1, (now - this.last) / 1000) : 0.03; this.last = now;
@@ -347,12 +354,33 @@ export class AgoraMap {
     const C = this.stillCv || (this.stillCv = document.createElement('canvas'));
     if (C.width !== this.cv.width || C.height !== this.cv.height) { C.width = this.cv.width; C.height = this.cv.height; this.stillKey = ''; }
     if (!C.width || !C.height) return;
-    if (key !== this.stillKey) {
+    // olympus2 perf (PERF ASKS: cities long task 4.1 s at 4x CPU, ~45 full repaints while it loads): (a) while the camera flies, the last layer is
+    // moved / zoomed to the new camera (one drawImage) and repainted only when its zoom drifts past 0.8-1.5x; (b) data-only changes (ver) on a
+    // resting view wait until the data is quiet for 0.3 s (2 s at most). The full layer is always painted once the view rests.
+    const moving = !!this.fly, now = performance.now(), cs = this.stillCam;
+    const view = [c.x, c.y, c.s, this.W, this.H, this.dpr, this.sel, this.low ? 1 : 0].join('|');
+    let reuse = false;
+    if (key !== this.stillKey && this.stillKey && cs) {
+      const k = c.s / cs.s;
+      if (moving && k > 0.8 && k < 1.5 && this.W === cs.W && this.H === cs.H) reuse = true;
+      else if (!moving && view === this.stillView) {      // data only: wait until it goes quiet for 0.3 s (at most 2 s behind)
+        if (now - (this.verAt || 0) < 300 && now - (this.stillAt || 0) < 2000) reuse = true;   // _frame wakes once it is quiet
+      }
+    }
+    if (key !== this.stillKey && !reuse) {
       const k = C.getContext('2d');
       k.setTransform(1, 0, 0, 1, 0, 0); k.clearRect(0, 0, C.width, C.height);
       k.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
       this._land(k); this._network(k); this._props(k, 'still'); this._cityLayer(k, 'still');
-      this.stillKey = key; this.stillPaints = (this.stillPaints || 0) + 1;
+      this.stillKey = key; this.stillView = view; this.stillAt = now; this.stillVer = this.ver; this.stillCam = { x: c.x, y: c.y, s: c.s, W: this.W, H: this.H };
+      this.stillPaints = (this.stillPaints || 0) + 1;
+    }
+    if (reuse && moving) {                                  // the cached picture under the new camera: screen1 = (screen0 - mid) * k + mid + (c0 - c1) * s1
+      const k = c.s / cs.s, mx = this.W / 2, my = this.areaMid, d = this.dpr;
+      const tx = mx + (cs.x - c.x) * c.s - mx * k, ty = my + (cs.y - c.y) * c.s - my * k;
+      g.save(); g.setTransform(d * k, 0, 0, d * k, d * tx, d * ty); g.globalAlpha = 1; g.drawImage(C, 0, 0, C.width / d, C.height / d); g.restore();
+      g.lineJoin = 'round'; g.lineCap = 'round';
+      return;
     }
     g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.drawImage(C, 0, 0); g.restore();
     g.lineJoin = 'round'; g.lineCap = 'round';               // the stroke state the land and the roads used to leave for the layers above

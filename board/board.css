@@ -6,7 +6,7 @@ html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom,
 .bd-top { display: block; margin-bottom: 10px; }
 .bd-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .bd-head h1 { margin: 0; }
-.bd-sub { margin: 2px 0 8px; color: var(--ag-muted, #a89c88); font-size: .875rem; }
+.bd-sub { margin: 2px 0 8px; color: var(--ag-muted, #a89c88); font-size: 0.9375rem; }
 .tag { display: inline-block; font: 600 .75rem/1.3 var(--ag-sans, system-ui); padding: 4px 8px; border-radius: 10px; border: 1px solid var(--ag-line, #3a3228); color: var(--ag-soft, #cfc4b2); min-width: 0; overflow-wrap: anywhere; }
 .tag.mode-pc { color: var(--ag-olive-text, #a0ac6e); border-color: currentColor; }
 .tag.mode-plan, .tag.mode-copy { color: var(--ag-sun, #e0b060); border-color: currentColor; }
@@ -22,13 +22,13 @@ html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom,
 .silent p { margin: 8px 0 0; font-size: 1rem; line-height: 1.45; color: var(--ag-text, #f3ece0); }
 @media (prefers-reduced-motion: no-preference) { .silent:not([hidden]) b::before { animation: bd-breathe 2.4s ease-in-out infinite; } }
 @keyframes bd-breathe { 0%, 100% { opacity: .55; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
-.pcline { margin: 4px 0 8px; color: var(--ag-olive-text, #a0ac6e); font-size: .875rem; }
+.pcline { margin: 4px 0 8px; color: var(--ag-olive-text, #a0ac6e); font-size: 0.9375rem; }
 .sect { margin: 14px 0 8px; font-size: 1.1rem; }
 .accounts { display: grid; gap: 10px; }
 .brow { padding: 14px 16px; }
 .brow-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .brow-top h3 { margin: 0; font-size: 1.1rem; flex: 1 1 auto; }
-.brow-plan { margin: 2px 0 8px; color: var(--ag-muted, #a89c88); font-size: .85rem; }
+.brow-plan { margin: 2px 0 8px; color: var(--ag-muted, #a89c88); font-size: 0.9375rem; }
 .chip { display: inline-flex; align-items: center; gap: 5px; font: 600 .75rem/1 var(--ag-sans, system-ui); padding: 5px 10px; border-radius: 999px; border: 1px solid currentColor; text-transform: none; }
 .chip-eval { color: var(--ag-aegean-text, #7fa7c2); }
 .chip-passed { color: #14110e; background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); }
@@ -41,7 +41,7 @@ html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom,
 .nums div { background: var(--ag-s1, #1b1713); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .05); border-radius: 12px; padding: 10px 12px; min-width: 0; }
 .nums dt { font-size: .75rem; color: var(--ag-muted, #a89c88); }
 .nums dd { margin: 3px 0 0; font: 700 1.125rem/1.2 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.brow-src, .brow-last, .brow-hint { margin: 8px 0 0; font-size: .85rem; color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
+.brow-src, .brow-last, .brow-hint { margin: 8px 0 0; font-size: 0.9375rem; color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
 .brow-src { color: var(--ag-muted, #a89c88); }
 .brow-hint { color: var(--ag-gold-hi, #dcbd6e); }
 .wait, .feedbox, .notebox, .later { margin-top: 14px; }
@@ -51,14 +51,21 @@ html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom,
 .ev { padding: 10px 0; border-top: 1px solid var(--ag-line-soft, rgba(243,236,224,.07)); }
 .ev:first-child { border-top: 0; }
 .ev-top { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: .9rem; }
-.ev-when { color: var(--ag-muted, #a89c88); font-size: .8rem; }
-.ev p { margin: 4px 0 0; font-size: .9rem; overflow-wrap: anywhere; }
+.ev-when { color: var(--ag-muted, #a89c88); font-size: 0.9375rem; }
+.ev p { margin: 4px 0 0; font-size: 0.9375rem; overflow-wrap: anywhere; }
 .ev.loud b { color: var(--ag-gold-hi, #dcbd6e); }
 .ev.ev-owner b { color: var(--ag-aegean-text, #7fa7c2); }
-.hint { color: var(--ag-muted, #a89c88); font-size: .85rem; margin: 6px 0; }
+.hint { color: var(--ag-muted, #a89c88); font-size: 0.9375rem; margin: 6px 0; }
 #noteForm { display: flex; gap: 8px; }
 #noteForm input { flex: 1 1 auto; min-width: 0; min-height: 44px; box-sizing: border-box; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); color: var(--ag-text, #f3ece0); font-size: 16px; }
 #noteForm button { min-height: 44px; }
 .later ul { margin: 0; padding-left: 20px; color: var(--ag-muted, #a89c88); }
-.foot { margin-top: 16px; color: var(--ag-muted, #a89c88); font-size: .8rem; }
+.foot { margin-top: 16px; color: var(--ag-muted, #a89c88); font-size: 0.9375rem; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* perf 2026-11-20 (CLS 0.66): the accounts area keeps its filled height (3-4 tiles at 390 px) from the first frame, so the notes / feed under it
+   start below the screen and nothing visible moves when the PC's numbers arrive; the edge chip keeps its line */
+html:not(.bd-drawn) #accounts { min-height: 1100px; }
+#edgeChip:empty { min-height: 44px; }
+
+#mode { font-size: 0.9375rem; }   /* a11y: the source tag reads as a sentence */

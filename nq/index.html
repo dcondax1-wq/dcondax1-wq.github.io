@@ -20,20 +20,31 @@
      Read only, paper only: it reads ../home.json, howto.json and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent / createElementNS.
      nqcore.js = the pure rules (node-tested); nq.js = the page; nqscene.js = the optional 3D columns (a separate module, so a device without WebGL keeps the 2D columns). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<!-- perf 2026-11-20 (largest paint 6.9 s = the chart's line, at the end of page -> nqchart.js -> status_feed.json -> the PC's chart post):
+     the page's data files and the chart post start here at once; nq.js / nqchart.js take them (window.NQ_EARLY, each used once) -->
+<script>(function () { var J = {}, X = {}; window.NQ_EARLY = { json: J, text: X }; if (typeof fetch !== 'function') return;
+  var get = function (u, as, cache) { return fetch(u, { cache: cache || 'no-cache' }).then(function (r) { return r.ok ? (as === 'text' ? r.text() : r.json()) : null; }).catch(function () { return null; }); };
+  ['./fixture.json', '../home.json', './howto.json', './news_week.json', '../hub/learned.json', '../business/accounts.json', '../trading/trades.json', '../edge.json', './brief.json']
+    .forEach(function (u) { J[u] = get(u); });
+  X['../status_feed.json'] = get('../status_feed.json', 'text').then(function (t) {
+    try { var f = JSON.parse(t || 'null'), base = String((f && f.ntfy) || 'https://ntfy.sh').replace(/\/+$/, ''), topic = String((f && f.bars_topic) || '');
+      if (!/^[A-Za-z0-9_-]{1,64}$/.test(topic)) topic = /^[A-Za-z0-9_-]{1,59}$/.test(String((f && f.topic) || '')) ? f.topic + '-bars' : '';
+      if (topic && /^https:\/\/[A-Za-z0-9.-]+(:\d+)?$/.test(base)) { var u = base + '/' + encodeURIComponent(topic) + '/json?poll=1&since=latest'; X[u] = get(u, 'text', 'no-store'); } } catch (e) { /* the chart asks itself */ }
+    return t; }); })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../pc_feed.js?v=n5"></script><script src="../business/payoutcoach.js?v=1"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o15" data-app="nq"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="nq"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script>
-<script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=5" defer></script>
+<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="nq.css?v=a4q">
-<link rel="stylesheet" href="../nqdeep.css?v=1">
-<link rel="stylesheet" href="nqdesk.css?v=6">
+<link rel="stylesheet" href="nq.css?v=a4r">
+<link rel="stylesheet" href="../nqdeep.css?v=2">
+<link rel="stylesheet" href="nqdesk.css?v=8">
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
@@ -72,7 +83,7 @@
     <!-- nqdash3 2026-11-20 (nqdesk.js): every MFFU account at a glance, a live / stale dot from the PC's 15-minute report -->
   <section class="ag-card card" id="acctCard" aria-labelledby="acctH">
     <div class="row"><h2 id="acctH">Accounts</h2><span class="pill" id="acctPill">Loading</span></div>
-    <div class="dk-strip" id="acctStrip" role="list" aria-label="Each MFFU account"></div>
+    <div class="dk-strip" id="acctStrip" role="group" aria-label="Each MFFU account"></div>
     <p class="dk-legend" aria-hidden="true"><span><i class="dk-dot live"></i>live</span><span><i class="dk-dot stale"></i>over 20 min old</span><span><i class="dk-dot old"></i>over 1 h old</span><span><i class="dk-dot plan"></i>planned</span></p>
   </section>
 
@@ -164,9 +175,9 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r19"></script>
-<script type="module" src="nqchart.js?v=c2"></script>
+<script type="module" src="nq.js?v=r21"></script>
+<script type="module" src="nqchart.js?v=c4"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
-<script src="../olympus/lazy3d.js?v=l1" data-src="nqscene.js?v=q6c" data-skip="lite" data-event="nq3d" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6d" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
 </body>
 </html>

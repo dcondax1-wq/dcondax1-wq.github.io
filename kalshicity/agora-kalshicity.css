@@ -47,10 +47,10 @@ button:focus-visible{outline-color:#e0b060}
    2. The archive banner: one short line + two 44 px links (today's bot K8, the Kalshi desk). */
 *,*::before,*::after,*::backdrop{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .top,.help-btn,.chip,.tag{background-color:#1d1914}
-.archive-banner{display:grid;gap:6px;padding:8px 10px;border-radius:14px;border:1px solid rgba(224,176,96,.45);background:linear-gradient(180deg,#2b2416,#211c13);box-shadow:0 6px 18px rgba(0,0,0,.4)}
-.archive-banner p{margin:0;font:500 13px/1.35 var(--ag-sans);color:#cfc4b2}
+.archive-line b{color:#e0b060;font-weight:700}
+.archive-banner{display:flex;align-items:center;gap:6px;padding:4px 4px 4px 10px;border-radius:14px;border:1px solid rgba(224,176,96,.45);background:linear-gradient(180deg,#2b2416,#211c13);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.archive-banner p{flex:1 1 auto;min-width:0;margin:0;font:600 13px/1.25 var(--ag-sans);color:#f3ece0}
 .archive-banner b{color:#f3ece0;font-weight:600}
-.archive-banner .arch-go{display:flex;flex-wrap:wrap;gap:6px}
-.arch-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 14px;border-radius:12px;border:1px solid #3a3228;background:#2a241c;color:#f3ece0;font:600 14px/1.2 var(--ag-sans);text-decoration:none}
+.arch-btn{display:inline-flex;align-items:center;justify-content:center;flex:none;white-space:nowrap;min-height:44px;min-width:44px;padding:0 10px;border-radius:10px;border:1px solid #3a3228;background:#2a241c;color:#f3ece0;font:600 13px/1.2 var(--ag-sans);text-decoration:none}
 .arch-btn.primary{background:#c8a24a;color:#1b1610;border-color:#e2c47a}
 .arch-btn:focus-visible{outline:2px solid #e0b060;outline-offset:2px}

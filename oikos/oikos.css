@@ -36,7 +36,7 @@ html.framed #app { padding-top: 12px; }
 .btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: var(--oly-th-n5, #2a2217); }
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .ag-bar { height: 10px; } .ag-bar.red > i { background: linear-gradient(90deg, var(--oly-th-r3, #7a3a24), var(--ag-terra)); } .ag-bar.green > i { background: linear-gradient(90deg, var(--oly-th-g3, #5a6338), var(--ag-olive)); } .ag-bar.amber > i { background: linear-gradient(90deg, var(--oly-th-a5, #9c6b3c), var(--ag-sun)); }
-.ag-bar > i { transition: width .45s ease-out; }
+.ag-bar > i { transition: width var(--ag-d3, 340ms) var(--ag-ease, ease-out); }
 svg text { font-family: var(--ag-sans); }
 .foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
 .ag-tabs { position: static; }
@@ -86,10 +86,10 @@ textarea { width: 100%; min-height: 96px; padding: 10px 12px; border-radius: var
 .legend { display: flex; gap: 16px; font-size: 13px; color: var(--ag-soft); }
 .lg::before { content: ""; display: inline-block; width: 14px; height: 3px; margin-right: 6px; vertical-align: middle; border-radius: 2px; background: var(--oly-th-info, #4b7a99); } .lg.r::before { background: var(--oly-th-a8, #c8a24a); }
 .lad td, .lad th { padding-right: 6px; } .lad td:last-child, .lad th:last-child { text-align: right; }
-.lad td small { display: block; color: var(--ag-muted); font-size: 11px; }
+.lad td small { display: block; color: var(--ag-muted); font-size: 12px; }
 .fld { display: grid; gap: 4px; min-width: 0; font-size: 13px; color: var(--ag-soft); }
 .fld input[type="number"] { min-height: 44px; width: 100%; padding: 0 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--oly-th-n4, #211c16); color: var(--ag-text); font-family: var(--ag-num); font-variant-numeric: tabular-nums; }
-.lad { width: 100%; border-collapse: collapse; font-size: 14px; } .lad caption { text-align: left; padding-bottom: 6px; }
+.lad { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 14px; } .lad .pill { white-space: normal; } .lad caption { text-align: left; padding-bottom: 6px; }
 .lad th { text-align: left; font-weight: 600; color: var(--ag-muted); font-size: 12px; padding: 4px 4px; }
 .lad td { padding: 6px 4px; min-height: 44px; border-top: 1px solid var(--ag-line); font-family: var(--ag-num); font-variant-numeric: tabular-nums; vertical-align: top; }
 .plain { margin: 0; padding-left: 20px; }

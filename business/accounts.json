@@ -81,10 +81,7 @@
   }
  ],
  "decisions": [
-  "Yes/no: ATLAS trades on Zlarior's 50K once it is funded",
-  "Yes/no: ATLAS trades on the Rapid EOD accounts",
-  "Yes/no: keep $1,000 in each Rapid when taking payouts",
-  "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
+  "Ask MFFU support: may you run a 2nd Builder 50K and a 2nd 25K eval while the current ones run? (you said yes to asking, Nov 20)"
  ],
  "limits": "MFFU lets you hold 5 funded accounts: 1 Builder 50K, 2 Builder 25K, 3 Rapid EOD 50K, 3 Rapid EOD 25K (5 in all). Up to 10 evals.",
  "rules": [

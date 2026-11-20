@@ -43,7 +43,7 @@ function renderMonth() {
   const box = $('grid'); clear(box);
   for (const d of C.DOW) { const c = h('div', 'dh', d.slice(0, 3)); c.setAttribute('aria-hidden', 'true'); box.appendChild(c); }
   for (const c of g.cells) {
-    const e = h('div', 'cell' + (c.inMonth ? '' : ' out') + (c.usd == null ? '' : c.usd > 0 ? ' up' : c.usd < 0 ? ' dn' : ' fl') + (c.day === S.today ? ' now' : '')); e.setAttribute('role', 'gridcell');
+    const e = h('div', 'cell' + (c.inMonth ? '' : ' out') + (c.usd == null ? '' : c.usd > 0 ? ' up' : c.usd < 0 ? ' dn' : ' fl') + (c.day === S.today ? ' now' : '')); e.setAttribute('role', 'listitem');
     e.setAttribute('aria-label', c.inMonth ? (c.usd == null ? `${C.dayWord(c.day)}: no trade` : `${C.dayWord(c.day)}: ${c.word}, ${c.n} trade${c.n === 1 ? '' : 's'}`) : '');
     if (!c.inMonth) e.setAttribute('aria-hidden', 'true');
     e.appendChild(h('small', '', String(c.dom))); if (c.usd != null) e.appendChild(h('b', 'ag-num', C.usd0S(c.usd)));

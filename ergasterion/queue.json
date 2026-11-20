@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795193820,
+   "t": 1795196760,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,104 +4387,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795193709,
-    "s": "Jarvis worker cache jarvis-v80 (search index changed)"
+    "t": 1795196639,
+    "s": "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)"
    },
    {
-    "t": 1795193292,
-    "s": "Jarvis search index rebuilt (1242 docs)"
+    "t": 1795196281,
+    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into oly2-pre2"
    },
    {
-    "t": 1795187858,
-    "s": "Land the ntfy fix (day-nqdash3 a76ce7ab: ext_hash ignores clocks + paper accruals, ext every 3rd run, ntfy's…"
+    "t": 1795196281,
+    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into oly2-pre2"
    },
    {
-    "t": 1795187838,
-    "s": "Merge remote-tracking branch 'olympus/day-kalshi' into land-ntfy"
+    "t": 1795196281,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into oly2-pre2"
    },
    {
-    "t": 1795187815,
-    "s": "PC report: stop spending ntfy's day cap (the PC went silent 09:45 ET). ext_hash leaves out clocks (updated/u/…"
+    "t": 1795196279,
+    "s": "Merge remote-tracking branch 'olympus/day-archive' into oly2-pre2"
    },
    {
-    "t": 1795187664,
-    "s": "Kalshi Olympus 2: phone screenshots (top, go-live checklist)"
+    "t": 1795196271,
+    "s": "Launcher + doors: the 28 retired apps shown nowhere (same list as the catalog, URLs still open), the owner's…"
    },
    {
-    "t": 1795187513,
-    "s": "Data truth: REPORT + live screenshots (dark/light)"
+    "t": 1795195939,
+    "s": "DESIGN phone QA: body.oly-has-ask pads main/#app clear of the Ask Jarvis button and hides it while a sheet is…"
    },
    {
-    "t": 1795187415,
-    "s": "Data truth: checker computes the ONE 'to payout' (coach need_more) and scans pages for it (Glance $1,449 vs $…"
+    "t": 1795195922,
+    "s": "Jarvis report: the switcher section"
    },
    {
-    "t": 1795187387,
-    "s": "Kalshi page: whole history rows tappable + focus ring; live-day prices dated; bar notes"
+    "t": 1795195795,
+    "s": "Switcher after2 shots (Archive group last)"
    },
    {
-    "t": 1795186892,
-    "s": "Kalshi pages bar (partial): Dionysus K8 first + old bot labelled retired + plain no-data message; Sibyl/Kalsh…"
+    "t": 1795195751,
+    "s": "Archive strip reads the age 1.5 s after load from the browser's cached copy (force-cache: no second download…"
    },
    {
-    "t": 1795186847,
-    "s": "Kalshi page (Olympus 2): K8 first (live day, status, Monday go-live checklist that ticks itself from the PC c…"
+    "t": 1795195687,
+    "s": "What's new: your order + clutter gone, Data City drag, offline apps, faster pages"
    },
    {
-    "t": 1795186803,
-    "s": "Olympus 2 data truth: tools/truth_check.py (feeds vs the PC's report + a page scanner) + test; age.js one dat…"
+    "t": 1795195593,
+    "s": "apps_list: Kalshi City lives inside Cities, the brain is one tap into Zenith (door trims)"
    },
    {
-    "t": 1795186258,
-    "s": "Merge remote-tracking branch 'origin/pc' into day-kalshi"
+    "t": 1795195585,
+    "s": "test_jarvis_hub: the ring pin skips the hidden apps (Data City lives inside Cities now)"
    },
    {
-    "t": 1795186237,
-    "s": "test_kalshi_page: 'never PC' scoped to the old bot's own words (K8 sections excluded), rw1 order with the K8…"
+    "t": 1795195554,
+    "s": "NQ chart (phone QA 12:20): an exit tag on the newest bar (+$514) is no longer cut by the price axis - the rig…"
    },
    {
-    "t": 1795185729,
-    "s": "test_atlas_funded_switches restores the repo FUNDED_ON after importing test_account_b_funded (redteam2 batch-…"
+    "t": 1795195517,
+    "s": "Switcher: the archived apps (olympus/doors.js ARCHIVE) fold into one Archive group at the very end; hub pins…"
    },
    {
-    "t": 1795184987,
-    "s": "Batch 3: cities3 round 4 (Right now card money facts first) + arenas round 5 (pulse test feeds its own fixtur…"
+    "t": 1795195463,
+    "s": "Archive strip on full-screen pages: float it and raise the kit's --oly-st when the page's HUD reads it (arena…"
    },
    {
-    "t": 1795184981,
-    "s": "Merge remote-tracking branch 'olympus/day-arenas' into land-batch3"
+    "t": 1795195438,
+    "s": "Olympus v2 landing: version tags aligned across pages (shell s6, gate-nav g7, catalog nv7, zeus_core 6, agora…"
    },
    {
-    "t": 1795184981,
-    "s": "Merge remote-tracking branch 'olympus/day-cities3' into land-batch3"
+    "t": 1795195395,
+    "s": "Merge remote-tracking branch 'olympus/day-kalshi' into oly2-pre2"
    },
    {
-    "t": 1795184951,
-    "s": "Round 4 (lead): Right now keeps the owner's money facts first (drawdown left per account, today's $), the win…"
+    "t": 1795195395,
+    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into oly2-pre2"
    },
    {
-    "t": 1795184564,
-    "s": "Merge origin/pc into day-cities3 (gate head: pc's agora a7 / shell s5 + our gate g12 / home-fx x2; Data City…"
+    "t": 1795195395,
+    "s": "Merge remote-tracking branch 'olympus/day-cities3' into oly2-pre2"
    },
    {
-    "t": 1795184533,
-    "s": "Tests: 0 open Decide cards is a real state (owner answered every card): decide d + week_more weekend accept it"
+    "t": 1795195394,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into oly2-pre2"
    },
    {
-    "t": 1795180898,
-    "s": "Land batch 3: safety + security (cross-site guard on the bot server incl. tailscale X-Forwarded-Host, old-acc…"
+    "t": 1795195378,
+    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into oly2-pre2"
    },
    {
-    "t": 1795180601,
-    "s": "Merge remote-tracking branch 'olympus/day-cities3' into land-batch3"
+    "t": 1795195378,
+    "s": "Merge remote-tracking branch 'olympus/day-quality' into oly2-pre2"
    },
    {
-    "t": 1795180572,
-    "s": "Merge remote-tracking branch 'olympus/day-speed' into land-batch3"
+    "t": 1795195378,
+    "s": "Merge remote-tracking branch 'olympus/day-archive' into oly2-pre2"
    },
    {
-    "t": 1795180566,
-    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into land-batch3"
+    "t": 1795195378,
+    "s": "Merge remote-tracking branch 'olympus/day-manual' into oly2-pre2"
    }
   ],
   "branches": [

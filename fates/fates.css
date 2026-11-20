@@ -33,7 +33,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .switch button { position: relative; min-height: 46px; padding: 4px 6px; border: 0; border-radius: 10px; background: transparent; color: var(--mut);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background .25s, color .25s, box-shadow .25s; }
 .switch b { font: 600 16px/1.1 var(--serif); }
-.switch small { font-size: 11.5px; opacity: .85; }
+.switch small { font-size: 12px; opacity: .85; }
 .switch button[aria-selected="true"] { color: #fff7e0; background: linear-gradient(180deg, rgba(var(--gold-rgb), .22), rgba(var(--gold-rgb), .1));
   box-shadow: inset 0 0 0 1px rgba(var(--gold-rgb), .55); }
 .switch button[aria-selected="true"]::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 3px; height: 2px; border-radius: 2px;
@@ -73,8 +73,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .gauge .l { display: block; font: 600 12px/1.2 -apple-system, system-ui, sans-serif; text-transform: none; color: var(--mut); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gauge .v { display: block; font: 700 18px/1.25 var(--num); font-variant-numeric: tabular-nums; color: var(--txt); }
 .gauge .gb { display: block; height: 3px; margin: 2px 0 3px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
-.gauge .gb u { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--gold);  transition: width .6s ease; }
-.gauge .s { display: block; font-size: 10.5px; line-height: 1.25; color: var(--mut); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.gauge .gb u { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--gold);  transition: width var(--ag-d3, 340ms) var(--ag-ease, ease-out); }
+.gauge .s { display: block; font-size: 12px; line-height: 1.25; color: var(--mut); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .gauge [data-id="dd"] .gb u { background: var(--up);  }
 .gauge [data-id="dd"][data-warn="1"] .gb u { background: var(--red);  }
 .gauge [data-id="dd"][data-warn="1"] .v { color: var(--red); }
@@ -90,7 +90,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .hud { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .tile { position: relative; padding: 6px 9px 7px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); min-width: 0;
     display: flex; flex-direction: column; gap: 2px; }
-.tile .l { color: var(--mut); font-size: 11px; text-transform: none; overflow-wrap: anywhere; }
+.tile .l { color: var(--mut); font-size: 12px; text-transform: none; overflow-wrap: anywhere; }
 .tile .v { font: 700 24px/1.1 var(--num); overflow-wrap: anywhere; }
 .tile .s { color: var(--mut); font-size: 12px; overflow-wrap: anywhere; }
 .tile.gold .v { color: var(--gold);  }
@@ -178,7 +178,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .labbody .stack b { display: block; height: 100%; } .labbody .stack b.g { background: linear-gradient(90deg, #9c6b3c, var(--gold)); } .labbody .stack b.r { background: var(--red); } .labbody .stack b.v { background: rgba(var(--vio-rgb), .7); }
 .labbody .bigs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .labbody .big { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255, 255, 255, .04); }
-.labbody .big span { font-size: 10.5px; text-transform: none; color: var(--mut); } .labbody .big b { font: 700 22px/1.1 var(--num); color: var(--gold); }
+.labbody .big span { font-size: 12px; text-transform: none; color: var(--mut); } .labbody .big b { font: 700 22px/1.1 var(--num); color: var(--gold); }
 .labbody .seg.tiny { align-self: flex-start; } .labbody .seg.tiny button[aria-pressed="true"] { background: rgba(var(--vio-rgb), .38); color: var(--txt); } .labbody .seg.tiny button:disabled { opacity: .4; }
 
 .cap:not(:empty) { padding: 5px 8px; border-radius: 10px; background: rgba(20, 17, 14, .78);   }
@@ -220,3 +220,4 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .gauge [data-warn="1"] .v, .gauge [data-id="dd"][data-warn="1"] .v, .gauge [data-id="odds"][data-warn="1"] .v { color: var(--ag-terra-text, #e08a6b); }
 .verdict b.v, .cap .k.v { color: #c9a06a; }
 .lab .folded { padding: 0 12px 12px; }  /* day-arenas: Moirai / Labyrinth folded in */
+@media (min-height: 701px) { .hud { min-height: 276px; box-sizing: border-box; } }   /* day-arenas DESIGN: the HUD reserves its filled height (layout shift 0.07 when fates.json lands late on a phone line) */

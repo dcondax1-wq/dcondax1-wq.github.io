@@ -166,7 +166,7 @@
       if (rows.length && S.pc && !S.pc.silent) $('status').textContent += ' Live now = your PC, ' + window.ZEUS_CORE.ago(S.pc.age_s) + '.';
     }).catch(() => null);
     if (window.ZEUS_CORE) { go(); return; }
-    const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=5'; sc.async = true; sc.onload = () => { if (window.ZEUS_CORE) go(); }; document.head.appendChild(sc);
+    const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=6'; sc.async = true; sc.onload = () => { if (window.ZEUS_CORE) go(); }; document.head.appendChild(sc);
   }
 
   fetch('week.json', { cache: 'no-cache' })

@@ -169,15 +169,24 @@
   });
   var DNAME = {};
   HUBS.forEach(function (h) { DNAME[h.id] = h.name.toLowerCase(); });
+  /* the owner's order (2026-11-20, lead): Cities, Kalshi, the NQ bot, Jarvis first; then Planner and Business; then the rest. RETIRED apps
+     (day-archive's list + Hephaestus + the city apps that live inside Cities) never show in search or A to Z; their URLs still open. */
+  var FIRST = { cities: 60, kalshi: 60, nq: 60, jarvis: 60, planner: 30, business: 30 };
+  var RETIRED = ['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity',
+    'gallery', 'mintcity', 'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes',
+    'hephaestus', 'datacity', 'kalshicity'];
+  var RET = {}; RETIRED.forEach(function (id) { RET[id] = 1; });
+  function retired(id) { return !!RET[id]; }
   function norm(s) { return String(s || '').toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9&$]+/g, ' ').replace(/^\s+|\s+$/g, ''); }
   function wordStarts(text, t) { var w = text.split(' '); for (var i = 0; i < w.length; i++) if (w[i].indexOf(t) === 0) return true; return false; }
   function isBest(a) { return !!a && BEST[a.hub + '/' + a.section] === a.id; }
   /** search by name, plain label, purpose and synonyms. Every word typed must match somewhere; best first. -> [app] */
   function find(q, n) {
-    var toks = norm(q).split(' ').filter(function (t) { return t.length > 0; });
+    var toks = toksOf(q);
     if (!toks.length) return [];
     var hits = [];
     apps.forEach(function (a) {
+      if (RET[a.id]) return;
       var label = norm(a.label), name = norm(a.name), line = norm(a.line), words = norm(a.words + ' ' + a.id), score = 0;
       for (var i = 0; i < toks.length; i++) {
         var t = toks[i], s = 0;
@@ -190,6 +199,7 @@
         score += s;
       }
       if (isBest(a)) score += 10;
+      score += FIRST[a.id] || 0;
       if (a.fold) score -= 3;
       if (a.section === 'workshop') score -= 12;
       hits.push({ a: a, s: score });
@@ -199,7 +209,7 @@
   }
   /** the hubs a search names: every word typed starts a word of the hub's name, line, question, own words or areas (the Me hub: "health", "wifi") */
   function findHubs(q) {
-    var toks = norm(q).split(' ').filter(function (t) { return t.length > 1; });
+    var toks = toksOf(q).filter(function (t) { return t.length > 2; });
     if (!toks.length) return [];
     return HUBS.filter(function (h) {
       var text = norm([h.name, h.line, h.q, h.words || ''].concat((h.areas || []).map(function (a) { return a[1] + ' ' + a[2]; })).join(' '));
@@ -211,14 +221,32 @@
      One search for EVERYTHING: apps (find), the hub tabs ("Bots & Evals > Risk") and a few plain ACTIONS (things he does, not apps).
      ACTIONS row: [id, label, one line, path from the site root, extra search words]. Read only: none of them can trade or change a bot. */
   var ACTIONS = [
+    // the owner's ten most-checked things + the manual (2026-11-20 day-manual NAV): one search hop each. A 6th column = words that never
+    // trigger the row ALONE ('kalshi' alone still opens the Kalshi bot first; 'money' alone stays Mint / Ledger)
+    ['act-open', 'Open trade right now', 'Is a bot in a trade: side, size, live $ (MFFU view)', 'business/mffu.html', 'open trade trades position in long short live now entry entered running atlas zlarior', 'atlas zlarior'],
+    ['act-pcstatus', 'PC status: is it on?', 'When the PC last reported, each account, PC SILENT', 'hub/zeus.html', 'pc computer status on off online silent alive running report reported working bot bots up down', 'bot bots'],
+    ['act-decide', 'Decide cards', 'The yes / no questions waiting for you', 'board/index.html#decide', 'decide decision decisions yes no questions approve answer waiting cards'],
+    ['act-alerts', 'Phone alerts on or off', 'Allow notifications, send a test, turn off', 'jarvis/index.html#pushCard', 'alerts alert notifications notification notify push pings ping sound phone off on'],
+    ['act-k8', 'Kalshi K8 today', "Today's K8 clock bets (gold, silver), paper or live", 'kalshi/index.html#k8d', 'kalshi k8 today bets bet gold silver metals clock', 'kalshi'],
+    ['act-sos', 'Emergency: what to do', '10 cards, 3 steps each: PC off, stuck trade, disconnected...', 'hub/manual.html#sos', 'emergency sos panic wrong broken problem stuck disconnected disconnect error urgent ninjatrader nt'],
+    ['act-kill', 'Stop everything now', 'The kill switch: flatten every account, stop the bot', 'hub/manual.html#sos-8', 'stop kill everything halt flatten close all bot bots shut off switch out', 'bot bots'],
+    ['act-manual', 'Owner manual', 'Who is who, a normal day, money, every word explained', 'hub/manual.html', 'manual guide who is explain meaning means glossary words word mean define definition'],
+    ['act-new', "What's new", 'What changed in Olympus and the bots, newest first', 'hub/whatsnew.html', 'new changed changes change updates latest recent whats week'],
+    ['act-steps', 'Your steps', 'What you still have to do, in order', 'hub/steps.html', 'steps todo to-do waiting owner list next need'],
+    ['act-add', 'Add an account', 'Pick the plan, the Name, your phrase: 3 steps', 'hub/manual.html#sos-9', 'add new account accounts buy bought rapid builder eval start'],
+    ['act-passed', 'My eval passed: what now', 'Upgrade at MFFU, then move the bot (4 steps)', 'hub/help.html#eval-passed', 'eval passed pass funded upgrade now'],
+    ['act-restart', 'Restart the bot safely', 'Only when flat; the best time; your phrase', 'hub/help.html#restart', 'restart reboot start again bot bots'],
+    ['act-update', 'Update the PC', 'It updates itself; how to do it now', 'hub/help.html#update', 'update updates upgrade new code pc version blocked'],
+    ['act-holidays', 'Holidays and early closes', 'What the bot does on short days', 'hub/help.html#holidays', 'holiday holidays early close closed thanksgiving christmas new year short day'],
     ['act-bringback', 'Bring the bots back', 'The 5 steps when the PC went quiet', 'nq/index.html?howto=1', 'restart start bots off stopped quiet old offline pc fix back'],
     ['act-az', 'All apps A to Z', 'Every app in one list, with pins', 'gate/index.html#az', 'all apps list every directory a z index pin pins favourites favorites'],
-    ['act-look', 'Change the look', 'Colours and style, everywhere', 'gate/index.html#lookSec', 'theme themes colour color colors dark light look style skin'],
-    ['act-pnl', "Today's P&L", 'Zlarior and ATLAS today, from the bots', 'nq/index.html', 'pnl p&l profit today money made lost zlarior atlas'],
-    ['act-dd', 'Drawdown left', 'How much room each eval has', 'aegis/index.html', 'drawdown room left max loss mll trailing zlarior atlas'],
+    ['act-look', 'Change the look', 'Colours and style, everywhere', 'gate/index.html#lookSec', 'theme themes colour color colors dark light look style skin mode'],
+    ['act-pnl', "Today's $ per account", 'Zlarior and ATLAS today, from the PC', 'hub/zeus.html', 'pnl p&l profit today money made lost up down day result zlarior atlas', 'money'],
+    ['act-dd', 'Room left on each account', '$ left before each account fails (MFFU view)', 'business/mffu.html', 'drawdown room left max loss lose mll trailing floor fail blow close near zlarior atlas'],
     ['act-window', 'Next trade window', 'When the bots may trade next', 'kairos/index.html', 'window when trade next session hours open close'],
     ['act-micros', 'How many micros for a stop', 'Stop size to contracts', 'pnyx/index.html', 'micros contracts how many stop size calculator mnq'],
-    ['act-payout', 'Payouts and fees so far', 'What came in, what went out', 'ledger/index.html', 'payout payouts paid withdraw fees cost profit cash'],
+    ['act-payout', 'Payout: when, and how much', 'What you can ask MFFU for, and when (Payout coach)', 'business/accounts.html#coach', 'payout payouts paid withdraw cash coach request next when'],
+    ['act-paid', 'Money in and out so far', 'What came in, what went out', 'ledger/index.html', 'payouts paid fees cost profit cash spent so far history'],
     ['act-pc', 'Start the bot on the PC', 'The steps on your Windows PC', 'pc/index.html', 'start pc windows ninjatrader setup install launch'],
     ['act-workshop', 'Workshop (labs)', 'Test pages for building', 'hub/index.html?h=settings&t=workshop', 'labs lab workshop test build'],
     // the four doors' pages that are not apps (2026-11-18, olympus/doors.js): so the Home search finds them by plain words
@@ -227,19 +255,47 @@
     ['act-doors', 'The four doors', 'ZEUS Trading, Money, Kalshi, More', 'hub/doors.html', 'doors door four organized organised everything'],
     ['act-help', 'How do I...?', 'Plain steps: payout, taxes, restart, pause', 'hub/help.html', 'help how do i faq guide lost stuck steps questions'],
     ['act-accounts', 'My accounts', 'Every eval and funded account on one page', 'business/accounts.html', 'accounts account evals eval funded mffu builder 50k 25k rapid balance pass'],
-    ['act-taxes', 'Taxes', 'The 30% tax pot and the next due date', 'business/taxes.html', 'taxes tax irs estimated quarterly pot set aside'],
+    ['act-taxes', 'Taxes', 'The 30% tax pot and the next due date', 'business/taxes.html', 'taxes tax irs estimated quarterly pot set aside save owe'],
     ['act-fleet', 'Fleet plan', 'All accounts, 6 months, what to buy next', 'business/plan.html', 'fleet plan accounts buy rapid builder months monte carlo'],
     ['act-brain', "The bot's brain", 'What the bot is thinking right now', 'index.html#/brain', 'brain thinking setups levels sweep why waiting bot'],
     ['act-payrules', 'Payout rules check', 'Can I ask for a payout yet', 'trading/index.html#rulesCard', 'payout payouts rules request withdraw consistency best day']
-  ].map(function (r) { return Object.freeze({ kind: 'action', id: r[0], label: r[1], line: r[2], path: r[3], words: r[4] }); });
+  ].map(function (r) { return Object.freeze({ kind: 'action', id: r[0], label: r[1], line: r[2], path: r[3], words: r[4], notAlone: r[5] || '' }); });
   function allWords(text, toks, min) { for (var i = 0; i < toks.length; i++) { if (toks[i].length < (min || 1) || !wordStarts(text, toks[i])) return false; } return toks.length > 0; }
-  function toksOf(q) { return norm(q).split(' ').filter(function (t) { return t.length > 0; }); }
-  /** the plain actions a search names: every word typed starts a word of the label or its words */
+  /* plain questions (2026-11-20 day-manual NAV): "how much can I lose", "is atlas in a trade", "stop the bot". The little words are dropped
+     (only when something is left), and a few owner words count as their app words (SYN). */
+  var STOP = ' a an the i im me my mine is are am was were be been do does did can could should would will how much what whats where when which who why'
+    + ' to of for in at it its this that there with and or so please show tell see check any you your we our us still now right just get got have has go turn ';
+  var SYN = { lose: 'loss drawdown room', losing: 'loss drawdown room', lost: 'loss', loss: 'drawdown room', left: 'room', blow: 'fail', blown: 'fail', failing: 'fail', failed: 'fail',
+    position: 'trade', positions: 'trade', notifications: 'alerts', notification: 'alerts', pings: 'alerts', push: 'alerts', computer: 'pc', pcs: 'pc',
+    owe: 'taxes', tax: 'taxes', irs: 'taxes', emergency: 'sos', panic: 'sos', broken: 'sos', wrong: 'sos', withdraw: 'payout', cashout: 'payout',
+    paid: 'payout', money: 'pnl', made: 'pnl', make: 'pnl', earn: 'pnl', earned: 'pnl', decisions: 'decide', approve: 'decide', metals: 'k8', gold: 'k8', silver: 'k8', glossary: 'manual', meaning: 'manual' };
+  function toksOf(q) {
+    var all = norm(q).split(' ').filter(function (t) { return t.length > 0; });
+    var kept = all.filter(function (t) { return STOP.indexOf(' ' + t + ' ') < 0; });
+    return kept.length ? kept : all;
+  }
+  function tokIn(text, t) {
+    if (wordStarts(text, t)) return true;
+    var alt = SYN[t]; if (!alt) return false;
+    alt = alt.split(' '); for (var i = 0; i < alt.length; i++) if (wordStarts(text, alt[i])) return true;
+    return false;
+  }
+  /** the plain actions a search names: every (non-little) word starts a word of the label or its words (or its SYN), best first */
   function findActions(q, n) {
     var toks = toksOf(q); if (!toks.length) return [];
-    var hits = ACTIONS.filter(function (a) { return allWords(norm(a.label + ' ' + a.words), toks); });
-    hits.sort(function (x, y) { return (norm(y.label).indexOf(toks[0]) === 0) - (norm(x.label).indexOf(toks[0]) === 0); });
-    return hits.slice(0, n || 3);
+    var hits = [];
+    ACTIONS.forEach(function (a, i) {
+      var label = norm(a.label), text = norm(a.label + ' ' + a.words), score = 0;
+      for (var k = 0; k < toks.length; k++) {
+        var t = toks[k];
+        if (!tokIn(text, t)) return;
+        score += label.indexOf(t) === 0 ? 6 : wordStarts(label, t) ? 4 : wordStarts(text, t) ? 2 : 1;
+      }
+      if (a.notAlone && toks.every(function (t) { return (' ' + a.notAlone + ' ').indexOf(' ' + t + ' ') >= 0; })) return;
+      hits.push({ a: a, s: score + toks.length * 3, i: i });
+    });
+    hits.sort(function (x, y) { return y.s - x.s || x.i - y.i; });
+    return hits.slice(0, n || 3).map(function (h) { return h.a; });
   }
   /** the hub TABS a search names ("risk" -> Bots & Evals > Risk): every word starts a word of the hub name, the tab's title or its blurb */
   function findTabs(q, n) {
@@ -252,10 +308,36 @@
     return out.slice(0, n || 4);
   }
   /** one search for everything: { hubs: [page hub], actions: [action], apps: [app], tabs: [tab] } (each list already short) */
-  function findAll(q, n) { return { hubs: findHubs(q), actions: findActions(q, 3), apps: find(q, n || 8), tabs: findTabs(q, 4) }; }
+  /* "what does DLL mean", "what is room": the word's line in the Owner manual (hub/manual.html#g-...) comes first */
+  var GLOSS = { room: 'room', drawdown: 'dd', dd: 'dd', mll: 'dd', floor: 'floor', dll: 'dll', eod: 'eod', limit: 'limit0', r: 'r', pf: 'pf', twin: 'twin',
+    edge: 'edge', circuit: 'cb', breaker: 'cb', sweep: 'sweep', mnq: 'mnq', micro: 'mnq', micros: 'mnq', flat: 'flat', armed: 'armed', arm: 'armed',
+    paper: 'paper', sim: 'paper', silent: 'silent', eval: 'eval', funded: 'eval', pass: 'pass' };
+  var ASK = ' mean means meaning explain define definition whats what ';
+  function glossAction(q) {
+    var w = norm(q).split(' '), ask = false, term = '';
+    for (var i = 0; i < w.length; i++) { if (ASK.indexOf(' ' + w[i] + ' ') >= 0) ask = true; else if (!term && GLOSS[w[i]]) term = w[i]; }
+    if (!ask || !term) return null;
+    var up = term.length <= 3 ? term.toUpperCase() : term;
+    return Object.freeze({ kind: 'action', id: 'act-word', label: 'What "' + up + '" means', line: 'One plain line in the Owner manual', path: 'hub/manual.html#g-' + GLOSS[term], words: term, notAlone: '' });
+  }
+  function findAll(q, n) {
+    var r = { hubs: findHubs(q), actions: findActions(q, 3), apps: find(q, n || 8), tabs: findTabs(q, 4) }, gw = glossAction(q);
+    if (gw) { r.actions = [gw].concat(r.actions).slice(0, 3); return r; }
+    // a plain action whose own NAME holds every word ("my steps" -> Your steps) beats a page hub found only through its areas (Me: health steps)
+    if (r.hubs.length && r.actions.length) {
+      var lab = norm(r.actions[0].label), tk = toksOf(q);
+      if (tk.every(function (t) { return wordStarts(lab, t); })) r.hubs = [];
+    }
+    if (r.hubs.length || r.actions.length || r.apps.length || r.tabs.length) return r;
+    // nothing for every word: keep the words something knows ("how do I see my room left on zlarior blah" -> room left zlarior)
+    var known = toksOf(q).filter(function (t) { return findActions(t, 1).length || find(t, 1).length; });
+    if (!known.length || known.length === toksOf(q).length) return r;
+    var k = known.join(' ');
+    return { hubs: findHubs(k), actions: findActions(k, 3), apps: find(k, n || 8), tabs: findTabs(k, 4), partial: k };
+  }
   /** every app A to Z by its plain label (the Workshop labs at the end) */
   function az() {
-    return apps.slice().sort(function (x, y) {
+    return apps.filter(function (a) { return !RET[a.id]; }).sort(function (x, y) {
       var wx = x.section === 'workshop' ? 1 : 0, wy = y.section === 'workshop' ? 1 : 0;
       return wx - wy || (norm(x.label) < norm(y.label) ? -1 : norm(x.label) > norm(y.label) ? 1 : 0);
     });
@@ -281,7 +363,7 @@
     return { hub: h.id, hubName: h.name, section: a.section, sectionName: sec ? sec[1] : '', path: 'hub/index.html?h=' + h.id + '&t=' + a.section, app: a.label };
   }
   var out = Object.freeze({ v: 3, apps: Object.freeze(apps), districts: HUBS, hubs: HUBS, start: ['nq', 'today', 'jarvis'], actions: Object.freeze(ACTIONS), quick: QUICK,
-    find: find, findHubs: findHubs, findActions: findActions, findTabs: findTabs, findAll: findAll, az: az, byId: byId, norm: norm, hub: hub, hubOf: hubOf, layout: layout, crumbOf: crumbOf, isBest: isBest, mixOf: function (id) { var h = hubOf(id); return h ? h.id : ''; } });
+    find: find, retired: retired, RETIRED: RETIRED, FIRST: FIRST, findHubs: findHubs, findActions: findActions, findTabs: findTabs, findAll: findAll, az: az, byId: byId, norm: norm, hub: hub, hubOf: hubOf, layout: layout, crumbOf: crumbOf, isBest: isBest, mixOf: function (id) { var h = hubOf(id); return h ? h.id : ''; } });
   g.OLYMPUS_GATE = out;
   if (typeof module !== 'undefined' && module.exports) module.exports = out;
 }(typeof window !== 'undefined' ? window : globalThis));

@@ -5,7 +5,7 @@
 import * as THREE from '../../jarvis/three.module.min.js';
 import { createRenderer } from '../../olympus/render.js';
 import * as SH from './ow-shaders.js?v=w4';
-import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w4';
+import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w5';
 
 const MOON = new THREE.Vector3(0.28, 0.2, -1).normalize();
 
@@ -573,10 +573,15 @@ export function createWorld(opts) {
     state() {
       const st = rc.stats();
       const ws = Array.from(works.slice(0, Math.min(frames, works.length))).sort((a, b) => a - b), jsMs = ws.length ? ws[ws.length >> 1] : 0;
-      return { frames, fps: Math.round(fps * 10) / 10, jsMs: Math.round(jsMs * 100) / 100, tier: rc.quality(), calls: st.calls, triangles: st.triangles,
+      const p95 = ws.length ? ws[Math.min(ws.length - 1, Math.floor(ws.length * 0.95))] : 0;   // olympus2: the slow end of the frames too
+      return { frames, fps: Math.round(fps * 10) / 10, jsMs: Math.round(jsMs * 100) / 100, jsP95: Math.round(p95 * 100) / 100, tier: rc.quality(), calls: st.calls, triangles: st.triangles,
         instances: plan.n, places: N, selected, intro: introT >= 0, warp, tween: !!tween, tour: !!tour, history: !!history, pose: { ...pose },
         mirror: mirror.visible, traffic: traffic.geometry.instanceCount, dusk: Math.round(dusk * 100) / 100, dpr: st.dpr, bloom: st.bloom, compiled: st.compiled };
     },
+    /** olympus2: leaving the World: the render loop stops at once so the jump / the next page get the whole phone (no disposal work here) */
+    halt() { try { rc.stop(); } catch (e) { /* already stopped */ } },
+    /** back from the back-forward cache: the loop runs again */
+    resume() { if (!manual) try { rc.start(frame); } catch (e) { /* the page reloads instead */ } },
     dispose() {
       rc.stop();
       canvas.removeEventListener('pointerdown', onDown); canvas.removeEventListener('pointermove', onMove); canvas.removeEventListener('pointerup', onUp);

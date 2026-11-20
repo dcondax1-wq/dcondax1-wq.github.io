@@ -60,21 +60,21 @@ html[data-oly-scheme="light"] {
 /* ---------------------------------------------------------------- 2. bottom bars, glued */
 /* Zenith (index.html #tabs): it floated 10 px above the home bar with the page showing in the band below it */
 @media (max-width: 760px) {
-  html:root:not(#o) nav#tabs.tabs {
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs {
     left: 0; right: 0; bottom: 0; height: var(--o-bar-total); padding: 4px max(8px, env(safe-area-inset-right, 0px)) var(--o-sab) max(8px, env(safe-area-inset-left, 0px));
     gap: 0; border-radius: 0; border: 0; border-top: .5px solid var(--o-line-2);
     background: var(--o-bar) !important; box-shadow: none;
     -webkit-backdrop-filter: saturate(1.4) blur(18px); backdrop-filter: saturate(1.4) blur(18px);
   }
-  html:root:not(#o) nav#tabs.tabs::before { content: none; display: none; }
-  html:root:not(#o) nav#tabs.tabs a, html:root:not(#o) nav#tabs.tabs button { height: calc(var(--o-bar-h) - 5px); border-radius: var(--o-r-sm); gap: 2px; font-size: 11px; font-weight: 600; letter-spacing: .01em;
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs::before { content: none; display: none; }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a, html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs button { height: calc(var(--o-bar-h) - 5px); border-radius: var(--o-r-sm); gap: 2px; font-size: 12px; font-weight: 600; letter-spacing: 0;
     background: none; box-shadow: none; color: var(--o-muted); }
-  html:root:not(#o) nav#tabs.tabs a.on, html:root:not(#o) nav#tabs.tabs button.on { background: none; box-shadow: none; color: var(--o-accent-ink); }
-  html:root:not(#o) nav#tabs.tabs .pl-tabind { display: none; }        /* the sliding pill: the active tab is its gold icon and label, as on iOS */
-  html:root:not(#o) nav#tabs.tabs a .ico { width: 24px; height: 24px; }
-  html:root:not(#o) nav#tabs.tabs a.on .ico { color: var(--o-accent); }
-  html:root:not(#o) .page { padding-bottom: calc(var(--o-bar-total) + 28px); }
-  html:root:not(#o) .toast { bottom: calc(var(--o-bar-total) + 12px); }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a.on, html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs button.on { background: none; box-shadow: none; color: var(--o-accent-ink); }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs .pl-tabind { display: none; }        /* the sliding pill: the active tab is its gold icon and label, as on iOS */
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a .ico { width: 24px; height: 24px; }
+  html:root:not(#o):not([data-oly-shell="app"]) nav#tabs.tabs a.on .ico { color: var(--o-accent); }
+  html:root:not(#o):not([data-oly-shell="app"]) .page { padding-bottom: calc(var(--o-bar-total) + 28px); }
+  html:root:not(#o):not([data-oly-shell="app"]) .toast { bottom: calc(var(--o-bar-total) + 12px); }
 }
 
 /* Jarvis (jarvis/ .dock) keeps its own place (jarvis.css --dock-b: 18 px up on an iPhone, its solid base to the edge): the owner asked for

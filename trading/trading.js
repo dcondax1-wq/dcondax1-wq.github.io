@@ -19,6 +19,8 @@ const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); };
 const S = { file: null, home: null, lite: null, rules: null, biz: null, fixture: null, demo: false, forced: false, rows: [], bot: 'all', src: 'backtest', acct: 'all', month: '', ready: false, sheet: false, last: null };
 
 async function getJSON(url, ms) {
+  const E = window.TR_EARLY;                            // perf: the page head started these fetches already (index.html); used once
+  if (E && E[url]) { const p = E[url]; delete E[url]; try { return await p; } catch (_) { return null; } }
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms || 6000) : 0;
   try { const r = await fetch(url, { cache: 'no-cache', ...(ac ? { signal: ac.signal } : {}) }); return r.ok ? await r.json() : null; } catch (_) { return null; } finally { clearTimeout(timer); }
 }
@@ -84,7 +86,7 @@ function zeusRows() {                       // olympus/zeus_core.js (the ZEUS ca
   zeusP = new Promise((res) => {
     const go = () => { try { window.ZEUS_CORE.fetchAll().then((d) => res(window.ZEUS_CORE.summary(d).rows || []), () => res([])); } catch (_) { res([]); } };
     if (window.ZEUS_CORE) { go(); return; }
-    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=5'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
+    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=6'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
   });
   return zeusP;
 }
@@ -227,7 +229,7 @@ function renderStats() {
     const card = h('article', 'stat'); card.dataset.bot = x.bot;
     card.appendChild(h('h3', '', x.bot === 'LIT' ? 'Zlarior · LIT' : 'ATLAS (3 members)'));
     const tbl = h('table', 'st'), head = h('tr');
-    for (const t of ['', 'H1', 'H2']) head.appendChild(h('th', '', t));
+    for (const t of ['', 'H1', 'H2']) { const th = h('th', '', t); if (!t) th.appendChild(h('span', 'ag-sr', 'Measure')); head.appendChild(th); }
     tbl.appendChild(h('thead')).appendChild(head);
     const body = h('tbody'), a = C.statLines(x.h1), b = C.statLines(x.h2);
     for (let i = 0; i < a.length; i++) { const tr = h('tr'); tr.appendChild(h('th', '', a[i][0])); tr.appendChild(h('td', '', a[i][1])); tr.appendChild(h('td', '', b[i][1])); body.appendChild(tr); }
@@ -350,7 +352,7 @@ function renderAccts() {
     let chart = S.chart;
     if (S.demo && S.nqfx && S.nqfx.chart) { const cp = agesToTimes(S.nqfx.chart, now), b = NB.unpack(cp); chart = { opens: cp.open || [], last: b.length ? b[b.length - 1][4] : null, t: +cp.t || null }; }
     const A = DK.accounts(home, S.biz, now, chart);
-    DK.draw.accounts(box, A); for (const c of box.children) c.setAttribute('role', 'listitem');
+    DK.draw.accounts(box, A);
     const n = A.filter((a) => a.dot === 'live').length, p = $('acctPill');
     if (p) { p.textContent = S.demo ? 'DEMO' : `${n} of ${A.filter((a) => a.dot !== 'plan').length} live`; p.className = 'pill ' + (S.demo ? 'warn' : n ? 'ok' : 'bad'); }
   } catch (_) { /* the rest of the page still draws */ }
@@ -457,5 +459,7 @@ async function boot() {
   const A = window.AGORA;
   if (A && A.pull) A.pull(async () => { await refresh(); if (A.toast) A.toast(S.forced ? 'Demo numbers: nothing to refresh' : 'Up to date'); });
 }
+// async module (perf): the kit's deferred scripts (the deep-dive charts nqdeep.js among them) may arrive after the first draw: draw those parts again then
+window.addEventListener('load', () => { try { if (S.ready) renderFiltered(); } catch (_) { /* nothing */ } });
 window.TRADING = { S, C, DK, ready: () => S.ready, render, openDay, closeSheet, stepMonth };
 boot().catch((e) => { say('Something went wrong: ' + (e && e.message ? e.message : e)); try { if (O && O.fail) O.fail('Trading could not start'); } catch (_) { /* nothing */ } });

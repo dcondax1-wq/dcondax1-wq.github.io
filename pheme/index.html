@@ -18,17 +18,18 @@
      Reads ./stats.json (built offline by tools/pheme_build.py from data/news/events.csv and data/NQ_5m.csv) and fixture.json (DEMO, never blank); sends nothing. Text only through textContent / createElementNS. HISTORY ONLY: no forecast. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="pheme"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="pheme"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script>
+<script src="../olympus/agora-ui.js?v=5" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="pheme.css?v=a1">
 </head>
 <body>
+<!-- archived:start --><aside data-archived="helios" data-src="stats.json" data-overlay="--oly-st" role="note" aria-label="Archived page" style="position:sticky;top:0;z-index:2147483000;display:flex;align-items:center;gap:8px;margin:0;padding:env(safe-area-inset-top,0px) 12px 0;box-sizing:border-box;width:100%;min-height:44px;background:var(--oly-th-n4,#1d1914);color:var(--oly-th-n30,#cfc4b2);border-bottom:1px solid rgba(243,236,224,.16);font:500 12.5px/1.25 -apple-system,system-ui,'Helvetica Neue',Arial,sans-serif;letter-spacing:0;text-align:left"><span style="min-width:0">Archived<span data-age></span></span><a href="../helios/" style="margin-left:auto;flex:none;display:inline-flex;align-items:center;min-height:44px;min-width:44px;justify-content:flex-end;color:var(--oly-th-a11,#dac08b);font-weight:600;text-decoration:none;padding:0 2px;white-space:nowrap">Morning brief &rarr;</a><script>(function(){var b=document.currentScript.parentNode,h=document.documentElement,d=document.body;try{var y=function(e){return getComputedStyle(e).overflowY};if(d&&(y(h)==='hidden'||y(d)==='hidden')){h.insertBefore(b,d);b.style.position='fixed';b.style.left='0';b.style.right='0';var ov=b.getAttribute('data-overlay');var fit=function(){var H=b.offsetHeight;if(ov){h.style.setProperty(ov,H+'px');return;}h.style.paddingTop=H+'px';h.style.boxSizing='border-box';d.style.transform='translateZ(0)';d.style.height=d.style.minHeight=d.style.maxHeight=(innerHeight-H)+'px';if(getComputedStyle(d).position==='fixed')d.style.top=H+'px';};fit();addEventListener('resize',fit);}}catch(e){}var s=b.getAttribute('data-src'),o=b.querySelector('[data-age]');if(!o)return;if(/[?&#]demo(=1)?(&|$)/.test(location.search)||/^#demo\b/.test(location.hash)){o.textContent=' · sample data';return;}if(!s||!window.fetch)return;var go=function(){fetch(s,{cache:'force-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(!j||typeof j!=='object')return;var v=j.upto||j.asof||j.as_of||j.built||j.updated||j.date||j.generated_at||j.t,ms=null;if(typeof v==='number')ms=v<1e12?v*1000:v;else if(typeof v==='string'){var m=v.match(/^(\d{4})-(\d\d)-(\d\d)(?:[ T](\d\d):(\d\d))?/);if(m)ms=new Date(+m[1],m[2]-1,+m[3],+(m[4]||12),+(m[5]||0)).getTime();}if(!ms||!isFinite(ms))return;var n=Math.floor((Date.now()-ms)/864e5),w=new Date(ms).toLocaleDateString('en-US',{month:'short',day:'numeric'});o.textContent=' · data '+w+(n<1?', today':n===1?', 1 day old':', '+n+' days old');if(n>2)o.style.color='var(--oly-th-warn,#e0b060)';}).catch(function(){});};if(document.readyState==='complete')setTimeout(go,1500);else addEventListener('load',function(){setTimeout(go,1500);});})();</script></aside><!-- archived:end -->
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Pheme</h1><p class="sub">News days ahead, and how far NQ moved on past ones. Check before you trade.</p></div></div>

@@ -12,13 +12,13 @@
   ],
   [
    "Zlarior 25K #2 (Builder 25K)",
-   "balance not reported yet",
+   "$25,000, $1,500 to pass",
    "eval"
   ],
   [
    "ATLAS (Builder 25K)",
-   "$26,946.10",
-   "passed"
+   "$25,401.38",
+   "funded"
   ]
  ],
  "pc": "PC: no report seen from the cloud (check the PC)",
@@ -197,10 +197,7 @@
   ]
  ],
  "decisions": [
-  "Yes/no: ATLAS trades on Zlarior's 50K once it is funded",
-  "Yes/no: ATLAS trades on the Rapid EOD accounts",
-  "Yes/no: keep $1,000 in each Rapid when taking payouts",
-  "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
+  "Ask MFFU support: may you run a 2nd Builder 50K and a 2nd 25K eval while the current ones run? (you said yes to asking, Nov 20)"
  ],
  "sources": [
   "research/lab/money_plan.json (2026-11-18) + research/lab/payday_plan.json (2026-11-20)",

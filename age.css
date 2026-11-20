@@ -1,5 +1,5 @@
 /* DATA AGE chip (age.js): one look site-wide. Tokens only; amber / red only when the data is getting old / old. */
-.oly-age { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1.3 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-muted, #8a8172); white-space: nowrap; }
+.oly-age { display: inline-flex; align-items: center; gap: 6px; font: 600 var(--ag-fs-cap, .8125rem)/1.3 var(--ag-sans, -apple-system, system-ui, sans-serif); color: var(--ag-muted, #8a8172); white-space: nowrap; }
 .oly-age::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ag-olive-text, #8fa05a); flex: none; }
 .oly-age[data-level="warn"] { color: var(--ag-sun, #d9a441); } .oly-age[data-level="warn"]::before { background: var(--ag-sun, #d9a441); }
 .oly-age[data-level="bad"] { color: var(--ag-terra-text, #c0603c); } .oly-age[data-level="bad"]::before { background: var(--ag-terra-text, #c0603c); }

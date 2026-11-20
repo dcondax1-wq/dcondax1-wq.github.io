@@ -16,7 +16,9 @@ function apply(u, c) { u.lit = !!(c && c.lit); }
 function mount(box, cols) {
   if (R) dispose();
   const list = (cols || []).slice(0, 3), n = list.length;
-  const H = createStage(box, { palette: 'dusk', hdri: 'dusk', fit: { center: [0, 3.5, 0], size: [10.4, 7.2, 3.6], pitch: 0.1, margin: 1.03 }, fov: 32, sway: 0.16, sunDir: [-0.7, 0.42, 0.55], shadowExt: 6.5, key: 1.9, sky: { sunX: 0.18, sunY: 0.86, templeX: 0.8 }, fogNear: 16, fogFar: 40 });
+  // a phone (or Save-Data): the LITE paving albedo and no HDR file (-293 KB on a phone; perf sweep 2026-11-20), the same look in gradient light
+  const small = (() => { try { return matchMedia('(max-width: 600px)').matches || !!(navigator.connection && navigator.connection.saveData); } catch (_) { return false; } })();
+  const H = createStage(box, { palette: 'dusk', hdri: 'dusk', ...(small ? { tier: 'low' } : {}), fit: { center: [0, 3.5, 0], size: [10.4, 7.2, 3.6], pitch: 0.1, margin: 1.03 }, fov: 32, sway: 0.16, sunDir: [-0.7, 0.42, 0.55], shadowExt: 6.5, key: 1.9, sky: { sunX: 0.18, sunY: 0.86, templeX: 0.8 }, fogNear: 16, fogFar: 40 });
   if (!H) return false;
   const { kit, B } = H;
   H.ground({ mat: 'paving', color: '#8d7b64' });

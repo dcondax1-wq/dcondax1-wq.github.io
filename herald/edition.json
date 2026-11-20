@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-20",
  "number": 2,
- "built": "2026-11-20T16:57:14Z",
+ "built": "2026-11-20T17:46:04Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -16,8 +16,7 @@
   "headline": "The day so far: $0 across the accounts",
   "standfirst": "Each account's day and how much drawdown is left, from the live summary.",
   "body": [
-   "Across the 2 accounts that reported, the day stands at $0.",
-   "MFFU 50K Eval is $0 on the day, with drawdown left $1,900 of $2,000 max loss.",
+   "Across the 1 accounts that reported, the day stands at $0.",
    "Paper (cloud) is $0 on the day, with drawdown left $1,900 of $2,000 max loss.",
    "The file gives the day in dollars; where it also gives R, the R is printed next to its dollars.",
    "These are the figures the phone's home page reads; the bots trade on paper or on an eval the owner arms himself."
@@ -27,24 +26,6 @@
     "t": "MFFU 50K Eval",
     "src": "home.json",
     "quote": true
-   },
-   {
-    "t": "$0",
-    "src": "home.json",
-    "at": "accounts/0/pnl/today",
-    "raw": 0.0
-   },
-   {
-    "t": "$1,900",
-    "src": "home.json",
-    "at": "accounts/0/eval/room",
-    "raw": 1900.0
-   },
-   {
-    "t": "$2,000",
-    "src": "home.json",
-    "at": "accounts/0/eval/mll",
-    "raw": 2000.0
    },
    {
     "t": "Paper (cloud)",
@@ -76,10 +57,10 @@
     "raw": 0.0
    },
    {
-    "t": "2",
+    "t": "1",
     "src": "home.json",
     "calc": "count of accounts with a P&L today",
-    "raw": 2
+    "raw": 1
    }
   ],
   "sources": [
@@ -808,45 +789,6 @@
    ],
    "sample": false,
    "by": "mind"
-  },
-  {
-   "id": "new-apps",
-   "kicker": "Openings",
-   "headline": "2 new apps open on the agora",
-   "standfirst": "What was added to the app bar since the last edition.",
-   "body": [
-    "2 new apps have opened since the last edition: Why, Widget.",
-    "That brings the bar to 77 apps.",
-    "Each one reads only published files and falls back to labelled demo data, so none can be blank."
-   ],
-   "facts": [
-    {
-     "t": "2",
-     "src": "jarvis/apps.js",
-     "calc": "count of app ids not in the last edition's list",
-     "raw": 2
-    },
-    {
-     "t": "Why",
-     "src": "jarvis/apps.js",
-     "quote": true
-    },
-    {
-     "t": "Widget",
-     "src": "jarvis/apps.js",
-     "quote": true
-    },
-    {
-     "t": "77",
-     "src": "jarvis/apps.js",
-     "calc": "count of app ids in jarvis/apps.js",
-     "raw": 77
-    }
-   ],
-   "sources": [
-    "jarvis/apps.js"
-   ],
-   "sample": false
   }
  ],
  "numbers": [
@@ -1089,7 +1031,12 @@
   ],
   "missing": []
  },
- "skipped": [],
+ "skipped": [
+  {
+   "article": "new-apps",
+   "why": "no app was added since the last edition"
+  }
+ ],
  "apps": [
   "aegis",
   "agency",

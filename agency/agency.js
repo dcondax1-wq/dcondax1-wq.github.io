@@ -163,8 +163,8 @@ function bind() {
 async function boot() {
   const q = new URLSearchParams(location.search), forced = q.get('demo') === '1';
   S.today = localDay();
-  // my_leads.json = the owner's own batch (written on his PC, gitignored); leads.json = the committed sample city; fixture.json = DEMO
-  const [fx, mine, sample] = await Promise.all([getJSON('./fixture.json'), forced ? null : getJSON('./my_leads.json'), forced ? null : getJSON('./leads.json')]);
+  // my_leads.json = the owner's own batch (written on his PC, gitignored: never on the public github.io site, so not asked there = no 404); leads.json = the committed sample city; fixture.json = DEMO
+  const [fx, mine, sample] = await Promise.all([getJSON('./fixture.json'), forced || /github\.io$/.test(location.hostname) ? null : getJSON('./my_leads.json'), forced ? null : getJSON('./leads.json')]);
   let D = C.normData(mine) || C.normData(sample);
   if (D && !D.demo) S.demo = false; else { S.demo = true; D = C.normData(fx); }
   if (!D) { say('No leads yet: run the website machine on the PC (RUN_AGENCY.bat).'); S.ready = true; return; }

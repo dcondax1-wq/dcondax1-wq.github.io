@@ -85,7 +85,22 @@ async function getJson(fetchFn, url) {
   } catch (_) { return null; } finally { clearTimeout(tm); }
 }
 /** fetch every published file (all at once; a missing one is null). base: where '../' resolves from, default the page. */
+// one fetch for callers at the same moment (day-jarvis 2026-11-20, PERF: the brain's skills and the copilot card each loaded every file on
+// open: odeon/trades.json, 128 KB gz, twice): in a page, calls within 20 s with the same base share one load (each gets its own copy).
+// Node tests (no document) and opts.fresh are never shared.
+const SHARED = new Map();
 export async function loadSources(opts) {
+  const o0 = isObj(opts) ? opts : {};
+  if (typeof document !== 'undefined' && !o0.fresh && !o0.raw) {
+    const key = (typeof o0.base === 'string' ? o0.base : '') + '|' + String(o0.private);
+    const hit = SHARED.get(key);
+    if (hit && Date.now() - hit.t < 20000) { const S = await hit.p; return { ...S, at: { ...S.at } }; }
+    const p = loadSourcesNow(o0); SHARED.set(key, { t: Date.now(), p });
+    const S = await p; return { ...S, at: { ...S.at } };
+  }
+  return loadSourcesNow(o0);
+}
+async function loadSourcesNow(opts) {
   const o = isObj(opts) ? opts : {};
   const fetchFn = typeof o.fetch === 'function' ? o.fetch : (typeof fetch === 'function' ? fetch : null);
   const now = typeof o.now === 'function' ? (+o.now() || Date.now()) : Date.now();

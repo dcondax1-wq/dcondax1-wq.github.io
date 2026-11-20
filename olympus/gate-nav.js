@@ -1,6 +1,6 @@
 /* OLYMPUS gate-nav (2026-11-12; v2 2026-11-14, docs/OLYMPUS_IA_V2.md): breadcrumbs back home and a "Go to..." sheet, on any app. One line in the app's <head>,
  * after agora-ui.js (agora-ui.js also adds it by itself to every AGORA-shell app):
- *     <script src="../olympus/gate-nav.js?v=g6" defer></script>
+ *     <script src="../olympus/gate-nav.js?v=g7" defer></script>
  * - Breadcrumbs: Home > Hub > app. The app's existing back link ("< Olympus" from the AGORA shell, or an own "Olympus" link) becomes "< Home" and opens the
  *   home (gate/); then the app's hub (a link to hub/?h=<hub>&t=<its tab>) and the app's plain name. A page with no back link gets a slim row (crumbs on the
  *   left, Go to on the right) above its header: in the page flow, never floating over its content. On a hub page (hub/?h=...): Home > Hub.
@@ -10,6 +10,7 @@
  * - NAV v3 (2026-11-15, docs/OLYMPUS_NAV.md): the sheet's search finds apps, hub tabs and plain actions (C.findAll); with an empty box: Pinned first
  *   (the owner's favourites, 'gate.pins.v1', the same list as the Gate), a 'Pin this app' star for the app you are on, the hubs, Recent (6), All apps A to Z
  *   (the Gate's sheet, gate/#az) and Home.
+ * - A page may reserve the row from its first paint: <div class="gn-row" data-gn-slot></div> (min-height 44px in its own CSS); the row is built in it (CLS 0).
  * Classic script, ES5, no markup from data (textContent / createElementNS), same-origin files only, no other storage, no network but the catalog file. */
 (function () {
   'use strict';
@@ -163,11 +164,15 @@
       } else {
         // 3. no back link: a slim row of our own, in the page flow. A header that floats over a scene as a panel (Cities) takes it as its first line;
         //    a header that floats as a row over a full-bleed picture (Polis over its sky) gets the row above that picture, so nothing is covered.
-        var row2 = el('div', 'gn-row'), gl = gateLink(); row2.appendChild(gl); crumbsAround(gl); row2.appendChild(goButton(false));
-        var cs = head ? w.getComputedStyle(head) : null, floats = cs && /fixed|absolute|sticky/.test(cs.position || '');
+        // a page that reserved the row from its first paint (<div class="gn-row" data-gn-slot>, hub/index.html: perf ask 2026-11-20, CLS 0) gets it filled in place
+        var slot0 = d.querySelector('[data-gn-slot]');
+        if (slot0 && !slot0.firstChild) { var gl0 = gateLink(); slot0.appendChild(gl0); crumbsAround(gl0); slot0.appendChild(goButton(false)); slot0.removeAttribute('aria-hidden'); }
+        var row2 = slot0 ? null : el('div', 'gn-row'), gl = slot0 ? null : gateLink(); if (row2) { row2.appendChild(gl); crumbsAround(gl); row2.appendChild(goButton(false)); }
+        var cs = !row2 ? null : head ? w.getComputedStyle(head) : null, floats = cs && /fixed|absolute|sticky/.test(cs.position || '');
         var rowFlex = cs && /flex/.test(cs.display || '') && !/column/.test(cs.flexDirection || '');
         var host = floats && rowFlex && head.offsetParent && head.offsetParent !== d.body && head.offsetParent.parentNode ? head.offsetParent : null;
-        if (host) { row2.className += ' gn-own'; host.parentNode.insertBefore(row2, host); }
+        if (!row2) { /* filled the reserved slot */ }
+        else if (host) { row2.className += ' gn-own'; host.parentNode.insertBefore(row2, host); }
         else if (floats) head.insertBefore(row2, head.firstChild);
         else if (head && head.parentNode) head.parentNode.insertBefore(row2, head);
         else { row2.className += ' gn-own'; d.body.insertBefore(row2, d.body.firstChild); }
@@ -190,7 +195,7 @@
     if (w.OLYMPUS_GATE && w.OLYMPUS_GATE.hubs) { S.cat = w.OLYMPUS_GATE; if (then) then(); return; }
     if (S.catTried) { if (then) then(); return; }
     S.catTried = true;
-    var s = el('script'); s.src = root + 'olympus/gate-catalog.js?v=nv2'; s.async = true;
+    var s = el('script'); s.src = root + 'olympus/gate-catalog.js?v=nv7'; s.async = true;
     s.onload = function () { S.cat = w.OLYMPUS_GATE || null; if (then) then(); else refresh(); };
     s.onerror = function () {
       var s2 = el('script'); s2.src = root + 'olympus/apps-list.js'; s2.async = true;

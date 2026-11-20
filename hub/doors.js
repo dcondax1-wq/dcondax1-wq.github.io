@@ -9,6 +9,15 @@
   var out = d.getElementById('out'), q = d.getElementById('q'), KEY = 'olympus.doors.last';
   var INK = { zeus: '#c8a24a', money: '#a0ac6e', kalshi: '#c9b94e', more: '#d1a06a' };       // text-safe on the dark panels
   if (!D || !out) return;
+  // the owner's order + retired apps (2026-11-20; the same lists as olympus/gate-catalog.js FIRST / RETIRED, tests.test_nav_pages checks they match):
+  // retired apps never show here (not in a door, the Archive fold or the search); their URLs still open
+  var FIRST = { cities: 60, kalshi: 60, nq: 60, jarvis: 60, planner: 30, business: 30 };
+  var RETIRED = ['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity',
+    'gallery', 'mintcity', 'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes',
+    'hephaestus', 'datacity', 'kalshicity'];
+  var RET = {}; RETIRED.forEach(function (id) { RET[id] = 1; });
+  APPS = APPS.filter(function (a) { return !RET[a.id]; });
+  function firstSort(list) { return list.map(function (a, i) { return [a, i]; }).sort(function (x, y) { return ((FIRST[y[0].id] || 0) - (FIRST[x[0].id] || 0)) || x[1] - y[1]; }).map(function (p) { return p[0]; }); }
   var byId = {}; APPS.forEach(function (a) { byId[a.id] = a; });
   function el(tag, cls, text) { var e = d.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = String(text); return e; }
   function href(p) { return '../' + (p || 'index.html'); }
@@ -35,9 +44,9 @@
       hl.className += ' dr-home'; hl.setAttribute('data-home', dr.id); out.appendChild(hl);
     }
     var list = el('div', 'dr-list'); list.setAttribute('aria-labelledby', 'doorH');
-    dr.items.forEach(function (it) { list.appendChild(row(it.label, it.greek, href(it.href), dr.id)); });
+    dr.items.forEach(function (it) { if (it.app && RET[it.app]) return; list.appendChild(row(it.label, it.greek, href(it.href), dr.id)); });
     out.appendChild(list);
-    var all = dr.ids.map(function (x) { return byId[x]; }).filter(Boolean), arch = D.archived || function () { return false; };
+    var all = firstSort(dr.ids.map(function (x) { return byId[x]; }).filter(Boolean)), arch = D.archived || function () { return false; };
     var apps = all.filter(function (a) { return !arch(a.id); }), old = all.filter(function (a) { return arch(a.id); });
     if (apps.length) {
       var det = el('details', 'dr-all'), sum = el('summary', '', 'All apps in ' + dr.title + ' (' + apps.length + ')');
@@ -55,6 +64,7 @@
     out.style.removeProperty('--dc');
     var h = el('h2', 'dr-h2', 'Found'); out.appendChild(h);
     var list = el('div', 'dr-list');
+    r.items = r.items.filter(function (x) { return !(x.item.app && RET[x.item.app]); }); r.apps = firstSort(r.apps);
     r.items.forEach(function (x) { list.appendChild(row(x.item.label, x.item.greek + ' · ' + x.door.title, href(x.item.href), x.door.id)); if (x.item.app) seen[x.item.app] = 1; });
     r.apps.forEach(function (a) { if (seen[a.id]) return; var dr = D.door(D.doorOf(a.id)); list.appendChild(row(a.name, (a.purpose || '') + ' · ' + (dr ? dr.title : ''), appHref(a), dr ? dr.id : '')); });
     if (!list.childNodes.length) out.appendChild(el('p', 'dr-empty', 'Nothing found for "' + text.slice(0, 40) + '". Try a plain word: payout, taxes, accounts, drawdown, kalshi.'));

@@ -123,12 +123,19 @@ window.addEventListener('error', function (e) {
 <script src="../pc_feed.js?v=n5" id="pcFeedJs" async></script>
 <script src="../olympus/themes.js?v=o9" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
+<script src="../olympus/a11y.js" async></script>
 <style>.booted #bootfx{display:none}
 /* the start note works without jarvis.css (the stylesheet may be what did not arrive) */
 [hidden]{display:none!important}
 /* the business chips (day-jarvis 2026-11-20): one scrolling row of the owner's daily questions, in the HTML so they are there at first paint */
 .bizchips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 10px}
 .bchip{min-width:0;min-height:44px;padding:6px 8px;border-radius:12px;border:1px solid var(--oly-th-gold,rgba(200,162,74,.55));background:rgba(20,16,10,.55);color:var(--oly-th-n10,#f3ece0);font:600 15px/1.1 var(--fb,system-ui,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;touch-action:manipulation}
+.stage-tap{position:absolute;inset:8%;z-index:0;border:0;border-radius:50%;background:transparent;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.stage-tap:focus-visible{outline:2px solid var(--oly-th-gold,#dcbd6e);outline-offset:4px}
+/* A11Y 2026-11-20 (FOR_jarvis.md): the hints and status lines the owner reads at 15 px, in rem so they grow with the iPhone text size */
+.hint2,#p-addons>.qby,.hc-bot.hc-wide .hc-sub,#p-system .srow .st,#when{font-size:.9375rem}
+.pm.main,.wnb .wn-t{font-size:.9375rem}
+.tl-row small,.hc-row small,#hfirst .tile .t-s,#planBox li span,.jx-pro .t,#proLine .t,#proLine button.t,.srows .srow .sn small,.hfoot .foot,#olyApps .og-t .og-s,#olyApps .og-t .og-v,#sec-apps .hub-directory summary span,#p-system .srow .st{font-size:.9375rem}
 .bchip:active{transform:scale(.97);background:rgba(200,162,74,.22)}
 .boot{position:fixed;left:16px;right:16px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:95;padding:12px 14px;border-radius:14px;background:rgba(29,25,20,.96);border:1px solid rgba(200,162,74,.5);color:#f3ece0;font:15px/1.35 -apple-system,system-ui,sans-serif;display:flex;gap:10px;align-items:center;justify-content:space-between}
 .boot small{display:block;margin-top:4px;color:#9a8f7d;font-size:12px;word-break:break-word}
@@ -1082,7 +1089,8 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
       <section class="hsec" id="sec-talk" aria-labelledby="secTalkH">
       <h2 class="hsec-h" id="secTalkH">Talk to Jarvis</h2>
       <div class="stagebox">
-      <div class="stage" id="stage" role="button" tabindex="0" aria-label="Talk to Jarvis">
+      <div class="stage" id="stage">
+        <button type="button" class="stage-tap" id="stageTap" aria-label="Talk to Jarvis"></button>
         <div class="core" id="core" aria-hidden="true">
           <div class="orb" id="orb">
             <svg viewBox="0 0 400 400" aria-hidden="true">
@@ -1113,7 +1121,7 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
         <button class="pillb" id="vset" type="button" title="Voice settings">Voice ⚙</button>
       </div>
       <p class="hint2">Tap to talk · hold for voice mode</p>
-      <div class="bizchips" id="bizchips" role="group" aria-label="Ask about the business"><button class="bchip" type="button" data-say="How are my accounts?">Accounts</button><button class="bchip" type="button" data-say="Is ATLAS in a trade?">In a trade?</button><button class="bchip" type="button" data-say="How much room does Zlarior have?">Room left</button><button class="bchip" type="button" data-say="When is my first payout?">Payout</button><button class="bchip" type="button" data-say="What did the bots do today?">Today</button><button class="bchip" type="button" data-say="What did the bots do this week?">This week</button><button class="bchip" type="button" data-say="What&#39;s on the news today?">News</button><button class="bchip" type="button" data-say="What should I do today?">To-do</button><button class="bchip" type="button" data-say="How&#39;s Kalshi?">Kalshi</button></div>
+      <div class="bizchips" id="bizchips" role="group" aria-label="Ask about the business"><button class="bchip" type="button" data-say="How are my accounts?">Accounts</button><button class="bchip" type="button" data-say="Is ATLAS in a trade?">In a trade?</button><button class="bchip" type="button" data-say="How much room does Zlarior have?">Room left</button><button class="bchip" type="button" data-say="When is my first payout?">Payout</button><button class="bchip" type="button" data-say="What did the bots do today?">Today</button><button class="bchip" type="button" data-say="What did the bots do this week?">This week</button><button class="bchip" type="button" data-say="What did the bots do last week?">Last week</button><button class="bchip" type="button" data-say="What&#39;s on the news today?">News</button><button class="bchip" type="button" data-say="What should I do today?">To-do</button><button class="bchip" type="button" data-say="How&#39;s Kalshi?">Kalshi</button><button class="bchip" type="button" data-say="Is the PC OK?">PC OK?</button><button class="bchip" type="button" data-say="What do you recommend?">Decide</button></div>
       <div class="sugs" id="sugs"></div>
       <div class="talk" id="talk" aria-live="polite"></div>
       <div id="brainp"></div>
@@ -1438,7 +1446,7 @@ ready.vault = Promise.all([load('obsidian', './obsidian.js', (m) => typeof m.cre
     addTodos: (list) => { let n = 0; for (const t of list || []) if (assistant && assistant.addTodo) { assistant.addTodo(t); n++; } return n; },       // "pull my tasks from Obsidian" (memory.js; asks first)
     todos: () => (assistant ? assistant.todos() : []) }); } return vault; }).catch(() => null);
 // the business answers (biz.js, day-jarvis 2026-11-20): accounts, trades, room, payout, news, to-do, Kalshi from the real feeds, before the brain
-ready.biz = load('biz', './biz.js?v=b1', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
+ready.biz = load('biz', './biz.js?v=b2', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
 ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianSheet === 'function').then((m) => { assist = m; return m; });
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
@@ -2706,6 +2714,14 @@ async function briefing() {
   if (S.speakOn()) speak(r.speak || r.text, true); else setState('idle');
 }
 $('#ask').addEventListener('submit', (e) => { e.preventDefault(); const q = $('#q'); ask(q.value); q.value = ''; });
+// ?ask=... (team JARVIS 2026-11-20: "Open Jarvis" in the Ask Jarvis sheet of another app, jarvis/ask.js): asked once, the address cleaned
+safe(() => {
+  const u = new URL(location.href), q = String(u.searchParams.get('ask') || '').replace(/[\u0000-\u001f<>]/g, ' ').trim().slice(0, 200);
+  if (!u.searchParams.has('ask')) return;
+  u.searchParams.delete('ask');
+  history.replaceState(history.state, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams.toString() : ''));
+  if (q) setTimeout(() => ask(q), 400);
+});
 
 // ------------------------------------------------------------------ voice out: her voice (voice-out.js + tts.js; Ava Premium, else Samantha ...)
 // Every answer is read while the dock's speaker is on (default on). The waveform on the core and the bars follow her words;
@@ -2878,7 +2894,8 @@ $('#stage').addEventListener('click', () => {
   if (speaking && vo && vo.since() < 450) return;      // this tap just started a waiting answer ("TAP TO HEAR"): not a stop
   if (speaking) { hush(); setState('idle'); return; } if (rec) { stopListening(); return; } listen('tap');
 });
-$('#stage').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#stage').click(); } });
+// (A11Y 2026-11-20: the stage is no longer a role=button holding other buttons; the real button #stageTap inside it takes Enter / Space and
+// VoiceOver, and its click reaches the stage's own handler above)
 
 // ------------------------------------------------------------------ the ⋯ menu (pill keys), the command palette, toasts
 function moreKeys() {
@@ -3708,8 +3725,8 @@ if ('serviceWorker' in navigator) {
 <script src="./welcome.js?v=w1" defer></script>
 <script type="module" src="./transitions.js?v=t7"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
-<script src="../olympus/zeus_core.js?v=5" defer></script>
-<script src="../olympus/doors.js?v=d8" defer></script>
+<script src="../olympus/zeus_core.js?v=6" defer></script>
+<script src="../olympus/doors.js?v=d9" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>
 <script src="./push-ui.js?v=pu2" defer></script>

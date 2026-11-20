@@ -115,6 +115,7 @@ function setTab(t) {
   document.querySelectorAll('.pane').forEach((p) => { p.hidden = p.id !== 'p-' + t; });
   document.querySelectorAll('#tabs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === t)));
   $('sheet').scrollTop = 0;
+  if (t === 'rules') siteNow();
   if (history.replaceState && ['trade', 'account', 'why', 'list', 'rules'].includes(t)) history.replaceState(null, '', '#' + (t === 'trade' ? 'size' : t));
 }
 function route() {
@@ -278,6 +279,9 @@ async function loadSite() {
   } catch (_) { return null; }
 }
 
+let siteAsk = null;
+function siteNow() { if (!siteAsk) siteAsk = loadSite().then((site) => { S.site = site; renderBot(); return site; }); return siteAsk; }
+
 async function main() {
   addEventListener('error', (e) => S.errors.push(String(e.message || e)));
   S.rules = await loadRules('rules.json?v=r2');
@@ -288,8 +292,11 @@ async function main() {
   window.__ares = { ready: true, CORE, get state() { return S.st; }, get verdict() { return S.last; }, get lite() { return S.hall ? S.hall.lite : null; },
     get fps() { return S.hall ? S.hall.fps() : 0; }, get rulesSrc() { return S.rules.src; }, get live() { return !!S.acct; }, errors: S.errors,
     get yaw() { return S.hall ? S.hall.yaw : 0; }, desk, get dressed() { return !!(S.hall && S.hall.dress); }, get tab() { return S.tab; }, get ready3d() { return !!S.hall; } };
-  S.site = await loadSite();
-  S.acct = accountFromSite(S.site) || await loadHome();
+  // day-archive 2026-11-20: the account comes from home.json (~150 KB, the same feed NQ shows) first; the site's data.json (~9 MB) is only
+  // the fallback, and the bot's real stops (Rules tab) load when that tab opens
+  S.acct = await loadHome();
+  if (!S.acct) { S.site = await siteNow(); S.acct = accountFromSite(S.site); }
+  else if (S.tab === 'rules') siteNow();
   if (S.acct && (S.st.balance === '' || S.st.botBalance)) { applyBot(); }
   if (S.acct) { $('fromBot').hidden = false; $('livetag').hidden = false; $('sub').textContent = `${S.acct.name}: ${usd(S.acct.balance)}, floor ${usd(S.acct.floor)}`; }
   update();

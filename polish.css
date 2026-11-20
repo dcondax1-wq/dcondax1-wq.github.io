@@ -273,3 +273,7 @@
 :root[data-theme="light"] .toast { color: #f8f5ee; }          /* the toast keeps its dark glass: light ink on it */
 :root[data-theme="light"] .pl-quick a i { color: #745d46; }
 :root[data-theme="light"] :is(.pl-why-go, .su-a-h b, .su-week li > b, .su-first b) { filter: saturate(1.15) brightness(.8); }   /* the bot colours, readable on white */
+/* day-arenas DESIGN 2026-11-20: the header's icon keys stay 38-40 px to fit five on an iPhone row, but each one answers a 44 px tap
+   (an invisible 3 px ring), the bar's minimum touch size */
+header.top .iconbtn, header.top .oly-lbtn { position: relative; }
+header.top .iconbtn::after, header.top .oly-lbtn::after { content: ""; position: absolute; inset: -3px; border-radius: 14px; }

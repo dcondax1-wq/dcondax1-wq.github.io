@@ -160,7 +160,7 @@ async function main() {
   if (!S.pan || !evalOf(S.home)) { const fx = await getJSON('fixture.json'); if (fx) { if (!S.pan) S.pan = fx.pantheon; if (!evalOf(S.home)) { S.home = fx.home; S.demo = true; } } }      // never blank: the recorded eval fills the money card (DEMO tag)
   S.sealed = (store.read().sealed) || {};
   S.p = now();
-  S.items = brief(S.pan, S.home, S.p);
+  S.items = brief(S.pan, S.home, S.p, Date.now());
   S.desk = desk(S.home, readPlanner(), S.p); renderDesk($('desk'), S.desk);
   try { renderHero($('hero'), S.home, S.p); renderMoney($('money'), S.home, S.pan); renderDay($('day'), S.p); } catch (e) { S.error = 'plus: ' + ((e && e.message) || e); }
   $('demo').hidden = !S.demo;

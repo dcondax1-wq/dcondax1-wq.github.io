@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="agora" data-oly-light>
+<html lang="en" data-theme="agora" data-oly-shell="app" data-oly-light data-oly-veil>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,12 +14,15 @@
      is built with createElementNS. plan.js = the page. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <script src="../olympus/themes.js?v=o9"></script>
 <script>try { window.OLYMPUS_THEMES && OLYMPUS_THEMES.apply('page'); } catch (e) { /* the default look */ }</script><!-- day-arenas: no kit engine on this page, so it paints the chosen look itself (light looks were never applied here) -->
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="business.css?v=5">
+<link rel="stylesheet" href="business.css?v=6">
 <style>
+  /* day-arenas DESIGN 2026-11-20 (layout shift 0.92 on a phone line): the cards are laid out but not drawn until the plan and the Decide
+     list have both filled them (or 8 s), so nothing jumps; the title and the status line show at once */
+  html[data-oly-veil] main#app > :not(header.top):not(.back):not(#status) { visibility: hidden; }
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
   /* the label / number rows: on a phone the label had a word a line (the long $ value took the width); half and half now (phone QA 2026-11-19) */
   .kv { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .kv dd { overflow-wrap: anywhere; }
@@ -52,6 +55,7 @@
   .dec .say { margin: 4px 0 0; font-size: 14px; overflow-wrap: anywhere; }
   .pill.yes { border-color: #8fbf6a; color: #a6d47f; } .pill.no { border-color: #ff8a7a; color: #ff9d8f; }
 </style>
+<link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas DESIGN: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -118,5 +122,7 @@
 </main>
 <script src="decide.js?v=5"></script>
 <script src="plan.js?v=3"></script>
+<script>(function () { var d = document.documentElement, t0 = Date.now();   /* show the cards once plan.js and decide.js are done (or 8 s) */
+  (function check() { var P = window.MONEY_PLAN, D = window.DECIDE; if ((P && P.ok != null && D && D.last) || Date.now() - t0 > 8000) { d.removeAttribute('data-oly-veil'); return; } setTimeout(check, 100); })(); })();</script>
 </body>
 </html>

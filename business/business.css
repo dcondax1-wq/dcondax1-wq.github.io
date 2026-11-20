@@ -87,3 +87,17 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 /* night-siteqa 2026-11-20: "<- Business" on every Business page in the gold of the AGORA links (it showed the browser's default blue / purple, underlined) */
 main#app a.back { color: var(--ag-gold-hi, var(--ag-gold, #dcbd6e)); text-decoration: none; font-weight: 600; }
 main#app a.back:active { opacity: .7; }
+
+/* ---- a11y pass (day-a11y 2026-11-20, owner: Planner + Business clean on a 390 px iPhone). OLYMPUS BAR: sentences 15 px, nothing under
+   12 px, rem so Dynamic Type grows them. html:root raises these over the AGORA app base (agora.css:303-350) and the pages' own <style>. */
+html:root main#app > header.top .brand .sub, html:root main#app > #status.note, html:root main#app .note, html:root main#app > .foot,
+html:root main#app :is(.dk-empty, .dk-sub, .dk-foot, .acc .meta, .coach-form label, .mf-sub, .mf-src, .feed, .acct-row .acct-line, .mf-day,
+  .nqd-age, .nqd-note, .nqd-pay, .planned small, .calc label, .ticks label, ol.ladder span, .dc-hint, .dc-done, .dc-foot, .acl .now,
+  .item > ol > li, label.chk > span, .mf-sec > summary, .rb > span, .rb > b, .seg .btn, #propSpan) ,
+html:root main#app .ag-card :is(dl > dt, dl > dd, ul > li, ol > li, td, details > summary) { font-size: var(--ag-fs-body, .9375rem); }
+html:root main#app :is(.kv2 dd small, .rb small, .dk-legend, .dk-caln) { font-size: var(--ag-fs-body, .9375rem); }
+html:root main#app :is(.mf-st, .rs, .dk-tag, .dk-tag small, .dk-now span, .dk-calv, td small) { font-size: .8125rem; }
+/* no layout jump while the live cards fill in (accounts.html: the cockpit and payday cards arrive after the feed; heights at 390 px) */
+html:root main#app > section[data-dash="cockpit"]:empty { min-height: 8rem; }
+html:root main#app > section[data-dash="payday"]:empty { min-height: 37.5rem; }
+html:root main#app > #list:empty { min-height: 60vh; }

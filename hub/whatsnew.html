@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="whatsnew">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What's new</title>
+<meta name="description" content="What's new in Olympus and the bots, newest first: what changed in plain words, the dollars, where to tap, and whether it needs you.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="What's new">
+<link rel="icon" href="icon.svg">
+<!-- WHAT'S NEW (2026-11-20, day-manual NAV; lead: "tell the owner in plain words what changed in Olympus and the bots today and this week").
+     Data: whatsnew.json (Claude keeps it current). whatsnew.js draws it with textContent only: Today first, then earlier this week; a filter
+     for the lines that need him. Read only: one GET, nothing sent, no storage. -->
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   day-manual NAV 2026-11-20: the same copy as the Doors, so this page follows the look too (it stayed dark under Ivory). */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+.wn-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(32px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.wn-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.wn-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); }
+.wn-title { margin: 14px 0 2px; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.wn-sub { margin: 0 0 10px; color: var(--ag-soft, #cfc4b2); }
+.wn-tabs { display: flex; gap: 8px; margin: 4px 0 6px; }
+.wn-tabs button { flex: 1 1 0; min-height: 44px; border-radius: 999px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); color: var(--ag-soft, #cfc4b2); font: 600 .9375rem var(--ag-sans, system-ui); cursor: pointer; }
+.wn-tabs button[aria-pressed="true"] { background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); color: var(--ag-on-gold, #1b1610); }
+.wn-count { margin: 2px 2px 8px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); min-height: 1.2em; }
+.wn-day { margin: 18px 2px 8px; font: 700 1.0625rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.wn-list { display: grid; gap: 8px; min-height: 60vh; }
+.wn-item { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); }
+.wn-item.you, .wn-item.yes { border-left-color: var(--ag-terra-text, #e08a6b); }
+.wn-item.tested { border-left-color: var(--ag-line, #3a3228); }
+.wn-item h3 { margin: 6px 0 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.25 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
+.wn-tag { display: inline-block; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--ag-line, #3a3228); color: var(--ag-soft, #cfc4b2); font: 600 .75rem/1.5 var(--ag-sans, system-ui); }
+.wn-item.you .wn-tag, .wn-item.yes .wn-tag { border-color: var(--ag-terra-text, #e08a6b); color: var(--ag-terra-text, #e08a6b); }
+.wn-item.site .wn-tag { border-color: var(--ag-gold, #c8a24a); color: var(--ag-gold-hi, #dcbd6e); }
+.wn-money { margin: 6px 0 0; padding: 6px 10px; border-radius: 10px; background: var(--ag-s1, #1b1713); color: var(--ag-text, #f3ece0); font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.wn-what { margin: 6px 0 0; color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
+.wn-go { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; margin-top: 10px; padding: 0 12px; border-radius: 12px; box-sizing: border-box;
+  text-decoration: none; color: var(--ag-gold-hi, #dcbd6e); border: 1px solid var(--ag-gold, #c8a24a); font: 700 .9375rem var(--ag-sans, system-ui); }
+.wn-go span { min-width: 0; overflow-wrap: anywhere; }
+.wn-empty { margin: 14px 2px; color: var(--ag-soft, #cfc4b2); }
+.wn-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<script src="whatsnew.js?v=1" defer></script>
+<script src="../olympus/themes.js?v=o9" defer></script><!-- the theme engine: the look picked on the Gate (Ivory, Stocks Light ...) paints this page too -->
+<script>window.addEventListener('DOMContentLoaded', function () { try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ } });</script>
+</head>
+<body>
+<main class="wn-main" id="whatsnew">
+  <nav class="wn-nav" aria-label="Pages"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">Help</a><a href="manual.html">Manual</a></nav>
+  <h1 class="wn-title">What's new</h1>
+  <p class="wn-sub">What changed in Olympus and the bots, newest first. Each line: the $, where to tap, and whether it needs you.</p>
+  <div class="wn-tabs" role="group" aria-label="Show"><button type="button" id="fAll" aria-pressed="true">Everything</button><button type="button" id="fYou" aria-pressed="false">Needs me</button></div>
+  <p class="wn-count" id="count" role="status" aria-live="polite">Loading...</p>
+  <section class="wn-list" id="list" aria-label="Changes"></section>
+  <p class="wn-foot" id="foot">Read only: nothing here can trade or change a bot.</p>
+</main>
+</body>
+</html>

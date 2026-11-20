@@ -15,7 +15,20 @@
 <!-- ZEUS (2026-11-18, night-zeushub): the ZEUS Trading door's landing (olympus/doors.js zeus.home; hub/doors.html#zeus opens with a link here).
      Data: the PC's ntfy status (../pc_feed.js), ../board/board.json, ../business/accounts.json, matched like the Board (../board/boardmodel.js +
      ../business/mffumodel.js), ../edge.json (../edge_chip.js), ../pythia/events.json, learned.json (the ZEUS learned card's cloud copy). It links to pages; the only write is the Decide card's note (../business/decide.js, PC link only). Text only through textContent. -->
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   day-manual NAV 2026-11-20: the same copy as the Doors, so this page follows the look too (it stayed dark under Ivory). */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
 body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
@@ -39,7 +52,7 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .zs-accts { display: grid; gap: 10px; margin-top: 10px; }
 /* the Live feed strip (owner 2026-11-20): the newest entries and exits of every account, newest first; its height is held from the first paint */
 .zs-feed { margin-top: 10px; padding: 10px 14px 6px; border-radius: 14px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); min-height: 92px; box-sizing: border-box; }
-.zs-feed-h { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font: 700 .8125rem/1.2 var(--ag-sans, system-ui); color: var(--ag-soft, #cfc4b2); letter-spacing: .02em; }
+.zs-feed-h { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font: 700 .9375rem/1.2 var(--ag-sans, system-ui); color: var(--ag-soft, #cfc4b2); letter-spacing: .02em; }
 .zs-feed-h i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #8fbf6a; box-shadow: 0 0 0 0 rgba(143,191,106,.6); animation: zs-pulse 2.4s ease-out infinite; }
 .zs-feed.quiet .zs-feed-h i { background: var(--ag-muted, #a89c88); animation: none; }
 @keyframes zs-pulse { 0% { box-shadow: 0 0 0 0 rgba(143,191,106,.55); } 70%, 100% { box-shadow: 0 0 0 7px rgba(143,191,106,0); } }
@@ -52,7 +65,7 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .zs-ev-v { white-space: nowrap; font-weight: 700; text-align: right; } .zs-ev-v.pos { color: #8fbf6a; } .zs-ev-v.neg { color: #ff8a7a; }
 .zs-ev-v.in { font: 700 .6875rem/1 var(--ag-sans, system-ui); padding: 4px 7px; border-radius: 999px; color: var(--ag-aegean-text, #7fa7c2); border: 1px solid currentColor; letter-spacing: .04em; }
 .zs-ev.new { animation: zs-in .5s cubic-bezier(.2,.7,.2,1) both; }
-.zs-feed-none { color: var(--ag-soft, #cfc4b2); font-size: .875rem; margin: 6px 0 2px; }
+.zs-feed-none { color: var(--ag-soft, #cfc4b2); font-size: .9375rem; margin: 6px 0 2px; }
 /* an account card: stage, balance, today's $, the open trade (live $), $ to pass / payout, the last 5 trades */
 .zs-acct { position: relative; overflow: hidden; }
 .zs-acct.in { animation: zs-in .42s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 60ms); }
@@ -77,40 +90,42 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .zs-top h3 { margin: 0; flex: 1; min-width: 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.2 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
 .zs-chip { flex: none; font: 700 .75rem/1 var(--ag-sans, system-ui); padding: 5px 10px; border-radius: 999px; border: 1px solid currentColor; }
 .zs-chip.eval { color: var(--ag-aegean-text, #7fa7c2); } .zs-chip.funded { color: var(--ag-olive-text, #a0ac6e); }
-.zs-chip.passed { color: #14110e; background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); } .zs-chip.failed { color: #fff; background: #b33a2e; border-color: #b33a2e; }
+.zs-chip.passed { color: var(--ag-on-gold, #14110e); background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); } .zs-chip.failed { color: #fff; background: #b33a2e; border-color: #b33a2e; }
 .zs-mid { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
 .zs-bal { font: 700 1.5rem/1.1 var(--ag-sans, system-ui); font-variant-numeric: tabular-nums; }
 .zs-today { font-weight: 600; color: var(--ag-soft, #cfc4b2); font-variant-numeric: tabular-nums; } .zs-today.pos { color: #8fbf6a; } .zs-today.neg { color: #ff8a7a; }
 .zs-goal { margin: 4px 0 0; overflow-wrap: anywhere; }
-.zs-src { margin: 4px 0 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); overflow-wrap: anywhere; }
+.zs-room { margin: 2px 0 0; color: var(--ag-soft, #cfc4b2); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.zs-room.low { color: var(--ag-terra-text, #e08a6b); font-weight: 600; }
+.zs-src { margin: 4px 0 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-note, .9375rem); overflow-wrap: anywhere; }
 .zs-empty { color: var(--ag-soft, #cfc4b2); }
 #edgeChip { margin-top: 4px; }
 .zs-wins { display: grid; gap: 8px; }
 .zs-win { display: flex; flex-direction: column; gap: 2px; padding: 10px 14px; border-radius: 14px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); }
 .zs-win b { font: 700 var(--ag-fs-lead, 1.0625rem)/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
-.zs-win.open { border-color: #8fbf6a; } .zs-win.open span { color: #a9d68a; font-weight: 600; }
-.zs-win small { color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); overflow-wrap: anywhere; }
+.zs-win.open { border-color: var(--ag-olive, #8fbf6a); } .zs-win.open span { color: var(--ag-olive-text, #a9d68a); font-weight: 600; }
+.zs-win small { color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-note, .9375rem); overflow-wrap: anywhere; }
 .zs-notes { margin-top: 10px; }
 .zs-notes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .zs-note { display: flex; flex-direction: column; gap: 1px; padding: 8px 12px; border-radius: 12px; background: var(--ag-s1, #1b1713); border-left: 3px solid var(--ag-line, #3a3228); }
 .zs-note b { font-size: var(--ag-fs-foot, .8125rem); color: var(--ag-soft, #cfc4b2); } .zs-note span { overflow-wrap: anywhere; }
 .zs-note.high, .zs-note.closed { border-left-color: #ff8a7a; } .zs-note.early, .zs-note.med { border-left-color: var(--ag-sun, #e0b060); }
 .zs-note.today b { color: var(--ag-sun, #e0b060); }
-.zs-note-src { margin: 6px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-note-src { margin: 6px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-note, .9375rem); }
 .zs-btns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .zs-btn { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 76px; padding: 12px 14px; border-radius: 16px; box-sizing: border-box; text-decoration: none;
   color: var(--ag-text, #f3ece0); background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-top: 3px solid var(--ag-gold, #c8a24a); min-width: 0; }
 .zs-btn:active { background: var(--ag-s3, #2b241d); }
 .zs-btn b { font: 700 1.0625rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; }
-.zs-btn small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-foot, .8125rem); line-height: 1.3; }
+.zs-btn small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-note, .9375rem); line-height: 1.3; }
 .zs-btn[hidden] { display: none; }
 .zs-info { grid-column: 1 / -1; border-radius: 16px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); }
 .zs-info summary { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 64px; padding: 10px 14px; cursor: pointer; list-style: none; }
 .zs-info summary::-webkit-details-marker { display: none; }
 .zs-info summary b { font: 700 1.0625rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
-.zs-info summary small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-info summary small { color: var(--ag-soft, #cfc4b2); font-size: var(--ag-fs-note, .9375rem); }
 .zs-info div { padding: 0 14px 12px; } .zs-info p, .zs-info li { margin: 6px 0; overflow-wrap: anywhere; } .zs-info ol { margin: 0; padding-left: 20px; }
-.zs-info code { font: 600 .875rem var(--ag-mono, ui-monospace, Menlo, monospace); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; }
+.zs-info code { font: 600 .9375rem var(--ag-mono, ui-monospace, Menlo, monospace); color: var(--ag-gold-hi, #dcbd6e); overflow-wrap: anywhere; }
 .zs-learn { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-aegean-text, #7fa7c2); }
 .zs-learn ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .zs-learn li { overflow-wrap: anywhere; } .zs-learn li b { color: var(--ag-gold-hi, #dcbd6e); }
@@ -118,9 +133,9 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .zs-learn .zs-src { margin-top: 8px; }
 .zs-learn.old { opacity: .8; border-left-color: var(--ag-muted, #a89c88); }
 .zs-learn.wait { border-left-color: var(--ag-line, #3a3228); } .zs-learn.wait .zs-goal { color: var(--ag-soft, #cfc4b2); }
-.zs-stamp { margin: 10px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); }
+.zs-stamp { margin: 10px 2px 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-note, .9375rem); }
 .zs-foot { margin-top: 26px; text-align: center; color: var(--ag-soft, #cfc4b2); font: 700 var(--ag-fs-body, .9375rem) var(--ag-serif, Georgia, serif); }
-.zs-foot small { display: block; margin-top: 4px; color: var(--ag-muted, #a89c88); font: 400 var(--ag-fs-foot, .8125rem) var(--ag-sans, system-ui); }
+.zs-foot small { display: block; margin-top: 4px; color: var(--ag-muted, #a89c88); font: 400 var(--ag-fs-note, .9375rem) var(--ag-sans, system-ui); }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 <script src="../pc_feed.js?v=n5"></script>
@@ -129,10 +144,13 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 <script src="../board/boardmodel.js?v=b6" defer></script>
 <script src="../edge_chip.js?v=1" defer></script>
 <script src="../business/decide.js?v=5" defer></script>
-<script src="../olympus/zeus_core.js?v=5" defer></script>
+<script src="../olympus/zeus_core.js?v=6" defer></script>
 <script src="../olympus/acct_live.js?v=1" defer></script>
-<script src="zeus.js?v=6" defer></script>
+<script src="zeus.js?v=7" defer></script>
 <script src="../olympus/warp.js?v=w3" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
+<script src="../olympus/themes.js?v=o9" defer></script><!-- the theme engine: the look picked on the Gate (Ivory, Stocks Light ...) paints this page too -->
+<script>window.addEventListener('DOMContentLoaded', function () { try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ } });</script>
+<script src="../olympus/a11y.js" defer></script><!-- the shared focus ring, names for icon buttons, px text that grows (A11Y FOR_nav #3) -->
 </head>
 <body>
 <main class="zs-main" id="zeus">

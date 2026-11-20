@@ -35,7 +35,7 @@ body::before{background:radial-gradient(130% 100% at 50% 50%,transparent 64%,rgb
 .seg button.on{background:#c8a24a;color:#1b1610}
 .list li,th,td,.lift li{border-bottom-color:#3a3228}
 input[type=search]{background:#14110e;border-color:#3a3228}
-.tab{background:linear-gradient(180deg,#2a241c,#211c16);border:1px solid #3a3228;box-shadow:0 4px 12px rgba(0,0,0,.4);color:#f3ece0;font:600 11px/1 var(--ag-sans);letter-spacing:0;border-radius:12px;backdrop-filter:none;-webkit-backdrop-filter:none}
+.tab{background:linear-gradient(180deg,#2a241c,#211c16);border:1px solid #3a3228;box-shadow:0 4px 12px rgba(0,0,0,.4);color:#f3ece0;font:600 .75rem/1 var(--ag-sans);letter-spacing:0;border-radius:12px;backdrop-filter:none;-webkit-backdrop-filter:none}
 .tab.on{border-color:#c8a24a;color:#e0b060;box-shadow:none;background:#2a2217}
 .cams button,.cams a{background:rgba(33,28,22,.92);border-color:#3a3228;color:#cfc4b2;font:600 12px/1 var(--ag-sans);letter-spacing:0;box-shadow:0 4px 12px rgba(0,0,0,.4);backdrop-filter:none;-webkit-backdrop-filter:none}
 .cams a{border-color:rgba(200,162,74,.6);color:#e0b060}

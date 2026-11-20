@@ -549,7 +549,7 @@
 .mo-ban.warn{border-color:color-mix(in srgb,var(--warn) 50%,transparent);background:color-mix(in srgb,var(--warn) 10%,transparent)}.mo-ban.warn .ico,.mo-ban.warn b{color:var(--warn)}
 .mo-ban.bad{border-color:color-mix(in srgb,var(--bad) 55%,transparent);background:color-mix(in srgb,var(--bad) 12%,transparent)}.mo-ban.bad .ico,.mo-ban.bad b{color:var(--bad)}
 .mo-ban.off{border-color:color-mix(in srgb,var(--accent) 55%,transparent);background:color-mix(in srgb,var(--accent) 12%,transparent)}.mo-ban.off .ico{color:var(--accent)}
-.mo-h4{font:650 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.mo-h4{font:650 12px var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
 .mo-p{margin:0 0 6px;color:var(--ink-2);font-size:13.5px;line-height:1.5}
 .mo-inst{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}.mo-inst .chipbtn{width:34px;padding:0}
 .mo-az{display:inline-flex;align-items:center;gap:8px}.mo-az b{font:650 13px var(--mono);min-width:44px;text-align:center}.mo-az .btn{min-width:46px;padding:0 10px;font-size:15px}

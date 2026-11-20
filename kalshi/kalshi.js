@@ -1378,7 +1378,7 @@
     const cell = (t, v, c) => `<div><dt>${t}</dt><dd class="${c || ''}">${v}</dd></div>`;
     const per = num(j.per100_day);
     return '<p><b>Rewards test (paper)</b> Pretend orders that earn Kalshi\'s liquidity rewards. $0 at risk, nothing is placed.</p>'
-      + '<dl class="krw-g">' + cell('Earned', esc(rwUsd(j.reward)), cls(j.reward)) + cell('Fills', esc(rwUsd(j.fill_pnl, true)), cls(j.fill_pnl))
+      + '<dl class="krw-g">' + cell('Earned', esc(rwUsd(j.reward, true)), cls(j.reward)) + cell('Fills', esc(rwUsd(j.fill_pnl, true)), cls(j.fill_pnl))
       + cell('Net', esc(rwUsd(j.net, true)), cls(j.net)) + cell('Days', d == null ? '–' : esc(d < 1 ? d.toFixed(1) : String(Math.round(d * 10) / 10))) + '</dl>'
       + `<p class="krw-f">${per != null ? esc(rwUsd(per, true)) + ' a day per $100 parked · ' : ''}${esc(fmtN(num(j.fills) || 0))} fill${num(j.fills) === 1 ? '' : 's'}`
       + `${when ? ' · ' + esc(when) : ''} · ${RW.src === 'pc' ? 'from the PC' : 'saved copy'} · <span class="krw-age${age.old ? ' old' : ''}">updated ${esc(age.s)}${age.old ? (RW.src === 'pc' ? ' (late)' : ' (the PC has not sent newer numbers)') : ''}</span></p>`

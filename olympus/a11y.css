@@ -7,7 +7,7 @@
 /* nothing may be wider than the phone because the text grew: long words and URLs wrap */
 html[data-oly-text="big"] :where(p, li, td, th, label, button, a, span, div, h1, h2, h3, h4, small, summary) { overflow-wrap: anywhere; }
 html[data-oly-text="big"] :where(button, [role="button"], input, select, textarea) { min-height: 44px; }
-html[data-oly-text="big"] :where(.oly-chip) { min-height: 36px; }
+html[data-oly-text="big"] :where(.oly-chip) { min-height: 44px; }
 
 /* ---------------------------------------------------------------- focus: a ring that shows on dark glass AND on light marble, for the keyboard / VoiceOver only
    (!important: several apps set outline: none on their buttons; an element that must not have it says data-oly-skip) */

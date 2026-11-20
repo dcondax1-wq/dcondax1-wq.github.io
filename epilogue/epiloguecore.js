@@ -205,10 +205,13 @@ export function buildReview(o) {
   const perDay = days.map((d) => r2(wk.filter((t) => t.day === d).reduce((s, t) => s + t.usd, 0))), traded = days.map((d) => wk.some((t) => t.day === d));
   const worstRoom = accounts.filter((a) => a.has && a.room != null).sort((a, b) => a.room / a.mll - b.room / b.mll)[0] || null;
   return { monday, label: weekLabel(monday), days, demo: !!o.demo, current: !!o.current, usd, trades: wk.length, accounts, best: pack(best), worst: pack(worst), perDay, traded, hab, lessons: ls, goal: sg, worstRoom,
-    money: normMoney(o.money), plan: hab.plan, rated: hab.rated, headline: headline(usd, wk.length, weekLabel(monday)) };
+    money: normMoney(o.money), plan: hab.plan, rated: hab.rated, headline: headline(usd, wk.length, weekLabel(monday), accounts.some((a) => a.from === 'home')) };
 }
 
-function headline(usd, n, label) {
+function headline(usd, n, label, fromHome) {
+  // day-archive 2026-11-20: the $ came from the accounts' live week figure (home.json) but the trade list (odeon/trades.json) has none this
+  // week: it ends earlier. It said "+$272 on 0 trades"; now it says where the number comes from.
+  if (!n && fromHome) return 'Week of ' + label + ': ' + moneyS(usd) + ' from the accounts\' live week figures (the trade list behind this page ends earlier).';
   if (!n && usd === 0) return 'Week of ' + label + ': no trades. A quiet week is a valid week.';
   return 'Week of ' + label + ': ' + moneyS(usd) + ' on ' + n + ' trade' + (n === 1 ? '' : 's') + '.';
 }

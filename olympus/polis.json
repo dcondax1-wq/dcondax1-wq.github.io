@@ -2,7 +2,7 @@
  "v": 1,
  "kind": "olympus-polis",
  "date": "2026-11-20",
- "built": "2026-11-20T16:57:14Z",
+ "built": "2026-11-20T17:46:04Z",
  "demo": false,
  "paper": true,
  "label": "Written from the published files. Nothing is invented. Paper only.",
@@ -274,47 +274,19 @@
     "name": "MFFU 50K Eval",
     "stage": "eval",
     "bot": "Zlarior",
-    "balance": 49900.0,
-    "profit": -100.0,
-    "target": 3000.0,
+    "balance": null,
+    "profit": null,
+    "target": null,
     "progress": 0.0,
     "growth": 0.12,
     "rings": 0,
     "olives": 0,
-    "thirsty": true,
-    "room": 1900.0,
-    "mll": 2000.0,
+    "thirsty": false,
+    "room": null,
+    "mll": null,
     "payouts": null,
-    "line": "Below its start by $100: a thirsty tree.",
-    "facts": [
-     {
-      "t": "$49,900",
-      "src": "data.json",
-      "at": "accounts/mffu50k_eval/eval/balance"
-     },
-     {
-      "t": "-$100",
-      "src": "data.json",
-      "at": "accounts/mffu50k_eval/eval/profit"
-     },
-     {
-      "t": "$3,000",
-      "src": "data.json",
-      "at": "accounts/mffu50k_eval/eval/target_balance - start_balance",
-      "how": "target minus start"
-     },
-     {
-      "t": "Drawdown left $1,900 of $2,000 max loss",
-      "src": "data.json",
-      "at": "accounts/mffu50k_eval/eval/room, mll"
-     },
-     {
-      "t": "$100",
-      "src": "data.json",
-      "at": "accounts/mffu50k_eval/eval/profit",
-      "how": "minus the profit"
-     }
-    ]
+    "line": "Eval: growing.",
+    "facts": []
    },
    {
     "id": "cloud_paper",

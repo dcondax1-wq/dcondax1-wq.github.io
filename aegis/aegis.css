@@ -36,7 +36,7 @@ html.framed #app { padding-top: 12px; }
 .btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: var(--oly-th-n5, #2a2217); }
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .ag-bar { height: 10px; } .ag-bar.red > i { background: linear-gradient(90deg, var(--oly-th-r3, #7a3a24), var(--ag-terra)); } .ag-bar.green > i { background: linear-gradient(90deg, var(--oly-th-g3, #5a6338), var(--ag-olive)); } .ag-bar.amber > i { background: linear-gradient(90deg, var(--oly-th-a5, #9c6b3c), var(--ag-sun)); }
-.ag-bar > i { transition: width .45s ease-out; }
+.ag-bar > i { transition: width var(--ag-d3, 340ms) var(--ag-ease, ease-out); }
 svg text { font-family: var(--ag-sans); }
 .foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
 .ag-tabs { position: static; }

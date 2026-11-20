@@ -25,7 +25,7 @@ button { font: inherit; color: inherit; }
 .glass { background: var(--glass); border: 1px solid var(--line); border-radius: 14px; backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%); }
 .lbl { display: block; font: 600 12px var(--ag-sans); letter-spacing: .01em;  color: var(--dim); }
-.small { font-size: 12.5px; color: var(--dim); line-height: 1.35; }
+.small { font-size: .875rem; color: var(--dim); line-height: 1.35; }
 .up, [data-sign="up"] { color: var(--mint);  }
 .down, [data-sign="down"] { color: var(--rose);  }
 [data-sign="flat"] { color: var(--text); }
@@ -36,8 +36,8 @@ button { font: inherit; color: inherit; }
 .bar { display: flex; align-items: center; gap: 8px; min-height: 44px; }
 .logo { width: 26px; height: 26px; color: var(--gold);  flex: none; }
 h1 { margin: 0; font: 700 16px var(--ag-serif); letter-spacing: .01em; color: #f3ece0;  }
-.mode { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: 12px; border: 1px solid var(--line);
-  font: 700 12px var(--ag-sans); letter-spacing: .01em; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 0 1 auto; }
+.mode { display: inline-flex; align-items: center; gap: 6px; min-height: 1.5rem; padding: 0 9px; border-radius: 12px; border: 1px solid var(--line);
+  font: 700 .8125rem var(--ag-sans); letter-spacing: .01em; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 0 1 auto; }
 .mode > span { overflow: hidden; text-overflow: ellipsis; }
 .mode i { width: 7px; height: 7px; border-radius: 50%; background: var(--dim); flex: none; }
 .mode[data-mode="live"] { color: var(--mint); border-color: rgba(155, 171, 99, .4); }
@@ -221,7 +221,7 @@ h1 { margin: 0; font: 700 16px var(--ag-serif); letter-spacing: .01em; color: #f
 .cxd b { white-space: normal; overflow: visible; text-overflow: clip; font-size: 12px; overflow-wrap: anywhere; }
 
 /* AGORA pass */
-.pace { font: 500 13.5px/1.35 var(--ag-sans); color: var(--dim); margin: 2px 2px 6px; }
+.pace { font: 500 .9375rem/1.35 var(--ag-sans); color: var(--dim); margin: 2px 2px 6px; }
 .tabs button { font-size: 13px; padding: 0 2px; }
 .tabs button[aria-selected="true"] { color: #1b1610; }
 .pace { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }

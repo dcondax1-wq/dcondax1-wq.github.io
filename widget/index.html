@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" href="../business/apple-touch-icon.png">
 <!-- WIDGET (night-revamp-dash 2026-11-20): iOS cannot put a web app on the Home Screen as a widget; Scriptable (free) can run a
      script as one. This page: 3 steps + a copy button for olympus-widget.js + a live preview drawn by the same code. -->
-<link rel="stylesheet" href="widget.css?v=1">
+<link rel="stylesheet" href="widget.css?v=2">
 </head>
 <body>
 <main id="app">
@@ -35,13 +35,13 @@
       <button type="button" class="btn" id="copy">Copy the script</button>
       <a class="btn ghost" href="olympus-widget.js" download="Olympus.js" style="text-decoration:none;display:inline-flex;align-items:center">Download</a>
     </div>
-    <p class="muted" style="font-size:.8rem;margin-top:10px">Optional: in Edit Widget, Parameter <b>light</b> or <b>dark</b> fixes the look; <b>small</b> / <b>medium</b> / <b>large</b> forces a layout. It refreshes about every 15 minutes (iOS decides the exact time). Tap it to open the site.</p>
+    <p class="muted" style="font-size:.9375rem;margin-top:10px">Optional: in Edit Widget, Parameter <b>light</b> or <b>dark</b> fixes the look; <b>small</b> / <b>medium</b> / <b>large</b> forces a layout. It refreshes about every 15 minutes (iOS decides the exact time). Tap it to open the site.</p>
   </section>
 
   <section class="card fade" aria-labelledby="hShow" style="animation-delay:.05s">
     <h2 id="hShow">What it shows</h2>
     <p class="soft">Each account: balance, today's $, $ to pass (or $ to payout once funded), drawdown room. PC status, the next Kalshi clock window, when it last refreshed. A <b>LIVE · PC</b> tag means the numbers came from your PC's 15-minute post; <b>PAPER · SITE</b> = the site copy; <b>CACHED</b> = no signal, the last good copy with its age.</p>
-    <p class="muted" style="font-size:.8rem">Read only: it reads the same public numbers the site shows, sends nothing, holds no password or key and cannot place or arm anything.</p>
+    <p class="muted" style="font-size:.9375rem">Read only: it reads the same public numbers the site shows, sends nothing, holds no password or key and cannot place or arm anything.</p>
   </section>
 
   <section class="card fade" aria-labelledby="hBig" style="animation-delay:.1s">
@@ -52,7 +52,7 @@
 
   <section class="card fade" aria-labelledby="hCode" style="animation-delay:.15s">
     <div class="row"><h2 id="hCode">The script</h2><span class="sp"></span><span class="muted" id="size" style="font-size:.75rem"></span></div>
-    <pre class="code" id="code">Loading...</pre>
+    <pre class="code" id="code" tabindex="0" aria-label="Widget code">Loading...</pre>
   </section>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </main>

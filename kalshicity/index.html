@@ -19,26 +19,25 @@
      OLYMPUS render core, cityrig.js = the cameras, kalshicity.js = this page. Nothing here writes anywhere: no orders, no Kalshi call, no key. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="kalshicity"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="kalshicity"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b5a642'); r.setProperty('--oly-accent-rgb', '181, 166, 66'); })();</script>
 <link rel="stylesheet" href="kalshicity.css?v=k19">
-<link rel="stylesheet" href="agora-kalshicity.css?v=g5">
+<link rel="stylesheet" href="agora-kalshicity.css?v=g6">
 </head>
 <body>
 <canvas id="city" aria-label="A night city: one district per market, one building per edge of the Kalshi bot, roads with traffic, weather for the market mood" role="img"></canvas>
 <main id="ui">
   <header class="top">
-    <div class="brand"><h1>Kalshi City</h1><p class="sub">What the old crypto bot learned, as a night city.</p></div>
+    <div class="brand"><h1>Kalshi City</h1><p class="sub archive-line" id="archH"><b>Archive: this page is history</b> (the old crypto bot, retired 2026-11-19).</p></div>
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span><button type="button" id="networkToggle" class="help-btn network-toggle" aria-label="Open City Network" aria-expanded="false" aria-controls="networkPanel" title="Switch city">▦</button><button type="button" id="guideBtn" class="help-btn" aria-label="How to read the city">?</button></div>
   </header>
-  <aside class="archive-banner" aria-labelledby="archH"><p id="archH"><b>Archive: this page is history (the old crypto bot, retired 2026-11-19).</b> Today's Kalshi bot is K8 &rarr;</p>
-    <p class="arch-go"><a class="arch-btn primary" href="../kalshi/">K8 &rarr; Kalshi page</a><a class="arch-btn" href="../dionysus/">Kalshi desk</a></p></aside>
+  <aside class="archive-banner" aria-labelledby="archH"><p>Today's Kalshi bot is K8 &rarr;</p><a class="arch-btn primary" href="../kalshi/">Kalshi page</a><a class="arch-btn" href="../dionysus/">Kalshi desk</a></aside>
   <section id="networkPanel" class="network-panel" hidden aria-labelledby="networkTitle">
     <div class="network-panel-head"><h2 id="networkTitle">CITY NETWORK</h2><button type="button" id="networkClose" aria-label="Close City Network">×</button></div>
     <p>Move between connected city views. Kalshi City is highlighted.</p>

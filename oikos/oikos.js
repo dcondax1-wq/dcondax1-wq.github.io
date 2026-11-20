@@ -54,7 +54,7 @@ function srcWords() {
     phone: `Your Ledger on this phone: ${n} entries, read only.`, file: `A file you imported: ${n} entries${S.ledger.skipped ? `, ${S.ledger.skipped} rows skipped` : ''}. Kept on this phone.`,
     feed: `The scanner's copy of your Ledger export: ${n} entries.` }[S.source];
 }
-function bar(frac, cls) { const b = h('div', 'ag-bar ' + (cls || 'green')); b.setAttribute('role', 'img'); b.appendChild(h('i')); b.firstChild.style.width = Math.round(C.clamp(frac, 0, 1) * 100) + '%'; return b; }
+function bar(frac, cls, label) { const b = h('div', 'ag-bar ' + (cls || 'green')); b.setAttribute('role', 'img'); b.setAttribute('aria-label', label || (Math.round(C.clamp(frac, 0, 1) * 100) + '% full')); b.appendChild(h('i')); b.firstChild.style.width = Math.round(C.clamp(frac, 0, 1) * 100) + '%'; return b; }
 const RISK = { low: ['ok', 'Fine'], med: ['warn', 'Watch'], high: ['bad', 'Act'] };
 
 function renderHero(a) {
@@ -70,7 +70,7 @@ function renderLeaks(a) {
   $('leakPill').textContent = nWatch ? `${nWatch} to watch` : 'All fine'; $('leakPill').className = 'pill ' + (nWatch ? 'warn' : 'ok');
   if (!a.leaks.length) { const li = h('li', 'empty', 'No leaks yet. Add your eval fees, resets, payouts and monthly costs in the Ledger and they are checked here.'); ul.appendChild(li); return; }
   for (const x of a.leaks.slice(0, 14)) {
-    const li = h('li', 'leak ' + x.risk), t = h('div', 't'); t.appendChild(h('b', '', x.title)); t.appendChild(h('span', 'usd ' + (x.risk === 'low' ? '' : 'neg'), C.money(x.usd)));
+    const li = h('li', 'leak ' + x.risk), t = h('div', 't'); t.appendChild(h('b', '', x.title)); t.appendChild(h('span', 'usd ' + (x.risk === 'low' ? '' : 'neg'), (x.risk === 'low' ? '' : '\u2212') + C.money(x.usd)));   /* a sign, not colour alone (A11Y K8) */
     li.appendChild(t); li.appendChild(h('p', '', x.detail));
     const m = h('div', 'meta'); m.appendChild(h('span', 'pill ' + RISK[x.risk][0], RISK[x.risk][1])); m.appendChild(bar(x.score / 100, x.risk === 'high' ? 'red' : x.risk === 'med' ? 'amber' : 'green')); m.appendChild(h('span', 'note', `${x.score}/100`));
     li.appendChild(m); ul.appendChild(li);

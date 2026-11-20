@@ -52,7 +52,7 @@ body[data-mode=city] .chip:first-child{border-color:rgba(var(--oly-th-a8-rgb, 20
 input[type=search]{background:var(--oly-th-n3, #14110e);border-color:var(--oly-th-n8, #3a3228);border-radius:12px}
 .barrow .track{background:var(--oly-th-n6, #2b251d)}
 /* the dock */
-.tab,body[data-mode=city] .tab{background:linear-gradient(180deg,var(--oly-th-n5, #2a241c),var(--oly-th-n4, #211c16));border:1px solid var(--oly-th-n8, #3a3228);box-shadow:0 4px 12px rgba(0,0,0,.4);color:var(--oly-th-n37, #f3ece0);font:600 11px/1 var(--ag-sans);letter-spacing:0;border-radius:12px}
+.tab,body[data-mode=city] .tab{background:linear-gradient(180deg,var(--oly-th-n5, #2a241c),var(--oly-th-n4, #211c16));border:1px solid var(--oly-th-n8, #3a3228);box-shadow:0 4px 12px rgba(0,0,0,.4);color:var(--oly-th-n37, #f3ece0);font:600 .75rem/1 var(--ag-sans);letter-spacing:0;border-radius:12px}
 .tab.on,body[data-mode=city] .tab.on{border-color:var(--oly-th-a8, #c8a24a);color:var(--oly-th-warn, #e0b060);box-shadow:none;background:var(--oly-th-n5, #2a2217)}
 .cams button,body[data-mode=city] .cams button{background:rgba(var(--oly-th-n4-rgb, 33,28,22),.92);border-color:var(--oly-th-n8, #3a3228);color:var(--oly-th-n30, #cfc4b2);font:600 12px/1 var(--ag-sans);letter-spacing:0;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .cams button.on,body[data-mode=city] .cams button.on{color:var(--oly-th-n3, #1b1610);background:var(--oly-th-a8, #c8a24a);border-color:var(--oly-th-a11, #e2c47a);box-shadow:none}
@@ -92,3 +92,7 @@ background:rgba(var(--oly-th-n3-rgb, 24,19,14),.9);border:1px solid rgba(var(--o
   body[data-mode=city] .mini{width:92px;height:92px;top:calc(var(--top-h) + 56px + var(--st))}}
 /* phone-fit 2026-11-11: on a 320 px iPhone the title wraps onto two lines instead of being cut (layout only) */
 @media (max-width:360px){.top h1,body[data-mode=city] .top h1{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;font-size:18px;line-height:1.12}}
+/* olympus2 A11Y: dark ink on the live chip's light olive fill (2.55:1 -> 6.0:1) */
+.chip.live b{color:#1b1610}
+html[data-oly-scheme=light] .chip.live b{color:#f3ece0}   /* the light look fills the live chip dark green */
+#chips{min-height:44px !important;box-sizing:border-box}

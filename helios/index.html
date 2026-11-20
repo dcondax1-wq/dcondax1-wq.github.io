@@ -18,19 +18,19 @@
      Read only: it reads ../pythia/events.json, ../home.json, ../money/index.json and fixture.json (DEMO, never blank); on this phone it reads the quiz progress (lyceum.v1, never written). Sends nothing. It only informs. Text only through textContent / createElementNS. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
-<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p6">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="helios"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="helios"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/polis-life.js?v=pl4" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script>
-<script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=5" defer></script>
+<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="helios.css?v=a4qe">
-<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
+<link rel="stylesheet" href="helios.css?v=a4qef">
+<link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -68,7 +68,8 @@
     <h2 id="accH">Drawdown left</h2>
     <ul class="cards" id="accts"></ul>
   </section>
-  <section class="pl-place" data-polis-life="grove" aria-label="The olive grove: one tree per account" hidden></section>
+  <!-- day-arenas DESIGN 2026-11-20 (DATA TRUTH ask): the olive grove (olympus/polis.json) is the cloud's snapshot and drew its PAPER twin
+       ($49,900) as Zlarior's tree; left out like on Aegis. The accounts above (pulse + Drawdown left) are the PC's own numbers. -->
 
   <section class="ag-card card" aria-labelledby="actH">
     <h2 id="actH">Do first</h2>
@@ -100,9 +101,9 @@
   <p class="foot" id="foot">Helios reads the site's own files and the quiz progress on this phone (it never writes it) and sends nothing. It only informs: it never trades, buys or changes anything. Every dollar is shown with its R (1R = one full stop; a ~ means an estimate). Times are New York time. Dollar figures are estimates, never income. Paper only.</p>
 </main>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
-<script src="../olympus/lazy3d.js?v=l1" data-src="sunload.js?v=a1" data-skip="lite" data-event="helios-sun" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="sunload.js?v=a1" data-skip="lite" data-event="helios-sun" defer></script>
 <script type="module" src="helios.js?v=r7"></script>
-<script type="module" src="../olympus/pulse.js?v=p2"></script>
+<script type="module" src="../olympus/pulse.js?v=p6"></script>
 <script type="module" src="riskweek.js?v=1"></script>
 <script type="module" src="brief.js?v=1"></script>
 </body>

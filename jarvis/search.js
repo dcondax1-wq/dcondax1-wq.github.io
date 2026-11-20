@@ -89,6 +89,12 @@ export function createSearch(index) {
     vocab = Array.from(post.keys());
     idf = new Map(); for (const [t, m] of post) idf.set(t, Math.log(1 + docs.length / (1 + m.size)));
   }
+  const namesMemo = new Map();
+  function appNames(i) {
+    let m = namesMemo.get(i);
+    if (!m) { const d = docs[i]; m = new Set(terms(d[1] + ' ' + d[3])); namesMemo.set(i, m); }      // its title and id, not every alias
+    return m;
+  }
   /** the index words a query word may mean: itself, a stem / prefix, a small typo, a synonym. [[term, quality]] */
   function expand(t) {
     const out = new Map(), put = (k, q) => { if (post.has(k) && (out.get(k) || 0) < q) out.set(k, q); };
@@ -114,10 +120,10 @@ export function createSearch(index) {
     prepare();
     const qt = Array.from(new Set(terms(query)));
     if (!qt.length) return [];
-    const score = new Map(), cover = new Map();
+    const score = new Map(), cover = new Map(), exps = qt.map((t) => expand(t));
     qt.forEach((t, ti) => {
       const best = new Map();
-      for (const [v, q] of expand(t)) { const w = idf.get(v) * q; for (const [i, fw] of post.get(v)) { const s = w * (1 + fw); if ((best.get(i) || 0) < s) best.set(i, s); } }
+      for (const [v, q] of exps[ti]) { const w = idf.get(v) * q; for (const [i, fw] of post.get(v)) { const s = w * (1 + fw); if ((best.get(i) || 0) < s) best.set(i, s); } }
       for (const [i, s] of best) { score.set(i, (score.get(i) || 0) + s); cover.set(i, (cover.get(i) || 0) | (1 << Math.min(30, ti))); }
     });
     const phrase = ' ' + words(query).filter((w) => !STOP.has(w)).join(' ') + ' ', full = ' ' + words(query).join(' ') + ' ';
@@ -132,23 +138,42 @@ export function createSearch(index) {
       if (qt.length > 1 && phrase.length > 4 && (normTitle[i].indexOf(phrase) >= 0 || (kind === 'app' && normAll[i].indexOf(phrase) >= 0))) s *= 1.35;      // the words in that order (an app: also in what people call it)
       if (normTitle[i] === phrase || normTitle[i] === full) s *= kind === 'app' ? 2.2 : 1.6;           // the thing is called exactly that
       if (rawW.length) s *= 1 + 0.25 * rawW.filter((w) => normAll[i].indexOf(' ' + w + ' ') >= 0).length / rawW.length;      // the very word, not only its stem
+      // the query NAMES this app (each word is the app's title or id, typos included: "jurnal" -> the journal app):
+      // the app itself, not a write-up that merely mentions the word (day-jarvis 2026-11-20)
+      if (kind === 'app' && qt.length <= 2 && exps.every((m) => [...m.keys()].some((v) => appNames(i).has(v)))) s *= 1.6;
       if (kind === 'app') s *= 1.15; else if (kind === 'run') s *= 0.85;
       if (prefer && prefer.has(kind)) s *= 1.6;
-      rows.push({ i, s, kind });
+      // a tie-break for equal scores: the asked word nearer the start of the title (the thing is ABOUT it), then the index order
+      const at = rawW.length ? Math.min(...rawW.map((w) => { const k = normTitle[i].indexOf(' ' + w); return k < 0 ? 999 : k; })) : 999;
+      rows.push({ i, s, kind, at });
     }
-    rows.sort((a, b) => (b.s - a.s) || (a.i - b.i));
+    rows.sort((a, b) => (b.s - a.s) || (a.at - b.at) || (a.i - b.i));
+    // the same place twice (an Archive idea is both a write-up and a rejected idea, one link): one row, the write-up, flagged rejected,
+    // at the better of the two scores (day-jarvis 2026-11-20: the doubles pushed the test runs out of the top 5)
+    { const seen = new Map();
+      for (let k = 0; k < rows.length; k++) {
+        const d = docs[rows[k].i]; if (!d[4]) continue;
+        const key = d[3] + ' ' + d[4], j = seen.get(key);
+        if (j == null) { seen.set(key, k); continue; }
+        const keepW = rows[j].kind === 'rejected' && rows[k].kind !== 'rejected' ? rows[k] : rows[j];
+        rows[j] = { ...keepW, s: Math.max(rows[j].s, rows[k].s), rejected: rows[j].kind === 'rejected' || rows[k].kind === 'rejected' || !!keepW.rejected };
+        rows[k] = null;
+      }
+      for (let k = rows.length - 1; k >= 0; k--) if (!rows[k]) rows.splice(k, 1);
+    }
     const out = [], perKind = {};
     const cap = (k) => (k === 'run' ? 3 : k === 'event' || k === 'quiz' || k === 'money' ? 2 : 4);
     for (const pass of [0, 1]) {
       for (const r of rows) {
         if (out.length >= n) break;
         if (out.some((x) => x.i === r.i)) continue;
+
         if (pass === 0 && (perKind[r.kind] || 0) >= cap(r.kind)) continue;      // a mix of kinds first; the second pass fills what is left
         perKind[r.kind] = (perKind[r.kind] || 0) + 1; out.push(r);
       }
     }
-    out.sort((a, b) => (b.s - a.s) || (a.i - b.i));
-    return out.map((r) => { const d = docs[r.i]; return { kind: r.kind, label: KIND_LABEL[r.kind] || r.kind, title: d[1], text: d[2], source: d[5], open: d[3] || '', route: d[4] || '', score: Math.round(r.s * 100) / 100 }; });
+    out.sort((a, b) => (b.s - a.s) || (a.at - b.at) || (a.i - b.i));
+    return out.map((r) => { const d = docs[r.i]; return { kind: r.kind, rejected: r.kind === 'rejected' || !!r.rejected, label: (KIND_LABEL[r.kind] || r.kind) + (r.rejected && r.kind !== 'rejected' ? ' (Rejected idea)' : ''), title: d[1], text: d[2], source: d[5], open: d[3] || '', route: d[4] || '', score: Math.round(r.s * 100) / 100 }; });
   }
   return { ready: ok && docs.length > 0, size: docs.length, counts: (ok && index.counts) || {}, sha: (ok && index.sha) || '', search };
 }

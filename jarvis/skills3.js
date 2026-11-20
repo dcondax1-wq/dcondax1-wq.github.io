@@ -65,7 +65,7 @@ export function createV3(c) {
     if (!hits.length) return c.reply(`I found nothing for "${p.q}" in the ${total} things I index (apps, tests, write-ups, rules, the calendar, the money machines). I will not guess.`, { intent: 'search', missing: true, hits: [], query: p.q });
     const head = p.tested ? `What we tested about "${p.q}": the best ${hits.length} of ${total} things I index.` : `Top ${hits.length} for "${p.q}" (of ${total} things I index):`;
     const lines = hits.map((h, i) => `${i + 1}. ${h.label}: ${h.title}${h.text ? ' - ' + clip(h.text, 90) : ''} [${h.source}]`);
-    const rej = p.tested && hits.some((h) => h.kind === 'rejected') ? 'Careful: a "Rejected idea" was tested and did not hold up.' : '';
+    const rej = p.tested && hits.some((h) => h.kind === 'rejected' || h.rejected) ? 'Careful: a "Rejected idea" was tested and did not hold up.' : '';
     const out = hits.map((h) => ({ ...h, action: { label: 'Open', open: h.open, route: h.route } }));
     const text = [head].concat(lines, [rej, `Say "open it" for the first, or "open the second".`]).filter(Boolean).join('\n');
     dlg.note({ intent: 'search', args: { q: p.q, prefer: p.prefer, tested: p.tested }, entity: p.q, hits: out, link: { open: out[0].open, route: out[0].route, name: out[0].title }, text }, now);

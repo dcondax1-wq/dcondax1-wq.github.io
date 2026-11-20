@@ -18,19 +18,19 @@
      Read only: it reads ../home.json, ../ledger/rules.json and fixture.json (DEMO, never blank) and sends nothing. It warns, it never blocks or places an order. Text only through textContent. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
-<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p6">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="aegis"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="aegis"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/polis-life.js?v=pl4" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script>
-<script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=5" defer></script>
+<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="aegis.css?v=a2qd">
-<link rel="stylesheet" href="../olympus/shell.css?v=s5"><!-- day-arenas: the one design layer, loaded last -->
+<link rel="stylesheet" href="aegis.css?v=a2qdf">
+<link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -92,8 +92,8 @@
   <p class="foot" id="foot">Aegis only reads and warns. It never places, changes or blocks an order. Risk shows $ first, then R (1R = one full stop lost; ~ = estimate). Rules from MFFU's site, checked 2026-10-18; re-check before asking for a payout.</p>
 </main>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
-<script src="../olympus/lazy3d.js?v=l1" data-src="shieldload.js?v=a1" data-skip="lite" data-event="aegis-shield" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="shieldload.js?v=a1" data-skip="lite" data-event="aegis-shield" defer></script>
 <script type="module" src="aegis.js?v=r7d"></script>
-<script type="module" src="../olympus/pulse.js?v=p2"></script>
+<script type="module" src="../olympus/pulse.js?v=p6"></script>
 </body>
 </html>

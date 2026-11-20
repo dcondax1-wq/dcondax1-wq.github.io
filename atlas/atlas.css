@@ -1,15 +1,17 @@
 /* Atlas in AGORA (docs/DESIGN_AGORA.md, owner 2026-11-09): the directory of every Olympus arena. Marble, bronze, gold; serif headings; no neon, no night sky, no HUD.
    One primary thing: the search box. Then the four districts, then the arenas grouped by district. */
-:root{color-scheme:dark;--bg:#14110e;--panel:#1d1914;--raise:#26211b;--line:#3a3228;--ink:#f3ece0;--soft:#cfc4b2;--muted:#a39883;--gold:#c8a24a;--gold2:#e0c27a;--bronze:#9c6b3c;
+/* day-arenas DESIGN 2026-11-20: the colours come from the OLYMPUS look slots (olympus/themes.js), the same slots as agora.css, so every look
+   (Ivory and the other light ones included) reaches Atlas; the AGORA values stay as the fallback */
+:root{color-scheme:dark;--bg:var(--oly-th-n3,#14110e);--panel:var(--oly-th-n4,#1d1914);--raise:var(--oly-th-n5,#26211b);--line:var(--oly-th-n8,#3a3228);--ink:var(--oly-th-n37,#f3ece0);--soft:var(--oly-th-n30,#cfc4b2);--muted:var(--oly-th-n24,#a39883);--gold:var(--oly-th-a8,#c8a24a);--gold2:var(--oly-th-a10,#e0c27a);--bronze:var(--oly-th-a5,#9c6b3c);
   --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;--sans:-apple-system,'SF Pro Text',system-ui,'Helvetica Neue',Arial,sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;min-height:100vh;min-height:100dvh;color:var(--ink);font:400 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
-  background:radial-gradient(120% 60% at 50% -8%,#2a2118 0%,var(--bg) 62%) fixed,var(--bg)}
+  background:radial-gradient(120% 60% at 50% -8%,var(--oly-th-n5,#2a2118) 0%,var(--bg) 62%) fixed,var(--bg)}
 button,input{font:inherit}
 button,a{-webkit-tap-highlight-color:transparent}
 .sr{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}
-.skip{position:fixed;top:-80px;left:12px;z-index:30;background:var(--gold);color:#1b1610;padding:12px;border-radius:8px}
+.skip{position:fixed;top:-80px;left:12px;z-index:30;background:var(--gold);color:var(--oly-th-n3,#1b1610);padding:12px;border-radius:8px}
 .skip:focus{top:12px}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
@@ -27,7 +29,7 @@ main{max-width:760px;margin:0 auto;padding:0 16px 24px}
 .lead{margin:0;color:var(--soft);font-size:17px;max-width:34em}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
 .primary,.secondary{min-height:48px;padding:0 20px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;font:600 16px var(--sans);text-decoration:none;cursor:pointer}
-.primary{background:linear-gradient(180deg,#d4b05a,var(--gold));color:#1b1610;border:1px solid #e2c47a}
+.primary{background:linear-gradient(180deg,#d4b05a,var(--gold));color:var(--oly-th-n3,#1b1610);border:1px solid #e2c47a}
 .secondary{background:var(--raise);color:var(--ink);border:1px solid var(--line)}
 
 /* the overview is one quiet line of numbers, not a panel */
@@ -54,7 +56,7 @@ main{max-width:760px;margin:0 auto;padding:0 16px 24px}
 .spotlight small{font-size:13.5px;color:var(--muted)}
 
 /* the directory */
-.deck{margin:26px 0 24px;display:grid;gap:14px}
+.deck{margin:26px 0 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
 .deck-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .deck-head .eyebrow{margin:0 0 4px}
 .deck h2{margin:0;font:600 28px/1.15 var(--serif)}
@@ -67,7 +69,7 @@ main{max-width:760px;margin:0 auto;padding:0 16px 24px}
 .search kbd{display:none}
 .filters{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}
 .filters button{flex:none;border-radius:999px;min-height:44px;padding:0 16px;border:1px solid var(--line);background:transparent;color:var(--soft);font-weight:600;font-size:15px}
-.filters button[aria-pressed=true]{background:var(--gold);color:#1b1610;border-color:var(--gold)}
+.filters button[aria-pressed=true]{background:var(--gold);color:var(--oly-th-n3,#1b1610);border-color:var(--gold)}
 .recent{color:var(--muted);font-size:14px}
 .recent a{display:inline-flex;align-items:center;min-height:44px;margin:2px 4px 2px 0;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--gold2);text-decoration:none}
 .results{display:block}
@@ -100,7 +102,7 @@ footer{max-width:760px;margin:0 auto;padding:12px 16px calc(env(safe-area-inset-
 .at-intro-glyph{display:none}
 .at-intro strong{font:600 clamp(26px,8vw,40px)/1.1 var(--serif);letter-spacing:.01em}
 .at-intro-line{color:var(--soft);font-size:17px}
-.at-intro button{margin-top:18px;min-height:48px;padding:0 22px;border-radius:12px;border:1px solid #e2c47a;background:linear-gradient(180deg,#d4b05a,var(--gold));color:#1b1610;font:700 16px var(--sans)}
+.at-intro button{margin-top:18px;min-height:48px;padding:0 22px;border-radius:12px;border:1px solid #e2c47a;background:linear-gradient(180deg,#d4b05a,var(--gold));color:var(--oly-th-n3,#1b1610);font:700 16px var(--sans)}
 .at-intro button:focus-visible{outline:2px solid var(--gold2);outline-offset:4px}
 .at-intro.brief .at-intro-city{display:none}
 @media(prefers-reduced-motion:reduce){.at-intro{display:none}html{scroll-behavior:auto}.at-intro *{animation:none!important;transition:none!important}}
@@ -108,9 +110,9 @@ footer{max-width:760px;margin:0 auto;padding:12px 16px calc(env(safe-area-inset-
 /* Organize (2026-11-10): district colours, the needs-me strip, pinned row and the one-screen map */
 .district-jump button:nth-child(1){border-top:3px solid #c8a24a}.district-jump button:nth-child(2){border-top:3px solid #4b7a99}.district-jump button:nth-child(3){border-top:3px solid #7f8a52}
 .district-jump button:nth-child(4){border-top:3px solid #c96a4a}.district-jump button:nth-child(5){border-top:3px solid #9c6b3c}
-.zone-head h3{color:var(--zc,var(--ink));padding-bottom:6px;border-bottom:1px solid var(--zc,var(--line))}
+.zone-head h3{color:var(--ink);padding-bottom:6px;border-bottom:2px solid var(--zc,var(--line))}   /* the door colour is the rule under it: gold text failed AA on a light look */
 .card{border-left:3px solid var(--zc,var(--line))}
-.needs{padding:14px;border:1px solid var(--line);border-left:3px solid #7f8a52;border-radius:14px;background:var(--panel)}
+.needs{min-height:144px;box-sizing:border-box;padding:14px;border:1px solid var(--line);border-left:3px solid #7f8a52;border-radius:14px;background:var(--panel)}
 .needs[data-level=warn]{border-left-color:#e0b060}.needs[data-level=bad]{border-left-color:#c96a4a}
 .needs h2{margin:0 0 2px;font:600 18px var(--serif)}.needs p{margin:0;color:var(--soft);font-size:15px}
 .needs-list{display:grid;gap:8px;margin-top:10px}.needs-list:empty{display:none}
@@ -118,7 +120,7 @@ footer{max-width:760px;margin:0 auto;padding:12px 16px calc(env(safe-area-inset-
 .need.warn{border-color:#e0b060}.need.bad{border-color:#c96a4a}.need strong{font:600 16px var(--serif)}.need small{color:var(--soft);font-size:14px}
 .viewbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 4px}
 .mapbtn{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--bronze);background:var(--raise);color:var(--gold2);font:600 15px var(--sans);cursor:pointer}
-.mapbtn[aria-pressed=true]{background:var(--gold);color:#1b1610}
+.mapbtn[aria-pressed=true]{background:var(--gold);color:var(--oly-th-n3,#1b1610)}
 .hint{color:var(--muted);font-size:14px}
 .recent{margin:4px 0}
 body.mapview .hero,body.mapview .needs,body.mapview .hero-copy,body.mapview .filters,body.mapview .deck-head p,body.mapview .search,body.mapview .hint{display:none}
@@ -133,3 +135,5 @@ body.mapview .card h3{font-size:14px;margin:0}
 
 .hero .needs{order:-1}
 .hero .needs[data-level=ok]{padding:10px 14px}
+main p a:not([class]){color:var(--gold2);text-underline-offset:3px}  /* day-arenas DESIGN: no default browser blue */
+/* day-arenas DESIGN: #needs reserves one item (the usual case) so its late fill does not push the page (layout shift 0.06 on a phone line) */

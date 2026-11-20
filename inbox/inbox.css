@@ -67,7 +67,7 @@ html.framed #app { padding-top: 12px; }
 /* the calm card and the sources */
 .card h2 { margin: 0; font: 600 var(--ag-fs-h3, 18px)/1.25 var(--ag-serif, Georgia, serif); color: var(--ag-text, #f3ece0); }
 .card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
-.hint { margin: 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-sub, 14px); line-height: 1.45; }
+.hint { margin: 0; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-body, .9375rem); line-height: 1.45; }
 .calm { text-align: left; }
 .calm > h2::before { content: ""; display: inline-block; width: 8px; height: 8px; margin: 0 10px 2px 0; border-radius: 50%; background: var(--ag-olive-text, #a0ac6e); vertical-align: middle; }
 .calm #calmText { margin: 0; color: var(--ag-soft, #cfc4b2); }
@@ -76,7 +76,7 @@ html.framed #app { padding-top: 12px; }
   font: 600 var(--ag-fs-sub, 14px) var(--ag-sans); display: inline-flex; align-items: center; gap: 8px; }
 .chips button[aria-pressed="true"] { border-color: rgba(var(--ag-terra-rgb, 201, 106, 74), .5); color: var(--ag-terra-text, #e08a6b); text-decoration: line-through; background: rgba(var(--ag-terra-rgb, 201, 106, 74), .06); }
 .chips i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
-.foot { text-align: center; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-cap, 12px); margin: 4px 0 0; }
+.foot { text-align: center; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-body, .9375rem); margin: 4px 0 0; }
 .empty { padding: 18px 14px; color: var(--ag-muted, #a89c88); text-align: center; border-radius: 16px; border: 1px dashed rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1); }
 @media (prefers-reduced-motion: no-preference) {
   html:not([data-lite]) .it.new { animation: rise var(--ag-d3, 340ms) var(--ag-ease, ease-out) both; }
@@ -90,3 +90,7 @@ html.framed #app { padding-top: 12px; }
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+
+/* a11y 2026-11-20: the page line under the title is a sentence: 15 px */
+.brand .sub { font-size: var(--ag-fs-body, .9375rem); }
+main#app > header.top .brand .sub, main#app > .foot { font-size: var(--ag-fs-body, .9375rem); }   /* beats the AGORA app base (agora.css:303, :350) */

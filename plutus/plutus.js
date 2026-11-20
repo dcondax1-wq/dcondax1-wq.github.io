@@ -100,7 +100,7 @@ function renderNotes() {
   $('notes').innerHTML = `<div class="line">Model: ${esc(S.doc.source)}${S.doc.src === 'embedded' ? ' (plans.json not found, using the copy inside the app: Jul-Oct only)' : ''}.</div>`
     + (S.doc.notes || []).map((n) => `<div class="line">${esc(n)}</div>`).join('')
     + strategyBlock()
-    + (t ? `<div class="line"><b>The bot's published record</b> (${esc(t.from)} to ${esc(t.to)}, normal sizing): ${t.n} trades${t.tpw ? `, ${t.tpw.toFixed(1)} a week` : ''}, ${usd(t.net)}${t.pf ? ', profit factor ' + t.pf.toFixed(2) : ''}. The accounts above are sized for each plan, so their dollars differ.</div>` : '<div class="line">The published site data (data.json) was not found, so the bot\'s own record is not shown here.</div>')
+    + (t ? `<div class="line"><b>The bot's published record</b> (${esc(t.from)} to ${esc(t.to)}, normal sizing): ${t.n} trades${t.tpw ? `, ${t.tpw.toFixed(1)} a week` : ''}, ${usd(t.net)}${t.pf ? ', profit factor ' + t.pf.toFixed(2) : ''}. The accounts above are sized for each plan, so their dollars differ.</div>` : siteAsk && !S.site && S.facts == null ? '<div class="line">Loading the bot\'s published record (data.json, about 9 MB)...</div>' : '<div class="line">The published site data (data.json) was not found, so the bot\'s own record is not shown here.</div>')
     + `<div class="line">Prices are the owner's real one-time prices (Builder 50K $91.80, Builder 25K $63). Other firms' prices are list or discounted prices found in the repo's research, check before buying.</div>`
     + '<div class="line">Paper results from a study. Not a promise, not advice. MFFU wants you present for live trading.</div>';
 }
@@ -135,6 +135,7 @@ function setTab(t) {
   document.querySelectorAll('#tabs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === t)));
   $('sheet').scrollTop = 0;
   if (history.replaceState) history.replaceState(null, '', '#' + t);
+  if (t === 'notes') siteNow();
 }
 const route = () => { const h = location.hash.slice(1); setTab(['plan', 'money', 'risk', 'notes'].includes(h) ? h : 'plan'); };
 
@@ -280,6 +281,14 @@ async function loadSite() {
   } catch (_) { return null; }
 }
 
+// day-archive 2026-11-20: the site's data.json is ~9 MB and only feeds the Notes tab's "bot's published record" line (and the trio
+// check on Money once it has loaded): asked the first time Notes opens, never on page open (Plutus is archived; the live plan is Hera).
+let siteAsk = null;
+function siteNow() {
+  if (!siteAsk) siteAsk = loadSite().then((site) => { S.site = site; S.facts = siteFacts(site); if (S.facts.trades || S.facts.trio) $('livetag').hidden = false; update(); });
+  return siteAsk;
+}
+
 async function main() {
   addEventListener('error', (e) => S.errors.push(String(e.message || e)));
   S.doc = await loadPlans('plans.json?v=m2');
@@ -291,8 +300,7 @@ async function main() {
     get fps() { return S.hall ? S.hall.fps() : 0; }, get src() { return S.doc.src; }, get live() { return !!(S.facts && (S.facts.trades || S.facts.trio)); }, errors: S.errors,
     get yaw() { return S.hall ? S.hall.yaw : 0; }, get roadmap() { return S.roadmap || null; }, get fx() { return S.fx || null; }, get tab() { return S.tab; }, get ready3d() { return !!S.hall; } };
   startRoadmap().then((r) => { S.roadmap = r; }).catch((e) => S.errors.push('roadmap: ' + ((e && e.message) || e)));
-  S.site = await loadSite(); S.facts = siteFacts(S.site);
-  if (S.facts.trades || S.facts.trio) $('livetag').hidden = false;
+  if (S.tab === 'notes') await siteNow();               // day-archive 2026-11-20: data.json (~9 MB) only when the Notes tab needs it
   update();
   window.__plutus.siteLoaded = true;
   if (window.parent !== window) fetch('jarvis.json', { cache: 'no-cache' }).then((r) => (r.ok ? r.json() : null)).then((card) => {

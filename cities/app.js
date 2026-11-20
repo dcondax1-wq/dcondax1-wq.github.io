@@ -14,7 +14,7 @@ import { cityResultPage, planCityNetwork } from './network-layout.js?v=n1';
 import { openDistrictWorld } from './district-world.js?v=d3';
 import { insight } from './insight.js';
 import { randomSpec, seedDataset, newSeed, cleanSeed } from './procedural.js';
-import { AgoraMap } from './agoramap.js?v=g6';
+import { AgoraMap } from './agoramap.js?v=g7';
 // Do not load/compile the 3D pipeline until this device has a usable context.
 let Stage, TIERS, BUDGETS, Rig, makePath, safeFlight, warmHex = (h) => h;
 
@@ -1154,6 +1154,7 @@ function retier(lv) {
 
 // the test / debug door
 window.__cities = {
+  mapState: () => (S.map ? { busyAgo: Math.round(performance.now() - (S.map.busyAt || 0)), touchAgo: Math.round(performance.now() - (S.map.touchAt || 0)), stillPaints: S.map.stillPaints || 0, key: S.map.stillKey || '', running: !!S.map.running, low: !!S.map.low } : null),   // olympus2 perf
   get ready() { return S.ready; },
   get mode() { return S.mode; },
   specs: () => S.specs.map((s) => s.id),

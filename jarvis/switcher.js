@@ -54,6 +54,11 @@ const DIST = [
   { id: 'more', title: 'More', colour: '#9c6b3c', ids: ['compass', 'helios', 'herald', 'stoa', 'hestia', 'inbox', 'planner', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium', 'ergasterion', 'settings', 'bridge', 'atlas', 'cities', 'datacity', 'observatory', 'tree', 'prometheus', 'hephaestus', 'clio', 'archive', 'pinakes', 'colosseum'] },
 ];
 const DGROUP = { trading: 'zeus', money: 'money' };
+// the switcher's order (owner 2026-11-20): Cities, Kalshi, the NQ bot, Jarvis / ZEUS first; then the Planner and Business; then the doors
+export const FIRST = ['cities', 'kalshi', 'nq', 'home', 'zenith', 'planner', 'business'];
+export const HIDE = new Set(['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity', 'gallery', 'mintcity',
+  'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes', 'hephaestus', 'datacity', 'kalshicity']);
+export const CITY_PARTS = new Set(['datacity', 'kalshicity', 'atlascity', 'mintcity', 'world', 'cities-world']);
 const distOf = (a) => { const id = a && a.id; for (const d of DIST) if (d.ids.indexOf(id) >= 0) return d.id; return DGROUP[String((a && a.group) || '').toLowerCase()] || 'more'; };
 
 const CSS = `
@@ -159,7 +164,10 @@ const CSS = `
 .nx-row{display:flex;gap:10px;padding:6px 16px 2px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;
   overscroll-behavior-x:contain}
 .nx-row::-webkit-scrollbar{display:none}
-.nx-row>:first-child{margin-left:auto}.nx-row>:last-child{margin-right:auto}
+.nx-row>:first-child{margin-left:0}.nx-row>:last-child{margin-right:0}
+.nx-row>*{flex:0 0 auto;position:relative}
+.nx-root.on~.nx-orb,.nx-orb.hide{opacity:0!important;pointer-events:none!important}
+.nx-purpose{font-size:16px;line-height:1.35}
 .nx-qb{flex:none;width:46px;height:46px;border-radius:50%;padding:0;border:1px solid rgba(var(--oly-th-a8-rgb, 200,162,74),.45);background:rgba(var(--oly-th-n4-rgb, 28,24,20),.92);color:var(--oly-th-n37, #f3ece0);
   display:grid;place-items:center;font:700 14px var(--oly-th-display, "Iowan Old Style","Palatino Linotype",Palatino,Georgia,-apple-system,system-ui,sans-serif);overflow:hidden}
 .nx-qs{flex:none;width:1px;height:28px;align-self:center;background:rgba(var(--oly-th-a8-rgb, 200,162,74),.35)}
@@ -229,14 +237,21 @@ export function mountSwitcher(opts = {}) {
   const doc = opts.doc || document, win = doc.defaultView || window;
   const reduce = () => !!(win.matchMedia && win.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const call = (f, ...a) => { try { return typeof f === 'function' ? f(...a) : undefined; } catch (e) { console.error(e); return undefined; } };
-  const given = () => { const l = call(opts.apps); return Array.isArray(l) ? l.filter((a) => a && a.id) : []; };
+  // owner 2026-11-20 ("funky"): retired apps out of the switcher (their pages still work), the cities as ONE entry (cities/), never their
+  // own cards (Data City, Kalshi City, Atlas City, Mint City, the World live inside it)
+  // (the app on screen stays, even a hidden one opened from the home grid: its card says NOW and the swipe starts from it)
+  const given = () => { const l = call(opts.apps), cur = call(opts.active) || 'home'; return Array.isArray(l) ? l.filter((a) => a && a.id && (a.id === cur || (!HIDE.has(a.id) && !CITY_PARTS.has(a.id)))) : []; };
   // the apps in their groups (opts.sections), else one list: every app of opts.apps() once (one left out goes at the end)
   function sections() {
     const all = given();
     if (opts.districts !== false) {
-      const home = all.filter((a) => a.id === 'home'), rest = all.filter((a) => a.id !== 'home');
-      const out = home.length ? [{ g: null, apps: home }] : [];
+      const first = FIRST.map((id) => all.find((a) => a.id === id)).filter(Boolean);
+      // olympus/doors.js ARCHIVE (the weak / duplicate apps): one "Archive" group at the very end (lead QA 2026-11-20), never right after Business
+      const arch = (a) => { try { const D = win.OLYMPUS_DOORS; return !!(D && typeof D.archived === 'function' && D.archived(a.id)); } catch (_) { return false; } };
+      const rest = all.filter((a) => !FIRST.includes(a.id) && !arch(a)), archived = all.filter((a) => !FIRST.includes(a.id) && arch(a));
+      const out = first.length ? [{ g: { id: 'daily', name: 'Daily' }, apps: first }] : [];
       for (const d of DIST) { const apps = rest.filter((a) => distOf(a) === d.id); if (apps.length) out.push({ g: { id: d.id, name: d.title }, apps }); }
+      if (archived.length) out.push({ g: { id: 'archive', name: 'Archive' }, apps: archived });
       return out;
     }
     const s = typeof opts.sections === 'function' ? call(opts.sections, all) : null;
@@ -371,14 +386,17 @@ export function mountSwitcher(opts = {}) {
     const s = call(opts.status, a.id) || {};
     const lines = (Array.isArray(s.lines) ? s.lines : []).filter(Boolean).slice(0, 2);
     const lvl = ['ok', 'warn', 'bad'].includes(s.level) ? s.level : '';
+    // no status, or only 'Waiting for ...': the app's plain purpose at normal size and a calm 'No news yet' (owner 2026-11-20), never a giant headline
+    const quiet = !s.value || /^\s*(waiting|not yet|no data|loading)\b/i.test(String(s.value)) || String(s.value) === '—';
     const ac = /^#[0-9a-f]{6}$/i.test(a.accent || '') ? parseInt(a.accent.slice(1), 16) : -1;
     const tint = ac < 0 ? '' : ` style="--nx-acr:${ac >> 16},${(ac >> 8) & 255},${ac & 255}"`;
     return `<button class="nx-card${now ? ' now' : ''}${a.off ? ' off' : ''}" type="button"${tint} data-nx="${escH(a.id)}" aria-label="${escH(label(a))}${g ? ', ' + escH(g.name.toLowerCase()) : ''}${now ? ' (on screen now)' : ''}">`
       + `<div class="nx-top"><div class="nx-nm"><b>${escH(label(a))}</b><span>${escH(a.sub || '')}</span></div></div>`
       + (now ? '<span class="nx-now">NOW</span>' : '')
       + `<div class="nx-emb" aria-hidden="true"><span class="e"><span class="i">${inner(a)}</span></span></div>`
-      + `<div class="nx-val${s.tone === 'up' ? ' up' : s.tone === 'dn' ? ' dn' : ''}">${escH(s.value || '—')}</div>`
-      + lines.map((l, i) => `<p class="nx-ln${i ? ' m' : ''}">${escH(l)}</p>`).join('')
+      + (quiet ? `<p class="nx-ln nx-purpose">${escH(a.purpose || a.sub || 'Open it for everything')}</p><p class="nx-ln m">No news yet</p>`
+        : `<div class="nx-val${s.tone === 'up' ? ' up' : s.tone === 'dn' ? ' dn' : ''}">${escH(s.value)}</div>`
+          + lines.map((l, i) => `<p class="nx-ln${i ? ' m' : ''}">${escH(l)}</p>`).join(''))
       + `<div class="nx-ft"><span><i class="nx-dot ${lvl}"></i>${now ? 'ON SCREEN' : 'OPEN'}</span><span>›</span></div></button>`;
   }
   // the System strip and the orb's alert dot (opts.system): one verdict for every system, the one thing to do
@@ -405,7 +423,7 @@ export function mountSwitcher(opts = {}) {
     if (!query && rc.length) top.push({ g: { id: 'recent', name: 'RECENT' }, apps: rc });
     parts = top.concat(parts);
     const many = parts.filter((p) => p.g).length > 1, favSet = new Set(favs());
-    const head = (p) => (many && p.g ? `<div class="nx-gl" data-nx-g="${escH(p.g.id)}" aria-hidden="true">${escH(p.g.name)}</div>` : '');
+    const head = () => '';                                  // (owner 2026-11-20: no vertical group label on the right edge; the chips above name the groups)
     track.innerHTML = (parts.length ? '' : `<p class="nx-empty">No app matches "${escH(query.slice(0, 40))}".</p>`) + parts.map((p) => head(p) + p.apps.map((a) => card(a, a.id === cur, many && p.g)).join('')).join('')
       + (typeof opts.onAdd === 'function' ? '<button class="nx-card add" type="button" data-nx-add="1" aria-label="Add a dashboard">'
         + '<span class="nx-ic">+</span><div class="nx-nm"><b>ADD</b><span>Any dashboard with a link (Ascend too)</span></div></button>' : '');

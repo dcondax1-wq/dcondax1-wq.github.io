@@ -4,7 +4,7 @@
 // the four doors; every app is a tower you tap to open; every learning place is real data. Live: the PC feed (../../pc_feed.js: a bot
 // in a trade pulses), the Board's events, the edge light and the Lab's newest verdicts. Read only: GET only, nothing armed, no orders,
 // text only through textContent, no browser storage. No WebGL (or 3D switched off): a plain list of the same city, never blank.
-import * as C from './ow-core.js?v=w4';
+import * as C from './ow-core.js?v=w5';
 
 const d = document, $ = (s) => d.querySelector(s);
 const O = () => window.OLYMPUS || null;
@@ -48,7 +48,7 @@ async function boot() {
   else {
     try {
       S.plan = C.planWorld(w, { tier: O() && O().lite && O().lite() ? 'low' : 'high' });
-      const M = await import('./ow-scene.js?v=w4');
+      const M = await import('./ow-scene.js?v=w5');
       S.scene = M.createWorld({ canvas: $('#c'), world: w, plan: S.plan, reduced, sky: qs.get('sky') || 'auto', manual: qs.get('clock') === 'manual', tier: O() && O().lite && O().lite() ? 'low' : 'high',
         onTap, onFrame, onUser: () => { hideHint(); if (S.tour) setTour(false); }, onIntroDone: () => { showHint(); snd('chime'); cityBed(); } });
       S.mode = '3d';
@@ -211,13 +211,23 @@ function goDistrict(id) {
 function go(href, i) {
   const url = ROOT + href;
   const W = window.OLYMPUS_WARP;
-  if (W && typeof W.go === 'function') { try { W.go(url, { from: 'world', c: i >= 0 ? place(i).hue : null }); return; } catch (e) { /* our own */ } }
+  if (W && typeof W.go === 'function') { leaving(); try { W.go(url, { from: 'world', c: i >= 0 ? place(i).hue : null }); return; } catch (e) { /* our own */ } }
   if (!S.scene || reduced) { location.href = url; return; }
   const p = S.plan.places[i] || null;
   flash();
   if (p) S.scene.flyTo({ tx: p.x, ty: p.top * 0.6, tz: p.z, dist: 7, yaw: S.scene.pose().yaw, pitch: 0.18 }, { warp: true, ms: 650, lift: -0.2 });
   setTimeout(() => { location.href = url; }, 620);
 }
+// olympus2 2026-11-20 (lead: the World "fast to leave"): any way out (a link, Home, Go to, the warp, the back button) stops the 3D loop first
+function leaving() { if (S.scene && S.scene.halt && !S.left) { S.left = true; try { S.scene.halt(); } catch (e) { /* gone */ } } }
+d.addEventListener('click', (e) => {
+  const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+  if (!a || e.defaultPrevented || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
+  const h = a.getAttribute('href') || '';
+  if (h && h[0] !== '#' && !/^javascript:/i.test(h)) leaving();
+}, true);
+addEventListener('pagehide', leaving);
+addEventListener('pageshow', (e) => { if (e.persisted && S.left && S.scene && S.scene.resume) { S.left = false; S.scene.resume(); } });
 function flash() {
   if (reduced) return;
   const f = $('#flash'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');

@@ -46,13 +46,19 @@
   try { if (window.top !== window) d.documentElement.className += ' framed'; } catch (e) { d.documentElement.className += ' framed'; }
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
-  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a7'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g13'; h.appendChild(l);
-  var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s5'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
-  var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);   /* night-effects: the living home (hero, glass doors, intro) */
-  try { if (localStorage.getItem('oly.homefx') !== 'off') d.documentElement.className += ' hfx' + (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches ? '' : ' hfx-intro'); } catch (e) { /* private mode: plain */ }
+  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a8'; h.appendChild(k);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g18'; h.appendChild(l);
+  var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s6'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
+  var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);
+  var ag = d.createElement('link'); ag.rel = 'stylesheet'; ag.href = b + 'age.css?v=2'; h.appendChild(ag);   /* olympus2: the shared data-age chip */   /* night-effects: the living home (hero, glass doors, intro) */
+  try { if (localStorage.getItem('oly.homefx') !== 'off') {   /* olympus2: the intro plays once per New York day ('oly.homefx.day'), never on a repeat visit that day */
+    var dk = ''; try { dk = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date()); } catch (e2) { dk = new Date().toDateString(); }
+    var again = localStorage.getItem('oly.homefx.day') === dk && !/[?&]intro=1(&|$)/.test(location.search);
+    d.documentElement.className += ' hfx' + ((window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) || again ? '' : ' hfx-intro');
+    if (!again) localStorage.setItem('oly.homefx.day', dk);
+  } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o9', 'pc_feed.js?v=n5', 'olympus/gate-catalog.js?v=nv5', 'olympus/hub-status.js?v=h2', 'gate/gate.js?v=g11', 'olympus/home-fx.js?v=x2'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o9', 'pc_feed.js?v=n5', 'olympus/gate-catalog.js?v=nv7', 'olympus/hub-status.js?v=h2', 'age.js?v=1', 'business/payoutcoach.js?v=1', 'gate/gate.js?v=g17', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -63,7 +69,7 @@
 <main id="gate" class="g-main">
   <header class="g-head">
     <h1 class="g-title">Olympus</h1>
-    <p class="g-sub">Type what you want, or open one of the four doors.</p>
+    <p class="g-sub">Your money first. Search, or open a door below.</p>
   </header>
 
   <section class="g-find" aria-labelledby="findH">
@@ -75,6 +81,18 @@
     </div>
     <p class="g-hint g-vh" id="findHint">Apps, hub tabs and things to do, in plain words.</p>
     <div class="g-list" id="results" aria-live="polite"></div>
+  </section>
+
+  <!-- olympus2 2026-11-20 (owner: "money first on the home page"): Right now = the daily cockpit, right under the search, before the doors -->
+  <section class="g-card g-now" id="now" aria-labelledby="nowH" data-state="loading">
+    <div class="g-nowhead"><h2 id="nowH">Right now</h2><span class="oly-age" id="nowAge" hidden></span><span class="g-badge" id="nowBadge">Checking</span></div><!-- olympus2: the PC report age in the one site-wide format (age.js) -->
+    <p class="g-nowline" id="nowLine" role="status" aria-live="polite">Looking for the bots' numbers...</p>
+    <div class="g-trade" id="nowTrade" hidden></div><!-- olympus2: the open trade, if any -->
+    <div class="g-money" id="money" aria-label="Your accounts"><div class="g-mstrip"><i class="g-acct g-skel"></i><i class="g-acct g-skel"></i><i class="g-acct g-skel"></i></div></div><!-- cities3: the money row, every account one glance (gate.js drawMoney); the placeholders hold its height (CLS 0) -->
+    <div class="g-facts" id="nowFacts" aria-hidden="true"><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i></div><!-- perf v2: four calm placeholder tiles hold the space the facts take, so the hubs below never jump when the numbers arrive (CLS) -->
+    <div class="g-next" id="nowNext" hidden></div><!-- olympus2: the next thing to decide + Kalshi K8 today -->
+    <a class="g-btn primary" id="bringBack" data-to="nq/index.html?howto=1" href="nq/index.html?howto=1" hidden>Bring the bots back</a>
+    <p class="g-nowfoot" id="nowFoot"></p>
   </section>
 
   <!-- THE FOUR DOORS (2026-11-18, night-org, docs/ORGANIZATION.md, olympus/doors.js): everything lives behind one of these; plain links -->
@@ -93,24 +111,16 @@
     <div class="g-chips" id="pins"></div>
   </section>
 
-  <section class="g-card g-now" id="now" aria-labelledby="nowH" data-state="loading">
-    <div class="g-nowhead"><h2 id="nowH">Right now</h2><span class="g-badge" id="nowBadge">Checking</span></div>
-    <p class="g-nowline" id="nowLine" role="status" aria-live="polite">Looking for the bots' numbers...</p>
-    <div class="g-money" id="money" aria-label="Your accounts"><div class="g-mstrip"><i class="g-acct g-skel"></i><i class="g-acct g-skel"></i><i class="g-acct g-skel"></i></div></div><!-- cities3: the money row, every account one glance (gate.js drawMoney); the placeholders hold its height (CLS 0) -->
-    <div class="g-facts" id="nowFacts" aria-hidden="true"><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i><i class="g-fact g-skel"></i></div><!-- perf v2: four calm placeholder tiles hold the space the facts take, so the hubs below never jump when the numbers arrive (CLS) -->
-    <a class="g-btn primary" id="bringBack" data-to="nq/index.html?howto=1" href="nq/index.html?howto=1" hidden>Bring the bots back</a>
-    <p class="g-nowfoot" id="nowFoot"></p>
-  </section>
 
   <section class="g-quick" aria-labelledby="quickH">
     <h2 class="g-h2" id="quickH">Your six</h2>
-    <nav class="g-qgrid" id="quick" aria-labelledby="quickH">
-      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><b>Zlarior · ATLAS</b><small class="g-qline">Bots right now</small></a>
-      <a class="g-q" data-app="compass" data-to="compass/index.html" href="compass/index.html"><b>Today</b><small class="g-qline">What to do next</small></a>
-      <a class="g-q" data-app="ledger" data-to="ledger/index.html" href="ledger/index.html"><b>Money</b><small class="g-qline">Your real money</small></a>
-      <a class="g-q" data-app="aegis" data-to="aegis/index.html" href="aegis/index.html"><b>Drawdown</b><small class="g-qline">Risk guard</small></a>
-      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><b>My day</b><small class="g-qline">Day and week plan</small></a>
+    <nav class="g-qgrid" id="quick" aria-labelledby="quickH"><!-- olympus2 2026-11-20 (owner): Cities, Kalshi, the NQ bot, Jarvis first, then the Planner and Business -->
+      <a class="g-q" data-app="cities" data-to="cities/index.html" href="cities/index.html"><b>Cities</b><small class="g-qline">World, Data City, Kalshi, Atlas, Mint</small></a>
       <a class="g-q" data-app="kalshi" data-to="kalshi/index.html" href="kalshi/index.html"><b>Kalshi</b><small class="g-qline">Kalshi bot</small></a>
+      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><b>NQ bot</b><small class="g-qline">Zlarior · ATLAS right now</small></a>
+      <a class="g-q" data-app="jarvis" data-to="jarvis/index.html" href="jarvis/index.html"><b>Jarvis</b><small class="g-qline">Ask anything</small></a>
+      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><b>My day</b><small class="g-qline">Day and week plan</small></a>
+      <a class="g-q" data-app="business" data-to="business/index.html" href="business/index.html"><b>Business</b><small class="g-qline">Accounts, payouts, plan</small></a>
     </nav>
   </section>
 

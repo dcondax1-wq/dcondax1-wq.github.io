@@ -199,7 +199,7 @@ html :is(.su-acct,.su-sum,.su-ack,.su-go):focus-visible{outline:2px solid color-
 html .su-acct.trading::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow: 0 4px 14px rgba(0,0,0,.32);opacity:.25;animation:su-glow 2.6s ease-in-out infinite;will-change:opacity}
 html .su-sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 30%,rgba(var(--oly-th-n37-rgb, 239,238,235),.09) 48%,rgba(var(--oly-th-n37-rgb, 239,238,235),.02) 56%,transparent 70%);transform:translate3d(-120%,0,0);opacity:0}
 html .su-tag{flex:none;font:700 12px/1 var(--sans,system-ui);letter-spacing: .02em;padding:4px 6px;border-radius:6px;color:var(--ink-2,var(--oly-th-n28, #bab5ab));background:rgba(var(--oly-th-n37-rgb, 239,238,235),.06);border:1px solid rgba(var(--oly-th-n28-rgb, 198,185,159),.14)}
-html .su-tag.real{color:var(--oly-th-g2, #50552a);background:var(--good,var(--oly-th-g8, #a7b162));border-color:transparent;box-shadow: 0 4px 14px rgba(0,0,0,.32)}
+html .su-tag.real{color:var(--oly-th-n3, #14110e);background:var(--good,var(--oly-th-g8, #a7b162));border-color:transparent;box-shadow: 0 4px 14px rgba(0,0,0,.32)}
 html .su-a-h em{font-style:normal;font-size:12px;color:var(--muted,var(--oly-th-n20, #858075));white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 html .su-state{flex:none;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:99px;font-size:12px;font-weight:650;color:var(--ink-2,var(--oly-th-n28, #bab5ab));background:rgba(var(--oly-th-n37-rgb, 239,238,235),.05);border:1px solid rgba(var(--oly-th-n28-rgb, 198,185,159),.12)}
 html .su-state.good{color:var(--good-ink,var(--oly-th-g9, #b2bc76));border-color:color-mix(in srgb,var(--good,var(--oly-th-g8, #a7b162)) 35%,transparent)}
@@ -654,3 +654,11 @@ html[data-oly-style] :is(#page .card, .mn-card, .sd-card, .zh-hero, .su-sun, .zn
 html[data-oly-style] :is(#page h1, #page h2, #page h3, .pl-hi > b, .zn-nq-t, header.top h1) { font-weight: var(--oly-th-title-weight) !important; text-transform: var(--oly-th-title-case); letter-spacing: var(--oly-th-title-track) !important;
   font-style: var(--oly-th-title-style); }
 html[data-oly-style] :is(.btn.primary, .mg-btn.primary, .zn-nq-a) { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }
+/* day-arenas DESIGN 2026-11-20 (layout shift 0.15 at 4 s on Home): the "PC silent" banner has the SAME one-row shape as the calm strip
+   (title + link side by side), so when it replaces the strip after the PC's grace time nothing below it moves. Its title says the age in the
+   warn / bad colour; the long sentence stays for VoiceOver (visually hidden) and on the NQ page. */
+.zn-nq[data-level="warn"], .zn-nq[data-level="bad"] { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 8px 8px 14px; }
+.zn-nq[data-level="warn"] .zn-nq-t, .zn-nq[data-level="bad"] .zn-nq-t { font-size: 15.5px; }
+.zn-nq[data-level="warn"] .zn-nq-t { color: var(--oly-th-warn, #e0b060); } .zn-nq[data-level="bad"] .zn-nq-t { color: var(--oly-th-r10, #e08a6b); }
+.zn-nq[data-level="warn"] .zn-nq-x, .zn-nq[data-level="bad"] .zn-nq-x { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.zn-nq[data-level="warn"] .zn-nq-a, .zn-nq[data-level="bad"] .zn-nq-a { padding: 0 14px; font-size: 14px; }

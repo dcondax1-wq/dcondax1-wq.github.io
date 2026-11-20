@@ -53,7 +53,7 @@ html[data-oly-scheme="light"] .top { padding: 6px 10px; border-radius: 14px; bac
 .kv .k { color: var(--oly-dim); } .kv .v { text-align: right; }
 .kv li.tot { font-weight: 800; border-top: 1px solid rgba(var(--g-gold-rgb), .4); }
 .bar { height: 10px; border-radius: 6px; background: rgba(var(--oly-th-n37-rgb, 255, 255, 255), .08); overflow: hidden; margin: 8px 0 4px; }
-.bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--oly-th-a8, #c8a24a), var(--g-gold)); transition: width .6s ease; }
+.bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--oly-th-a8, #c8a24a), var(--g-gold)); transition: width var(--ag-d3, 340ms) var(--ag-ease, ease-out); }
 .chip { display: inline-block; padding: 3px 9px; border-radius: 999px; font: 700 12px/1.3 var(--oly-ui, -apple-system, system-ui, sans-serif); letter-spacing: .01em; border: 1px solid currentColor; }
 .chip.ok { color: var(--g-good); } .chip.bad { color: var(--g-bad); } .chip.warn { color: var(--g-warn); } .chip.info { color: var(--g-blue); }
 .row2 { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
@@ -197,3 +197,5 @@ label.f.amt input { font: 700 28px/1 var(--ag-num, -apple-system, sans-serif); f
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+/* day-arenas DESIGN: the Ask Jarvis button stacks 12 px above the + button (both bottom left) */
+html .oly-ask-btn { bottom: calc(var(--sb, env(safe-area-inset-bottom, 0px)) + 94px); }

@@ -23,8 +23,8 @@
       items: [
         { label: 'My accounts', greek: 'Business · My Accounts', href: 'business/accounts.html', app: 'business', words: 'accounts evals funded mffu builder 50k 25k rapid balance pass target floor' },
         { label: 'Bots right now', greek: 'NQ', href: 'nq/', app: 'nq', words: 'bots live on off running pc zlarior atlas lit status drawdown ninjatrader' },
-        { label: 'Full dashboard', greek: 'Zenith', href: 'index.html', app: 'zenith', words: 'dashboard home main today results zenith' },
-        { label: "Bot's brain", greek: 'Zenith · Brain', href: 'index.html#/brain', app: '', words: 'brain thinking setups levels sweep why waiting' },
+        { label: 'Room left on each account', greek: 'MFFU view', href: 'business/mffu.html', app: '', words: 'room drawdown left lose floor open trade live' },
+        { label: 'Decide cards', greek: 'Board · Decide', href: 'board/index.html#decide', app: '', words: 'decide decisions yes no questions' },
         { label: 'Trades', greek: 'Trading', href: 'trading/', app: 'trading', words: 'trades history calendar stats fills today pnl p&l' },
         { label: 'Drawdown left', greek: 'Aegis', href: 'aegis/', app: 'aegis', words: 'risk drawdown stop loss max loss limit room guard dll mll' },
         { label: 'Rules', greek: 'Pnyx', href: 'pnyx/', app: 'pnyx', words: 'rules prop firm mffu calculator micros contracts size stop' },
@@ -56,12 +56,12 @@
     { id: 'more', title: 'More', line: 'Research, my day, Jarvis, settings and everything else', colour: '#9c6b3c',
       items: [
         { label: 'Olympus World: every app in one giant city', greek: 'World', href: 'cities/world/', app: 'cities', words: 'world city cities giant map districts 3d all apps find' },
-        { label: 'What to do next', greek: 'Compass', href: 'compass/', app: 'compass', words: 'todo to do today next actions priorities' },
         { label: 'My day', greek: 'Planner', href: 'planner/', app: 'planner', words: 'day week plan calendar tasks habits shift' },
         { label: 'Ask Jarvis', greek: 'Jarvis', href: 'jarvis/', app: '', words: 'jarvis ask assistant voice talk' },
-        { label: 'Morning brief', greek: 'Helios', href: 'helios/', app: 'helios', words: 'morning brief briefing today plan news' },
-        { label: 'Research library', greek: 'Clio', href: 'clio/', app: 'clio', words: 'research studies writeups library tested backtest' },
         { label: 'Help: how do I...', greek: 'Help', href: 'hub/help.html', app: '', words: 'help how do i questions faq guide lost stuck find steps payout taxes account restart update pause flatten silent holidays kalshi cloudflare address' },
+        { label: 'Owner manual: SOS, who is who, money, words', greek: 'Manual', href: 'hub/manual.html', app: '', words: 'manual sos emergency kill stop everything glossary words room drawdown dll eod pf twin edge who accounts bots hours payout tax' },
+        { label: 'Your steps: what is left to do', greek: 'Steps', href: 'hub/steps.html', app: '', words: 'steps todo to do waiting list next need' },
+        { label: "What's new: what changed today and this week", greek: "What's new", href: 'hub/whatsnew.html', app: '', words: 'whats new changed changes updates latest recent week today' },
         { label: 'Me: health, home', greek: 'Me hub', href: 'hub/index.html?h=me', app: '', words: 'me health wifi cards home car dates personal' },
       ],
       ids: ['compass', 'helios', 'herald', 'stoa', 'hestia', 'inbox', 'planner', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium',
@@ -95,6 +95,13 @@
   function doorOf(id) { return byId[id] || 'more'; }
   var arc = {}; for (i = 0; i < ARCHIVE.length; i++) arc[ARCHIVE[i]] = 1;
   function archived(id) { return !!arc[id]; }                    // folded under Archive (still in its door)
+  // RETIRED (owner 2026-11-20 "the forges and stuff we don't need ... Cities should be one overall thing"; day-archive INVENTORY.md + NAV):
+  // shown nowhere (not in the doors, the Archive fold or search); the page and URL still open. Same list as olympus/gate-catalog.js RETIRED.
+  var RETIRED = ['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity',
+    'gallery', 'mintcity', 'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes',
+    'hephaestus', 'datacity', 'kalshicity'];
+  var ret = {}; for (var ri = 0; ri < RETIRED.length; ri++) ret[RETIRED[ri]] = 1;
+  function retired(id) { return !!ret[id]; }                     // still in its door's ids, so doorOf() keeps working
   function homeOf(id) { var d = door(id); return d && d.home ? d.home : 'hub/doors.html#' + (d ? d.id : 'zeus'); }
   function words(a) {
     if (!a) return '';
@@ -109,10 +116,10 @@
     var all = function (hay) { for (var k = 0; k < ws.length; k++) if (hay.indexOf(ws[k]) < 0) return false; return true; };
     for (var k = 0; k < DOORS.length; k++) for (var m = 0; m < DOORS[k].items.length; m++) if (all(itemWords(DOORS[k], DOORS[k].items[m]))) res.items.push({ door: DOORS[k], item: DOORS[k].items[m] });
     var list = apps || [];
-    for (var n = 0; n < list.length; n++) if (list[n] && all(words(list[n]))) res.apps.push(list[n]);
+    for (var n = 0; n < list.length; n++) if (list[n] && !ret[list[n].id] && all(words(list[n]))) res.apps.push(list[n]);
     return res;
   }
-  var api = { VERSION: 2, DOORS: DOORS, WORDS: WORDS, ARCHIVE: ARCHIVE, archived: archived, door: door, doorOf: doorOf, homeOf: homeOf, words: words, find: find, ALL: 'gate/index.html#az', PAGE: 'hub/doors.html' };
+  var api = { VERSION: 2, DOORS: DOORS, WORDS: WORDS, ARCHIVE: ARCHIVE, archived: archived, RETIRED: RETIRED, retired: retired, door: door, doorOf: doorOf, homeOf: homeOf, words: words, find: find, ALL: 'gate/index.html#az', PAGE: 'hub/doors.html' };
   g.OLYMPUS_DOORS = api;
   if (typeof module === 'object' && module && module.exports) module.exports = api;
 }(typeof window !== 'undefined' ? window : typeof globalThis !== 'undefined' ? globalThis : this));

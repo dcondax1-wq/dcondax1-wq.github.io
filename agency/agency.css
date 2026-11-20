@@ -15,7 +15,7 @@ html.framed #app { padding-top: 12px; }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand img { width: 44px; height: 44px; border-radius: var(--ag-radius-s); flex: none; box-shadow: var(--ag-e1); }
 .brand h1 { margin: 0; }
-.brand .sub { margin: 6px 0 0; font-size: var(--ag-fs-foot); color: var(--ag-soft); }
+.brand .sub { margin: 6px 0 0; font-size: var(--ag-fs-body, .9375rem); color: var(--ag-soft); }
 .tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; align-items: center; }
 .tag { padding: 5px 10px; border-radius: 999px; font: 700 var(--ag-fs-cap)/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); white-space: nowrap; }
 .tag.demo { color: var(--ag-on-gold); background: var(--ag-sun); border-color: transparent; }
@@ -23,7 +23,7 @@ html.framed #app { padding-top: 12px; }
 .card > h2 { margin: 0; }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; } .row h2 { margin: 0; }
 .lead { margin: 0; font-size: var(--ag-fs-sub); color: var(--ag-soft); }
-.note { margin: 0; font-size: var(--ag-fs-foot); color: var(--ag-muted); }
+.note { margin: 0; font-size: var(--ag-fs-body, .9375rem); color: var(--ag-muted); }
 .big { margin: 0; font: 700 clamp(36px, 12vw, 48px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-gold); }
 .pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 var(--ag-fs-cap) var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--ag-s3); white-space: nowrap; }
 .pill.ok { color: var(--ag-olive-text); } .pill.warn { color: var(--ag-sun); } .pill.info { color: var(--ag-aegean-text); }
@@ -31,7 +31,7 @@ html.framed #app { padding-top: 12px; }
 .tile { padding: 10px 12px; border-radius: var(--ag-radius-s); background: var(--ag-s3); border: 1px solid var(--ag-line); min-width: 0; }
 .tile small { display: block; font-size: var(--ag-fs-cap); color: var(--ag-muted); }
 .tile b { display: block; margin-top: 2px; font: 700 20px/1.15 var(--ag-num); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; color: var(--ag-text); }
-.tile span { display: block; margin-top: 2px; font-size: var(--ag-fs-cap); color: var(--ag-soft); }
+.tile span { display: block; margin-top: 2px; font-size: var(--ag-fs-sub, .875rem); color: var(--ag-soft); }
 .ag-bar { height: 10px; } .ag-bar.green > i { background: linear-gradient(90deg, var(--ag-bronze), var(--ag-gold)); } .ag-bar > i { transition: width var(--ag-d3) var(--ag-ease); }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); font: 600 var(--ag-fs-body) var(--ag-sans); text-decoration: none; }
 .btn.primary { background-color: var(--ag-gold); background-image: linear-gradient(180deg, var(--ag-gold-hi), var(--ag-gold)); color: var(--ag-on-gold); border-color: var(--ag-line-gold); font-weight: 700; }
@@ -46,8 +46,8 @@ html.framed #app { padding-top: 12px; }
 .leadbtn { display: grid; gap: 3px; width: 100%; min-height: 44px; padding: 10px 12px; text-align: left; border-radius: var(--ag-radius-s); border: 1px solid var(--ag-line); background: var(--ag-s3); color: var(--ag-text); }
 .leadbtn .lt { display: flex; gap: 8px; align-items: center; min-width: 0; }
 .leadbtn .lt b { font: 600 var(--ag-fs-lead)/1.25 var(--ag-sans); overflow-wrap: anywhere; }
-.leadbtn .lm { font-size: var(--ag-fs-cap); color: var(--ag-soft); }
-.leadbtn .lw { font-size: var(--ag-fs-foot); color: var(--ag-muted); }
+.leadbtn .lm { font-size: var(--ag-fs-body, .9375rem); color: var(--ag-soft); }
+.leadbtn .lw { font-size: var(--ag-fs-body, .9375rem); color: var(--ag-muted); }
 .tier { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font: 800 var(--ag-fs-cap)/1 var(--ag-num); border: 1px solid var(--ag-line); color: var(--ag-soft); }
 .tier.tA { color: var(--ag-on-gold); background: var(--ag-gold); border-color: transparent; } .tier.tB { color: var(--ag-sun); } .tier.tC { color: var(--ag-muted); }
 .call { align-self: center; padding: 0 18px; }
@@ -72,7 +72,7 @@ details > summary { min-height: 44px; display: flex; align-items: center; cursor
 .plan thead th { color: var(--ag-muted); font-weight: 600; font-size: var(--ag-fs-cap); }
 .plan tr.pace th, .plan tr.pace td { color: var(--ag-gold); font-weight: 700; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.foot { margin: 4px 0 0; font-size: var(--ag-fs-cap); color: var(--ag-muted); }
+.foot { margin: 4px 0 0; font-size: var(--ag-fs-body, .9375rem); color: var(--ag-muted); }
 .hero { border-color: var(--ag-line-gold); }
 @media (min-width: 900px) {
   #app { max-width: 1120px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
@@ -88,3 +88,6 @@ html[data-oly-lite="1"] .ag-bar > i { transition: none; }
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+/* a11y 2026-11-20 (day-a11y): the AGORA app base (olympus/agora.css:303-350) sets these sentences at 12-14 px with main#app specificity;
+   same selectors here (this sheet loads after it) lift them to 15 px, the OLYMPUS BAR body size. Drop when the kit's own sizes are 15 px. */
+main#app > header.top .brand .sub, main#app > #status.note, main#app .ag-card .note, main#app > .foot { font-size: var(--ag-fs-body, .9375rem); }

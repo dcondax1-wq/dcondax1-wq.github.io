@@ -47,7 +47,7 @@ function renderMonth(v) {
   $('mH').textContent = `Month ${info.m || S.month}: ${info.label}`; $('mText').textContent = info.text;
   const tiles = $('mTiles'); clear(tiles);
   const tile = (k, val, cls) => { const t = h('div', 'tile'); t.appendChild(h('small', '', k)); t.appendChild(h('b', cls || '', val)); tiles.appendChild(t); };
-  tile('Cash in', C.money(info.in), 'pos'); tile('Cash out (fees)', C.money(info.out), 'neg'); tile('Running total', C.money(info.cum));
+  tile('Cash in', '+' + C.money(info.in), 'pos'); tile('Cash out (fees)', '\u2212' + C.money(info.out), 'neg'); tile('Running total', C.money(info.cum));   // a sign, not colour alone (A11Y K8)
   sl.setAttribute('aria-valuetext', `Month ${info.m || S.month}, running total ${C.money(info.cum)}`);
 }
 
@@ -55,7 +55,7 @@ function renderCash() {
   const c = C.cash(S.road, S.key), box = $('cashTiles'); clear(box);
   const tile = (k, val, n, cls) => { const t = h('div', 'tile'); t.appendChild(h('small', '', k)); t.appendChild(h('b', cls || '', val)); t.appendChild(h('span', '', n)); box.appendChild(t); };
   if (!c) return;
-  tile('Cash in', C.money(c.in), 'payouts to you (80%)', 'pos'); tile('Cash out', C.money(c.out), 'new evals and fees', 'neg'); tile('Net', c.net == null ? 'n/a' : C.money(c.net), 'typical path, 12 months');
+  tile('Cash in', '+' + C.money(c.in), 'payouts to you (80%)', 'pos'); tile('Cash out', '\u2212' + C.money(c.out), 'new evals and fees', 'neg'); tile('Net', c.net == null ? 'n/a' : C.money(c.net), 'typical path, 12 months');
   $('cashNote').textContent = c.paid != null ? `Already paid before this plan: ${C.money(c.paid)} for the three evals running now. It is not counted again.` : '';
 }
 

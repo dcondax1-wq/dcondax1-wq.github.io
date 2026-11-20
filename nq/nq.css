@@ -14,14 +14,15 @@ html.framed #app { padding-top: 12px; }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
 .brand h1 { margin: 0; }
-.brand .sub { margin: 6px 0 0; font-size: 13px; color: var(--ag-soft); }
+.brand .sub { margin: 6px 0 0; font-size: 0.9375rem; color: var(--ag-soft); }
 .tags { display: flex; gap: 6px; align-items: center; flex: none; }
 .tag { padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); letter-spacing: .02em; border: 1px solid var(--ag-line); color: var(--ag-soft); }
 .tag.demo { color: var(--oly-th-n3, #1b1610); background: var(--ag-sun); border-color: transparent; }
 .card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
 .card > h2 { margin: 0; }
 .lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
-.note { margin: 0; font-size: 13px; color: var(--ag-muted); }
+.note { margin: 0; font-size: 0.9375rem; color: var(--ag-muted); }
+#status.note, #src.note { font-size: 13px; }   /* a11y exception: the two lines above the live chart (it must stay on the first 390 x 844 screen) */
 .pos { color: var(--ag-olive-text, var(--oly-th-g8, #a0ac6e)); } .neg { color: var(--ag-terra-text, var(--oly-th-r10, #e08a6b)); } .soft { color: var(--ag-soft); }
 .kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; margin: 0; font-size: 14px; }
 .kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
@@ -31,7 +32,7 @@ html.framed #app { padding-top: 12px; }
 .btn.primary { background: linear-gradient(180deg, var(--oly-th-a9, #d4b05a), var(--ag-gold)); color: var(--oly-th-n3, #1b1610); border-color: var(--oly-th-a11, #e2c47a); }
 .btn[aria-expanded="true"] { border-color: var(--ag-gold); }
 svg text { font-family: var(--ag-sans); }
-.foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
+.foot { margin: 4px 0 0; font-size: 0.875rem; color: var(--ag-muted); }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; } .row h2, .row h3 { margin: 0; }
 .plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; color: var(--ag-soft); }
 
@@ -129,7 +130,7 @@ html[data-oly-lite="1"] .s2d .flame, html[data-oly-lite="1"] .sheet { animation:
 .chip[aria-pressed="true"] .cn { color: var(--ag-gold-hi, #dcbd6e); }
 .chartbox { position: relative; height: clamp(300px, 56vh, 440px); border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); overflow: hidden; touch-action: pan-y;
   background: linear-gradient(180deg, var(--oly-th-n4, #1b1712), var(--oly-th-n3, #14110e)); }
-.chartbox.empty { height: auto; min-height: 120px; }
+.chartbox.empty { height: clamp(300px, 56vh, 440px); }   /* perf 2026-11-20: the empty state keeps the box's height (CLS 0.38 when it shrank late) */
 .chart { position: absolute; inset: 0; }
 .chartmsg { position: absolute; inset: 0; margin: 0; display: grid; place-items: center; padding: 18px; text-align: center; font-size: 15px; line-height: 1.4; color: var(--ag-soft); }
 .chartbox.empty .chartmsg { position: relative; }
@@ -147,10 +148,15 @@ html[data-oly-lite="1"] .s2d .flame, html[data-oly-lite="1"] .sheet { animation:
 .ctl { display: grid; gap: 2px; min-width: 0; } .ctl b { font: 600 15px/1.3 var(--ag-serif); } .ctl .note { font-size: 12.5px; }
 .ctr { text-align: right; } .ctr b { font: 700 16px var(--ag-num); font-variant-numeric: tabular-nums; } .ctr .openw { color: var(--ag-sun); }
 .cnone { padding: 6px 0; }
-.attrib { display: inline-flex; align-items: center; justify-self: start; min-height: 44px; min-width: 44px; font-size: 12px; color: var(--ag-muted); text-decoration: underline; text-underline-offset: 2px; }
+.attrib { display: inline-flex; align-items: center; justify-self: start; min-height: 44px; min-width: 44px; font-size: 0.9375rem; color: var(--ag-muted); text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 360px) { .chips { grid-template-columns: minmax(0, 1fr); } }
 html[data-oly-lite="1"] .chartbox { background: var(--oly-th-n3, #14110e); }
 
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+
+/* a11y 2026-11-20: card notes are sentences the owner reads: 15 px on my pages (the kit's .ag-card .note is 13 px). The two exceptions sit
+   above the live chart, which must stay on the first 390 x 844 screen: the status / source lines and the chart's "As of" line. */
+main#app .ag-card .note { font-size: 0.9375rem; }
+main#app #chartCard > #chartAsOf.note { font-size: 13px; }

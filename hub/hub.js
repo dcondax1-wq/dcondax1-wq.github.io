@@ -269,7 +269,7 @@
         var home = el('a', 'hb-chip hb-home', 'Home'); home.href = base + 'gate/index.html'; $('hubIndex').appendChild(home);
       }
       $('indexH').textContent = C ? 'Pick a hub' : 'All hubs';
-      S.done = true; return;
+      mark('hb-drawn hb-done'); S.done = true; return;
     }
     S.hub = H;
     try { mark3d(H.id); } catch (e) { /* flat */ }
@@ -280,19 +280,19 @@
     $('indexH').textContent = 'Other hubs';
     if (H.page) {   // a page hub (Me, docs/ME_HUB.md): no app tabs; hub/me.js draws its tiles and areas from the PC's private me/me.json
       $('tabs').hidden = true;
-      drawSee(H);
+      drawSee(H); mark('hb-drawn');
       var MP = w.OLYMPUS_ME_PAGE, panel = $('panel');
       panel.removeAttribute('role');   // no tabs here, so the panel is not a tab panel
-      if (!MP || !MP.mount) { clear(panel); panel.appendChild(el('p', 'hb-blurb', 'This hub did not load. Open it again in a moment.')); panel.hidden = false; S.done = true; return; }
-      MP.mount(panel, { base: base, now: nowS, hub: H, done: function () { S.done = true; } });
+      if (!MP || !MP.mount) { clear(panel); panel.appendChild(el('p', 'hb-blurb', 'This hub did not load. Open it again in a moment.')); panel.hidden = false; mark('hb-done'); S.done = true; return; }
+      MP.mount(panel, { base: base, now: nowS, hub: H, done: function () { mark('hb-done'); S.done = true; } });
       return;
     }
     var L = C.layout(H.id);
     drawTabs(H, L);
     pick(Q.t, false);
-    drawSee(H);
-    if (!HS) { S.done = true; return; }
-    var left = 2, fin = function () { if (--left > 0) return; drawNow(); refreshLive(); S.done = true; };
+    drawSee(H); mark('hb-drawn');
+    if (!HS) { mark('hb-done'); S.done = true; return; }
+    var left = 2, fin = function () { if (--left > 0) return; drawNow(); refreshLive(); mark('hb-done'); S.done = true; };
     loadCards(H, fin);
     var t = nowS(), need = { today: 'hkp', bots: 'h', kalshi: 'k', money: 'mk', plan: 'p', research: '' }[H.id] || '';
     if (need.indexOf('p') >= 0) S.P = HS.planOf(lsGet('planner.today.v1'), t);
@@ -313,6 +313,7 @@
     one();
   }
 
+  function mark(cls) { var r = d.documentElement; cls.split(' ').forEach(function (c) { if ((' ' + r.className + ' ').indexOf(' ' + c + ' ') < 0) r.className += ' ' + c; }); }
   w.HUB = { ready: function () { return S.done; }, state: S, pick: function (t) { pick(t, true); } };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
 })();

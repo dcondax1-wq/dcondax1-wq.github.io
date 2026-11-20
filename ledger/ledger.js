@@ -196,7 +196,7 @@ function acctView() {
     if (a.stage) chips.append(document.createTextNode(' '), h('span', 'chip info', `${a.stage}${a.status ? ' · ' + a.status : ''}`.toUpperCase()));
     e.append(chips);
     const rows = [['Cost to date', C.money(-a.cost), a.cost ? 'neg' : 'dim'], a.fees ? ['  eval fees', C.money(-a.fees), 'dim'] : null, a.resets ? ['  resets', C.money(-a.resets), 'dim'] : null, a.activation ? ['  activation', C.money(-a.activation), 'dim'] : null, a.expenses ? ['  expenses', C.money(-a.expenses), 'dim'] : null,
-      ['Payouts received', C.money(a.payouts), a.payouts ? 'pos' : 'dim'], a.pending ? ['Payouts requested, waiting', C.money(a.pending), 'dim'] : null, a.income ? ['Other income', C.money(a.income), 'pos'] : null];
+      ['Payouts received', (a.payouts ? '+' : '') + C.money(a.payouts), a.payouts ? 'pos' : 'dim'], a.pending ? ['Payouts requested, waiting', C.money(a.pending), 'dim'] : null, a.income ? ['Other income', C.money(a.income), 'pos'] : null];
     if (a.id === 'kalshi' && a.kalshi) {
       const k = a.kalshi;
       rows.push(['Put in (deposits)', C.money(k.deposits), 'dim'], ['Taken out', C.money(k.withdrawals), 'dim'], k.balance != null ? ['Balance now', C.money(k.balance), ''] : null, k.result != null ? ['Result', C.moneyS(k.result), sign(k.result)] : null);

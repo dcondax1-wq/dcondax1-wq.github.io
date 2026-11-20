@@ -20,17 +20,17 @@
      'inbox.*' keys, caches the last fetch (opens offline) and never writes to anything it reads. The unread card is kept in 'inbox.card.v1'. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="inbox"></script>
+<script src="../olympus/olympus.js?v=o16" data-app="inbox"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/agora-ui.js?v=5" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#9aa3a8'); r.setProperty('--oly-accent-rgb', '154, 163, 168'); })();</script>
-<link rel="stylesheet" href="inbox.css?v=i2aq">
+<link rel="stylesheet" href="inbox.css?v=i2aq11">
 </head>
 <body>
 <main id="app">
@@ -45,7 +45,7 @@
     <div class="acts"><button type="button" class="go" id="markAll" data-oly-cue="success">Mark all read</button></div>
   </section>
   <nav class="filters" id="filters" role="tablist" aria-label="Filter"></nav>
-  <ul class="list" id="list" aria-live="polite"></ul>
+  <div class="list-live" aria-live="polite" aria-atomic="false"><ul class="list" id="list"></ul></div>
   <section class="ag-card calm card" id="calm" hidden><h2>All quiet</h2><p id="calmText">Your bots are fine. Nothing new needs you.</p><p class="hint">The last five things that happened:</p><ul class="list" id="last"></ul></section>
   <section class="ag-card card" id="mutes"><h2>Sources</h2><p class="hint">Tap a source to stop counting it. Nothing is deleted.</p><div class="chips" id="muteChips"></div></section>
   <p class="foot" id="foot">Read only: the Inbox never changes anything, never trades.</p>

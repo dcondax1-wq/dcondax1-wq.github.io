@@ -15,12 +15,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="datacity"></script>
+<script src="../olympus/olympus.js?v=o16" data-app="datacity"></script>
 <script src="frame-safe.js?v=1" defer></script><!-- cities3: the parent's bottom safe area when framed in Jarvis (the dock off the home bar) -->
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script>
 <style>
 /* one top bar, one bottom sheet, one dock; the bottom-right 80 x 160 px is Jarvis's orb (docs/OLYMPUS_DESIGN.md) */
@@ -206,7 +206,7 @@ body.hc .chip,body.hc .tab{border-color:rgba(255,255,255,.6)}
 .purpose{margin:4px 2px 0;font:500 12px/1.3 var(--oly-ui,inherit);color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 @media (orientation:landscape) and (max-height:520px){.purpose{display:none}}
 </style>
-<link rel="stylesheet" href="./agora-datacity.css?v=g2" id="dcAgoraCss">
+<link rel="stylesheet" href="./agora-datacity.css?v=g3" id="dcAgoraCss">
 <link rel="stylesheet" href="./neon-datacity.css?v=n1" id="dcNeonCss">
 <script>/* the look before the first paint (look-mode.js): neon night by default, AGORA marble on ?look=agora or the menu's Look */
 (function(){var l='neon';try{var q=new URLSearchParams(location.search).get('look');l=(q==='agora'||q==='neon')?q:(localStorage.getItem('datacity.look')==='agora'?'agora':'neon');}catch(e){}
@@ -260,7 +260,7 @@ if(l==='neon'){var m=document.querySelector('meta[name=theme-color]');if(m)m.set
 </nav>
 <div class="caption" id="caption" aria-live="polite"></div>
 <div class="toast" id="toast" role="status"></div>
-<script type="module" src="./city.js?v=dcgfx14"></script>
+<script type="module" src="./city.js?v=dcgfx15"></script>
 <script type="module" src="glossary.js"></script>
 </body>
 </html>

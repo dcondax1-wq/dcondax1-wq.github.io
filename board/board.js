@@ -108,6 +108,8 @@
 
   async function load() {
     const [site, plan, fixture] = await Promise.all([demo ? null : getJSON('board.json'), demo ? null : getJSON('../business/accounts.json'), getJSON('fixture.json')]);
+    // perf (2026-11-20): draw the site's copy at once (the cards appear in ~1 s), then the PC's post over it in place when it arrives
+    if (!demo) { try { draw(M.pick({ site, lite: null, plan, fixture, demo }, nowS())); document.documentElement.classList.add('bd-drawn'); } catch (e) { /* the full draw follows */ } }
     let lite = null;
     try { if (!demo && window.PC_FEED) lite = await window.PC_FEED.fetchLatest({ feedUrl: '../status_feed.json' }); } catch (e) { /* none */ }
     // truth (Olympus 2): the funded accounts' "to payout" through the same rule as every page (pc_feed.js payoutLines + the payout coach)
@@ -122,6 +124,7 @@
     draw(M.pick({ site, lite, plan, fixture, demo }, nowS()));
     try { if (window.EDGE_CHIP && !demo) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
     try { if (window.PAYOUT_CARD && !demo) window.PAYOUT_CARD.mount($('payouts'), { plan, lite, title: 'Payouts', titleClass: 'sect' }); } catch (e) { /* never the page */ }
+    document.documentElement.classList.add('bd-drawn');          // perf: let the cards be seen now that they are drawn (board.css)
     window.BOARD.data = { lite, plan, demo };                       // nqdash3: payready_mount.js (payout readiness) reads it
     try { window.dispatchEvent(new Event('board-data')); } catch (e) { /* the readiness card waits */ }
   }
@@ -130,6 +133,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     $('noteForm').addEventListener('submit', sendNote);
     $('refresh').addEventListener('click', load);
+    setTimeout(() => document.documentElement.classList.add('bd-drawn'), 8000);   // never keep the cards hidden: a failed load shows them anyway
     load();
     setInterval(() => { if (!document.hidden) load(); }, 60000);
   });

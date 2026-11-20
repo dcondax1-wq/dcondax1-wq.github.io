@@ -289,7 +289,7 @@ export function billboards(lite, kal, nowS) {
     const e = a.eval || a.funded || {};
     if (n(e.balance) == null || acc.some((x) => Math.abs(x.bal - e.balance) < 0.01)) continue;
     const m = /(\d+)\s*k\b/i.exec(String(a.name || a.plan || ''));
-    acc.push({ name: (m ? m[1] + 'K' : 'acct') + (/#\s*\d/.test(String(a.name)) ? ' ' + /#\s*\d+/.exec(String(a.name))[0].replace(/\s/g, '') : ''),
+    acc.push({ name: (/rapid/i.test(String(a.name || a.plan || '')) ? 'Rapid ' : '') + (m ? m[1] + 'K' : 'acct') + (/#\s*\d/.test(String(a.name)) ? ' ' + /#\s*\d+/.exec(String(a.name))[0].replace(/\s/g, '') : ''),
       bal: e.balance, room: n(e.room), today: n((a.pnl || {}).today), toPass: a.kind === 'funded' ? null : n(e.to_target) });
   }
   const out = { nq: '', kalshi: '', money: '' };

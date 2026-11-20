@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light data-oly-shell="app">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus kit</title>
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark light">
+<!-- OLYMPUS KIT (day-arenas DESIGN, 2026-11-20): the live reference of the one design system (docs/DESIGN_SYSTEM.md). Every token and every
+     component as the apps really draw them, in the look you pick (the picker only PREVIEWS on this page: nothing is stored). Example numbers
+     only. Open /olympus/kit.html at 390 x 844 before changing agora.css, shell.css or pulse.css. Read only: no network beyond this site. -->
+<link rel="stylesheet" href="olympus.css?v=o7">
+<link rel="stylesheet" href="agora.css?v=a9">
+<link rel="stylesheet" href="pulse.css?v=p6">
+<link rel="stylesheet" href="../age.css?v=2">
+<script src="themes.js?v=o9"></script>
+<script>try { window.OLYMPUS_THEMES && OLYMPUS_THEMES.apply('page'); } catch (e) { /* the default look */ }</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; min-height: 100dvh; }
+  main#app { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px;
+    padding: calc(env(safe-area-inset-top, 0px) + 14px) var(--ag-gutter, 16px) calc(48px + env(safe-area-inset-bottom, 0px)); }
+  .k-h { margin: 18px 0 0; font: 600 var(--ag-fs-cap)/1.2 var(--ag-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ag-gold); }
+  .k-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .k-sw { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .k-sw div { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 2px 10px; align-items: center; padding: 8px; border-radius: var(--ag-radius-s); background: var(--ag-s1); border: 1px solid var(--ag-line-soft); min-width: 0; }
+  .k-sw i { grid-row: span 2; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--ag-line); }
+  .k-sw b { font: 600 var(--ag-fs-foot)/1.2 var(--ag-sans); color: var(--ag-text); overflow-wrap: anywhere; }
+  .k-sw span { font: 400 var(--ag-fs-cap)/1.2 var(--ag-num); color: var(--ag-muted); }
+  .k-type p { margin: 0 0 6px; color: var(--ag-text); } .k-type small { color: var(--ag-muted); font: 400 var(--ag-fs-cap) var(--ag-sans); margin-left: 6px; }
+  .k-space { display: flex; align-items: flex-end; gap: 10px; } .k-space i { display: block; background: var(--ag-gold); border-radius: 2px; }
+  .k-move { display: grid; gap: 8px; } .k-move div { height: 36px; border-radius: 10px; background: var(--ag-s2); border: 1px solid var(--ag-line); position: relative; overflow: hidden; }
+  .k-move div i { position: absolute; left: 4px; top: 4px; width: 26px; height: 26px; border-radius: 8px; background: var(--ag-gold); transform: translateX(0); transition: transform var(--k-d, 260ms) var(--ag-ease); }
+  .k-move.go div i { transform: translateX(calc(100vw - 120px)); } @media (min-width: 680px) { .k-move.go div i { transform: translateX(520px); } }
+  .k-move small { font: 400 var(--ag-fs-cap) var(--ag-sans); color: var(--ag-muted); }
+  @media (prefers-reduced-motion: reduce) { .k-move div i { transition: none; } }
+  .k-looks { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 6px; scrollbar-width: none; } .k-looks::-webkit-scrollbar { display: none; }
+  .k-looks .ag-chip { flex: none; min-height: 44px; }
+</style>
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="../jarvis/icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Olympus kit</h1><p class="sub">The one design system, live</p></div></div>
+    <div class="tags"><span class="ag-badge demo">EXAMPLE</span></div>
+  </header>
+  <p class="ag-foot" id="status">Every piece below is drawn by the shared sheets (agora.css, shell.css, pulse.css). Pick a look to preview it here only.</p>
+
+  <p class="k-h">Look (preview only, nothing is saved)</p>
+  <div class="k-looks" id="looks" role="group" aria-label="Preview a look"></div>
+
+  <p class="k-h">Colour tokens</p>
+  <div class="k-sw" id="swatches"></div>
+
+  <p class="k-h">Type scale</p>
+  <section class="ag-card k-type">
+    <p style="font: 700 var(--ag-fs-hero)/1.05 var(--ag-num)">$1,025<small>hero 44</small></p>
+    <p style="font: 600 var(--ag-fs-h1)/1.1 var(--ag-serif)">Page title<small>h1 30 serif</small></p>
+    <p style="font: 600 var(--ag-fs-h2)/1.2 var(--ag-serif)">Section<small>h2 22</small></p>
+    <p style="font: 600 var(--ag-fs-h3)/1.2 var(--ag-serif)">Card title<small>h3 18</small></p>
+    <p style="font: 700 var(--ag-fs-stat)/1.1 var(--ag-num)">$3,807<small>stat 28 rounded, tabular</small></p>
+    <p style="font: 400 var(--ag-fs-body)/1.47 var(--ag-sans)">Body text: the bot waits for a sweep of yesterday's high.<small>body 15</small></p>
+    <p style="font: 400 var(--ag-fs-foot)/1.4 var(--ag-sans); color: var(--ag-muted)">Footnote and labels<small>foot 13</small></p>
+    <p style="font: 400 var(--ag-fs-note)/1.42 var(--ag-sans); color: var(--ag-muted)">A muted sentence: hints, empty states, "as of" lines<small>note 15</small></p>
+    <p style="font: 600 var(--ag-fs-cap)/1.2 var(--ag-sans); color: var(--ag-muted)">CAPTION, CHIPS, BADGES<small>cap 13: a few words only; 12 is the floor</small></p>
+  </section>
+
+  <p class="k-h">Space (4 px grid) and shape</p>
+  <section class="ag-card">
+    <div class="k-space" aria-label="Spacing steps 4 to 40 px">
+      <i style="width:4px;height:4px"></i><i style="width:8px;height:8px"></i><i style="width:12px;height:12px"></i><i style="width:16px;height:16px"></i><i style="width:20px;height:20px"></i><i style="width:24px;height:24px"></i><i style="width:32px;height:32px"></i><i style="width:40px;height:40px"></i>
+    </div>
+    <p class="ag-foot" style="margin-top:10px">Gutter 16 · card padding 16 · radius: small 12, card 16, hero 22, pills 999 · one hairline border per card · taps at least 44 px.</p>
+  </section>
+
+  <p class="k-h">Motion (one curve, three speeds)</p>
+  <section class="ag-card">
+    <div class="k-move" id="move">
+      <div style="--k-d: var(--ag-d1)"><i></i></div><small>200 ms: a tap, a toggle</small>
+      <div style="--k-d: var(--ag-d2)"><i></i></div><small>260 ms: a card opening, a sheet</small>
+      <div style="--k-d: var(--ag-d3)"><i></i></div><small>340 ms: a page change</small>
+    </div>
+    <div class="k-row" style="margin-top:10px"><button type="button" class="ag-btn" id="moveBtn" data-oly-cue="tap">Play</button><span class="ag-foot">Curve cubic-bezier(.2,.8,.2,1). Reduced motion: nothing moves.</span></div>
+  </section>
+
+  <p class="k-h">Headline and stats</p>
+  <section class="ag-card ag-hero">
+    <p class="ag-hero-label">Drawdown left · Zlarior 50K</p>
+    <p class="ag-hero-num">$1,025</p>
+    <p class="ag-hero-sub">of $2,000 max loss · example</p>
+    <div class="ag-bar" style="margin-top:12px"><i style="width:51%"></i></div>
+  </section>
+  <section class="ag-card">
+    <div class="ag-cardhead"><h2 class="ag-h3">Stats</h2><span class="ag-badge ok">Safe distance</span></div>
+    <div class="ag-stats">
+      <div class="ag-stat"><span class="ag-stat-label">Today</span><span class="ag-stat-value ag-good">+$312</span><span class="ag-stat-sub">+0.8R</span></div>
+      <div class="ag-stat"><span class="ag-stat-label">To pass</span><span class="ag-stat-value">$3,807</span><span class="ag-stat-sub">of $3,000 target</span></div>
+      <div class="ag-stat"><span class="ag-stat-label">Worst day</span><span class="ag-stat-value ag-bad">-$402</span><span class="ag-stat-sub">-1.0R</span></div>
+      <div class="ag-stat"><span class="ag-stat-label">Trades</span><span class="ag-stat-value">40</span><span class="ag-stat-sub">2-4 a week</span></div>
+    </div>
+  </section>
+
+  <p class="k-h">Rows</p>
+  <section class="ag-card ag-listcard">
+    <ul class="ag-list">
+      <li><a class="ag-row has-icon" href="#"><span class="ag-row-ic" data-ag-icon="column"></span><span class="ag-row-main"><span class="ag-row-title">Zlarior</span><span class="ag-row-sub">LIT 50K · watching until 15:30 ET</span></span><span class="ag-row-end ag-good">+$312<span data-ag-icon="chevron" class="ag-chev"></span></span></a></li>
+      <li><a class="ag-row has-icon" href="#"><span class="ag-row-ic" data-ag-icon="shield"></span><span class="ag-row-main"><span class="ag-row-title">ATLAS</span><span class="ag-row-sub">25K funded · in a trade</span></span><span class="ag-row-end ag-bad">-$60<span data-ag-icon="chevron" class="ag-chev"></span></span></a></li>
+    </ul>
+  </section>
+
+  <p class="k-h">Controls, chips, badges, banner</p>
+  <div class="ag-seg" role="group" aria-label="Range"><button type="button" aria-pressed="false">1W</button><button type="button" aria-pressed="true">1M</button><button type="button" aria-pressed="false">3M</button><button type="button" aria-pressed="false">All</button></div>
+  <div class="k-row"><button type="button" class="ag-btn primary" id="tBtn">Show a toast</button><button type="button" class="ag-btn">Secondary</button><button type="button" class="ag-btn ghost">Ghost</button></div>
+  <div class="k-row"><span class="ag-chip on">All 7</span><span class="ag-chip">Money 2</span><span class="ag-badge ok">Funded</span><span class="ag-badge warn">Watch</span><span class="ag-badge bad">Near floor</span><span class="ag-badge info">Eval</span><span class="ag-badge demo">Demo</span></div>
+  <input class="ag-field" placeholder="Search apps and numbers" aria-label="Search example">
+  <div class="ag-banner"><span data-ag-icon="warn"></span><b>The PC has not reported for 40 minutes</b><p>The page shows the last numbers it heard, with their age.</p></div>
+
+  <p class="k-h">Empty, error, loading</p>
+  <section class="ag-card" id="sEmpty"></section>
+  <section class="ag-card" id="sErr"></section>
+  <section class="ag-card"><span class="ag-skel title"></span><span class="ag-skel num"></span><span class="ag-skel line"></span><span class="ag-skel line short"></span></section>
+
+  <p class="k-h">Data age (age.js at the site root)</p>
+  <div class="k-row"><span id="age1"></span><span id="age2"></span><span id="age3"></span></div>
+  <p class="k-h">Pulse cards (olympus/pulse.js, example data)</p>
+  <section class="pulse" id="kitPulse" aria-label="Pulse cards, example data"><div class="pu-part pu-strip"></div><div class="pu-part pu-hero"></div><div class="pu-part pu-accounts"></div><div class="pu-part pu-money"></div><div class="pu-part pu-stats"></div></section>
+  <nav class="folded" aria-label="Folded-in apps (example)"><a href="#">Apollo: weekly review</a><a href="#">Moirai: simulator</a></nav>
+
+  <p class="k-h">Icons</p>
+  <section class="ag-card"><div class="k-row" id="ics"></div></section>
+</main>
+<link rel="stylesheet" href="shell.css?v=s6">
+<script src="../age.js?v=2"></script>
+<script>try { OLY_AGE.chip(document.getElementById('age1'), 240, 'pc'); OLY_AGE.chip(document.getElementById('age2'), 1900, 'pc'); OLY_AGE.chip(document.getElementById('age3'), 7200, 'pc'); } catch (e) {}</script>
+<script src="sfx.js?v=s4" defer></script>
+<script src="agora-ui.js?v=5" defer></script>
+<script>
+(function () {
+  'use strict';
+  var T = window.OLYMPUS_THEMES, $ = function (id) { return document.getElementById(id); };
+  // the look picker: preview() paints this page only; nothing is stored
+  function looks() {
+    var box = $('looks'), list = T && T.list ? T.list() : [];
+    list.forEach(function (t) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'ag-chip'; b.textContent = t.name + (t.scheme === 'light' ? ' (light)' : '');
+      b.addEventListener('click', function () { T.preview(t.id); box.querySelectorAll('.ag-chip').forEach(function (x) { x.classList.toggle('on', x === b); }); swatches(); });
+      box.appendChild(b);
+    });
+  }
+  var TOK = [['--ag-night', 'page'], ['--ag-panel', 'card'], ['--ag-raise', 'raised'], ['--ag-line', 'line'], ['--ag-text', 'text'], ['--ag-soft', 'soft text'], ['--ag-muted', 'muted text'],
+    ['--ag-gold', 'accent'], ['--ag-olive-text', 'good (+$)'], ['--ag-terra-text', 'bad (-$)'], ['--ag-sun', 'warn'], ['--ag-aegean-text', 'info']];
+  function swatches() {
+    var box = $('swatches'); box.textContent = '';
+    var cs = getComputedStyle(document.documentElement);
+    TOK.forEach(function (t) {
+      var d = document.createElement('div'), i = document.createElement('i'), b = document.createElement('b'), s = document.createElement('span');
+      var probe = document.createElement('span'); probe.style.color = 'var(' + t[0] + ')'; document.body.appendChild(probe); var c = getComputedStyle(probe).color; probe.remove();
+      i.style.background = 'var(' + t[0] + ')'; b.textContent = t[1]; s.textContent = t[0] + ' · ' + c.replace(/^color\(srgb /, 'srgb(');
+      d.append(i, b, s); box.appendChild(d);
+    });
+  }
+  function go() {
+    looks(); swatches();
+    $('moveBtn').addEventListener('click', function () { $('move').classList.toggle('go'); });
+    var A = window.AGORA;
+    if (A) {
+      A.state($('sEmpty'), { kind: 'empty', title: 'No trade yet today', text: 'The bot looks for one trade between 02:00 and 15:30 ET.', action: 'Open the plan' });
+      A.state($('sErr'), { kind: 'error', title: 'Could not read the feed', text: 'The page keeps the last numbers it heard, with their age.', action: 'Try again' });
+      $('tBtn').addEventListener('click', function () { A.toast('Saved on this phone', { kind: 'ok' }); });
+      A.ICONS.forEach(function (n) { var f = document.createElement('span'); f.title = n; f.appendChild(A.icon(n)); $('ics').appendChild(f); });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+})();
+</script>
+<script type="module">
+// the pulse cards with fixed example data (the same render the apps use; never the live feed here)
+import { model, render } from './pulse.js?v=p6';
+const now = Date.now() / 1000;
+const home = { built: now - 300, live: { pc: { t: now - 240 } }, board: { data_t: now - 240,
+  lit: { balance: 49193, floor: 48168, room: 1025, mll: 2000, to_target: 3807, target_balance: 53000, today_pnl: 312, status: 'open', window: { open: true, text: 'entry window open until 15:30 ET' } },
+  atlas: { balance: 24887, floor: 23887, room: 887, mll: 1000, target_balance: 26500, today_pnl: -60, status: 'funded', members: [] } } };
+const trades = { trades: [{ src: 'backtest', bot: 'LIT', m: '', day: '2026-01-05', usd: 400 }, { src: 'backtest', bot: 'LIT', m: '', day: '2026-01-06', usd: -150 },
+  { src: 'backtest', bot: 'LIT', m: '', day: '2026-01-07', usd: 300 }, { src: 'backtest', bot: 'LIT', m: '', day: '2026-01-08', usd: 250 }, { src: 'backtest', bot: 'LIT', m: '', day: '2026-01-09', usd: -150 },
+  { src: 'live', bot: 'LIT', m: '', day: '2026-11-20', hm: '03:43', side: 'SHORT', k: 'TARGET', usd: 312, t: now - 9000 }] };
+const rules = { plans: { builder_50k: { price_owner: 91.8, payout: { buffer: 2100, min: 500, max: 2000, split: 0.8 } }, builder_25k: { price_owner: 63, payout: { buffer: 1100, min: 250, max: 1000, split: 0.8 } } },
+  accounts: { lit50k: { price: 91.8 }, atlas25k: { price: 43 } } };
+const m = model({ home, trades, rules, ledger: null }, now); m._rules = rules;
+const el = document.getElementById('kitPulse');
+render(el, m, ['strip', 'hero:room', 'accounts', 'money', 'stats'], 'kit'); el.classList.add('ready');
+</script>
+</body>
+</html>

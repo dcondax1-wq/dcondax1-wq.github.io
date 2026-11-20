@@ -234,6 +234,9 @@
       mid.appendChild(el('span', 'zs-today' + (r.today > 0 ? ' pos' : r.today < 0 ? ' neg' : ''), r.todayText));
       a.appendChild(mid);
       a.appendChild(el('p', 'zs-goal', r.goal));
+      // room = $ before the max-loss floor (the owner's #1 check; day-manual NAV 2026-11-20). r.room comes from zeus_core acctRow (ASKS.md)
+      var rm = typeof r.room === 'number' && isFinite(r.room) ? r.room : null;
+      if (rm != null && r.cls !== 'failed') a.appendChild(el('p', 'zs-room' + (rm < 500 ? ' low' : ''), usd(rm) + ' room before the floor'));
       var mine = trs.filter(function (x) { return x.key === r.key || x.name === r.name; }), k = mine.length ? mine[0].key : r.key;
       if (AL && !r.planOnly) {
         var o = AL.open(mine, k, lite && lite.price, lite && +lite.t, now), lv = drawOpen(a, o);

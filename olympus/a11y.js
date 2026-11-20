@@ -212,10 +212,13 @@
     for (i = 0; i < list.length; i++) {
       el = list[i];
       if (skipped(el)) continue;
+      // a live LIST or table keeps its own role (A11Y K1, 2026-11-20): role=status on a <ul> removed its list role, and aria-atomic made
+      // VoiceOver re-read the whole list on every change; it now reads only what changed
+      var listy = /^(UL|OL|DL|TABLE|TBODY)$/.test(el.tagName);
       bad = /(^|[\s_-])(err|error|bad|fail|alert|danger)/i.test(typeof el.className === 'string' ? el.className : '') || el.classList && el.classList.contains('oly-err');
-      if (!el.getAttribute('role')) el.setAttribute('role', bad ? 'alert' : 'status');
+      if (!listy && !el.getAttribute('role')) el.setAttribute('role', bad ? 'alert' : 'status');
       if (!el.getAttribute('aria-live')) el.setAttribute('aria-live', bad ? 'assertive' : 'polite');
-      if (!el.getAttribute('aria-atomic')) el.setAttribute('aria-atomic', 'true');
+      if (!listy && !el.getAttribute('aria-atomic')) el.setAttribute('aria-atomic', 'true');
     }
   }
 

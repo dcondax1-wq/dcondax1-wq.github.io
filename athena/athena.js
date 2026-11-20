@@ -306,7 +306,7 @@ function loop(now) {
 
 async function main() {
   addEventListener('error', (e) => S.errors.push(String(e.message || e)));
-  S.lib = await loadLibrary('library.json?v=a6');
+  S.lib = await loadLibrary('library.json?v=a7');
   S.ix = indexOf(S.lib); S.byId = Object.fromEntries(S.lib.entries.map((e) => [e.id, e]));
   $('demo').hidden = S.lib.src === 'file';
   $('sub').textContent = `${S.lib.entries.length} short notes on your strategy and rules. Tap a shelf to read, or take the quiz.`;

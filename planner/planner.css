@@ -33,7 +33,7 @@ html.framed #app { padding-top: 12px; }
 .btn[aria-pressed="true"], .btn.on { border-color: var(--ag-gold); color: var(--ag-gold); background: var(--oly-th-n5, #2a2217); }
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .ag-bar { height: 10px; } .ag-bar.red > i { background: linear-gradient(90deg, var(--oly-th-r3, #7a3a24), var(--ag-terra)); } .ag-bar.green > i { background: linear-gradient(90deg, var(--oly-th-g3, #5a6338), var(--ag-olive)); } .ag-bar.amber > i { background: linear-gradient(90deg, var(--oly-th-a5, #9c6b3c), var(--ag-sun)); }
-.ag-bar > i { transition: width .45s ease-out; }
+.ag-bar > i { transition: width var(--ag-d3, 340ms) var(--ag-ease, ease-out); }
 svg text { font-family: var(--ag-sans); }
 .foot { margin: 4px 0 0; font-size: 12px; color: var(--ag-muted); }
 .ag-tabs { position: static; }
@@ -164,7 +164,7 @@ html[data-oly-lite="1"] .sheet-card { animation: none; }
    (a sticky scope bar under the compact bar), rows read as one list: a plain checkbox, the task, a quiet "Tomorrow" ---- */
 #app > header.top { position: relative; }
 #app > header.top .tags canvas#scene { position: absolute; right: -4px; bottom: -8px; width: 76px; height: 76px; pointer-events: none; }
-#app > header.top .brand { padding-right: 76px; }
+#app > header.top .brand { padding-right: 84px; }
 
 #app > #tabs.ag-tabs { position: sticky; top: calc(var(--st) + 48px); z-index: 30; margin: 0; padding: 8px 0; gap: 6px;
   background: rgba(var(--oly-th-n3-rgb, 20, 17, 14), .97); box-shadow: -16px 0 0 rgba(var(--oly-th-n3-rgb, 20, 17, 14), .97), 16px 0 0 rgba(var(--oly-th-n3-rgb, 20, 17, 14), .97); }   /* no bleed: nothing wider than the phone */
@@ -184,3 +184,12 @@ html[data-oly-lite="1"] .sheet-card { animation: none; }
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+
+/* ---- a11y pass (day-a11y 2026-11-20, owner: Planner clean on a 390 px iPhone): sentences 15 px, nothing under 12 px, no layout jump.
+   html:root raises these over the AGORA app base (agora.css:303-350). */
+html:root main#app > header.top .brand .sub, html:root main#app > #status.note, html:root main#app .note, html:root main#app > .foot, html:root main#app .pu-empty,
+html:root main#app :is(.botbox dl.kv > dd, ul.rows .rowbtn .txt) { font-size: var(--ag-fs-body, .9375rem); }
+html:root main#app :is(.win small, .rowbtn small, .dayhead) { font-size: var(--ag-fs-body, .9375rem); }
+html:root main#app section.pulse .pu-title { white-space: normal; overflow: visible; text-overflow: clip; }   /* the headline is never cut */
+html:root main#app section.pulse { min-height: 15.75rem; }   /* the pulse card fills in after its feed: hold its place so Quick add does not jump (PERF: CLS 0.29) */
+html:root main#app > header.top .brand { padding-right: 84px; }   /* the sundial (canvas#scene, 76 px, bottom-right of the header) never covers the subtitle */

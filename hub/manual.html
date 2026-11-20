@@ -17,12 +17,27 @@
      docs/OWNER_MANUAL.md (tests.test_owner_manual checks every copy line is in both and is a real command). Plain HTML: reads
      with no JS and no network (offline once cached). manual.js only adds Copy, the colour switch and #sos-<n>. Read only. -->
 <script>try { var m = localStorage.getItem('olympus.manual.mode'); if (m === 'dark' || m === 'light') document.documentElement.setAttribute('data-mode', m); } catch (e) {}</script>
-<link rel="stylesheet" href="manual.css?v=m1">
-<script src="manual.js?v=m1" defer></script>
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   day-manual NAV 2026-11-20: the same copy as the Doors, so this page follows the look too (it stayed dark under Ivory). */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="manual.css?v=m3">
+<script src="manual.js?v=m3" defer></script>
+<script src="../olympus/themes.js?v=o9" defer></script><!-- the theme engine: the look picked on the Gate (Ivory, Stocks Light ...) paints this page too -->
+<script>window.addEventListener('DOMContentLoaded', function () { try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ } });</script>
 </head>
 <body>
 <main class="mn-main" id="manual">
-  <nav class="mn-top" aria-label="Back"><a href="../gate/index.html">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">How do I</a><button class="mn-mode" id="mode" type="button" aria-label="Colours: Auto. Tap to change">Auto</button></nav>
+  <nav class="mn-top" aria-label="Pages"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="zeus.html">ZEUS</a><a href="help.html">Help</a><button class="mn-mode" id="mode" type="button" aria-label="Colours: Auto. Tap to change">Auto</button></nav>
   <h1 class="mn-title">Owner manual</h1>
   <p class="mn-sub">Everything in one place: who trades what, what happens when, the money, and what to do when something goes wrong.</p>
   <nav class="mn-jump" aria-label="Sections"><a class="sos" href="#sos">SOS</a><a href="#cast">Who</a><a href="#day">Day</a><a href="#money">Money</a><a href="#words">Words</a></nav>

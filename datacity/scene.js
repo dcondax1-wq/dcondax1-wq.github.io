@@ -101,6 +101,10 @@ export class CityScene {
       bloom: { strength: (NEON ? 0.42 : 0.2), radius: (NEON ? 0.55 : 0.4), threshold: (NEON ? 0.86 : 0.86) }, grade: { grain: (NEON ? 0.02 : 0.02), vignette: (NEON ? 0.3 : 0.24), aberration: (NEON ? 0 : 0), saturation: (NEON ? 1.02 : 0.92) },
       bloomMax: NEON ? 0.7 : undefined,                       // the neon night glows (the AGORA cap .25 holds for the marble look)
       onQuality: (lv) => this._tier(lv) });
+    // olympus2 2026-11-20 (owner: "Data City goes black when I drag"): the shared quality governor steps the pixel ratio while frames are slow (a
+    // drag on the phone), and each step resizes the drawing buffer, which wipes the canvas; on iOS the wiped (black) canvas showed until the
+    // next frame. Redraw in the same task, right after render.js's own resize (it subscribed first), so no blank picture is ever shown.
+    try { const RQ = window.OLYMPUS_RQ; if (RQ && typeof RQ.on === 'function') this._offRq = RQ.on(() => { try { if (this.rc && this.rc.draw) this.rc.draw(); } catch (e) { /* the next frame draws */ } }); } catch (e) { /* no governor */ }
     // the look pass (olympus/look.js): a colour grade in the ONE finish pass (0 draw calls); no depth of field (the district names stay sharp)
     import('../olympus/look.js').then((L) => { this.lookFx = L.polish(this.rc, NEON ? { grade: 'night', mix: 0.28 }
       : { grade: 'dusk', mix: 0.35 }); }).catch(() => {});

@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-11",
  "number": 1,
- "built": "2026-11-17T00:00:00Z",
+ "built": "2026-11-20T00:00:00Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -331,19 +331,18 @@
    "headline": "Archive: 98 adopted, 1,712 rejected",
    "standfirst": "What the research library holds and its newest batch.",
    "body": [
-    "The Archive now holds 2,344 research runs: 98 adopted, 1,712 rejected and 534 still open.",
-    "The newest batch in the index is stamped 26-11-15: 7 runs kept there, 1 adopted, 6 open.",
-    "Adopted, from the risk family: ATLAS zombie-eval rule: give an eval up under $200 of room + 1 micro 'last bull…",
-    "Still open, from the LIT research family: LIT deep edge (2026-11-15): base.",
-    "On the rejected shelf, so nobody redoes it: Market-regime warning features.",
-    "173 write-ups explain the results in plain language."
+    "The Archive now holds 2,345 research runs: 98 adopted, 1,712 rejected and 535 still open.",
+    "The newest batch in the index is stamped 26-11-20: 1 runs kept there, 1 open.",
+    "Still open, from the ATLAS family: ATLAS at a fixed $250 a trade, to the newest bars (edge-health input).",
+    "On the rejected shelf, so nobody redoes it: Zlarior edge, 5 pre-registered ideas.",
+    "224 write-ups explain the results in plain language."
    ],
    "facts": [
     {
-     "t": "2,344",
+     "t": "2,345",
      "src": "archive/index.json",
      "at": "counts/runs",
-     "raw": 2344
+     "raw": 2345
     },
     {
      "t": "98",
@@ -358,64 +357,48 @@
      "raw": 1712
     },
     {
-     "t": "534",
+     "t": "535",
      "src": "archive/index.json",
      "at": "counts/open",
-     "raw": 534
+     "raw": 535
     },
     {
-     "t": "26-11-15",
+     "t": "26-11-20",
      "src": "archive/index.json",
      "quote": true
-    },
-    {
-     "t": "7",
-     "src": "archive/index.json",
-     "calc": "count of runs in the index with the newest built stamp",
-     "raw": 7
     },
     {
      "t": "1",
      "src": "archive/index.json",
-     "calc": "count of those with verdict adopted",
+     "calc": "count of runs in the index with the newest built stamp",
      "raw": 1
     },
     {
-     "t": "6",
+     "t": "1",
      "src": "archive/index.json",
      "calc": "count of those with verdict open",
-     "raw": 6
+     "raw": 1
     },
     {
-     "t": "risk",
+     "t": "ATLAS",
      "src": "archive/index.json",
      "quote": true
     },
     {
-     "t": "ATLAS zombie-eval rule: give an eval up under $200 of room + 1 micro 'last bull…",
+     "t": "ATLAS at a fixed $250 a trade, to the newest bars (edge-health input)",
      "src": "archive/index.json",
      "quote": true
     },
     {
-     "t": "LIT research",
+     "t": "Zlarior edge, 5 pre-registered ideas",
      "src": "archive/index.json",
      "quote": true
     },
     {
-     "t": "LIT deep edge (2026-11-15): base",
-     "src": "archive/index.json",
-     "quote": true
-    },
-    {
-     "t": "Market-regime warning features",
-     "src": "archive/index.json",
-     "quote": true
-    },
-    {
-     "t": "173",
+     "t": "224",
      "src": "archive/index.json",
      "at": "counts/writeups",
-     "raw": 173
+     "raw": 224
     },
     {
      "t": "98",
@@ -556,9 +539,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 173 write-ups.",
-    "The newest lesson on file, dated 2026-11-17, reads: MFFU pays on winning days (Rapid EOD eval best day = 30%, funded daily above $2,100; Builder funded best day = 50%, $2,600 above start).",
-    "It was filed under \"mostly\" and comes from research/writeups/rule-native-2026-11-17.md."
+    "The research shelf now counts 224 write-ups.",
+    "The newest lesson on file, dated 2026-11-20, reads: (2) account_b.patch applied to a pc copy with FUNDED_ON = {funded_room_pct 0.4, streak_shrink 2}: never a larger size than today on 3,168 funded states (882 smaller), eval stage identical, Rapid lane…",
+    "It was filed under \"account\" and comes from research/writeups/skeptic-live-patches-2026-11-20.md."
    ],
    "facts": [
     {
@@ -590,28 +573,28 @@
      "quote": true
     },
     {
-     "t": "173",
+     "t": "224",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 173
+     "raw": 224
     },
     {
-     "t": "2026-11-17",
+     "t": "2026-11-20",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "MFFU pays on winning days (Rapid EOD eval best day = 30%, funded daily above $2,100; Builder funded best day = 50%, $2,600 above start).",
+     "t": "(2) account_b.patch applied to a pc copy with FUNDED_ON = {funded_room_pct 0.4, streak_shrink 2}: never a larger size than today on 3,168 funded states (882 smaller), eval stage identical, Rapid lane…",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "mostly",
+     "t": "account",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/rule-native-2026-11-17.md",
+     "t": "research/writeups/skeptic-live-patches-2026-11-20.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }
@@ -694,7 +677,7 @@
    "article": "kalshi-stop"
   },
   {
-   "value": "2,344",
+   "value": "2,345",
    "label": "Archive: 98 adopted, 1,712 rejected",
    "src": "archive/index.json",
    "article": "archive"
@@ -1008,6 +991,8 @@
   "trading",
   "tree",
   "tyche",
+  "why",
+  "widget",
   "zenith"
  ],
  "press": {

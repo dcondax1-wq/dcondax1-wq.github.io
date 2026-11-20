@@ -20,21 +20,21 @@
      The writes: the note box and the Decide card's Yes / No / Later post to /inbox/board (engine/day_inbox.py), which only the PC's private link accepts. BLITZ never shown. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
 <script src="../olympus/themes.js?v=o9" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="board.css?v=b3c">
-<link rel="stylesheet" href="../age.css?v=1">
-<link rel="stylesheet" href="../nq/payready.css?v=1">
+<link rel="stylesheet" href="board.css?v=b3f">
+<link rel="stylesheet" href="../age.css?v=2">
+<link rel="stylesheet" href="../nq/payready.css?v=2">
 <style>
   .payouts .pc-coach { margin: 0 0 12px; padding: 14px 16px; } .payouts .row2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .payouts h3 { margin: 0; font-size: 1.05rem; } .payouts .meta { opacity: .8; font-size: .85rem; overflow-wrap: anywhere; }
+  .payouts h3 { margin: 0; font-size: 1.05rem; } .payouts .meta { opacity: .8; font-size: 0.9375rem; overflow-wrap: anywhere; }
   .payouts .st { font-size: .75rem; padding: 2px 8px; border-radius: 10px; border: 1px solid currentColor; white-space: nowrap; }
   .payouts .st.live { color: #9fcf8a; } .payouts .st.buying { color: #e0b85a; } .payouts .st.waiting { color: #a9a9b3; }
   .coach-lines { margin: 8px 0; padding-left: 18px; font-size: .92rem; } .coach-lines li { margin: 4px 0; overflow-wrap: anywhere; }
   .coach-lines li.lead { font-weight: 600; list-style: none; margin-left: -18px; } .coach-lines li.warn { color: #e0b85a; font-weight: 600; }
   .coach-form summary { min-height: 44px; line-height: 44px; cursor: pointer; }
-  .coach-form form { display: grid; gap: 6px; } .coach-form label { font-size: .85rem; opacity: .8; }
+  .coach-form form { display: grid; gap: 6px; } .coach-form label { font-size: 0.9375rem; opacity: .8; }
   .coach-form input { min-height: 44px; font-size: 16px; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.2); background: rgba(0,0,0,.25); color: inherit; max-width: 100%; box-sizing: border-box; }
   .coach-form .ag-btn { min-height: 44px; margin-top: 6px; }
 </style>
@@ -60,7 +60,7 @@
   <section class="ag-card" id="payReadyCard" aria-labelledby="payReadyH"><h2 id="payReadyH">Payout readiness</h2><div id="payReady" class="pr-list"></div>
     <p class="hint" id="payReadySrc"></p></section>
   <section id="waitBox" class="ag-card wait" hidden><h2>Waiting on you</h2><ol id="waiting"></ol></section>
-  <section class="ag-card feedbox"><h2>What happened, newest first</h2><ul id="feed" class="feed" aria-live="polite"></ul><p id="feedEmpty" class="hint" hidden>No events yet. The PC adds them as they happen.</p></section>
+  <section class="ag-card feedbox"><h2>What happened, newest first</h2><div aria-live="polite"><ul id="feed" class="feed"></ul></div><p id="feedEmpty" class="hint" hidden>No events yet. The PC adds them as they happen.</p></section>
   <section class="ag-card notebox">
     <h2>Tell the bot and Claude</h2>
     <p class="hint">"ATLAS passed", "Zlarior 49,192.78", "new funded name ends 1234". A balance you type updates that account's row.</p>
@@ -77,7 +77,7 @@
 <script src="../edge_chip.js?v=1"></script>
 <script src="../business/decide.js?v=5"></script>
 <script src="boardmodel.js?v=b8"></script>
-<script src="board.js?v=b10"></script>
+<script src="board.js?v=b11"></script>
 <script type="module" src="payready_mount.js?v=2"></script>
 </body>
 </html>

@@ -52,15 +52,16 @@
     var left = 0, fin = function () { if (--left > 0) return; listState = window.OLYMPUS_APPS_LIST ? 'done' : 'failed'; var w = waiters; waiters = []; w.forEach(function (f) { try { f(); } catch (e) { /* */ } }); };
     var add = function (src) { left++; var s = d.createElement('script'); s.async = true; s.src = src; s.onload = fin; s.onerror = fin; (d.head || root).appendChild(s); };
     if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l9' : 'olympus/apps-list.js?v=l9');
-    if (!doors()) add(isPC ? '/js/next/doors.js?v=d8' : 'olympus/doors.js?v=d8');      // the four doors (same file on both sites)
+    if (!doors()) add(isPC ? '/js/next/doors.js?v=d9' : 'olympus/doors.js?v=d9');      // the four doors (same file on both sites)
     if (!left) { left = 1; fin(); }
   }
   function apps() {
     var L = window.OLYMPUS_APPS_LIST;
     if (!L || !L.length) return [];
-    var out = [];
-    for (var i = 0; i < L.length; i++) if (L[i].id !== 'zenith' && L[i].path) out.push(L[i]);
-    return out;
+    var out = [], D = doors(), FIRST = ['cities', 'kalshi', 'nq', 'jarvis', 'planner', 'business'];   // owner 2026-11-20: his order first
+    for (var i = 0; i < L.length; i++) if (L[i].id !== 'zenith' && L[i].path && !(D && D.retired && D.retired(L[i].id))) out.push(L[i]);   // retired: shown nowhere
+    var rank = function (a) { var k = FIRST.indexOf(a.id); return k < 0 ? FIRST.length : k; };
+    return out.map(function (a, i) { return [rank(a), i, a]; }).sort(function (x, y) { return x[0] - y[0] || x[1] - y[1]; }).map(function (x) { return x[2]; });
   }
 
   // ---------------------------------------------------------------- recent
@@ -130,7 +131,7 @@
 
   // ---------------------------------------------------------------- the sheet
   var CSS = [
-    '.oly-lbtn{display:inline-grid;grid-auto-flow:column;align-items:center;justify-content:center;gap:7px;min-width:40px;height:40px;padding:0 11px;border-radius:12px;cursor:pointer;color:var(--ink-2,var(--oly-th-n30, #cfc4b2));',
+    '.oly-lbtn{display:inline-grid;grid-auto-flow:column;align-items:center;justify-content:center;gap:7px;min-width:44px;height:44px;padding:0 11px;border-radius:12px;cursor:pointer;color:var(--ink-2,var(--oly-th-n30, #cfc4b2));',
     'background:var(--oly-th-n4, #1d1914);border:1px solid var(--oly-th-n8, #3a3228);font:700 12px/1 var(--oly-th-display, "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif);letter-spacing:.04em;transition:color .2s,border-color .2s}',
     '.oly-lbtn:hover,.oly-lbtn:focus-visible{color:var(--oly-th-n37, #f3ece0);border-color:var(--oly-th-a8, #c8a24a)}',
     '.oly-lbtn svg{width:18px;height:18px;display:block}.oly-lbtn .t{display:none}@media(min-width:900px){.oly-lbtn .t{display:inline}}',

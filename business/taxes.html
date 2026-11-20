@@ -14,10 +14,10 @@
      set-aside calculator, drawn with textContent. The 30% default matches Oikos and the Ledger. Education, not tax advice. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="business.css?v=5">
+<link rel="stylesheet" href="business.css?v=6">
 <style>
   .tx h2 { margin: 0; }
   .tx p, .tx li { font-size: .95rem; }
@@ -34,7 +34,7 @@
   ol.dates { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
   ol.dates li { display: flex; justify-content: space-between; gap: 10px; margin: 0; padding: 8px 0; border-bottom: 1px solid var(--ag-line); }
   ol.dates b { font-family: var(--ag-num); white-space: nowrap; }
-  .src a { overflow-wrap: anywhere; min-height: 32px; display: inline-block; }
+  .src a { overflow-wrap: anywhere; min-height: 44px; display: inline-flex; align-items: center; }
   .back { display: inline-block; margin: 4px 0 10px; min-height: 44px; line-height: 44px; }
   .calc select { min-height: 44px; width: 100%; padding: 0 10px; border-radius: 12px; border: 1px solid var(--ag-line); background: var(--ag-raise); color: inherit; font: inherit; }
   .ticks { display: grid; gap: 4px; font-size: .9rem; } .ticks label { display: flex; align-items: center; gap: 10px; min-height: 44px; } .ticks input { width: 22px; height: 22px; }
@@ -123,13 +123,13 @@
       <div><span>To the tax pot</span><b id="pot">$240</b></div>
       <div><span>After tax</span><b id="mine">$560</b></div>
     </div>
-    <ol class="wf" aria-live="polite">
+    <div aria-live="polite" aria-atomic="false"><ol class="wf">
       <li><span>1. Tax pot (separate savings)</span><b id="wfPot">$240</b></li>
       <li><span>2. Eval reserve, 10% until $320</span><b id="wfRes">$80</b></li>
       <li><span>3. Retirement, 10% (Roth IRA / Solo 401(k))</span><b id="wfRet">$80</b></li>
       <li><span>4. Live-account fund, 20% until $5,000</span><b id="wfLive">$160</b></li>
       <li class="you"><span>5. Yours to spend</span><b id="wfYours">$240</b></li>
-    </ol>
+    </ol></div>
     <p class="note" id="wfDue">Pay the $240 tax pot to the IRS and Maryland by Jan 15, 2027 (1040-ES, Sep - Dec 2026).</p>
     <p class="note" id="month">At $2,800 a month: $840 to the pot, $1,960 yours, about $2,520 ready each quarter.</p>
     <p class="note">The "payout" is what lands in your bank (MFFU keeps 20%, so a $1,000 request = $800). Picking your year and the day-job box fills the Maryland % from the table below; you can still type your own. A full bucket gives its share back to you.</p>

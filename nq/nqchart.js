@@ -40,6 +40,8 @@ function loadLib() {
   });
 }
 async function getText(url, ms, cache) {
+  const E = window.NQ_EARLY && window.NQ_EARLY.text;  // perf: the page head started the feed file and the chart post (index.html); used once
+  if (E && E[url]) { const p = E[url]; delete E[url]; try { const t = await p; if (t != null) return t; } catch (e) { /* ask again below */ } }
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms) : 0;
   try { const r = await fetch(url, { cache, ...(ac ? { signal: ac.signal } : {}) }); return r.ok ? await r.text() : null; } catch (e) { return null; } finally { clearTimeout(timer); }
 }
@@ -140,8 +142,24 @@ function makeChart(LC, T) {
   for (const ev of ['pointerdown', 'touchstart', 'wheel']) el.addEventListener(ev, mine, { passive: true });
   return { chart, series, marks };
 }
+/** bars of room right of `to` so an exit's "+$514.18" (centred on its bar) is not cut by the price axis (phone QA 2026-11-20) */
+function roomRight(from, to) {
+  const m = S.model; let pad = 3;
+  try {
+    const w = S.chart.timeScale().width(); if (!m || !w) return pad;
+    const idx = new Map(m.candles.map((c, i) => [c.time, i]));
+    for (let k = 0; k < 2; k++) {                                      // twice: more room makes the bars narrower
+      const sp = w / (to - from + 0.5 + pad);
+      for (const x of m.markers) {
+        const i = idx.get(x.time); if (!x.text || i == null || i < from || i > to) continue;
+        pad = Math.max(pad, i - to + (x.text.length * 4.2 + 10) / sp);
+      }
+    }
+  } catch (e) { /* 3 bars */ }
+  return Math.max(3, Math.min(pad, (to - from + 1) * 0.35));
+}
 function setView(from, to) {
-  try { S.chart.timeScale().setVisibleLogicalRange({ from: from - 0.5, to: to + 3 }); } catch (e) { /* the default view stays */ }
+  try { S.chart.timeScale().setVisibleLogicalRange({ from: from - 0.5, to: to + roomRight(from, to) }); } catch (e) { /* the default view stays */ }
 }
 /** a view the page chooses: 'default' (the last 6.5 h, it follows new bars), 'whole' (every bar), 'focus' (one trade: kept on a refresh) */
 function want(from, to, mode) { S.want = [from, to]; S.mode = mode; setView(from, to); }
@@ -163,7 +181,7 @@ function draw(m) {
   for (const pl of S.lines) { try { S.series.removePriceLine(pl); } catch (e) { /* gone */ } }
   S.lines = m.lines.map((l) => S.series.createPriceLine({ price: l.price, color: col(T, l.color), lineWidth: l.kind === 'entry' ? 1 : 2,
     lineStyle: l.style === 'dashed' ? LC.LineStyle.Dashed : LC.LineStyle.Solid, axisLabelVisible: true, title: l.title }));
-  if (keep && keep.atEnd) { try { S.chart.timeScale().setVisibleLogicalRange({ from: m.n - 1 + 3 - keep.width, to: m.n - 1 + 3 }); } catch (e) { /* stays */ } }
+  if (keep && keep.atEnd) { try { S.chart.timeScale().setVisibleLogicalRange({ from: m.n - 1 + 3 - keep.width, to: m.n - 1 + roomRight(m.n - 1 + 3 - keep.width, m.n - 1) }); } catch (e) { /* stays */ } }
   else if (keep) { try { S.chart.timeScale().setVisibleRange(keep.vr); } catch (e) { want(m.view.from, m.view.to, 'default'); } }
   else if (S.whole) want(0, m.n - 1, 'whole');
   else want(m.view.from, m.view.to, 'default');

@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
  *   <script src="../olympus/themes.js?v=o9"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o15" data-app="mind"></script>
+ *   <script src="../olympus/olympus.js?v=o16" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,
@@ -481,6 +481,12 @@
       box.appendChild(el('i', 'oly-veil-bar'));
       veil.appendChild(box);
       d.body.appendChild(veil);
+      // day-arenas DESIGN 2026-11-20 (PERF: layout shift 0.3-0.85 on a phone line while the cards fill under the veil): the page's content
+      // is laid out but NOT drawn (visibility, not display) until the veil lifts, so a card that grows as its data arrives cannot count as a
+      // shift; the header stays. Nothing changes for the owner: the veil covers the page in that time anyway. lift() (ready, or the 12 s
+      // fallback) shows it.
+      root.setAttribute('data-oly-veil', '1');
+      if (!d.getElementById('olyVeilHide')) { var vs = el('style'); vs.id = 'olyVeilHide'; vs.textContent = 'html[data-oly-veil] main#app > :not(header.top){visibility:hidden}'; (d.head || d.body).appendChild(vs); }
     }
     if (!framed && id && !d.querySelector('.oly-home')) {
       var a = el('a', 'oly-home'); a.href = '../jarvis/'; a.setAttribute('aria-label', 'Back to Jarvis'); a.title = 'Back to Jarvis';
@@ -557,6 +563,7 @@
   }
   O.seatClear = function () { var a = d.querySelector('.oly-home'); return a ? !covers(a) : true; };
   function lift() {
+    root.removeAttribute('data-oly-veil');
     if (!veil) return;
     var v = veil; veil = null;
     v.classList.add('out');
@@ -577,7 +584,7 @@
     root.setAttribute('data-oly-state', 'failed');
     O.reason = String(msg || 'it did not load');
     if (veil && veil.parentNode) veil.parentNode.removeChild(veil);
-    veil = null;
+    veil = null; root.removeAttribute('data-oly-veil');
     showErr();
   }
   function showErr() {
@@ -623,6 +630,24 @@
     if (def && appSubs.length) try { window.dispatchEvent(new CustomEvent('olympus:theme-default')); } catch (e) { /* old browsers */ }
   });
   timer = setTimeout(function () { if (state === 'loading') lift(); }, 12000);   // never a wall: it lifts by itself
+  // day-arenas DESIGN 2026-11-20, once after load (never before the first paint):
+  //  1. PERF LEAD_WIRES 2: an app opened from a direct link or its own Home Screen icon registers the ROOT worker (sw.js next to olympus/)
+  //     when the page has none yet, so it opens offline next time; a no-op when Zenith already registered it, and never off https
+  //  2. JARVIS: the Ask Jarvis button (jarvis/ask.js, team JARVIS) on every kit app, with the app id; never on Jarvis itself or in its frame
+  function afterLoad() {
+    var base = me && me.src ? me.src.replace(/olympus\/olympus\.js.*$/, '') : '';
+    try {
+      if (base && 'serviceWorker' in navigator && location.protocol === 'https:' && !navigator.serviceWorker.controller)
+        navigator.serviceWorker.getRegistration(base).then(function (r) { return r || navigator.serviceWorker.register(base + 'sw.js'); }).catch(function () { return null; });
+    } catch (e) { /* no worker on this browser */ }
+    try {
+      if (base && !framed && id !== 'jarvis' && !d.querySelector('script[src*="jarvis/ask.js"]') && d.body) {
+        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=1'; s.defer = true; if (id) s.setAttribute('data-app', id);
+        d.body.appendChild(s); d.body.classList.add('oly-has-ask');   // agora.css: the last lines scroll clear of the fixed button
+      }
+    } catch (e) { /* the page works without the button */ }
+  }
+  if (d.readyState === 'complete') setTimeout(afterLoad, 0); else window.addEventListener('load', function () { setTimeout(afterLoad, 0); }, { once: true });
   // mounted as soon as the body is parsed (readyState 'interactive' comes before the app's deferred modules run)
   if (d.body) mount(); else { d.addEventListener('readystatechange', mount); d.addEventListener('DOMContentLoaded', mount); }
 })();

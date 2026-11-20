@@ -97,7 +97,9 @@ export function createVoiceOut(opts) {
 
   // ---------------------------------------------------------------- speaking
   let startT = 0;
-  function setSpeaking(v) { if (v) startT = Date.now(); if (speakingNow === v) return; speakingNow = v; call('onSpeaking', v); }
+  // since() counts from when she STARTED talking, not from each sentence chunk (day-jarvis 2026-11-20: it reset every chunk, so a tap on the
+  // core during a long answer could fall inside the 450 ms 'this tap just started her' window again and again and never stop her)
+  function setSpeaking(v) { if (v && !speakingNow) startT = Date.now(); if (speakingNow === v) return; speakingNow = v; call('onSpeaking', v); }
   function speak(text, cb) {
     const c = cb && typeof cb === 'object' ? cb : {};
     const t = String(text == null ? '' : text).trim();

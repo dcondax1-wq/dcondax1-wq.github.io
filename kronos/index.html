@@ -18,18 +18,18 @@
      Read only: it reads the site's odeon/trades.json (real and paper trades; the backtest on request) and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent / createElementNS. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
-<link rel="stylesheet" href="../olympus/pulse.css?v=p2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<link rel="stylesheet" href="../olympus/pulse.css?v=p6">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="kronos"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="kronos"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/polis-life.js?v=pl4" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script>
+<script src="../olympus/agora-ui.js?v=5" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="kronos.css?v=a1qd">
-<link rel="stylesheet" href="../olympus/shell.css?v=s4"><!-- day-arenas: the one design layer, loaded last -->
+<link rel="stylesheet" href="kronos.css?v=a1qdef">
+<link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
 </head>
 <body>
 <main id="app">
@@ -53,7 +53,7 @@
   </section>
   <section class="ag-card card" aria-labelledby="monthTitle">
     <div class="row"><button class="btn step" id="prevM" type="button" aria-label="Previous month">&lsaquo;</button><h2 id="monthTitle">Month</h2><button class="btn step" id="nextM" type="button" aria-label="Next month">&rsaquo;</button></div>
-    <div class="grid" id="grid" role="grid" aria-label="Daily profit and loss"></div>
+    <div class="grid" id="grid" role="list" aria-label="Daily profit and loss"></div>
     <div class="tiles" id="monthTiles"></div>
     <p class="note" id="monthNote"></p>
   </section>
@@ -79,8 +79,8 @@
 
   <p class="foot" id="foot">Kronos reads the site's own trade file and sends nothing. It is a record, not a forecast: it never places or changes an order. Every dollar is shown with its R (1R = the average risk of a trade in the set). Backtest numbers are history, not a promise.</p>
 </main>
-<script type="module" src="kronos.js?v=a1"></script>
+<script type="module" src="kronos.js?v=a2"></script>
 <script type="module" src="kronosdial.js?v=q6c" onerror="window.KRONOS_DIAL_FAIL = 1"></script>
-<script type="module" src="../olympus/pulse.js?v=p2"></script>
+<script type="module" src="../olympus/pulse.js?v=p6"></script>
 </body>
 </html>

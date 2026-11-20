@@ -17,6 +17,8 @@ const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); };
 const S = { fixture: null, home: null, howto: null, demo: false, forced: false, silent: 0, view: null, scene: '2d', ready: false, sheet: false, last: null };
 
 async function getJSON(url, ms) {
+  const E = window.NQ_EARLY && window.NQ_EARLY.json;  // perf: the page head started it already (index.html); used once
+  if (E && E[url]) { const p = E[url]; delete E[url]; try { return await p; } catch (_) { return null; } }
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms || 6000) : 0;
   try { const r = await fetch(url, { cache: 'no-cache', ...(ac ? { signal: ac.signal } : {}) }); return r.ok ? await r.json() : null; } catch (_) { return null; } finally { clearTimeout(timer); }
 }
@@ -225,7 +227,7 @@ function renderDesk() {
   const nowS = Date.now() / 1000, home = deskHome(), file = S.demo ? (S.fixture && S.fixture.trades_file) || S.tfile : S.tfile;
   try {
     const A = D.accounts(home, S.biz, nowS, deskChart()), box = $('acctStrip');
-    if (box) { D.draw.accounts(box, A); for (const c of box.children) c.setAttribute('role', 'listitem'); }
+    if (box) D.draw.accounts(box, A);
     const nLive = A.filter((a) => a.dot === 'live').length, p = $('acctPill');
     if (p) { p.textContent = S.demo ? 'DEMO' : `${nLive} of ${A.filter((a) => a.dot !== 'plan').length} live`; p.className = 'pill ' + (S.demo ? 'warn' : nLive ? 'ok' : 'bad'); }
   } catch (_) { /* the rest of the page still draws */ }

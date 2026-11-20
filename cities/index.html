@@ -15,13 +15,13 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="cities"></script>
+<script src="../olympus/olympus.js?v=o16" data-app="cities"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/gate-nav.js?v=g6" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/sfx.js?v=s4" async></script>
 <script src="frame-safe.js?v=1" defer></script><!-- cities3: the parent's bottom safe area when framed in Jarvis (the dock off the home bar) -->
 <script src="../olympus/fx-core.js?v=f1" defer></script>
@@ -42,7 +42,7 @@ border-radius:var(--oly-r-card,16px);background:linear-gradient(180deg,rgba(10,8
 .top h1{margin:0;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:800 14px/1.2 var(--oly-display,sans-serif);
 letter-spacing: .05em;text-transform:uppercase;background:linear-gradient(90deg,#fff,#c9a06a 45%,#7fa6bd);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ic{width:44px;height:44px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--text);display:grid;place-items:center;cursor:pointer;
-font:700 11px/1 var(--oly-ui,inherit);padding:0;pointer-events:auto;flex:0 0 auto}
+font:700 .75rem/1 var(--oly-ui,inherit);padding:0;pointer-events:auto;flex:0 0 auto}
 .ic svg{width:20px;height:20px}
 .ic.on{color:var(--gold);border-color:rgba(255,201,74,.35);background:rgba(255,201,74,.08)}
 #nightB[hidden]{display:none}
@@ -72,8 +72,8 @@ button.chip{cursor:pointer;min-height:30px}
 .city-network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 12px}
 .city-network-destination{display:flex;min-width:0;min-height:64px;flex-direction:column;justify-content:center;gap:3px;padding:10px 11px;border:1px solid rgba(127,166,189,.22);border-radius:13px;
   color:#f2f5ff;text-decoration:none;background:linear-gradient(145deg,rgba(61,75,120,.23),rgba(8,11,26,.72));touch-action:manipulation}
-.city-network-destination b{font:800 11px/1.1 var(--oly-display,sans-serif);letter-spacing: .05em;text-transform:uppercase}
-.city-network-destination small{color:#aeb8d2;font:600 11px/1.2 var(--oly-ui,sans-serif)}
+.city-network-destination b{font:800 .75rem/1.1 var(--oly-display,sans-serif);letter-spacing: .05em;text-transform:uppercase}
+.city-network-destination small{color:#aeb8d2;font:600 .75rem/1.2 var(--oly-ui,sans-serif)}
 .city-network-destination[aria-current=page]{border-color:rgba(255,201,74,.58);box-shadow:inset 0 0 20px rgba(255,201,74,.07)}
 .city-network-destination:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @media(max-width:600px){.network-bar{left:calc(8px + var(--sl));right:calc(8px + var(--sr));gap:4px;height:50px;padding:2px 4px;border-radius:14px}
@@ -89,14 +89,28 @@ backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .world-fab .wf-img{flex:0 0 auto;width:50px;height:50px;border-radius:14px;background:#0a0d1c url(world-card.jpg) center/cover;box-shadow:0 0 0 1px rgba(255,214,150,.35),0 4px 14px rgba(0,0,0,.5)}
 .world-fab .wf-t{display:flex;flex-direction:column;min-width:0;flex:1 1 auto}
 .world-fab .wf-t b{font:800 15px/1.15 var(--oly-ui,-apple-system,system-ui,sans-serif);color:#ffe2a6;letter-spacing:.01em}
-.world-fab .wf-t small{color:#b9c0da;font-weight:500;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.world-fab .wf-t small{color:#b9c0da;font-weight:500;font-size:.9375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .world-fab .wf-go{flex:0 0 auto;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(255,198,90,.14);color:#ffd27a;font:700 16px/1 sans-serif}
 .world-fab::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,236,190,.16) 48%,transparent 66%);transform:translateX(-120%);animation:wfSweep 4.5s ease-in-out 1.2s infinite;pointer-events:none}
 @keyframes wfSweep{0%{transform:translateX(-120%)}40%,100%{transform:translateX(120%)}}
 .world-fab i{position:absolute;left:51px;top:7px;width:8px;height:8px;border-radius:50%;background:#ffc65a;box-shadow:0 0 10px #ffc65a}
 .world-fab:active{transform:translateX(-50%) scale(.98)}
 body:not([data-mode=hub]) .world-fab,body[data-ready=false] .world-fab,.hellas-open .world-fab,.athens-open .world-fab{display:none}
+/* olympus2: the other cities, one tap each, right under the World card (the World first) */
+.city-places{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 188px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:min(340px,calc(100vw - 24px))}
+.city-places a{display:flex;flex-direction:column;justify-content:center;min-height:52px;padding:6px 7px;border-radius:14px;text-decoration:none;color:#fff3d8;
+  background:linear-gradient(180deg,rgba(16,20,40,.9),rgba(6,8,18,.92));border:1px solid color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.city-places b{font:700 .8125rem/1.15 var(--oly-ui,-apple-system,system-ui,sans-serif);color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.city-places small{font:500 .75rem/1.2 var(--oly-ui,-apple-system,system-ui,sans-serif);color:#b9c0da;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-oly-scheme=light] .city-places a{background:linear-gradient(180deg,rgba(255,252,244,.95),rgba(246,238,222,.93));color:#3a2c12;border-color:rgba(138,106,31,.38)}
+html[data-oly-scheme=light] .city-places small{color:#6b5d48} html[data-oly-scheme=light] .city-places b{color:#5a4210}
+body:not([data-mode=hub]) .city-places,body[data-ready=false] .city-places,.hellas-open .city-places,.athens-open .city-places{display:none}
+.world-fab{bottom:calc(var(--sb) + 248px)}
 @media (prefers-reduced-motion:reduce){.world-fab:active{transform:translateX(-50%)}.world-fab::after{animation:none;display:none}}
+/* olympus2: the World's entry card in a light look (Ivory and the other light themes): warm paper glass, dark ink, the same photo */
+html[data-oly-scheme=light] .world-fab{background:linear-gradient(180deg,rgba(255,252,244,.94),rgba(246,238,222,.92));border-color:rgba(138,106,31,.38);box-shadow:0 10px 28px rgba(60,40,10,.18),0 0 0 1px rgba(255,255,255,.6) inset}
+html[data-oly-scheme=light] .world-fab .wf-t b{color:#5a4210}html[data-oly-scheme=light] .world-fab .wf-t small{color:#6b5d48}
+html[data-oly-scheme=light] .world-fab .wf-go{background:rgba(138,106,31,.12);color:#7a5a12}html[data-oly-scheme=light] .world-fab::after{background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 48%,transparent 66%)}
 /* --- the minimap (a city only) */
 .mini{position:fixed;right:calc(12px + var(--sr));top:calc(var(--top-h) + 62px + var(--st));z-index:3;width:108px;height:108px;border-radius:14px;border:1px solid var(--line);
 background:rgba(8,6,18,.6);box-shadow:0 6px 24px rgba(0,0,0,.4);cursor:pointer;touch-action:manipulation;display:none}
@@ -118,12 +132,12 @@ background:var(--panel);border:1px solid var(--line);border-radius:var(--oly-r-c
 }
 /* --- the dock (never under the orb: it keeps the bottom-right 104 px free) */
 .dock{position:fixed;left:calc(10px + var(--sl));bottom:calc(10px + var(--sb));right:calc(104px + var(--sr));display:flex;gap:8px;z-index:4;flex-wrap:nowrap}
-.tab{width:48px;height:var(--dock-h);border-radius:var(--oly-r-btn,12px);border:1px solid var(--line);background:var(--panel);color:var(--text);font:700 10.5px/1 var(--oly-ui,inherit);
+.tab{width:48px;height:var(--dock-h);border-radius:var(--oly-r-btn,12px);border:1px solid var(--line);background:var(--panel);color:var(--text);font:700 .75rem/1 var(--oly-ui,inherit);
 display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:2px 0 0;letter-spacing:.02em;flex:0 0 auto}
 .tab svg{width:19px;height:19px;display:block;margin:0 auto 1px}
 .tab.on{border-color:var(--gold);color:var(--gold);box-shadow:0 0 14px rgba(255,201,74,.25)}
 /* --- sheet content */
-.badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin:0 6px 4px 0;background:#3b4057;color:#e6e8f0}
+.badge{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin:0 6px 4px 0;background:#3b4057;color:#e6e8f0}
 .badge.live{background:var(--green);color:#00210f}.badge.demo{background:#ff9f43;color:#2a1300}
 .big{display:flex;gap:14px;align-items:baseline;margin:8px 0 6px;flex-wrap:wrap}
 .big .v{font:800 var(--oly-t-num,26px)/1.1 var(--oly-display,inherit);font-variant-numeric:tabular-nums}
@@ -131,7 +145,7 @@ display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(10px);-webki
 .pos{color:var(--green)}.neg{color:var(--red)}
 .grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}
 .grid4 div{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:6px 8px;min-width:0}
-.grid4 small{display:block;font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid4 small{display:block;font-size:.75rem;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .grid4 b{font-size:15px;overflow-wrap:anywhere}
 .note{font-size:12.5px;color:var(--sub);margin:8px 0 0}
 .list{list-style:none;margin:4px 0 0;padding:0}
@@ -244,7 +258,7 @@ body[data-mode=city] .tab.on{background:linear-gradient(145deg,rgba(255,198,74,.
 @media (max-width:360px){body[data-mode=city] .mini{width:96px;height:96px}}
 </style>
 <link rel="stylesheet" href="./world.css?v=w3">
-<link rel="stylesheet" href="./agora-cities.css?v=g4">
+<link rel="stylesheet" href="./agora-cities.css?v=g5">
 </head>
 <body data-mode="hub" data-ready="false">
 <canvas id="amap" aria-label="The Olympus archipelago: six district islands with 173 cities. Tap a city to open it, or use Find."></canvas>
@@ -270,7 +284,7 @@ body[data-mode=city] .tab.on{background:linear-gradient(145deg,rgba(255,198,74,.
     <button class="ic" id="qB" aria-label="Quality">HD</button>
     <button class="ic" id="readB" aria-label="How to read this"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
   </div>
-  <div class="chips" id="chips"></div>
+  <div class="chips" id="chips" tabindex="0" aria-label="City filters"></div>
 </header>
 <nav class="network-bar" id="cityNetwork" aria-label="City network">
   <button class="network-key" id="networkHQ" type="button" aria-label="Fly to the Olympus headquarters capital" aria-pressed="true">HQ</button>
@@ -298,6 +312,12 @@ body[data-mode=city] .tab.on{background:linear-gradient(145deg,rgba(255,198,74,.
 <div class="tag" id="tag" aria-hidden="true"></div>
 <div class="photobar" id="photoBar"><button class="pill go" id="photoTake">Take photo</button><button class="pill" id="photoDone">Done</button></div>
 <nav class="dock" id="dock" aria-label="Views"></nav>
+<nav class="city-places" aria-label="The cities"><!-- olympus2 2026-11-20 (owner: "Cities should be one overall thing"): this page is the ONE Cities entry: the World first (the card above), then the other cities -->
+  <a href="../datacity/" style="--c:#62d6ff"><b>Data City</b><small>every NQ idea tested</small></a>
+  <a href="../kalshicity/" style="--c:#7aa7ff"><b>Kalshi City</b><small>the Kalshi bets</small></a>
+  <a href="../atlascity/" style="--c:#ffc65a"><b>Atlas City</b><small>ATLAS's trades</small></a>
+  <a href="../mintcity/" style="--c:#5fe0a0"><b>Mint City</b><small>your money</small></a>
+</nav>
 <a class="world-fab" href="world/" aria-label="Olympus World: one giant city of everything, every app and every idea tested"><span class="wf-img" aria-hidden="true"></span><i></i><span class="wf-t"><b>Olympus World</b><small>The 3D city · every app, every idea tested</small></span><span class="wf-go" aria-hidden="true">›</span></a>
 <div class="maphint" id="maphint" aria-hidden="true"><b>Tap a city</b> to open it<small>Drag to look around, pinch to zoom</small></div>
 <div class="caption" id="caption" aria-live="polite"></div>
@@ -319,7 +339,7 @@ async function recover() {
 }
 // Module import settles before its asynchronous boot does. Watch readiness itself.
 setTimeout(recover, 18000);
-import('./app.js?v=o26').catch(recover);
+import('./app.js?v=o27').catch(recover);
 </script>
 <script type="module" src="./athens-entry.js?v=t5"></script>
 <script type="module" src="./hellas-entry.js?v=h1"></script>

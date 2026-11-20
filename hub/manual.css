@@ -1,21 +1,28 @@
 /* OWNER MANUAL (hub/manual.html, 2026-11-20 day-manual). Self-contained: no other stylesheet, no font, no network, so it works offline.
-   Dark by default like the hub pages (AGORA night + gold); light follows the phone (prefers-color-scheme) or the page's own switch
-   (html[data-mode]). Phone first: 390 x 844, taps >= 44 px, no sideways scroll. */
+   Colours come from the OLYMPUS look slots (--oly-th-*, olympus/themes.js), so the look picked on the Gate (Ivory, Stocks Light ...)
+   paints it like every hub page. With the default look: dark like the hubs, light when the phone is light. The page's own switch
+   (html[data-mode]) wins over both. Phone first: 390 x 844, taps >= 44 px, no sideways scroll. */
 :root {
-  --bg: #14110e; --s1: #1b1713; --s2: #221d17; --s3: #2b241d; --line: #3a3228;
-  --text: #f3ece0; --soft: #cfc4b2; --muted: #a89c88; --gold: #c8a24a; --gold-hi: #dcbd6e; --on-gold: #1b1610;
-  --red: #e08a6b; --red-bg: rgba(224, 138, 107, .12); --ok: #a0ac6e; --code: #0f0d0b;
+  --bg: var(--oly-th-n3, #14110e); --s1: var(--oly-th-n4, #1b1713); --s2: var(--oly-th-n4, #221d17); --s3: var(--oly-th-n6, #2b241d); --line: var(--oly-th-n8, #3a3228);
+  --text: var(--oly-th-n37, #f3ece0); --soft: var(--oly-th-n30, #cfc4b2); --muted: var(--oly-th-n24, #a89c88); --gold: var(--oly-th-a8, #c8a24a); --gold-hi: var(--oly-th-a10, #dcbd6e); --on-gold: var(--oly-th-n3, #1b1610);
+  --red: var(--oly-th-r10, #e08a6b); --red-bg: rgba(var(--oly-th-r8-rgb, 224, 138, 107), .12); --ok: var(--oly-th-g8, #a0ac6e); --code: var(--oly-th-n2, #0f0d0b);
   --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --sans: -apple-system, 'SF Pro Text', system-ui, 'Helvetica Neue', Arial, sans-serif;
   --mono: ui-monospace, Menlo, Consolas, monospace;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: light) {
-  :root:not([data-mode="dark"]) {
+  :root:not([data-mode="dark"]):not([data-oly-theme]), :root[data-oly-theme="agora"]:not([data-mode="dark"]) {
     --bg: #f6f1e7; --s1: #efe8da; --s2: #fffdf8; --s3: #f3ecdf; --line: #d8ccb6;
     --text: #1d1813; --soft: #4a4034; --muted: #6b604f; --gold: #8a6a1c; --gold-hi: #7a5c12; --on-gold: #fffdf8;
     --red: #a8402a; --red-bg: rgba(168, 64, 42, .08); --ok: #56632a; --code: #f9f5ec; color-scheme: light;
   }
+}
+:root[data-oly-scheme="light"]:not([data-mode="dark"]) { color-scheme: light; }
+:root[data-mode="dark"] {
+  --bg: #14110e; --s1: #1b1713; --s2: #221d17; --s3: #2b241d; --line: #3a3228;
+  --text: #f3ece0; --soft: #cfc4b2; --muted: #a89c88; --gold: #c8a24a; --gold-hi: #dcbd6e; --on-gold: #1b1610;
+  --red: #e08a6b; --red-bg: rgba(224, 138, 107, .12); --ok: #a0ac6e; --code: #0f0d0b; color-scheme: dark;
 }
 :root[data-mode="light"] {
   --bg: #f6f1e7; --s1: #efe8da; --s2: #fffdf8; --s3: #f3ecdf; --line: #d8ccb6;
@@ -76,7 +83,7 @@ h3 { margin: 16px 0 8px; font: 700 1.0625rem/1.25 var(--serif); color: var(--tex
   font: 600 .8125rem/1.35 var(--mono); color: var(--gold-hi); overflow-wrap: anywhere; word-break: break-word; user-select: all; -webkit-user-select: all; }
 .mn-copy button { flex: none; min-width: 64px; min-height: 44px; border-radius: 10px; border: 1px solid var(--gold); background: transparent; color: var(--gold-hi);
   font: 700 .875rem var(--sans); cursor: pointer; }
-.mn-note { margin: 4px 14px 12px; color: var(--muted); font-size: .8125rem; }
+.mn-note { margin: 4px 14px 12px; color: var(--muted); font-size: .9375rem; }
 .mn-words { margin: 0; display: grid; gap: 6px; }
 .mn-words div { padding: 10px 12px; border-radius: 12px; background: var(--s2); border: 1px solid var(--line); }
 .mn-words div:target { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold) inset; }

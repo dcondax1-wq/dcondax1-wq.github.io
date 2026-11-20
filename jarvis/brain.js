@@ -555,12 +555,19 @@ export function createBrain(opts) {
   // Zenith routes: zenith-mode.js's zenithRouteFor (o.routeFor to pass one in; o.zenithRoutes false: the local map only)
   let routeFor = typeof o.routeFor === 'function' ? o.routeFor : null;
   let zrWait = null;
-  if (!routeFor && o.zenithRoutes !== false) {
+  // day-jarvis 2026-11-20 (PERF ask: "import the brain / skills / search modules on first use, not at boot"): the three helpers below
+  // (Zenith routes, ZEUS, the skills) start on the first question, or in an idle moment after the start (5 s on a phone, 1.5 s on a
+  // computer), never in the boot's own tasks. ask() waits for them as before (1.2-1.5 s at most). o.lazy === false: at once (old way).
+  const lazyStarts = [];
+  const later = (fn) => { lazyStarts.push(fn); };
+  let kicked = false;
+  const kick = () => { if (kicked) return; kicked = true; for (const f of lazyStarts.splice(0)) { try { f(); } catch (_) { /* each one on its own */ } } };
+  later(() => { if (!routeFor && o.zenithRoutes !== false) {
     try {
       zrWait = import('./zenith-mode.js').then((m) => { if (m && typeof m.zenithRouteFor === 'function') routeFor = m.zenithRouteFor; })
         .catch(() => null).then(() => { zrWait = null; });
     } catch (_) { zrWait = null; }
-  }
+  } });
 
   // the skills (skills.js, 2026-11-10 JARVIS BRAIN): an offline tool layer over every published file (drawdown, weekdays, deals, events,
   // Sibyl, trades), actions with a "yes" before any write, the owner's memory, and context for smart mode. createBrain({ skills }) passes one
@@ -570,13 +577,13 @@ export function createBrain(opts) {
   // in; otherwise it loads its own in a browser (o.zeus === true: also in node; false: off). Read only: "pause" only says where the button is.
   // night-zask: + "what's trading" (each account -> bot), "trades per week" (../edge.json bots), "health" (edge light + PC age).
   let zeus = isObj(o.zeus) && typeof o.zeus.answer === 'function' ? o.zeus : null, zeusWait = null;
-  if (!zeus && o.zeus !== false && (o.zeus === true || typeof location !== 'undefined')) {
+  later(() => { if (!zeus && o.zeus !== false && (o.zeus === true || typeof location !== 'undefined')) {
     const getJ = (u) => async () => { try { const r = await doFetch(u, { cache: 'no-cache' }); return r && r.ok ? await r.json() : null; } catch (_) { return null; } };
     zeusWait = import('./zeus.js').then((m) => { zeus = m.createZeus({ getPlan: getJ('../business/accounts.json'), getBoard: getJ('../board/board.json'), getEdge: getJ('../edge.json'), hidden: HIDB }); })
       .catch(() => null).then(() => { zeusWait = null; });
-  }
+  } });
   let skills = isObj(o.skills) && typeof o.skills.handle === 'function' ? o.skills : null, skillsWait = null, skillCtx = '', missedSkill = null;
-  if (!skills && o.skills !== false && typeof location !== 'undefined' && typeof fetch === 'function') {
+  later(() => { if (!skills && o.skills !== false && typeof location !== 'undefined' && typeof fetch === 'function') {
     try {
       skillsWait = Promise.all([import('./skills.js'), import('./jdata.js'), import('./apps.js').catch(() => null)]).then(([sk, jd, ap]) => {
         let cache = null, at = 0;
@@ -594,6 +601,12 @@ export function createBrain(opts) {
         installApi();
       }).catch(() => null).then(() => { skillsWait = null; });
     } catch (_) { skillsWait = null; }
+  } });
+  if (o.lazy === false || typeof document === 'undefined') kick();                 // node tests and o.lazy false: at once, as before
+  else {
+    const phone = (() => { try { return matchMedia('(pointer: coarse)').matches && Math.min(innerWidth, innerHeight) < 600; } catch (_) { return false; } })();
+    const idle = () => (typeof requestIdleCallback === 'function' ? requestIdleCallback(kick, { timeout: 2000 }) : kick());
+    setTimeout(idle, phone ? 5000 : 1500);
   }
   // window.JARVIS_API (docs/JARVIS_API.md): what the Jarvis home reads. nudges() is SYNCHRONOUS (the last computed list, refreshed in the
   // background every 60 s and on every call), each { id, text, tone: 'bad'|'warn'|'info', app, say, why, ask, usd, key }; ask(text) -> Promise<reply>.
@@ -2238,6 +2251,7 @@ export function createBrain(opts) {
     } catch (_) { return null; }
   }
   async function ask(text, opt) {
+    kick();                                                  // the helpers start now if the idle moment has not come yet
     const voice = !!(isObj(opt) && opt.voice);
     let r, mr0 = null;
     try {

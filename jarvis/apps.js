@@ -689,13 +689,22 @@ function storedCard(a, url) {
   const r = validateStatus(m[a.id].card, { base: a.url, now: Date.now() + 864e5 * 365 });   // what was kept is checked again
   return r.ok ? r.card : null;
 }
+// the ids listApps() gives, memoised on the stored list's raw text (perf 2026-11-20: remember() ran listApps() once per status card,
+// O(n^2) on Jarvis's start); any change to the stored list (add / remove / rename) changes the text, so it is never stale
+let idsMemo = { raw: undefined, ids: null };
+function appIds() {
+  const raw = readRaw(KEY);
+  if (idsMemo.ids && idsMemo.raw === raw) return idsMemo.ids;
+  idsMemo = { raw, ids: new Set(listApps().map((x) => x.id)) };
+  return idsMemo.ids;
+}
 // keep the newest good card per app (a pushed card is not replaced by an older static file), only for apps still here
 function remember(a, url, card) {
   const m = cards();
   const old = own(m, a.id) && isObj(m[a.id]) && m[a.id].url === url && isObj(m[a.id].card) ? m[a.id].card : null;
   if (old && Number(old.t) > card.t) return false;
   if (old && JSON.stringify(old) === JSON.stringify(card)) return true;      // the same card again (an app posting often)
-  const ids = new Set(listApps().map((x) => x.id));
+  const ids = appIds();
   if (!ids.has(a.id)) return true;                    // not (or no longer) in the list, e.g. removed while it was fetched
   m[a.id] = { url, at: Date.now(), card };
   for (const k of Object.keys(m)) if (!ids.has(k)) delete m[k];

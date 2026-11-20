@@ -20,9 +20,11 @@
   --ag-serif: var(--oly-th-display, 'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif);
   --ag-sans: var(--oly-th-body, -apple-system,'SF Pro Text',system-ui,'Helvetica Neue',Arial,sans-serif);
   --ag-num: var(--oly-th-num, 'SF Pro Rounded',-apple-system,system-ui,sans-serif);
-  --ag-fs-cap: .75rem;     /* 12  captions, chips */
-  --ag-fs-foot: .8125rem;  /* 13  footnotes, labels */
-  --ag-fs-sub: .875rem;    /* 14  secondary body */
+  /* A11Y K2 (2026-11-20): a sentence is never under 15 px; a label of 1-4 words may be 13; nothing is under 12 */
+  --ag-fs-cap: .8125rem;   /* 13  captions, chips, stat labels: a few words, never a sentence (was 12) */
+  --ag-fs-foot: .875rem;   /* 14  short footnote labels (was 13) */
+  --ag-fs-sub: .9375rem;   /* 15  secondary body = body size, softer colour (was 14) */
+  --ag-fs-note: .9375rem;  /* 15  any sentence in a muted colour: empty states, hints, 'as of' lines */
   --ag-fs-body: .9375rem;  /* 15  body */
   --ag-fs-lead: 1.0625rem; /* 17  lead / list titles */
   --ag-fs-h3: 1.125rem;    /* 18  card titles */
@@ -53,6 +55,10 @@
 }
 
 /* ================================================================================================ 2. base */
+/* A11Y K6 (2026-11-20): a grid with no column template sizes to its widest child (a nowrap chip row, a table) and the page scrolls
+   sideways at 320 px. Zero-specificity guard: it only acts where the element is already display:grid and sets no columns of its own. */
+:where(main#app, .ag-card, .card, .ag-list) { grid-template-columns: minmax(0, 1fr); }
+:where(main#app, .ag-card, .card) > * { min-width: 0; }
 html[data-theme="agora"] body, body.agora {
   background: radial-gradient(120% 70% at 50% -10%, var(--oly-th-n5, #2a2118) 0%, var(--ag-night) 62%) fixed, var(--ag-night);
   color: var(--ag-text); font-family: var(--ag-sans); -webkit-font-smoothing: antialiased; letter-spacing: 0;
@@ -70,13 +76,13 @@ html[data-theme="agora"] ::selection { background: rgba(var(--ag-gold-rgb), .35)
 
 /* ================================================================================================ 3. type */
 .ag-display { font: 600 clamp(2rem, 9vw, 2.5rem)/1.06 var(--ag-serif); letter-spacing: -.005em; margin: 0; }
-.ag-title { font-family: var(--ag-serif); font-size: clamp(1.5rem, 7vw, var(--ag-fs-h1)); line-height: 1.1; margin: 0; }
+.ag-title { font-family: var(--ag-serif); font-size: clamp(1.5rem, 1.25rem + 2.5vw, var(--ag-fs-h1)); line-height: 1.1; margin: 0; }
 .ag-title::after { content: ""; display: block; width: 44px; height: 2px; margin-top: 8px; border-radius: 2px; background: linear-gradient(90deg, var(--ag-gold), rgba(var(--ag-gold-rgb), 0)); }
 .ag-h2 { font: 600 var(--ag-fs-h2)/1.2 var(--ag-serif); margin: 0; }
 .ag-h3 { font: 600 var(--ag-fs-h3)/1.25 var(--ag-serif); margin: 0; }
 .ag-lead { font: 400 var(--ag-fs-lead)/1.42 var(--ag-sans); color: var(--ag-soft); margin: 0; }
 .ag-body { font: 400 var(--ag-fs-body)/1.47 var(--ag-sans); color: var(--ag-soft); margin: 0; }
-.ag-foot { font: 400 var(--ag-fs-foot)/1.42 var(--ag-sans); color: var(--ag-muted); margin: 0; }
+.ag-foot { font: 400 var(--ag-fs-note)/1.42 var(--ag-sans); color: var(--ag-muted); margin: 0; }
 .ag-eyebrow { font: 600 var(--ag-fs-cap)/1.2 var(--ag-sans); letter-spacing: .04em; color: var(--ag-gold); text-transform: none; }
 .ag-good { color: var(--ag-olive-text); } .ag-bad { color: var(--ag-terra-text); } .ag-warn { color: var(--ag-sun); } .ag-info { color: var(--ag-aegean-text); } .ag-muted { color: var(--ag-muted); } .ag-soft { color: var(--ag-soft); }
 .ag-rule { height: 1px; background: var(--ag-line); border: 0; margin: 12px 0; }
@@ -108,7 +114,7 @@ html[data-theme="agora"] ::selection { background: rgba(var(--ag-gold-rgb), .35)
 .ag-stat { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 12px 14px; border-radius: var(--ag-radius-s); background: var(--ag-s2); border: 1px solid var(--ag-line-soft); }
 .ag-stat-label { font: 600 var(--ag-fs-foot)/1.25 var(--ag-sans); color: var(--ag-muted); }
 .ag-stat-value { font: 700 var(--ag-fs-stat)/1.1 var(--ag-num); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ag-text); overflow-wrap: anywhere; }
-.ag-stat-sub { font: 400 var(--ag-fs-cap)/1.3 var(--ag-sans); color: var(--ag-muted); }
+.ag-stat-sub { font: 400 var(--ag-fs-foot)/1.3 var(--ag-sans); color: var(--ag-muted); }
 .ag-delta { display: inline-flex; align-items: center; gap: 3px; font: 600 var(--ag-fs-foot)/1 var(--ag-num); font-variant-numeric: tabular-nums; }
 .ag-delta.up { color: var(--ag-olive-text); } .ag-delta.down { color: var(--ag-terra-text); } .ag-delta.flat { color: var(--ag-muted); }
 .ag-money { font: 700 clamp(34px, 11vw, 46px)/1.05 var(--ag-num); font-variant-numeric: tabular-nums; letter-spacing: -.01em; color: var(--ag-text); }
@@ -122,7 +128,7 @@ html[data-theme="agora"] ::selection { background: rgba(var(--ag-gold-rgb), .35)
 .ag-row-ic:empty { display: none; }
 .ag-row-main { display: grid; gap: 2px; min-width: 0; }
 .ag-row-title { font: 600 var(--ag-fs-body)/1.3 var(--ag-sans); color: var(--ag-text); overflow-wrap: anywhere; }
-.ag-row-sub { font: 400 var(--ag-fs-foot)/1.35 var(--ag-sans); color: var(--ag-muted); overflow-wrap: anywhere; }
+.ag-row-sub { font: 400 var(--ag-fs-note)/1.35 var(--ag-sans); color: var(--ag-muted); overflow-wrap: anywhere; }
 .ag-row-end { display: inline-flex; align-items: center; gap: 6px; font: 600 var(--ag-fs-body)/1.2 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-soft); text-align: right; }
 :is(a, button).ag-row { width: 100%; border: 0; background: transparent; text-align: left; font: inherit; cursor: pointer; transition: background-color var(--ag-d1) var(--ag-ease); }
 :is(a, button).ag-row:active { background: rgba(var(--ag-gold-rgb), .07); }
@@ -143,12 +149,12 @@ html[data-theme="agora"] ::selection { background: rgba(var(--ag-gold-rgb), .35)
 .ag-btn:disabled, .ag-btn[aria-disabled="true"] { opacity: .5; cursor: default; scale: 1; }
 .ag-iconbtn { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--ag-line); background: var(--ag-s2); color: var(--ag-soft); padding: 0; cursor: pointer; touch-action: manipulation;
   transition: scale var(--ag-d1) var(--ag-ease), color var(--ag-d1) var(--ag-ease); }
-.ag-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-s1); color: var(--ag-soft); font: 600 var(--ag-fs-sub) var(--ag-sans);
+.ag-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ag-line); background: var(--ag-s1); color: var(--ag-soft); font: 600 var(--ag-fs-sub) var(--ag-sans);
   transition: scale var(--ag-d1) var(--ag-ease), background-color var(--ag-d1) var(--ag-ease), border-color var(--ag-d1) var(--ag-ease), color var(--ag-d1) var(--ag-ease); }
 .ag-chip[aria-pressed="true"], .ag-chip.on { border-color: var(--ag-gold); color: var(--ag-gold-hi); background: var(--oly-th-n5, #2a2217); }
 /* the segmented control: one rail, a raised thumb on the chosen item */
 .ag-seg { display: flex; gap: 2px; padding: 3px; border-radius: 13px; background: var(--ag-s1); border: 1px solid var(--ag-line); box-shadow: 0 1px 2px rgba(0,0,0,.35) inset; }
-.ag-seg button, .ag-seg a { flex: 1 1 0; min-width: 0; min-height: 38px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--ag-soft); font: 600 var(--ag-fs-sub)/1.15 var(--ag-sans); text-decoration: none; cursor: pointer;
+.ag-seg button, .ag-seg a { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--ag-soft); font: 600 var(--ag-fs-sub)/1.15 var(--ag-sans); text-decoration: none; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; transition: background-color var(--ag-d2) var(--ag-ease), color var(--ag-d2) var(--ag-ease), scale var(--ag-d1) var(--ag-ease); }
 .ag-seg :is(button, a):is([aria-pressed="true"], [aria-selected="true"], [aria-current="page"], .on) { background: linear-gradient(180deg, var(--ag-s4), var(--ag-s3)); color: var(--ag-text); box-shadow: var(--ag-e1); }
 /* tabs (scrolling pills) */
@@ -190,7 +196,7 @@ html[data-theme="agora"] ::selection { background: rgba(var(--ag-gold-rgb), .35)
 .ag-state-ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: var(--ag-gold); background: radial-gradient(circle at 50% 35%, var(--oly-th-n7, #3a2f20), var(--ag-s2) 78%); border: 1px solid var(--ag-line-gold); margin-bottom: 4px; }
 .ag-state.bad .ag-state-ic { color: var(--ag-terra-text); border-color: rgba(var(--ag-terra-rgb), .45); }
 .ag-state-title { font: 600 var(--ag-fs-h3)/1.25 var(--ag-serif); color: var(--ag-text); margin: 0; }
-.ag-state-text { font: 400 var(--ag-fs-sub)/1.45 var(--ag-sans); color: var(--ag-soft); margin: 0; max-width: 32ch; }
+.ag-state-text { font: 400 var(--ag-fs-note)/1.45 var(--ag-sans); color: var(--ag-soft); margin: 0; max-width: 32ch; }
 .ag-state .ag-btn { margin-top: 8px; }
 
 /* ================================================================================================ 9. sheet */
@@ -297,6 +303,12 @@ main#app:where(:has(> header.top .ag-title)) > header.top > .tags { grid-column:
 main#app:where(:has(> header.top .ag-title)) > header.top.ag-hasnav > .ag-navback { grid-column: 1; grid-row: 1; justify-self: start; }
 main#app:where(:has(> header.top .ag-title)) > header.top.ag-hasnav > .tags { grid-row: 1; align-self: center; padding-top: 0; }
 main#app:where(:has(> header.top .ag-title)) > header.top.ag-hasnav > .brand { grid-column: 1 / -1; grid-row: 2; }
+/* day-arenas DESIGN 2026-11-20 (PERF: +0.06 layout shift on EVERY app at ~3-5 s on a phone line): agora-ui.js / gate-nav.js put the back
+   row (44 px) into the header after load. Until then the header already has that row, empty, with the brand under it: filling it moves
+   nothing. In Jarvis's frame (html.framed) there is no back row, so no reserve. */
+html:not(.framed) main#app:where(:has(> header.top .ag-title)) > header.top:not(.ag-hasnav) { grid-template-rows: 44px auto; }
+html:not(.framed) main#app:where(:has(> header.top .ag-title)) > header.top:not(.ag-hasnav) > .tags { grid-row: 1; align-self: center; padding-top: 0; }
+html:not(.framed) main#app:where(:has(> header.top .ag-title)) > header.top:not(.ag-hasnav) > .brand { grid-column: 1 / -1; grid-row: 2; }
 main#app:where(:has(> header.top .ag-title)) > header.top .brand img { width: 52px; height: 52px; border-radius: 14px; border: 1px solid var(--ag-line-gold); background: var(--ag-s2); box-shadow: var(--ag-e2); }
 main#app:where(:has(> header.top .ag-title)) > header.top .brand h1 { margin: 0; font: 600 clamp(1.625rem, 7.6vw, var(--ag-fs-h1))/1.08 var(--ag-serif); letter-spacing: 0; overflow-wrap: anywhere; }
 main#app:where(:has(> header.top .ag-title)) > header.top .brand h1::after { width: 40px; height: 2px; margin-top: 7px; border-radius: 2px; }
@@ -381,3 +393,10 @@ html[data-oly-style] :is(h1, h2, h3, .ag-title, .ag-display, .ag-h2, .ag-h3) { f
 html[data-oly-style] .ag-btn.primary { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }
 html[data-oly-style] .ag-sheet { border-radius: var(--oly-th-radius-l, var(--oly-th-radius)) var(--oly-th-radius-l, var(--oly-th-radius)) 0 0; }
 html[data-oly-style] .ag-toast { border-radius: var(--oly-th-radius-s, var(--oly-th-radius)); }
+/* the Ask Jarvis button (jarvis/ask.js, mounted by olympus.js on every kit app) follows the look: gold accent, card surface, text ink */
+:root { --oly-ask-accent: var(--ag-gold); --oly-ask-bg: var(--ag-panel); --oly-ask-text: var(--ag-text); }
+
+/* 2026-11-20 phone QA: the fixed Ask Jarvis button (jarvis/ask.js, bottom-left, 44 px) never sits on the page's last lines */
+body.oly-has-ask main, body.oly-has-ask #app { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+/* the button steps aside while an app's own sheet is open (it sat on Planner's sheet Save button) */
+body:has(.sheet:not([hidden]), .ag-sheet:not([hidden])) .oly-ask-btn { display: none; }

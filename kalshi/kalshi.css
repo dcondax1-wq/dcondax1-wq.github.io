@@ -785,7 +785,7 @@ body { background: var(--glow); background-color: var(--bg); }
 
 /* ---- notes (stale, sample, offline) */
 .note { border-radius: var(--rs); background: var(--bg2); border: 1px solid var(--dim2); }
-.note b { font: 700 14px/1.3 var(--fb); }
+.note b { font: 700 .9375rem/1.3 var(--fb); }
 .note.warn, .note.bad, .note.sample { background: var(--bg2); }
 .note.sample { top: 8px; box-shadow: var(--shadow); }
 html.framed .note.sample { top: 56px; }
@@ -925,64 +925,64 @@ html.framed .note.sample { top: 56px; }
 .krw p { margin: 0; }
 .krw-g { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 9px 0 6px; }
 .krw-g div { min-width: 0; }
-.krw-g dt { font-size: 12px; color: var(--txt); opacity: .78; }
-.krw-g dd { margin: 2px 0 0; font: 700 17px/1.2 var(--fh); overflow-wrap: anywhere; }
-.krw-f { font-size: 13px; opacity: .85; margin-top: 4px !important; }
+.krw-g dt { font-size: 0.75rem; color: var(--txt); opacity: .78; }
+.krw-g dd { margin: 2px 0 0; font: 700 1.062rem/1.2 var(--fh); overflow-wrap: anywhere; }
+.krw-f { font-size: 0.8125rem; opacity: .85; margin-top: 4px !important; }
 @media (max-width: 359px) { .krw-g { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .krw-age.old { color: var(--warn); }
 /* ---- K8 status card (night-kalshi8 2026-11-20, kalshi.js k8Show): mode, bankroll, today, next window, last 10, how far each stop is */
 .k8s { display: block; margin-top: 8px; }
-.k8s h2 { margin: 2px 0 4px; font: 700 15px/1.3 var(--fh); display: flex; align-items: center; gap: 8px; }
-.k8s-m { font: 800 12px/1 var(--fh); letter-spacing: .06em; padding: 4px 7px; border-radius: 6px; border: 1px solid rgba(var(--warn-rgb), .6); color: var(--warn); }
+.k8s h2 { margin: 2px 0 4px; font: 700 0.9375rem/1.3 var(--fh); display: flex; align-items: center; gap: 8px; }
+.k8s-m { font: 800 0.75rem/1 var(--fh); letter-spacing: .06em; padding: 4px 7px; border-radius: 6px; border: 1px solid rgba(var(--warn-rgb), .6); color: var(--warn); }
 .k8s-m.live { border-color: rgba(var(--up-rgb, 34, 197, 94), .7); color: var(--up, #16a34a); }
 .k8s-l { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px; }
-.k8s-l span { width: 24px; height: 24px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font: 800 12px/1 var(--fh); color: #fff; background: var(--down, #dc2626); }
+.k8s-l span { width: 24px; height: 24px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font: 800 0.75rem/1 var(--fh); color: #fff; background: var(--down, #dc2626); }
 .k8s-l span.w { background: var(--up, #16a34a); }
-.k8s-b { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 10px; font-size: 13.5px; align-items: center; }
+.k8s-b { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 10px; font-size: 0.8438rem; align-items: center; }
 .k8s-b i { grid-column: 1 / -1; display: block; height: 7px; border-radius: 4px; background: var(--dim2); overflow: hidden; margin: 3px 0 8px; }
 .k8s-b i b { display: block; height: 100%; background: var(--up, #16a34a); }
 .k8s-b i b.hot { background: var(--warn); }
 .k8s-b i b.red { background: var(--down, #dc2626); }
 /* the K8 day dashboard (day-kalshi 2026-11-20, kalshi.js k8Win / k8Extra): today's windows + countdowns, price vs fair, the bet log, edge health */
-.k8w-h { margin: 8px 0 3px !important; font: 700 13px/1.3 var(--fh); letter-spacing: .02em; opacity: .9; }
+.k8w-h { margin: 8px 0 3px !important; font: 700 0.8125rem/1.3 var(--fh); letter-spacing: .02em; opacity: .9; }
 .k8w, .k8p ul, .k8g ul { list-style: none; margin: 0; padding: 0; }
-.k8w li { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 4px 0; border-top: 1px solid var(--dim2); font-size: 14px; }
+.k8w li { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 4px 0; border-top: 1px solid var(--dim2); font-size: 0.875rem; }
 .k8w li:first-child { border-top: 0; }
-.k8w li b { font: 700 14px/1.2 var(--fh); font-variant-numeric: tabular-nums; }
+.k8w li b { font: 700 0.875rem/1.2 var(--fh); font-variant-numeric: tabular-nums; }
 .k8w li span { min-width: 0; overflow-wrap: anywhere; }
 .k8w li em { font-style: normal; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
 .k8w li em.now { color: var(--ok); }
 .k8w li em.done { opacity: .6; font-weight: 500; }
-.k8w li.pp { font-size: 12.5px; opacity: .6; padding: 2px 0; }
-.k8w li.pp b { font-size: 12.5px; }
-.k8w li i, .k8p li i { font-style: normal; font-size: 11.5px; opacity: .8; }
-.k8w li.sk em { color: var(--warn); opacity: 1; font-weight: 600; font-size: 12.5px; }
-.k8p li { display: flex; flex-direction: column; padding: 3px 0; border-top: 1px solid var(--dim2); font-size: 13.5px; min-width: 0; overflow-wrap: anywhere; }
+.k8w li.pp { font-size: 0.7812rem; opacity: .6; padding: 2px 0; }
+.k8w li.pp b { font-size: 0.7812rem; }
+.k8w li i, .k8p li i { font-style: normal; font-size: 0.7188rem; opacity: .8; }
+.k8w li.sk em { color: var(--warn); opacity: 1; font-weight: 600; font-size: 0.7812rem; }
+.k8p li { display: flex; flex-direction: column; padding: 3px 0; border-top: 1px solid var(--dim2); font-size: 0.8438rem; min-width: 0; overflow-wrap: anywhere; }
 .k8p li:first-child { border-top: 0; }
 .k8p li > span:last-child { font-variant-numeric: tabular-nums; }
 .k8-g { color: var(--ok); } .k8-r { color: var(--bad); }
-.k8g li { font-size: 13.5px; padding: 3px 0 3px 12px; position: relative; overflow-wrap: anywhere; }
+.k8g li { font-size: 0.8438rem; padding: 3px 0 3px 12px; position: relative; overflow-wrap: anywhere; }
 .k8g li::before { content: ""; position: absolute; left: 1px; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--mut); }
 .k8g li.w b { color: var(--ok); } .k8g li.w::before { background: var(--ok); }
 .k8g li.l b { color: var(--bad); } .k8g li.l::before { background: var(--bad); }
-.k8e-g { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 2px 10px; font-size: 13.5px; align-items: baseline; }
-.k8e-g span:nth-child(3n) { font-size: 12px; opacity: .75; text-align: right; }
+.k8e-g { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 2px 10px; font-size: 0.8438rem; align-items: baseline; }
+.k8e-g span:nth-child(3n) { font-size: 0.75rem; opacity: .75; text-align: right; }
 .k8e-g b { font-variant-numeric: tabular-nums; text-align: right; }
 .k8e-g b.ok, .k8e-v.ok b { color: var(--ok); } .k8e-g b.watch, .k8e-v.watch b { color: var(--warn); } .k8e-g b.off, .k8e-v.off b { color: var(--bad); }
-.k8e-v { margin: 5px 0 2px !important; font-size: 13.5px; }
-.k8e-v b { font: 800 14px/1.2 var(--fh); margin-right: 4px; }
+.k8e-v { margin: 5px 0 2px !important; font-size: 0.8438rem; }
+.k8e-v b { font: 800 0.875rem/1.2 var(--fh); margin-right: 4px; }
 /* the Kalshi home (2026-11-18): what we tested, the other Kalshi apps, the bar; phone first, rows at least 44 px */
 .khub { display: block; margin-top: 8px; }
-.khub h2 { margin: 4px 0 6px; font: 700 15px/1.3 var(--fh); }
+.khub h2 { margin: 4px 0 6px; font: 700 0.9375rem/1.3 var(--fh); }
 .khub h2 + ul { margin-bottom: 12px; }
 .khub ul { list-style: none; margin: 0; padding: 0; }
 .khub li { min-width: 0; overflow-wrap: anywhere; }
 .kh-l li, .kh-a li { display: flex; flex-direction: column; justify-content: center; min-height: 44px; padding: 5px 0; border-top: 1px solid var(--dim2); }
 .kh-l li:first-child, .kh-a li:first-child { border-top: 0; }
 .khub a { color: var(--txt); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(var(--warn-rgb), .55); }
-.khub li span { font-size: 13px; opacity: .85; }
+.khub li span { font-size: 0.8125rem; opacity: .85; }
 .khub li i { font-style: normal; font-weight: 700; color: var(--warn); }
-.kh-b li { font-size: 13.5px; padding: 3px 0 3px 14px; position: relative; }
+.kh-b li { font-size: 0.8438rem; padding: 3px 0 3px 14px; position: relative; }
 .kh-b li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: var(--warn); }
 /* K1 card reuses .krw */
 /* . */
@@ -998,37 +998,67 @@ html[data-oly-style] .card { background: var(--oly-th-card-bg) !important; borde
 html[data-oly-style] :is(.top h1, .card h2) { font-family: var(--oly-th-display, var(--fh)); font-weight: var(--oly-th-title-weight) !important; text-transform: var(--oly-th-title-case);
   letter-spacing: var(--oly-th-title-track) !important; font-style: var(--oly-th-title-style); }
 /* day-kalshi round 2: each live bet's last 20 windows and the pause rule */
-.k8l { list-style: none; margin: 4px 0 0; padding: 0; font-size: 13.5px; }
+.k8l { list-style: none; margin: 4px 0 0; padding: 0; font-size: 0.8438rem; }
 .k8l li { white-space: normal; overflow-wrap: anywhere; padding: 3px 0; border-top: 1px solid var(--line, rgba(127,127,127,.2)); }
 .k8l li.off { color: var(--bad); font-weight: 600; }
 /* day-kalshi round 3: K8 live day */
 .k8d .k8d-cd { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin: 6px 0 8px; }
-.k8d .k8d-lab { font-size: 13.5px; opacity: .85; }
-.k8d .k8d-big { font: 800 44px/1.05 var(--fh); font-variant-numeric: tabular-nums; letter-spacing: .5px; }
-.k8d .k8d-at { font-size: 12.5px; opacity: .75; }
-.k8d .k8d-w { margin: 6px 0; font-size: 14px; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(127,127,127,.25); }
+.k8d .k8d-lab { font-size: 0.8438rem; opacity: .85; }
+.k8d .k8d-big { font: 800 2.75rem/1.05 var(--fh); font-variant-numeric: tabular-nums; letter-spacing: .5px; }
+.k8d .k8d-at { font-size: 0.7812rem; opacity: .75; }
+.k8d .k8d-w { margin: 6px 0; font-size: 0.875rem; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(127,127,127,.25); }
 .k8d .k8d-w.live { border-color: var(--ok); } .k8d .k8d-w.stop { border-color: var(--bad); } .k8d .k8d-w.paper { border-color: var(--warn); }
-.k8d .k8d-l { list-style: none; margin: 4px 0; padding: 0; font-size: 14px; }
+.k8d .k8d-l { list-style: none; margin: 4px 0; padding: 0; font-size: 0.875rem; }
 .k8d .k8d-l li { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 3px 0; border-top: 1px solid rgba(127,127,127,.2); }
-.k8d .k8d-s dd i { font-style: normal; font-size: 12px; opacity: .7; }
+.k8d .k8d-s dd i { font-style: normal; font-size: 0.75rem; opacity: .7; }
 .k8d .k8d-s dd.red { color: var(--bad); } .k8d .k8d-s dd.hot { color: var(--warn); }
 .k8d .k8d-help { margin-top: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(var(--warn-rgb), .5); }
-.k8d .k8d-help ol { margin: 4px 0 4px 18px; padding: 0; font-size: 13.5px; } .k8d .k8d-help li { margin: 3px 0; white-space: normal; }
+.k8d .k8d-help ol { margin: 4px 0 4px 18px; padding: 0; font-size: 0.8438rem; } .k8d .k8d-help li { margin: 3px 0; white-space: normal; }
 /* day-kalshi Olympus 2: K8 first; the go-live checklist; history below */
 #k8sub b { font-weight: 800; color: var(--warn); } #k8sub b.live { color: var(--ok); } #k8sub b.bad { color: var(--bad); }
 .kgo h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.kgo .kgo-n { font: 800 14px/1 var(--fh); color: var(--warn); } .kgo .kgo-n.ok { color: var(--ok); }
+.kgo .kgo-n { font: 800 0.875rem/1 var(--fh); color: var(--warn); } .kgo .kgo-n.ok { color: var(--ok); }
 .kgo-l { list-style: none; margin: 6px 0; padding: 0; }
 .kgo-l li { border-top: 1px solid rgba(127,127,127,.2); }
-.kgo-l label { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 8px 0; font-size: 14px; cursor: pointer; }
+.kgo-l label { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 8px 0; font-size: 0.875rem; cursor: pointer; }
 .kgo-l input { width: 22px; height: 22px; flex: 0 0 22px; margin: 1px 0 0; accent-color: var(--ok); }
-.kgo-l li i { display: block; font-style: normal; font-size: 12px; opacity: .75; }
+.kgo-l li i { display: block; font-style: normal; font-size: 0.75rem; opacity: .75; }
 .kgo-l li.on span { opacity: .9; } .kgo-l li.no i { color: var(--bad); opacity: 1; }
 .kgo-r { min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid rgba(127,127,127,.35); background: transparent; color: var(--txt); font: inherit; }
-.khist { margin: 28px 0 8px; font: 700 15px/1.3 var(--fh); letter-spacing: .04em; text-transform: uppercase; opacity: .85; }
+.khist { margin: 28px 0 8px; font: 700 0.9375rem/1.3 var(--fh); letter-spacing: .04em; text-transform: uppercase; opacity: .85; }
 .khist span { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: .8; }
 .oldhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin: 18px 0 8px; padding-top: 12px; border-top: 1px solid var(--dim2, rgba(127,127,127,.25)); }
-.oldhead h2 { margin: 0; font: 700 16px/1.3 var(--fh); } .oldhead h2 span { font-weight: 400; font-size: 13px; opacity: .8; }
+.oldhead h2 { margin: 0; font: 700 1rem/1.3 var(--fh); } .oldhead h2 span { font-weight: 400; font-size: 0.8125rem; opacity: .8; }
 /* the whole 44 px row is the link's tap target (Olympus 2 a11y) */
 .kh-l li, .kh-a li { position: relative; } .kh-l li a::after, .kh-a li a::after { content: ""; position: absolute; inset: 0; }
 .kh-l li a:focus-visible, .kh-a li a:focus-visible { outline: 2px solid var(--c, currentColor); outline-offset: 2px; }
+/* CLS (Olympus 2 PERF): the live-day box keeps its height before its first fill (the script fills it ~4 s in on a slow phone) */
+#k8d-x:empty { min-height: 27rem; } .k8d .k8d-at:empty { display: block; min-height: 2.9em; }
+#k8s-w:empty { min-height: 10rem; } #k8s-y:empty { min-height: 23rem; }
+/* A11Y (Olympus 2, FOR_kalshi.md): body text 15 px in rem (Dynamic Type grows it), short labels >= 13 px, no stacked opacity on muted text,
+   44 px link rows. One block at the end so the history above stays readable. */
+.top h1 { font-size: 1.5625rem; } .sub { font-size: .9375rem; }
+.note { font-size: .9375rem; } .wait p { font-size: .96875rem; } .wait p.muted { font-size: .9375rem; } .foot { font-size: .9375rem; }
+button, input, select { font-size: .9375rem; }
+.krw-g dt { font-size: .8125rem; opacity: 1; color: var(--mut); } .krw-f { font-size: .9375rem; opacity: 1; color: var(--mut); }
+.k8s-b { font-size: .9375rem; }
+.k8w-h { font-size: .9375rem; opacity: 1; }
+.k8w li { font-size: .9375rem; } .k8w li b { font-size: .9375rem; }
+.k8w li em.done { opacity: 1; color: var(--mut); }
+.k8w li.pp { font-size: .8125rem; opacity: 1; color: var(--mut); } .k8w li.pp b { font-size: .8125rem; }
+.k8w li i, .k8p li i { font-size: .8125rem; opacity: 1; color: var(--mut); }
+.k8w li.sk em { font-size: .8125rem; }
+.k8p li, .k8g li, .k8e-g, .k8e-v, .k8l { font-size: .9375rem; } .k8e-v b { font-size: .9375rem; }
+.k8e-g span:nth-child(3n) { font-size: .8125rem; opacity: 1; color: var(--mut); }
+.khub li span { font-size: .9375rem; opacity: 1; color: var(--mut); } .kh-b li { font-size: .9375rem; }
+.kh-l li > a, .kh-a li > a { display: flex; align-items: center; min-height: 2.75rem; }
+.k8d .k8d-lab { font-size: .9375rem; opacity: 1; color: var(--mut); } .k8d .k8d-at { font-size: .875rem; opacity: 1; color: var(--mut); }
+.k8d .k8d-w, .k8d .k8d-l, .k8d .k8d-help ol { font-size: .9375rem; }
+.k8d .k8d-s dd i { font-size: .8125rem; opacity: 1; color: var(--mut); }
+.kgo-l label { font-size: .9375rem; } .kgo-l li i { font-size: .8125rem; opacity: 1; color: var(--mut); }
+.khist span { opacity: 1; color: var(--mut); } .oldhead h2 span { font-size: .875rem; opacity: 1; color: var(--mut); }
+.k8d .k8d-at { font-size: .9375rem; }
+.oldhead h2 span, .khist span { font-size: .9375rem; }
+#body .wait ul.feat li { font-size: .9375rem; } code#step { font-size: .9375rem; }
+/* CLS: gate-nav.js wraps the back link in a 44 px row with a 6 px gap ~0.4 s in; keep that space from the first paint */
+main > a.olyback { display: flex; align-items: center; min-height: 44px; margin-bottom: 6px; }

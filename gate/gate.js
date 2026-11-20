@@ -50,7 +50,7 @@
   function iconOf(a) { return /\/$/.test(a.path) ? base + a.path + 'icon.svg' : null; }
   function recentIds() { var r = lsGet(LS_RECENT); return r instanceof Array ? r.filter(function (x) { return typeof x === 'string'; }) : []; }
   function remember(id) { var r = recentIds().filter(function (x) { return x !== id; }); r.unshift(id); lsSet(LS_RECENT, r.slice(0, 8)); }
-  function pinIds() { var r = lsGet(LS_PINS); return r instanceof Array ? r.filter(function (x) { return typeof x === 'string' && (!C || C.byId(x)); }) : []; }
+  function pinIds() { var r = lsGet(LS_PINS); return r instanceof Array ? r.filter(function (x) { return typeof x === 'string' && !RETIRED[x] && (!C || C.byId(x)); }) : []; }
   function isPinned(id) { return pinIds().indexOf(id) >= 0; }
   function togglePin(id) { var r = pinIds(), i = r.indexOf(id); if (i >= 0) r.splice(i, 1); else r.push(id); lsSet(LS_PINS, r.slice(0, 12)); drawPins(); syncStars(); }
   /* a star next to a row: pin or unpin that app (44 x 44, aria-pressed) */
@@ -110,7 +110,7 @@
   function drawRecent() {
     var box = $('recent'), sec = $('recentSec'); if (!box || !sec || !C) return;
     clear(box);
-    var list = recentIds().map(C.byId).filter(function (a) { return a && a.section !== 'workshop'; }).slice(0, 6);
+    var list = recentIds().map(C.byId).filter(function (a) { return live(a) && a.section !== 'workshop'; }).slice(0, 6);
     sec.hidden = !list.length;
     list.forEach(function (a) {
       var c = el('a', 'g-chip'); c.href = hrefOf(a); c.setAttribute('data-app', a.id);
@@ -188,7 +188,7 @@
   }
   function fillAZ() {
     var body = AZ.el.body, q = C.norm(AZ.el.inp.value || ''), letter = '', list = null, n = 0; clear(body);
-    C.az().forEach(function (a) {
+    C.az().filter(live).forEach(function (a) {
       if (q && C.norm(a.label + ' ' + a.name + ' ' + a.line + ' ' + a.words).indexOf(q) < 0) return;
       var L = a.section === 'workshop' ? 'Workshop' : C.norm(a.label).charAt(0).toUpperCase();
       if (/[0-9]/.test(L)) L = '#';
@@ -222,6 +222,10 @@
     t.appendChild(el('b', '', label)); t.appendChild(el('small', '', line)); t.appendChild(el('span', 'g-where', where));
     r.appendChild(ic); r.appendChild(t); r.appendChild(chevron()); return r;
   }
+  /* olympus2 2026-11-20 (owner): retired apps never show on the Home (search, A to Z, recent, pins); their pages still open from an old link */
+  var RETIRED = { delphi: 1, stoa: 1, hestia: 1, plutus: 1, argo: 1, mint: 1, harmonia: 1, kairos: 1, chronos: 1, lyceum: 1, polis: 1, atlascity: 1, gallery: 1, mintcity: 1, nike: 1,
+    arena: 1, mind: 1, symposium: 1, herald: 1, ergasterion: 1, observatory: 1, pheme: 1, bridge: 1, arbiter: 1, hermes: 1, hephaestus: 1 };
+  function live(a) { return !!a && !RETIRED[a.id]; }
   function drawResults() {
     var box = $('results'), q = ($('q').value || '').replace(/^\s+|\s+$/g, ''); clear(box);
     if (!q || !C) return;
@@ -235,7 +239,7 @@
       if (x.id === 'act-az') r.addEventListener('click', function (e) { if (openAZ(r)) e.preventDefault(); });
       box.appendChild(r);
     });
-    F.apps.forEach(function (a) { box.appendChild(withStar(row(a), a)); });
+    F.apps.filter(live).forEach(function (a) { box.appendChild(withStar(row(a), a)); });
     F.tabs.forEach(function (t) {   // a hub tab ("Bots & Evals > Risk"): every app for that job, best first
       box.appendChild(plainRow(base + t.path, t.label, t.line, 'a hub tab', '\u2261', 'data-tab', t.id));
     });
@@ -315,10 +319,28 @@
       var a = A[k]; if (!a || !a.has) return;
       var fd = obj(obj(board[k]).funded), funded = a.kind === 'funded' || obj(board[k]).stage === 'funded';
       cards.push({ key: k, name: a.name, size: a.size, kind: funded ? 'funded' : 'eval', balance: num(a.balance), room: num(a.room), mll: num(a.mll), toPass: funded ? null : num(a.toTarget),
-        toAsk: funded ? (num(fd.to_ask) != null ? num(fd.to_ask) : num(a.toTarget)) : null, askAt: funded ? num(fd.ask_at_balance) : null, today: num(a.today) || 0 });
+        toAsk: funded ? coachNeed(a, board[k]) : null, askAt: funded ? num(fd.ask_at_balance) : null, today: num(a.today) || 0 });
     });
     if (T && T.extraOf) { try { T.extraOf(home).forEach(function (a) { cards.push({ key: a.key, name: a.name, size: a.size, kind: a.kind, balance: num(a.balance), room: num(a.room), mll: num(a.mll), toPass: num(a.toTarget), toAsk: null, askAt: null, today: num(a.today) || 0 }); today += num(a.today) || 0; }); } catch (e) { /* the two bots' rows stay */ } }
-    return { t: t, pcT: ages.pc.t, pcAge: ages.pc.age, cloudAge: ages.cloud ? ages.cloud.age : null, running: running, accts: accts, cards: cards, today: today, win: nextWindow(home, t), truth: !!T, has: true };
+    var open = [];   // olympus2: the open trade(s) from the board cards (engine/live_board.py position: side, qty, entry, stop, target, unrealized_usd)
+    ['lit', 'atlas'].forEach(function (k) {
+      var ps = obj(obj(board[k]).position); if (!(num(ps.entry_t) > 0)) return;
+      var side = String(ps.side || (num(ps.dir) === -1 ? 'SHORT' : 'LONG')).toUpperCase() === 'SHORT' ? 'SHORT' : 'LONG';
+      open.push({ key: k, name: k === 'lit' ? 'Zlarior' : 'ATLAS', side: side, qty: num(ps.qty), entry: num(ps.entry), stop: num(ps.stop), target: num(ps.target), pnl: num(ps.unrealized_usd), t: num(ps.entry_t) });
+    });
+    /* the PC's other accounts (25K #2, Rapid EOD) when their row carries a position (the same fields); a row the bot cards already showed is skipped */
+    var rows = home.pc_accounts instanceof Array ? home.pc_accounts : home.accounts instanceof Array ? home.accounts : [];
+    cards.forEach(function (c) {
+      if (c.key === 'lit' || c.key === 'atlas') return;
+      for (var i = 0; i < rows.length; i++) {
+        var r = obj(rows[i]); if (String(r.id) !== String(c.key)) continue;
+        var ps = obj(r.position); if (!(num(ps.entry_t) > 0)) break;
+        open.push({ key: c.key, name: acctName(c), side: String(ps.side || (num(ps.dir) === -1 ? 'SHORT' : 'LONG')).toUpperCase() === 'SHORT' ? 'SHORT' : 'LONG', qty: num(ps.qty),
+          entry: num(ps.entry), stop: num(ps.stop), target: num(ps.target), pnl: num(ps.unrealized_usd), t: num(ps.entry_t) });
+        break;
+      }
+    });
+    return { t: t, pcT: ages.pc.t, pcAge: ages.pc.age, cloudAge: ages.cloud ? ages.cloud.age : null, running: running, accts: accts, cards: cards, open: open, today: today, win: nextWindow(home, t), truth: !!T, has: true };
   }
   /* one fact of the grid: a label, the number, one small line; a tap opens the app that holds the detail */
   function fact(box, label, value, sub, cls, to, key) {
@@ -339,14 +361,20 @@
     else st = ['on', 'ok', 'Bots on', 'The bots are on. Last report ' + words + ' ago.'];
     if (from === 'cache') st[3] = 'No new numbers reached this page. The last ones this phone saw are below.';
     card.setAttribute('data-state', st[0]);
+    /* olympus2 DATA TRUTH: the PC report's age as the one site-wide chip (age.js: "updated 5 min ago", amber after 20 min, red after 1 h) */
+    var ag = $('nowAge'), A = w.OLY_AGE, ageS = from === 'cache' && N.pcT != null ? Math.max(0, nowS() - N.pcT) : N.pcAge;
+    if (ag && A && A.chip && from !== 'none' && ageS != null) { A.chip(ag, ageS, 'pc'); ag.id = 'nowAge'; ag.hidden = false; } else if (ag) ag.hidden = true;
     badge.className = 'g-badge ' + st[1]; badge.textContent = st[2]; line.textContent = st[3];
     clear(dl);
     var old = st[0] === 'stale' || from === 'cache';
+    card.setAttribute('data-many', String((N.cards || []).length >= 3 || (N.open || []).length >= 2));   // olympus2: 3+ accounts / 2+ trades: the compact cockpit
+    drawTrade(N, from, old);
     drawMoney(N, from, old);
     if (from !== 'none') {
       /* the owner reads these first (lead, round 4): drawdown left per account and today's $, then the window; the money row above adds balances */
       var dd = N.cards && N.cards.length ? N.cards : (N.accts || []);
-      dd.forEach(function (a) { fact(dl, 'Drawdown left', money(a.room), 'of ' + money(a.mll) + ' max loss, ' + acctName(a), num(a.room) != null && num(a.mll) && a.room / a.mll < 0.35 ? 'down' : '', 'aegis/index.html', 'aegis'); });
+      var many = dd.length >= 3;   // compact: the account's name on top (it never gets cut), the max loss under
+      dd.forEach(function (a) { fact(dl, many ? acctName(a) : 'Drawdown left', money(a.room), many ? 'drawdown left of ' + money(a.mll) : 'of ' + money(a.mll) + ' max loss, ' + acctName(a), num(a.room) != null && num(a.mll) && a.room / a.mll < 0.35 ? 'down' : '', 'aegis/index.html', 'aegis'); });
       if (!dd.length) fact(dl, 'Drawdown left', 'Not in the report', '', '', 'nq/index.html', 'nq');
       fact(dl, old ? 'Last report day' : 'Today', moneyS(N.today), dd.length > 1 ? plural(dd.length, 'account') : 'the eval account', N.today > 0.5 ? 'up' : N.today < -0.5 ? 'down' : '', 'nq/index.html', 'nq');
     }
@@ -354,6 +382,7 @@
     fact(dl, 'Trade window', W.open ? 'Open now' : W.label.replace(/ 02:00-15:30 ET$/, ' 02:00 ET'), W.open ? 'until 15:30 ET' : inWords(W.inS), '', 'kairos/index.html', 'kairos');
     if (dl.lastChild) { dl.lastChild.setAttribute('data-win', W.open ? 'open' : 'shut'); dl.lastChild.setAttribute('data-ins', String(Math.round(W.inS || 0))); }   /* night-effects: the market-clock ring (olympus/home-fx.js) */
     drawExtra(dl);
+    drawNext();
     dl.hidden = false; dl.removeAttribute('aria-hidden');
     btn.hidden = !(st[0] === 'stale');
     if (from === 'none') foot.textContent = 'This copy of the site has no live numbers. Bots & Evals shows the full status where it can.';
@@ -371,9 +400,9 @@
     var cards = from === 'none' ? [] : (N.cards || (N.accts || []).map(function (a) {   // a copy this phone saved before the money row: the drawdown it knew
       return { key: a.key, name: a.name, size: '', kind: 'eval', balance: null, room: num(a.room), mll: num(a.mll), toPass: null, toAsk: null, today: null };
     }));
-    var strip = el('div', 'g-mstrip'); strip.setAttribute('role', 'list');
+    var strip = el('div', 'g-mstrip');
     cards.forEach(function (c) {
-      var a = el('a', 'g-acct g-acct-' + c.kind); a.setAttribute('role', 'listitem');
+      var a = el('a', 'g-acct g-acct-' + c.kind);
       a.href = base + (c.kind === 'funded' ? 'business/mffu.html' : 'aegis/index.html'); a.setAttribute('data-go', c.key);
       a.setAttribute('aria-label', acctName(c) + ', ' + (c.kind === 'funded' ? 'funded' : 'eval') + ': balance ' + (c.balance != null ? money(c.balance) : 'unknown') + '. Drawdown left ' + money(c.room) + ' of ' + money(c.mll) + ' max loss, ' + c.name + '.' + (c.today != null ? ' Today ' + moneyS(c.today) + '.' : ''));
       var top = el('span', 'g-atop'); top.appendChild(el('b', 'g-an', acctName(c))); top.appendChild(el('i', 'g-ak', c.kind === 'funded' ? 'Funded' : 'Eval')); a.appendChild(top);
@@ -387,7 +416,7 @@
     });
     var X = S.extra, K = X && X.K;
     if (K && K.has) {
-      var k = el('a', 'g-acct g-acct-kalshi'); k.setAttribute('role', 'listitem'); k.href = base + 'kalshi/index.html'; k.setAttribute('data-go', 'kalshi');
+      var k = el('a', 'g-acct g-acct-kalshi'); k.href = base + 'kalshi/index.html'; k.setAttribute('data-go', 'kalshi');
       var kt = el('span', 'g-atop'); kt.appendChild(el('b', 'g-an', 'Kalshi')); kt.appendChild(el('i', 'g-ak', K.paper === false ? 'Live' : 'Bot')); k.appendChild(kt);
       k.appendChild(el('span', 'g-mv g-abal', K.balance != null ? money(K.balance) : 'Bot on'));
       k.appendChild(el('span', 'g-aln', K.age != null && HSok() ? 'updated ' + w.OLYMPUS_HUB_STATUS.shortAge(K.age) : 'gold + silver clock bets'));
@@ -397,6 +426,58 @@
     if (!strip.firstChild) { var e = el('div', 'g-acct g-aempty'); e.appendChild(el('b', 'g-an', 'No account numbers here')); e.appendChild(el('span', 'g-aln', 'They show when your PC reports.')); strip.appendChild(e); }
     box.appendChild(strip);
     box.setAttribute('data-n', String(cards.length));
+  }
+  /* olympus2: the open trade, if any, as one bold line under the status ("Zlarior LONG 2 micros · +$85 now · stop 21,340"); hidden when flat or old */
+  function drawTrade(N, from, old) {
+    var box = $('nowTrade'); if (!box) return;
+    clear(box);
+    var list = from === 'none' || old ? [] : (N.open || []);
+    box.hidden = !list.length;
+    list.forEach(function (o) {
+      var r = el('a', 'g-trow ' + (o.side === 'SHORT' ? 'short' : 'long')); r.href = base + 'nq/index.html'; r.setAttribute('data-go', 'nq');
+      r.appendChild(el('i', 'g-tdot'));
+      r.appendChild(el('b', '', o.name + ' ' + o.side + (o.qty ? ' ' + plural(o.qty, 'micro') : '')));
+      if (o.pnl != null) r.appendChild(el('span', 'g-tpnl ' + (o.pnl > 0.5 ? 'up' : o.pnl < -0.5 ? 'down' : ''), moneyS(o.pnl) + ' now'));
+      var px = function (v) { return v == null ? '' : v.toLocaleString('en-US', { maximumFractionDigits: 2 }); };
+      if (o.stop != null) r.appendChild(el('small', '', 'stop ' + px(o.stop) + (o.target != null ? ' · target ' + px(o.target) : '')));
+      box.appendChild(r);
+    });
+  }
+  /* olympus2: the next thing to do (the top open Decide card) and Kalshi K8 today, one line each under the facts */
+  function drawNext() {
+    var box = $('nowNext'); if (!box) return;
+    clear(box);
+    var X = S.extra || {}, D = X.D, K8 = X.K8;
+    if (D) {
+      var a = el('a', 'g-nrow g-ndec'); a.href = base + 'business/plan.html'; a.setAttribute('data-go', 'decide');
+      a.appendChild(el('b', '', 'Decide' + (D.n > 1 ? ' (' + D.n + ')' : '')));
+      a.appendChild(el('span', '', D.q + (D.rec === 'yes' ? ' Claude: yes.' : D.rec === 'no' ? ' Claude: no.' : '')));
+      box.appendChild(a);
+    } else if (X.decOk) {
+      var z = el('a', 'g-nrow g-ndec'); z.href = base + 'business/plan.html'; z.setAttribute('data-go', 'decide');
+      z.appendChild(el('b', '', 'Decide')); z.appendChild(el('span', '', 'Nothing waiting on you.')); box.appendChild(z);
+    }
+    if (K8) {
+      var k = el('a', 'g-nrow g-nk8'); k.href = base + 'kalshi/index.html'; k.setAttribute('data-go', 'kalshi');
+      k.appendChild(el('b', '', 'Kalshi K8'));
+      var parts = [];
+      if (K8.won + K8.lost) parts.push('today ' + K8.won + ' won, ' + K8.lost + ' lost');
+      parts.push(K8.next ? 'next ' + K8.next.name + ' ' + K8.next.at : 'no more windows today');
+      k.appendChild(el('span', '', parts.join(' · ')));
+      box.appendChild(k);
+    }
+    box.hidden = !box.firstChild;
+  }
+  /* olympus2 DATA TRUTH ask: "to payout" on a funded account = the payout coach's need_more (business/payoutcoach.js, the number NQ / Trading /
+     Board show through pc_feed.js payoutLines), never the PC's raw $750-ping line; no coach loaded = no number ("Funded") */
+  function coachNeed(a, card) {
+    var PC = w.PAYOUT_COACH, c = obj(card), bal = num(a.balance);
+    if (!PC || typeof PC.coach !== 'function' || bal == null) return null;
+    var day = '';
+    try { day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date(nowS() * 1000)); } catch (e) { day = ''; }
+    try { var r = PC.coach({ balance: bal, cycle_start_balance: null, best_day: null, cycle_days: null, payouts_n: null, eligible_from: null, room: num(a.room) },
+      /50K/i.test(String(c.plan || a.size || '')) || num(a.mll) >= 2000 ? 'builder50k' : 'builder25k', day);
+      return r && r.ok && num(r.need_more) != null ? Math.max(0, r.need_more) : null; } catch (e) { return null; }
   }
   function acctName(a) { var n = String(a.name || ''); return a.size && n.indexOf(a.size) < 0 ? n + ' ' + a.size : n; }   // "Zlarior 25K #2" keeps its own size
   function HSok() { return !!(w.OLYMPUS_HUB_STATUS && w.OLYMPUS_HUB_STATUS.shortAge); }
@@ -425,12 +506,43 @@
     if (live.board && !live.board.error) out.board = live.board;
     return out;
   }
+  /* olympus2 2026-11-20 (owner: "the home page as the daily cockpit"): the next thing to decide = the first OPEN Decide card (business/decisions.json,
+     the same file the Board and the Decide page read), else nothing */
+  function nextDecision(doc) {
+    var items = doc && doc.items instanceof Array ? doc.items : [];
+    for (var i = 0; i < items.length; i++) { var it = items[i]; if (it && it.id && it.question && String(it.status || 'open') === 'open') return { id: String(it.id), q: String(it.question), rec: String(it.recommend || ''), n: items.filter(function (x) { return x && String(x.status || 'open') === 'open'; }).length }; }
+    return null;
+  }
+  /* Kalshi K8 today (kalshi/k8.json: Kalshi's public results at the bot's entry, per leg): the live legs' result today + the next live window in ET */
+  function zoneMin(t, tz) {   // minutes past midnight + the date key of epoch t in a time zone
+    try { var p = {}; new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date(t * 1000)).forEach(function (x) { p[x.type] = x.value; });
+      return { m: (parseInt(p.hour, 10) % 24) * 60 + parseInt(p.minute, 10), day: p.year + '-' + p.month + '-' + p.day }; } catch (e) { return null; }
+  }
+  function k8Today(doc, t) {
+    var legs = doc && doc.legs instanceof Array ? doc.legs.filter(function (l) { return l && l.live && /^\d{1,2}:\d{2}$/.test(String(l.open || '')); }) : [];
+    if (!legs.length) return null;
+    var et = zoneMin(t, 'America/New_York'); if (!et) return null;
+    var res = [], next = null;
+    legs.forEach(function (l) {
+      if (l.last_day === et.day && (l.last_res === 'W' || l.last_res === 'L')) res.push(l.last_res);
+      var z = zoneMin(t, l.tz || 'America/New_York'); if (!z) return;
+      var hm = String(l.open).split(':'), openM = parseInt(hm[0], 10) * 60 + parseInt(hm[1], 10), inMin = openM - z.m;
+      if (inMin > 0 && (!next || inMin < next.inMin)) next = { inMin: inMin, name: String(l.name || '').replace(/\s*\d{1,2}:\d{2}-\d{1,2}:\d{2}\s*ET\s*$/, ''), at: Math.round(et.m + inMin) };
+    });
+    var hhmm = function (m) { m = ((m % 1440) + 1440) % 1440; return (m < 600 ? '0' : '') + Math.floor(m / 60) + ':' + (m % 60 < 10 ? '0' : '') + (m % 60); };
+    var wd = new Date(t * 1000).toLocaleDateString('en-US', { timeZone: 'America/New_York', weekday: 'short' });
+    if (wd === 'Sat' || wd === 'Sun') next = null;
+    return { won: res.filter(function (x) { return x === 'W'; }).length, lost: res.filter(function (x) { return x === 'L'; }).length, next: next ? { name: next.name, at: hhmm(next.at) + ' ET' } : null };
+  }
   /* the other sources of the home: Kalshi's feed copy, the money scoreboard, two status cards; the Planner's summary from this phone */
   function loadExtra(then) {
     var HS = w.OLYMPUS_HUB_STATUS;
     if (!HS) { then(); return; }
-    var got = { k: null, sb: null, me: null, cards: {} }, left = 5;
-    var one = function () { left--; if (left > 0) return; var t = nowS(); S.extra = { K: HS.kalshiOf(got.k, t), M: HS.moneyOf(got.sb), P: HS.planOf(lsGet(LS_PLAN), t), ME: HS.meOf ? HS.meOf(got.me, t) : null, cards: got.cards }; then(); };
+    var got = { k: null, sb: null, me: null, cards: {}, dec: null, k8: null }, left = 7;
+    var one = function () { left--; if (left > 0) return; var t = nowS(); S.extra = { K: HS.kalshiOf(got.k, t), M: HS.moneyOf(got.sb), P: HS.planOf(lsGet(LS_PLAN), t), ME: HS.meOf ? HS.meOf(got.me, t) : null, cards: got.cards,
+      D: nextDecision(got.dec), decOk: !!(got.dec && got.dec.items instanceof Array), K8: k8Today(got.k8, t) }; then(); };
+    getJSON(base + 'business/decisions.json').then(function (j) { got.dec = j; one(); });   // olympus2: the next thing to decide (the top open Decide card)
+    getJSON(base + 'kalshi/k8.json').then(function (j) { got.k8 = j; one(); });             // olympus2: Kalshi K8 today (the live legs' results and the next window)
     getJSON(base + 'kalshi.json').then(function (j) { got.k = j; one(); });
     getJSON(base + 'me/me.json').then(function (j) { got.me = j; one(); });   // the Me hub's tiles: only the PC's own link serves it (a 404 elsewhere)
     getJSON(base + 'money/scoreboard.json').then(function (j) { got.sb = j; one(); });

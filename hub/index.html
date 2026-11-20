@@ -21,8 +21,10 @@
 <style>html, body { background: var(--oly-th-n3, #14110e); color: var(--oly-th-n37, #f3ece0); margin: 0; }</style>
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.className += ' framed'; } catch (e) { d.className += ' framed'; }
   /* this hub's page id for the theme engine ('hub-<id>': the Gate's Mix maps it to its hub, olympus/themes.js pageId) */
+  setTimeout(function () { d.className += ' hb-drawn hb-done'; }, 6000);   /* NAV 2026-11-20: a hub.js that never runs must not leave the blocks hub.css holds hidden */
   var m = /[?&]h=([a-z]+)/.exec(location.search || ''); if (!m) return;
   d.setAttribute('data-oly-district', m[1]); d.setAttribute('data-oly-page', 'hub-' + m[1]);
+  /* NAV 2026-11-20 (perf ask): hub.css holds the Right now height and keeps the blocks below hidden until hub.js has drawn them (hb-drawn / hb-done): no layout shift */
 })();</script>
 <script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT: the look this hub gets, from the engine's copy) */
 (function (P, W) { try {
@@ -37,20 +39,21 @@
   window.__olyPaint = on;
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
-<link rel="stylesheet" href="hub.css?v=h5">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
+<link rel="stylesheet" href="hub.css?v=h6">
 <link rel="stylesheet" href="me.css?v=m2">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/gate-catalog.js?v=nv5"></script>
+<script src="../olympus/gate-catalog.js?v=nv7"></script>
 <script src="../olympus/hub-status.js?v=h2"></script>
-<script src="../olympus/gate-nav.js?v=g6" data-app="hub" defer></script>
+<script src="../olympus/gate-nav.js?v=g7" data-app="hub" defer></script>
 <script src="me.js?v=m2" defer></script>
-<script src="hub.js?v=h4" defer></script>
-<link rel="stylesheet" href="../olympus/shell.css?v=s5">
+<script src="hub.js?v=h5" defer></script>
+<link rel="stylesheet" href="../olympus/shell.css?v=s6">
 </head>
 <body>
 <main id="hub" class="hb-main">
+  <div class="gn-row" data-gn-slot aria-hidden="true"></div><!-- the Home / Go to row of olympus/gate-nav.js, reserved from the first paint (it fills this slot) -->
   <header class="hb-head" id="hubHead">
     <h1 class="hb-title" id="hubName">Your hubs</h1>
     <p class="hb-q" id="hubQ">Pick the job you want to do.</p>

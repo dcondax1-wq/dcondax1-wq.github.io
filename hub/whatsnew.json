@@ -1,0 +1,266 @@
+{
+ "v": 1,
+ "updated": "2026-11-20",
+ "note": "What's new (hub/whatsnew.html, day-manual NAV). Newest first. Each line: what changed in plain words, the $ when it is money, where to tap, and its status. Facts from STATE.md (2026-11-17..20 lines) and research/handoff/2026-11-20/*/REPORT.md owner summaries. Public: no ids, no addresses, no security details. Claude keeps it current.",
+ "status": {
+  "site": "On the site now",
+  "pc": "Comes with the PC's next update",
+  "yes": "Needs your yes",
+  "tested": "Tested: nothing changed",
+  "you": "Your step"
+ },
+ "items": [
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Your apps in your order, clutter gone",
+   "what": "Cities, Kalshi, NQ bot and Jarvis come first everywhere (Home, the Jarvis switcher, search, the Doors page), then Planner and Business, then the rest. 28 apps you don't use (the forges, old duplicates) are hidden; their links still open. Cities is one entry with the World, Data City, Kalshi City, Atlas City and Mint City inside.",
+   "money": "",
+   "href": "../gate/index.html",
+   "label": "Home"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Data City no longer goes black when you drag",
+   "what": "On the phone the 3D city lowered its sharpness while you dragged and blanked the picture for a frame; it now redraws straight away.",
+   "money": "",
+   "href": "../cities/index.html",
+   "label": "Cities"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Every app opens with no signal",
+   "what": "After one visit, all 32 apps open offline with their last numbers (before: only 3). Online nothing changes: always the newest copy.",
+   "money": "",
+   "href": "../nq/index.html",
+   "label": "NQ bot"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Faster and easier to read",
+   "what": "NQ opens with 340 KB instead of 947 KB, Kalshi shows in about half a second, pages no longer jump while they load, sentences are 15 px and every button is at least 44 px.",
+   "money": "",
+   "href": "../kalshi/index.html",
+   "label": "Kalshi"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "you",
+   "title": "Holidays: never stop the bot with a trade open",
+   "what": "Thu Nov 26 (halt 13:00 ET), Fri Nov 27 and Thu Dec 24 (halt 13:15 ET): MFFU does not close an open trade at a half-day halt, so an open trade at the halt fails the account. The bot is flat 5 min before; if your phone says CLOSE THE TRADE NOW, close it in NinjaTrader.",
+   "money": "Protects every account (a failed funded 25K = its whole payout path).",
+   "href": "help.html#holidays",
+   "label": "Holidays and early closes"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "The search understands plain questions",
+   "what": "Type it the way you say it on Home or in any Go to box: \"how much can I lose\", \"is atlas in a trade\", \"when is my next payout\", \"what does DLL mean\". The first row opens the right page (before, most of these found nothing).",
+   "money": "",
+   "href": "../gate/index.html",
+   "label": "Home search"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Owner manual with an SOS section",
+   "what": "One page: 10 emergency cards (PC off, stuck trade, NinjaTrader disconnected, stop everything ...), each 3 steps or less; who trades which account and when; a normal day; payouts and the tax pot; every word explained. Works offline.",
+   "money": "",
+   "href": "manual.html",
+   "label": "Owner manual"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Home: one money card per account",
+   "what": "Right now on Home shows each account: balance, a room bar, $ to pass or $ to payout, today's $. Tap a card for the detail.",
+   "money": "Zlarior 50K $1,025 room, $3,807 to pass; ATLAS 25K $887 room (PC report, Nov 20 6:00 ET).",
+   "href": "../gate/index.html",
+   "label": "Home"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "NQ and Trading pages: every account with its room, and what each bot is thinking",
+   "what": "An accounts strip in your order (Zlarior 50K, ATLAS 25K funded, Zlarior 25K #2, Rapid EOD 25K when it is added): balance, today's $, room, to pass or to payout. The NQ page also shows what each bot waits for, its levels, today's news and a quality-checks card.",
+   "money": "",
+   "href": "../nq/",
+   "label": "NQ page"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Fewer apps: old ones folded into the main pages",
+   "what": "GO / WAIT / HALT, the bots' day and the past days are cards on the NQ page; trade reels and why trades win or lose are cards on Trading; Kalshi picks and the edges map are in the Kalshi desk. Old apps sit under Archive at the end of each door. Nothing was deleted: every old link still works.",
+   "money": "",
+   "href": "../nq/#gateCard",
+   "label": "GO / WAIT / HALT on NQ"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Jarvis answers money questions, dollars first",
+   "what": "Tap a chip under the mic (How are my accounts? and 8 more) or ask: every answer starts with the $, then where the number came from and how old it is.",
+   "money": "",
+   "href": "../jarvis/",
+   "label": "Jarvis"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Home Screen widget",
+   "what": "A free iPhone widget (the Scriptable app): each account's balance, today's $, $ to pass or to payout, room, PC status. Three install steps on the Widget page.",
+   "money": "",
+   "href": "../widget/",
+   "label": "Widget"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Morning brief: NQ before the open",
+   "what": "The Morning brief now has an 'NQ before the open' card: where price sits, the 4 nearest levels, today's news and the next big release. Its day bias is shown grey: tested, no better than a coin flip.",
+   "money": "",
+   "href": "../helios/#nqBrief",
+   "label": "Morning brief"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "pc",
+   "title": "A push for every trade, on every account",
+   "what": "Two pushes per trade: the entry (side, size, price, $ at risk, $ to the target) and the exit ($ result, today's $, balance, $ to pass). Zlarior 50K, Zlarior 25K #2, ATLAS 25K and the Rapid EOD 25K once added. Never paper or BLITZ.",
+   "money": "Example: 'closed LONG +$312 (target), balance $49,505, $3,495 to pass'.",
+   "href": "manual.html#day",
+   "label": "A normal day"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "pc",
+   "title": "The PC fixes small faults by itself",
+   "what": "Once an hour it clears stuck update files, fixes the clock, installs a missing package after the close and cleans old logs. It only pings you when it could not fix something. It never starts, stops or arms the bot.",
+   "money": "",
+   "href": "manual.html#sos-6",
+   "label": "SOS: an update is blocked"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "you",
+   "title": "Kalshi K8 is ready for Monday",
+   "what": "Plan: $2.50 a bet, 3 bets a weekday (gold down 05:15 ET, gold and silver up 16:45 ET), from $55. It stays on paper until you type the Kalshi phrase on your PC link.",
+   "money": "Kalshi's public record Aug 3 - Nov 20 at $2.50: 234 bets, 73% won, +$205.79 (about +$13 a week). Last week was poor (4 of 13 won, about -$11.66). Worst week the bot allows: -$13.75.",
+   "href": "../kalshi/#k8d",
+   "label": "Kalshi K8"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "yes",
+   "title": "ATLAS: 1 micro after 2 losses in a row",
+   "what": "The one change that passed today's tests: after 2 losing ATLAS trades in a row, trade 1 micro until the next win. A Decide card waits for your yes; nothing changed yet.",
+   "money": "Chance of losing the funded 25K in 6 months: 17.6% -> 12.2% (Jan-Jun-like market), 21.7% -> 10.9% (Jul-Oct-like). Costs about $22 a month in a Jan-Jun-like market, +$6 in a Jul-Oct-like one; first payout about a week later.",
+   "href": "../board/index.html#decide",
+   "label": "Decide cards"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "tested",
+   "title": "Zlarior: 5 new ideas tested, none passed",
+   "what": "Better limit price, skipping late setups and 3 more: each made less money or failed the eval test. Zlarior stays exactly as it is.",
+   "money": "",
+   "href": "../business/lab.html",
+   "label": "ZEUS Lab"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "tested",
+   "title": "New strategy for the Rapid 25K (SMT / ICT): rejected",
+   "what": "5 rule sets tested with costs in: none passed (losses in Jul-Oct and 2021-25). Nothing added.",
+   "money": "",
+   "href": "../business/lab.html",
+   "label": "ZEUS Lab"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "you",
+   "title": "Rapid EOD 25K: ready to add",
+   "what": "Every MFFU rule checked against the bot: 0 gaps. Add it on your PC (Owner manual card 9); press Start trading after 16:00 ET.",
+   "money": "Backtest: LIT + ATLAS about $1,883 a month (Jan-Jun-like) / $800 (Jul-Oct-like). Passes in 80-86% of runs, around Dec 29 - Jan 8.",
+   "href": "manual.html#sos-9",
+   "label": "Add an account"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Taxes: what to do the day a payout lands",
+   "what": "Keep 30% of every payout for taxes (40% if you also have a day job). Education, not tax advice.",
+   "money": "First $1,000 payout = $800 lands: $240 tax pot, $80 eval reserve, $80 retirement, $160 live fund, $240 yours.",
+   "href": "../business/taxes.html",
+   "label": "Taxes"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Fleet plan to June 2027",
+   "what": "Cash to you each month after MFFU's cut, every fee and a 35% tax set-aside, all 5 MFFU slots + Kalshi K8, on 1,000 simulated paths. An estimate, not a promise.",
+   "money": "Middle case: Dec $74, Jan $572, Feb $1,523. A bad month (1 in 10) is about $0 or slightly negative.",
+   "href": "../business/plan.html",
+   "label": "Fleet plan"
+  },
+  {
+   "day": "2026-11-19",
+   "status": "site",
+   "title": "Notifications on your phone from Olympus",
+   "what": "Open Olympus, tap Allow notifications, then Allow. Trade entries and exits and important alerts come to the phone first.",
+   "money": "",
+   "href": "../jarvis/index.html#pushCard",
+   "label": "Allow notifications"
+  },
+  {
+   "day": "2026-11-19",
+   "status": "site",
+   "title": "Olympus World: every app in one 3D city",
+   "what": "Four districts = the four doors; tap a tower to open its app. Optional, for fun.",
+   "money": "",
+   "href": "../cities/world/",
+   "label": "Olympus World"
+  },
+  {
+   "day": "2026-11-18",
+   "status": "site",
+   "title": "ZEUS page, Help page and Decide cards",
+   "what": "ZEUS = your accounts, today's $, the PC's last report and the big buttons. Help = 26 plain how-to answers. Decide cards = the yes / no questions Claude needs from you, with the $ impact.",
+   "money": "",
+   "href": "zeus.html",
+   "label": "ZEUS"
+  },
+  {
+   "day": "2026-11-18",
+   "status": "site",
+   "title": "My accounts, the way MFFU shows them",
+   "what": "One card per account: balance, $ left to the floor, target, open trade with live $, payout checklist, rules checklist. Every number says how old it is.",
+   "money": "",
+   "href": "../business/mffu.html",
+   "label": "My accounts (MFFU view)"
+  },
+  {
+   "day": "2026-11-17",
+   "status": "site",
+   "title": "ATLAS passed its 25K eval",
+   "what": "ATLAS reached $26,946 (target $26,500) and is now on its funded 25K. The Payout coach tells you when to ask for money.",
+   "money": "First $1,000 payout at about $27,100 on the funded account.",
+   "href": "../business/accounts.html#coach",
+   "label": "Payout coach"
+  },
+  {
+   "day": "2026-11-17",
+   "status": "site",
+   "title": "The Board",
+   "what": "One list of what happened, newest first: the bot, you and Claude all write to it. Passes, fails, rejected orders, notes.",
+   "money": "",
+   "href": "../board/",
+   "label": "Board"
+  }
+ ]
+}

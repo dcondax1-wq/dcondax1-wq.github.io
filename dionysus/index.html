@@ -18,16 +18,17 @@
      and fixture.json (DEMO, never blank) and sends nothing anywhere. Text only through textContent / createElementNS (no markup is built from data). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o15" data-app="dionysus"></script>
-<script src="../olympus/intro-app.js?v=i10" defer></script>
+<script src="../olympus/olympus.js?v=o16" data-app="dionysus"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=4" defer></script>
+<script src="../olympus/agora-ui.js?v=5" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b77a8a'); r.setProperty('--oly-accent-rgb', '183, 122, 138'); })();</script>
-<link rel="stylesheet" href="dionysus.css?v=a4">
+<link rel="stylesheet" href="dionysus.css?v=a7">
+<link rel="stylesheet" href="../olympus/a11y.css?v=a3"><!-- with a11y.js: in the head so the text never jumps when it arrives (CLS) -->
 </head>
 <body>
 <main id="app">
@@ -36,7 +37,7 @@
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
-  <section class="ag-card card k8" id="k8Card" aria-labelledby="k8H" hidden>
+  <section class="ag-card card k8 loading" id="k8Card" aria-labelledby="k8H" aria-busy="true">
     <div class="row"><h2 id="k8H">K8 today</h2><span class="pill" id="k8Verdict">...</span></div>
     <p class="note" id="k8Note"></p>
     <ul class="plain" id="k8Legs"></ul>
@@ -126,6 +127,6 @@
   <p class="foot" id="foot">Dionysus reads the public Kalshi feed and the site's own Kalshi study files, read only. It sends nothing and cannot place or change a bet. Kalshi runs on real money: the study looks back, it is not a promise.</p>
   <nav class="older" aria-label="Older pages"><span class="note">Older pages (archive):</span> <a class="btn" href="../sibyl/">Sibyl</a> <a class="btn" href="../kalshicity/">Kalshi City</a></nav>
 </main>
-<script type="module" src="dionysus.js?v=a5"></script>
+<script type="module" src="dionysus.js?v=a6"></script>
 </body>
 </html>

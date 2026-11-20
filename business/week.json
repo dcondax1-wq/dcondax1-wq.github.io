@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 11:55 ET",
+ "built": "2026-11-20 12:45 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -147,14 +147,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Jarvis worker cache jarvis-v80 (search index changed)",
-   "Jarvis search index rebuilt (1242 docs)",
-   "Land the ntfy fix (day-nqdash3 a76ce7ab: ext_hash ignores clocks + paper accruals, ext every 3rd...",
-   "PC report: stop spending ntfy's day cap (the PC went silent 09:45 ET). ext_hash leaves out clocks...",
-   "Kalshi Olympus 2: phone screenshots (top, go-live checklist)",
-   "Data truth: REPORT + live screenshots (dark/light)",
-   "Data truth: checker computes the ONE 'to payout' (coach need_more) and scans pages for it (Glance...",
-   "Kalshi page: whole history rows tappable + focus ring; live-day prices dated; bar notes"
+   "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)",
+   "Launcher + doors: the 28 retired apps shown nowhere (same list as the catalog, URLs still open),...",
+   "DESIGN phone QA: body.oly-has-ask pads main/#app clear of the Ask Jarvis button and hides it while...",
+   "Jarvis report: the switcher section",
+   "Switcher after2 shots (Archive group last)",
+   "Archive strip reads the age 1.5 s after load from the browser's cached copy (force-cache: no...",
+   "What's new: your order + clutter gone, Data City drag, offline apps, faster pages",
+   "apps_list: Kalshi City lives inside Cities, the brain is one tap into Zenith (door trims)"
   ]
  },
  "next": {
@@ -174,10 +174,7 @@
    }
   ],
   "decisions": [
-   "Yes/no: ATLAS trades on Zlarior's 50K once it is funded",
-   "Yes/no: ATLAS trades on the Rapid EOD accounts",
-   "Yes/no: keep $1,000 in each Rapid when taking payouts",
-   "Ask MFFU: a 2nd Builder 50K and 2nd 25K eval while the current ones run?"
+   "Ask MFFU support: may you run a 2nd Builder 50K and a 2nd 25K eval while the current ones run? (you said yes to asking, Nov 20)"
   ],
   "steps": []
  },
@@ -347,7 +344,7 @@
  ],
  "weekend": [],
  "missing": [
-  "PC live numbers: last report Nov 20 9:30 ET (2 h ago)"
+  "PC live numbers: last report Nov 20 9:30 ET (3 h ago)"
  ],
  "sources": {
   "trades": "PC status post",

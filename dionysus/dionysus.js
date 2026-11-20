@@ -74,8 +74,16 @@ function renderScan() {
 
 function renderK8() {                       // K8 today: the site's ../kalshi/k8.json (Kalshi's public results); absent = the panel hides
   const card = $('k8Card'), k = S.k8 ? C.k8Panel(S.k8, S.now * 1000) : null;
-  card.hidden = !k;
-  if (!k) return;
+  // CLS 0 (PERF, Olympus 2): the card is on the page from the first paint at its full height (.loading); it is never hidden later
+  // (that pushed every card below it down ~5 s in): no k8.json = one plain line + the link, in the same place
+  card.classList.remove('loading'); card.removeAttribute('aria-busy'); card.hidden = false;
+  card.classList.toggle('none', !k);
+  for (const id of ['k8Legs', 'k8Pool', 'k8Noise']) $(id).hidden = !k;
+  if (!k) {
+    $('k8Note').textContent = 'K8 numbers are not on this site right now. The Kalshi page has K8 live: countdown, bets, stops.';
+    const v = $('k8Verdict'); v.textContent = 'no numbers'; v.className = 'pill';
+    return;
+  }
   $('k8Note').textContent = `Kalshi's public results${k.through ? ' through ' + k.through : ''}, not our bets. Fair = the price where the bet breaks even after the fee.`;
   const ul = $('k8Legs'); clear(ul);
   for (const L of k.legs) {
@@ -148,7 +156,7 @@ const offWord = () => (typeof navigator !== 'undefined' && navigator.onLine === 
 function renderEmpty() {
   for (const id of ['heroCard', 'guardCard', 'betsCard', 'wiCard', 'scanCard']) $(id).hidden = true;
   $('demo').hidden = true; $('lite').hidden = true;
-  try { renderK8(); } catch (_) { $('k8Card').hidden = true; }
+  try { renderK8(); } catch (_) { $('k8Card').classList.remove('loading'); $('k8Card').classList.add('none'); }
   for (const [f, id] of [[renderFees, 'feeCard'], [renderRuin, 'ruinCard'], [renderLessons, 'lessonCard'], [renderSibyl, 'sibylCard']]) { try { f(); } catch (_) { $(id).hidden = true; } }
   say(`${offWord()}No Kalshi numbers could be read right now (the files are missing or could not be read). ${S.k8 ? headline() : 'Try again later.'}`);
   S.ready = true;

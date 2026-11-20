@@ -10,7 +10,7 @@ const TONE = { calm: '#7f8a52', watch: '#c8a24a', storm: '#c96a4a', info: '#4b7a
 
 export function renderMoney(box, home, pan) {
   if (!box) return null;
-  const ev = evalOf(home), M = moneyToday(ev), R = riskPlan(ev, 0.4), N = newsGate(pan);
+  const ev = evalOf(home), M = moneyToday(ev), R = riskPlan(ev, 0.4), N = newsGate(pan, Date.now());
   box.replaceChildren();
   box.append(h('p', 'dhead', 'Money today'));
   const card = h('div', 'mcard'); card.style.setProperty('--dtone', TONE[M.has ? M.tone : 'info']);
