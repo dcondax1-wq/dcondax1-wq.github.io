@@ -70,3 +70,9 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+
+/* bar 2026-11-20: the archive banner (agora .ag-banner); two 44 px links to today's bot (K8) and the Kalshi desk */
+.archive-banner { margin: 0; }
+.archive-banner .arch-go { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.archive-banner .ag-btn { text-decoration: none; }
+.empty-msg { margin: 0; font-size: 15px; color: var(--ag-soft); }

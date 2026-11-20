@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 10:04 ET",
+ "built": "2026-11-20 11:55 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -32,7 +32,7 @@
    "start": 49322.18,
    "wins": 0,
    "losses": 1,
-   "r_week": null,
+   "r_week": -1.01,
    "room_start": 1153.98,
    "to_pass_start": 3677.82,
    "consistency": {
@@ -50,24 +50,24 @@
    "src": "PC live, Nov 20 9:27 ET",
    "room": 1401.38,
    "to_pass": null,
-   "trades": 3,
-   "win_pct": 67,
-   "usd_week": 2193.27,
+   "trades": 2,
+   "win_pct": 50,
+   "usd_week": 401.38,
    "best_day": {
-    "day": "2026-11-17",
-    "usd": 1791.89
+    "day": "2026-11-20",
+    "usd": 514.18
    },
    "strat": "ATLAS",
-   "start": 23208.11,
-   "wins": 2,
+   "start": 25000.0,
+   "wins": 1,
    "losses": 1,
-   "r_week": 6.63,
-   "room_start": -791.89,
+   "r_week": 5.59,
+   "room_start": 1000.0,
    "consistency": {
     "rule": "funded: best day at most 50% of the cycle profit",
-    "line": "best day 11-17 +$1,792 = 446% of the cycle profit (over 50%: payout waits for more days)."
+    "line": "best day 11-20 +$514 = 128% of the cycle profit (over 50%: payout waits for more days)."
    },
-   "status_line": "Payout: Not yet: need $3,182 more."
+   "status_line": "Payout: Not yet: need $949 more."
   },
   {
    "key": "fresh25",
@@ -78,23 +78,20 @@
    "src": "PC live, Nov 20 9:27 ET",
    "room": 1000.0,
    "to_pass": 1500.0,
-   "trades": 1,
-   "win_pct": 0,
-   "usd_week": -129.4,
-   "best_day": {
-    "day": "2026-11-16",
-    "usd": -129.4
-   },
+   "trades": 0,
+   "win_pct": null,
+   "usd_week": 0,
+   "best_day": null,
    "strat": "Zlarior",
-   "start": 25129.4,
+   "start": 25000.0,
    "wins": 0,
-   "losses": 1,
+   "losses": 0,
    "r_week": null,
-   "room_start": 1129.4,
-   "to_pass_start": 1370.6,
+   "room_start": 1000.0,
+   "to_pass_start": 1500.0,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
-    "line": "No winning day this week."
+    "line": "No trading day this week."
    },
    "status_line": "$1,500 to pass, $1,000 of room above the floor"
   }
@@ -102,10 +99,10 @@
  "strategies": [
   {
    "name": "Zlarior",
-   "trades": 2,
+   "trades": 1,
    "target": "2-4 a week",
    "pf": 0.0,
-   "usd": -258.8,
+   "usd": -129.4,
    "win_pct": 0,
    "exp_tpw": [
     2.56,
@@ -119,15 +116,15 @@
    "exp_usd_week": 306.0,
    "plan_usd_month": 1656.0,
    "verdict": "behind",
-   "why": "-$259 this week"
+   "why": "-$129 this week"
   },
   {
    "name": "ATLAS",
-   "trades": 3,
+   "trades": 2,
    "target": "2-4 a week",
-   "pf": 20.44,
-   "usd": 2193.27,
-   "win_pct": 67,
+   "pf": 4.56,
+   "usd": 401.38,
+   "win_pct": 50,
    "exp_tpw": [
     3.12,
     4.38
@@ -140,7 +137,7 @@
    "exp_usd_week": 92.0,
    "plan_usd_month": 500.0,
    "verdict": "ahead",
-   "why": "+$2,193 vs about $92 expected"
+   "why": "+$401 vs about $92 expected"
   }
  ],
  "light": {
@@ -150,14 +147,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Batch 3: cities3 round 4 (Right now card money facts first) + arenas round 5 (pulse test feeds its...",
-   "Round 4 (lead): Right now keeps the owner's money facts first (drawdown left per account, today's...",
-   "Tests: 0 open Decide cards is a real state (owner answered every card): decide d + week_more...",
-   "Land batch 3: safety + security (cross-site guard on the bot server incl. tailscale...",
-   "ATLAS funded status note shows the real share (40%) + the streak rule; test_account_b_funded pins...",
-   "Owner YES (2026-11-20): ATLAS funded 25K room 40% + 1 micro after 2 losses ON (engine/account_b...",
-   "skeptic round 4: check scripts + results saved",
-   "skeptic round 4: live patches (account_b FIX FIRST one line, rapid SAFE), rapid-atlas-size-10t HOLDS"
+   "Jarvis worker cache jarvis-v80 (search index changed)",
+   "Jarvis search index rebuilt (1242 docs)",
+   "Land the ntfy fix (day-nqdash3 a76ce7ab: ext_hash ignores clocks + paper accruals, ext every 3rd...",
+   "PC report: stop spending ntfy's day cap (the PC went silent 09:45 ET). ext_hash leaves out clocks...",
+   "Kalshi Olympus 2: phone screenshots (top, go-live checklist)",
+   "Data truth: REPORT + live screenshots (dark/light)",
+   "Data truth: checker computes the ONE 'to payout' (coach need_more) and scans pages for it (Glance...",
+   "Kalshi page: whole history rows tappable + focus ring; live-day prices dated; bar notes"
   ]
  },
  "next": {
@@ -185,8 +182,8 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 10470.0,
-  "line": "On pace for $10,470 a month (estimate: this week's +$1,934 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
+  "usd_month": 1470.0,
+  "line": "On pace for $1,470 a month (estimate: this week's +$272 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
   "basis": "this week"
  },
  "twins": {
@@ -208,32 +205,21 @@
       "who": "LIT",
       "twin_exit": "STOP",
       "twin_r": -1.01,
-      "status": "missed",
-      "live_r": null,
-      "live_usd": null
-     },
-     {
-      "day": "2026-11-16",
-      "time": "06:16",
-      "side": "SHORT",
-      "who": "-",
-      "twin_exit": null,
-      "twin_r": null,
-      "status": "extra",
-      "live_r": null,
+      "status": "matched",
+      "live_r": -1.01,
       "live_usd": -129.4
      }
     ],
     "n": {
-     "matched": 0,
-     "missed": 1,
-     "extra": 1,
+     "matched": 1,
+     "missed": 0,
+     "extra": 0,
      "not live yet": 0
     },
     "twin_r": -1.01,
-    "live_r": 0,
-    "verdict": "differs from the twin",
-    "line": "twin 1 trades -1.01R, live 1 trades +0.00R; 1 missed; 1 extra (no twin)."
+    "live_r": -1.01,
+    "verdict": "same as the twin",
+    "line": "twin 1 trades -1.01R, live 1 trades -1.01R."
    },
    {
     "name": "ATLAS",
@@ -248,17 +234,6 @@
       "status": "not live yet",
       "live_r": null,
       "live_usd": null
-     },
-     {
-      "day": "2026-11-17",
-      "time": "08:20",
-      "side": "SHORT",
-      "who": "-",
-      "twin_exit": null,
-      "twin_r": null,
-      "status": "extra",
-      "live_r": null,
-      "live_usd": 1791.89
      },
      {
       "day": "2026-11-17",
@@ -278,32 +253,21 @@
       "who": "MACD",
       "twin_exit": "STOP",
       "twin_r": -1.04,
-      "status": "missed",
-      "live_r": null,
-      "live_usd": null
-     },
-     {
-      "day": "2026-11-18",
-      "time": "04:50",
-      "side": "SHORT",
-      "who": "-",
-      "twin_exit": null,
-      "twin_r": null,
-      "status": "extra",
-      "live_r": null,
+      "status": "matched",
+      "live_r": -1.04,
       "live_usd": -112.8
      }
     ],
     "n": {
-     "matched": 0,
-     "missed": 1,
-     "extra": 2,
+     "matched": 1,
+     "missed": 0,
+     "extra": 0,
      "not live yet": 2
     },
     "twin_r": -1.04,
-    "live_r": 0,
-    "verdict": "differs from the twin",
-    "line": "twin 3 trades -1.04R, live 2 trades +0.00R; 1 missed; 2 extra (no twin); 2 before the account was live."
+    "live_r": -1.04,
+    "verdict": "same as the twin",
+    "line": "twin 3 trades -1.04R, live 1 trades -1.04R; 2 before the account was live."
    }
   ],
   "note": "R only (the twin's $ is at the research size). Days after the cloud's last bars are not compared."
@@ -311,11 +275,11 @@
  "best": {
   "acct": "atlas",
   "bot": "ATLAS",
-  "day": "2026-11-17",
-  "time": "08:20",
-  "side": null,
-  "usd": 1791.89,
-  "r": null,
+  "day": "2026-11-20",
+  "time": "03:45",
+  "side": "SHORT",
+  "usd": 514.18,
+  "r": 6.63,
   "exit": "TARGET",
   "mfe_r": null,
   "cause": "target",
@@ -326,11 +290,11 @@
   "bot": "Zlarior",
   "day": "2026-11-16",
   "time": "06:16",
-  "side": null,
+  "side": "LONG",
   "usd": -129.4,
-  "r": null,
+  "r": -1.01,
   "exit": "STOP",
-  "mfe_r": null,
+  "mfe_r": 0.39,
   "cause": "never",
   "lesson": "It never worked: a clean 1R loss, the normal cost of the setup. Only worth a look if 3 or more in a row."
  },
@@ -383,10 +347,10 @@
  ],
  "weekend": [],
  "missing": [
-  "PC live numbers: last report Nov 20 9:30 ET (34 min ago)"
+  "PC live numbers: last report Nov 20 9:30 ET (2 h ago)"
  ],
  "sources": {
-  "trades": "data pipe (pulled), PC status post",
+  "trades": "PC status post",
   "plan_updated": "2026-11-20",
   "board_pc": "Nov 20 9:30 ET"
  }

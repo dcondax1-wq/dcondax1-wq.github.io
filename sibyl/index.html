@@ -26,17 +26,20 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="sibyl.css?v=a1q">
+<link rel="stylesheet" href="sibyl.css?v=a3">
 </head>
 <body>
 <main id="app">
   <header class="top">
-    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Sibyl</h1><p class="sub">Kalshi bet ideas on paper, best first after fees. Kalshi is paused: look only.</p></div></div>
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Sibyl</h1><p class="sub">Archive: the old crypto bot's bet ideas on paper, best first after fees. History, look only.</p></div></div>
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
+  <aside class="ag-banner archive-banner" aria-labelledby="archH"><span class="ag-ic" aria-hidden="true">&#9888;</span><b id="archH">Archive: this page is history (the old crypto bot, retired 2026-11-19).</b>
+    <p>Today's Kalshi bot is K8 &rarr;</p>
+    <p class="arch-go"><a class="ag-btn primary" href="../kalshi/">K8 &rarr; Kalshi</a><a class="ag-btn" href="../dionysus/">Kalshi desk</a></p></aside>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <section class="ag-card card hero" aria-labelledby="heroH">
-    <div class="row"><h2 id="heroH">Today</h2><span class="pill" id="srcPill">...</span></div>
+    <div class="row"><h2 id="heroH">The old bot's last study</h2><span class="pill" id="srcPill">...</span></div>
     <div class="ballbox">
       <canvas id="stage" role="img" aria-label="A marble ball on a bronze stand with gold odds tokens floating around it, one for each ranked pick. Tap a token to open that pick."></canvas>
       <svg id="flat" viewBox="0 0 320 232" role="img" aria-label="A flat drawing of the marble ball with the odds tokens around it" hidden></svg>
@@ -73,8 +76,8 @@
     <p class="note" id="ownNote"></p>
   </section>
   <section class="ag-card card" id="stopCard" aria-labelledby="stopH">
-    <div class="row"><h2 id="stopH">What your Kalshi bot should stop doing</h2><span class="pill" id="stopPill">...</span></div>
-    <p class="lead" id="stopText">Suggestions only, the bot is untouched.</p>
+    <div class="row"><h2 id="stopH">What the old bot should have stopped</h2><span class="pill" id="stopPill">...</span></div>
+    <p class="lead" id="stopText">History of the old crypto bot (retired 2026-11-19). Suggestions only.</p>
     <ul class="plain" id="stopRows"></ul>
     <p class="note" id="stopNote"></p>
   </section>
@@ -89,7 +92,7 @@
 
   <p class="foot" id="foot">Sibyl reads the Kalshi study files the site already publishes (through tools/money/sibyl.py) and sends nothing. It cannot place, change or stop a bet. Kalshi runs on real money: the study looks back, it is not a promise, and a small sample can be pure luck.</p>
 </main>
-<script type="module" src="sibyl.js?v=a1"></script>
+<script type="module" src="sibyl.js?v=a2"></script>
 <script type="module" src="sibylball.js?v=q6c" onerror="window.SIBYL_BALL_FAIL = 1"></script>
 </body>
 </html>

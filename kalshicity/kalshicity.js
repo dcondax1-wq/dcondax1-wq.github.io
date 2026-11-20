@@ -42,7 +42,7 @@ function renderTop() {
   $('oMore').textContent = String(m.counts.doMore);
   $('oStop').textContent = String(m.counts.stop);
   $('oRuin').textContent = bk.ruinNow == null ? '-' : bk.ruinNow >= 0.995 ? '~100%' : pct(bk.ruinNow, 0);
-  const bot = [`${bk.name}: ${bk.status || bk.mode || 'unknown'}`, bk.balance != null ? `bankroll ${dollars(bk.balance)}` : '', bk.week != null ? `week ${smoney(bk.week)}` : ''].filter(Boolean).join(' · ');
+  const bot = [`Old bot (retired 2026-11-19) · ${bk.name}: last said ${bk.status || bk.mode || 'unknown'}`, bk.balance != null ? `bankroll ${dollars(bk.balance)}` : '', bk.week != null ? `week ${smoney(bk.week)}` : ''].filter(Boolean).join(' · ');
   const led = m.ledger;
   const seen = led && led.n ? ` · learned from ${led.n}${led.bets_total ? ` of ${led.bets_total.toLocaleString('en-US')}` : ''} bets read one by one, the rest from the bot's totals` : '';
   const age = m.age > 3 * 86400 ? ` · learning is ${Math.floor(m.age / 86400)} days old` : '';
@@ -522,6 +522,18 @@ function wire() {
   if (typeof ResizeObserver === 'function') new ResizeObserver(fit).observe($('dock'));
 }
 
+// bar 2026-11-20: nothing readable (offline, 404, junk) = one plain sentence in the verdict card, never a stuck 'Reading the city...'
+function noData(why) {
+  const off = typeof navigator !== 'undefined' && navigator.onLine === false ? 'You are offline. ' : '';
+  $('vText').textContent = `${off}${why || 'The city has no data right now (its files are missing or could not be read).'} This page is an archive; today's Kalshi bot is K8 on the Kalshi page.`;
+  for (const id of ['oMore', 'oStop', 'oRuin']) $(id).textContent = '-';
+  for (const id of ['pBestS', 'pWorstS']) $(id).textContent = 'No data';
+  $('tkText').textContent = 'No data'; $('districtStatus').textContent = 'No data';
+  const sel = $('districtSelect'); if (sel && sel.options[0]) sel.options[0].textContent = 'No data'; $('miniCount').textContent = 'No data';
+  document.body.dataset.ready = '1'; S.ready = true;
+  try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
+}
+
 async function main() {
   const [edges, log, live, learned, hyp] = await Promise.all([getJSON('edges.json'), getJSON('learning_log.json'), getFeed(8000), getJSON('learned.json'), getJSON('hypotheses.json')]);
   S.liveFailed = !live;
@@ -536,7 +548,7 @@ async function main() {
     const fx = await getJSON('fixture.json', 12000);
     if (fx && fx.hyps) { model.hyp = shapeHyps(fx.hyps, true); S.hypDemo = true; }
   }
-  if (!model) { S.error = 'no data'; if (O) O.fail ? O.fail('The city has no data yet.') : O && O.ready(); return; }
+  if (!model) { S.error = 'no data'; noData(); return; }
   S.prevHyp = S.hypDemo ? null : (store.read().hh || null);
   S.changes = changesOf(model, S.prevHyp);
   S.model = model; S.L = layout(model, S.prevHyp); S.startedDemo = S.demo;
@@ -566,6 +578,6 @@ window.KC = {
   scan: runScan, sound: (on) => { S.sound = !!on; renderSound(); }, fx: () => (S.scene ? S.scene.fxStats() : null), ask: ASK_MESSAGE, learned: () => S.learned, refresh,
   hour: (v) => { S.preview = v; if (S.scene) S.scene.setHour(v); renderClock(); }, mode: (k) => { if (S.scene) S.scene.setMode(k); }, card,
 };
-main();
+main().catch((e) => { S.error = 'start: ' + ((e && e.message) || e); if (!S.model) noData('The city could not start.'); else { S.ready = true; try { if (O && O.ready) O.ready(); } catch (_) { /* nothing */ } } });
 
 

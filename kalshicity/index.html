@@ -27,16 +27,18 @@
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b5a642'); r.setProperty('--oly-accent-rgb', '181, 166, 66'); })();</script>
-<link rel="stylesheet" href="kalshicity.css?v=k18">
-<link rel="stylesheet" href="agora-kalshicity.css?v=g4">
+<link rel="stylesheet" href="kalshicity.css?v=k19">
+<link rel="stylesheet" href="agora-kalshicity.css?v=g5">
 </head>
 <body>
 <canvas id="city" aria-label="A night city: one district per market, one building per edge of the Kalshi bot, roads with traffic, weather for the market mood" role="img"></canvas>
 <main id="ui">
   <header class="top">
-    <div class="brand"><h1>Kalshi City</h1><p class="sub">Kalshi is paused: no edge (no proven profit) found. This city only shows what the paper bot learned.</p></div>
+    <div class="brand"><h1>Kalshi City</h1><p class="sub">What the old crypto bot learned, as a night city.</p></div>
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span><button type="button" id="networkToggle" class="help-btn network-toggle" aria-label="Open City Network" aria-expanded="false" aria-controls="networkPanel" title="Switch city">▦</button><button type="button" id="guideBtn" class="help-btn" aria-label="How to read the city">?</button></div>
   </header>
+  <aside class="archive-banner" aria-labelledby="archH"><p id="archH"><b>Archive: this page is history (the old crypto bot, retired 2026-11-19).</b> Today's Kalshi bot is K8 &rarr;</p>
+    <p class="arch-go"><a class="arch-btn primary" href="../kalshi/">K8 &rarr; Kalshi page</a><a class="arch-btn" href="../dionysus/">Kalshi desk</a></p></aside>
   <section id="networkPanel" class="network-panel" hidden aria-labelledby="networkTitle">
     <div class="network-panel-head"><h2 id="networkTitle">CITY NETWORK</h2><button type="button" id="networkClose" aria-label="Close City Network">×</button></div>
     <p>Move between connected city views. Kalshi City is highlighted.</p>
@@ -100,7 +102,7 @@
     <button type="button" data-view="lessons" aria-pressed="false">Lessons</button>
   </nav>
 </section>
-<script type="module" src="kalshicity.js?v=k26"></script>
+<script type="module" src="kalshicity.js?v=k27"></script>
 <script type="module" src="glossary.js"></script>
 </body>
 </html>

@@ -1014,3 +1014,21 @@ html[data-oly-style] :is(.top h1, .card h2) { font-family: var(--oly-th-display,
 .k8d .k8d-s dd.red { color: var(--bad); } .k8d .k8d-s dd.hot { color: var(--warn); }
 .k8d .k8d-help { margin-top: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(var(--warn-rgb), .5); }
 .k8d .k8d-help ol { margin: 4px 0 4px 18px; padding: 0; font-size: 13.5px; } .k8d .k8d-help li { margin: 3px 0; white-space: normal; }
+/* day-kalshi Olympus 2: K8 first; the go-live checklist; history below */
+#k8sub b { font-weight: 800; color: var(--warn); } #k8sub b.live { color: var(--ok); } #k8sub b.bad { color: var(--bad); }
+.kgo h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.kgo .kgo-n { font: 800 14px/1 var(--fh); color: var(--warn); } .kgo .kgo-n.ok { color: var(--ok); }
+.kgo-l { list-style: none; margin: 6px 0; padding: 0; }
+.kgo-l li { border-top: 1px solid rgba(127,127,127,.2); }
+.kgo-l label { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 8px 0; font-size: 14px; cursor: pointer; }
+.kgo-l input { width: 22px; height: 22px; flex: 0 0 22px; margin: 1px 0 0; accent-color: var(--ok); }
+.kgo-l li i { display: block; font-style: normal; font-size: 12px; opacity: .75; }
+.kgo-l li.on span { opacity: .9; } .kgo-l li.no i { color: var(--bad); opacity: 1; }
+.kgo-r { min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid rgba(127,127,127,.35); background: transparent; color: var(--txt); font: inherit; }
+.khist { margin: 28px 0 8px; font: 700 15px/1.3 var(--fh); letter-spacing: .04em; text-transform: uppercase; opacity: .85; }
+.khist span { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: .8; }
+.oldhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin: 18px 0 8px; padding-top: 12px; border-top: 1px solid var(--dim2, rgba(127,127,127,.25)); }
+.oldhead h2 { margin: 0; font: 700 16px/1.3 var(--fh); } .oldhead h2 span { font-weight: 400; font-size: 13px; opacity: .8; }
+/* the whole 44 px row is the link's tap target (Olympus 2 a11y) */
+.kh-l li, .kh-a li { position: relative; } .kh-l li a::after, .kh-a li a::after { content: ""; position: absolute; inset: 0; }
+.kh-l li a:focus-visible, .kh-a li a:focus-visible { outline: 2px solid var(--c, currentColor); outline-offset: 2px; }

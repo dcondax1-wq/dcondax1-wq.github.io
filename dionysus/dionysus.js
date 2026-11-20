@@ -9,7 +9,7 @@ function h(tag, cls, text) { const e = document.createElement(tag); if (cls) e.c
 const clear = (el) => { while (el.firstChild) el.removeChild(el.firstChild); };
 const sign = (v) => (v > 0 ? 'pos' : v < 0 ? 'neg' : '');
 const S = { learned: null, sugg: null, sibyl: null, sibylFwd: null, k8: null, book: null, edges: null, whatif: null, fixture: null, demo: false, pick: '', now: 0, ready: false, hl: null, wi: null, g: null };
-const SRC = { feed: 'Live feed', site: 'The site\'s copy (the live feed was not reachable)', demo: 'Example numbers' };
+const SRC = { feed: 'The old bot\'s last feed (kalshi.json)', site: 'The site\'s copy of the old bot\'s numbers', demo: 'Example numbers' };   // the old crypto bot is RETIRED 2026-11-19: never 'Live'
 
 async function getJSON(url, ms) {
   const ac = typeof AbortController === 'function' ? new AbortController() : null, timer = ac ? setTimeout(() => ac.abort(), ms || 6000) : 0;
@@ -24,8 +24,9 @@ const tile = (box, k, v, n, cls) => { const t = h('div', 'tile'); t.appendChild(
 
 function renderHero() {
   const b = S.book, risk = b.stake || 10;
-  $('botName').textContent = b.name;
-  const st = $('botPill'); st.textContent = S.demo ? 'Example' : b.running ? 'Running' : b.status || 'Not running'; st.className = 'pill ' + (S.demo ? 'info' : b.running ? 'ok' : 'warn');
+  $('botName').textContent = `${b.name} · ${C.OLD_WORD}`;
+  // retired 2026-11-19: whatever its last file says (running / paused), it is history now, never shown as a bot that trades
+  const st = $('botPill'); st.textContent = S.demo ? 'Example' : 'Retired'; st.className = 'pill ' + (S.demo ? 'info' : '');
   $('bal').textContent = C.usd(b.balance);
   const t = $('heroTiles'); clear(t);
   tile(t, 'Today', C.usdS(b.today), C.rWord(b.today, risk), sign(b.today)); tile(t, 'This week', C.usdS(b.week), C.rWord(b.week, risk), sign(b.week)); tile(t, 'All time', C.usdS(b.total), C.rWord(b.total, risk), sign(b.total));
@@ -41,7 +42,7 @@ function renderGuard() {
 function renderBets() {
   const b = S.book, risk = b.stake || 10, op = $('open'), rc = $('recent'); clear(op); clear(rc);
   for (const p of b.positions) { const li = h('li', 'bet'); li.appendChild(h('b', '', p.title)); li.appendChild(h('span', 'note', `${p.side.toUpperCase()} · ${p.contracts} at ${Math.round(p.price * 100)}¢ · risking ${C.usd(p.risk)}`)); op.appendChild(li); }
-  if (!b.positions.length) op.appendChild(h('li', 'note', b.src === 'site' ? 'Open bets are in the live feed; this copy only has the totals.' : 'No open bets right now.'));
+  if (!b.positions.length) op.appendChild(h('li', 'note', b.src === 'site' ? 'Open bets were only in the old bot\'s own feed; this copy only has the totals.' : 'No open bets when it stopped.'));
   for (const t of b.trades.slice(0, 5)) { const li = h('li', 'bet'); li.appendChild(h('b', sign(t.pnl), `${C.usdS(t.pnl)} (${C.betR(t)})`)); li.appendChild(h('span', 'note', `${t.title} · ${t.side.toUpperCase()} ${t.contracts} at ${Math.round(t.price * 100)}¢`)); rc.appendChild(li); }
   if (!b.trades.length) rc.appendChild(h('li', 'note', 'No settled bets in this copy of the numbers.'));
   $('betsNote').textContent = `A bet's R is its result over what it risked. Your average bet is ${C.usd(risk)}.`;
@@ -58,7 +59,7 @@ function renderWhatIf() {
   const s = w.sets.find((x) => x.id === S.pick), risk = S.book.stake || w.typical || 10;
   $('wiName').textContent = s.name;
   tile(box, 'Past bets, net', C.usdS(s.net), `${C.rWord(s.net, risk)} · ${s.bets} bets`, sign(s.net)); tile(box, 'Worst dip', C.usd(-s.dip), C.rWord(-s.dip, risk), 'neg'); tile(box, 'Chance of ruin', s.ruinPct + '%', `half the money lost: ${s.halfPct}%`);
-  $('wiText').textContent = s.isBase ? 'This is the bot as it trades now, on the same past bets.' : `${C.usdS(s.gain)} better than the bot as it is on the same past bets (${C.rWord(s.gain, risk)}).`;
+  $('wiText').textContent = s.isBase ? 'This is the old bot as it traded, on the same past bets.' : `${C.usdS(s.gain)} better than the old bot as it was, on the same past bets (${C.rWord(s.gain, risk)}).`;
   $('wiWhy').textContent = (s.id === w.pick && w.recommend ? w.recommend + ' ' : '') + (w.why || '');
 }
 
@@ -135,11 +136,30 @@ function renderSibyl() {
     : `Its own paper record since ${o.start}: ${o.n} settled, ${o.open} open. Under ${C.SIBYL_MIN} settled bets: no claim yet.`;
 }
 
+// the status line: today's bot (K8) first, then one plain sentence that the old crypto bot is history
+function headline() {
+  const k = S.k8 ? C.k8Panel(S.k8, S.now * 1000) : null, pc = (x) => (x == null ? '' : ` (won ${Math.round(x * 100)}% of the last 30)`);
+  const k8 = k ? `K8 today: ${k.verdict}${pc(k.r30)}.` : 'K8 today: no numbers right now (see the Kalshi page).';
+  if (!S.book) return k8;
+  return S.demo ? `${k8} Below: example numbers of the old crypto bot.` : `${k8} Old crypto bot: retired 2026-11-19, last balance ${C.usd(S.book.balance)}, history only.`;
+}
+const offWord = () => (typeof navigator !== 'undefined' && navigator.onLine === false ? 'You are offline. ' : '');
+// nothing readable at all (offline, 404s, junk): K8 and the study cards still show when they can, the old bot's cards hide, one plain sentence
+function renderEmpty() {
+  for (const id of ['heroCard', 'guardCard', 'betsCard', 'wiCard', 'scanCard']) $(id).hidden = true;
+  $('demo').hidden = true; $('lite').hidden = true;
+  try { renderK8(); } catch (_) { $('k8Card').hidden = true; }
+  for (const [f, id] of [[renderFees, 'feeCard'], [renderRuin, 'ruinCard'], [renderLessons, 'lessonCard'], [renderSibyl, 'sibylCard']]) { try { f(); } catch (_) { $(id).hidden = true; } }
+  say(`${offWord()}No Kalshi numbers could be read right now (the files are missing or could not be read). ${S.k8 ? headline() : 'Try again later.'}`);
+  S.ready = true;
+  try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
+}
+
 function render() {
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
   renderHero(); renderK8(); renderGuard(); renderBets(); renderWhatIf(); renderScan();
   for (const [f, id] of [[renderFees, 'feeCard'], [renderRuin, 'ruinCard'], [renderLessons, 'lessonCard'], [renderSibyl, 'sibylCard']]) { try { f(); } catch (_) { $(id).hidden = true; } }   // a junk file hides only its own card
-  say(`${S.book.name}: balance ${C.usd(S.book.balance)}. ${S.g.title}. ${S.g.text}`);
+  say(headline());
   S.ready = true;
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
 }
@@ -153,10 +173,10 @@ async function boot() {
   const obj = (x) => (x && typeof x === 'object' && !Array.isArray(x) ? x : null);
   S.k8 = obj(k8);
   S.learned = obj(lr); S.sugg = obj(sg); S.sibyl = obj(sb); S.sibylFwd = obj(sf);
-  S.fixture = fx; const book = C.chooseBook(feed, edges, fx); if (!book) throw new Error('no numbers');
+  S.fixture = fx; const book = C.chooseBook(feed, edges, fx); if (!book) { renderEmpty(); return; }
   S.book = book; S.demo = book.src === 'demo';
   S.edges = S.demo ? (fx && fx.edges) || null : edges; S.whatif = S.demo ? (fx && fx.whatif) || null : wi;
   render();
 }
 window.DIONYSUS = { S, C, ready: () => S.ready, render };
-boot().catch((e) => { say('Something went wrong: ' + (e && e.message ? e.message : e)); try { if (O && O.fail) O.fail('Dionysus could not start'); } catch (_) { /* nothing */ } });
+boot().catch(() => { say(`${offWord()}Dionysus could not show the numbers right now. Try again later.`); S.ready = true; try { if (O && O.ready) O.ready(); } catch (_) { /* nothing */ } });

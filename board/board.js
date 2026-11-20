@@ -33,13 +33,20 @@
     const dl = el('dl', 'nums');
     const kv = (k, v, cls) => { const w = el('div', cls || ''); w.appendChild(el('dt', null, k)); w.appendChild(el('dd', null, v)); dl.appendChild(w); };
     kv('Balance', M.usd(a.balance));
+    if (a.today != null && !a.plan_only) kv('Today', (a.today > 0.5 ? '+' : '') + M.usd(a.today), a.today > 0.5 ? 'pos' : a.today < -0.5 ? 'neg' : '');
     kv('Room', a.chip === 'PASSED' ? 'n/a' : M.usd(a.room));
-    if (a.chip === 'funded') kv('Payout', 'see Payouts');   // a funded account has no target to pass: its payout line is the coach card (night-feedsA)
+    // a funded account: the SAME "to payout" every page shows (pc_feed.js payoutLines = the payout coach's need_more), its details in Payouts below
+    const payTo = window.BOARD && window.BOARD.payTo ? window.BOARD.payTo[a.card || a.key] : undefined;
+    if (a.chip === 'funded') kv('To payout', payTo === 0 ? 'ready' : payTo != null ? M.usd(payTo) : 'see Payouts');
     else kv('To pass', a.chip === 'PASSED' ? 'done' : M.usd(a.to_pass));
     c.appendChild(dl);
     const age = a.src_t ? now - a.src_t : null;
-    c.appendChild(el('p', 'brow-src', 'Source: ' + (a.src || 'PLAN') + (age != null ? ' · ' + M.ago(age) : '')));
-    if (isObj(a.last) && a.last.t) c.appendChild(el('p', 'brow-last', (M.KIND_WORDS[a.last.kind] || a.last.kind) + ' · ' + ET(a.last.t) + ': ' + (a.last.text || '')));
+    const src = el('p', 'brow-src', 'Source: ' + (a.src || 'PLAN') + ' · ');
+    const A = window.OLY_AGE, chip = el('span');
+    if (age != null && A) { A.chip(chip, age, 'pc'); src.appendChild(chip); } else src.textContent = 'Source: ' + (a.src || 'PLAN') + (age != null ? ' · ' + M.ago(age) : '');
+    c.appendChild(src);
+    // the account's last event on its tile only while it is news (2 days); the feed below keeps every event
+    if (isObj(a.last) && a.last.t && now - a.last.t < 2 * 86400) c.appendChild(el('p', 'brow-last', (M.KIND_WORDS[a.last.kind] || a.last.kind) + ' · ' + ET(a.last.t) + ': ' + (a.last.text || '')));
     if (a.chip === 'PASSED') c.appendChild(el('p', 'brow-hint', 'Passed: MFFU locks the eval (orders get "Limit 0") until the funded account comes. Send its name (last 4) below.'));
     return c;
   }
@@ -103,6 +110,15 @@
     const [site, plan, fixture] = await Promise.all([demo ? null : getJSON('board.json'), demo ? null : getJSON('../business/accounts.json'), getJSON('fixture.json')]);
     let lite = null;
     try { if (!demo && window.PC_FEED) lite = await window.PC_FEED.fetchLatest({ feedUrl: '../status_feed.json' }); } catch (e) { /* none */ }
+    // truth (Olympus 2): the funded accounts' "to payout" through the same rule as every page (pc_feed.js payoutLines + the payout coach)
+    window.BOARD.payTo = {};
+    try {
+      if (lite && lite.board && window.PC_FEED && window.PC_FEED.payoutLines && window.PAYOUT_COACH) {
+        const pb = JSON.parse(JSON.stringify(lite.board));
+        window.PC_FEED.payoutLines(pb, [], lite, window.PAYOUT_COACH);
+        for (const k of Object.keys(pb)) if (pb[k] && typeof pb[k] === 'object' && /funded/i.test(String(pb[k].status || '')) && pb[k].to_target != null) window.BOARD.payTo[k] = Math.max(0, pb[k].to_target);
+      }
+    } catch (e) { /* the tile says 'see Payouts' */ }
     draw(M.pick({ site, lite, plan, fixture, demo }, nowS()));
     try { if (window.EDGE_CHIP && !demo) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
     try { if (window.PAYOUT_CARD && !demo) window.PAYOUT_CARD.mount($('payouts'), { plan, lite, title: 'Payouts', titleClass: 'sect' }); } catch (e) { /* never the page */ }

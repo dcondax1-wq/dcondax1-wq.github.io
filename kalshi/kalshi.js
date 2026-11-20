@@ -1347,7 +1347,7 @@
   // the retired kalshi-feed repo (suspended account, 2026-11-19), so it will never exist again: the page no longer asks for it and says so plainly.
   function fwdStrip() {
     return '<div class="wi-fwd" id="wi-fwd"><b>Forward test</b> · retired: it counted the old Kalshi bot\'s new bets, and that bot\'s feed was switched off on 2026-11-19. '
-      + 'The K8 gold and silver bot is tested on paper on the PC instead (the K8 status card at the top).</div>';
+      + 'The K8 gold and silver bot is tested on paper on your home computer instead (the K8 status card at the top).</div>';
   }
 
   // ---- "Rewards test (paper)" (owner 2026-11-17): tools/kalshi_rewards_paper.py keeps pretend two-sided orders on Kalshi's paid-liquidity markets.
@@ -1537,12 +1537,62 @@
       return `<li data-leg="${esc(L.c)}"><span>${esc(L.n)}</span><span>last ${esc(k8c(p))} · fair ${esc(k8c(fc))}${ed == null ? '' : ` · <b class="${ed > 0 ? 'k8-g' : 'k8-r'}">${ed > 0 ? '+' : ed < 0 ? MINUS : ''}${Math.abs(ed)}¢</b>`}</span></li>`;
     }).join('');
     const rows = left.map(([t, l, s]) => `<div><dt>${esc(t)}</dt><dd class="${l < cost ? 'red' : l < 2 * cost ? 'hot' : ''}">${esc(usd(l))} <i>of ${esc(usd(s))}</i></dd></div>`).join('');
-    x.innerHTML = what + `<ul class="k8d-l" id="k8d-legs">${legs}</ul><p class="krw-f">Last = what Kalshi takers paid at +20 s on the last day; fair = where the bet breaks even (its win rate minus the fee).</p>`
+    x.innerHTML = what + `<ul class="k8d-l" id="k8d-legs">${legs}</ul><p class="krw-f">Last = what Kalshi takers paid at +20 s on the leg's last day${K8D.j && typeof K8D.j.through === 'string' ? ' (Kalshi numbers through ' + esc(K8D.j.through.slice(5, 10)) + ')' : ' (no Kalshi numbers on this site yet)'}; fair = where the bet breaks even (its win rate minus the fee).</p>`
       + `<p class="k8w-h">Left before each stop</p><dl class="krw-g k8d-s" id="k8d-s">${rows}</dl>`
       + `<p class="krw-f" id="k8d-fit">Room for <b>${esc(fmtN(fit))}</b> more $2.50 bet${fit === 1 ? '' : 's'} before the tightest stop${W.today ? `; ${esc(fmtN(slots))} of today's 3 left` : ''}.</p>`;
   }
+  // ---- Monday go-live checklist (day-kalshi, Olympus 2): an item ticks itself from the PC's card (k8: kk key on the PC, al alerts, s the bet,
+  // lp the loop; the card's st live = the phrase typed); the others the owner ticks on this phone (localStorage only, never sent).
+  const KGO_KEY = 'kalshi.golive.v1';
+  const KGO = [
+    { id: 'dep', t: 'Kalshi account has the $55 (no more deposits)' },
+    { id: 'key', t: 'Kalshi API key saved on the PC (phone: your PC link :8444/kalshi-live/, "Key OK · balance $55.00")', pc: (k) => (k.kk === 1 ? true : k.kk === 0 ? false : null) },
+    { id: 'pc', t: 'The PC is on and running K8', pc: (k) => (k.lp === 1 ? true : k.lp === 0 ? false : null) },
+    { id: 'stake', t: 'Bet size $2.50 (the rule for $55)', pc: (k) => (num(k.s) == null ? null : Math.abs(num(k.s) - 2.5) < 1e-9) },
+    { id: 'alerts', t: 'Phone alerts on (ntfy): a push when a bet goes in and when it settles', pc: (k) => (k.al === 1 ? true : k.al === 0 ? false : null) },
+    { id: 'live', t: 'Phrase typed: I ACCEPT KALSHI LIVE RISK (K8 shows LIVE)', pc: (k, st) => (st === 'live' || st === 'paused' ? true : st ? false : null) }];
+  function kgoMine() { try { const j = JSON.parse(localStorage.getItem(KGO_KEY) || '{}'); return isObj(j) ? j : {}; } catch (_) { return {}; } }
+  function kgoSave(m) { try { localStorage.setItem(KGO_KEY, JSON.stringify(m)); } catch (_) { /* private mode: ticks last this visit only */ } }
+  const KGOM = { m: null };
+  function kgo() {
+    const ul = $('#kgo-l'), n = $('#kgo-n');
+    if (!ul) return;
+    if (!KGOM.m) KGOM.m = kgoMine();
+    const k = K8D.k || {}, st = KLV.j && klOk(KLV.j) ? KLV.j.st : null, age = KLV.j ? rwAge({ updated: KLV.j.u }) : null;
+    let done = 0;
+    ul.innerHTML = KGO.map((x) => {
+      const pc = x.pc ? x.pc(k, st) : null, mine = !!KGOM.m[x.id], on = pc === true || (pc == null && mine);
+      if (on) done += 1;
+      const why = pc === true ? `from your PC${age ? ', ' + age.s : ''}` : pc === false ? 'the PC says not yet' : mine ? 'ticked by you' : '';
+      return `<li class="${on ? 'on' : ''}${pc === false ? ' no' : ''}"><label><input type="checkbox" data-kgo="${esc(x.id)}"${on ? ' checked' : ''}${pc != null ? ' disabled' : ''}>`
+        + `<span>${esc(x.t)}${why ? ` <i>${esc(why)}</i>` : ''}</span></label></li>`;
+    }).join('');
+    if (n) { n.textContent = done === KGO.length ? 'ready' : `${done} of ${KGO.length}`; n.className = 'kgo-n' + (done === KGO.length ? ' ok' : ''); }
+  }
+  function kgoInit() {
+    const ul = $('#kgo-l'), r = $('#kgo-reset');
+    if (!ul || ul.dataset.on) return;
+    ul.dataset.on = '1';
+    ul.addEventListener('change', (e) => {
+      const id = e.target && e.target.getAttribute && e.target.getAttribute('data-kgo');
+      if (!id) return;
+      KGOM.m = Object.assign(kgoMine(), { [id]: !!e.target.checked });
+      kgoSave(KGOM.m);
+      kgo();
+    });
+    if (r) r.addEventListener('click', () => { KGOM.m = {}; kgoSave({}); kgo(); });
+    kgo();
+  }
+  function k8Sub() {                                  // the header line: K8's state, never the old bot's
+    const m = $('#k8sub-m');
+    if (!m) return;
+    const st = KLV.j && klOk(KLV.j) ? KLV.j.st : null;
+    const t = st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC not running it' : 'PAPER';
+    if (m.textContent !== t) { m.textContent = t; m.className = st === 'live' ? 'live' : st === 'stopped' || st === 'idle' ? 'bad' : ''; }
+  }
   function k8Tick() {
     const now = Date.now();
+    try { kgoInit(); k8Sub(); } catch (_) { /* the checklist never stops the countdown */ }
     try { k8Live(now); } catch (_) { /* the live-day view never stops the countdown */ }
     try { k8Win(now); } catch (_) { /* the windows list never stops the countdown */ }
     const el = $('#k8s-cd');
@@ -1562,6 +1612,7 @@
     k8Tick();
     if (!k) { k8Extra(); return; }
     K8D.k = k;
+    try { kgo(); k8Sub(); } catch (_) { /* never blocks the card */ }
     const live = j.st === 'live' || j.st === 'paused', led = k.m === 'L' ? 'live' : 'paper', td = arr(k.td), age = rwAge({ updated: j.u });
     if (mm) { mm.textContent = live ? (j.st === 'paused' ? 'PAUSED' : 'LIVE') : j.st === 'stopped' ? 'STOPPED' : 'PAPER'; mm.className = 'k8s-m' + (j.st === 'live' ? ' live' : ''); }
     const cell = (t, v, c, id) => `<div><dt>${t}</dt><dd class="${c || ''}"${id ? ' id="' + id + '"' : ''}>${v}</dd></div>`;

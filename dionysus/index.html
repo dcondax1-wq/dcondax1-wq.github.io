@@ -27,44 +27,46 @@
 <script src="../olympus/agora-ui.js?v=4" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b77a8a'); r.setProperty('--oly-accent-rgb', '183, 122, 138'); })();</script>
-<link rel="stylesheet" href="dionysus.css?v=a3">
+<link rel="stylesheet" href="dionysus.css?v=a4">
 </head>
 <body>
 <main id="app">
   <header class="top">
-    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Dionysus</h1><p class="sub">Kalshi bets (prediction markets). Paused now: nothing to do here. Look only.</p></div></div>
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Dionysus</h1><p class="sub">The Kalshi desk: K8 (today's bot) first, then the old crypto bot's history. Look only.</p></div></div>
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
-  <section class="ag-card card hero" aria-labelledby="botName">
-    <div class="row"><h2 id="botName">Kalshi bot</h2><span class="pill" id="botPill">...</span></div>
-    <p class="note" id="retNote"><b>Old crypto bot, retired 2026-11-19</b>: its numbers below are history, not a bot that trades now. Today's Kalshi bot is K8 (the card below and the Kalshi page).</p>
-    <p class="big ag-num" id="bal">$0.00</p>
-    <p class="note">Balance</p>
-    <div class="tiles" id="heroTiles"></div>
-    <p class="note" id="srcNote"></p>
-    <p class="banner">Suggestions only. Nothing on this page places, changes or stops a bet.</p>
-  </section>
   <section class="ag-card card k8" id="k8Card" aria-labelledby="k8H" hidden>
     <div class="row"><h2 id="k8H">K8 today</h2><span class="pill" id="k8Verdict">...</span></div>
     <p class="note" id="k8Note"></p>
     <ul class="plain" id="k8Legs"></ul>
     <p class="k8pool" id="k8Pool"></p>
     <p class="lead" id="k8Noise"></p>
+    <p class="lnk"><a class="btn" href="../kalshi/">K8 in full: the Kalshi page</a></p>
+  </section>
+  <section class="ag-card card hero" id="heroCard" aria-labelledby="botName">
+    <div class="row"><h2 id="botName">Old crypto bot</h2><span class="pill" id="botPill">...</span></div>
+    <p class="note" id="retNote"><b>Old crypto bot, retired 2026-11-19</b>: its numbers below are history, not a bot that trades now. Today's Kalshi bot is K8: see the Kalshi page.</p>
+    <p class="lnk"><a class="btn" href="../kalshi/">Open K8 on the Kalshi page</a></p>
+    <p class="big ag-num" id="bal">$0.00</p>
+    <p class="note">Last balance (old bot, retired)</p>
+    <div class="tiles" id="heroTiles"></div>
+    <p class="note" id="srcNote"></p>
+    <p class="banner">Suggestions only. Nothing on this page places, changes or stops a bet.</p>
   </section>
   <section class="ag-card card" id="guardCard" aria-labelledby="guardH">
-    <div class="row"><h2 id="guardH">The guard</h2><span class="pill" id="guardPill">...</span></div>
+    <div class="row"><h2 id="guardH">The old bot's guard</h2><span class="pill" id="guardPill">...</span></div>
     <p class="gt" id="guardTitle"></p>
     <p class="lead" id="guardText"></p>
   </section>
-  <section class="ag-card card" aria-labelledby="betsH">
-    <h2 id="betsH">Bets</h2>
-    <h3 class="sub3">Open now</h3><ul class="plain" id="open"></ul>
+  <section class="ag-card card" id="betsCard" aria-labelledby="betsH">
+    <h2 id="betsH">The old bot's bets (history)</h2>
+    <h3 class="sub3">Open when it stopped</h3><ul class="plain" id="open"></ul>
     <h3 class="sub3">Settled lately</h3><ul class="plain" id="recent"></ul>
     <p class="note" id="betsNote"></p>
   </section>
   <section class="ag-card card" id="wiCard" aria-labelledby="wiH">
-    <h2 id="wiH">What if the bot bet differently?</h2>
+    <h2 id="wiH">What if the old bot had bet differently?</h2>
     <p class="note">A backtest of past bets. Looking back, not a promise.</p>
     <div class="seg" id="sets" role="group" aria-label="Rule sets"></div>
     <h3 class="sub3" id="wiName"></h3>
@@ -72,8 +74,8 @@
     <p class="lead" id="wiText"></p>
     <p class="note" id="wiWhy"></p>
   </section>
-  <section class="ag-card card" aria-labelledby="scanH">
-    <h2 id="scanH">Where the money is</h2>
+  <section class="ag-card card" id="scanCard" aria-labelledby="scanH">
+    <h2 id="scanH">Where the old bot's money was</h2>
     <div id="scan"></div>
   </section>
 
@@ -124,6 +126,6 @@
   <p class="foot" id="foot">Dionysus reads the public Kalshi feed and the site's own Kalshi study files, read only. It sends nothing and cannot place or change a bet. Kalshi runs on real money: the study looks back, it is not a promise.</p>
   <nav class="older" aria-label="Older pages"><span class="note">Older pages (archive):</span> <a class="btn" href="../sibyl/">Sibyl</a> <a class="btn" href="../kalshicity/">Kalshi City</a></nav>
 </main>
-<script type="module" src="dionysus.js?v=a4"></script>
+<script type="module" src="dionysus.js?v=a5"></script>
 </body>
 </html>

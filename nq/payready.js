@@ -83,15 +83,24 @@ export function model(lite, home, biz, coach, today) {
     ];
     // the ask: the playbook's full max (docs/FUNDED_25K_PLAYBOOK.md: $1,000 on the 25K at $27,100); the bot's own ping comes earlier
     const ask = P.pay_max, askBal = P.start + P.buffer + ask;
+    // the SAME "to payout" every page shows (pc_feed.js payoutLines = the coach's need_more: until MFFU allows a request), then the plan's full ask
+    const okBal = P.start + P.buffer + P.pay_min;
+    const allowUsd = c.eligible ? 0 : Math.max(0, Math.round((c.need_more || 0) * 100) / 100);
     const usdMore = Math.max(0, Math.round((askBal - bal) * 100) / 100, c.cycle_profit > 0 && !c.cons_ok ? c.cons_need : 0);
     const daysMore = Math.max(0, c.cycle_days_need - c.cycle_days);
     const pc = pace(row && row.eq);
-    let proj = null;
-    if (usdMore <= 0 && daysMore <= 0 && c.eligible) proj = { date: today, text: 'today' };
-    else if (pc && pc.per > 0) { const n = Math.max(daysMore, Math.ceil(usdMore / pc.per)), d0 = ef && ef > today ? ef : today, d = addTradingDays(d0, Math.max(1, n)); proj = { date: d, n, text: `${nice(d)} (${n} trading day${n === 1 ? '' : 's'} at ${usd(pc.per)} a day, the last ${pc.days} days' pace)` }; }
-    else if (pc) proj = { date: null, text: `not at the recent pace: ${usd(pc.per)} a day over the last ${pc.days} days` };
-    else proj = { date: null, text: 'not enough days yet to measure a pace' };
-    const needText = usdMore <= 0 && daysMore <= 0 ? `Ready to ask for ${usd(ask)}` : `${usdMore > 0 ? usd(usdMore) + ' more' : ''}${usdMore > 0 && daysMore > 0 ? ' / ' : ''}${daysMore > 0 ? daysMore + ' more traded day' + (daysMore === 1 ? '' : 's') : ''} until you can ask for ${usd(ask)}`;
+    const projFor = (need) => {
+      if (need <= 0 && daysMore <= 0) return { date: today, text: 'today' };
+      if (pc && pc.per > 0) { const n = Math.max(daysMore, Math.ceil(need / pc.per)), d0 = ef && ef > today ? ef : today, d = addTradingDays(d0, Math.max(1, n)); return { date: d, n, text: `${nice(d)} (${n} trading day${n === 1 ? '' : 's'} at ${usd(pc.per)} a day, the last ${pc.days} days' pace)` }; }
+      if (pc) return { date: null, text: `not at the recent pace: ${usd(pc.per)} a day over the last ${pc.days} days` };
+      return { date: null, text: 'not enough days yet to measure a pace' };
+    };
+    const proj = c.eligible ? projFor(usdMore) : projFor(Math.max(allowUsd, 0));
+    const dd = daysMore > 0 ? `${daysMore} more traded day${daysMore === 1 ? '' : 's'}` : '';
+    const needText = c.eligible ? (c.plan_ready ? `Ready to ask for ${usd(ask)}` : `MFFU allows ${usd(c.request_today)} now; ${usd(usdMore)} more for the plan's ${usd(ask)}`)
+      : `${allowUsd > 0 ? usd(allowUsd) + ' more' : ''}${allowUsd > 0 && dd ? ' / ' : ''}${dd} until MFFU allows a payout`;
+    const pp = projFor(usdMore);
+    const planText = `The plan's ask: ${usd(ask)} at a balance of ${usd(askBal)}: ${usdMore > 0 ? `${usd(usdMore)} more${!c.eligible && pp.date ? `, about ${nice(pp.date)} at the recent pace` : ''}` : 'there now'}.`;
     const ping = PING_ABOVE[pk];
     const verdict = c.status === 'ready' ? 'PAYOUT READY' : c.status === 'allowed' ? 'Allowed (smaller)' : c.status === 'lost' ? 'Lost' : c.status === 'graduated' ? 'Graduated' : 'Not yet';
     const reason = c.status === 'ready' ? `Request ${usd(c.request_today)} today: ${usd(c.to_you)} to you (80%), ${usd(c.net)} after the 30% tax pot.`
@@ -105,7 +114,8 @@ export function model(lite, home, biz, coach, today) {
       `A new cycle starts from the balance after the payout (${usd(askBal - ask)}).`,
     ];
     out.push({ ...base, has: true, eligible: !!c.eligible, status: c.status, verdict, reason, checks, steps, paid: num(f.pt), payouts: c.payouts_n,
-      need: { usd: usdMore, days: daysMore, ask, askBal, text: needText, frac: Math.max(0, Math.min(1, (bal - P.start) / (askBal - P.start))) }, pace: pc, proj, balance: bal,
+      need: { usd: c.eligible ? usdMore : allowUsd, allow: allowUsd, plan: usdMore, days: daysMore, ask, askBal, okBal, text: needText, planText,
+        frac: Math.max(0, Math.min(1, (bal - P.start) / ((c.eligible ? askBal : okBal) - P.start))) }, pace: pc, proj, balance: bal,
       ping: ping ? `The bot's phone ping comes at ${usd(ping)} above the buffer (balance ${usd(P.start + P.buffer + ping)}); card payout-ping-1000 asks whether to wait for ${usd(ask)}.` : '',
       trade_by: c.trade_by, idle_left: c.idle_left, coach: c });
   }
@@ -125,8 +135,9 @@ export function draw(box, list) {
     const need = el('p', 'pr-need ag-num', a.need.text); c.appendChild(need);
     const g = el('div', 'pr-meter'); g.setAttribute('role', 'img');
     const frac = a.need.frac;
-    g.setAttribute('aria-label', `${Math.round(frac * 100)} percent of the way from the start balance to ${usd(a.need.askBal)}`);
+    g.setAttribute('aria-label', `${Math.round(frac * 100)} percent of the way from the start balance to ${usd(a.coach.eligible ? a.need.askBal : a.need.okBal)}`);
     const i = el('i'); i.style.setProperty('--w', `${Math.round(frac * 100)}%`); g.appendChild(i); c.appendChild(g);
+    if (a.need.planText) c.appendChild(el('p', 'pr-line', a.need.planText));
     if (a.proj) { const p = el('p', 'pr-line'); p.appendChild(el('b', '', 'Projected: ')); p.appendChild(document.createTextNode(a.proj.text)); c.appendChild(p); }
     const ul = el('ul', 'pr-checks'); ul.setAttribute('aria-label', "MFFU's payout rules");
     for (const k of a.checks) { const li = el('li', k.ok ? 'ok' : 'no'); li.appendChild(el('span', 'pr-ic', k.ok ? '✓' : '×')); li.appendChild(el('span', 'pr-k', k.label)); li.appendChild(el('span', 'pr-v ag-num', k.text)); ul.appendChild(li); }

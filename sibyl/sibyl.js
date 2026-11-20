@@ -27,7 +27,7 @@ function renderStop() {
   $('stopCard').hidden = false;
   const c = d.counts || {};
   $('stopPill').textContent = S.stopSrc === 'saved' ? 'Saved copy' : 'Fresh study'; $('stopPill').className = 'pill ' + (S.stopSrc === 'saved' ? 'info' : 'ok');
-  $('stopText').textContent = `Suggestions only, the bot is untouched. ${c.stop || 0} to stop, ${c.pause || 0} to pause, ${c.watch || 0} to watch. Dollars are what the bot really made or lost after Kalshi fees, with the number of bets (n).`;
+  $('stopText').textContent = `History of the old crypto bot (retired 2026-11-19). ${c.stop || 0} to stop, ${c.pause || 0} to pause, ${c.watch || 0} to watch. Dollars are what that bot really made or lost after Kalshi fees, with the number of bets (n).`;
   const ul = $('stopRows'); clear(ul);
   for (const it of d.items.filter((i) => i.verdict !== 'keep')) {
     const li = h('li', '');
@@ -166,13 +166,22 @@ function render() {
   say(`Sibyl: ${S.view.counts.worthy} paper pick${S.view.counts.worthy === 1 ? '' : 's'} of ${S.view.counts.edges} kinds of bet. ${S.view.src === 'demo' ? 'Example numbers. ' : S.view.status === 'stale' ? 'Old study. ' : ''}Suggestions only.`);
 }
 
+const offWord = () => (typeof navigator !== 'undefined' && navigator.onLine === false ? 'You are offline. ' : '');
+// nothing readable (offline, 404, junk everywhere): the data cards hide, one plain sentence stays; the archive banner and its links still work
+function empty(why) {
+  for (const s of document.querySelectorAll('#app > section.card')) s.hidden = true;
+  say(`${offWord()}${why || 'No Sibyl numbers could be read right now (the files are missing or could not be read).'} This page is an archive; today's Kalshi bot is K8 on the Kalshi page.`);
+  S.ready = true;
+  try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
+}
+
 async function boot() {
   const q = new URLSearchParams(location.search), forced = q.get('demo') === '1', at = q.get('at');
   S.now = at && Number.isFinite(Date.parse(at)) ? Date.parse(at) / 1000 : Date.now() / 1000;
   const [fx, real, own] = await Promise.all([getJSON('./fixture.json'), forced ? null : getJSON('../money/sibyl.json'), forced ? null : getJSON('../money/sibyl_forward.json')]);
   const sug = forced ? null : await getJSON('../kalshicity/suggestions.json');
   S.stop = sug && Array.isArray(sug.items) ? sug : await getJSON('./suggestions_fixture.json'); S.stopSrc = sug && Array.isArray(sug.items) ? 'live' : 'saved';
-  S.fixture = fx; const v = C.chooseView(real, fx); if (!v) throw new Error('no numbers');
+  S.fixture = fx; const v = C.chooseView(real, fx); if (!v) { empty(); return; }
   S.view = v; S.bank = v.bank.usd; S.own = v.src === 'demo' ? v.own : C.normOwn(own);
   const b = Number(q.get('bank')); if (Number.isFinite(b) && b > 0 && b <= 1e6) S.bank = Math.round(b * 100) / 100;
   render();
@@ -183,4 +192,4 @@ async function boot() {
 }
 window.addEventListener('pagehide', () => { try { if (S.ball) S.ball.dispose(); } catch (_) { /* gone */ } });
 window.SIBYL = { S, C, ready: () => S.ready, render, select, get ball() { return S.ball; }, get flat() { return S.flat; } };
-boot().catch((e) => { say('Something went wrong: ' + (e && e.message ? e.message : e)); try { if (O && O.fail) O.fail('Sibyl could not start'); } catch (_) { /* nothing */ } });
+boot().catch(() => { if (S.view) { S.ready = true; try { if (O && O.ready) O.ready(); } catch (_) { /* nothing */ } } else empty('Sibyl could not show its numbers right now.'); });

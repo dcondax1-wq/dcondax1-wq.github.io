@@ -32,6 +32,10 @@ export function ageText(s) {
   if (n < 48 * 3600) { const h = Math.floor(n / 3600), m = Math.round((n % 3600) / 60); return m && h < 6 ? `${h} h ${m} min ago` : `${h} h ago`; }
   return `${Math.round(n / 86400)} days ago`;
 }
+/** data freshness in the site-wide words (../age.js: "updated 4 min ago"); ageText stays for the time since an event */
+export const updated = (s) => (num(s) === null ? 'age unknown' : num(s) < 90 ? 'updated just now' : 'updated ' + ageText(s));
+export const AGE_LIMITS = { pc: [20 * 60, 60 * 60], bars: [80 * 60, 3 * 3600], daily: [26 * 3600, 3 * 86400] };   // = age.js LIMITS (tests/test_truth_check)
+export function ageLevel(s, kind) { const n = num(s), L = AGE_LIMITS[kind] || AGE_LIMITS.daily; return n === null ? 'warn' : n > L[1] ? 'bad' : n > L[0] ? 'warn' : 'ok'; }
 export function etParts(tS) {
   try {
     const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short' })
@@ -49,7 +53,7 @@ export function feedAge(home, nowS) {
   const bt = num(isObj(live.pc) && live.pc.t);
   return { report: rt ? Math.max(0, nowS - rt) : null, beat: bt ? Math.max(0, nowS - bt) : null, fromPc: !!rt };
 }
-function dotOf(age) { return age === null ? 'off' : age <= FRESH_S ? 'live' : 'stale'; }
+function dotOf(age) { if (age === null) return 'off'; const l = ageLevel(age, 'pc'); return l === 'ok' ? 'live' : l === 'warn' ? 'stale' : 'old'; }
 
 // ------------------------------------------------------------------------------------------------ the PC's chart post (le-bars): the open trades
 // chart = { opens: post.open (rows {k, s, q, t, e, sl, tp, be}), last: the last bar's close, t: the post's data time } (the page decodes the bars
@@ -96,7 +100,7 @@ export function accounts(home, biz, nowS, chart) {
       has, balance: bal, room, mll, roomFrac: room !== null && mll ? Math.max(0, Math.min(1, room / mll)) : null, today,
       goalLabel: funded ? 'To payout' : 'To pass', goal, goalText: goal === null ? (funded && card && card.payout_text ? 'see payout line' : '-') : goal <= 0 ? (funded ? 'Payout ready' : 'Target reached') : money(goal),
       payoutText: funded && card && card.payout_text ? String(card.payout_text) : '',
-      dot: has ? dotOf(age) : planned ? 'plan' : 'off', ageText: has ? ageText(age) : planned ? 'plan only: no PC numbers yet' : 'no PC numbers',
+      dot: has ? dotOf(age) : planned ? 'plan' : 'off', ageText: has ? updated(age) : planned ? 'plan only: no PC numbers yet' : 'no PC numbers', ageS: age,
       open: chartOpen(chart, (k) => CHART_ACCT[k] === p.key, nowS),
     });
   }
@@ -109,7 +113,7 @@ export function accounts(home, biz, nowS, chart) {
     out.push({ key: a.id, name: String(a.name || a.id), plan: a.plan || '', stage: /funded/i.test(e.status || '') ? 'Funded' : 'Eval', has: num(e.balance) !== null,
       balance: num(e.balance), room: num(e.room), mll: num(e.mll), roomFrac: num(e.room) !== null && num(e.mll) ? Math.max(0, Math.min(1, e.room / e.mll)) : null,
       today: num(e.today), goalLabel: 'To pass', goal: num(e.to_target), goalText: num(e.to_target) === null ? '-' : money(e.to_target), payoutText: '',
-      dot: dotOf(age), ageText: ageText(age) });
+      dot: dotOf(age), ageText: updated(age) });
   }
   return out;
 }
@@ -234,9 +238,9 @@ export function twinCheck(file) {
 export function quality(home, file, news, nowS, edge, chart) {
   const h = isObj(home) ? home : {}, fa = feedAge(h, nowS), live = isObj(h.live) ? h.live : {}, rep = isObj(live.reporter) ? live.reporter : {};
   const rows = [];
-  rows.push({ k: 'report', label: 'PC report', value: fa.report === null ? 'not received on this page' : ageText(fa.report),
-    level: fa.report === null ? 'bad' : lvl(fa.report <= FRESH_S, fa.report <= 3 * 3600), note: 'every 15 min from your PC' });
-  rows.push({ k: 'beat', label: 'Bot heartbeat', value: fa.beat === null ? 'unknown' : ageText(fa.beat),
+  rows.push({ k: 'report', label: 'PC report', value: fa.report === null ? 'not received on this page' : updated(fa.report),
+    level: fa.report === null ? 'bad' : ageLevel(fa.report, 'pc'), note: 'every 15 min from your PC' });
+  rows.push({ k: 'beat', label: 'Bot heartbeat', value: fa.beat === null ? 'unknown' : updated(fa.beat),
     level: fa.beat === null ? 'warn' : lvl(fa.beat <= BEAT_STALE_S, fa.beat <= 3600), note: 'the bot beats every 5 min' });
   const built = h.built ? Date.parse(h.built) / 1000 : null;
   const tDay = isObj(file) && isObj(file.data_branch) ? file.data_branch.to : null;
@@ -277,7 +281,7 @@ export function quality(home, file, news, nowS, edge, chart) {
 // ------------------------------------------------------------------------------------------------ drawing (DOM only from here)
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = String(text); return e; };
 const clear = (n) => { while (n.firstChild) n.removeChild(n.firstChild); };
-const DOT = { live: 'Live: the PC reported in the last 20 min', stale: 'Stale: the PC has not reported for over 20 min', plan: 'Planned: no PC numbers yet', off: 'No PC numbers' };
+const DOT = { live: 'Live: the PC reported in the last 20 min', stale: 'Getting old: no PC report for over 20 min', old: 'Old: no PC report for over an hour', plan: 'Planned: no PC numbers yet', off: 'No PC numbers' };
 
 function drawAccounts(box, list) {
   clear(box);
@@ -429,7 +433,7 @@ export function gate(accts, home, news, nowS) {
     if (a.has && a.today !== null && a.today <= -dll) halt(`Daily loss limit hit (${money(a.today)} of -${money(dll)}): MFFU pauses it for the day.`);
     if (a.has && a.stage === 'Eval' && a.goal !== null && a.goal <= 0) halt('Target reached: stop this eval and ask MFFU for the funded account.');
     if (!a.has) wait('No numbers from the PC for this account yet.');
-    else if (a.dot === 'stale') wait(`The PC's numbers are ${a.ageText}: check the PC before trusting GO.`);
+    else if (a.dot === 'stale' || a.dot === 'old') wait(`The PC last reported ${ageText(a.ageS)} (it reports every 15 min): check the PC before trusting GO.`);
     if (['winddown', 'flat', 'idle'].includes(ph.id)) wait(`${ph.label} (${ph.who}).`);
     else if (ph.id === 'asia') wait('Before 02:00 ET: LIT takes no real entry yet.');
     if (soon) wait(`${soon.title} at ${soon.time} ET (within 30 min): spreads jump, stops slip.`);

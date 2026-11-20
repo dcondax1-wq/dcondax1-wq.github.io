@@ -36,10 +36,11 @@ html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom,
 .chip-locked { color: var(--ag-sun, #e0b060); }
 .chip-failed { color: var(--ag-terra-text, #e08a6b); background: rgba(var(--ag-terra-rgb, 201, 106, 74), .14); border-color: rgba(var(--ag-terra-rgb, 201, 106, 74), .6); }
 .chip-planned { color: var(--ag-muted, #a89c88); }
-.nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.nums { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.nums div.pos dd { color: var(--ag-olive-text, #a0ac6e); } .nums div.neg dd { color: var(--ag-terra-text, #e08a6b); }
 .nums div { background: var(--ag-s1, #1b1713); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .05); border-radius: 12px; padding: 10px 12px; min-width: 0; }
 .nums dt { font-size: .75rem; color: var(--ag-muted, #a89c88); }
-.nums dd { margin: 3px 0 0; font: 700 1.125rem/1.2 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.nums dd { margin: 3px 0 0; font: 700 1.125rem/1.2 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .brow-src, .brow-last, .brow-hint { margin: 8px 0 0; font-size: .85rem; color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
 .brow-src { color: var(--ag-muted, #a89c88); }
 .brow-hint { color: var(--ag-gold-hi, #dcbd6e); }

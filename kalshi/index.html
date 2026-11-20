@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k48">
+<link rel="stylesheet" href="kalshi.css?v=k50">
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
      2026-11-14 (team T2: a light look is light here too, like everywhere). The <head> paints the engine's copy of the look before the first
@@ -54,18 +54,9 @@
     <div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M7 9h26M10 13h20M13 13v18M18 13v18M22 13v18M27 13v18M10 31h20M7 35h26" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="top-t">
       <h1>Kalshi</h1>
-      <p class="sub" id="sub" aria-live="polite">Loading…</p>
+      <p class="sub" id="k8sub" aria-live="polite">K8 gold &amp; silver bot · <b id="k8sub-m">PAPER</b> · $55, $2.50 a bet</p>
     </div>
-    <button type="button" class="refresh" id="refresh" aria-busy="false" aria-label="Refresh" title="Refresh">
-      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M13.5 2.5v3h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Refresh</span>
-    </button>
   </header>
-  <!-- the Kalshi home (owner 2026-11-18, "can't find things"): status line -> the rewards card -> what we tested -> the other Kalshi apps -> the bar -->
-  <!-- the live line (night-klive 2026-11-19): engine/kalshi_live.py, OFF until the owner types the phrase at the PC (KALSHI_LIVE.bat); its <=200-byte
-       card (key kalshi_live, the PC's ntfy ext post) turns this into LIVE / PAUSED from the phone / STOPPED with today's $ (kalshi.js klShow) -->
-  <div class="note" id="kpaused" role="note" style="border-color: rgba(var(--warn-rgb), .5)"><p><b style="color: var(--warn)" id="kpaused-h">Kalshi: PAUSED</b> for real money. Paper tests running: <span id="kpaused-rw">rewards (no numbers yet)</span>, <span id="kpaused-k1">K1 rules (not running yet)</span>. <span id="kpaused-risk">$0 at risk.</span></p>
-    <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAPER:</b> the PC records every window with no money. Live only when you type the phrase on the PC's private page (your PC link :8444/kalshi-live/). Small limits, checked before every order; it switches itself off after any stop.</p></div>
   <!-- K8 status (night-kalshi8 2026-11-20): engine/kalshi_clock.card_k8 rides the PC's card (key kalshi_live, block k8); kalshi.js k8Show.
        Without the PC's numbers it still shows the $55 rule and the next window (computed here from the clock legs). -->
   <!-- K8 live day (day-kalshi round 3): the big countdown to the next LIVE window, what the bot will do, $ left before each stop, and how
@@ -84,6 +75,18 @@
     <div id="k8s-w" class="k8w-box" aria-label="Today's K8 windows"></div>
     <div id="k8s-x"><p class="krw-f">No numbers from the PC yet. At most 3 bets a day; stop at −$8.00 a day and −$13.75 a week (25%); OFF at −$19.25 from the peak (35%).</p></div>
     <div id="k8s-y"></div></section>
+  <!-- Monday go-live checklist (day-kalshi, Olympus 2): ticks itself from the PC's card where it can (key on the PC, LIVE, $2.50, alerts,
+       the loop running); the rest the owner ticks (kept on this phone only). kalshi.js kgo. -->
+  <section class="note kgo" id="kgo" aria-labelledby="kgo-h"><h2 id="kgo-h">Monday go-live checklist <b class="kgo-n" id="kgo-n" aria-live="polite"></b></h2>
+    <ul class="kgo-l" id="kgo-l"></ul>
+    <p class="krw-f" id="kgo-f">Ticks with "from your PC" come from the PC's last report; the others you tick yourself (saved on this phone only).</p>
+    <button type="button" class="kgo-r" id="kgo-reset">Untick mine</button></section>
+  <h2 class="khist" id="khist">History and tests <span>(no money: paper tests and the old crypto bot)</span></h2>
+  <!-- the Kalshi home (owner 2026-11-18, "can't find things"): status line -> the rewards card -> what we tested -> the other Kalshi apps -> the bar -->
+  <!-- the live line (night-klive 2026-11-19): engine/kalshi_live.py, OFF until the owner types the phrase at the PC (KALSHI_LIVE.bat); its <=200-byte
+       card (key kalshi_live, the PC's ntfy ext post) turns this into LIVE / PAUSED from the phone / STOPPED with today's $ (kalshi.js klShow) -->
+  <div class="note" id="kpaused" role="note" style="border-color: rgba(var(--warn-rgb), .5)"><p><b style="color: var(--warn)" id="kpaused-h">Kalshi: PAUSED</b> for real money. Paper tests running: <span id="kpaused-rw">rewards (no numbers yet)</span>, <span id="kpaused-k1">K1 rules (not running yet)</span>. <span id="kpaused-risk">$0 at risk.</span></p>
+    <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAPER:</b> the PC records every window with no money. Live only when you type the phrase on the PC's private page (your PC link :8444/kalshi-live/). Small limits, checked before every order; it switches itself off after any stop.</p></div>
   <section class="note krw" id="krw" aria-label="Rewards test (paper)" hidden></section>
   <section class="note krw" id="kk1" aria-label="K1 rules test (paper)"><p><b>K1 rules test (paper)</b> No numbers yet. It was meant to run on the Kalshi server, but nothing there reaches this page. It now starts on the PC with the next update, and its numbers will show here. $0 at risk.</p></section>
   <section class="note khub" id="khub" aria-label="Kalshi home">
@@ -113,6 +116,14 @@
       <li>Then $3 a bet for 2 weeks before any size change. You decide; Claude never bets.</li>
     </ul>
   </section>
+  <div class="oldhead" id="oldhead"><div class="top-t"><h2>Old crypto bot <span>(retired 2026-11-19, history)</span></h2>
+      <p class="sub" id="sub" aria-live="polite">Loading…</p>
+    </div>
+    <button type="button" class="refresh" id="refresh" aria-busy="false" aria-label="Refresh" title="Refresh">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M13.5 2.5v3h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Refresh</span>
+    </button>
+  </div>
   <nav class="secnav" id="secnav" aria-label="Sections" hidden>
     <button type="button" data-go="today">Today</button><button type="button" data-go="edge">Edge</button><button type="button" data-go="perf">Performance</button><button type="button" data-go="alerts">Alerts <b></b></button>
   </nav>
@@ -125,6 +136,6 @@
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k48" defer></script>
+<script src="kalshi.js?v=k50" defer></script>
 </body>
 </html>

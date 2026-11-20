@@ -10,7 +10,7 @@
 .dk-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--ag-muted); position: relative; }
 .dk-dot.live { background: var(--ag-olive-text, #8fa05a); }
 .dk-dot.live::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--ag-olive-text, #8fa05a); opacity: 0; animation: dk-ping 2.4s ease-out infinite; }
-.dk-dot.stale { background: var(--ag-terra-text, #c0603c); }
+.dk-dot.stale { background: var(--ag-sun, #d9a441); } .dk-dot.old { background: var(--ag-terra-text, #c0603c); }
 .dk-dot.plan { background: transparent; border: 2px dashed var(--ag-muted); }
 .dk-bal { margin: 0; font: 700 22px/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-text); }
 .dk-kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 10px; margin: 0; font-size: 13px; }

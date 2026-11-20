@@ -87,3 +87,7 @@ html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
 .words { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; margin: 4px 0 0; font-size: 14px; }
 .words dt { margin-top: 8px; font-weight: 700; color: var(--ag-text); } .words dd { margin: 0; color: var(--ag-soft); }
 .older { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; } .older .btn { min-height: 44px; text-decoration: none; font-size: 14px; }
+
+/* bar 2026-11-20: the one link from the old bot's card to today's bot (K8) */
+.lnk { margin: 0; }
+.hero h2 { overflow-wrap: anywhere; }
