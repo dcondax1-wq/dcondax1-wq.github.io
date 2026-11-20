@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 12:52 ET",
+ "built": "2026-11-20 13:04 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -147,14 +147,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Land DESIGN's last fixes (bots' waiting notes wrap to 2 lines, Ask button hidden while a sheet is...",
+   "DESIGN phone QA: pulse bots rows wrap the waiting-for note to 2 lines (bots part 198), pulse p7",
+   "Ask Jarvis: one padding rule (DESIGN's agora.css under body.oly-has-ask), the duplicate in ask.js...",
+   "Switcher: ZEUS (Zenith) after Business (owner's order: Cities, Kalshi, NQ, Jarvis, Planner,...",
    "Test pins follow the olympus.js tag bump",
+   "Switcher: the group chips jump to the group's first card again",
    "Lead QA: Home trade window - nq/ (Kairos retired), gate g18; Data City: the first Market-now sheet...",
-   "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)",
-   "Launcher + doors: the 28 retired apps shown nowhere (same list as the catalog, URLs still open),...",
-   "DESIGN phone QA: body.oly-has-ask pads main/#app clear of the Ask Jarvis button and hides it while...",
-   "Jarvis report: the switcher section",
-   "Switcher after2 shots (Archive group last)",
-   "Archive strip reads the age 1.5 s after load from the browser's cached copy (force-cache: no..."
+   "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)"
   ]
  },
  "next": {

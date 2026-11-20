@@ -7,7 +7,7 @@
 .pulse .pu-strip { height: 86px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 10px 12px; }
 .pulse .pu-hero { height: 128px; border-color: var(--ag-line-gold, rgba(200, 162, 74, .32)); padding: 14px 16px; }
 .pulse .pu-accounts { height: 222px; padding: 10px 0 4px; }
-.pulse .pu-bots { height: 162px; padding: 10px 0 4px; }
+.pulse .pu-bots { height: 198px; padding: 10px 0 4px; }
 .pulse .pu-stats { height: 400px; }
 .pulse .pu-money { height: 268px; }   /* 236 + one wrapped note line (2026-11-20 phone QA) */
 .pulse .pu-age { height: 2.8em; margin: -4px 2px 0; overflow: hidden; }
@@ -63,3 +63,6 @@ a.taxpot { display: grid; gap: 2px; height: 140px; box-sizing: border-box; text-
 /* 2026-11-20 phone QA: a money tile's note wraps ("price list (add yours in Ledger)"), at most 2 lines, the tile grows instead of cutting it */
 .pu-money .pu-tile { height: auto; min-height: 82px; }
 .pu-money .pu-ts { white-space: normal; overflow: hidden; text-overflow: clip; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+/* 2026-11-20 phone QA: "What each bot is waiting for" (Planner) wraps to 2 lines; each row grows, the bots part reserves the room */
+.pu-bots .pu-row { height: auto; min-height: 58px; padding-block: 6px; }
+.pu-bots .pu-rs { white-space: normal; overflow: hidden; text-overflow: clip; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }

@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795197120,
+   "t": 1795197840,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,8 +4387,36 @@
   "available": true,
   "commits": [
    {
+    "t": 1795197761,
+    "s": "Land DESIGN's last fixes (bots' waiting notes wrap to 2 lines, Ask button hidden while a sheet is open) + Jar…"
+   },
+   {
+    "t": 1795197547,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into oly2-pre2"
+   },
+   {
+    "t": 1795197531,
+    "s": "DESIGN phone QA: pulse bots rows wrap the waiting-for note to 2 lines (bots part 198), pulse p7"
+   },
+   {
+    "t": 1795197356,
+    "s": "Ask Jarvis: one padding rule (DESIGN's agora.css under body.oly-has-ask), the duplicate in ask.js dropped"
+   },
+   {
+    "t": 1795197346,
+    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into oly2-pre2"
+   },
+   {
+    "t": 1795197329,
+    "s": "Switcher: ZEUS (Zenith) after Business (owner's order: Cities, Kalshi, NQ, Jarvis, Planner, Business, ZEUS);…"
+   },
+   {
     "t": 1795197121,
     "s": "Test pins follow the olympus.js tag bump"
+   },
+   {
+    "t": 1795197106,
+    "s": "Switcher: the group chips jump to the group's first card again (they looked for the vertical headings removed…"
    },
    {
     "t": 1795197048,
@@ -4405,6 +4433,10 @@
    {
     "t": 1795196639,
     "s": "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)"
+   },
+   {
+    "t": 1795196530,
+    "s": "test_jarvis_hub: switcher pins match the live order (Archive group in apps.js order; the open Data City light…"
    },
    {
     "t": 1795196281,
@@ -4453,38 +4485,6 @@
    {
     "t": 1795195585,
     "s": "test_jarvis_hub: the ring pin skips the hidden apps (Data City lives inside Cities now)"
-   },
-   {
-    "t": 1795195554,
-    "s": "NQ chart (phone QA 12:20): an exit tag on the newest bar (+$514) is no longer cut by the price axis - the rig…"
-   },
-   {
-    "t": 1795195517,
-    "s": "Switcher: the archived apps (olympus/doors.js ARCHIVE) fold into one Archive group at the very end; hub pins…"
-   },
-   {
-    "t": 1795195463,
-    "s": "Archive strip on full-screen pages: float it and raise the kit's --oly-st when the page's HUD reads it (arena…"
-   },
-   {
-    "t": 1795195438,
-    "s": "Olympus v2 landing: version tags aligned across pages (shell s6, gate-nav g7, catalog nv7, zeus_core 6, agora…"
-   },
-   {
-    "t": 1795195395,
-    "s": "Merge remote-tracking branch 'olympus/day-kalshi' into oly2-pre2"
-   },
-   {
-    "t": 1795195395,
-    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into oly2-pre2"
-   },
-   {
-    "t": 1795195395,
-    "s": "Merge remote-tracking branch 'olympus/day-cities3' into oly2-pre2"
-   },
-   {
-    "t": 1795195394,
-    "s": "Merge remote-tracking branch 'olympus/day-arenas' into oly2-pre2"
    }
   ],
   "branches": [

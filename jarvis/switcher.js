@@ -54,8 +54,8 @@ const DIST = [
   { id: 'more', title: 'More', colour: '#9c6b3c', ids: ['compass', 'helios', 'herald', 'stoa', 'hestia', 'inbox', 'planner', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium', 'ergasterion', 'settings', 'bridge', 'atlas', 'cities', 'datacity', 'observatory', 'tree', 'prometheus', 'hephaestus', 'clio', 'archive', 'pinakes', 'colosseum'] },
 ];
 const DGROUP = { trading: 'zeus', money: 'money' };
-// the switcher's order (owner 2026-11-20): Cities, Kalshi, the NQ bot, Jarvis / ZEUS first; then the Planner and Business; then the doors
-export const FIRST = ['cities', 'kalshi', 'nq', 'home', 'zenith', 'planner', 'business'];
+// the switcher's order (owner 2026-11-20): Cities, Kalshi, the NQ bot, Jarvis, the Planner, Business, then ZEUS (Zenith); then the doors
+export const FIRST = ['cities', 'kalshi', 'nq', 'home', 'planner', 'business', 'zenith'];
 export const HIDE = new Set(['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity', 'gallery', 'mintcity',
   'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes', 'hephaestus', 'datacity', 'kalshicity']);
 export const CITY_PARTS = new Set(['datacity', 'kalshicity', 'atlascity', 'mintcity', 'world', 'cities-world']);
@@ -427,6 +427,7 @@ export function mountSwitcher(opts = {}) {
     track.innerHTML = (parts.length ? '' : `<p class="nx-empty">No app matches "${escH(query.slice(0, 40))}".</p>`) + parts.map((p) => head(p) + p.apps.map((a) => card(a, a.id === cur, many && p.g)).join('')).join('')
       + (typeof opts.onAdd === 'function' ? '<button class="nx-card add" type="button" data-nx-add="1" aria-label="Add a dashboard">'
         + '<span class="nx-ic">+</span><div class="nx-nm"><b>ADD</b><span>Any dashboard with a link (Ascend too)</span></div></button>' : '');
+    { const cs = track.querySelectorAll('.nx-card[data-nx]'); let k = 0; for (const p of parts) { if (p.g && cs[k]) cs[k].dataset.nxG = p.g.id; k += p.apps.length; } }   // each group's first card (the chips jump to it)
     const qb = (a) => `<button class="nx-qb${a.id === cur ? ' now' : ''}${a.off ? ' off' : ''}" type="button" data-nx="${escH(a.id)}" aria-label="${escH(label(a))}">${inner(a)}</button>`;
     track.querySelectorAll('.nx-card[data-nx]').forEach((c) => { if (favSet.has(c.dataset.nx)) c.insertAdjacentHTML('afterbegin', '<span class="nx-fv" aria-hidden="true">\u2605</span>'); });
     const star = (a) => (favSet.has(a.id) ? '<b class="nx-fv" aria-hidden="true">\u2605</b>' : '');
@@ -442,8 +443,7 @@ export function mountSwitcher(opts = {}) {
   }
   // a group chip: the carousel glides to that group's first card
   function jump(gid) {
-    const c = [...track.querySelectorAll('[data-nx-g]')].find((h) => h.dataset.nxG === gid);
-    const first = c && c.nextElementSibling;
+    const first = [...track.querySelectorAll('.nx-card[data-nx-g]')].find((h) => h.dataset.nxG === gid);   // the group's first card (no headings since 2026-11-20)
     if (!first) return;
     const left = Math.max(0, first.offsetLeft - (track.clientWidth - first.offsetWidth) / 2);
     try { track.scrollTo({ left, behavior: reduce() ? 'auto' : 'smooth' }); } catch (_) { track.scrollLeft = left; }

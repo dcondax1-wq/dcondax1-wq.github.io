@@ -46,7 +46,7 @@
   try { if (window.top !== window) d.documentElement.className += ' framed'; } catch (e) { d.documentElement.className += ' framed'; }
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
-  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a8'; h.appendChild(k);
+  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a9'; h.appendChild(k);
   var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g18'; h.appendChild(l);
   var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s6'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
   var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);
