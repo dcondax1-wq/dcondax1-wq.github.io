@@ -29,11 +29,14 @@ export function span(a, b) { return a === b ? md(a) : a.slice(0, 7) === b.slice(
 
 // MFFU's numbers (business/payoutcoach.js PLANS; docs/FUNDED_25K_PLAYBOOK.md): the eval target over the start, the funded buffer and asks
 export const PLAN = {
-  builder25k: { start: 25000, pass: 1500, buffer: 1100, max: 1000, min: 250, split: 0.8, days: 2, best: 0.5 },
-  builder50k: { start: 50000, pass: 3000, buffer: 2100, max: 2000, min: 250, split: 0.8, days: 2, best: 0.5 },
+  builder25k: { start: 25000, pass: 1500, mll: 1000, buffer: 1100, max: 1000, min: 250, split: 0.8, days: 2, best: 0.5 },
+  builder50k: { start: 50000, pass: 3000, mll: 2000, buffer: 2100, max: 2000, min: 500, split: 0.8, days: 2, best: 0.5 },
   rapid25: { start: 25000, pass: 1500, minDays: 4, best: 0.3 },
 };
 const PLAN_OF = { zlarior: 'builder50k', fresh25: 'builder25k', atlas: 'builder25k', rapid1: 'rapid25' };
+// the first payout date from the ATLAS cost study (research/writeups/atlas-costs-split-2026-11-20.md, day-atlasedge): about Dec 18 in a
+// Jan-Jun-2026-like market, about Dec 31 in a Jul-Oct-like one. A simulation, shown as an estimate; it replaces a 3-day pace (lead 2026-11-20)
+const STUDY = { atlas: 'about Dec 18-31 (estimate, 2026-like market)' };
 const LADDER_OF = { zlarior: 'z50_pass', fresh25: 'z25_pass', rapid1: 'r25_pass', atlas: 'pay1' };
 
 /** the pace: $ a traded day from end-of-day P&L points (oldest first), null under 3 points */
@@ -54,30 +57,37 @@ export function when(left, pc, today, ladderWhen) {
 }
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
-export function goals(accts, pay, plan, nowS, eq) {
+export function goals(accts, pay, plan, nowS, eq, mffu) {
   const today = etParts(nowS).day, A = arr(accts).filter(isObj), P = arr(pay).filter(isObj), G = isObj(plan) ? plan : {};
   const ladder = (id) => { const r = arr(G.ladder).find((x) => isObj(x) && x.id === id); return r ? String(r.when || '') : ''; };
   const eqOf = (k) => (isObj(eq) ? eq[k] : null);
   const out = [];
   for (const a of A) {
-    const pk = PLAN_OF[a.key] || (/50k/i.test(a.name) ? 'builder50k' : 'builder25k'), C = PLAN[pk], pc = pace(eqOf(a.key));
+    const pk = PLAN_OF[a.key] || (/50k/i.test(a.name) ? 'builder50k' : 'builder25k'), C = PLAN[pk];
     if (a.stage === 'Funded') {
+      // MFFU's own terms (owner 2026-11-20): a sim-FUNDED account starts at $0 and MFFU shows its profit as the balance (ATLAS "$401", not $25,401);
+      // the floor is -$1,000 end-of-day trailing (locks at +$100); earliest = the $1,100 buffer + the $250 minimum ($1,350); the GOAL = the buffer +
+      // the full $1,000 ask ($2,100, $800 to you). PC_FEED.mffuView (pc_feed.js, day-archive) when the page has it, else the same arithmetic here.
       const pr = P.find((x) => x.has && (x.id === 'atlas' || x.id === 'acct_b' || /atlas/i.test(x.name || ''))) || null;
-      const bal = num(pr && pr.balance) ?? num(a.balance);
-      const askBal = C.start + C.buffer + C.max, okBal = C.start + C.buffer + C.min;
-      const left = bal === null ? null : Math.max(0, r2(askBal - bal), pr && pr.need ? num(pr.need.plan) || 0 : 0);
-      const allow = pr && pr.need ? num(pr.need.allow) : bal === null ? null : Math.max(0, r2(okBal - bal));
+      const raw = num(pr && pr.balance) ?? num(a.balance);
+      const mv = typeof mffu === 'function' ? mffu({ kind: 'funded', size: pk === 'builder50k' ? '50K' : '25K', name: a.name, balance: raw, start: C.start, room: a.room }) : null;
+      const prof = mv && num(mv.balance) !== null ? num(mv.balance) : raw === null ? null : r2(raw > C.start / 2 ? raw - C.start : raw);
+      const goalAt = mv && mv.goal ? mv.goal.at : C.buffer + C.max, earlyAt = mv && mv.earliest ? mv.earliest.at : C.buffer + C.min;
+      const floor = mv && num(mv.floor) !== null ? num(mv.floor) : prof !== null && num(a.room) !== null ? Math.min(r2(prof - a.room), 100) : -C.mll;
+      const left = prof === null ? null : Math.max(0, r2(goalAt - prof), pr && pr.need ? num(pr.need.plan) || 0 : 0);
+      const allow = pr && pr.need ? num(pr.need.allow) : prof === null ? null : Math.max(0, r2(earlyAt - prof));
       const ck = pr ? Object.fromEntries(arr(pr.checks).map((c) => [c.k, c])) : {};
       const chips = [
         { label: ck.days ? `Traded days ${ck.days.text}` : `${C.days} traded days a cycle`, ok: ck.days ? !!ck.days.ok : null },
         { label: ck.cons ? `Best day <= 50%: ${ck.cons.ok ? 'ok' : 'not yet'}` : 'Best day <= 50% of the cycle', ok: ck.cons ? !!ck.cons.ok : null },
       ];
-      const w = when(left, pr && pr.pace ? pr.pace : pc, today, ladder(LADDER_OF[a.key]));
-      out.push({ key: a.key, name: a.name, kind: 'payout', goal: `Ask ${usd(C.max)} at ${usd(askBal)}`, left, frac: bal === null ? 0 : clamp01((bal - C.start) / (askBal - C.start)),
-        big: left === null ? '-' : left <= 0 ? 'Ready' : usd(left), unit: left !== null && left > 0 ? `to ${usd(askBal)}` : '', short: `First ask: ${usd(C.max)}`,
-        lines: [`First payout: ask ${usd(C.max)} once the balance reaches ${usd(askBal)} (${usd(C.buffer)} buffer + ${usd(C.max)}); ${usd(C.max * C.split)} to you at the 80% split.`,
-          allow === null ? `The minimum ${usd(C.min)} ask is possible at ${usd(okBal)}.` : allow > 0 ? `The minimum ${usd(C.min)} ask is possible at ${usd(okBal)}: ${usd(allow)} more.` : `MFFU allows an ask now (minimum ${usd(C.min)}).`],
-        chips, when: w.text, level: left !== null && left <= 0 ? 'ok' : 'go', has: bal !== null, balance: bal });
+      out.push({ key: a.key, name: a.name, kind: 'payout', goal: `Ask ${usd(C.max)} at ${usd(goalAt)}`, left, frac: prof === null ? 0 : clamp01(prof / goalAt),
+        big: left === null ? '-' : left <= 0 ? 'Ready' : usd(left), unit: left !== null && left > 0 ? `to ${usd(goalAt)}` : '', short: `Goal: ask ${usd(C.max)}`,
+        lines: [`MFFU shows this funded account as its profit: ${prof === null ? '-' : usd(prof)} (max-loss floor ${usd(floor)}, end-of-day trailing, it stops at +$100).`,
+          `Goal: ask ${usd(C.max)} once MFFU shows ${usd(goalAt)} (${usd(C.buffer)} buffer + ${usd(C.max)}); ${usd(C.max * C.split)} to you at the 80% split.`,
+          allow === null ? `Earliest: the minimum ${usd(C.min)} ask at ${usd(earlyAt)}.` : allow > 0 ? `Earliest: the minimum ${usd(C.min)} ask at ${usd(earlyAt)}: ${usd(allow)} more.` : `Earliest: MFFU allows an ask now (minimum ${usd(C.min)}).`],
+        chips, when: STUDY[a.key] || (ladder(LADDER_OF[a.key]) ? `plan: ${ladder(LADDER_OF[a.key]).replace(/^~/, 'about ')} (estimate)` : ''),
+        level: left !== null && left <= 0 ? 'ok' : 'go', has: prof !== null, balance: prof, floor, earliest: earlyAt, goalAt });
       continue;
     }
     if (a.dot === 'plan' || !a.has) {
@@ -90,7 +100,7 @@ export function goals(accts, pay, plan, nowS, eq) {
     }
     const left = num(a.goal) !== null ? Math.max(0, num(a.goal)) : null, bal = num(a.balance);
     const tgt = bal !== null && left !== null ? bal + left : C.start + C.pass;
-    const w = when(left, pc, today, ladder(LADDER_OF[a.key]));
+    const w = when(left, null, today, ladder(LADDER_OF[a.key]));   // the plan's simulated date (goals.json), never a pace from a few days (it over-promised)
     out.push({ key: a.key, name: a.name, kind: 'pass', goal: `Pass at ${usd(tgt)}`, left, frac: bal === null ? 0 : clamp01((bal - C.start) / (tgt - C.start)),
       big: left === null ? '-' : left <= 0 ? 'Passed' : `+${usd(left)}`, unit: left !== null && left > 0 ? 'to pass' : '',
       lines: [`Eval pass: a balance of ${usd(tgt)} (+${usd(C.pass)} over ${usd(C.start)}).${num(a.room) !== null ? ` Drawdown left ${usd(a.room)}.` : ''}`],

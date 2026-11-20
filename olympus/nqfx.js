@@ -1,16 +1,17 @@
 /* OLYMPUS NQ FX (tools/web_public/olympus/nqfx.js, day-arenas 2026-11-20; docs/DESIGN_SYSTEM.md section 6, docs/OLYMPUS_FX.md).
  * The trading dashboard's effects, on the kit's FX library (fx-core.js: tiers, ONE frame loop, caps, cleanup, reduced motion = off).
  * A classic script; it loads fx-core / fx-text / fx-burst itself when the page has not:
- *   <script src="../olympus/nqfx.js?v=n1" defer></script>      then   await OLYMPUS_NQFX.ready()
+ *   <script src="../olympus/nqfx.js?v=n3" defer></script>      then   await OLYMPUS_NQFX.ready()
  *
- *   NQFX.win(el, { usd, bigAt: 500 })       sparks from el, a gold toast "+$123"; confetti too when usd >= bigAt
+ *   NQFX.theme({ base, cyan, blue, violet, win, loss, steel })   the colours (the NQ look: navy, cyan, blue, violet; green only for a win)
+ *   NQFX.win(el, { usd, bigAt: 500 })       green sparks from el, a toast "Win +$123"; confetti too when usd >= bigAt
  *   NQFX.loss(el, { usd })                  a calm red toast "-$80", no celebration
  *   NQFX.milestone(el, { text })            confetti + a toast (eval passed, payout ready, new high)
- *   NQFX.ring(host, { value, stroke })      the glowing goal ring (0..1); .call('set', v) glides to a new value
+ *   NQFX.ring(host, { value, stroke })      the glowing goal ring (0..1), cyan -> blue as it fills, violet at 100%; .call('set', v)
  *   NQFX.roll(el, { to, from, duration })   the number rolls up to `to` ($ , . % kept); .call('set', v)
- *   NQFX.trail(pathEl, { color, seconds, width })   a light trail runs along an SVG chart line (<path> / <polyline>), glow under it
- *   NQFX.vault(host, { value, label })      the payout-goal hero: a 3D vault door + gold coin stack (three.js, after load + idle, never
- *                                           blocks the first paint); the door opens and the coins rise with value (0..1); .call('set', v)
+ *   NQFX.trail(pathEl, { color, seconds, width })   a cyan light trail runs along an SVG chart line (<path> / <polyline>), glow under it
+ *   NQFX.vault(host, { value, label })      the payout-goal hero: a titanium 3D vault door with a cyan seam + glowing crystal bars (three.js,
+ *                                           after load + idle, never blocks the first paint); the door opens, the bars stack with value
  * Every call returns the FX handle { stop(), call(verb, ...), tier }. Tiers follow the owner's quality setting (OLYMPUS.fx()): ultra / high /
  * low (30 fps, fewer particles, pixel ratio 1) / off; prefers-reduced-motion = off: nothing moves, the ring / number / vault show their final
  * state still, toasts show plain. No WebGL, a lost context, Save-Data or a 2G / 3G line: the vault stays its drawn 2D picture.
@@ -21,6 +22,10 @@
   var d = document, me = d.currentScript, BASE = me && me.src ? me.src.replace(/[^\/]*$/, '') : '../olympus/';
   var NS = 'http://www.w3.org/2000/svg';
   var readyP = null;
+  // the NQ look (owner 2026-11-20: no gold): deep navy, electric cyan + blue glows, violet accents, green only for a win
+  var THEME = { base: '#0b1220', cyan: '#22d3ee', blue: '#3b82f6', violet: '#8b5cf6', win: '#22c55e', loss: '#f43f5e', steel: '#9aa4b2' };
+  function hex(c) { var m = /^#?([0-9a-f]{6})$/i.exec(String(c || '').trim()); if (!m) return null; var n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  function mix(a, b, k) { var x = hex(a), y = hex(b); if (!x || !y) return a; return 'rgb(' + [0, 1, 2].map(function (i) { return Math.round(x[i] + (y[i] - x[i]) * k); }).join(',') + ')'; }
 
   function script(src) {
     return new Promise(function (res) { var s = d.createElement('script'); s.src = src; s.async = true; s.onload = function () { res(true); }; s.onerror = function () { res(false); }; (d.head || d.documentElement).appendChild(s); });
@@ -51,14 +56,14 @@
     function trail(path, o, ctx, still) {
       if (!path || !path.getTotalLength) return {};
       var svg = path.ownerSVGElement; if (!svg) return {};
-      var rgb = U.accent ? U.accent() : [255, 207, 90], color = o.color || 'rgb(' + rgb.join(',') + ')';
+      var color = o.color || THEME.cyan;
       var id = 'nqfx-glow-' + Math.random().toString(36).slice(2, 8), w = +o.width || +getComputedStyle(path).strokeWidth || 2;
       var blur = still ? 3 : ctx.pick(5, 4, 0);
       var defs = svgNode('defs', {}, svg, ctx);
       if (blur) { var f = svgNode('filter', { id: id, x: '-20%', y: '-50%', width: '140%', height: '200%' }, defs, ctx); svgNode('feGaussianBlur', { stdDeviation: String(blur) }, f, ctx); }
       var under = svgNode('path', { fill: 'none', stroke: color, 'stroke-width': String(w * 2.2), 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: still ? '.35' : '.25', 'pointer-events': 'none' }, null, ctx);
       if (blur) under.setAttribute('filter', 'url(#' + id + ')');
-      var comet = still ? null : svgNode('path', { fill: 'none', stroke: o.head || '#fff', 'stroke-width': String(w * 1.6), 'stroke-linecap': 'round', 'pointer-events': 'none' }, null, ctx);
+      var comet = still ? null : svgNode('path', { fill: 'none', stroke: o.head || '#e0f7ff', 'stroke-width': String(w * 1.6), 'stroke-linecap': 'round', 'pointer-events': 'none' }, null, ctx);
       var glowC = still ? null : svgNode('path', { fill: 'none', stroke: color, 'stroke-width': String(w * 4), 'stroke-linecap': 'round', opacity: '.7', 'pointer-events': 'none' }, null, ctx);
       if (glowC && blur) glowC.setAttribute('filter', 'url(#' + id + ')');
       var len = 0;
@@ -98,6 +103,46 @@
       still: function (el, o, ctx) { return trail(el, o, ctx, true); },
     });
 
+    // ------------------------------------------------------------ nqRing: the goal ring in the NQ colours
+    function rgba(c, a) { var x = hex(c) || [34, 211, 238]; return 'rgba(' + x.join(',') + ',' + a + ')'; }
+    function nqRing(el, o, ctx, still) {
+      var cv = ctx.canvas(el, { z: 2 }), g = cv.g, value = U.clamp(+o.value || 0, 0, 1), shown = still ? value : 0, stroke = o.stroke || 8;
+      var a = o.from || THEME.cyan, b = o.to || THEME.blue, full = o.full || THEME.violet;
+      var draw = function (t) {
+        if (!cv.fit()) return;
+        var w = cv.w, h = cv.h, r = Math.min(w, h) / 2 - stroke * 1.6, cx = w / 2, cy = h / 2, a0 = -Math.PI / 2;
+        g.clearRect(0, 0, w, h); g.lineCap = 'round';
+        g.lineWidth = stroke; g.strokeStyle = 'rgba(148,197,255,0.12)'; g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.stroke();
+        if (shown <= 0.001) return;
+        var end = a0 + Math.PI * 2 * shown, done = shown >= .999;
+        var grad = g.createLinearGradient(cx, cy - r, cx, cy + r);
+        grad.addColorStop(0, done ? full : a); grad.addColorStop(1, done ? full : mix(a, b, Math.max(.35, shown)));
+        if (!still) { g.lineWidth = stroke * 2.4; g.strokeStyle = rgba(done ? full : a, .16); g.beginPath(); g.arc(cx, cy, r, a0, end); g.stroke(); }   // the glow
+        g.lineWidth = stroke; g.strokeStyle = grad; g.beginPath(); g.arc(cx, cy, r, a0, end); g.stroke();
+        var hx = cx + Math.cos(end) * r, hy = cy + Math.sin(end) * r;
+        if (still) { g.fillStyle = '#e0f7ff'; g.beginPath(); g.arc(hx, hy, stroke * .5, 0, Math.PI * 2); g.fill(); return; }
+        var hr = stroke * (1.5 + .25 * Math.sin(t * 5)), tip = done ? full : b;
+        var gr = g.createRadialGradient(hx, hy, 0, hx, hy, hr * 1.6);
+        gr.addColorStop(0, 'rgba(224,247,255,0.95)'); gr.addColorStop(.35, rgba(tip, .65)); gr.addColorStop(1, rgba(tip, 0));
+        g.fillStyle = gr; g.beginPath(); g.arc(hx, hy, hr * 1.6, 0, Math.PI * 2); g.fill();
+      };
+      draw(0);
+      if (still) return { set: function (v) { value = shown = U.clamp(+v || 0, 0, 1); draw(0); } };
+      var ctl = ctx.ticker(function (dt, t) {
+        shown += (value - shown) * (1 - Math.exp(-dt * 5));
+        if (Math.abs(value - shown) < 0.0005) shown = value;
+        draw(t);
+        if (shown === value && ctx.tier === 'low') ctl.stop();
+      }, { el: el });
+      ctl.start();
+      return { set: function (v) { value = U.clamp(+v || 0, 0, 1); ctl.start(); } };
+    }
+    FX.define('nqRing', {
+      group: 'numbers', desc: 'the NQ goal ring: a cyan -> blue gradient arc with a soft glow and a bright tip, violet at 100%; set(v) glides',
+      make: function (el, o, ctx) { return nqRing(el, o, ctx, false); },
+      still: function (el, o, ctx) { return nqRing(el, o, ctx, true); },
+    });
+
     // ------------------------------------------------------------ payoutVault: the 3D payout-goal hero (2D picture first, 3D after idle)
     function weak() {
       try { var c = navigator.connection || {}, m = navigator.deviceMemory; return !!c.saveData || /(^|-)(2g|3g)$/.test(String(c.effectiveType || '')) || (typeof m === 'number' && m < 2); } catch (e) { return false; }
@@ -106,13 +151,14 @@
       // the drawn vault: always there first (layout never moves), stays when the 3D cannot run
       var wrap = ctx.node('div', 'nqfx-vault2d', host);
       wrap.setAttribute('aria-hidden', 'true');
-      wrap.innerHTML = '<svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet"><defs><radialGradient id="nqv-g" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#ffe7a3"/><stop offset=".6" stop-color="#e3a93a"/><stop offset="1" stop-color="#9a6a1c"/></radialGradient></defs>' +
-        '<circle cx="100" cy="72" r="58" fill="#1d1f26" stroke="#3a3d46" stroke-width="6"/><circle cx="100" cy="72" r="44" fill="none" stroke="#565a66" stroke-width="3" stroke-dasharray="4 6"/>' +
-        '<g class="nqv-coins"></g><circle cx="100" cy="72" r="10" fill="url(#nqv-g)"/></svg>';
+      wrap.innerHTML = '<svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="nqv-t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c3cad4"/><stop offset=".5" stop-color="' + THEME.steel + '"/><stop offset="1" stop-color="#5b6474"/></linearGradient></defs>' +
+        '<rect width="200" height="150" fill="' + THEME.base + '"/><circle cx="100" cy="72" r="58" fill="url(#nqv-t)" stroke="#3a4252" stroke-width="5"/>' +
+        '<circle cx="100" cy="72" r="47" fill="none" stroke="' + THEME.cyan + '" stroke-width="2" opacity=".9"/><circle cx="100" cy="72" r="47" fill="none" stroke="' + THEME.cyan + '" stroke-width="6" opacity=".18"/>' +
+        '<g class="nqv-coins"></g><circle cx="100" cy="72" r="9" fill="' + THEME.violet + '"/></svg>';
       var coins = wrap.querySelector('.nqv-coins');
       function set(v) {
         v = U.clamp(+v || 0, 0, 1); var n = Math.round(v * 9), html = '';
-        for (var i = 0; i < n; i++) html += '<ellipse cx="100" cy="' + (124 - i * 7) + '" rx="26" ry="7" fill="url(#nqv-g)" stroke="#8a5d17" stroke-width="1"/>';
+        for (var i = 0; i < n; i++) html += '<rect x="76" y="' + (118 - i * 7) + '" width="48" height="6" rx="1.5" fill="' + (i % 2 ? THEME.blue : THEME.cyan) + '" opacity=".92"/>';
         coins.innerHTML = html;
       }
       set(o.value);
@@ -131,9 +177,9 @@
       if (still || weak() || !(window.WebGLRenderingContext || window.WebGL2RenderingContext)) { host.setAttribute('data-nqfx-vault', '2d'); return api; }
       var go = function () {
         if (dead || d.hidden) return;
-        import(BASE + 'nqvault3d.js?v=n1').then(function (m) {
+        import(BASE + 'nqvault3d.js?v=n2').then(function (m) {
           if (dead) return;
-          three = m.mount(host, { value: value, tier: ctx.tier, pick: ctx.pick, tick: ctx.ticker, add: ctx.add,
+          three = m.mount(host, { value: value, tier: ctx.tier, pick: ctx.pick, tick: ctx.ticker, add: ctx.add, theme: Object.assign({}, THEME),
             lost: function () { three = null; pic.el.style.opacity = '1'; host.setAttribute('data-nqfx-vault', '2d'); } });
           if (three) { host.setAttribute('data-nqfx-vault', '3d'); requestAnimationFrame(function () { if (!dead) pic.el.style.opacity = '0'; }); }
           else host.setAttribute('data-nqfx-vault', '2d');
@@ -151,11 +197,11 @@
       '.nqfx-vault2d svg { width: 100%; height: 100%; display: block; }',
       '.nqfx-vault > canvas.nqfx-gl { position: absolute; inset: 0; width: 100% !important; height: 100% !important; opacity: 0; transition: opacity .6s; }',
       '.nqfx-vault > canvas.nqfx-gl.on { opacity: 1; }',
-      '.nqfx-vault-label { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 3; text-align: center; color: var(--ag-text, #f3f1ec);',
+      '.nqfx-vault-label { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 3; text-align: center; color: #e6f6ff;',
       '  font: 700 var(--ag-fs-h3, 1.125rem)/1.2 var(--ag-num, system-ui); font-variant-numeric: tabular-nums; text-shadow: 0 1px 6px rgba(0, 0, 0, .6); pointer-events: none; }',
     ].join('\n'));
     FX.define('payoutVault', {
-      group: 'numbers', desc: 'the payout-goal hero: a 3D vault door + gold coins that rise with value (0..1), after load + idle; a drawn vault first and without WebGL',
+      group: 'numbers', desc: 'the payout-goal hero: a titanium 3D vault door (cyan seam) + crystal bars that stack with value (0..1), after load + idle; a drawn vault first and without WebGL',
       make: function (el, o, ctx) { return vault(el, o, ctx, false); },
       still: function (el, o, ctx) { return vault(el, o, ctx, true); },
     });
@@ -163,15 +209,17 @@
 
   window.OLYMPUS_NQFX = {
     ready: ready,
+    /** the colours: NQFX.theme({ cyan: '#..' }) merges and returns the palette; effects started after the call use it */
+    theme: function (t) { if (t && typeof t === 'object') for (var k in t) if (hex(t[k])) THEME[k] = t[k]; return Object.assign({}, THEME); },
     win: function (el, o) {
       o = o || {}; var big = (+o.usd || 0) >= (o.bigAt === undefined ? 500 : +o.bigAt);
-      var h = fx('sparkleBurst', el, {}); if (big) fx('confetti', el, { count: o.count || 120 });
+      var h = fx('sparkleBurst', el, { colors: [THEME.win, '#86efac', THEME.cyan] }); if (big) fx('confetti', el, { count: o.count || 120, colors: [THEME.win, THEME.cyan, THEME.blue, '#ffffff'] });
       fx('toast', d.body, { text: (o.text || 'Win') + ' ' + usd(o.usd), kind: 'ok', seconds: 3.2 });
       return h;
     },
     loss: function (el, o) { o = o || {}; return fx('toast', d.body, { text: (o.text || 'Loss') + ' ' + usd(-Math.abs(+o.usd || 0)), kind: 'bad', seconds: 3 }); },
-    milestone: function (el, o) { o = o || {}; var h = fx('confetti', el, { count: o.count || 160 }); fx('toast', d.body, { text: o.text || 'Milestone', kind: 'ok', seconds: 3.6 }); return h; },
-    ring: function (host, o) { return fx('progressRing', host, o || {}); },
+    milestone: function (el, o) { o = o || {}; var h = fx('confetti', el, { count: o.count || 160, colors: [THEME.cyan, THEME.blue, THEME.violet, '#e0f7ff'] }); fx('toast', d.body, { text: o.text || 'Milestone', kind: 'ok', seconds: 3.6 }); return h; },
+    ring: function (host, o) { return fx('nqRing', host, o || {}); },
     roll: function (el, o) { return fx('countUp', el, o || {}); },
     trail: function (path, o) { return fx('chartTrail', path, o || {}); },
     vault: function (host, o) { return fx('payoutVault', host, o || {}); },

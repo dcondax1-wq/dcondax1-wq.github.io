@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795205640,
+   "t": 1795206060,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,8 +4387,40 @@
   "available": true,
   "commits": [
    {
+    "t": 1795205983,
+    "s": "NQ v4 round 3 (goals in MFFU's $0 terms: ATLAS $401, goal $1,000 at $2,100, honest Dec 18-31 date, payout vau…"
+   },
+   {
+    "t": 1795205798,
+    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into web-pre2"
+   },
+   {
+    "t": 1795205791,
+    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into web-pre2"
+   },
+   {
+    "t": 1795205791,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
+   },
+   {
     "t": 1795205637,
     "s": "NQ terminal look (owner: no gold): nq/nqtheme.css loaded last (navy base + glass cards, cyan/blue glows, viol…"
+   },
+   {
+    "t": 1795205617,
+    "s": "NQ v4 round 3 (lead + owner corrections): ATLAS goal in MFFU's own terms (sim-funded starts at $0: $401; goal…"
+   },
+   {
+    "t": 1795205549,
+    "s": "DESIGN kit: NQ FX re-coloured (owner: no gold): navy / cyan / blue / violet, green only for a win; NQFX.theme…"
+   },
+   {
+    "t": 1795205450,
+    "s": "Jarvis funded view: use mffuView's trailing floor + payout levels when present, else floor from the PC's room…"
+   },
+   {
+    "t": 1795205406,
+    "s": "Jarvis: MFFU funded view (owner): funded accounts from $0 (ATLAS $401, floor -$1,000, earliest $1,350, goal $…"
    },
    {
     "t": 1795205126,
@@ -4409,6 +4441,10 @@
    {
     "t": 1795204952,
     "s": "Merge remote-tracking branch 'olympus/day-archive' into web-pre2"
+   },
+   {
+    "t": 1795204951,
+    "s": "Merge remote-tracking branch 'origin/day-arenas' into day-nqdash3"
    },
    {
     "t": 1795204903,
@@ -4449,42 +4485,6 @@
    {
     "t": 1795204089,
     "s": "Payout goal first everywhere (Goal: $1,000 at $27,100, you get $800; Earliest: $250 at $26,350); tags aligned"
-   },
-   {
-    "t": 1795204080,
-    "s": "Merge remote-tracking branch 'olympus/day-archive' into web-pre2"
-   },
-   {
-    "t": 1795204079,
-    "s": "Landing: data freshness (pages show the PC's last real numbers with their age, Hera/Ledger first-payout card,…"
-   },
-   {
-    "t": 1795204003,
-    "s": "Payout GOAL first (owner via lead: only 5 sim payouts, so each should be the max): Hera 'First payouts, now'…"
-   },
-   {
-    "t": 1795204000,
-    "s": "NQ v4 (owner 15:00 ET): money goals on screen 1 + the numbers + the 3D landscape card - Goals strip above the…"
-   },
-   {
-    "t": 1795204000,
-    "s": "NQ v4: nqland.js, the 3D price landscape hero (three.js r160, lazy; today's 5-min bars as a glowing ridge, a…"
-   },
-   {
-    "t": 1795203810,
-    "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
-   },
-   {
-    "t": 1795203810,
-    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into web-pre2"
-   },
-   {
-    "t": 1795203810,
-    "s": "Merge remote-tracking branch 'olympus/day-archive' into web-pre2"
-   },
-   {
-    "t": 1795203766,
-    "s": "Incremental landing: Kalshi first-class (K8 today card above the fold, Kalshi City 3D on tap), Siri/Shortcuts…"
    }
   ],
   "branches": [

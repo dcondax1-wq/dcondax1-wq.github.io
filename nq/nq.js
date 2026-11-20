@@ -7,8 +7,7 @@ import * as C from './nqcore.js?v=d4';   // d1 (polish2 2026-11-19): the CME tra
 import * as T from '../olympus/truth.js';
 import * as D from './nqdesk.js?v=6';
 import { unpack as unpackBars } from './nqbars.js?v=b1';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
-import * as G from './nqgoals.js?v=4';                       // v4: the goals strip, the numbers card, the bursts
-import { model as payModel } from './payready.js?v=2';       // the funded account's payout tracker (the same rules as the Board / Trading)
+import * as G from './nqgoals.js?v=5';                       // v4: the goals strip, the numbers card, the bursts
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -269,14 +268,24 @@ function render() {
 
 // ------------------------------------------------------------------------------------------------ v4: goals, numbers, the 3D landscape
 const EQ_IDS = { zlarior: ['mffu50k_eval', 'lit'], fresh25: ['b25k_2'], atlas: ['atlas', 'acct_b'], rapid1: ['rapid'] };
-const V4 = { open: null, wins: null, fracs: null, land: 'none' };
+const V4 = { open: null, wins: null, fracs: null, land: 'none', vault: null, pay: null, payP: null };
 function renderV4(home, file, nowS) {
   const chart = deskChart(), A = D.accounts(home, S.biz, nowS, chart);
+  // the funded tracker's rules (payready.js, the same as the Board / Trading) come with the PC's post, after the first paint (a later import:
+  // the page's eager JS budget); until then the goal uses MFFU's plan numbers and the chips say the rule without a tick
   let pay = [];
-  try { pay = S.lite && window.PAYOUT_COACH ? payModel(S.lite, home, S.biz, window.PAYOUT_COACH, D.etParts(nowS).day) : []; } catch (_) { pay = []; }
+  if (S.lite && window.PAYOUT_COACH) {
+    if (V4.pay) { try { pay = V4.pay(S.lite, home, S.biz, window.PAYOUT_COACH, D.etParts(nowS).day); } catch (_) { pay = []; } }
+    else if (window.NQ_PAYREADY) { V4.pay = window.NQ_PAYREADY; try { pay = V4.pay(S.lite, home, S.biz, window.PAYOUT_COACH, D.etParts(nowS).day); } catch (_) { pay = []; } }
+    else if (!V4.payP) {
+      V4.payP = true;
+      window.addEventListener('nq-payready', () => { V4.pay = window.NQ_PAYREADY || null; if (S.ready) renderDesk(); }, { once: true });
+      const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./payready_late.js?v=1', import.meta.url).href; document.head.appendChild(t);
+    }
+  }
   const rows = (S.lite && S.lite.mf && Array.isArray(S.lite.mf.a)) ? S.lite.mf.a : [], eq = {};
   for (const k in EQ_IDS) { const r = rows.find((x) => x && EQ_IDS[k].includes(x.id)); if (r) eq[k] = r.eq; }
-  const list = G.goals(A, pay, S.goals, nowS, eq);
+  const list = G.goals(A, pay, S.goals, nowS, eq, window.PC_FEED && window.PC_FEED.mffuView);   // MFFU's own view of a funded account when pc_feed.js has it
   const box = $('goals');
   if (box) G.drawGoals(box, list, $('goalDetail'), { open: V4.open, onOpen: (k) => { V4.open = k; } });
   const fa = D.feedAge(home, nowS), age = $('goalAge');
@@ -290,9 +299,53 @@ function renderV4(home, file, nowS) {
   });
   // bursts: a new winning real trade, or a goal ring crossing a quarter, since the page opened (never on the first draw)
   const wins = real.filter((r) => r.usd > 0.5).length, fr = Object.fromEntries(list.map((g) => [g.key, Math.floor(g.frac * 4)]));
-  if (V4.wins !== null && wins > V4.wins) { G.burst($('goalCard'), 'win'); try { if (window.NQLAND) window.NQLAND.burst('win'); } catch (_) { /* nothing */ } }
-  else if (V4.fracs) for (const k in fr) if (fr[k] > (V4.fracs[k] ?? 9)) { G.burst(box && box.querySelector(`[data-key="${k}"]`), 'goal'); try { if (window.NQLAND) window.NQLAND.burst('goal'); } catch (_) { /* nothing */ } break; }
+  const FX = window.OLYMPUS_NQFX || null;               // DESIGN's kit (olympus/nqfx.js): its sparks + toast; our own canvas burst without it
+  if (V4.wins !== null && wins > V4.wins) {
+    const last = real.filter((r) => r.usd > 0.5).slice(-1)[0];
+    try { if (FX && FX.win) FX.win($('goalCard'), { usd: last ? last.usd : 0 }); else G.burst($('goalCard'), 'win'); } catch (_) { /* nothing */ }
+    try { if (window.NQLAND) window.NQLAND.burst('win'); } catch (_) { /* nothing */ }
+  } else if (V4.fracs) for (const k in fr) if (fr[k] > (V4.fracs[k] ?? 9)) {
+    const el = box && box.querySelector(`[data-key="${k}"]`), g = list.find((x) => x.key === k);
+    try { if (FX && FX.milestone) FX.milestone(el, { text: `${g ? g.name : ''}: ${Math.round((g ? g.frac : 0) * 100)}% of the goal` }); else G.burst(el, 'goal'); } catch (_) { /* nothing */ }
+    try { if (window.NQLAND) window.NQLAND.burst('goal'); } catch (_) { /* nothing */ }
+    break;
+  }
   V4.wins = wins; V4.fracs = fr;
+  drawVault(list.find((g) => g.kind === 'payout'));
+}
+// ATLAS's first payout as DESIGN's vault (NQFX.vault): value = MFFU's profit / the $2,100 goal; the kit draws a 2D vault at once and
+// brings the 3D door after load + idle (never on the first paint), still under reduced motion. Without the kit: the card says the numbers.
+function drawVault(g) {
+  const host = $('vault'), pill = $('vaultPill'), note = $('vaultNote');
+  if (!host) return;
+  if (!g || !g.has) { $('vaultCard').hidden = true; return; }
+  $('vaultCard').hidden = false;
+  const label = `${G.usd(g.balance)} of ${G.usd(g.goalAt)}`;
+  if (pill) { pill.textContent = g.left <= 0 ? 'READY' : `${Math.round(g.frac * 100)}%`; pill.className = 'pill ' + (g.left <= 0 ? 'ok' : 'warn'); }
+  if (note) note.textContent = `MFFU shows ${G.usd(g.balance)} of profit. Goal: ask $1,000 at ${G.usd(g.goalAt)} ($800 to you), ${G.usd(g.left)} to go. ${g.when}.`;
+  fxKit().then((FX) => {
+    if (!FX) return;
+    try {
+      if (V4.vault) { V4.vault.call('set', g.frac, label); return; }
+      V4.vault = FX.vault(host, { value: g.frac, label, aria: `ATLAS first payout goal: ${label}` });
+    } catch (_) { /* the note says it */ }
+  }).catch(() => { /* the note says it */ });
+}
+// DESIGN's NQ effects kit (olympus/nqfx.js: bursts, toasts, the vault) is not a page tag: it comes after the first paint, when the browser is idle
+// (perf: the page's eager JS stays under its 600 KB budget). Resolves to OLYMPUS_NQFX or null (no kit: our own canvas burst, the vault note).
+let fxP = null;
+function fxKit() {
+  if (fxP) return fxP;
+  fxP = new Promise((res) => {
+    if (window.OLYMPUS_NQFX) { res(window.OLYMPUS_NQFX); return; }
+    later(() => {
+      const t = document.createElement('script'); t.src = '../olympus/nqfx.js?v=n3'; t.async = true;
+      t.onload = () => { const F = window.OLYMPUS_NQFX; if (!F || !F.ready) { res(null); return; } F.ready().then(() => res(F), () => res(null)); };
+      t.onerror = () => res(null);
+      document.head.appendChild(t);
+    });
+  });
+  return fxP;
 }
 const later = (fn) => { const run = () => { try { fn(); } catch (_) { /* the rest of the page still draws */ } };
   if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 1200 }); else setTimeout(run, 60); };

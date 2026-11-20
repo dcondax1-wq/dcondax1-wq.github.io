@@ -208,6 +208,34 @@ export function liveFromLite(j, cached) {
   return { lit: b.lit || null, atlas: b.atlas || null, extra, trades, price: num(j.price), t: num(j.t), verdict: isObj(j.pc_verdict) ? j.pc_verdict : null, raw: cached ? null : j, cached: !!cached };
 }
 
+// a sim-FUNDED account the way MFFU shows it (owner 2026-11-20): the balance starts at $0 and IS the profit; the floor is -$1,000 (25K) /
+// -$2,000 (50K); the earliest payout comes at buffer + the smallest payout, the goal (the biggest payout) at buffer + the biggest. Uses
+// PC_FEED.mffuView(acct) when the page has it (the archive team's one rule for every app), else balance - start. Evals unchanged.
+export const MFFU_FUNDED = { '25K': { start: 25000, mll: 1000, buffer: 1100, pay_min: 250, pay_max: 1000 }, '50K': { start: 50000, mll: 2000, buffer: 2100, pay_min: 500, pay_max: 2000 } };
+export function fundedView(a, feed) {
+  if (!isObj(a) || a.stage !== 'funded' || num(a.balance) == null) return null;
+  const P = MFFU_FUNDED[/50\s*k/i.test(`${a.name || ''} ${a.plan || ''}`) ? '50K' : '25K'];
+  let profit = null, mv = null;
+  const F = feed || globalThis.PC_FEED;
+  if (F && typeof F.mffuView === 'function') { try { mv = F.mffuView({ ...a, kind: 'funded' }); } catch (_) { mv = null; } }
+  if (isObj(mv) && num(mv.profit) != null) profit = num(mv.profit); else if (isObj(mv) && num(mv.balance) != null) profit = num(mv.balance); else if (num(mv) != null) profit = num(mv);
+  if (!isObj(mv)) mv = null;
+  if (profit == null) profit = a.balance > P.start / 2 ? Math.round((a.balance - P.start) * 100) / 100 : a.balance;   // already MFFU's view
+  // the floor trails up with the best balance: from the PC's room when it has one, else the plan's -$1,000 / -$2,000
+  const floor = mv && num(mv.floor) != null ? num(mv.floor) : num(a.room) != null ? Math.round((profit - num(a.room)) * 100) / 100 : -P.mll;
+  const at = (k, d) => (mv && isObj(mv[k]) && num(mv[k].at) != null ? num(mv[k].at) : d);
+  const early = at('earliest', P.buffer + P.pay_min), goal = at('goal', P.buffer + P.pay_max);
+  const earlyPay = mv && isObj(mv.earliest) && num(mv.earliest.ask) != null ? num(mv.earliest.ask) : P.pay_min;
+  const goalPay = mv && isObj(mv.goal) && num(mv.goal.ask) != null ? num(mv.goal.ask) : P.pay_max;
+  const toYou = mv && isObj(mv.goal) && num(mv.goal.toYou) != null ? num(mv.goal.toYou) : goalPay * 0.8;
+  return { profit, floor, room: Math.round((profit - floor) * 100) / 100, early, earlyPay, goal, goalPay, toYou, toEarly: Math.max(0, early - profit), toGoal: Math.max(0, goal - profit) };
+}
+export function fundedLine(a, feed) {
+  const v = fundedView(a, feed); if (!v) return '';
+  const left = (n) => (n > 0 ? ` (${usd(n)} to go)` : ' (reached)');
+  return `${a.name} funded: ${usd(v.profit)}, today ${usd(a.today || 0, true)}, floor ${v.floor < 0 ? '-' + usd(-v.floor) : usd(v.floor)} (${usd(v.room)} room left). Earliest payout at ${usd(v.early)}${left(v.toEarly)}; goal ${usd(v.goalPay)} at ${usd(v.goal)} (you get ${usd(v.toYou)}), ${v.toGoal > 0 ? `${usd(v.toGoal)} to go` : 'reached'}.`;
+}
+
 // ------------------------------------------------------------------------------------------------ the answers
 const A = {};
 A.accounts = async (deps, nowD) => {
@@ -215,7 +243,7 @@ A.accounts = async (deps, nowD) => {
   if (!list.length) return { text: 'I have no account numbers from the PC yet. When the PC is on it reports every 15 minutes.', src: liveSrc(L, +nowD) };
   const tot = list.reduce((s, a) => s + (a.today || 0), 0), funded = list.filter((a) => a.stage === 'funded').length;
   const head = `${plural(list.length, 'account')} (${funded} funded, ${list.length - funded} in eval). Today ${usd(tot, true)} in total.`;
-  const rows = list.map((a) => `${a.name}: ${usd(a.balance)}, today ${usd(a.today || 0, true)}, ${usd(a.room)} room left${a.toTarget != null ? `, ${usd(a.toTarget)} to pass` : ', funded'}.`);
+  const rows = list.map((a) => (a.stage === 'funded' && fundedLine(a)) || `${a.name}: ${usd(a.balance)}, today ${usd(a.today || 0, true)}, ${usd(a.room)} room left${a.toTarget != null ? `, ${usd(a.toTarget)} to pass` : ', funded'}.`);
   return { text: [head, ...rows].join('\n'), src: liveSrc(L, +nowD) };
 };
 async function chartOpen(deps) {                                   // the chart feed's open trades (the PC's "-bars" ntfy post), or null
@@ -463,7 +491,8 @@ A.payoutnow = async (deps, nowD) => {
       }
     } catch (_) { coached = false; }
   }
-  if (!coached) for (const a of funded) lines.push(`${a.name}: ${usd(a.balance)}. I cannot run the payout coach here (its numbers come with the full PC report); the ZEUS card on the Board has the line.`);
+  for (const a of funded) { const f = fundedLine(a, feed); if (f) lines.unshift(f); }
+  if (!coached) lines.push('The payout coach needs the full PC report for the dates and the consistency rule; the ZEUS card on the Board has the line.');
   const gross = /50k/i.test(funded[0].name) ? 2000 : 1000, mine = gross * SPLIT, tax = Math.round(mine * TAX_PCT / 100);
   lines.push(`A full ${usd(gross)} payout is ${usd(mine)} to you (80%); set ${usd(tax)} aside for taxes (${TAX_PCT}%), ${usd(mine - tax)} is yours to spend.`);
   return { text: lines.join('\n'), src: liveSrc(L, +nowD) + ' Payout rules: business/payoutcoach.js (same as the ZEUS card).' };

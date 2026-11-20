@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <script src="../olympus/themes.js?v=o9"></script>
 <script src="../pc_feed.js?v=n6"></script><script src="../business/payoutcoach.js?v=2"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o19" data-app="nq"></script>
+<script src="../olympus/olympus.js?v=o20" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/agora-ui.js?v=6" defer></script>
@@ -45,7 +45,7 @@
 <link rel="stylesheet" href="nq.css?v=a4r">
 <link rel="stylesheet" href="../nqdeep.css?v=2">
 <link rel="stylesheet" href="nqdesk.css?v=8">
-<link rel="stylesheet" href="nqgoals.css?v=5">
+<link rel="stylesheet" href="nqgoals.css?v=6">
 <link rel="stylesheet" href="nqtheme.css?v=3"><!-- owner 2026-11-20: navy + cyan/blue/violet, no gold (loaded last) -->
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
@@ -87,6 +87,13 @@
     <ol class="ctrades" id="chartTrades"></ol>
     <p class="note">The bars come from your PC's NinjaTrader about every hour while the bots trade (01:50-16:10 ET) and right after each entry or exit; it never shows made-up prices. Tap a trade to see it on the chart.</p>
     <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
+  </section>
+
+  <!-- v4: ATLAS's first payout as a vault (DESIGN's NQFX.vault: a drawn vault at once, a 3D steel door + gold coins after load + idle) -->
+  <section class="ag-card card" id="vaultCard" aria-labelledby="vaultH">
+    <div class="row"><h2 id="vaultH">ATLAS first payout</h2><span class="pill" id="vaultPill"></span></div>
+    <div class="vault" id="vault"></div>
+    <p class="note" id="vaultNote">MFFU shows a funded account as its profit. The goal is a $1,000 ask at $2,100.</p>
   </section>
 
     <!-- nqdash3 2026-11-20 (nqdesk.js): every MFFU account at a glance, a live / stale dot from the PC's 15-minute report -->
@@ -200,7 +207,7 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r22"></script>
+<script type="module" src="nq.js?v=r23"></script>
 <script type="module" src="nqchart.js?v=c5"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6d" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>

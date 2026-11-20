@@ -114,3 +114,6 @@ html[data-oly-scheme="light"] .nm-oname { color: #0f172a; }
 html[data-oly-scheme="light"] .nm-acct, html[data-oly-scheme="light"] .nm-stat { background: rgba(120, 90, 30, .07); }
 html[data-oly-scheme="light"] .nm-bar em, html[data-oly-scheme="light"] .nm-bar small { color: #5c5240; }
 html[data-oly-scheme="light"] .nm-dial { background: radial-gradient(circle, #fffaf0 58%, transparent 59%), conic-gradient(from 0deg, #a77b1c var(--p), rgba(120, 90, 30, .14) 0); }
+
+/* the payout vault (NQFX.vault): a fixed box so nothing moves when the 3D arrives */
+.vault { aspect-ratio: 4 / 3; max-height: 340px; width: 100%; border-radius: 16px; overflow: hidden; position: relative; background: #14110e; }

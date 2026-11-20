@@ -1,9 +1,10 @@
 /* OLYMPUS NQ FX: the payout-goal vault in 3D (tools/web_public/olympus/nqvault3d.js, ES module, day-arenas 2026-11-20).
  * Imported by nqfx.js's payoutVault effect after window load + idle; never on its own. mount(host, o) -> { set(v), stop() } | null
  *   o = { value 0..1, tier 'ultra' | 'high' | 'low', pick(u, h, l), tick (fx-core ctx.ticker: the shared frame loop, sleeps off screen and
- *         in a hidden tab), add(cleanup), lost() }
- * A steel vault door on a hinge opens as the goal fills (fully open at 100% with a coin shower once); behind it gold coins stack up with
- * the value. Made in code (no models), three.js r160 from ../jarvis/, RoomEnvironment reflections on ultra / high only.
+ *         in a hidden tab), add(cleanup), lost(), theme { base, cyan, blue, violet, steel } (NQFX.theme, CSS colours) }
+ * The NQ look (owner 2026-11-20: no gold): a brushed titanium vault door with a cyan light seam on a deep navy wall opens as the goal fills;
+ * behind it glowing cyan / blue crystal bars stack up with the value; at 100% the door is fully open and a cyan / violet spark shower plays
+ * once. Made in code (no models), three.js r160 from ../jarvis/, RoomEnvironment reflections on ultra / high only.
  */
 import * as THREE from '../jarvis/three.module.min.js';
 import { RoomEnvironment } from './three-addons/RoomEnvironment.js';
@@ -11,6 +12,8 @@ import { RoomEnvironment } from './three-addons/RoomEnvironment.js';
 export function mount(host, o) {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: o.tier !== 'low', alpha: true, powerPreference: 'low-power' }); } catch (e) { return null; }
+  const T = Object.assign({ base: '#0b1220', cyan: '#22d3ee', blue: '#3b82f6', violet: '#8b5cf6', steel: '#9aa4b2' }, o.theme || {});
+  const col = (c) => new THREE.Color(c);
   const pick = o.pick || ((u, h, l) => h), low = o.tier === 'low', reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, pick(2, 1.5, 1)));
   renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
@@ -18,37 +21,43 @@ export function mount(host, o) {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(32, 1, .1, 50);
   let pm = null;
   if (!low) { pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; }
-  scene.add(new THREE.HemisphereLight(0xfff1d6, 0x1a1410, low ? 1.4 : .6));
-  const key = new THREE.DirectionalLight(0xffe2b0, 2.4); key.position.set(2, 3, 4); scene.add(key);
-  const glow = new THREE.PointLight(0xffc35a, 6, 6, 2); glow.position.set(0, -.1, -.4); scene.add(glow);
+  scene.add(new THREE.HemisphereLight(0xdbeafe, col(T.base), low ? 1.4 : .55));
+  const key = new THREE.DirectionalLight(0xe0f2fe, 2.2); key.position.set(2, 3, 4); scene.add(key);
+  const rim = new THREE.DirectionalLight(col(T.violet), 1.2); rim.position.set(-3, 1, 2); scene.add(rim);
+  const glow = new THREE.PointLight(col(T.cyan), 6, 6, 2); glow.position.set(0, -.1, -.4); scene.add(glow);
 
-  const steel = new THREE.MeshStandardMaterial({ color: 0x5b6070, metalness: .85, roughness: .32 });
-  const dark = new THREE.MeshStandardMaterial({ color: 0x23262e, metalness: .7, roughness: .45 });
-  const gold = new THREE.MeshStandardMaterial({ color: 0xf2b84b, metalness: 1, roughness: .26, emissive: 0x3a2600, emissiveIntensity: low ? .6 : .25 });
+  const titanium = new THREE.MeshStandardMaterial({ color: col(T.steel), metalness: .9, roughness: .34 });
+  const dark = new THREE.MeshStandardMaterial({ color: col(T.base), metalness: .6, roughness: .5 });
+  const seamM = new THREE.MeshStandardMaterial({ color: col(T.cyan), emissive: col(T.cyan), emissiveIntensity: 2.2, roughness: .3 });
+  const violetM = new THREE.MeshStandardMaterial({ color: col(T.violet), emissive: col(T.violet), emissiveIntensity: 1.6, roughness: .3 });
+  const barM = [T.cyan, T.blue].map(c => new THREE.MeshStandardMaterial({ color: col(c), emissive: col(c), emissiveIntensity: low ? 1.1 : .8,
+    metalness: .2, roughness: .15, transparent: true, opacity: .9 }));
   // the wall + frame
-  const wall = new THREE.Mesh(new THREE.RingGeometry(1.32, 3.2, 48), dark); scene.add(wall);
-  const frame = new THREE.Mesh(new THREE.TorusGeometry(1.3, .09, 12, 48), steel); scene.add(frame);
-  const back = new THREE.Mesh(new THREE.CircleGeometry(1.3, 48), new THREE.MeshStandardMaterial({ color: 0x120e0a, roughness: 1 })); back.position.z = -.9; scene.add(back);
-  // the coins inside (three stacks), shown up to value
-  const N = pick(30, 24, 15), coinG = new THREE.CylinderGeometry(.26, .26, .06, low ? 18 : 28), coins = [];
+  scene.add(new THREE.Mesh(new THREE.RingGeometry(1.32, 3.2, 48), dark));
+  scene.add(new THREE.Mesh(new THREE.TorusGeometry(1.3, .09, 12, 48), titanium));
+  const frameSeam = new THREE.Mesh(new THREE.TorusGeometry(1.39, .012, 6, 64), seamM); scene.add(frameSeam);
+  const back = new THREE.Mesh(new THREE.CircleGeometry(1.3, 48), new THREE.MeshStandardMaterial({ color: col(T.base), roughness: 1 })); back.position.z = -.9; scene.add(back);
+  // the crystal bars inside (three stacks, alternating cyan / blue), shown up to value
+  const N = pick(30, 24, 15), barG = new THREE.BoxGeometry(.5, .07, .2), bars = [];
   for (let i = 0; i < N; i++) {
-    const s = i % 3, h = Math.floor(i / 3), c = new THREE.Mesh(coinG, gold);
-    c.position.set((s - 1) * .58 + (h % 2 ? .02 : -.02), -.95 + h * .065, -.45 + (s === 1 ? -.12 : 0)); c.rotation.y = h * .7;
-    c.userData.y = c.position.y; c.visible = false; scene.add(c); coins.push(c);
+    const s = i % 3, h = Math.floor(i / 3), c = new THREE.Mesh(barG, barM[(s + h) % 2]);
+    c.position.set((s - 1) * .58, -.95 + h * .078, -.45 + (s === 1 ? -.12 : 0)); c.rotation.y = (h % 2 ? .12 : -.12);
+    c.visible = false; scene.add(c); bars.push(c);
   }
-  // the door: a thick disc on a hinge at its left edge, a gold ring, bolts, the wheel
+  // the door: a thick titanium disc on a hinge at its left edge, a cyan light seam, bolts, the wheel with a violet hub
   const hinge = new THREE.Group(); hinge.position.set(-1.22, 0, .05); scene.add(hinge);
   const door = new THREE.Group(); door.position.x = 1.22; hinge.add(door);
-  const slab = new THREE.Mesh(new THREE.CylinderGeometry(1.22, 1.22, .32, low ? 32 : 56), steel); slab.rotation.x = Math.PI / 2; door.add(slab);
-  const inlay = new THREE.Mesh(new THREE.TorusGeometry(.98, .035, 8, 48), gold); inlay.position.z = .17; door.add(inlay);
+  const slab = new THREE.Mesh(new THREE.CylinderGeometry(1.22, 1.22, .32, low ? 32 : 56), titanium); slab.rotation.x = Math.PI / 2; door.add(slab);
+  const seam = new THREE.Mesh(new THREE.TorusGeometry(.98, .02, 8, 64), seamM); seam.position.z = .17; door.add(seam);
+  const seamV = new THREE.Mesh(new THREE.BoxGeometry(.02, 1.5, .02), seamM); seamV.position.z = .17; door.add(seamV);
   for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2, b = new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, .06, 10), dark); b.rotation.x = Math.PI / 2; b.position.set(Math.cos(a) * 1.08, Math.sin(a) * 1.08, .18); door.add(b); }
   const wheel = new THREE.Group(); wheel.position.z = .26; door.add(wheel);
-  wheel.add(new THREE.Mesh(new THREE.TorusGeometry(.42, .045, 10, 40), steel));
-  for (let i = 0; i < 3; i++) { const sp = new THREE.Mesh(new THREE.BoxGeometry(.84, .05, .05), steel); sp.rotation.z = i * Math.PI / 3; wheel.add(sp); }
-  wheel.add(new THREE.Mesh(new THREE.CylinderGeometry(.1, .1, .12, 16).rotateX(Math.PI / 2), gold));
-  // the shower (once, at 100%): small coins falling in front
-  const shower = [];
-  if (!reduceMotion) for (let i = 0; i < pick(26, 18, 8); i++) { const c = new THREE.Mesh(coinG, gold); c.scale.setScalar(.55); c.visible = false; scene.add(c); shower.push(c); }
+  wheel.add(new THREE.Mesh(new THREE.TorusGeometry(.42, .045, 10, 40), titanium));
+  for (let i = 0; i < 3; i++) { const sp = new THREE.Mesh(new THREE.BoxGeometry(.84, .05, .05), titanium); sp.rotation.z = i * Math.PI / 3; wheel.add(sp); }
+  wheel.add(new THREE.Mesh(new THREE.CylinderGeometry(.1, .1, .12, 16).rotateX(Math.PI / 2), violetM));
+  // the shower (once, at 100%): cyan / violet sparks falling in front
+  const shower = [], sparkG = new THREE.OctahedronGeometry(.06, 0);
+  if (!reduceMotion) for (let i = 0; i < pick(30, 22, 10); i++) { const c = new THREE.Mesh(sparkG, i % 2 ? violetM : seamM); c.visible = false; scene.add(c); shower.push(c); }
 
   let value = Math.max(0, Math.min(1, +o.value || 0)), shown = reduceMotion ? value : 0, t = 0, showerT = -1, dead = false;
   const size = () => { const w = host.clientWidth || 1, h = host.clientHeight || 1; renderer.setSize(w, h, false); camera.aspect = w / h; camera.position.set(.5, .35, w / h < 1 ? 7.4 : 5.8); camera.lookAt(0, -.05, 0); camera.updateProjectionMatrix(); };
@@ -62,13 +71,14 @@ export function mount(host, o) {
     hinge.rotation.y = -open;
     wheel.rotation.z = -shown * Math.PI * 2;
     const n = Math.round(shown * N);
-    coins.forEach((c, i) => { c.visible = i < n; });
+    bars.forEach((c, i) => { c.visible = i < n; });
     glow.intensity = 2 + shown * 8;
+    seamM.emissiveIntensity = 1.8 + (reduceMotion ? 0 : Math.sin(t * 2.4) * .5);
     if (!reduceMotion) { camera.position.x = .5 + Math.sin(t * .4) * .25; camera.lookAt(0, -.05, 0); }
     if (value >= .999 && showerT < 0 && shower.length) showerT = 0;
     if (showerT >= 0) {
       showerT += dt;
-      shower.forEach((c, i) => { const k = showerT - i * .06; c.visible = k > 0 && k < 2.2; if (c.visible) { c.position.set(Math.sin(i * 2.3) * 1.1, 1.6 - k * k * 1.6, .6 + Math.cos(i) * .3); c.rotation.set(k * 5 + i, k * 3, 0); } });
+      shower.forEach((c, i) => { const k = showerT - i * .05; c.visible = k > 0 && k < 2.2; if (c.visible) { c.position.set(Math.sin(i * 2.3) * 1.1, 1.6 - k * k * 1.6, .6 + Math.cos(i) * .3); c.rotation.set(k * 5 + i, k * 3, 0); } });
       if (showerT > 3.5) { showerT = -2; shower.forEach(c => { c.visible = false; }); }
     }
     renderer.render(scene, camera);

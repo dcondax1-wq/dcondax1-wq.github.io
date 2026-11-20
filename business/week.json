@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 15:14 ET",
+ "built": "2026-11-20 15:21 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 20 15:00 ET",
+ "pc": "PC last reported Nov 20 15:15 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49192.78,
-   "src": "PC live, Nov 20 14:58 ET",
+   "src": "PC live, Nov 20 15:13 ET",
    "room": 1024.58,
    "to_pass": 3807.22,
    "trades": 1,
@@ -47,7 +47,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 20 14:58 ET",
+   "src": "PC live, Nov 20 15:13 ET",
    "room": 1401.38,
    "to_pass": null,
    "trades": 2,
@@ -75,7 +75,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25000.0,
-   "src": "PC live, Nov 20 14:58 ET",
+   "src": "PC live, Nov 20 15:13 ET",
    "room": 1000.0,
    "to_pass": 1500.0,
    "trades": 0,
@@ -147,14 +147,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "NQ v4 round 3 (goals in MFFU's $0 terms: ATLAS $401, goal $1,000 at $2,100, honest Dec 18-31 date,...",
    "NQ terminal look (owner: no gold): nq/nqtheme.css loaded last (navy base + glass cards, cyan/blue...",
+   "NQ v4 round 3 (lead + owner corrections): ATLAS goal in MFFU's own terms (sim-funded starts at $0:...",
+   "DESIGN kit: NQ FX re-coloured (owner: no gold): navy / cyan / blue / violet, green only for a win;...",
+   "Jarvis funded view: use mffuView's trailing floor + payout levels when present, else floor from...",
+   "Jarvis: MFFU funded view (owner): funded accounts from $0 (ATLAS $401, floor -$1,000, earliest...",
    "Landing: MFFU $0 view everywhere (PC_FEED.mffuView: ATLAS funded $401, floor -$1,000, goal $1,000...",
-   "NQ v4: light themes (Athena etc.) read in dark ink on the goal tiles and the numbers card...",
-   "pc_feed.js stays ?v=n5 (jarvis/sw.js precaches that tag: site_checks green); LEAD_WIRES note",
-   "Ledger: $0 funded view, MFFU one-sim-funded conflict, backtest commission gap, Rapid rules",
-   "Funded sim accounts the way MFFU shows them (owner: 'the funded account sims start at 0'): one...",
-   "Account rules: docs/ACCOUNT_RULES.md (one page per account), mffu_rules.json + Rapid EOD 25K block...",
-   "NQ v4 round 2: chart light trail (a glowing gold line over the last 3 h, pulse on a new bar), the..."
+   "NQ v4: light themes (Athena etc.) read in dark ink on the goal tiles and the numbers card..."
   ]
  },
  "next": {
@@ -348,6 +348,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 20 15:00 ET"
+  "board_pc": "Nov 20 15:15 ET"
  }
 }

@@ -26,7 +26,8 @@
         urls: feed ? [['Status link (the PC\'s latest post)', feed]] : [],
         steps: spoken([
           'Add "Get Dictionary Value" three times on the Dictionary: keys "board.lit.balance", "board.lit.room", "board.lit.today_pnl" (Zlarior 50K), then the same with "board.atlas." (ATLAS).',
-          'Add "Text": "Zlarior: [balance] dollars, [room] room left, today [today]. ATLAS: [balance], [room] room left, today [today]." (tap each [ ] and pick the matching value).',
+          'ATLAS is funded, and a funded account counts from $0 (its balance is the profit): add "Calculate" with the ATLAS balance minus 25,000.',
+          'Add "Text": "Zlarior: [balance] dollars, [room] room left, today [today]. ATLAS funded: [Calculation Result] dollars, today [today]. Floor minus 1,000. Earliest payout at 1,350; goal 1,000 at 2,100, you get 800." (tap each [ ] and pick the matching value).',
         ]),
         alt: ['Want it simpler? Use "Open URL" with the Jarvis link below instead: Jarvis opens, answers and reads it out (tap the screen once if it waits for "Tap to hear").', J('How are my accounts?')] },
       { id: 'intrade', siri: 'Is a bot in a trade', what: 'Siri says whether ATLAS or Zlarior holds a position right now.',

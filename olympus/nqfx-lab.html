@@ -9,23 +9,23 @@
 <!-- NQ FX lab (olympus/nqfx-lab.html, day-arenas 2026-11-20): every OLYMPUS_NQFX effect on one page, for the NQ dashboard team and the
      tests (tests/test_nqfx.py). ?tier=ultra|high|low|off forces a tier (else the owner's quality setting). Numbers here are examples. -->
 <style>
-:root { --oly-accent-rgb: 242, 184, 75; color-scheme: dark; --bg: #0c0d10; --card: #16181d; --line: rgba(255, 255, 255, .1); --ink: #f3f1ec; --soft: #b4b0a8; --gold: #f2b84b; }
+:root { --oly-accent-rgb: 34, 211, 238; color-scheme: dark; --bg: #0b1220; --card: #111a2e; --line: rgba(148, 197, 255, .14); --ink: #e6f0ff; --soft: #a5b4cc; --cyan: #22d3ee; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.5 -apple-system, system-ui, sans-serif; padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
 h1 { font-size: 1.5rem; margin: 0 0 4px; } h2 { font-size: 1.0625rem; margin: 0 0 10px; }
 p { margin: 0; color: var(--soft); }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; margin-top: 14px; max-width: 640px; }
-#vault { width: 100%; aspect-ratio: 4 / 3; border-radius: 14px; background: radial-gradient(circle at 50% 40%, #2a2219, #0c0d10 70%); }
+#vault { width: 100%; aspect-ratio: 4 / 3; border-radius: 14px; background: radial-gradient(circle at 50% 40%, #13213d, #0b1220 70%); }
 .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
-button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #22252c; color: var(--ink); font: 600 15px/1 inherit; cursor: pointer; }
-input[type=range] { flex: 1; min-width: 160px; height: 44px; accent-color: var(--gold); }
+button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #16233d; color: var(--ink); font: 600 15px/1 inherit; cursor: pointer; }
+input[type=range] { flex: 1; min-width: 160px; height: 44px; accent-color: var(--cyan); }
 #ring { width: 132px; height: 132px; position: relative; display: grid; place-items: center; }
 #ringPct { font: 800 1.5rem/1 -apple-system, system-ui; font-variant-numeric: tabular-nums; position: relative; z-index: 3; }
-#pnl { font: 800 2.2rem/1 -apple-system, system-ui; font-variant-numeric: tabular-nums; color: #4ade80; }
+#pnl { font: 800 2.2rem/1 -apple-system, system-ui; font-variant-numeric: tabular-nums; color: #22c55e; }
 svg.chart { width: 100%; height: 160px; display: block; }
 </style>
 <script>(function () { var t = (location.search.match(/tier=(ultra|high|low|off)/) || [])[1]; if (t) try { localStorage.setItem('jfx', t); } catch (e) {} })();</script>
-<script src="nqfx.js?v=n1" defer></script>
+<script src="nqfx.js?v=n3" defer></script>
 </head>
 <body>
 <h1>NQ FX lab</h1>
@@ -40,7 +40,7 @@ svg.chart { width: 100%; height: 160px; display: block; }
   <div class="row"><button id="ringUp" type="button">+15%</button><button id="pnlUp" type="button">+$420</button></div></section>
 
 <section class="card"><h2>Chart light trail</h2>
-  <svg class="chart" viewBox="0 0 320 160" preserveAspectRatio="none"><path id="line" d="M0 120 L40 110 L80 118 L120 90 L160 96 L200 70 L240 76 L280 40 L320 30" fill="none" stroke="#f2b84b" stroke-width="2"/></svg>
+  <svg class="chart" viewBox="0 0 320 160" preserveAspectRatio="none"><path id="line" d="M0 120 L40 110 L80 118 L120 90 L160 96 L200 70 L240 76 L280 40 L320 30" fill="none" stroke="#3b82f6" stroke-width="2"/></svg>
   <div class="row"><button id="redraw" type="button">New data</button></div></section>
 
 <section class="card"><h2>Moments</h2>

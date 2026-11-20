@@ -1446,7 +1446,7 @@ ready.vault = Promise.all([load('obsidian', './obsidian.js', (m) => typeof m.cre
     addTodos: (list) => { let n = 0; for (const t of list || []) if (assistant && assistant.addTodo) { assistant.addTodo(t); n++; } return n; },       // "pull my tasks from Obsidian" (memory.js; asks first)
     todos: () => (assistant ? assistant.todos() : []) }); } return vault; }).catch(() => null);
 // the business answers (biz.js, day-jarvis 2026-11-20): accounts, trades, room, payout, news, to-do, Kalshi from the real feeds, before the brain
-ready.biz = load('biz', './biz.js?v=b3', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
+ready.biz = load('biz', './biz.js?v=b4', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
 ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianSheet === 'function').then((m) => { assist = m; return m; });
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
