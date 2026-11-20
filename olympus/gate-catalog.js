@@ -65,7 +65,7 @@
     ['mint', 'mint/', 'Mint', 'Money machine', 'Five money streams, one honest estimate', 'money', 'ideas', 'money income earn streams estimate side', ''],
     ['mercury', 'mercury/', 'Mercury', 'Deals and codes', 'Sales, discount codes, free resets', 'money', 'ideas', 'discount coupon promo code sale deal reset price', ''],
     ['arbiter', 'arbiter/', 'Arbiter', 'Spreads and funding', 'Paper-only spreads: net yearly return', 'money', 'ideas', 'spreads funding arbitrage crypto yield', ''],
-    ['agency', 'agency/', 'Agency', 'Website agency', 'Local-business leads, demo sites and calls', 'money', 'ideas', 'website websites agency web design clients leads crm pipeline calls cold call call list script side business', ''],
+    ['agency', 'agency/', 'Agency', 'Website business', 'Your web business HQ: leads, audits, 3D demos, offers, calls', 'money', 'ideas', 'website websites web 3d site sites marketing agency web design clients client leads audit audits proposal proposals offer offers retainer care plan showcase portfolio demo demos crm pipeline calls cold call call list script side business', ''],
     ['business', 'business/', 'Business', 'All my businesses', 'Every side business: next step, money, 7-day launch', 'money', 'ideas', 'business businesses side hustle agency products gigs instagram income launch checklist next step money plan', ''],
     // (2026-11-20 night-gatefix) the iPhone widget (night-revamp-dash, widget/): last of the money rows, so each tab's best stays Ledger / Hera / Oikos / Mint
     ['widget', 'widget/', 'Widget', 'iPhone widget', 'Your accounts on the Home Screen, plus the Glance page', 'money', 'real', 'widget glance home screen scriptable iphone phone balance accounts', ''],
@@ -231,6 +231,8 @@
     ['act-sos', 'Emergency: what to do', '10 cards, 3 steps each: PC off, stuck trade, disconnected...', 'hub/manual.html#sos', 'emergency sos panic wrong broken problem stuck disconnected disconnect error urgent ninjatrader nt'],
     ['act-kill', 'Stop everything now', 'The kill switch: flatten every account, stop the bot', 'hub/manual.html#sos-8', 'stop kill everything halt flatten close all bot bots shut off switch out', 'bot bots'],
     ['act-manual', 'Owner manual', 'Who is who, a normal day, money, every word explained', 'hub/manual.html', 'manual guide who is explain meaning means glossary words word mean define definition'],
+    ['act-web', 'Website business HQ', 'Next step, pipeline, leads, audits, 3D demos, offers', 'agency/index.html#hq', 'website websites web 3d site sites marketing leads audit proposal proposals clients client agency business hq retainer'],
+    ['act-setup', 'Set up your iPhone', 'Home Screen icons, the widget, notifications, Siri', 'hub/setup.html', 'setup set up iphone phone home screen icon icons install add widget notifications siri shortcuts'],
     ['act-new', "What's new", 'What changed in Olympus and the bots, newest first', 'hub/whatsnew.html', 'new changed changes change updates latest recent whats week'],
     ['act-steps', 'Your steps', 'What you still have to do, in order', 'hub/steps.html', 'steps todo to-do waiting owner list next need'],
     ['act-add', 'Add an account', 'Pick the plan, the Name, your phrase: 3 steps', 'hub/manual.html#sos-9', 'add new account accounts buy bought rapid builder eval start'],

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Willow Row Lofts · Unit 4B (demo)</title>
+<meta name="description" content="DEMO listing website for a fictional loft: walk through every room in 3D from your phone, then book a viewing.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#fbfaf7">
+<meta name="color-scheme" content="light">
+<!-- AGENCY demo 4 (agency/demos/estate/, day-web-demos 2026-11-20): a sellable one-page real-estate / venue listing. FICTIONAL property and
+     agent, 555 number. The 3D walk-through (scene.js, the flat made in code) loads after the page has drawn; without WebGL the floor plan
+     stays and the room buttons still highlight each room. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232f5d50'/%3E%3C/svg%3E">
+<style>
+:root { --bg: #fbfaf7; --ink: #1d1b18; --soft: #57524a; --card: #ffffff; --line: rgba(29, 27, 24, .12); --line-strong: rgba(29, 27, 24, .35);
+  --accent: #2f5d50; --on-accent: #ffffff; --accent-text: #2f5d50; --stage: linear-gradient(#e9eef0, #f6f3ec); --map-bg: #ece8df; --radius: 999px;
+  --display: "Didot", "Bodoni 72", "Playfair Display", Georgia, serif; }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+.facts div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 8px; text-align: center; }
+.facts b { display: block; font: 700 1.125rem/1.2 -apple-system, system-ui, sans-serif; }
+.facts span { font-size: .8125rem; color: var(--soft); }
+.ask { font: 700 1.75rem/1.1 -apple-system, system-ui, sans-serif; margin-top: 10px; }
+.stage .hl { fill: #2f5d50; opacity: .18; }
+.agent { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; align-items: center; }
+.agent .av { width: 56px; height: 56px; border-radius: 50%; background: #2f5d50; color: #fff; display: grid; place-items: center; font: 700 1.25rem/1 system-ui; }
+</style>
+<link rel="stylesheet" href="../demo.css?v=d3">
+<script src="../demo.js?v=d3" defer></script>
+<script src="../../../olympus/lazy3d.js?v=l2" data-src="scene.js?v=e1" data-near="#stage" data-event="demo3d" defer></script>
+</head>
+<body>
+<div class="demo-strip"><span data-strip>Demo site · fictional listing</span><a href="../">All demos</a></div>
+
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Willow Row Realty, top of page">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#2f5d50"/><path d="M8 26V14l9-6 9 6v12h-6v-7h-6v7z" fill="#fbfaf7"/></svg>
+    <span data-biz>Willow Row</span></a>
+  <a class="btn primary small" href="#book" data-book="In-person viewing">Book a viewing</a>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <p class="eyebrow">For sale · Riverside district</p>
+    <h1>Unit 4B, Willow Row Lofts</h1>
+    <p class="ask">$649,000</p>
+    <div class="facts"><div><b>2</b><span>beds</span></div><div><b>1.5</b><span>baths</span></div><div><b>1,180</b><span>sq ft</span></div><div><b>32 m²</b><span>terrace</span></div></div>
+    <p class="lead">Walk through every room from your phone: tap a room, look around, then book the viewing that matters.</p>
+
+    <div class="show">
+    <div id="stage" class="stage" style="--stage-ratio: 4 / 3.4" role="img" aria-label="The flat in 3D. Tap a room below to walk in; drag sideways to look around.">
+      <svg class="pic" viewBox="0 0 400 340" aria-hidden="true">
+        <rect width="400" height="340" fill="#eef1f1"/>
+        <g transform="translate(30 40)">
+          <rect x="0" y="0" width="170" height="155" fill="#e3d3bb"/><rect x="170" y="0" width="170" height="120" fill="#ddd4c6"/><rect x="170" y="120" width="170" height="135" fill="#e6dccb"/>
+          <rect x="0" y="155" width="170" height="100" fill="#c9b08c"/>
+          <rect class="hl" data-for="room:living" x="0" y="0" width="170" height="155"/><rect class="hl" data-for="room:kitchen" x="170" y="0" width="170" height="120" style="display:none"/>
+          <rect class="hl" data-for="room:bedroom" x="170" y="120" width="170" height="135" style="display:none"/><rect class="hl" data-for="room:terrace" x="0" y="155" width="170" height="100" style="display:none"/>
+          <g fill="none" stroke="#3a352e" stroke-width="6"><path d="M0 155V0H340V255H170"/><path d="M170 0v20M170 45v75H230M262 120H340M170 120v18M170 165v90"/></g>
+          <path d="M0 155H170" stroke="#7fb3c8" stroke-width="4"/><path d="M0 255H170V155" fill="none" stroke="#8a7a62" stroke-width="2" stroke-dasharray="5 4"/>
+          <g fill="#b9a68b"><rect x="20" y="20" width="90" height="34" rx="6"/><rect x="45" y="70" width="44" height="26" rx="4"/></g>
+          <g fill="#a99c8a"><rect x="190" y="10" width="140" height="22"/><rect x="215" y="62" width="80" height="26" rx="3"/></g>
+          <rect x="250" y="160" width="74" height="84" rx="6" fill="#c8bba6"/>
+          <g fill="#3a352e" font-family="system-ui" font-size="13" font-weight="600"><text x="56" y="135">Living</text><text x="232" y="110">Kitchen</text><text x="190" y="235">Bedroom</text><text x="56" y="215">Terrace</text></g>
+        </g>
+      </svg>
+      <span class="tag3d">3D</span><span class="hint">Drag sideways to look around</span>
+    </div>
+    <div class="picks" data-group="room" role="group" aria-label="Walk to a room">
+      <button class="pick" type="button" data-value="overview" aria-pressed="false" data-note="The whole flat from above: 1,180 sq ft on one level, light from three sides">Overview</button>
+      <button class="pick" type="button" data-value="living" aria-pressed="true" data-note="Living room · 6 x 4.5 m, oak floor, floor-to-ceiling glass to the terrace">Living</button>
+      <button class="pick" type="button" data-value="kitchen" aria-pressed="false" data-note="Kitchen · quartz island for 3, gas hob, walk-in pantry">Kitchen</button>
+      <button class="pick" type="button" data-value="bedroom" aria-pressed="false" data-note="Main bedroom · king size with room to spare, built-in wardrobes">Bedroom</button>
+      <button class="pick" type="button" data-value="terrace" aria-pressed="false" data-note="Terrace · 32 m², south-facing, river view at sunset">Terrace</button>
+    </div>
+    <p class="pick-note" data-note-for="room" aria-live="polite"></p>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="#book" data-book="In-person viewing">Book a viewing</a>
+      <a class="btn ghost" href="tel:+15550100163">Call the agent</a>
+    </div>
+  </div></section>
+
+  <section id="details"><div class="wrap">
+    <p class="eyebrow">The flat</p>
+    <h2>Light, quiet, ready to move in</h2>
+    <div class="grid two">
+      <div class="card"><h3>Inside</h3><p>Open-plan living and kitchen, oak floors, underfloor heating, 2.9 m ceilings, a guest WC and a rain shower in the main bath.</p></div>
+      <div class="card"><h3>Building</h3><p>Converted 1920s warehouse, lift, bike store, one parking space. HOA $310/month. Pets welcome.</p></div>
+    </div>
+  </div></section>
+
+  <section id="reviews"><div class="wrap">
+    <p class="eyebrow" data-reviews>Reviews</p>
+    <h2>Buyers on the agent</h2>
+    <div class="reviews">
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"We walked through three flats in 3D on the train and only viewed the one we bought."</p><span class="who">Hannah &amp; Leo (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Sold our place in 9 days. The virtual tour got twice the viewing requests."</p><span class="who">Rob D. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Clear, quick and honest. Every question answered the same day."</p><span class="who">Mei L. (sample review)</span></article>
+    </div>
+  </div></section>
+
+  <section id="visit"><div class="wrap">
+    <p class="eyebrow">Location</p>
+    <h2>Riverside, 6 minutes to the station</h2>
+    <div class="map" role="img" aria-label="Map: Willow Row by the river, near the park and the station">
+      <svg viewBox="0 0 400 250" aria-hidden="true"><rect width="400" height="250" fill="#ece8df"/>
+        <path d="M-10 200C90 180 160 230 250 205S370 160 420 175V260H-10z" fill="#b8d3dc"/><rect x="40" y="30" width="110" height="80" rx="10" fill="#cfe0bf"/>
+        <g stroke="#fff" stroke-width="10" fill="none"><path d="M0 130H400"/><path d="M220 0V190"/></g>
+        <g fill="#57524a" font-family="system-ui" font-size="11"><text x="62" y="74">Park</text><text x="300" y="120">Station</text><text x="290" y="232">River</text></g>
+        <rect x="300" y="88" width="34" height="20" rx="4" fill="#57524a" opacity=".5"/>
+        <path d="M190 112c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26c0-9-7-16-16-16z" fill="#2f5d50"/><circle cx="190" cy="128" r="6" fill="#fff"/></svg>
+    </div>
+    <div class="grid two">
+      <div class="card agent"><span class="av" aria-hidden="true">SR</span><div><h3 data-sample="Your agent here (sample)">Sam Rivera, listing agent</h3><p>Willow Row Realty · replies within the hour</p></div></div>
+      <div class="card"><h3>Open house</h3><p>Saturday 11 am - 1 pm and Sunday 2 - 4 pm, or book a private viewing any day.</p>
+        <div class="visit-cta"><a class="btn ghost small" href="https://maps.apple.com/?q=Riverside">Directions</a><a class="btn ghost small" href="tel:+15550100163">(555) 010-0163</a></div></div>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><p>© <span data-year>2026</span> <span data-biz>Willow Row Realty</span> <span data-fict>(a fictional agency and property)</span>.</p><p>Demo website built by Olympus Agency: listings people can walk through.</p></div></footer>
+</main>
+
+<nav class="dock" aria-label="Quick actions"><a class="btn ghost" href="tel:+15550100163">Call</a><a class="btn primary" href="#book" data-book="In-person viewing">Book a viewing</a></nav>
+
+<dialog id="book" class="sheet" aria-labelledby="bookH"><div class="sheet-in">
+  <div class="sheet-head"><h2 id="bookH">Book a viewing</h2><button class="x" type="button" data-close aria-label="Close">×</button></div>
+  <form>
+    <label class="field">Viewing<select name="what"><option>In-person viewing</option><option>Video call tour</option><option>Open house</option></select></label>
+    <div class="two-col" style="margin-top:10px"><label class="field">Day<input type="date" name="day" required></label>
+      <label class="field">Time<select name="time"><option>Morning</option><option>Lunchtime</option><option>Evening</option></select></label></div>
+    <label class="field" style="margin-top:10px">Name<input name="name" autocomplete="name" required></label>
+    <label class="field" style="margin-top:10px">Phone<input name="tel" type="tel" autocomplete="tel" required></label>
+    <label class="field" style="margin-top:10px">Buying with a mortgage?<select name="m"><option>Yes, pre-approved</option><option>Yes, not yet approved</option><option>Cash buyer</option></select></label>
+    <button class="btn primary" type="submit" style="width:100%;margin-top:14px">Request the viewing</button>
+    <p class="fine" style="margin-top:8px">Demo: nothing is sent. On the real site this goes to the agent's phone with the buyer's answers.</p>
+  </form>
+  <div class="done" hidden><h3 tabindex="-1">Viewing requested</h3><p>The agent will confirm the time by text.</p><button class="btn ghost" type="button" data-close style="margin-top:14px">Done</button></div>
+</div></dialog>
+</body>
+</html>

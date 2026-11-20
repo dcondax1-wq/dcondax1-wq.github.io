@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-20",
  "number": 2,
- "built": "2026-11-20T18:04:12Z",
+ "built": "2026-11-20T20:14:33Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -673,9 +673,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 224 write-ups.",
-    "The newest lesson on file, dated 2026-11-20, reads: (2) account_b.patch applied to a pc copy with FUNDED_ON = {funded_room_pct 0.4, streak_shrink 2}: never a larger size than today on 3,168 funded states (882 smaller), eval stage identical, Rapid lane…",
-    "It was filed under \"account\" and comes from research/writeups/skeptic-live-patches-2026-11-20.md."
+    "The research shelf now counts 227 write-ups.",
+    "The newest lesson on file, dated 2026-11-20, reads: 1. Do not sell \"a website\". Sell a monthly engine that brings calls (site + Google profile + reviews + missed-call text-back), with the site as the first step.",
+    "It was filed under \"finding\" and comes from research/writeups/web-business-2026-11-20.md."
    ],
    "facts": [
     {
@@ -707,10 +707,10 @@
      "quote": true
     },
     {
-     "t": "224",
+     "t": "227",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 224
+     "raw": 227
     },
     {
      "t": "2026-11-20",
@@ -718,17 +718,17 @@
      "quote": true
     },
     {
-     "t": "(2) account_b.patch applied to a pc copy with FUNDED_ON = {funded_room_pct 0.4, streak_shrink 2}: never a larger size than today on 3,168 funded states (882 smaller), eval stage identical, Rapid lane…",
+     "t": "1. Do not sell \"a website\". Sell a monthly engine that brings calls (site + Google profile + reviews + missed-call text-back), with the site as the first step.",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "account",
+     "t": "finding",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/skeptic-live-patches-2026-11-20.md",
+     "t": "research/writeups/web-business-2026-11-20.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }

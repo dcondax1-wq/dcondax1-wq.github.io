@@ -29,7 +29,7 @@
 
 export const FILES = {
   payday: '../business/payday.json', steps: '../hub/steps.json', decisions: '../business/decisions.json', news: '../nq/news_week.json',
-  events: '../pythia/events.json', status: '../status_feed.json', dash: '../business/dash.json',
+  events: '../pythia/events.json', status: '../status_feed.json', dash: '../business/dash.json', playbook: '../agency/expert/playbook.json',
 };
 export const CHIPS = [
   { id: 'accounts', label: 'My accounts', q: 'How are my accounts?' },
@@ -88,6 +88,8 @@ const weekStart = (ymd, dow) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd
 
 // ------------------------------------------------------------------------------------------------ intents
 const RX = [
+  // the website business (team web-expert 2026-11-20): agency/expert/playbook.json, the same file the Expert page reads
+  ['web', /\b(3d (site|website|web)|immersive (site|website|web)|websites?|web ?design|web studio|agency|cold call(s|ing)?|my prospects?|local seo|seo|google business profile|gbp|care plan)\b|\bwhat (do|should) i say to an? \w+|\b(price|pricing|charge|quote) (a |for a |my )?(site|website|3d)\b|\bbest (niche|trade)s?\b|\bobjections?\b/],
   ['pc', /\b(is (the|my) (pc|computer|bot|bots|ninjatrader|server|system) (ok|on|running|alive|up|working|fine|healthy)|(pc|computer|system) (ok|status|health)|(ninjatrader|nt) (ok|on|connected|running)|disk space|is the pc on)\b/],
   ['decide', /\b(decide|decision|decisions|yes ?\/? ?no questions?|what do you recommend|your recommendations?|what would you do)\b/],
   ['taxes', /\b(tax|taxes|irs|set aside|estimated payment)\b/],
@@ -444,7 +446,7 @@ export const TAX_PCT = 30, SPLIT = 0.8;
 A.payoutnow = async (deps, nowD) => {
   const L = await freshLive(deps);
   const raw = L && isObj(L.raw) ? L.raw : null;
-  const [feed, coach] = await Promise.all([deps.feed ? deps.feed : loadScript('../pc_feed.js?v=n4', 'PC_FEED'), deps.coach ? deps.coach : loadScript('../business/payoutcoach.js', 'PAYOUT_COACH')]);
+  const [feed, coach] = await Promise.all([deps.feed ? deps.feed : loadScript('../pc_feed.js?v=n6', 'PC_FEED'), deps.coach ? deps.coach : loadScript('../business/payoutcoach.js', 'PAYOUT_COACH')]);
   const funded = accountsOf(L).filter((a) => a.stage === 'funded');
   if (!funded.length) return { text: 'No funded account on the PC report right now, so no payout to ask for yet. Say "first payout" for the dates.', src: liveSrc(L, +nowD) };
   const lines = [];
@@ -530,6 +532,36 @@ A.edge = async (deps, nowD) => {
   if (isObj(e.atlas) && e.atlas.light) lines.push(`ATLAS: ${e.atlas.light}${num(e.atlas.pf_r40) != null ? ` (profit factor ${e.atlas.pf_r40} over its last 40 sessions, ${e.atlas.pf_r40_2026_h1} in 2026 H1)` : ''}.`);
   lines.push('A warning light only: the bots trade the same either way.');
   return { text: lines.join('\n'), src: srcLine(`business/dash.json (data to ${txt(e.data_to, 10) || '?'})`, f, +nowD) };
+};
+
+
+// ------------------------------------------------------------------------------------------------ the website business ('web', team web-expert 2026-11-20)
+A.web = async (deps, nowD, text) => {
+  const f = await getFile('playbook', deps), P = f && f.j;
+  if (!P || !Array.isArray(P.cards)) return { text: 'I cannot read the website playbook (agency/expert/playbook.json) right now.', src: srcLine('agency/expert/playbook.json', f, +nowD) };
+  let E = null; try { E = await import('../agency/expert/expertcore.js?v=1'); } catch (_) { E = null; }
+  const src = srcLine(`the website playbook (agency/expert/playbook.json, ${txt(P.updated, 10)})`, f, +nowD) + ' Open Agency > Expert for all of it.';
+  const q = String(text || '').toLowerCase(), hit = E ? E.find(q, P) : null, range = (o) => (E ? E.range(o) : '');
+  const offerOf = (id) => arr(P.offers).find((o) => o.id === id);
+  if (/\bbest (niche|trade)s?\b|\bwho (should|do) i (sell|target)\b/.test(q) || (hit && hit.item && hit.item.id === 'when3d')) {
+    const sells = arr(P.niches).filter((n) => n.three_d === 'sells').map((n) => n.name), gim = arr(P.niches).filter((n) => n.three_d === 'gimmick').map((n) => n.name);
+    const sc = offerOf('scan3d'), pv = offerOf('product3d'), im = offerOf('immersive');
+    return { text: [`For 3D, the best trades are the ones where the customer buys a place or an object: ${sells.join(', ')}.`,
+      sc && pv ? `Sell templated 3D: a phone-scan tour ${range(sc)}, a 3D product viewer ${range(pv)}.${im ? ` A custom 3D site (${range(im)}) only later, with a fixed scope.` : ''}` : '',
+      `Skip 3D for ${gim.join(', ')}: speed, reviews and the Google listing win those calls.`].filter(Boolean).join('\n'), src };
+  }
+  if (hit && hit.kind === 'niche') {
+    const n = hit.item, o = offerOf(n.offer);
+    return { text: [`For a ${n.name.toLowerCase()}: lead with the ${o ? `${o.name} (${range(o)})` : 'Growth site'}.`, `Say: "${n.say}"`,
+      `3D: ${n.three_d === 'sells' ? 'it sells here' : n.three_d === 'maybe' ? 'maybe, as an add-on' : 'skip it, a gimmick here'}. Hook: ${n.hook}`].join('\n'), src };
+  }
+  if (hit && hit.kind === 'card') {
+    const c = hit.item;
+    return { text: [`${c.title}.`, arr(c.say)[0] ? `Say: "${arr(c.say)[0]}"` : '', arr(c.do).slice(0, 2).join(' '), c.usd || ''].filter(Boolean).join('\n'), src };
+  }
+  const st = offerOf('starter'), gr = offerOf('growth'), im = offerOf('immersive'), ca = offerOf('care');
+  return { text: [`The three offers: Starter ${range(st)}, Growth ${range(gr)}, 3D / immersive ${range(im)}; a care plan ${range(ca)} on every site.`,
+    'Ask me "what do I say to a roofer", "how do I price a 3D site", "best niche for 3D", or diagnose a prospect in 5 taps on Agency > Expert.'].join('\n'), src };
 };
 
 export async function answer(id, deps = {}, text = '') {

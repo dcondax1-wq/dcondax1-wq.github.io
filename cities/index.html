@@ -18,9 +18,9 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o18" data-app="cities"></script>
+<script src="../olympus/olympus.js?v=o19" data-app="cities"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/gate-nav.js?v=g8" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/sfx.js?v=s4" async></script>
 <script src="frame-safe.js?v=1" defer></script><!-- cities3: the parent's bottom safe area when framed in Jarvis (the dock off the home bar) -->
@@ -98,15 +98,16 @@ backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 body:not([data-mode=hub]) .world-fab,body[data-ready=false] .world-fab,.hellas-open .world-fab,.athens-open .world-fab{display:none}
 /* olympus2: the other cities, one tap each, right under the World card (the World first) */
 .city-places{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 188px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:min(340px,calc(100vw - 24px))}
-.city-places a{display:flex;flex-direction:column;justify-content:center;min-height:52px;padding:6px 7px;border-radius:14px;text-decoration:none;color:#fff3d8;
+.city-places a{display:flex;flex-direction:column;justify-content:center;min-height:44px;padding:6px 7px;border-radius:14px;text-decoration:none;color:#fff3d8;
   background:linear-gradient(180deg,rgba(16,20,40,.9),rgba(6,8,18,.92));border:1px solid color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 6px 18px rgba(0,0,0,.4)}
 .city-places b{font:700 .8125rem/1.15 var(--oly-ui,-apple-system,system-ui,sans-serif);color:var(--c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .city-places small{font:500 .75rem/1.2 var(--oly-ui,-apple-system,system-ui,sans-serif);color:#b9c0da;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html[data-oly-scheme=light] .city-places a{background:linear-gradient(180deg,rgba(255,252,244,.95),rgba(246,238,222,.93));color:#3a2c12;border-color:rgba(138,106,31,.38)}
 html[data-oly-scheme=light] .city-places small{color:#6b5d48} html[data-oly-scheme=light] .city-places b{color:#5a4210}
+@media (max-width:600px){.city-places small{display:none}}
 body:not([data-mode=hub]) .city-places,body[data-ready=false] .city-places,.hellas-open .city-places,.athens-open .city-places{display:none}
-.world-fab{bottom:calc(var(--sb) + 248px)}
-:root{--map-bottom:330px}   /* olympus2: the islands fit above the World card + the city chips (agoramap.js reads it) */
+.world-fab{bottom:calc(var(--sb) + 236px);min-height:52px;padding:5px 12px 5px 5px}.world-fab .wf-img{width:42px;height:42px}.world-fab i{left:43px;top:5px}
+:root{--map-bottom:250px}   /* olympus2: the islands fit above the World card + the city chips (agoramap.js reads it) */
 /* olympus2 (lead QA: the header tabs looked cut under the Cities button): the strip scrolls with a fade at its edge, snapping to whole tabs */
 .network-strip{scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:18px}
 .network-strip button{scroll-snap-align:start}

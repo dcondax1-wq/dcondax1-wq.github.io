@@ -32,7 +32,9 @@
     c.appendChild(el('p', 'brow-plan', (a.plan || '') + (a.plan_only ? ' · PLAN only: no PC numbers yet' : '') + (a.not_in_plan ? ' · on your PC, not in the plan yet' : '')));
     const dl = el('dl', 'nums');
     const kv = (k, v, cls) => { const w = el('div', cls || ''); w.appendChild(el('dt', null, k)); w.appendChild(el('dd', null, v)); dl.appendChild(w); };
-    kv('Balance', M.usd(a.balance));
+    // day-archive 2026-11-20: a funded sim the way MFFU shows it (starts at $0: balance = profit), pc_feed.js mffuView
+    const mv = a.chip === 'funded' && window.PC_FEED && window.PC_FEED.mffuView ? window.PC_FEED.mffuView({ kind: 'funded', plan: a.plan, name: a.name, balance: a.balance }) : null;
+    kv('Balance', M.usd(mv && mv.balance != null ? mv.balance : a.balance));
     if (a.today != null && !a.plan_only) kv('Today', (a.today > 0.5 ? '+' : '') + M.usd(a.today), a.today > 0.5 ? 'pos' : a.today < -0.5 ? 'neg' : '');
     kv('Room', a.chip === 'PASSED' ? 'n/a' : M.usd(a.room));
     // a funded account: the SAME "to payout" every page shows (pc_feed.js payoutLines = the payout coach's need_more), its details in Payouts below

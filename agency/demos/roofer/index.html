@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Northgable Roofing · free roof check (demo)</title>
+<meta name="description" content="DEMO website for a fictional roofing contractor: slide from the storm-worn roof to the new one in 3D, pick a shingle colour, book a free inspection.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f4ef">
+<meta name="color-scheme" content="light">
+<!-- AGENCY demo 2 (agency/demos/roofer/, day-web-demos 2026-11-20): a sellable one-page contractor site. FICTIONAL business, 555 number.
+     The 3D house (scene.js) loads after the page has drawn; the before / after slider works on the drawn house too (no WebGL needed). -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 16L16 4l14 12v13H2z' fill='%23c2410c'/%3E%3C/svg%3E">
+<style>
+:root { --bg: #f6f4ef; --ink: #14202c; --soft: #4a5562; --card: #ffffff; --line: rgba(20, 32, 44, .12); --line-strong: rgba(20, 32, 44, .35);
+  --accent: #c2410c; --on-accent: #ffffff; --accent-text: #b13b0a; --stage: linear-gradient(#bcd7ea, #e9f1f6 62%, #cfdcc2 62%); --map-bg: #e8e5dc; --radius: 12px;
+  --display: "Avenir Next", "Segoe UI", Roboto, system-ui, sans-serif; }
+h1, h2 { font-weight: 800; letter-spacing: -.02em; }
+.stage .after { clip-path: inset(0 0 0 calc((1 - var(--ba, .5)) * 100%)); }
+.stage .split { position: absolute; top: 0; bottom: 0; left: calc((1 - var(--ba, .5)) * 100%); width: 2px; background: #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, .2); pointer-events: none; }
+.stage.gl-on .split { display: none; }
+.stage .lbl { position: absolute; top: 12px; z-index: 2; padding: 4px 10px; border-radius: 999px; background: rgba(20, 32, 44, .75); color: #fff; font: 700 .75rem/1.4 system-ui; }
+.stage .lbl.b { left: 12px; } .stage .lbl.a { right: 56px; }
+.steps { counter-reset: s; display: grid; gap: 12px; margin-top: 18px; }
+.steps .card { position: relative; padding-left: 60px; }
+.steps .card::before { counter-increment: s; content: counter(s); position: absolute; left: 16px; top: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff;
+  display: grid; place-items: center; font: 800 1rem/1 system-ui; }
+.trust { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 18px; text-align: center; }
+.trust b { display: block; font: 800 1.5rem/1.1 var(--display); color: var(--ink); }
+.trust span { font-size: .8125rem; color: var(--soft); }
+</style>
+<link rel="stylesheet" href="../demo.css?v=d3">
+<script src="../demo.js?v=d3" defer></script>
+<script src="../../../olympus/lazy3d.js?v=l2" data-src="scene.js?v=f1" data-near="#stage" data-event="demo3d" defer></script>
+</head>
+<body>
+<div class="demo-strip"><span data-strip>Demo site · fictional roofer</span><a href="../">All demos</a></div>
+
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Northgable Roofing, top of page">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#14202c"/><path d="M5 18L17 8l12 10" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linejoin="round"/><path d="M9 17v9h16v-9" fill="none" stroke="#fff" stroke-width="2.5"/></svg>
+    <span data-biz>Northgable Roofing</span></a>
+  <a class="btn primary small" href="#book" data-book="Free roof check">Free check</a>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <p class="eyebrow">Storm damage · Re-roofs · Repairs</p>
+    <h1>See your new roof before we lay a single shingle.</h1>
+    <p class="lead" data-sample="Free roof check. Insurance paperwork done for you. Your warranty here (sample text).">Free roof check in 48 hours. Insurance paperwork done for you. 25-year workmanship warranty.</p>
+    <div class="cta">
+      <a class="btn primary" href="#book" data-book="Free roof check">Book a free check</a>
+      <a class="btn ghost" href="tel:+15550100177">Call (555) 010-0177</a>
+    </div>
+    <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span data-sample="Sample: your star rating here">4.9 from 318 homeowners</span></p>
+
+    <div class="show">
+    <div id="stage" class="stage" style="--stage-ratio: 4 / 3.3" role="img" aria-label="A house: the old storm-worn roof on one side, the new roof on the other. Use the slider to compare.">
+      <svg class="pic" viewBox="0 0 400 330" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="205" fill="#cfe2ef"/><rect y="205" width="400" height="125" fill="#b9cfa4"/>
+        <circle cx="330" cy="150" r="34" fill="#6f9a5b"/><rect x="326" y="170" width="8" height="40" fill="#6b4a2f"/>
+        <rect x="90" y="150" width="220" height="110" fill="#efe7d6"/><rect x="190" y="200" width="34" height="60" fill="#3a4a5a"/>
+        <g fill="#7fa4c0" stroke="#fff" stroke-width="3"><rect x="112" y="178" width="46" height="40"/><rect x="246" y="178" width="46" height="40"/></g>
+        <g class="before"><path d="M70 156L200 70l130 86z" fill="#6b6457"/>
+          <g fill="#4b463e"><path d="M120 140l18-8 6 6-18 8z"/><path d="M210 112l16-6 4 7-16 6z"/><path d="M250 136l20-6 4 8-20 6z"/></g>
+          <g fill="#5b7a3a" opacity=".8"><circle cx="150" cy="128" r="7"/><circle cx="166" cy="134" r="5"/><circle cx="262" cy="146" r="6"/></g>
+          <path d="M180 100l10 6-6 8z" fill="#2a2621"/></g>
+        <g class="after"><path d="M70 156L200 70l130 86z" style="fill: var(--roof, #3b4048)"/>
+          <g stroke="#2d3138" stroke-width="2"><path d="M96 139H304"/><path d="M118 124H282"/><path d="M141 109H259"/><path d="M163 94H237"/><path d="M186 79H214"/></g></g>
+        <rect x="244" y="88" width="20" height="40" fill="#8a4b35"/>
+      </svg>
+      <span class="split" aria-hidden="true"></span>
+      <span class="lbl b">Before</span><span class="lbl a">After</span><span class="tag3d">3D</span><span class="hint">Drag sideways to walk round</span>
+    </div>
+    <label class="slider"><span>Before</span><input type="range" min="0" max="100" value="50" data-ba="#stage" aria-label="Compare the old roof and the new roof"><span>After</span></label>
+    <div class="picks" data-group="shingle" role="group" aria-label="Pick a shingle colour">
+      <button class="pick" type="button" data-value="charcoal" aria-pressed="true" data-note="Charcoal · the most popular colour, hides dirt, 130 mph wind rating"><span class="sw" style="background:#3b4048"></span>Charcoal</button>
+      <button class="pick" type="button" data-value="weathered" aria-pressed="false" data-note="Weathered wood · warm brown blend, suits brick and stone"><span class="sw" style="background:#6e5a48"></span>Weathered</button>
+      <button class="pick" type="button" data-value="slate" aria-pressed="false" data-note="Slate blue · cool grey-blue, reflects more summer heat"><span class="sw" style="background:#4d5f72"></span>Slate</button>
+      <button class="pick" type="button" data-value="terracotta" aria-pressed="false" data-note="Terracotta · Mediterranean red, a statement roof"><span class="sw" style="background:#9a4a32"></span>Terracotta</button>
+    </div>
+    <p class="pick-note" data-note-for="shingle" aria-live="polite"></p>
+    </div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="trust" data-hide-personal><div><b>1,200+</b><span>roofs done</span></div><div><b>48 h</b><span>to your free check</span></div><div><b>25 yr</b><span>warranty</span></div></div>
+  </div></section>
+
+  <section id="how"><div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>New roof in 3 steps</h2>
+    <div class="steps">
+      <div class="card"><h3>Free roof check</h3><p>We photograph every slope (drone, no ladder on your roof) and show you the damage on your phone.</p></div>
+      <div class="card"><h3>One clear price</h3><p>A fixed written quote. If it's storm damage, we meet your insurance adjuster for you.</p></div>
+      <div class="card"><h3>Done in one day</h3><p>Most homes are stripped and re-roofed in a day, with a magnet sweep for every nail.</p></div>
+    </div>
+  </div></section>
+
+  <section id="services"><div class="wrap">
+    <p class="eyebrow">Services</p>
+    <h2>What we fix</h2>
+    <div class="grid three">
+      <div class="card"><h3>Storm &amp; hail damage</h3><p>Emergency tarping the same day, then the full insurance claim.</p></div>
+      <div class="card"><h3>Full re-roof</h3><p>Architectural shingles, metal or flat roofs. Financing from $89/month.</p></div>
+      <div class="card"><h3>Repairs &amp; leaks</h3><p>Flashing, vents, skylights and gutters. Most repairs under $600.</p></div>
+    </div>
+  </div></section>
+
+  <section id="reviews"><div class="wrap">
+    <p class="eyebrow" data-reviews>Reviews</p>
+    <h2>Homeowners after the storm</h2>
+    <div class="reviews">
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"They showed us the hail hits on a tablet, handled the insurance and finished in one day."</p><span class="who">Kevin M. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Picking the colour on the 3D house made it easy. It looks exactly like that now."</p><span class="who">Linda O. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Fair price, no upsell, and the yard was cleaner than before they came."</p><span class="who">James W. (sample review)</span></article>
+    </div>
+  </div></section>
+
+  <section id="visit"><div class="wrap">
+    <p class="eyebrow">Service area</p>
+    <h2><span data-city>Millbrook</span> and 30 miles around</h2>
+    <div class="map" role="img" aria-label="Map of the service area: a 30-mile circle around Millbrook">
+      <svg viewBox="0 0 400 250" aria-hidden="true"><rect width="400" height="250" fill="#e8e5dc"/>
+        <g stroke="#fff" stroke-width="10" fill="none"><path d="M0 120H400"/><path d="M200 0V250"/><path d="M40 0L360 250"/></g><g stroke="#d6d1c4" stroke-width="5" fill="none"><path d="M0 60H400"/><path d="M0 190H400"/><path d="M100 0V250"/><path d="M300 0V250"/></g>
+        <circle cx="200" cy="125" r="100" fill="#c2410c" opacity=".1" stroke="#c2410c" stroke-width="2" stroke-dasharray="6 6"/>
+        <path d="M200 98c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26c0-9-7-16-16-16z" fill="#c2410c"/><circle cx="200" cy="114" r="6" fill="#fff"/></svg>
+    </div>
+    <div class="grid two">
+      <div class="card"><h3>Yard: Quarry Road, <span data-city>Millbrook</span></h3><p>Mon - Sat 7 am - 6 pm · 24/7 storm line</p>
+        <div class="visit-cta"><a class="btn ghost small" href="https://maps.apple.com/?q=Quarry+Road">Directions</a><a class="btn ghost small" href="tel:+15550100177">(555) 010-0177</a></div></div>
+      <div class="card"><h3>Licensed &amp; insured</h3><p data-sample="Sample: your licence number and insurance details here.">State contractor licence, $2M liability cover, manufacturer-certified installers.</p></div>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><p>© <span data-year>2026</span> <span data-biz>Northgable Roofing</span> <span data-fict>(a fictional contractor)</span>.</p><p>Demo website built by Olympus Agency: the before / after your customers can touch.</p></div></footer>
+</main>
+
+<nav class="dock" aria-label="Quick actions"><a class="btn ghost" href="tel:+15550100177">Call</a><a class="btn primary" href="#book" data-book="Free roof check">Free roof check</a></nav>
+
+<dialog id="book" class="sheet" aria-labelledby="bookH"><div class="sheet-in">
+  <div class="sheet-head"><h2 id="bookH">Book a free roof check</h2><button class="x" type="button" data-close aria-label="Close">×</button></div>
+  <form>
+    <label class="field">What do you need?<select name="what"><option>Free roof check</option><option>Storm damage</option><option>Leak repair</option><option>Full re-roof quote</option></select></label>
+    <div class="two-col" style="margin-top:10px"><label class="field">Day<input type="date" name="day" required></label>
+      <label class="field">Time<select name="time"><option>Morning</option><option>Afternoon</option></select></label></div>
+    <label class="field" style="margin-top:10px">Address<input name="addr" autocomplete="street-address" required></label>
+    <label class="field" style="margin-top:10px">Name<input name="name" autocomplete="name" required></label>
+    <label class="field" style="margin-top:10px">Phone<input name="tel" type="tel" autocomplete="tel" required></label>
+    <button class="btn primary" type="submit" style="width:100%;margin-top:14px">Book my free check</button>
+    <p class="fine" style="margin-top:8px">Demo: nothing is sent. On the real site this lands in the roofer's phone and calendar.</p>
+  </form>
+  <div class="done" hidden><h3 tabindex="-1">You're booked</h3><p>We'll text the day before with the inspector's name.</p><button class="btn ghost" type="button" data-close style="margin-top:14px">Done</button></div>
+</div></dialog>
+<script>(function () { var C = { charcoal: "#3b4048", weathered: "#6e5a48", slate: "#4d5f72", terracotta: "#9a4a32" }, st = document.getElementById("stage");
+  addEventListener("demo:pick", function (e) { if (e.detail && e.detail.group === "shingle" && st) st.style.setProperty("--roof", C[e.detail.value] || C.charcoal); }); })();</script>
+</body>
+</html>

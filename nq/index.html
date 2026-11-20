@@ -24,7 +24,7 @@
      the page's data files and the chart post start here at once; nq.js / nqchart.js take them (window.NQ_EARLY, each used once) -->
 <script>(function () { var J = {}, X = {}; window.NQ_EARLY = { json: J, text: X }; if (typeof fetch !== 'function') return;
   var get = function (u, as, cache) { return fetch(u, { cache: cache || 'no-cache' }).then(function (r) { return r.ok ? (as === 'text' ? r.text() : r.json()) : null; }).catch(function () { return null; }); };
-  ['./fixture.json', '../home.json', './howto.json', './news_week.json', '../hub/learned.json', '../business/accounts.json', '../trading/trades.json', '../edge.json', './brief.json']
+  ['./fixture.json', '../home.json', './howto.json', './news_week.json', '../hub/learned.json', '../business/accounts.json', '../trading/trades.json', '../edge.json', './brief.json', '../business/goals.json']
     .forEach(function (u) { J[u] = get(u); });
   X['../status_feed.json'] = get('../status_feed.json', 'text').then(function (t) {
     try { var f = JSON.parse(t || 'null'), base = String((f && f.ntfy) || 'https://ntfy.sh').replace(/\/+$/, ''), topic = String((f && f.bars_topic) || '');
@@ -34,17 +34,19 @@
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../pc_feed.js?v=n5"></script><script src="../business/payoutcoach.js?v=1"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o18" data-app="nq"></script>
+<script src="../pc_feed.js?v=n6"></script><script src="../business/payoutcoach.js?v=2"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
+<script src="../olympus/olympus.js?v=o19" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=5" defer></script>
-<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=6" defer></script>
+<script src="../olympus/gate-nav.js?v=g8" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/sfx.js?v=s4" defer></script>
-<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#22d3ee'); r.setProperty('--oly-accent-rgb', '34, 211, 238'); })();</script>
 <link rel="stylesheet" href="nq.css?v=a4r">
 <link rel="stylesheet" href="../nqdeep.css?v=2">
 <link rel="stylesheet" href="nqdesk.css?v=8">
+<link rel="stylesheet" href="nqgoals.css?v=5">
+<link rel="stylesheet" href="nqtheme.css?v=3"><!-- owner 2026-11-20: navy + cyan/blue/violet, no gold (loaded last) -->
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
@@ -61,6 +63,13 @@
     <p class="btitle" id="bannerTitle">Last report from your PC: unknown.</p>
     <p class="btext" id="bannerText">The bots may still be trading; this page just is not hearing from them.</p>
     <button type="button" class="btn primary" id="bannerBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
+  </section>
+
+  <!-- v4 (owner 2026-11-20 15:00 ET: "goals on the NQ dashboard"): each account's next money goal, a glowing ring and the $ left (nqgoals.js); tap one for its rules and date -->
+  <section class="ag-card card" id="goalCard" aria-labelledby="goalH">
+    <div class="row"><h2 id="goalH">Next money goals</h2><span class="pill" id="goalAge">Loading</span></div>
+    <div class="gl-strip" id="goals" role="group" aria-label="Each account's next money goal"></div>
+    <div class="gl-detail" id="goalDetail" aria-live="polite" hidden></div>
   </section>
 
   <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars with every entry, stop and target; its own module -->
@@ -85,6 +94,22 @@
     <div class="row"><h2 id="acctH">Accounts</h2><span class="pill" id="acctPill">Loading</span></div>
     <div class="dk-strip" id="acctStrip" role="group" aria-label="Each MFFU account"></div>
     <p class="dk-legend" aria-hidden="true"><span><i class="dk-dot live"></i>live</span><span><i class="dk-dot stale"></i>over 20 min old</span><span><i class="dk-dot old"></i>over 1 h old</span><span><i class="dk-dot plan"></i>planned</span></p>
+  </section>
+
+  <!-- v4: the numbers (today / this week per account, win rate and PF over the real fills, the last 10, the session clock, the VIX band) -->
+  <section class="ag-card card" id="numCard" aria-labelledby="numH">
+    <div class="row"><h2 id="numH">The numbers</h2><span class="pill" id="numPill"></span></div>
+    <div id="nums"></div>
+  </section>
+
+  <!-- v4: today's NQ as a 3D price landscape, our trades as beacons (nqland.js, lazy; a 2D picture without WebGL or on LITE) -->
+  <section class="ag-card card" id="landCard" aria-labelledby="landH">
+    <h2 id="landH">Today's market in 3D</h2>
+    <div class="land" id="land" role="img" aria-label="Today's NQ price as a landscape with our trades as beacons">
+      <div class="l3d" id="land3d" hidden></div>
+      <svg class="land-fb" id="landFb" viewBox="0 0 360 240" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <p class="note" id="landNote">Today's 5-minute bars from your PC. A green beacon is a winning trade, coral a loss, cyan an open one.</p>
   </section>
 
   <!-- round 3 (Ares merged here): can each account's bot trade right now? -->
@@ -175,9 +200,10 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r21"></script>
-<script type="module" src="nqchart.js?v=c4"></script>
+<script type="module" src="nq.js?v=r22"></script>
+<script type="module" src="nqchart.js?v=c5"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6d" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=1" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
 </body>
 </html>

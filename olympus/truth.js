@@ -174,7 +174,7 @@ function loadPcFeed() {
   if (!pcFeedP) {
     pcFeedP = new Promise((res) => {
       try {
-        const s = document.createElement('script'); s.src = new URL('../pc_feed.js?v=n5', import.meta.url).href; s.async = true;
+        const s = document.createElement('script'); s.src = new URL('../pc_feed.js?v=n6', import.meta.url).href; s.async = true;
         s.onload = () => res(window.PC_FEED || null); s.onerror = () => res(null); document.head.appendChild(s);
       } catch (e) { res(null); }
     });

@@ -22,13 +22,13 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o18" data-app="kalshicity"></script>
+<script src="../olympus/olympus.js?v=o19" data-app="kalshicity"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#b5a642'); r.setProperty('--oly-accent-rgb', '181, 166, 66'); })();</script>
 <link rel="stylesheet" href="kalshicity.css?v=k19">
-<link rel="stylesheet" href="agora-kalshicity.css?v=g6">
+<link rel="stylesheet" href="agora-kalshicity.css?v=g8">
 </head>
 <body>
 <canvas id="city" aria-label="A night city: one district per market, one building per edge of the Kalshi bot, roads with traffic, weather for the market mood" role="img"></canvas>
@@ -68,6 +68,7 @@
     <span id="wx" class="chip static">Weather</span>
     <button type="button" id="sound" class="chip ico" aria-pressed="false" aria-label="Sound: off">&#9834;</button>
     <button type="button" id="scan" class="chip ico" aria-label="Scan the city for what the engine learned">&#9678;</button>
+    <button type="button" id="to2d" class="chip" aria-label="Back to the 2D map (reloads the page, frees the phone's graphics)" hidden>2D</button>
   </div>
   <div class="city-mapbar">
     <div class="district-control">
@@ -79,6 +80,10 @@
       <span class="mini-title">CITY NETWORK</span><svg id="miniSvg" viewBox="0 0 100 100" aria-hidden="true"></svg>
       <span class="mini-count" id="miniCount">Reading markets...</span>
     </button>
+  </div>
+  <div class="city3d" id="city3d">
+    <button type="button" id="show3d" class="show3d">Show the 3D city</button>
+    <label class="remember3d"><input type="checkbox" id="remember3d"> Open in 3D next time</label>
   </div>
 </main>
 <section class="sheet" id="sheet" hidden aria-labelledby="sheetTitle">
@@ -101,7 +106,7 @@
     <button type="button" data-view="lessons" aria-pressed="false">Lessons</button>
   </nav>
 </section>
-<script type="module" src="kalshicity.js?v=k27"></script>
+<script type="module" src="kalshicity.js?v=k28"></script>
 <script type="module" src="glossary.js"></script>
 </body>
 </html>

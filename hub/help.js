@@ -104,7 +104,7 @@
       q.addEventListener('keydown', function (e) { if (e.key === 'Escape') { q.value = ''; apply(); } });
     }
     root.addEventListener('hashchange', openHash);
-    fetch('help.json?v=8', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    fetch('help.json?v=9', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(start, function () {
         count.textContent = 'The questions could not load. Pull to refresh, or open the four doors.';
         api.ready = true;

@@ -22,6 +22,8 @@
     payoutnow: ['Payout now?', 'Can I ask for a payout?'], taxes: ['Taxes', 'How much for taxes?'], month: ['$ a month', 'How much will I make a month?'],
     decide: ['Decide', 'What do you recommend?'], steps: ['To-do', 'What should I do today?'], pc: ['PC OK?', 'Is the PC OK?'], news: ['News', "What's on the news today?"],
     kalshi: ['Kalshi', "How's Kalshi?"], pass: ['To pass', 'How far to pass?'], edge: ['Edge', 'Is the edge OK?'],
+    web3d: ['Price 3D', 'How do I price a 3D site?'], webniche: ['Best 3D trades', 'Best niche for 3D?'], websay: ['Roofer words', 'What do I say to a roofer?'],
+    webobj: ['Objections', 'How do I handle objections?'], webgbp: ['Google profile', 'How do I sell a Google Business Profile fix?'], weboffers: ['The offers', 'What should I charge for a website?'],
   };
   // the page's own questions first (by app id / folder); the rest of the four come from the default set
   const BY_APP = [
@@ -30,6 +32,7 @@
     [/^(business|money|plutus|hermes|ledger|mint|oikos|taxes|demeter)/, 'Money', ['payout', 'payoutnow', 'taxes', 'month', 'decide', 'accounts']],
     [/^(hub|gate|olympus|planner|helios|settings|atlas)/, 'Olympus', ['steps', 'decide', 'pc', 'accounts', 'news', 'intrade']],
     [/^(pythia|news|kairos)/, 'News', ['news', 'intrade', 'today', 'steps']],
+    [/^(agency|expert|call)/, 'Agency', ['weboffers', 'web3d', 'webniche', 'websay', 'webobj', 'webgbp']],   // the website business (team web-expert)
   ];
   const DEFAULT = ['accounts', 'intrade', 'steps', 'pc', 'payout', 'news'];
   function appOf() {
@@ -45,7 +48,7 @@
 
   // ---------------------------------------------------------------------------------------------- the data: biz.js + the PC report
   let bizP = null, liteP = null, liteAt = 0;
-  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b2', BASE).href).catch(() => { bizP = null; return null; }));
+  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b3', BASE).href).catch(() => { bizP = null; return null; }));
   function script(src, global) {
     if (window[global]) return Promise.resolve(window[global]);
     return new Promise((ok) => { const s = document.createElement('script'); s.src = new URL(src, SITE).href; s.async = true; s.onload = () => ok(window[global] || null); s.onerror = () => ok(null); document.head.appendChild(s); });
@@ -56,7 +59,7 @@
     if (liteP && Date.now() - liteAt < 60e3) return liteP;
     liteAt = Date.now();
     liteP = (async () => {
-      const F = await script('pc_feed.js?v=n4', 'PC_FEED');
+      const F = await script('pc_feed.js?v=n6', 'PC_FEED');
       let j = null;
       if (F && typeof F.fetchLatest === 'function') {
         try { j = await Promise.race([F.fetchLatest({ feedUrl: new URL('status_feed.json', SITE).href }), new Promise((r) => setTimeout(() => r(null), 6000))]); } catch (_) { j = null; }
@@ -70,7 +73,7 @@
   async function answer(text) {
     const B = await biz();
     if (!B) return { text: 'Jarvis could not load here. Open Jarvis for the answer.', src: '' };
-    if (!B.match(text)) return { text: 'Here I answer the money questions (accounts, trades, room, payouts, the to-do list, the PC, Kalshi, news). For anything else, open Jarvis.', src: '' };
+    if (!B.match(text)) return { text: 'Here I answer the money questions (accounts, trades, room, payouts, the to-do list, the PC, Kalshi, news) and the website business (prices, 3D, what to say). For anything else, open Jarvis.', src: '' };
     const L0 = await lite(), L = L0 ? B.liveFromLite(L0.j, L0.cached) : null;
     if (L && L0.cached && L0.j) L.raw = null;
     const r = await B.ask(text, { facts: () => ({ live: L }), refreshLive: null, feed: window.PC_FEED || null });

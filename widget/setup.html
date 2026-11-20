@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Widget Setup</title>
+<meta name="description" content="Set up the big Olympus widget on the iPhone Home Screen in 2 minutes: live account numbers plus 8 tap buttons.">
+<meta name="theme-color" content="#14110e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="../business/apple-touch-icon.png">
+<!-- widget2 (2026-11-20, owner: "half my homepage taken over by it so I can easily access buttons"): Scriptable large widget = live
+     numbers + 8 tap buttons. Fallback: the Shortcuts widget with 8 one-action shortcuts. Read only, no key, no account id. -->
+<link rel="stylesheet" href="widget.css?v=2">
+<style>
+.draws { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 6px 0 10px; }
+.draw { margin: 0; text-align: center; } .draw svg { width: 100%; max-width: 150px; height: auto; }
+.draw figcaption { font-size: .8rem; color: var(--soft); margin-top: 4px; }
+.ph { fill: var(--bg2); stroke: var(--line); stroke-width: 2; } .ic { fill: var(--raise, rgba(127,127,127,.18)); }
+.gd { fill: var(--gold-fill); } .gd.o { fill-opacity: .25; stroke: var(--gold); stroke-width: 1.5; } .bt { fill: var(--gold-fill); }
+.t { font: 600 8px var(--sans, system-ui); fill: currentColor; text-anchor: middle; } .t.l { text-anchor: start; font-size: 6.5px; }
+.t.b { font-size: 30px; fill: #1b1610; } .t.s { font-size: 7px; fill: #1b1610; }
+ul.urls { list-style: none; margin: 6px 0 0; padding: 0; }
+ul.urls li { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 7px 0; border-top: 1px solid var(--line-soft, var(--line)); }
+code.u { font-size: .75rem; overflow-wrap: anywhere; color: var(--soft); }
+.cp { padding: 6px 10px; font-size: .8rem; }
+</style>
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div><h1>Big widget</h1><p class="sub">Half your Home Screen: live numbers + 8 buttons</p></div>
+    <span class="tag live">FREE</span>
+  </header>
+
+  <section class="card fade" aria-labelledby="hA">
+    <h2 id="hA">Set it up (2 minutes)</h2>
+    <div class="draws"><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="1. Get Scriptable (free)"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="14" y="20" width="92" height="22" rx="6" class="ic"/><text x="60" y="35" class="t">App Store</text><rect x="30" y="70" width="60" height="60" rx="14" class="gd"/><text x="60" y="105" class="t b">S</text><rect x="38" y="145" width="44" height="16" rx="8" class="bt"/><text x="60" y="157" class="t s">GET</text></svg><figcaption>1. Get Scriptable (free)</figcaption></figure><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="2. Paste, name it Olympus"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="14" y="22" width="92" height="120" rx="8" class="ic"/><text x="22" y="40" class="t l">// Olympus</text><text x="22" y="54" class="t l">const VERSION…</text><rect x="22" y="150" width="76" height="18" rx="9" class="bt"/><text x="60" y="163" class="t s">Paste · Done</text></svg><figcaption>2. Paste, name it Olympus</figcaption></figure><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="3. Long-press, +, Scriptable, Large"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="14" y="22" width="18" height="18" rx="5" class="ic"/><rect x="39" y="22" width="18" height="18" rx="5" class="ic"/><rect x="64" y="22" width="18" height="18" rx="5" class="ic"/><rect x="89" y="22" width="18" height="18" rx="5" class="ic"/><rect x="14" y="47" width="18" height="18" rx="5" class="ic"/><rect x="39" y="47" width="18" height="18" rx="5" class="ic"/><rect x="64" y="47" width="18" height="18" rx="5" class="ic"/><rect x="89" y="47" width="18" height="18" rx="5" class="ic"/><circle cx="22" cy="14" r="6" class="bt"/><text x="22" y="17" class="t s">+</text><rect x="14" y="80" width="92" height="96" rx="12" class="gd o"/><text x="60" y="132" class="t">Scriptable · Large</text></svg><figcaption>3. Long-press, +, Scriptable, Large</figcaption></figure><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="4. Edit Widget, Script = Olympus"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="10" y="14" width="100" height="100" rx="14" class="gd o"/><text x="18" y="30" class="t l">OLYMPUS ● Bot running</text><text x="18" y="44" class="t l">● Zlarior 50K  $49,193</text><text x="18" y="56" class="t l">● ATLAS  $24,887</text><rect x="16" y="70" width="19" height="16" rx="4" class="bt"/><rect x="39" y="70" width="19" height="16" rx="4" class="bt"/><rect x="62" y="70" width="19" height="16" rx="4" class="bt"/><rect x="85" y="70" width="19" height="16" rx="4" class="bt"/><rect x="16" y="90" width="19" height="16" rx="4" class="bt"/><rect x="39" y="90" width="19" height="16" rx="4" class="bt"/><rect x="62" y="90" width="19" height="16" rx="4" class="bt"/><rect x="85" y="90" width="19" height="16" rx="4" class="bt"/><rect x="22" y="130" width="76" height="18" rx="9" class="bt"/><text x="60" y="142" class="t s">Edit Widget</text></svg><figcaption>4. Edit Widget, Script = Olympus</figcaption></figure></div>
+    <ol class="steps">
+      <li><b>Get Scriptable</b> (free). <a href="https://apps.apple.com/app/scriptable/id1405459188" rel="noopener">Open the App Store</a></li>
+      <li><b>One tap:</b> <button type="button" class="btn" id="go">Copy script + open Scriptable</button><br><span class="muted">It copies the script and opens a new blank script. Long-press, Paste, tap the title, name it <b>Olympus</b>, Done.</span></li>
+      <li><b>Add it:</b> long-press the Home Screen, tap <b>+</b> (top left), search <b>Scriptable</b>, swipe to <b>Large</b> (half the screen) or Medium, Add Widget.</li>
+      <li>Long-press the widget, <b>Edit Widget</b>, Script = <b>Olympus</b>. Done.</li>
+    </ol>
+    <p class="muted" style="font-size:.9rem">Already have the old Olympus script? Replace its text with the new copy: the widget picks it up by itself.</p>
+  </section>
+
+  <section class="card fade" aria-labelledby="hB">
+    <h2 id="hB">What you get</h2>
+    <p class="soft"><b>Top:</b> PC status and today's $ (tap = Board). One line per account: balance, today $, drawdown room left, and <b>LONG / SHORT +$</b> when a trade is open (tap = NQ bot). Large adds Kalshi and the NQ price.</p>
+    <p class="soft"><b>Buttons</b> (Large = 8, Medium = 4: NQ bot, Kalshi, Jarvis, Decide): each opens its page.</p>
+    <p class="soft"><b>Bottom:</b> where the numbers came from (LIVE · PC, PC · OLD, PAPER · SITE, CACHED) and their age.</p>
+    <p class="muted" style="font-size:.9rem"><b>Honest note on refresh:</b> iOS decides when widgets redraw, usually every 5-15 min (it asks every 15 min). Numbers are never newer than the PC's last 15-min post: check the age at the bottom. Buttons open Safari or your Home Screen app. Read only: it sends nothing and cannot arm or place anything.</p>
+  </section>
+
+  <section class="card fade" aria-labelledby="hC">
+    <h2 id="hC">No Scriptable? Shortcuts widget</h2>
+    <p class="soft">The built-in Shortcuts app can show 8 buttons (no numbers). For each line below: Shortcuts, <b>+</b>, add action <b>Open URLs</b>, paste the URL, name the shortcut. Then long-press the Home Screen, <b>+</b>, <b>Shortcuts</b>, Large (8 buttons), Add Widget.</p>
+    <ul class="urls">
+      <li><b>NQ bot</b> <code class="u">https://dcondax1-wq.github.io/nq/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/nq/">Copy</button></li>
+      <li><b>Kalshi</b> <code class="u">https://dcondax1-wq.github.io/kalshi/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/kalshi/">Copy</button></li>
+      <li><b>Cities</b> <code class="u">https://dcondax1-wq.github.io/cities/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/cities/">Copy</button></li>
+      <li><b>Jarvis</b> <code class="u">https://dcondax1-wq.github.io/jarvis/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/jarvis/">Copy</button></li>
+      <li><b>Planner</b> <code class="u">https://dcondax1-wq.github.io/planner/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/planner/">Copy</button></li>
+      <li><b>Business</b> <code class="u">https://dcondax1-wq.github.io/business/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/business/">Copy</button></li>
+      <li><b>Websites</b> <code class="u">https://dcondax1-wq.github.io/agency/</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/agency/">Copy</button></li>
+      <li><b>Decide</b> <code class="u">https://dcondax1-wq.github.io/board/#decide</code> <button type="button" class="btn ghost cp" data-u="https://dcondax1-wq.github.io/board/#decide">Copy</button></li>
+    </ul>
+  </section>
+
+  <p class="muted" style="text-align:center"><a href="index.html">Small widget / script code</a> · <a href="glance.html">Glance page</a></p>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var toast = document.getElementById('toast'), text = '';
+  function say(s) { toast.textContent = s; toast.classList.add('on'); setTimeout(function () { toast.classList.remove('on'); }, 2400); }
+  fetch('olympus-widget.js', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); }).then(function (t) { text = t; }, function () {});
+  function copy(s) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(s).then(function () { return true; }, function () { return old(s); });
+    return Promise.resolve(old(s));
+  }
+  function old(s) {
+    var ta = document.createElement('textarea'); ta.value = s; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, s.length);
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta); return ok;
+  }
+  document.getElementById('go').addEventListener('click', function () {
+    if (!text) { say('Still loading, try again'); return; }
+    copy(text).then(function (ok) {
+      if (!ok) { say('Copy failed: use the Small widget page'); return; }
+      say('Copied. Paste it in the new script');
+      setTimeout(function () { location.href = 'scriptable:///add'; }, 600);
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.cp'), function (b) {
+    b.addEventListener('click', function () { copy(b.getAttribute('data-u')).then(function (ok) { say(ok ? 'URL copied' : 'Copy failed: long-press the link'); }); });
+  });
+})();
+</script>
+</body>
+</html>

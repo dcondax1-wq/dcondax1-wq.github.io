@@ -47,7 +47,7 @@
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
   var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a9'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g18'; h.appendChild(l);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g20'; h.appendChild(l);
   var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s6'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
   var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);
   var ag = d.createElement('link'); ag.rel = 'stylesheet'; ag.href = b + 'age.css?v=2'; h.appendChild(ag);   /* olympus2: the shared data-age chip */   /* night-effects: the living home (hero, glass doors, intro) */
@@ -58,7 +58,7 @@
     if (!again) localStorage.setItem('oly.homefx.day', dk);
   } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o9', 'pc_feed.js?v=n5', 'olympus/gate-catalog.js?v=nv7', 'olympus/hub-status.js?v=h2', 'age.js?v=1', 'business/payoutcoach.js?v=1', 'gate/gate.js?v=g18', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o9', 'pc_feed.js?v=n6', 'olympus/gate-catalog.js?v=nv9', 'olympus/hub-status.js?v=h3', 'age.js?v=1', 'business/payoutcoach.js?v=2', 'gate/gate.js?v=g19', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -99,10 +99,10 @@
   <section class="g-four" id="doorsSec" aria-labelledby="doorsH">
     <h2 class="g-h2 g-vh" id="doorsH">Four doors</h2><!-- night-gate: heading for screen readers only (the subtitle names the doors), so Your six stay on the first phone screen -->
     <nav class="g-qgrid" id="doors4" aria-labelledby="doorsH">
-      <a class="g-dr" data-door="zeus" data-to="hub/doors.html#zeus" href="hub/doors.html#zeus"><b>ZEUS Trading</b><small class="g-qline">Accounts, live bots, trades, brain, rules, payouts</small></a>
-      <a class="g-dr" data-door="money" data-to="hub/doors.html#money" href="hub/doors.html#money"><b>Money</b><small class="g-qline">Business, taxes, payouts, fleet plan, household</small></a>
-      <a class="g-dr" data-door="kalshi" data-to="hub/doors.html#kalshi" href="hub/doors.html#kalshi"><b>Kalshi</b><small class="g-qline">The Kalshi bot and its edges (paused)</small></a>
-      <a class="g-dr" data-door="more" data-to="hub/doors.html#more" href="hub/doors.html#more"><b>More</b><small class="g-qline">Research, my day, Jarvis, settings, the rest</small></a>
+      <a class="g-dr" data-door="zeus" data-to="hub/doors.html#zeus" href="hub/doors.html#zeus"><i class="g-ic" style="--ac:#c8a24a" aria-hidden="true">Ζ</i><b>ZEUS Trading</b><small class="g-qline">Accounts, live bots, trades, brain, rules, payouts</small></a>
+      <a class="g-dr" data-door="money" data-to="hub/doors.html#money" href="hub/doors.html#money"><i class="g-ic" style="--ac:#a0ac6e" aria-hidden="true">$</i><b>Money</b><small class="g-qline">Business, taxes, payouts, fleet plan, household</small></a>
+      <a class="g-dr" data-door="kalshi" data-to="hub/doors.html#kalshi" href="hub/doors.html#kalshi"><i class="g-ic" style="--ac:#c9b94e" aria-hidden="true">⬡</i><b>Kalshi</b><small class="g-qline">The Kalshi bot and its edges (paused)</small></a>
+      <a class="g-dr" data-door="more" data-to="hub/doors.html#more" href="hub/doors.html#more"><i class="g-ic" style="--ac:#d1a06a" aria-hidden="true">⋯</i><b>More</b><small class="g-qline">Research, my day, Jarvis, settings, the rest</small></a>
     </nav>
   </section>
 
@@ -113,14 +113,16 @@
 
 
   <section class="g-quick" aria-labelledby="quickH">
-    <h2 class="g-h2" id="quickH">Your six</h2>
+    <h2 class="g-h2" id="quickH">Your apps</h2>
     <nav class="g-qgrid" id="quick" aria-labelledby="quickH"><!-- olympus2 2026-11-20 (owner): Cities, Kalshi, the NQ bot, Jarvis first, then the Planner and Business -->
-      <a class="g-q" data-app="cities" data-to="cities/index.html" href="cities/index.html"><b>Cities</b><small class="g-qline">World, Data City, Kalshi, Atlas, Mint</small></a>
-      <a class="g-q" data-app="kalshi" data-to="kalshi/index.html" href="kalshi/index.html"><b>Kalshi</b><small class="g-qline">Kalshi bot</small></a>
-      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><b>NQ bot</b><small class="g-qline">Zlarior · ATLAS right now</small></a>
-      <a class="g-q" data-app="jarvis" data-to="jarvis/index.html" href="jarvis/index.html"><b>Jarvis</b><small class="g-qline">Ask anything</small></a>
-      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><b>My day</b><small class="g-qline">Day and week plan</small></a>
-      <a class="g-q" data-app="business" data-to="business/index.html" href="business/index.html"><b>Business</b><small class="g-qline">Accounts, payouts, plan</small></a>
+      <a class="g-q" data-app="cities" data-to="cities/index.html" href="cities/index.html"><i class="g-ic" style="--ac:#b88a50" aria-hidden="true">◈</i><b>Cities</b><small class="g-qline">World, Data City, Kalshi, Atlas, Mint</small></a>
+      <a class="g-q" data-app="kalshi" data-to="kalshi/index.html" href="kalshi/index.html"><i class="g-ic" style="--ac:#8fa07a" aria-hidden="true">K</i><b>Kalshi</b><small class="g-qline">Kalshi bot</small></a>
+      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><i class="g-ic" style="--ac:#c8a24a" aria-hidden="true">Ν</i><b>NQ bot</b><small class="g-qline">Zlarior · ATLAS right now</small></a>
+      <a class="g-q" data-app="jarvis" data-to="jarvis/index.html" href="jarvis/index.html"><i class="g-ic" style="--ac:#c9a45c" aria-hidden="true">◉</i><b>Jarvis</b><small class="g-qline">Ask anything</small></a>
+      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><i class="g-ic" style="--ac:#7fa7c2" aria-hidden="true">Π</i><b>My day</b><small class="g-qline">Day and week plan</small></a>
+      <a class="g-q" data-app="business" data-to="business/index.html" href="business/index.html"><i class="g-ic" style="--ac:#c8a24a" aria-hidden="true">B</i><b>Business</b><small class="g-qline">Accounts, payouts, plan</small></a>
+      <a class="g-q" data-app="agency" data-to="agency/index.html" href="agency/index.html"><i class="g-ic" style="--ac:#d08c4a" aria-hidden="true">Ε</i><b>Websites</b><small class="g-qline">Web business HQ</small></a>
+      <a class="g-q g-setup" data-to="hub/setup.html" href="hub/setup.html"><i class="g-ic" style="--ac:#9aa6b2" aria-hidden="true">⚙</i><b>Set up</b><small class="g-qline">iPhone, widget, alerts</small></a>
     </nav>
   </section>
 

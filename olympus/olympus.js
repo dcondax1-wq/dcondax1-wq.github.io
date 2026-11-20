@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
  *   <script src="../olympus/themes.js?v=o9"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o18" data-app="mind"></script>
+ *   <script src="../olympus/olympus.js?v=o19" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,
@@ -41,7 +41,7 @@
     board: ['Board', '▤', '#c8a24a'],
     business: ['Business', 'B', '#c8a24a'],
     trading: ['Trading', 'T', '#c8a24a'],
-    agency: ['Agency', 'Ε', '#d08c4a'],
+    agency: ['Websites', 'Ε', '#d08c4a'],
     polis: ['Polis', 'Πλ', '#e0b060'],
     herald: ['Herald', 'Η', '#c8a24a'],
     symposium: ['Symposium', 'Σ', '#d9b25a'],
@@ -489,7 +489,7 @@
       if (!d.getElementById('olyVeilHide')) { var vs = el('style'); vs.id = 'olyVeilHide'; vs.textContent = 'html[data-oly-veil] main#app > :not(header.top){visibility:hidden}'; (d.head || d.body).appendChild(vs); }
     }
     if (!framed && id && !d.querySelector('.oly-home')) {
-      var a = el('a', 'oly-home'); a.href = '../jarvis/'; a.setAttribute('aria-label', 'Back to Jarvis'); a.title = 'Back to Jarvis';
+      var a = el('a', 'oly-home'); a.href = me && me.src ? new URL('../jarvis/', me.src).href : '../jarvis/';   // from the kit's own URL: right at any folder depth (agency/offers/) a.setAttribute('aria-label', 'Back to Jarvis'); a.title = 'Back to Jarvis';
       a.appendChild(el('span', 'oly-home-o', 'Ο'));
       d.body.appendChild(a);
       seatWatch(a);
@@ -642,7 +642,7 @@
     } catch (e) { /* no worker on this browser */ }
     try {
       if (base && !framed && id !== 'jarvis' && !d.querySelector('script[src*="jarvis/ask.js"]') && d.body) {
-        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=3'; s.defer = true; if (id) s.setAttribute('data-app', id);
+        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=4'; s.defer = true; if (id) s.setAttribute('data-app', id);
         d.body.appendChild(s); d.body.classList.add('oly-has-ask');   // agora.css: the last lines scroll clear of the fixed button
       }
     } catch (e) { /* the page works without the button */ }

@@ -55,7 +55,7 @@ const DIST = [
 ];
 const DGROUP = { trading: 'zeus', money: 'money' };
 // the switcher's order (owner 2026-11-20): Cities, Kalshi, the NQ bot, Jarvis, the Planner, Business, then ZEUS (Zenith); then the doors
-export const FIRST = ['cities', 'kalshi', 'nq', 'home', 'planner', 'business', 'zenith'];
+export const FIRST = ['cities', 'kalshi', 'nq', 'home', 'planner', 'business', 'agency', 'zenith'];
 export const HIDE = new Set(['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity', 'gallery', 'mintcity',
   'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes', 'hephaestus', 'datacity', 'kalshicity']);
 export const CITY_PARTS = new Set(['datacity', 'kalshicity', 'atlascity', 'mintcity', 'world', 'cities-world']);

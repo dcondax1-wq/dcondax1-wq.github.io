@@ -436,6 +436,43 @@
    "src": "engine/rapid.py (lit_bank)"
   },
   {
+   "id": "websites",
+   "q": "My website business: where do I start?",
+   "words": "website websites web 3d site marketing leads audit proposal clients agency business side income care plan retainer demo showcase offers",
+   "where": "Money door > Websites (the Agency app), or search 'website'",
+   "steps": [
+    "Open Websites. The top card says your next step today (a call-back, a proposal to follow up, or 'find 20 leads') with one button.",
+    "The Pipeline shows leads, called, proposals and paid clients; Monthly retainers shows your $ a month against the $3,000 goal (10 clients at about $300).",
+    "The 7 tiles open each part: Expert, Leads, Audit, Demos, Showcase, Offers, Calls. This week = about 4 hours around your day job; tick each one."
+   ],
+   "copy": "",
+   "copy_note": "",
+   "link": {
+    "href": "../agency/index.html#hq",
+    "label": "Website business HQ"
+   },
+   "src": "agency/hq.js, agency/index.html, research/handoff/2026-11-20/web/hub/REPORT.md"
+  },
+  {
+   "id": "setup-iphone",
+   "q": "Set up my iPhone (Home Screen, widget, notifications)",
+   "words": "setup set up iphone phone home screen icon icons app apps widget notifications alerts push siri shortcuts install add",
+   "where": "Home > Your apps > Set up (hub/setup.html)",
+   "steps": [
+    "Olympus on the Home Screen: open your Olympus link in Safari, Share, Add to Home Screen, Add. Open it from the icon from now on.",
+    "Add NQ bot, Kalshi, Jarvis and Websites as their own icons: on the Set up page tap Copy its link, paste in Safari, Add to Home Screen.",
+    "Widget: 3 steps with the free Scriptable app. Notifications: Jarvis home > Allow notifications > Allow.",
+    "Siri: Shortcuts app > + > Open URLs with an app's link; say the shortcut's name."
+   ],
+   "copy": "",
+   "copy_note": "",
+   "link": {
+    "href": "setup.html",
+    "label": "Set up your iPhone"
+   },
+   "src": "hub/setup.html, docs/NOTIFICATIONS.md, widget/"
+  },
+  {
    "id": "steps",
    "q": "What do I still have to do?",
    "words": "steps todo to-do waiting owner list tired repeating what next",

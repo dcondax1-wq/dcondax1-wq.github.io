@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="setup">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Set up your iPhone</title>
+<meta name="description" content="Set up your iPhone for Olympus: the app on your Home Screen, the main apps as their own icons, the widget, notifications and Siri, in plain steps.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Set up">
+<link rel="icon" href="icon.svg">
+<!-- SET UP YOUR IPHONE (2026-11-20 day-manual; owner: "Olympus should feel like a real app home screen + a widget"). Plain steps; the only script
+     builds each app's link from this page's own address for the Copy buttons (no address written in the page). Read only: nothing sent, no storage. -->
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   day-manual NAV 2026-11-20: the same copy as the Doors, so this page follows the look too (it stayed dark under Ivory). */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+.su-main { max-width: 640px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(32px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.su-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.su-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none; border: 1px solid var(--ag-line, #3a3228); }
+.su-title { margin: 14px 0 2px; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.su-sub { margin: 0 0 10px; color: var(--ag-soft, #cfc4b2); }
+.su-tabs { display: flex; gap: 8px; margin: 4px 0 6px; }
+.su-tabs button { flex: 1 1 0; min-height: 44px; border-radius: 999px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); color: var(--ag-soft, #cfc4b2); font: 600 .9375rem var(--ag-sans, system-ui); cursor: pointer; }
+.su-tabs button[aria-pressed="true"] { background: var(--ag-gold, #c8a24a); border-color: var(--ag-gold, #c8a24a); color: var(--ag-on-gold, #1b1610); }
+.su-count { margin: 2px 2px 8px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); min-height: 1.2em; }
+.su-day { margin: 18px 2px 8px; font: 700 1.0625rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.su-list { display: grid; gap: 8px; min-height: 60vh; }
+.su-item { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); }
+.su-item.you, .su-item.yes { border-left-color: var(--ag-terra-text, #e08a6b); }
+.su-item.tested { border-left-color: var(--ag-line, #3a3228); }
+.su-item h3 { margin: 6px 0 0; font: 700 var(--ag-fs-lead, 1.0625rem)/1.25 var(--ag-serif, Georgia, serif); overflow-wrap: anywhere; }
+.su-tag { display: inline-block; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--ag-line, #3a3228); color: var(--ag-soft, #cfc4b2); font: 600 .75rem/1.5 var(--ag-sans, system-ui); }
+.su-item.you .su-tag, .su-item.yes .su-tag { border-color: var(--ag-terra-text, #e08a6b); color: var(--ag-terra-text, #e08a6b); }
+.su-item.site .su-tag { border-color: var(--ag-gold, #c8a24a); color: var(--ag-gold-hi, #dcbd6e); }
+.su-money { margin: 6px 0 0; padding: 6px 10px; border-radius: 10px; background: var(--ag-s1, #1b1713); color: var(--ag-text, #f3ece0); font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.su-what { margin: 6px 0 0; color: var(--ag-soft, #cfc4b2); overflow-wrap: anywhere; }
+.su-go { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; margin-top: 10px; padding: 0 12px; border-radius: 12px; box-sizing: border-box;
+  text-decoration: none; color: var(--ag-gold-hi, #dcbd6e); border: 1px solid var(--ag-gold, #c8a24a); font: 700 .9375rem var(--ag-sans, system-ui); }
+.su-go span { min-width: 0; overflow-wrap: anywhere; }
+.su-empty { margin: 14px 2px; color: var(--ag-soft, #cfc4b2); }
+.su-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: var(--ag-fs-foot, .8125rem); text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.su-step { margin: 0; padding-left: 22px; }
+.su-step li { margin: 6px 0; overflow-wrap: anywhere; }
+.su-apps { display: grid; gap: 8px; margin-top: 8px; }
+.su-app { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); }
+.su-app i { grid-row: span 2; width: 52px; height: 52px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font: 700 1.5rem/1 var(--ag-serif, Georgia, serif); font-style: normal; color: #1b1610; background: var(--ac, #c8a24a); }
+.su-app b { font: 700 1rem/1.2 var(--ag-sans, system-ui); }
+.su-app .su-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.su-app .su-row a, .su-app .su-row button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: 10px;
+  border: 1px solid var(--ag-gold, #c8a24a); background: transparent; color: var(--ag-gold-hi, #dcbd6e); font: 700 .9375rem var(--ag-sans, system-ui); text-decoration: none; cursor: pointer; }
+.su-note { margin: 8px 0 0; color: var(--ag-muted, #a89c88); font-size: .9375rem; }
+.su-done { margin: 8px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--ag-s1, #1b1713); color: var(--ag-olive-text, #a0ac6e); font-weight: 600; }
+</style>
+<script src="setup.js?v=1" defer></script>
+<script src="../olympus/themes.js?v=o9" defer></script><!-- the theme engine: the look picked on the Gate (Ivory, Stocks Light ...) paints this page too -->
+<script>window.addEventListener('DOMContentLoaded', function () { try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ } });</script>
+</head>
+<body>
+<main class="su-main" id="setup">
+  <nav class="su-nav" aria-label="Pages"><a href="../gate/index.html" aria-label="Back to Home">&#9664; Home</a><a href="help.html">Help</a><a href="manual.html">Manual</a></nav>
+  <h1 class="su-title">Set up your iPhone</h1>
+  <p class="su-sub">Five short steps so Olympus works like a real app: its own icon, the main apps one tap away, a widget, alerts and Siri.</p>
+
+  <section class="su-item site" id="home" aria-labelledby="homeH">
+    <span class="su-tag">Step 1 · 1 minute</span>
+    <h3 id="homeH">Olympus on your Home Screen</h3>
+    <ol class="su-step"><li>Open your Olympus link in <b>Safari</b> (not Chrome: only Safari can add it).</li>
+      <li>Tap <b>Share</b> (the square with the arrow), then <b>Add to Home Screen</b>, then <b>Add</b>.</li>
+      <li>From now on open Olympus from its icon: it opens full screen, and notifications only work this way.</li></ol>
+    <p class="su-done" id="standalone" hidden>Done: you are in the Home Screen app right now.</p>
+  </section>
+
+  <section class="su-item site" id="apps" aria-labelledby="appsH">
+    <span class="su-tag">Step 2 · 2 minutes</span>
+    <h3 id="appsH">The main apps as their own icons</h3>
+    <p class="su-what">Each of these has its own icon and opens straight to itself. For each: tap <b>Copy its link</b>, paste it in Safari, then Share, Add to Home Screen, Add. Put them in one row like a dock.</p>
+    <div class="su-apps">
+        <div class="su-app" data-app="nq"><i style="--ac:#c8a24a" aria-hidden="true">Ν</i><b>NQ bot</b><span>Zlarior and ATLAS right now: accounts, open trade, today’s $</span>
+          <div class="su-row" style="grid-column: 2"><a href="../nq/">Open</a><button type="button" data-copy="nq/">Copy its link</button></div></div>
+        <div class="su-app" data-app="kalshi"><i style="--ac:#8fa07a" aria-hidden="true">K</i><b>Kalshi</b><span>The K8 clock bets, balance, today</span>
+          <div class="su-row" style="grid-column: 2"><a href="../kalshi/">Open</a><button type="button" data-copy="kalshi/">Copy its link</button></div></div>
+        <div class="su-app" data-app="jarvis"><i style="--ac:#c9a45c" aria-hidden="true">◉</i><b>Jarvis</b><span>Ask anything; the Allow notifications card is here</span>
+          <div class="su-row" style="grid-column: 2"><a href="../jarvis/">Open</a><button type="button" data-copy="jarvis/">Copy its link</button></div></div>
+        <div class="su-app" data-app="agency"><i style="--ac:#d08c4a" aria-hidden="true">Ε</i><b>Websites</b><span>Your website business HQ</span>
+          <div class="su-row" style="grid-column: 2"><a href="../agency/">Open</a><button type="button" data-copy="agency/">Copy its link</button></div></div>
+    </div>
+    <p class="su-note" id="copyMsg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="su-item site" id="widget" aria-labelledby="widgetH">
+    <span class="su-tag">Step 3 · 3 minutes</span>
+    <h3 id="widgetH">The Home Screen widget</h3>
+    <p class="su-what">Each account's balance, today's $, room and the PC status on your Home Screen, without opening anything. It uses the free Scriptable app.</p>
+    <a class="su-go" href="../widget/"><span>Install the widget (3 steps)</span><span aria-hidden="true">&#8250;</span></a>
+  </section>
+
+  <section class="su-item you" id="alerts" aria-labelledby="alertsH">
+    <span class="su-tag">Step 4 · 1 minute</span>
+    <h3 id="alertsH">Notifications: every trade, the result in $</h3>
+    <ol class="su-step"><li>Open Olympus <b>from its Home Screen icon</b> (step 1; iOS 16.4 or later).</li>
+      <li>On the Jarvis home, tap <b>Allow notifications</b>, then <b>Allow</b>. Within about 5 minutes your PC says "Olympus notifications are on".</li>
+      <li>Backup (optional): the free <b>ntfy</b> app, subscribed to your alert topic (BOTS_BACK.bat on the PC shows it). An alert goes there only when the phone app did not take it, never twice.</li></ol>
+    <a class="su-go" href="../jarvis/index.html#pushCard"><span>Open Allow notifications</span><span aria-hidden="true">&#8250;</span></a>
+  </section>
+
+  <section class="su-item tested" id="siri" aria-labelledby="siriH">
+    <span class="su-tag">Step 5 · optional</span>
+    <h3 id="siriH">"Hey Siri, open the NQ bot"</h3>
+    <ol class="su-step"><li>Open the <b>Shortcuts</b> app, tap <b>+</b>, add the action <b>Open URLs</b> and paste an app's link (step 2: Copy its link).</li>
+      <li>Name the shortcut the way you will say it, for example <b>NQ bot</b>. Tap Done.</li>
+      <li>Now say "Hey Siri, NQ bot". Asking Jarvis questions by voice from Siri is not built yet; it is on the Jarvis team's list.</li></ol>
+  </section>
+
+  <p class="su-foot">Read only: nothing here can trade or change a bot. More help: <a href="help.html">How do I...?</a></p>
+</main>
+</body>
+</html>

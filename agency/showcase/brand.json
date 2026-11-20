@@ -1,0 +1,127 @@
+{
+ "v": 1,
+ "_how": "Change anything here; the page reads it on every open. Leave a field empty to hide it. Prices are numbers in USD. No real email / phone until you are ready.",
+ "name": "Your Studio",
+ "tagline": "Websites that win local customers, live in 7 days.",
+ "city": "Your City",
+ "region": "ST",
+ "country": "US",
+ "area": "Your City and nearby towns",
+ "phone": "+1-555-0100",
+ "sms": "+1-555-0100",
+ "site_url": "https://example.com/",
+ "hours": "Mo-Fr 09:00-18:00",
+ "accent": "#7c5cff",
+ "offers": [
+  {
+   "id": "starter",
+   "name": "Starter site",
+   "price": 1500,
+   "per": "one time",
+   "monthly": 79,
+   "points": [
+    "Up to 5 pages that load fast on a phone",
+    "Click-to-call, map and a quote form to your phone",
+    "Local SEO: your city pages + structured data",
+    "Care plan: hosting, updates, backups"
+   ]
+  },
+  {
+   "id": "engine",
+   "name": "Call engine",
+   "price": 500,
+   "per": "setup",
+   "monthly": 299,
+   "best": true,
+   "points": [
+    "Your site + your Google Business profile, kept fresh",
+    "Review requests after every job",
+    "Every review answered within a day",
+    "A monthly report: calls, reviews, ranking"
+   ]
+  },
+  {
+   "id": "signature",
+   "name": "3D Signature",
+   "price": 2500,
+   "from": true,
+   "per": "one time",
+   "monthly": 79,
+   "points": [
+    "Everything in the Starter site",
+    "A 3D tour of your place or 3D product pages",
+    "Works in AR on phones",
+    "Two rounds of changes"
+   ]
+  }
+ ],
+ "week": [
+  [
+   "Day 1",
+   "15-minute call: your goals, your customers, your look."
+  ],
+  [
+   "Day 2",
+   "Draft homepage on a private link you can open on your phone."
+  ],
+  [
+   "Day 3-4",
+   "Your words, photos and reviews in place; booking set up."
+  ],
+  [
+   "Day 5",
+   "Speed, phone and Google checks; your notes go in."
+  ],
+  [
+   "Day 6",
+   "Domain, email and Google Business connected."
+  ],
+  [
+   "Day 7",
+   "Live. You get a 1-page guide and a 30-day check-in."
+  ]
+ ],
+ "cases": [
+  {
+   "name": "Case study coming soon",
+   "kind": "Restaurant",
+   "result": "Your first client's result goes here (calls, bookings, reviews).",
+   "demo": "restaurant"
+  },
+  {
+   "name": "Case study coming soon",
+   "kind": "Home services",
+   "result": "Before / after: speed score, calls from the site, Google ranking.",
+   "demo": "home-services"
+  },
+  {
+   "name": "Case study coming soon",
+   "kind": "Salon / barber",
+   "result": "Online bookings in the first month.",
+   "demo": "salon"
+  }
+ ],
+ "demos": [
+  {
+   "slug": "restaurant",
+   "label": "Restaurant",
+   "color": "#ff8a5c"
+  },
+  {
+   "slug": "roofer",
+   "label": "Roofer / contractor",
+   "color": "#5cc8ff"
+  },
+  {
+   "slug": "detailer",
+   "label": "Car detailer",
+   "color": "#ff6b6b"
+  },
+  {
+   "slug": "estate",
+   "label": "Real estate / venue",
+   "color": "#b49cff"
+  }
+ ],
+ "_prices_note": "Starting prices from the research (offers.json, Nov 20): care plans run $79-299 a month. Change any number here."
+}

@@ -4,7 +4,7 @@
 import { shape, shapeHyps, cardFreshness, cardBotStatus, cardOf, headlineOf, usd, pct, evf, pts, STATUS_COLOR, STATUS_WORD, ADVICE, etHour, clockLabel, phaseWord, MIN_N,
   hypOf, hypCardOf, pairOf, tickerLines, changesOf, HYP_COLOR, HYP_WORD, worldBotLabel } from './cityfeed.js?v=bot20';
 import { layout } from './citylayout.js?v=night8';
-import { cityAtlas, edgeCountLabel } from './cityatlas.js?v=skyline8';
+import { cityAtlas, edgeCountLabel } from './cityatlas.js?v=skyline9';
 import { districtOptionLabel, districtTitle } from './citynav.js?v=nav1';
 import { lessonsView, historyView, ASK_MESSAGE } from './lessons.js';
 
@@ -434,7 +434,7 @@ function runScan(announce) {
 }
 function greetNew() {                                                    // once per new batch of lessons: the scanner sweeps and fireworks mark the new DO MORE edges
   const st = store.read(), newest = S.model.log.reduce((m, x) => Math.max(m, x.t || 0), 0);
-  if (newest && newest > (st.seen || 0) && newLessons().length) setTimeout(() => runScan(true), 1800);
+  if (newest && newest > (st.seen || 0) && newLessons().length) setTimeout(() => { S.greeted = true; runScan(true); }, 1800);
   store.write({ ...st, seen: Math.max(st.seen || 0, newest) });
 }
 async function refresh() {                                               // every 5 minutes: the engine's files and the bot's numbers again; something new = scan
@@ -460,28 +460,63 @@ async function refresh() {                                               // ever
 }
 
 // ------------------------------------------------------------------------------------------------ start
+// bar 2026-11-20 (3D on tap): the page opens on the 2D atlas + panels (no three.js, no WebGL). The heavy 3D city (cityscene.js and its
+// three.js modules, ~5 s of main-thread work on a slow phone) loads only when "Show the 3D city" is tapped, or at load when this phone
+// opted in ("Open in 3D next time", localStorage) and does not ask for reduced motion. Reduced motion always opens in 2D.
+const SCENE_URL = './cityscene.js?v=night11';
+const atlasOnly = () => new URLSearchParams(location.search).get('view') === 'atlas';
+const remembered3d = () => !!store.read().city3d;
+const auto3d = () => remembered3d() && !reduced() && !atlasOnly();
+let measureWired = false;
+function startAtlas(reason) {
+  // The 2D atlas has no orbiting viewport to clear; keep all evidence controls visible.
+  $('verdict').classList.add('expanded'); $('cityInsights').setAttribute('aria-expanded', 'true');
+  const p = pairOf(S.model);
+  S.atlas = cityAtlas($('city'), S.L, (id) => selectEdge(id, false), reason, { bestId: p.best?.id, worstId: p.worst?.id }, S.demo);
+  const measure = () => document.documentElement.style.setProperty('--kc-atlas-top', `${$('ui').getBoundingClientRect().bottom + 12}px`);
+  if (!measureWired) { measureWired = true; addEventListener('resize', measure); if (typeof ResizeObserver === 'function') new ResizeObserver(measure).observe($('ui')); }
+  measure();
+  if (O) O.ready();
+}
+function render3dControls() {
+  const b = $('show3d'), r = $('remember3d');
+  if (!b) return;
+  $('city3d').hidden = !!S.scene; $('to2d').hidden = !S.scene;
+  r.checked = remembered3d();
+  if (S.starting3d) { b.disabled = true; b.textContent = 'Loading the 3D city...'; }
+  else if (S.no3d) { b.disabled = true; b.textContent = '3D unavailable on this device'; }
+  else { b.disabled = false; b.textContent = 'Show the 3D city'; }
+}
 async function startScene() {
+  if (S.scene || S.starting3d || !S.model) return false;
+  S.starting3d = true; render3dControls();
   try {
-    if (new URLSearchParams(location.search).get('view') === 'atlas') throw new Error('Atlas requested');
-    const { createCity } = await import('./cityscene.js?v=night11');
-    S.scene = createCity($('city'), { O, model: S.model, layout: S.L, sound: () => S.sound });
+    const { createCity } = await import(SCENE_URL);
+    const canvas = S.atlas ? S.atlas.destroy() : $('city');
+    S.atlas = null;
+    S.scene = createCity(canvas, { O, model: S.model, layout: S.L, sound: () => S.sound });
     $('lite').hidden = !S.scene.lite();
     S.scene.onQuality(() => { $('lite').hidden = !S.scene.lite(); });
     S.scene.onPick((id) => { if (id) selectEdge(id, false); else if (S.view === 'card') closeSheet(); });
     S.scene.onMode((k) => document.querySelectorAll('#cams button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.cam === k))));
     if (S.districtKey !== 'Downtown') S.scene.focusDistrict(S.districtKey);
+    // the 3D viewport needs the sky: the insights fold away again, as on a page that opened in 3D
+    $('verdict').classList.remove('expanded'); $('cityInsights').setAttribute('aria-expanded', 'false'); $('cityInsights').firstChild.textContent = 'Open insights ';
+    setInterval(() => { if (S.preview == null) renderClock(); }, 5000);
+    if (!S.startedDemo) setInterval(() => { if (!document.hidden && S.fw && S.fw.length && S.fwLeft-- > 0 && S.scene) S.scene.fireworks(S.fw); }, 22000);
+    if (S.greeted) runScan(false);                                       // the scanner already swept the 2D page: sweep the 3D city once too
+    if (S.preview != null) S.scene.setHour(S.preview);
+    renderClock();
+    S.error = null;
+    if (O) O.ready();
+    return true;
   } catch (e) {
     S.error = 'scene: ' + ((e && e.message) || e);
-    // The 2D fallback has no orbiting viewport to clear; keep all evidence controls visible.
-    $('verdict').classList.add('expanded'); $('cityInsights').setAttribute('aria-expanded', 'true');
-    const p = pairOf(S.model);
-    S.atlas = cityAtlas($('city'), S.L, (id) => selectEdge(id, false), e.message === 'Atlas requested' ? 'Atlas view' : '3D unavailable on this device', { bestId: p.best?.id, worstId: p.worst?.id }, S.demo);
-    if (S.districtKey !== 'Downtown') S.atlas.focusDistrict(S.districtKey);
-    const measure = () => document.documentElement.style.setProperty('--kc-atlas-top', `${$('ui').getBoundingClientRect().bottom + 12}px`);
-    addEventListener('resize', measure);
-    if (typeof ResizeObserver === 'function') new ResizeObserver(measure).observe($('ui'));
-    measure();
-    if (O) O.ready();
+    S.scene = null; S.no3d = true;
+    if (!S.atlas) startAtlas('3D unavailable on this device');
+    return false;
+  } finally {
+    S.starting3d = false; render3dControls();
   }
 }
 
@@ -505,6 +540,9 @@ function wire() {
   });
   document.addEventListener('pointerdown', () => { if (S.sound && !S.padOn && O && O.sfx) { S.padOn = true; O.sfx('pad'); } }, { once: true });
   $('scan').addEventListener('click', () => { runScan(true); });
+  $('show3d').addEventListener('click', () => { if (S.model) startScene(); else S.want3d = true; });   // tapped before the data came: start once it is in
+  $('remember3d').addEventListener('change', (e) => { store.write({ ...store.read(), city3d: !!e.currentTarget.checked }); });
+  $('to2d').addEventListener('click', () => { store.write({ ...store.read(), city3d: false }); location.reload(); });   // a clean 2D page: the GPU and the frame loop are freed
   $('cityMini').addEventListener('click', () => { if (S.scene) S.scene.setMode('map'); else openSheet('worlds'); });
   $('cityInsights').addEventListener('click', () => { const open = $('verdict').classList.toggle('expanded');
     $('cityInsights').setAttribute('aria-expanded', String(open)); $('cityInsights').firstChild.textContent = open ? 'Close insights ' : 'Open insights '; });
@@ -530,6 +568,7 @@ function noData(why) {
   for (const id of ['pBestS', 'pWorstS']) $(id).textContent = 'No data';
   $('tkText').textContent = 'No data'; $('districtStatus').textContent = 'No data';
   const sel = $('districtSelect'); if (sel && sel.options[0]) sel.options[0].textContent = 'No data'; $('miniCount').textContent = 'No data';
+  if ($('city3d')) $('city3d').hidden = true;                             // nothing to draw in 3D either
   document.body.dataset.ready = '1'; S.ready = true;
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
 }
@@ -554,29 +593,26 @@ async function main() {
   S.model = model; S.L = layout(model, S.prevHyp); S.startedDemo = S.demo;
   if (!S.hypDemo) store.write({ ...store.read(), hh: hypSnap(model) });
   renderTop(); renderClock(); renderMiniMap(); renderDistrictSwitch(); renderSound(); wire();
-  await startScene();
+  startAtlas(atlasOnly() ? 'Atlas view' : '2D view (3D on tap)');      // first paint: the 2D atlas; no three.js, no WebGL
+  render3dControls();
   document.body.dataset.ready = '1';
   setInterval(renderClock, 15000);
   setInterval(tickNext, 7000);
   if (S.changes.length) setTimeout(() => toast(S.changes[0]), 2500);
-  if (S.scene) setInterval(() => { if (S.preview == null) renderClock(); }, 5000);
   postCard();
-  if (!S.startedDemo) {
-    greetNew(); setInterval(refresh, 5 * 60 * 1000);
-    if (S.scene) setInterval(() => { if (!document.hidden && S.fw && S.fw.length && S.fwLeft-- > 0 && S.scene) S.scene.fireworks(S.fw); }, 22000);
-  }
-  if (O && S.scene) O.ready();
+  if (!S.startedDemo) { greetNew(); setInterval(refresh, 5 * 60 * 1000); }
   S.ready = true;
+  if (auto3d() || S.want3d) await startScene();                                     // this phone opted in (and does not ask for reduced motion)
 }
 
 window.KC = {
   state: () => ({ demo: S.demo, ready: S.ready, error: S.error, view: S.view, sel: S.sel, liveUsed: !!(S.model && S.model.liveUsed), n: S.model ? S.model.edges.length : 0, counts: S.model && S.model.counts,
     regime: S.model && S.model.regime, districts: S.L ? S.L.districts.map((d) => d.key) : [], district: S.districtKey, buildings: S.L ? S.L.buildings.length : 0, edgeBuildings: S.L ? S.L.edgeCount : 0,
-    labs: S.L ? S.L.labs.map((d) => d.key) : [], hypDemo: !!S.hypDemo, ticker: S.tk.lines.length, scene: S.scene ? S.scene.stats() : null, preview: S.preview }),
+    labs: S.L ? S.L.labs.map((d) => d.key) : [], hypDemo: !!S.hypDemo, ticker: S.tk.lines.length, scene: S.scene ? S.scene.stats() : null, preview: S.preview, atlas: !!S.atlas, starting3d: !!S.starting3d, no3d: !!S.no3d }),
   model: () => S.model, layout: () => S.L, scene: () => S.scene, hyp: () => (S.model ? S.model.hyp : null), pair: () => (S.model ? pairOf(S.model) : null), ticker: () => S.tk.lines.slice(), tickNext, changes: () => S.changes.slice(),
   open: openSheet, close: closeSheet, select: (id) => selectEdge(id, true), district: switchDistrict, where: (id) => (S.scene ? S.scene.where(id) : null), pick: (x, y) => (S.scene ? S.scene.pick(x, y) : null),
   scan: runScan, sound: (on) => { S.sound = !!on; renderSound(); }, fx: () => (S.scene ? S.scene.fxStats() : null), ask: ASK_MESSAGE, learned: () => S.learned, refresh,
-  hour: (v) => { S.preview = v; if (S.scene) S.scene.setHour(v); renderClock(); }, mode: (k) => { if (S.scene) S.scene.setMode(k); }, card,
+  show3d: startScene, hour: (v) => { S.preview = v; if (S.scene) S.scene.setHour(v); renderClock(); }, mode: (k) => { if (S.scene) S.scene.setMode(k); }, card,
 };
 main().catch((e) => { S.error = 'start: ' + ((e && e.message) || e); if (!S.model) noData('The city could not start.'); else { S.ready = true; try { if (O && O.ready) O.ready(); } catch (_) { /* nothing */ } } });
 

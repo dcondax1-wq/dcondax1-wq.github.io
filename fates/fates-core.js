@@ -243,6 +243,7 @@ export function liveBot(live, bot, rules) {
 export function liveOdds(s, st) {
   if (!s || s.kind !== 'eval' || !st) return null;
   const S0 = s.start, m = s.summary;
+  if (st.status === 'funded') st = { ...st, status: 'passed' };       // day-archive 2026-11-20: funded = the eval was passed (ATLAS)
   if (st.status === 'passed' || st.status === 'failed') return { sync: false, done: st.status, pass: st.status === 'passed' ? 100 : 0, fail: st.status === 'failed' ? 100 : 0, open: 0 };
   const n = Math.max(0, (st.session == null ? S0.session : st.session) - S0.session);
   if (n === 0 && Math.abs(st.profit - S0.profit) < 1) return { sync: true, n: 0, k: m.paths, pass: m.pass, fail: m.fail, open: m.open, pass_med: m.pass_med };

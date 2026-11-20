@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3D website demos · Olympus Agency</title>
+<meta name="description" content="Five 3D website demos for local businesses (fictional): restaurant, roofer, car detailer, real estate, shed builder. Open one on your phone in front of the owner.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#101114">
+<meta name="color-scheme" content="dark">
+<!-- prices: the research team's offers.json (day-archive 3110fc34, 2026-11-20): starter site $1,500 + $79/mo, before / after add-on $900 + $29/mo,
+     phone-scan 3D tour $500 a scan + $25/mo, configurator-lite $3,500 + $99/mo.
+     AGENCY demos gallery (agency/demos/index.html, day-web-demos 2026-11-20): the owner opens this on his phone in front of a prospect.
+     Each card = a real one-page site for a FICTIONAL business, what it shows, what to say in 10 seconds, and what it sells for.
+     "Client mode" hides the prices and the pitch lines (remembered on this phone). No 3D on this page: the pictures are stills of each demo. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23d08c4a'/%3E%3C/svg%3E">
+<style>
+:root { --bg: #101114; --ink: #f3f1ec; --soft: #b4b0a8; --card: #1a1b20; --line: rgba(255, 250, 240, .1); --line-strong: rgba(255, 250, 240, .3);
+  --accent: #e39a52; --on-accent: #17120c; --accent-text: #efb47c; --display: "Iowan Old Style", Palatino, Georgia, serif; }
+body { padding-bottom: 24px; }
+.top { padding: calc(20px + env(safe-area-inset-top, 0px)) 0 8px; }
+.back { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-text); font-weight: 600; text-decoration: none; }
+.mode { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; margin-top: 14px; padding: 6px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; font-size: .9375rem; }
+.mode input { width: 51px; height: 31px; accent-color: var(--accent); flex: none; }
+.demos { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); margin-top: 18px; }
+@media (min-width: 760px) { .demos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.demo { display: grid; background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.demo .shot { display: block; aspect-ratio: 560 / 462; background: #000; }
+.demo .shot img { width: 100%; height: 100%; object-fit: cover; }
+.demo .in { padding: 16px; display: grid; gap: 10px; }
+.demo .kind { font: 600 .8125rem/1.3 system-ui; text-transform: uppercase; letter-spacing: .1em; color: var(--accent-text); }
+.demo h2 { font-size: 1.5rem; }
+.demo .what { color: var(--soft); font-size: .9375rem; }
+.sell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.sell div { background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.sell b { display: block; font: 700 1.25rem/1.2 -apple-system, system-ui, sans-serif; }
+.sell span { color: var(--soft); font-size: .8125rem; }
+.pitch { font-size: .9375rem; border-left: 3px solid var(--accent); padding: 2px 0 2px 12px; }
+.pitch em { display: block; font-style: normal; font: 600 .8125rem/1.4 system-ui; color: var(--soft); }
+.demo .btn { width: 100%; }
+html.client .owner-only { display: none !important; }
+.how { margin-top: 26px; }
+.how ol { margin: 10px 0 0; padding-left: 20px; color: var(--soft); font-size: .9375rem; }
+.how li + li { margin-top: 6px; }
+.fine { margin-top: 20px; }
+.theirs { margin-top: 26px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px; }
+.theirs-form { display: grid; gap: 12px; margin-top: 14px; }
+.theirs-form .fine { margin: 0; min-height: 1.5em; }
+</style>
+<script>try { if (localStorage.getItem('agency.demos.client') === '1') document.documentElement.classList.add('client'); } catch (e) { /* private mode */ }</script>
+<link rel="stylesheet" href="demo.css?v=d3">
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <a class="back owner-only" href="../">‹ Agency</a>
+    <h1>3D websites, live on your phone.</h1>
+    <p class="lead soft" style="margin-top:10px">Five real one-page sites for local businesses. Open one, hand the phone over, let them turn it. Every business here is fictional.</p>
+    <label class="mode"><span>Client mode: hide prices and pitch lines</span><input type="checkbox" id="client"></label>
+  </div>
+
+  <div class="demos">
+    <article class="demo">
+      <a class="shot" href="restaurant/" aria-label="Open the restaurant demo"><img src="restaurant/thumb.jpg" width="560" height="476" alt="The restaurant demo: a pizza on a plate in 3D" loading="eager"></a>
+      <div class="in">
+        <span class="kind">Restaurant · café · bakery</span>
+        <h2>Lantern &amp; Thyme</h2>
+        <p class="what">Tonight's dishes turn in 3D on a plate, the menu, reviews, map, and "Book a table" in two taps.</p>
+        <div class="sell owner-only"><div><b data-price="restaurant.setup">$1,500</b><span>starter site</span></div><div><b data-price="restaurant.month">$79/mo</b><span>care plan: hosting + menu updates</span></div></div>
+        <p class="pitch owner-only"><em>Say in 10 seconds</em>"Your customers decide on their phone. This lets them see the dish and book before they've left the sofa."</p>
+        <a class="btn primary" href="restaurant/">Open the demo</a>
+      </div>
+    </article>
+    <article class="demo">
+      <a class="shot" href="roofer/" aria-label="Open the roofer demo"><img src="roofer/thumb.jpg" width="560" height="464" alt="The roofer demo: a 3D house with the old and the new roof side by side" loading="eager"></a>
+      <div class="in">
+        <span class="kind">Roofer · contractor · remodeler</span>
+        <h2>Northgable Roofing</h2>
+        <p class="what">Slide from the storm-worn roof to the new one on a 3D house, pick the shingle colour, book a free check.</p>
+        <div class="sell owner-only"><div><b data-price="roofer.setup">$2,400</b><span>site $1,500 + before / after $900</span></div><div><b data-price="roofer.month">$108/mo</b><span>care $79 + new roof pairs $29</span></div></div>
+        <p class="pitch owner-only"><em>Say in 10 seconds</em>"One extra roof a year pays for this ten times. Homeowners pick their colour here, then call you, not the next roofer."</p>
+        <a class="btn primary" href="roofer/">Open the demo</a>
+      </div>
+    </article>
+    <article class="demo">
+      <a class="shot" href="detailer/" aria-label="Open the car detailer demo"><img src="detailer/thumb.jpg" width="560" height="420" alt="The detailer demo: a red car turning in a 3D showroom" loading="lazy"></a>
+      <div class="in">
+        <span class="kind">Car detailer · dealer · wrap shop</span>
+        <h2>Glossworks Detail Studio</h2>
+        <p class="what">The car turns in a 3D showroom: flip before / after ceramic, change the paint, see the packages, book a bay.</p>
+        <div class="sell owner-only"><div><b data-price="detailer.setup">$2,400</b><span>site $1,500 + before / after $900</span></div><div><b data-price="detailer.month">$108/mo</b><span>care $79 + new car pairs $29</span></div></div>
+        <p class="pitch owner-only"><em>Say in 10 seconds</em>"Your Instagram shows the shine. This turns that shine into bookings, with the price on the page."</p>
+        <a class="btn primary" href="detailer/">Open the demo</a>
+      </div>
+    </article>
+    <article class="demo">
+      <a class="shot" href="estate/" aria-label="Open the real estate demo"><img src="estate/thumb.jpg" width="560" height="478" alt="The real estate demo: a flat seen from above in 3D" loading="lazy"></a>
+      <div class="in">
+        <span class="kind">Real estate · venue · rentals</span>
+        <h2>Willow Row Lofts</h2>
+        <p class="what">Walk room to room in 3D from the listing: overview from above, then living, kitchen, bedroom and terrace.</p>
+        <div class="sell owner-only"><div><b data-price="estate.setup">$500</b><span>per phone-scan 3D tour</span></div><div><b data-price="estate.listing">$25/mo</b><span>hosting per tour</span></div></div>
+        <p class="pitch owner-only"><em>Say in 10 seconds</em>"I scan your space with a phone in two hours; buyers walk through it on the train and only book the viewings they mean."</p>
+        <a class="btn primary" href="estate/">Open the demo</a>
+      </div>
+    </article>
+    <article class="demo">
+      <a class="shot" href="shed/" aria-label="Open the shed builder demo"><img src="shed/thumb.jpg" width="560" height="449" alt="The shed builder demo: a red shed in 3D with the price beside it" loading="lazy"></a>
+      <div class="in">
+        <span class="kind">Sheds · pergolas · carports · trailers</span>
+        <h2>Cedar Hollow Sheds</h2>
+        <p class="what">Build-your-own: size, roof, colour and extras change the shed in 3D and the price live; the build goes with the quote.</p>
+        <div class="sell owner-only"><div><b data-price="shed.setup">$3,500</b><span>configurator-lite</span></div><div><b data-price="shed.month">$99/mo</b><span>hosting + price updates</span></div></div>
+        <p class="pitch owner-only"><em>Say in 10 seconds</em>"Your customers price their own shed at 10 pm and send you the build. Builders who do this say their leads double."</p>
+        <a class="btn primary" href="shed/">Open the demo</a>
+      </div>
+    </article>
+  </div>
+
+  <section class="theirs owner-only" aria-labelledby="theirsH"><h2 id="theirsH">Make it theirs</h2>
+    <p class="soft" style="margin-top:6px;font-size:.9375rem">Type the prospect's name: the demo opens with their name, town and number in it. Nothing is saved or sent; it is all in the link.</p>
+    <form id="theirs" class="theirs-form">
+      <label class="field">Business name<input name="biz" maxlength="40" autocomplete="off" placeholder="e.g. Rosa's Pizzeria" required></label>
+      <div class="two-col"><label class="field">Town<input name="city" maxlength="30" autocomplete="off" placeholder="e.g. Springfield"></label>
+        <label class="field">Their phone<input name="tel" type="tel" maxlength="16" autocomplete="off" placeholder="555 010 0199"></label></div>
+      <label class="field">Demo<select name="demo"><option value="restaurant">Restaurant · café</option><option value="roofer">Roofer · contractor</option><option value="detailer">Detailer · dealer</option><option value="estate">Real estate · venue</option><option value="shed">Sheds · builders</option></select></label>
+      <div class="two-col"><button class="btn primary" type="submit">Open their demo</button><button class="btn ghost" type="button" id="copy">Copy the link</button></div>
+      <p class="fine" id="copied" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="how owner-only"><h2>How to use it in a pitch</h2>
+    <ol><li>Open the demo closest to their trade before you walk in (it loads in about a second on 4G).</li>
+      <li>Hand them the phone on the 3D part: "drag it". Let them play for 10 seconds; say nothing.</li>
+      <li>Tap "Book" so they see the request land, then: "This, with your name, your photos, in two weeks."</li></ol></section>
+  <p class="fine soft">Demo sites by Olympus Agency. The businesses, people, reviews, addresses and 555 phone numbers are made up.</p>
+</main>
+<script>(function () { var f = document.getElementById('theirs'), out = document.getElementById('copied'); if (!f) return;
+  function link() { var q = new URLSearchParams(); ['biz', 'city', 'tel'].forEach(function (k) { var v = f.elements[k].value.trim(); if (v) q.set(k, v); });
+    return new URL(f.elements.demo.value + '/?' + q.toString(), location.href).href; }
+  f.addEventListener('submit', function (e) { e.preventDefault(); if (f.reportValidity()) location.href = link(); });
+  document.getElementById('copy').addEventListener('click', function () { if (!f.reportValidity()) return; var u = link();
+    var ok = function () { out.textContent = 'Link copied: paste it in a text to them.'; }, no = function () { out.textContent = u; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(ok, no); else no(); }); })();</script>
+<script>(function () { var c = document.getElementById('client'), h = document.documentElement; if (!c) return; c.checked = h.classList.contains('client');
+  c.addEventListener('change', function () { h.classList.toggle('client', c.checked); try { localStorage.setItem('agency.demos.client', c.checked ? '1' : '0'); } catch (e) { /* private mode */ } }); })();</script>
+</body>
+</html>

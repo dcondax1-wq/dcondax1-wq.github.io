@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lantern &amp; Thyme · wood-fired kitchen (demo)</title>
+<meta name="description" content="DEMO website for a fictional neighbourhood trattoria: turn tonight's dishes in 3D, book a table in two taps.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1a1410">
+<meta name="color-scheme" content="dark">
+<!-- AGENCY demo 1 (agency/demos/restaurant/, day-web-demos 2026-11-20): a sellable one-page restaurant site. FICTIONAL business, 555 phone
+     number, made-up street. The 3D plate (scene.js, three.js r160) loads after the page has drawn; without WebGL the drawn plate stays. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23e0803e'/%3E%3C/svg%3E">
+<style>
+:root { --bg: #1a1410; --ink: #f6efe6; --soft: #cdbfae; --card: #241c16; --line: rgba(255, 236, 214, .12); --line-strong: rgba(255, 236, 214, .3);
+  --accent: #e8894a; --on-accent: #1a1410; --accent-text: #f0a36c; --stage: radial-gradient(120% 90% at 50% 30%, #3a2a1e, #140f0b 70%); --map-bg: #2a211a;
+  --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; }
+</style>
+<link rel="stylesheet" href="../demo.css?v=d3">
+<script src="../demo.js?v=d3" defer></script>
+<script src="../../../olympus/lazy3d.js?v=l2" data-src="scene.js?v=r1" data-near="#stage" data-event="demo3d" defer></script>
+</head>
+<body>
+<div class="demo-strip"><span data-strip>Demo site · fictional restaurant</span><a href="../">All demos</a></div>
+
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Lantern and Thyme, top of page">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="#e8894a"/><path d="M17 7c-3 4-5 7-5 10a5 5 0 0 0 10 0c0-3-2-6-5-10z" fill="#1a1410"/><path d="M17 14c-1.4 2-2.2 3.3-2.2 4.6a2.2 2.2 0 0 0 4.4 0c0-1.3-.8-2.6-2.2-4.6z" fill="#f6c77a"/></svg>
+    <span data-biz>Lantern &amp; Thyme</span></a>
+  <a class="btn primary small" href="#book" data-book="Dinner">Book a table</a>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <p class="eyebrow">Wood-fired · <span data-city>Millbrook</span></p>
+    <h1>Tonight's table is waiting.</h1>
+    <p class="lead">Hand-stretched pizza, fresh pasta and a wood oven at 450°C. See every dish before you order, and book in two taps.</p>
+    <div class="cta">
+      <a class="btn primary" href="#book" data-book="Dinner">Book a table</a>
+      <a class="btn ghost" href="tel:+15550100142"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Call</a>
+    </div>
+    <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span data-sample="Sample: your star rating here">4.8 from 640 reviews</span></p>
+
+    <div class="show">
+    <div id="stage" class="stage" role="img" aria-label="Tonight's dish on the plate. Drag sideways to turn it.">
+      <svg class="pic" viewBox="0 0 400 340" aria-hidden="true">
+        <defs><radialGradient id="pl" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#fbf7f0"/><stop offset="1" stop-color="#d9d1c4"/></radialGradient>
+          <radialGradient id="cr" cx="50%" cy="45%" r="55%"><stop offset=".78" stop-color="#c0392b"/><stop offset=".84" stop-color="#e3a95c"/><stop offset="1" stop-color="#a8682f"/></radialGradient></defs>
+        <ellipse cx="200" cy="230" rx="170" ry="62" fill="#000" opacity=".35"/>
+        <ellipse cx="200" cy="200" rx="160" ry="70" fill="url(#pl)"/><ellipse cx="200" cy="196" rx="120" ry="50" fill="#efe8dc"/>
+        <g data-for="dish:pizza"><ellipse cx="200" cy="190" rx="112" ry="46" fill="url(#cr)"/>
+          <g fill="#f8efd8"><ellipse cx="170" cy="180" rx="16" ry="7"/><ellipse cx="228" cy="196" rx="18" ry="8"/><ellipse cx="205" cy="170" rx="13" ry="6"/><ellipse cx="160" cy="203" rx="14" ry="6"/><ellipse cx="245" cy="176" rx="12" ry="5"/></g>
+          <g fill="#2f7d32"><ellipse cx="190" cy="196" rx="8" ry="4" transform="rotate(-20 190 196)"/><ellipse cx="236" cy="186" rx="8" ry="4" transform="rotate(25 236 186)"/><ellipse cx="176" cy="168" rx="7" ry="3.5"/></g></g>
+        <g data-for="dish:pasta" style="display:none"><ellipse cx="200" cy="186" rx="96" ry="40" fill="#e9c46a"/>
+          <g fill="none" stroke="#d9a845" stroke-width="5" stroke-linecap="round"><path d="M130 186q30-30 60 0t60 0"/><path d="M140 198q30-26 60 0t50-4"/><path d="M150 172q26-20 52 0t46 2"/></g>
+          <g fill="#8e2f1c"><circle cx="186" cy="182" r="9"/><circle cx="214" cy="190" r="10"/><circle cx="200" cy="172" r="8"/></g><g fill="#f4ead0"><rect x="196" y="178" width="10" height="3" rx="1"/><rect x="178" y="190" width="9" height="3" rx="1"/></g></g>
+        <g data-for="dish:tiramisu" style="display:none"><path d="M140 186l60-26 60 26-60 26z" fill="#6b3f22"/><path d="M140 186v26l60 26v-26z" fill="#f1e3c8"/><path d="M260 186v26l-60 26v-26z" fill="#e6d3ae"/>
+          <path d="M140 198l60 26 60-26" fill="none" stroke="#7a4a2a" stroke-width="4"/><ellipse cx="214" cy="176" rx="9" ry="4" fill="#3f8f45"/></g>
+      </svg>
+      <span class="tag3d">3D</span><span class="hint">Drag sideways to turn</span>
+    </div>
+    <div class="picks" data-group="dish" role="group" aria-label="Pick a dish">
+      <button class="pick" type="button" data-value="pizza" aria-pressed="true" data-note="Margherita · San Marzano, fior di latte, basil · $17">Margherita</button>
+      <button class="pick" type="button" data-value="pasta" aria-pressed="false" data-note="Tagliatelle al ragù · 6-hour beef and pork ragù · $21">Tagliatelle</button>
+      <button class="pick" type="button" data-value="tiramisu" aria-pressed="false" data-note="Tiramisu · mascarpone, espresso, cocoa · $9">Tiramisu</button>
+    </div>
+    <p class="pick-note" data-note-for="dish" aria-live="polite"></p>
+    </div>
+  </div></section>
+
+  <section id="menu"><div class="wrap">
+    <p class="eyebrow">The menu</p>
+    <h2>Small menu. Big oven.</h2>
+    <div class="grid two">
+      <div class="card"><h3>From the oven</h3>
+        <div class="row"><span>Margherita</span><span class="price">$17</span></div>
+        <div class="row"><span>Nduja &amp; hot honey</span><span class="price">$20</span></div>
+        <div class="row"><span>Wild mushroom &amp; thyme</span><span class="price">$19</span></div></div>
+      <div class="card"><h3>Fresh pasta</h3>
+        <div class="row"><span>Tagliatelle al ragù</span><span class="price">$21</span></div>
+        <div class="row"><span>Cacio e pepe</span><span class="price">$18</span></div>
+        <div class="row"><span>Lemon ricotta ravioli</span><span class="price">$20</span></div></div>
+    </div>
+    <div class="badges"><span class="badge">Vegetarian options</span><span class="badge">Gluten-free base +$3</span><span class="badge">Kids eat free Sun</span></div>
+  </div></section>
+
+  <section id="reviews"><div class="wrap">
+    <p class="eyebrow" data-reviews>Reviews</p>
+    <h2>Regulars say it best</h2>
+    <div class="reviews">
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"The crust is perfect: blistered, chewy, light. We booked again before we'd paid."</p><span class="who">Dana R. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Seeing the tiramisu turn on my phone sold me. It looked even better on the table."</p><span class="who">Marco T. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="4 stars">★★★★☆</span><p>"Busy on Fridays, so book ahead. The ragù is worth the wait."</p><span class="who">Priya S. (sample review)</span></article>
+    </div>
+  </div></section>
+
+  <section id="visit"><div class="wrap">
+    <p class="eyebrow">Visit</p>
+    <h2>Find us on Mill Street</h2>
+    <div class="map" role="img" aria-label="Map: Mill Street, by the river, two minutes from the station">
+      <svg viewBox="0 0 400 250" aria-hidden="true"><rect width="400" height="250" fill="#2a211a"/>
+        <path d="M-10 190C80 170 140 220 230 200S360 150 420 170V260H-10z" fill="#1d3b4a"/>
+        <g stroke="#4a3d31" stroke-width="14" fill="none" stroke-linecap="round"><path d="M0 110H400"/><path d="M150 0V180"/><path d="M290 0L250 190"/></g>
+        <g stroke="#3a3027" stroke-width="7" fill="none"><path d="M0 50H400"/><path d="M60 0V180"/><path d="M350 0V160"/></g>
+        <text x="20" y="104" fill="#a89580" font-size="11" font-family="system-ui">Mill Street</text><text x="300" y="235" fill="#7fa7b8" font-size="11" font-family="system-ui">River</text>
+        <circle cx="205" cy="110" r="22" fill="#e8894a" opacity=".25"/><path d="M205 84c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26c0-9-7-16-16-16z" fill="#e8894a"/><circle cx="205" cy="100" r="6" fill="#1a1410"/></svg>
+    </div>
+    <div class="grid two">
+      <div class="card"><h3>Mill Street, <span data-city>Millbrook</span></h3><p>Two minutes from the station. Street parking after 6 pm.</p>
+        <div class="visit-cta"><a class="btn ghost small" href="https://maps.apple.com/?q=Mill+Street">Directions</a><a class="btn ghost small" href="tel:+15550100142">(555) 010-0142</a></div></div>
+      <div class="card"><table class="hours"><tbody><tr><td>Mon</td><td>Closed</td></tr><tr><td>Tue - Thu</td><td>5 - 10 pm</td></tr><tr><td>Fri - Sat</td><td>5 - 11 pm</td></tr><tr><td>Sun</td><td>12 - 9 pm</td></tr></tbody></table></div>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><p>© <span data-year>2026</span> <span data-biz>Lantern &amp; Thyme</span> <span data-fict>(a fictional restaurant)</span>.</p><p>Demo website built by Olympus Agency: your business, your dishes, in 3D.</p></div></footer>
+</main>
+
+<nav class="dock" aria-label="Quick actions"><a class="btn ghost" href="tel:+15550100142">Call</a><a class="btn primary" href="#book" data-book="Dinner">Book a table</a></nav>
+
+<dialog id="book" class="sheet" aria-labelledby="bookH"><div class="sheet-in">
+  <div class="sheet-head"><h2 id="bookH">Book a table</h2><button class="x" type="button" data-close aria-label="Close">×</button></div>
+  <form>
+    <div class="two-col"><label class="field">Day<input type="date" name="day" required></label>
+      <label class="field">Time<select name="time"><option>5:30 pm</option><option>6:30 pm</option><option selected>7:30 pm</option><option>8:30 pm</option></select></label></div>
+    <div class="two-col" style="margin-top:10px"><label class="field">Guests<select name="n"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></label>
+      <label class="field">For<select name="what"><option>Dinner</option><option>Lunch</option><option>Birthday</option></select></label></div>
+    <label class="field" style="margin-top:10px">Name<input name="name" autocomplete="name" required></label>
+    <label class="field" style="margin-top:10px">Phone<input name="tel" type="tel" autocomplete="tel" required></label>
+    <button class="btn primary" type="submit" style="width:100%;margin-top:14px">Request the table</button>
+    <p class="fine" style="margin-top:8px">Demo: nothing is sent. On the real site this goes straight to the restaurant's phone.</p>
+  </form>
+  <div class="done" hidden><h3 tabindex="-1">Table requested</h3><p>We'll text to confirm within 15 minutes.</p><button class="btn ghost" type="button" data-close style="margin-top:14px">Done</button></div>
+</div></dialog>
+</body>
+</html>

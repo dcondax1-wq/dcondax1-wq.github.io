@@ -21,12 +21,11 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <link rel="stylesheet" href="../olympus/pulse.css?v=p7">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o18" data-app="kronos"></script>
+<script src="../olympus/olympus.js?v=o19" data-app="kronos"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/polis-life.js?v=pl4" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=5" defer></script>
-<script src="../olympus/sfx.js?v=s4" defer></script>
+<script src="../olympus/agora-ui.js?v=6" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="kronos.css?v=a1qdef">
 <link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
@@ -38,6 +37,7 @@
     <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
+  <p id="asOf" class="note" hidden></p>
   <section class="pulse" data-pulse="strip" data-pulse-app="kronos" aria-label="Today, drawdown left, to pass" aria-busy="true"><div class="pu-part pu-strip"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="ag-card card hero" aria-labelledby="heroH">
     <h2 id="heroH">Today in $</h2>
@@ -79,8 +79,8 @@
 
   <p class="foot" id="foot">Kronos reads the site's own trade file and sends nothing. It is a record, not a forecast: it never places or changes an order. Every dollar is shown with its R (1R = the average risk of a trade in the set). Backtest numbers are history, not a promise.</p>
 </main>
-<script type="module" src="kronos.js?v=a2"></script>
+<script type="module" src="kronos.js?v=a3"></script>
 <script type="module" src="kronosdial.js?v=q6c" onerror="window.KRONOS_DIAL_FAIL = 1"></script>
-<script type="module" src="../olympus/pulse.js?v=p7"></script>
+<script type="module" src="../olympus/pulse.js?v=p8"></script>
 </body>
 </html>

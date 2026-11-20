@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glossworks Detail Studio · ceramic coating (demo)</title>
+<meta name="description" content="DEMO website for a fictional car detailing studio: spin the car in a 3D showroom, see the ceramic gloss, book a detail.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0d10">
+<meta name="color-scheme" content="dark">
+<!-- AGENCY demo 3 (agency/demos/detailer/, day-web-demos 2026-11-20): a sellable one-page detailer / dealer site. FICTIONAL business, 555
+     number. The 3D showroom car (scene.js, made in code) loads after the page has drawn; without WebGL the drawn car stays and the picks still repaint it. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2338bdf8'/%3E%3C/svg%3E">
+<style>
+:root { --bg: #0b0d10; --ink: #f2f4f7; --soft: #a9b3bf; --card: #14181d; --line: rgba(220, 235, 255, .1); --line-strong: rgba(220, 235, 255, .3);
+  --accent: #38bdf8; --on-accent: #04121a; --accent-text: #7dd3fc; --stage: radial-gradient(90% 70% at 50% 20%, #2a313b, #0b0d10 75%); --map-bg: #14181d; --radius: 10px;
+  --display: "Avenir Next Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif; }
+h1, h2 { font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
+.stage .car { fill: var(--paint, #b3141b); transition: fill .4s; }
+.stage .gloss { opacity: var(--gloss, 0); transition: opacity .4s; }
+.pkg { display: grid; gap: 4px; }
+.pkg .price { font-size: 1.375rem; }
+.pkg ul { margin: 8px 0 0; padding-left: 18px; color: var(--soft); font-size: .9375rem; }
+.pkg.best { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.pkg .flag { justify-self: start; padding: 2px 10px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 700 .75rem/1.6 system-ui; }
+</style>
+<link rel="stylesheet" href="../demo.css?v=d3">
+<script src="../demo.js?v=d3" defer></script>
+<script src="../../../olympus/lazy3d.js?v=l2" data-src="scene.js?v=c2" data-near="#stage" data-event="demo3d" defer></script>
+</head>
+<body>
+<div class="demo-strip"><span data-strip>Demo site · fictional detailer</span><a href="../">All demos</a></div>
+
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Glossworks Detail Studio, top of page">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#38bdf8"/><path d="M7 21l3-6c.6-1.2 1.6-2 3-2h8c1.4 0 2.4.8 3 2l3 6v3H7z" fill="#04121a"/><circle cx="12" cy="24" r="2.4" fill="#38bdf8"/><circle cx="22" cy="24" r="2.4" fill="#38bdf8"/></svg>
+    <span data-biz>Glossworks</span></a>
+  <a class="btn primary small" href="#book" data-book="Full detail">Book</a>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <p class="eyebrow">Detailing · Ceramic coating · Paint correction</p>
+    <h1>Showroom shine. Every time you walk out.</h1>
+    <p class="lead">Hand wash, paint correction and 5-year ceramic coating, done indoors. Turn the car, flip the finish, see the difference.</p>
+    <div class="cta">
+      <a class="btn primary" href="#book" data-book="Full detail">Book a detail</a>
+      <a class="btn ghost" href="tel:+15550100155">Call</a>
+    </div>
+    <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span data-sample="Sample: your star rating here">5.0 from 207 drivers</span></p>
+
+    <div class="show">
+    <div id="stage" class="stage" style="--stage-ratio: 4 / 3" role="img" aria-label="A car in the showroom. Drag sideways to turn it; pick a paint and the finish below.">
+      <svg class="pic" viewBox="0 0 400 300" aria-hidden="true">
+        <defs><linearGradient id="gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+          <radialGradient id="fl" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#38bdf8" stop-opacity=".25"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></radialGradient></defs>
+        <ellipse cx="200" cy="225" rx="180" ry="30" fill="url(#fl)"/><ellipse cx="200" cy="222" rx="150" ry="14" fill="#000" opacity=".6"/>
+        <path class="car" d="M52 205c-4-14-2-30 6-38l26-6 52-34c10-6 22-9 34-9h70c14 0 26 5 36 14l32 28 34 6c12 2 20 12 20 24v15z"/>
+        <path d="M150 132l26-16c6-3 12-5 19-5h56c8 0 15 3 21 8l20 18z" fill="#0d1218" opacity=".9"/>
+        <rect class="gloss" x="70" y="150" width="270" height="8" rx="4" fill="url(#gl)"/>
+        <g fill="#0a0c0f"><circle cx="112" cy="208" r="26"/><circle cx="296" cy="208" r="26"/></g><g fill="#9aa4b0"><circle cx="112" cy="208" r="14"/><circle cx="296" cy="208" r="14"/></g>
+        <rect x="336" y="170" width="16" height="6" rx="3" fill="#e8f6ff"/><rect x="50" y="172" width="12" height="6" rx="3" fill="#e5484d"/>
+      </svg>
+      <span class="tag3d">3D</span><span class="hint">Drag sideways to turn</span>
+    </div>
+    <div class="picks" data-group="finish" role="group" aria-label="Before or after the detail">
+      <button class="pick" type="button" data-value="before" aria-pressed="false" data-note="Before: swirls, water spots and dull paint after a year of car washes">Before</button>
+      <button class="pick" type="button" data-value="after" aria-pressed="true" data-note="After: paint corrected and ceramic coated, water beads straight off">After ceramic</button>
+    </div>
+    <div class="picks" data-group="paint" role="group" aria-label="Pick a paint colour">
+      <button class="pick" type="button" data-value="black" aria-pressed="false"><span class="sw" style="background:#16181c"></span>Obsidian</button>
+      <button class="pick" type="button" data-value="white" aria-pressed="false"><span class="sw" style="background:#e9ecef"></span>Pearl</button>
+      <button class="pick" type="button" data-value="red" aria-pressed="true"><span class="sw" style="background:#b3141b"></span>Rosso</button>
+      <button class="pick" type="button" data-value="blue" aria-pressed="false"><span class="sw" style="background:#1d3a6e"></span>Midnight</button>
+    </div>
+    <p class="pick-note" data-note-for="finish" aria-live="polite"></p>
+    </div>
+  </div></section>
+
+  <section id="packages"><div class="wrap">
+    <p class="eyebrow">Packages</p>
+    <h2>Pick your shine</h2>
+    <div class="grid three">
+      <div class="card pkg"><h3>Express</h3><span class="price">$49</span><ul><li>Foam hand wash</li><li>Wheels and tyres</li><li>Interior vacuum</li></ul><a class="btn ghost small" href="#book" data-book="Express" style="margin-top:12px">Book Express</a></div>
+      <div class="card pkg best"><span class="flag">Most booked</span><h3>Full detail</h3><span class="price">$189</span><ul><li>Clay bar and sealant</li><li>Steam-cleaned interior</li><li>Leather conditioned</li></ul><a class="btn primary small" href="#book" data-book="Full detail" style="margin-top:12px">Book Full detail</a></div>
+      <div class="card pkg"><h3>Ceramic coat</h3><span class="price">from $799</span><ul><li>1-stage paint correction</li><li>5-year ceramic coating</li><li>Free wash every quarter</li></ul><a class="btn ghost small" href="#book" data-book="Ceramic coat" style="margin-top:12px">Book Ceramic</a></div>
+    </div>
+  </div></section>
+
+  <section id="reviews"><div class="wrap">
+    <p class="eyebrow" data-reviews>Reviews</p>
+    <h2>Drivers who came back</h2>
+    <div class="reviews">
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"My 6-year-old car looks better than the day I bought it. Rain just slides off."</p><span class="who">Chris A. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Booked from my phone in a minute, picked up on time, spotless inside."</p><span class="who">Tasha B. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"The before / after on the site is honest. That's exactly what my car looked like."</p><span class="who">Omar K. (sample review)</span></article>
+    </div>
+  </div></section>
+
+  <section id="visit"><div class="wrap">
+    <p class="eyebrow">Visit</p>
+    <h2>The studio</h2>
+    <div class="map" role="img" aria-label="Map: Foundry Lane, off the ring road">
+      <svg viewBox="0 0 400 250" aria-hidden="true"><rect width="400" height="250" fill="#14181d"/>
+        <g stroke="#232a33" stroke-width="12" fill="none"><path d="M0 150C120 150 160 60 400 70"/><path d="M120 0V250"/><path d="M0 40H400"/></g><g stroke="#1b2129" stroke-width="6" fill="none"><path d="M260 0V250"/><path d="M0 210H400"/></g>
+        <text x="300" y="62" fill="#7b8794" font-size="11" font-family="system-ui">Ring Road</text>
+        <path d="M200 92c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26c0-9-7-16-16-16z" fill="#38bdf8"/><circle cx="200" cy="108" r="6" fill="#0b0d10"/></svg>
+    </div>
+    <div class="grid two">
+      <div class="card"><h3>Foundry Lane, <span data-city>Millbrook</span></h3><p>Indoor bays, free coffee, pick-up and drop-off within 10 miles.</p>
+        <div class="visit-cta"><a class="btn ghost small" href="https://maps.apple.com/?q=Foundry+Lane">Directions</a><a class="btn ghost small" href="tel:+15550100155">(555) 010-0155</a></div></div>
+      <div class="card"><table class="hours"><tbody><tr><td>Mon - Fri</td><td>8 am - 6 pm</td></tr><tr><td>Sat</td><td>9 am - 4 pm</td></tr><tr><td>Sun</td><td>Closed</td></tr></tbody></table></div>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><p>© <span data-year>2026</span> <span data-biz>Glossworks Detail Studio</span> <span data-fict>(a fictional business)</span>.</p><p>Demo website built by Olympus Agency: your cars, in your showroom, in 3D.</p></div></footer>
+</main>
+
+<nav class="dock" aria-label="Quick actions"><a class="btn ghost" href="tel:+15550100155">Call</a><a class="btn primary" href="#book" data-book="Full detail">Book a detail</a></nav>
+
+<dialog id="book" class="sheet" aria-labelledby="bookH"><div class="sheet-in">
+  <div class="sheet-head"><h2 id="bookH">Book a detail</h2><button class="x" type="button" data-close aria-label="Close">×</button></div>
+  <form>
+    <label class="field">Package<select name="what"><option>Express</option><option>Full detail</option><option>Ceramic coat</option></select></label>
+    <div class="two-col" style="margin-top:10px"><label class="field">Day<input type="date" name="day" required></label>
+      <label class="field">Drop-off<select name="time"><option>8 am</option><option>10 am</option><option>1 pm</option></select></label></div>
+    <label class="field" style="margin-top:10px">Car (make and model)<input name="car" required></label>
+    <label class="field" style="margin-top:10px">Name<input name="name" autocomplete="name" required></label>
+    <label class="field" style="margin-top:10px">Phone<input name="tel" type="tel" autocomplete="tel" required></label>
+    <button class="btn primary" type="submit" style="width:100%;margin-top:14px">Book it</button>
+    <p class="fine" style="margin-top:8px">Demo: nothing is sent. On the real site this books the bay and texts the customer.</p>
+  </form>
+  <div class="done" hidden><h3 tabindex="-1">Bay booked</h3><p>We'll text a reminder the evening before.</p><button class="btn ghost" type="button" data-close style="margin-top:14px">Done</button></div>
+</div></dialog>
+<script>(function () { var P = { black: "#1c1f24", white: "#e9ecef", red: "#b3141b", blue: "#1d3a6e" }, st = document.getElementById("stage");
+  function set() { var k = window.DEMO_PICKS || {}; if (!st) return; st.style.setProperty("--paint", P[k.paint] || P.red); st.style.setProperty("--gloss", k.finish === "before" ? 0 : 1); }
+  addEventListener("demo:pick", set); addEventListener("DOMContentLoaded", function () { setTimeout(set, 0); }); })();</script>
+</body>
+</html>

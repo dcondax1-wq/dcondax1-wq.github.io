@@ -3,7 +3,6 @@
 // Everything is computed here (oikoscore.js), so it works with no feed. Keeps only its own sliders and an imported ledger on this phone ('oikos.v1'); sends nothing. Text only through textContent. window.OIKOS is the test hook.
 // ?demo=1 forces the demo, ?today=YYYY-MM-DD fixes the date (links and tests).
 import * as C from './oikoscore.js';
-import { createAmphora } from './oikosscene.js';
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -207,9 +206,31 @@ async function boot() {
   if (saved && C.SCEN.some((s) => s[0] === saved.scen)) S.scen = saved.scen;
   const [src, led] = chooseSource(saved); S.source = src; S.ledger = led;
   bind();
-  try { S.scene = createAmphora($('amph'), { O }); } catch (_) { S.scene = null; }
+  S.sceneMode = 'flat';
+  render();                              // the flat vase first; the 3D amphora arrives after load + idle (startScene)
+  startScene();
+}
+// perf (day-a11y 2026-11-20, PERF ask 3): the decorative 3D (three.js, ~165 KB + 650 KB to parse) waits for the page's load and an idle
+// moment, so the numbers paint first; it is skipped on a phone that asked to save data, a 2G / 3G line or a small memory (as olympus/lazy3d.js)
+function later3d() {
+  return new Promise((r) => {
+    const go = () => (window.requestIdleCallback ? window.requestIdleCallback(() => r(), { timeout: 2000 }) : setTimeout(r, 200));
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+  });
+}
+function weak3d() {
+  try { const c = navigator.connection || {}, m = navigator.deviceMemory; return !!c.saveData || /(^|-)(2g|3g)$/.test(String(c.effectiveType || '')) || (typeof m === 'number' && m <= 4); } catch (_) { return false; }
+}
+async function startScene() {
+  try {
+    await later3d();
+    if (weak3d()) return;
+    const { createAmphora } = await import('./oikosscene.js');
+    $('amph').hidden = false;                       // the flat vase drew first (same 300 px stage: no jump)
+    S.scene = createAmphora($('amph'), { O });
+  } catch (_) { S.scene = null; }
   S.sceneMode = S.scene ? 'webgl' : 'flat';
-  render();
+  if (S.scene) { $('amphFallback').setAttribute('hidden', ''); render(); } else $('amph').hidden = true;
 }
 function store2(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
 window.OIKOS = { S, C, ready: () => S.ready, render, scene: () => S.scene, importText, raw: store2 };

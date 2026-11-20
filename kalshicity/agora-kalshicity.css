@@ -54,3 +54,11 @@ button:focus-visible{outline-color:#e0b060}
 .arch-btn{display:inline-flex;align-items:center;justify-content:center;flex:none;white-space:nowrap;min-height:44px;min-width:44px;padding:0 10px;border-radius:10px;border:1px solid #3a3228;background:#2a241c;color:#f3ece0;font:600 13px/1.2 var(--ag-sans);text-decoration:none}
 .arch-btn.primary{background:#c8a24a;color:#1b1610;border-color:#e2c47a}
 .arch-btn:focus-visible{outline:2px solid #e0b060;outline-offset:2px}
+/* 3D on tap (2026-11-20): the page opens in 2D; this row starts the 3D city */
+.city3d{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}.city3d[hidden]{display:none}
+.show3d{flex:1 1 180px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #e2c47a;background:#c8a24a;color:#1b1610;font:700 14px/1.2 var(--ag-sans);cursor:pointer}
+.show3d:disabled{background:#2a241c;color:#cfc3ad;border-color:#3a3228;cursor:default}.show3d:focus-visible{outline:2px solid #e0b060;outline-offset:2px}
+.remember3d{display:inline-flex;align-items:center;gap:8px;min-height:44px;font:600 13px/1.2 var(--ag-sans);color:#f3ece0;cursor:pointer}.remember3d input{width:22px;height:22px;margin:0;accent-color:#c8a24a}
+#to2d[hidden]{display:none}
+/* the 2D page is now the first screen: on tall phones the atlas caption flows under the map (it was fixed over the district switch and the 3D button) */
+@media (max-width:520px) and (min-height:720px){html[data-noscene=atlas] .kc-atlas-caption{position:relative;bottom:auto;max-height:none;margin:14px 16px 0}}

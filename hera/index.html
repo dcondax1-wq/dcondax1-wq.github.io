@@ -21,10 +21,10 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <link rel="stylesheet" href="../olympus/pulse.css?v=p7">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o18" data-app="hera"></script>
+<script src="../olympus/olympus.js?v=o19" data-app="hera"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=5" defer></script>
+<script src="../olympus/agora-ui.js?v=6" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c96a4a'); r.setProperty('--oly-accent-rgb', '192, 96, 63'); })();</script>
 <link rel="stylesheet" href="hera.css?v=a1qff">
@@ -45,6 +45,11 @@
     <p class="note" id="bigNote"></p>
   </section>
   <section class="pulse" data-pulse="hero:payout,money" data-pulse-app="hera" aria-label="Next payout, fees vs payouts" aria-busy="true"><div class="pu-part pu-hero"></div><div class="pu-part pu-money"></div></section><!-- day-arenas: olympus/pulse.js -->
+  <section class="ag-card card" id="nowCard" aria-labelledby="nowH" hidden><!-- day-archive 2026-11-20: the real accounts from the PC's report, with its age -->
+    <h2 id="nowH">First payouts, now</h2>
+    <ul class="plain" id="nowList"></ul>
+    <p class="note" id="nowNote">Each payout cycle needs at least 2 trading days, and the best day can be at most half of the cycle's profit.</p>
+  </section>
   <section class="ag-card card" id="fleetPlan" aria-labelledby="fpH"><!-- day-arenas: the fleet cash plan (fleet.js, ../business/fleet_plan.json from day-fleet) -->
     <h2 id="fpH">The fleet, month by month (estimate)</h2>
     <div class="fp-body" aria-live="polite"></div>
@@ -83,8 +88,8 @@
   <p class="foot" id="foot">Hera reads the site's roadmap file and sends nothing. The plan is a study of 2026 paper results: not a promise and not advice. Prices are your real ones ($91.80 / $63 / $43, one-time).</p>
   <nav class="folded" aria-label="Money plans folded into Hera"><a href="../plutus/">Plutus: accounts plan</a><a href="../argo/">Argo: money goals</a></nav><!-- day-arenas: the audit's MERGE verdicts -->
 </main>
-<script type="module" src="hera.js?v=a1dgh"></script>
-<script type="module" src="../olympus/pulse.js?v=p7"></script>
+<script type="module" src="hera.js?v=a1dgk"></script>
+<script type="module" src="../olympus/pulse.js?v=p8"></script>
 <script type="module" src="fleet.js?v=1"></script>
 </body>
 </html>

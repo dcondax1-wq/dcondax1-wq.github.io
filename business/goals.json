@@ -197,7 +197,8 @@
   ]
  ],
  "decisions": [
-  "Ask MFFU support: may you run a 2nd Builder 50K and a 2nd 25K eval while the current ones run? (you said yes to asking, Nov 20)"
+  "Tell Claude: 2027 health cover (job / parent / spouse / none), under 34? Deadline Dec 31",
+  "Before ATLAS's first payout: open a free brokerage + Treasury fund for the tax pot (20 min)"
  ],
  "sources": [
   "research/lab/money_plan.json (2026-11-18) + research/lab/payday_plan.json (2026-11-20)",

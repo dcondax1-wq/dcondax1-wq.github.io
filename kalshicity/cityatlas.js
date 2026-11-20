@@ -112,9 +112,17 @@ export function cityAtlas(oldCanvas, L, select, reason, highlights = {}, demo = 
   };
   canvas.addEventListener('click', (e) => { const box = canvas.getBoundingClientRect(), x = e.clientX - box.left, y = e.clientY - box.top; const near = targets.map((t) => ({ ...t, dist: Math.hypot(t.x - x, t.y - y) })).sort((a, b) => a.dist - b.dist)[0]; if (near && near.dist < 18) select(near.id); });
   window.addEventListener('resize', draw);
-  if (typeof ResizeObserver === 'function') new ResizeObserver(draw).observe(canvas);
+  const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(draw) : null;
+  if (ro) ro.observe(canvas);
   draw();
-  return { draw, focusDistrict(key) { const d = L.districts.find((item) => item.key === key); if (!d) return false; openDistrict(d); return true; }, update(nextLayout, nextHighlights = focus) {
+  /** destroy(): the 3D city takes over. Removes the atlas (caption, dialog, listeners) and puts back a fresh canvas (no 2D context on it) */
+  function destroy() {
+    window.removeEventListener('resize', draw); if (ro) ro.disconnect();
+    document.querySelector('.kc-atlas-district')?.remove(); caption.remove();
+    delete document.documentElement.dataset.noscene;
+    const fresh = oldCanvas.cloneNode(false); canvas.replaceWith(fresh); return fresh;
+  }
+  return { draw, destroy, focusDistrict(key) { const d = L.districts.find((item) => item.key === key); if (!d) return false; openDistrict(d); return true; }, update(nextLayout, nextHighlights = focus) {
     L = nextLayout; focus = nextHighlights;
     document.querySelector('.kc-atlas-district')?.remove();
     buildDistricts(); draw();

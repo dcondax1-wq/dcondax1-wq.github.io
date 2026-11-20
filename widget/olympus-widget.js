@@ -20,8 +20,11 @@
   'use strict';
   const SITE = 'https://dcondax1-wq.github.io/';
   const FEED_DEFAULT = { ntfy: 'https://ntfy.sh', topic: 'olympus-nq-status-dec434bd8a54f135' };   // public, the same as status_feed.json
+  // the tappable buttons (large: 2 rows of 4, medium: the first 4): [label, site path, SF Symbol]
+  const BUTTONS = [['NQ bot', 'nq/', 'chart.xyaxis.line'], ['Kalshi', 'kalshi/', 'die.face.5'], ['Cities', 'cities/', 'building.2'], ['Jarvis', 'jarvis/', 'sparkles'],
+    ['Planner', 'planner/', 'calendar'], ['Business', 'business/', 'briefcase'], ['Websites', 'agency/', 'globe'], ['Decide', 'board/#decide', 'checkmark.seal']];
   const FRESH_S = 20 * 60;          // the PC posts every 15 minutes: older than 20 min = stale (red)
-  const VERSION = 'w3';   // cities3 2026-11-20: every account (compact rows past 3), Kalshi's real balance + today, extra-large (iPad) up to 6
+  const VERSION = 'w4';   // widget2 2026-11-20 (owner: "half my home screen ... easily access buttons"): tappable buttons, open trade per account   // cities3 2026-11-20: every account (compact rows past 3), Kalshi's real balance + today, extra-large (iPad) up to 6
   // Scriptable has ListWidget; a browser also has a global Request (the Fetch API), so Request alone does not mean Scriptable
   const IS_SCRIPTABLE = typeof ListWidget !== 'undefined' && typeof Request !== 'undefined';
 
@@ -94,15 +97,21 @@
     const base = tgt != null && okN(c.profit) && bal != null ? bal - c.profit : null;   // the start balance
     const goal = tgt != null && base != null ? tgt - base : null;
     const done = goal && okN(c.to_target) ? Math.max(0, Math.min(1, 1 - c.to_target / goal)) : null;
+    // owner 2026-11-20: MFFU sim-FUNDED accounts start at $0 (MFFU shows the profit as the balance): funded = balance - start
+    // (ATLAS 25K at $25,401 reads $401); start = the plan size (25K -> $25,000), else balance - profit. Evals unchanged.
+    const k = String(c.plan || '').match(/(\d+)\s*K/i), start = k ? +k[1] * 1000 : base;
+    const shown = funded && bal != null && okN(start) && start > 0 ? Math.round((bal - start) * 100) / 100 : bal;
     return {
       name: String(c.name || 'Account'), plan: String(c.plan || ''), short: shortPlan(c.plan), funded,
-      balance: bal, today: okN(c.today_pnl) ? c.today_pnl : null, week: okN(c.week_pnl) ? c.week_pnl : null,
+      balance: shown, raw_balance: bal, today: okN(c.today_pnl) ? c.today_pnl : null, week: okN(c.week_pnl) ? c.week_pnl : null,
       // funded (olympus2 DATA TRUTH ask): the payout coach's need_more (business/payoutcoach.js, the number NQ / Trading / Board show), never the PC's
       // raw $750-ping line; no coach here (Scriptable) = no number ('payout: see Olympus')
       to_go: funded ? coachNeed(c, cx) : okN(c.to_target) ? Math.max(0, c.to_target) : null, to_label: funded ? 'to payout' : 'to pass',
       room, mll, room_frac: room != null && mll ? Math.max(0, Math.min(1, room / mll)) : null, progress: funded ? null : done,   // funded: the coach's number has no 'way to go' bar
       waiting: typeof c.waiting === 'string' ? c.waiting.slice(0, 120) : '', window: isObj(c.window) ? String(c.window.text || '') : '',
       src, badge: badge || (c.badge === 'LIVE' ? 'LIVE' : 'PAPER'),
+      open: isObj(c.position) && +c.position.entry_t > 0 ? { side: String(c.position.side || (+c.position.dir === -1 ? 'SHORT' : 'LONG')).toUpperCase() === 'SHORT' ? 'SHORT' : 'LONG',
+        pnl: okN(c.position.unrealized_usd) ? c.position.unrealized_usd : null } : null,
     };
   }
   function shortPlan(p) { const m = String(p || '').match(/(\d+)K/i); return m ? m[1] + 'K' : ''; }
@@ -118,7 +127,7 @@
     for (const a of Array.isArray(list) ? list : []) {
       if (!isObj(a) || !isObj(a.eval) || !/eval|funded/.test(String(a.kind || ''))) continue;
       const e = a.eval, p = isObj(a.pnl) ? a.pnl : {};
-      const c = { id: a.id, name: a.name, plan: a.plan, status: e.status === 'open' ? (a.kind === 'funded' ? 'funded' : 'open') : e.status, balance: e.balance,
+      const c = { id: a.id, position: a.position, name: a.name, plan: a.plan, status: e.status === 'open' ? (a.kind === 'funded' ? 'funded' : 'open') : e.status, balance: e.balance,
         floor: e.floor, room: e.room, mll: e.mll, to_target: e.to_target, target_balance: e.target_balance, profit: e.profit,
         today_pnl: okN(p.today) ? p.today : e.today, week_pnl: p.week, badge: a.badge };
       if (seen.some((s) => sameAcct(s, c))) continue;
@@ -258,7 +267,7 @@
     return { m, kalshi: kalshiNext(now), kpaper: kalshiPaper(rw), kbal: kalshiBal(kj, now), now };
   }
 
-  const API = { VERSION, SITE, FRESH_S, usd, goalText, coachNeed, ago, etHM, parseLite, fromLite, fromHome, pick, kalshiNext, kalshiPaper, kalshiBal, feedUrl, load, card };
+  const API = { VERSION, SITE, BUTTONS, FRESH_S, usd, goalText, coachNeed, ago, etHM, parseLite, fromLite, fromHome, pick, kalshiNext, kalshiPaper, kalshiBal, feedUrl, load, card };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   if (root && typeof root === 'object') root.OLY_WIDGET = API;
 
@@ -274,7 +283,7 @@
       bg1: pickC('#f6f1e7', '#1a1611'), bg2: pickC('#ece3d2', '#0f0c09'),
       ink: pickC('#1d1914', '#f3ece0'), soft: pickC('#5a4f40', '#cfc4b2'), muted: pickC('#6f6453', '#a89c88'),
       gold: pickC('#8a6a1f', '#dcbd6e'), good: pickC('#4d6b1f', '#b6c17d'), bad: pickC('#a33f22', '#e08a6b'), warn: pickC('#8a5a00', '#e0b25a'),
-      track: pickC('#ddd2bd', '#332b22'), goodFill: '#8d9a55', badFill: '#c96a4a', goldFill: '#c8a24a', trackHex: '#3a3228',
+      track: pickC('#ddd2bd', '#332b22'), btn: pickC('#e9dfcc', '#2a241c'), goodFill: '#8d9a55', badFill: '#c96a4a', goldFill: '#c8a24a', trackHex: '#3a3228',
     };
   })();
   const fam = () => { const f = P.force.match(/small|medium|large|extralarge/); return f ? f[0] : (config.widgetFamily || 'large'); };
@@ -361,6 +370,46 @@
     if (kp) txt(r, 'paper ' + usd(kp.net, true), size, money(kp.net));
   }
 
+  // widget2: one account on one line: dot (room), name, open trade, today, room, balance; the whole line opens the NQ page
+  function acctTight(w, c, size) {
+    const r = w.addStack(); r.centerAlignContent(); r.url = SITE + 'nq/';
+    const dot = r.addText('●'); dot.font = Font.systemFont(size - 4); dot.textColor = c.room_frac != null && c.room_frac < 0.35 ? P.bad : P.good;
+    r.addSpacer(4);
+    txt(r, c.name, size, P.ink, { semi: true });
+    if (c.badge !== 'LIVE') { r.addSpacer(3); txt(r, 'PAPER', size - 4, P.warn, { semi: true }); }   // honest: only the LIVE cards are real money
+    if (c.open) { r.addSpacer(4); badge(r, c.open.side + (c.open.pnl != null ? ' ' + usd(c.open.pnl, true) : ''), c.open.side === 'SHORT' ? P.bad : P.good); }
+    r.addSpacer();
+    txt(r, usd(c.today, true), size - 1, money(c.today), { semi: true });
+    r.addSpacer(6);
+    txt(r, 'room ' + usd(c.room), size - 2, c.room_frac != null && c.room_frac < 0.35 ? P.bad : P.soft);
+    r.addSpacer(6);
+    txt(r, usd(c.balance), size, P.ink, { bold: true });
+  }
+  // widget2: the button grid: each button its own link (Scriptable opens it in Safari / the home-screen app); medium + large widgets only
+  function buttons(w, list, h) {
+    const rows = []; for (let i = 0; i < list.length; i += 4) rows.push(list.slice(i, i + 4));
+    rows.forEach((row, ri) => {
+      if (ri) w.addSpacer(6);
+      const r = w.addStack(); r.spacing = 6;
+      row.forEach(([label, path, sym]) => {
+        const b = r.addStack(); b.layoutVertically(); b.centerAlignContent(); b.size = new Size(0, h); b.cornerRadius = 12; b.backgroundColor = P.btn; b.url = SITE + path;
+        b.setPadding(6, 4, 6, 4);
+        const top = b.addStack(); top.addSpacer();
+        try { const im = top.addImage(SFSymbol.named(sym).image); im.imageSize = new Size(18, 18); im.tintColor = P.gold; } catch (e) { txt(top, '•', 14, P.gold); }
+        top.addSpacer();
+        const bot = b.addStack(); bot.addSpacer(); txt(bot, label, 10, P.ink, { semi: true }); bot.addSpacer();
+      });
+    });
+  }
+  function pcLine(w, m, d, size) {
+    const r = w.addStack(); r.centerAlignContent(); r.url = SITE + 'board/';
+    txt(r, 'OLYMPUS', size + 1, P.gold, { bold: true }); r.addSpacer(6);
+    const dot = r.addText('●'); dot.font = Font.systemFont(size - 2); dot.textColor = m ? lvl(m.pc.level) : P.bad; r.addSpacer(4);
+    txt(r, m ? m.pc.label : 'No data yet', size, P.soft, { semi: true });
+    r.addSpacer();
+    txt(r, 'today ', size - 1, P.muted); txt(r, usd(m ? m.today : null, true), size + 1, money(m && m.today), { bold: true });
+  }
+
   function build(d) {
     const w = new ListWidget(), F = fam(), m = d.m;
     const g = new LinearGradient(); g.colors = [P.bg1, P.bg2]; g.locations = [0, 1]; g.startPoint = new Point(0, 0); g.endPoint = new Point(1, 1);
@@ -382,6 +431,24 @@
       return w;
     }
     const big = F === 'large' || F === 'extraLarge' || F === 'extralarge';
+    if (!/classic/.test(P.force)) {                      // widget2 (default): live numbers on top, the tappable buttons below ('classic' = the older layout)
+      w.setPadding(12, 12, 10, 12);
+      pcLine(w, m, d, big ? 11 : 10); w.addSpacer(big ? 6 : 4);
+      const shown = accts.slice(0, big ? 5 : 2);
+      if (!accts.length) txt(w, 'No account numbers yet: the PC has not posted.', 11, P.soft, { lines: 2 });
+      shown.forEach((c, i) => { if (i) w.addSpacer(big ? 4 : 3); acctTight(w, c, big ? 12 : 11); });
+      if (accts.length > shown.length) { w.addSpacer(2); txt(w, '+' + (accts.length - shown.length) + ' more in the NQ bot', 9, P.muted); }
+      if (big) {
+        w.addSpacer(5);
+        kalshiLine(w, d, 10);
+        if (m && m.price) { w.addSpacer(2); txt(w, 'NQ ' + m.price.toFixed(2), 9, P.soft, { mono: true }); }
+      }
+      w.addSpacer();
+      buttons(w, big ? BUTTONS : BUTTONS.filter((b) => ['NQ bot', 'Kalshi', 'Jarvis', 'Decide'].includes(b[0])), big ? 50 : 44);
+      w.addSpacer(big ? 6 : 4);
+      footer(w, d, false);
+      return w;
+    }
     w.setPadding(14, 14, 12, 14);
     header(w, m, false); w.addSpacer(big ? 8 : 6);
     const top = w.addStack(); top.centerAlignContent();

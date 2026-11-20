@@ -108,8 +108,8 @@ function waitRose() {
   return new Promise((resolve, reject) => {
     if (window.__compassRose) { resolve(window.__compassRose); return; }
     const done = (v, e) => { clearTimeout(tm); window.removeEventListener('compass-rose', on); if (e) reject(e); else resolve(v); };
-    const on = () => done(window.__compassRose);
-    const tm = setTimeout(() => done(null, new Error('the 3D compass did not load')), 6000);
+    const on = () => (window.__compassRose ? done(window.__compassRose) : done(null, new Error('the 3D compass is skipped on this phone')));
+    const tm = setTimeout(() => done(null, new Error('the 3D compass did not load')), 12000);   // lazy3d.js loads it after the first paint
     window.addEventListener('compass-rose', on);
   });
 }

@@ -12,7 +12,7 @@
 //   parseLatest(ndjsonText)          -> the newest lite live.json in an ntfy /json?poll=1 answer (ext merged in), or null
 //   merge(core, exts)                -> a copy of core with the ext blocks laid in
 //   feedUrls(feed)                   -> the ntfy poll URLs for {ntfy, topic} (a 70-minute window = core + ext first, since=latest
-//                                       = the core alone as the fallback)
+//                                       = the core alone as the fallback, since=12h = the last real post when the PC is quiet)
 //   fetchLatest({feedUrl, fetch})    -> Promise of the newest lite live.json or null (never throws)
 //   mergeBoard(siteBoard, liteBoard) -> the site's board with the PC's fresher account cards laid in (map / health / progress /
 //                                       trades of the site kept); the site's when it is newer. A CLOUD site board (where "cloud",
@@ -124,7 +124,9 @@
     const base = String(feed.ntfy || 'https://ntfy.sh').replace(/\/+$/, '');
     if (!/^https:\/\//.test(base)) return [];
     const t = encodeURIComponent(feed.topic);
-    return [`${base}/${t}/json?poll=1&since=70m`, `${base}/${t}/json?poll=1&since=latest`];
+    // day-archive 2026-11-20: + the last 12 hours (all ntfy keeps). When the PC has been quiet for over 70 minutes, 'latest' is often only an
+    // ext part (no account numbers), so every page fell back to its DEMO copy; now it gets the PC's last real post and shows its age.
+    return [`${base}/${t}/json?poll=1&since=70m`, `${base}/${t}/json?poll=1&since=latest`, `${base}/${t}/json?poll=1&since=12h`];
   }
 
   // ONE answer per page (night-feedsA 2026-11-18): a page asks the feed from 3-4 modules at load (Jarvis: data.js, truth.js, zeus_core.js);
@@ -400,6 +402,35 @@
     }
     return L;
   }
+  // MFFU'S OWN VIEW of an account (owner 2026-11-20: "our current balance for the funded account sims start at 0"; research/lit/
+  // mffu_rules.json sim_funded.start_balance = 0, "balance shown as profit"). ONE place for every page (pulse, payoutcoach, Hera,
+  // Ledger, Demeter, Board, NQ, widget, Jarvis): a SIM-FUNDED account shows balance = profit since it was funded (ATLAS $401, not
+  // $25,401), its max-loss floor in the same terms (EOD trailing, -$1,000 on a 25K at the start, locks at +$100), and its payouts:
+  // earliest = buffer + minimum request, GOAL = buffer + the full request (only 5 sim payouts before live, so each should be the max).
+  // An EVAL keeps its normal balance ($25,000 / $50,000 start) and has no payout. Display only: nothing here sizes or trades.
+  //   mffuView({ kind|stage|status, size|plan|name, balance, start|start_balance, floor?, room? })
+  //   -> { funded, size, start, balance, profit, floor, mll, lock, earliest: { ask, at, need, ready }, goal: { ask, at, toYou, need, ready } } | null
+  const MFFU = { '50K': { start: 50000, mll: 2000, lock: 100, buffer: 2100, min: 500, max: 2000, split: 0.8 },
+    '25K': { start: 25000, mll: 1000, lock: 100, buffer: 1100, min: 250, max: 1000, split: 0.8 } };
+  function mffuView(a) {
+    if (!isObj(a)) return null;
+    const N = (v) => (v == null || v === '' || !Number.isFinite(+v) ? null : +v);
+    const txt = `${a.size || ''} ${a.plan || ''} ${a.name || ''} ${a.id || ''}`, st0 = N(a.start != null ? a.start : a.start_balance);
+    const size = /50\s*k/i.test(txt) || st0 === 50000 ? '50K' : /25\s*k/i.test(txt) || st0 === 25000 ? '25K' : null, R = MFFU[size];
+    if (!R) return null;
+    const funded = /funded/i.test(`${a.kind || ''} ${a.stage || ''} ${a.status || ''}`), bal = N(a.balance), room = N(a.room), fl = N(a.floor);
+    if (!funded) {
+      const start = st0 != null && st0 > 0 ? st0 : R.start;
+      return { funded: false, size, start, balance: bal, profit: bal == null ? null : bal - start, floor: fl != null ? fl : bal != null && room != null ? bal - room : null,
+        mll: R.mll, lock: R.lock, earliest: null, goal: null };
+    }
+    // a funded balance still in eval terms (the PC reports 25,401 = 25,000 + profit) is shifted; one already in MFFU terms (401) is kept
+    const shift = bal != null && bal > R.start / 2 ? (st0 != null && st0 > 0 ? st0 : R.start) : 0, b = bal == null ? null : Math.round((bal - shift) * 100) / 100;
+    const floor = fl != null ? Math.round((fl - shift) * 100) / 100 : b != null && room != null ? Math.round((b - room) * 100) / 100 : -R.mll;
+    const pay = (ask, toYou) => { const at = R.buffer + ask; return { ask, at, toYou, need: b == null ? null : Math.max(0, Math.ceil(at - b)), ready: b != null && b >= at }; };
+    return { funded: true, size, start: 0, balance: b, profit: b, floor: Math.min(floor, R.lock), mll: R.mll, lock: R.lock,
+      earliest: pay(R.min, Math.round(R.min * R.split)), goal: pay(R.max, Math.round(R.max * R.split)) };
+  }
   // the real MFFU 50K of an account list (the PC's, live), in the cloud eval's keys (live.eval: balance, trailing_mll, cushion ...)
   function eval50(list, paper, t) {
     const a = (Array.isArray(list) ? list : []).find((x) => isObj(x) && x.live && x.source === 'pc' && x.id !== 'atlas' && isObj(x.eval) && okN(x.eval.balance)
@@ -464,7 +495,7 @@
   }
 
   const API = { FRESH_S, EXT_KIND, EXT_MAX_S, parseLatest, merge, feedUrls, fetchLatest, mergeBoard, boardOver, weekOf, cmeDay, toLive, overlayHome,
-    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, splitSig, SKEW_S };
+    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, splitSig, SKEW_S, MFFU, mffuView };
   root.PC_FEED = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof window !== 'undefined' ? window : globalThis);

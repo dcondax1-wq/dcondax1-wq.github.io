@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k53">
+<link rel="stylesheet" href="kalshi.css?v=k54">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a3"><!-- with a11y.js: in the head so the text never jumps when it arrives (CLS) -->
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
@@ -60,6 +60,15 @@
   </header>
   <!-- K8 status (night-kalshi8 2026-11-20): engine/kalshi_clock.card_k8 rides the PC's card (key kalshi_live, block k8); kalshi.js k8Show.
        Without the PC's numbers it still shows the $55 rule and the next window (computed here from the clock legs). -->
+  <!-- K8 TODAY (Olympus 2, the one Kalshi home): everything that matters above the fold at 390 px: LIVE / PAPER + the PC data's age, the next
+       market with a countdown, today's 3 live bets (result / open / in Xh / skipped), paper $ today / week / since the start, the checklist
+       count. kalshi.js k8Top (from the PC card's k8 block: m, lg, pn, td; the clock legs; #kgo-n). -->
+  <section class="note k8top" id="k8top" aria-labelledby="k8top-h">
+    <div class="k8t-r"><h2 id="k8top-h">K8 today</h2><b class="k8t-m" id="k8top-m">PAPER</b><span class="k8t-age" id="k8top-age">no PC data yet</span></div>
+    <p class="k8t-n" id="k8top-next" aria-live="off">Next: …</p>
+    <ul class="k8t-l" id="k8top-legs"></ul>
+    <p class="k8t-p" id="k8top-pnl">Paper $: no settled bets yet</p>
+    <a class="k8t-c" id="k8top-go" href="#kgo">Monday go-live checklist <b id="k8top-gon">…</b></a></section>
   <!-- K8 live day (day-kalshi round 3): the big countdown to the next LIVE window, what the bot will do, $ left before each stop, and how
        to switch K8 off (as coded: the PC page STOP, ZEUS Safety, KALSHI_STOP.bat, the Kalshi app). kalshi.js k8Live. -->
   <section class="note k8d" id="k8d" aria-label="K8 live day"><h2>K8 live day</h2>
@@ -132,12 +141,12 @@
   <p class="foot" id="foot"></p>
 </main>
 <script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json"></script>
-<script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/gate-nav.js?v=g8" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i11" data-app="kalshi" data-name="Kalshi" data-glyph="K" data-color="#8fa07a" defer></script><!-- the app intro without the kit (olympus/intro-app.js) -->
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k53" defer></script>
+<script src="kalshi.js?v=k54" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 </body>
 </html>

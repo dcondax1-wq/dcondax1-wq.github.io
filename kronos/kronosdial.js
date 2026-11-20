@@ -94,4 +94,5 @@ function createDial(canvas, opts) {
     dispose() { disposed = true; if (ro) ro.disconnect(); try { shTex.dispose(); D.dispose(); rc.dispose(); } catch (_) { /* gone */ } },
   };
 }
-window.KRONOS_DIAL = { createDial };   // read by kronos.js (a second module tag, so a failed 3D load never stops the page)
+window.KRONOS_DIAL = { createDial };
+try { window.dispatchEvent(new Event('kronos-dial')); } catch (_) { /* old browsers */ }   // lazy3d.js loads this after the first paint: kronos.js waits for it   // read by kronos.js (a second module tag, so a failed 3D load never stops the page)

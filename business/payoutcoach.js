@@ -29,16 +29,21 @@
     const P = PLANS[planKey] || PLANS.builder25k;
     const s = state || {};
     const t = day(today) || todayET();
-    const bal = num(s.balance);
-    if (bal == null) return { ok: false, plan: P.label, text: 'Type the balance (or wait for the PC) to see the payout coach.' };
+    const raw = num(s.balance);
+    if (raw == null) return { ok: false, plan: P.label, text: 'Type the balance (or wait for the PC) to see the payout coach.' };
+    // day-archive 2026-11-20 (owner: "the funded account sims start at 0"): MFFU shows a sim-funded balance as profit (ATLAS $401). A
+    // balance under half the plan size is in MFFU's terms; a larger one is the eval-style figure (25,401) and is read the old way. The
+    // same rule as pc_feed.js mffuView. Inside, everything stays on the plan's start so the money rules are unchanged.
+    const mf = (v) => (v != null && v < P.start / 2 ? v + P.start : v);
+    const bal = mf(raw);
     const profit = r2(bal - P.start);
     const nPay = Math.max(0, Math.round(num(s.payouts_n) || 0));
-    const cStart = num(s.cycle_start_balance) != null ? num(s.cycle_start_balance) : P.start;
+    const cStart = num(s.cycle_start_balance) != null ? mf(num(s.cycle_start_balance)) : P.start;
     const cprof = r2(bal - cStart);
     const best = Math.max(0, num(s.best_day) || 0);
     const days = Math.max(0, Math.round(num(s.cycle_days) || 0));
     const above = r2(profit - P.buffer);
-    const out = { ok: true, plan: P.label, today: t, balance: r2(bal), profit, above_buffer: above, cycle_profit: cprof, best_day: best,
+    const out = { ok: true, plan: P.label, today: t, balance: r2(bal), mffu_balance: profit, profit, above_buffer: above, cycle_profit: cprof, best_day: best,
                   cycle_days: days, cycle_days_need: P.cycle_days, payouts_n: nPay, payouts_max: P.max_payouts, why: [] };
     // the 50% rule: best day <= half of the cycle's profit
     out.best_pct = cprof > 0 ? Math.round(1000 * best / cprof) / 10 : null;
@@ -75,6 +80,7 @@
     out.tax_pot = r2(out.to_you * TAX);
     out.net = r2(out.to_you - out.tax_pot);
     out.after_balance = r2(bal - req);
+    out.after_mffu = r2(profit - req);                 // what MFFU's screen shows after the payout (balance = profit)
     out.after_room = req > 0 ? r2(bal - req - (P.start + P.lock)) : null;   // after a payout the floor sits at start + $100
     // inactivity: 7 calendar days without a trade wipes the profits; trade by last + 6 at the latest
     const last = day(s.last_trade);

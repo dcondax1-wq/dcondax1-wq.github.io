@@ -1,0 +1,49 @@
+/* WEBSITE BUSINESS HQ (agency/index.html top, 2026-11-20 day-web-hub). Tokens only (--ag-* / --oly-*), so every OLYMPUS look reaches it.
+   Phone first: 390 px, taps >= 44 px, body text >= 15 px, fixed heights where numbers arrive late (no layout jump). */
+.hq { display: grid; gap: var(--ag-sp-3, 12px); min-width: 0; }
+.hq h2 { margin: 0; }
+.hq-kicker { margin: 0; font: 700 var(--ag-fs-cap, .8125rem)/1.2 var(--ag-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--acc, var(--ag-gold)); }
+.hq-next { display: grid; gap: 8px; min-height: 196px; align-content: start; border-color: var(--acc, var(--ag-gold)); }
+.hq-next-text { margin: 0; font: 700 1.375rem/1.25 var(--ag-serif); color: var(--ag-text); min-height: 1.25em; overflow-wrap: anywhere; }
+.hq-next-why { margin: 0; color: var(--ag-soft); font-size: var(--ag-fs-body, .9375rem); min-height: 2.9em; }
+.hq-go { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px);
+  background: var(--acc, var(--ag-gold)); color: var(--ag-on-gold); font: 700 1rem/1.2 var(--ag-sans); text-decoration: none; }
+.hq-pipe { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.hq-pipe li { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 72px; padding: 8px 4px; border-radius: var(--ag-radius-s, 12px);
+  background: var(--ag-s1); border: 1px solid var(--ag-line); text-align: center; }
+.hq-pipe b { font: 700 1.5rem/1.1 var(--ag-num); font-variant-numeric: tabular-nums; color: var(--ag-text); }
+.hq-pipe span { margin-top: 4px; font-size: var(--ag-fs-body, .9375rem); color: var(--ag-soft); }
+.hq-pipe li.paid b { color: var(--ag-olive-text); }
+.hq-mrr { display: grid; gap: 6px; }
+.hq-mrr .row b { font: 700 1.25rem/1.2 var(--ag-num); color: var(--ag-gold); font-variant-numeric: tabular-nums; }
+.hq-bar { position: relative; height: 10px; border-radius: 999px; background: var(--ag-s1); border: 1px solid var(--ag-line); overflow: hidden; }
+.hq-bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--p, 0%); background: var(--ag-olive-text); border-radius: 999px; }
+.hq-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.hq-tile { display: flex; flex-direction: column; gap: 4px; min-height: 112px; padding: 14px; border-radius: var(--ag-radius, 16px); border: 1px solid var(--ag-line);
+  background: var(--ag-s2); color: var(--ag-text); text-decoration: none; min-width: 0; }
+.hq-tile b { font: 700 1.125rem/1.2 var(--ag-serif); color: var(--ag-text); }
+.hq-tile small { color: var(--ag-soft); font-size: var(--ag-fs-body, .9375rem); line-height: 1.3; overflow-wrap: anywhere; }
+.hq-tile .hq-live { margin-top: auto; color: var(--acc, var(--ag-gold)); font: 700 var(--ag-fs-body, .9375rem)/1.3 var(--ag-sans); min-height: 1.3em; }
+.hq-tile[data-slice="calls"] { grid-column: 1 / -1; min-height: 96px; }
+.hq-tile.soon { border-style: dashed; }
+.hq-tile.soon .hq-live { color: var(--ag-muted); }
+.hq-tile:focus-visible { outline: 2px solid var(--ag-gold); outline-offset: 2px; }
+.hq-week { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.hq-week li { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 10px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-s1); }
+.hq-week li.today { border-color: var(--acc, var(--ag-gold)); }
+.hq-week li.done { opacity: .62; }
+.hq-week label { position: relative; display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; min-height: 44px; cursor: pointer; }
+.hq-week input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }   /* the whole row is the tap target */
+.hq-box { flex: none; width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--ag-line); background: var(--ag-s0, var(--ag-night)); position: relative; }
+.hq-week input:checked + .hq-box { background: var(--ag-olive-text); border-color: var(--ag-olive-text); }
+.hq-week input:checked + .hq-box::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid var(--ag-on-gold); border-width: 0 3px 3px 0; transform: rotate(45deg); }
+.hq-week input:focus-visible + .hq-box { outline: 2px solid var(--ag-gold); outline-offset: 2px; }
+.hq-week .hq-day { flex: none; width: 2.6em; font: 700 var(--ag-fs-body, .9375rem)/1 var(--ag-sans); color: var(--ag-muted); }
+.hq-week .hq-what { min-width: 0; overflow-wrap: anywhere; }
+.hq-week a { flex: none; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--acc, var(--ag-gold)); font-weight: 700; text-decoration: none; }
+.hq-crm { margin: 6px 2px 0; font: 700 var(--ag-fs-sub, 1.0625rem)/1.2 var(--ag-serif); color: var(--ag-soft); }
+@media (min-width: 700px) { .hq-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } .hq-tile[data-slice="calls"] { grid-column: auto; } }
+@media (prefers-reduced-motion: reduce) { .hq * { transition: none !important; animation: none !important; } }
+/* the Ask Jarvis button (fixed bottom-left, 44 px, olympus.js) sits over the first tile row on the first phone screen (lead review 2026-11-20):
+   on narrow phones the row's left tile keeps its text right of the button */
+@media (max-width: 560px) { .hq-tiles > .hq-tile:first-child { padding-left: 50px; } }

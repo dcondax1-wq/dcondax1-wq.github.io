@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agency Offers</title>
+<meta name="description" content="OLYMPUS AGENCY OFFERS: the money side of the website business. Three packages with prices and the owner's margin, a one-page proposal to share as PDF, the plain-words terms checklist, invoices and the monthly retainer tracker, and how many clients each income goal needs.">
+<meta name="theme-color" content="#14110e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Offers">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="../icon.svg">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<!-- AGENCY · OFFERS (day-web-offers 2026-11-20): offerscore.js = the pure money maths (node-tested, tests/test_web_offers.py); offers.js = the page.
+     Reads only offers.json (packages, extras, terms: placeholder prices until the research team's numbers) and ../leads.json / ../fixture.json
+     (business names for the proposal). Everything typed stays in this browser: localStorage 'agency.offers.v1', export / import as a JSON file.
+     It sends nothing. The proposal and invoices print to PDF through the phone's own share / print sheet. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../../olympus/agora.css?v=a9">
+<script src="../../olympus/themes.js?v=o9"></script>
+<script src="../../olympus/olympus.js?v=o19" data-app="agency"></script>
+<script src="../../olympus/a11y.js" defer></script>
+<script src="../../olympus/agora-ui.js?v=6" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d08c4a'); r.setProperty('--oly-accent-rgb', '208, 140, 74'); })();</script>
+<link rel="stylesheet" href="offers.css?v=2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="../icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Offers</h1><p class="sub">Prices, proposals, and who has paid</p></div></div>
+    <div class="tags"><a class="tag back" href="../">Agency</a></div>
+  </header>
+  <p id="status" class="note" role="status">Loading...</p>
+
+  <section class="ag-card card mrr" aria-labelledby="mrrH">
+    <div class="row"><h2 id="mrrH">Monthly income</h2><span class="pill" id="mrrPill">$0 a month</span></div>
+    <p class="big ag-num" id="mrrNum">$0</p>
+    <p class="lead" id="mrrSub">No paying clients yet. Add one in Money when they sign.</p>
+    <div class="goalbar" id="goalBar" role="img" aria-label="Progress to $5,000 a month: 0 %"><i></i><b data-g="1000">$1k</b><b data-g="3000">$3k</b><b data-g="5000">$5k</b></div>
+  </section>
+
+  <div class="ag-tabs" role="tablist" aria-label="Offers views" id="tabs">
+    <button type="button" class="ag-tab" role="tab" id="tab-pk" data-tab="pk" aria-controls="p-pk" aria-selected="true">Prices</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-pr" data-tab="pr" aria-controls="p-pr" aria-selected="false" tabindex="-1">Proposal</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-tm" data-tab="tm" aria-controls="p-tm" aria-selected="false" tabindex="-1">Terms</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-mo" data-tab="mo" aria-controls="p-mo" aria-selected="false" tabindex="-1">Money</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-gl" data-tab="gl" aria-controls="p-gl" aria-selected="false" tabindex="-1">Goal</button>
+  </div>
+
+  <!-- 1. packages -->
+  <section id="p-pk" class="panel" role="tabpanel" aria-labelledby="tab-pk">
+    <div class="ag-card card">
+      <label class="fld inline">Your hourly target
+        <span class="money-in"><span aria-hidden="true">$</span><input id="hourly" type="number" inputmode="numeric" min="5" max="1000" step="5" value="60" aria-describedby="hourlyHelp"></span>
+      </label>
+      <p class="note" id="hourlyHelp">What one hour of your time has to earn. Each price below shows what you keep per hour after hard costs (domain, 3D assets).</p>
+    </div>
+    <div id="pkgs" class="pkgs"></div>
+    <details class="ag-card card"><summary>Extras you can add</summary><ul class="kv" id="extras"></ul></details>
+    <p class="note" id="srcNote"></p>
+  </section>
+
+  <!-- 2. proposal -->
+  <section id="p-pr" class="panel" role="tabpanel" aria-labelledby="tab-pr" hidden>
+    <form class="ag-card card" id="prForm" autocomplete="off">
+      <h2>Build a proposal</h2>
+      <label class="fld">Business name<input id="prBiz" list="bizList" maxlength="80" placeholder="Roy's Quick Lube"></label>
+      <datalist id="bizList"></datalist>
+      <label class="fld">Your business name (on the proposal)<input id="prFrom" maxlength="60" placeholder="e.g. Peak Websites"></label>
+      <fieldset class="fld"><legend>Package</legend><div class="seg" id="prPkg"></div></fieldset>
+      <fieldset class="fld"><legend>Extras</legend><div class="checks" id="prExtras"></div></fieldset>
+      <label class="chk"><input type="checkbox" id="prRush"> <span>Rush: half the time, +25 %</span></label>
+      <label class="fld">Discount in $ (optional)<input id="prDisc" type="number" inputmode="numeric" min="0" step="25" value="0"></label>
+    </form>
+    <article class="ag-card card sheet" id="sheet" aria-labelledby="shTitle">
+      <p class="sh-from" id="shFrom"></p>
+      <h2 id="shTitle">Website proposal</h2>
+      <p class="sh-pitch" id="shPitch"></p>
+      <table class="lines"><caption class="sr">What is included and the price of each part</caption><thead><tr><th scope="col">Item</th><th scope="col" class="n">Price</th></tr></thead><tbody id="shLines"></tbody>
+        <tfoot><tr><th scope="row">Total to build</th><td class="n" id="shTotal"></td></tr></tfoot></table>
+      <p id="shPay"></p>
+      <p id="shMonthly"></p>
+      <p id="shDays"></p>
+      <h3>Included</h3>
+      <ul id="shInc"></ul>
+      <p class="sh-foot">This proposal is good for 14 days. <span id="shDate"></span></p>
+    </article>
+    <div class="ag-card card mine" aria-labelledby="mineH">
+      <h2 id="mineH">For you only (not printed)</h2>
+      <p id="prMargin"></p>
+    </div>
+    <div class="actions">
+      <button type="button" class="ag-btn primary" id="prPrint">Save as PDF</button>
+      <button type="button" class="ag-btn" id="prShare">Share as text</button>
+      <button type="button" class="ag-btn" id="prInvoice">Make the deposit invoice</button>
+    </div>
+  </section>
+
+  <!-- 3. terms -->
+  <section id="p-tm" class="panel" role="tabpanel" aria-labelledby="tab-tm" hidden>
+    <div class="ag-card card">
+      <div class="row"><h2>Scope and terms checklist</h2><span class="pill warn">Not legal advice</span></div>
+      <p class="note">Plain words to agree on before you start. Tick each one once you have said it to the client and it is in the proposal or an email. This is not legal advice: for a big job, have a lawyer look at a real contract.</p>
+      <ul class="terms" id="terms"></ul>
+      <p class="note" id="termsCount"></p>
+    </div>
+  </section>
+
+  <!-- 4. money: retainers + invoices -->
+  <section id="p-mo" class="panel" role="tabpanel" aria-labelledby="tab-mo" hidden>
+    <div class="ag-card card">
+      <div class="row"><h2>Monthly clients</h2><span class="pill" id="moMrr">$0 a month</span></div>
+      <ul class="rows" id="clients"></ul>
+      <details class="add" id="addClientBox"><summary>Add a monthly client</summary>
+        <form id="clForm" class="grid2" autocomplete="off">
+          <label class="fld">Business<input id="clName" required maxlength="80" list="bizList"></label>
+          <label class="fld">Plan<select id="clPkg"></select></label>
+          <label class="fld">$ a month<input id="clMonthly" type="number" inputmode="numeric" min="0" step="1" required></label>
+          <label class="fld">First bill day<input id="clStart" type="date" required></label>
+          <button type="submit" class="ag-btn primary">Add client</button>
+        </form>
+      </details>
+    </div>
+    <div class="ag-card card">
+      <div class="row"><h2>Invoices</h2><span class="pill" id="moOpen">$0 open</span></div>
+      <ul class="rows" id="invoices"></ul>
+      <details class="add" id="addInvBox"><summary>New invoice</summary>
+        <form id="invForm" class="grid2" autocomplete="off">
+          <label class="fld">Client<input id="invClient" required maxlength="80" list="bizList"></label>
+          <label class="fld">For<input id="invWhat" maxlength="140" placeholder="Website deposit (50 %)"></label>
+          <label class="fld">Amount $<input id="invAmount" type="number" inputmode="numeric" min="1" step="1" required></label>
+          <label class="fld">Due<input id="invDue" type="date" required></label>
+          <button type="submit" class="ag-btn primary">Add invoice</button>
+        </form>
+      </details>
+    </div>
+    <div class="ag-card card">
+      <h2>Your data</h2>
+      <p class="note">Saved on this phone only. Download a copy now and then; load it back on a new phone.</p>
+      <div class="actions"><button type="button" class="ag-btn" id="exportBtn">Download a copy</button>
+        <label class="ag-btn file">Load a copy<input type="file" id="importFile" accept="application/json,.json"></label></div>
+    </div>
+  </section>
+
+  <!-- 5. goal -->
+  <section id="p-gl" class="panel" role="tabpanel" aria-labelledby="tab-gl" hidden>
+    <div class="ag-card card">
+      <h2>Clients you need</h2>
+      <p class="note" id="glNote"></p>
+      <div id="goals"></div>
+    </div>
+  </section>
+
+  <p class="foot">Offers reads only its own price list and the Agency's lead names. Your clients, invoices and proposals never leave this phone.</p>
+</main>
+
+<!-- the printable page (Save as PDF): filled from the proposal or one invoice; only this shows on paper -->
+<div id="print" class="print" aria-hidden="true"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script type="module" src="offers.js?v=2"></script>
+</body>
+</html>

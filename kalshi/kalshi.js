@@ -1590,8 +1590,46 @@
     const t = st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC not running it' : 'PAPER';
     if (m.textContent !== t) { m.textContent = t; m.className = st === 'live' ? 'live' : st === 'stopped' || st === 'idle' ? 'bad' : ''; }
   }
+  // ---- K8 TODAY (Olympus 2): the one-glance card at the top. Text only through esc / textContent.
+  const K8T = { key: '' };
+  function k8Top(now) {
+    const ul = $('#k8top-legs');
+    if (!ul) return;
+    const k = K8D.k || {}, j = KLV.j && klOk(KLV.j) ? KLV.j : null, st = j ? j.st : null;
+    const m = $('#k8top-m'); if (m) { const t = st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC off' : 'PAPER'; if (m.textContent !== t) { m.textContent = t; m.className = 'k8t-m ' + (st === 'live' ? 'live' : st === 'stopped' || st === 'idle' ? 'bad' : ''); } }
+    const ag = $('#k8top-age');
+    if (ag) { const a = j ? rwAge({ updated: j.u }) : null, t = a ? `PC data ${a.s}` : 'no PC data yet'; if (ag.textContent !== t) { ag.textContent = t; ag.className = 'k8t-age' + (!a || a.old ? ' old' : ''); } }
+    const W = k8NextLive(now), nx = $('#k8top-next');
+    if (nx) {
+      let t = 'Next: no live window this week';
+      if (W) { const s = Math.round((W.t + 20000 - now) / 1000), hh = Math.floor(Math.max(0, s) / 3600), mm = Math.floor((Math.max(0, s) % 3600) / 60), ss = Math.max(0, s) % 60;
+        t = `Next: ${W.legs.map((L) => L.n).join(' + ')} · ${W.today ? '' : W.D.wd + ' '}${k8HM(W.t)} ET · ${s > 0 ? `in ${hh ? hh + ':' : ''}${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}` : 'betting now'}`; }
+      if (nx.textContent !== t) nx.textContent = t;
+    }
+    const R = k8Rows(now), day = k8Day(now).md, lg = arr(k.lg).filter(Array.isArray);
+    const rows = R ? R.rows.filter((r) => r.L.live).map((r) => {
+      const b = R.today ? lg.filter((x) => x[0] === r.L.c && x[1] === day).pop() : null;
+      let st2, cl = '';
+      if (r.skip) { st2 = r.L.sk === 'uk' ? 'skipped (UK holiday)' : 'skipped (CME holiday)'; cl = 'sk'; }
+      else if (b && b[5] === 'W') { st2 = `WON ${usd(num(b[4]), true)}`; cl = 'w'; }
+      else if (b && b[5] === 'L') { st2 = `LOST ${usd(num(b[4]), true)}`; cl = 'l'; }
+      else if (b) { st2 = `in: ${fmtN(num(b[2]) || 0)} at ${Math.round(num(b[3]) || 0)}¢, result ${k8HM(r.t + 900000)}`; cl = 'o'; }
+      else st2 = k8Cd(r, now) === 'done' ? 'done, no bet seen' : k8Cd(r, now);
+      return `<li class="${cl}" data-leg="${esc(r.L.c)}"><b>${esc(k8HM(r.t))}</b><span>${esc(r.L.n)}</span><em>${esc(st2)}</em></li>`;
+    }).join('') : '';
+    const pn = arr(k.pn), led = k.m === 'L' ? 'Live' : 'Paper';
+    const pl = num(pn[0]) == null ? `${led} $: no settled bets yet` : `${led} $: today ${usd(num(pn[0]), true)} · this week ${usd(num(pn[1]), true)} · since the start ${usd(num(pn[2]), true)}`;
+    const key = rows + '|' + pl + '|' + (R ? R.D.iso : '');
+    if (key !== K8T.key) {
+      K8T.key = key;
+      ul.innerHTML = rows ? `<li class="hd">${R && R.today ? 'Today' : esc((R ? R.D.wd + ' ' + R.D.md : ''))}, New York time</li>${rows}` : '';
+      const p = $('#k8top-pnl'); if (p) p.textContent = pl;
+    }
+    const g = $('#k8top-gon'), gn = $('#kgo-n'); if (g && gn && g.textContent !== gn.textContent) g.textContent = gn.textContent;
+  }
   function k8Tick() {
     const now = Date.now();
+    try { k8Top(now); } catch (_) { /* the top card never stops the countdown */ }
     try { kgoInit(); k8Sub(); } catch (_) { /* the checklist never stops the countdown */ }
     try { k8Live(now); } catch (_) { /* the live-day view never stops the countdown */ }
     try { k8Win(now); } catch (_) { /* the windows list never stops the countdown */ }
@@ -1612,7 +1650,7 @@
     k8Tick();
     if (!k) { k8Extra(); return; }
     K8D.k = k;
-    try { kgo(); k8Sub(); } catch (_) { /* never blocks the card */ }
+    try { kgo(); k8Sub(); K8T.key = ''; k8Top(Date.now()); } catch (_) { /* never blocks the card */ }
     const live = j.st === 'live' || j.st === 'paused', led = k.m === 'L' ? 'live' : 'paper', td = arr(k.td), age = rwAge({ updated: j.u });
     if (mm) { mm.textContent = live ? (j.st === 'paused' ? 'PAUSED' : 'LIVE') : j.st === 'stopped' ? 'STOPPED' : 'PAPER'; mm.className = 'k8s-m' + (j.st === 'live' ? ' live' : ''); }
     const cell = (t, v, c, id) => `<div><dt>${t}</dt><dd class="${c || ''}"${id ? ' id="' + id + '"' : ''}>${v}</dd></div>`;

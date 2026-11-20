@@ -428,6 +428,7 @@ function bind() {
   });
 }
 
+const HANDOFF_KEY = 'agency.calls.handoff.v1';
 async function boot() {
   const q = new URLSearchParams(location.search);
   S.forced = q.get('demo') === '1';
@@ -446,6 +447,13 @@ async function boot() {
   S.myTz = C.validTz(S.st.settings.myTz) ? S.st.settings.myTz : C.validTz(tz) ? tz : 'America/New_York';
   crmSync();
   bind(); render();
+  // hand-off from the leads list (agency/leads/, day-web-leads 2026-11-20): it puts the tapped business (the import format) in
+  // localStorage['agency.calls.handoff.v1'] and opens call.html?handoff=1&lead=<id>; imported once (the usual merge, never a duplicate), then removed
+  if (q.get('handoff') === '1') {
+    let ho = null;
+    try { ho = localStorage.getItem(HANDOFF_KEY); localStorage.removeItem(HANDOFF_KEY); } catch (_) { ho = null; }
+    if (ho) { try { doImport(ho, 'the leads list'); } catch (_) { /* a bad hand-off never stops the page */ } }
+  }
   const id = q.get('lead');
   if (id && C.findLead(S.st, id)) openCall(id, q.get('tab') || 'script');
   if (!S.cur) say(S.demo ? 'Example list: tap a business to see its call screen.' : 'Your list: ' + S.st.leads.length + ' businesses. Calls are locked outside each one\'s legal hours.');

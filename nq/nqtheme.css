@@ -1,0 +1,34 @@
+/* NQ terminal look (owner 2026-11-20: "I don't like the gold-ish theme for the NQ, change all of that"): deep navy base, electric
+   cyan + blue glows, violet accents; green / red only for money. Loaded LAST on nq/: the kit's gold tokens are overridden here
+   (!important beats the theme engine's inline tokens). One place to change the NQ colours. */
+:root {
+  --nq-cyan: #22d3ee; --nq-cyan-hi: #67e8f9; --nq-blue: #3b82f6; --nq-violet: #8b5cf6; --nq-violet-hi: #a78bfa;
+  --oly-accent: #22d3ee !important; --oly-accent-rgb: 34, 211, 238 !important;
+  --oly-th-a8: #22d3ee !important; --oly-th-a8-rgb: 34, 211, 238 !important; --oly-th-a9: #3b82f6 !important;
+  --ag-gold: #22d3ee !important; --ag-gold-hi: #67e8f9 !important; --ag-gold-rgb: 34, 211, 238 !important;
+  --ag-line-gold: rgba(34, 211, 238, .32) !important; --ag-on-gold: #04131a !important;
+  --ag-sun: #a78bfa !important; --ag-sun-rgb: 167, 139, 250 !important;
+  --acc: #22d3ee !important;
+  --ag-olive: #22c55e !important; --ag-olive-text: #4ade80 !important; --ag-olive-rgb: 34, 197, 94 !important;
+  --ag-terra: #ef4444 !important; --ag-terra-text: #f87171 !important; --ag-terra-rgb: 239, 68, 68 !important;
+}
+html:not([data-oly-scheme="light"]) {
+  --ag-night: #070b14 !important; --ag-panel: #0d1424 !important; --ag-raise: #131c31 !important; --ag-line: #1e2a44 !important;
+}
+html:not([data-oly-scheme="light"]) body { background: radial-gradient(120% 70% at 50% -10%, #0f1d3a 0%, #070b14 55%, #05070d 100%) fixed !important; background-color: #070b14 !important; }
+html[data-oly-scheme="light"] {
+  --oly-accent: #0e7490 !important; --oly-accent-rgb: 14, 116, 144 !important; --oly-th-a8: #0e7490 !important; --oly-th-a9: #1d4ed8 !important;
+  --ag-gold: #0e7490 !important; --ag-gold-hi: #0891b2 !important; --ag-gold-rgb: 14, 116, 144 !important; --ag-line-gold: rgba(14, 116, 144, .3) !important;
+  --ag-on-gold: #ffffff !important; --ag-sun: #6d28d9 !important; --ag-sun-rgb: 109, 40, 217 !important; --acc: #0e7490 !important;
+  --ag-olive-text: #15803d !important; --ag-terra-text: #b91c1c !important;
+}
+.btn.primary { background: linear-gradient(180deg, #38bdf8, #2563eb) !important; color: #04131a !important; border-color: #38bdf8 !important; }
+html[data-oly-scheme="light"] .btn.primary { color: #ffffff !important; }
+/* cards: the theme engine paints every card with --oly-th-card-bg (warm by default): navy glass on NQ */
+html:not([data-oly-scheme="light"]) {
+  --oly-th-card-bg: linear-gradient(180deg, rgba(19, 28, 49, .92), rgba(10, 16, 30, .92)) !important;
+  --oly-th-card-border: 1px solid rgba(34, 211, 238, .18) !important;
+  --ag-raise: #131c31 !important; --ag-panel: #0d1424 !important;
+  --oly-th-n3: #070b14 !important; --oly-th-n4: #0d1424 !important; --oly-th-n5: #131c31 !important; --oly-th-n8: #1e2a44 !important;
+}
+html:not([data-oly-scheme="light"]) :is(.ag-card, .ag-stat) { background: linear-gradient(180deg, rgba(19, 28, 49, .92), rgba(10, 16, 30, .92)) !important; border-color: rgba(34, 211, 238, .18) !important; }

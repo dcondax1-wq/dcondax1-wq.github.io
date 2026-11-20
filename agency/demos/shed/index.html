@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cedar Hollow Sheds · build your shed (demo)</title>
+<meta name="description" content="DEMO website for a fictional shed builder: pick the size, colour and extras, see your shed in 3D with the price live, get a quote.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f5f1e8">
+<meta name="color-scheme" content="light">
+<!-- AGENCY demo 5 (agency/demos/shed/, day-web-demos 2026-11-20): a "configurator-lite" (research offers.json #9: $3,500 + $99/mo). FICTIONAL
+     builder, example prices, 555 number. The 3D shed (scene.js) is rebuilt from the picks; without WebGL the drawn shed takes the colour and
+     the price still adds up. The quote sheet carries the whole build; nothing is sent (demo). -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 14L16 5l13 9v14H3z' fill='%23a33a2b'/%3E%3C/svg%3E">
+<style>
+:root { --bg: #f5f1e8; --ink: #22201b; --soft: #565046; --card: #ffffff; --line: rgba(34, 32, 27, .12); --line-strong: rgba(34, 32, 27, .35);
+  --accent: #8f2f22; --on-accent: #ffffff; --accent-text: #8f2f22; --stage: linear-gradient(#cfe0ea, #eef3f2 60%, #cbd9b5 60%); --map-bg: #e9e4d8; --radius: 12px;
+  --display: "Rockwell", "Roboto Slab", "Georgia", serif; }
+.stage .siding { fill: var(--siding, #a33a2b); transition: fill .3s; }
+.stage .wide { transform-origin: 200px 230px; transform: scaleX(var(--w, 1)); transition: transform .3s; }
+.opts h3 { margin: 18px 0 2px; font: 700 1rem/1.3 -apple-system, system-ui, sans-serif; }
+.opts .picks { flex-wrap: wrap; overflow: visible; }
+.pick small { font-weight: 500; opacity: .8; }
+.addon[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: transparent; }
+.total { position: sticky; top: 60px; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px -16px 0; padding: 10px 16px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.total b { font: 800 1.5rem/1.1 -apple-system, system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.total span { display: block; font-size: .875rem; color: var(--soft); }
+@media (min-width: 900px) { .total { margin: 16px 0 0; border: 1px solid var(--line); border-radius: 14px; top: 76px; } }
+</style>
+<link rel="stylesheet" href="../demo.css?v=d3">
+<script src="../demo.js?v=d3" defer></script>
+<script src="../../../olympus/lazy3d.js?v=l2" data-src="scene.js?v=s1" data-near="#stage" data-event="demo3d" defer></script>
+</head>
+<body>
+<div class="demo-strip"><span data-strip>Demo site · fictional shed builder</span><a href="../">All demos</a></div>
+
+<header class="site-head"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Cedar Hollow Sheds, top of page">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#8f2f22"/><path d="M6 17L17 8l11 9v10H6z" fill="#f5f1e8"/><path d="M13 27v-7h8v7" fill="#8f2f22"/></svg>
+    <span data-biz>Cedar Hollow Sheds</span></a>
+  <a class="btn primary small" href="#book" data-book="Quote for my shed">Get a quote</a>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap">
+    <p class="eyebrow">Built on your lot · <span data-city>Millbrook</span> county</p>
+    <h1>Build your shed. See the price as you go.</h1>
+    <p class="lead">Pick the size, colour and extras: your shed changes in 3D and the price updates live. Delivered and built in a day.</p>
+    <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span><span data-sample="Sample: your star rating here">4.9 from 412 backyards</span></p>
+    <div class="show">
+    <div id="stage" class="stage" style="--stage-ratio: 4 / 3.2" role="img" aria-label="Your shed in 3D. Drag sideways to walk round it; the options below change it.">
+      <svg class="pic" viewBox="0 0 400 320" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="190" fill="#d4e3ec"/><rect y="190" width="400" height="130" fill="#c3d4a8"/>
+        <ellipse cx="200" cy="246" rx="150" ry="14" fill="#000" opacity=".15"/>
+        <g class="wide"><rect class="siding" x="120" y="140" width="160" height="104"/><path d="M106 146L200 86l94 60z" fill="#3d3a36"/>
+          <rect x="176" y="176" width="48" height="68" fill="#f3efe6"/><path d="M178 178l44 64M222 178l-44 64" stroke="#d8d1c2" stroke-width="3"/>
+          <g fill="#f3efe6"><rect x="132" y="162" width="30" height="26"/><rect x="238" y="162" width="30" height="26"/></g><g fill="#9fc3d6"><rect x="136" y="166" width="22" height="18"/><rect x="242" y="166" width="22" height="18"/></g></g>
+      </svg>
+      <span class="tag3d">3D</span><span class="hint">Drag sideways to walk round</span>
+    </div>
+    <div class="total" aria-live="polite"><div><span>Your shed, built</span><b id="price">$5,750</b></div><div style="text-align:right"><span>or about</span><b id="month" style="font-size:1.125rem">$174/mo</b></div></div>
+    <div class="opts">
+      <h3>Size</h3>
+      <div class="picks" data-group="size" role="group" aria-label="Size">
+        <button class="pick" type="button" data-value="8x10" data-base="3900" aria-pressed="false">8 × 10 <small>$3,900</small></button>
+        <button class="pick" type="button" data-value="10x12" data-base="5400" aria-pressed="true">10 × 12 <small>$5,400</small></button>
+        <button class="pick" type="button" data-value="12x16" data-base="7900" aria-pressed="false">12 × 16 <small>$7,900</small></button>
+      </div>
+      <h3>Roof</h3>
+      <div class="picks" data-group="roof" role="group" aria-label="Roof style">
+        <button class="pick" type="button" data-value="gable" data-add="0" aria-pressed="true">Gable</button>
+        <button class="pick" type="button" data-value="barn" data-add="600" aria-pressed="false">Barn <small>+$600</small></button>
+        <button class="pick" type="button" data-value="lean" data-add="0" aria-pressed="false">Modern lean-to</button>
+      </div>
+      <h3>Colour</h3>
+      <div class="picks" data-group="siding" role="group" aria-label="Siding colour">
+        <button class="pick" type="button" data-value="red" aria-pressed="true"><span class="sw" style="background:#a33a2b"></span>Barn red</button>
+        <button class="pick" type="button" data-value="sage" aria-pressed="false"><span class="sw" style="background:#7d917a"></span>Sage</button>
+        <button class="pick" type="button" data-value="navy" aria-pressed="false"><span class="sw" style="background:#2e3d55"></span>Navy</button>
+        <button class="pick" type="button" data-value="cedar" aria-pressed="false"><span class="sw" style="background:#b07a4f"></span>Cedar</button>
+      </div>
+      <h3>Extras</h3>
+      <div class="picks" id="addons" role="group" aria-label="Extras (pick any)">
+        <button class="pick addon" type="button" data-addon="windows" data-add="350" aria-pressed="true">2 windows <small>+$350</small></button>
+        <button class="pick addon" type="button" data-addon="double" data-add="450" aria-pressed="false">Double doors <small>+$450</small></button>
+        <button class="pick addon" type="button" data-addon="porch" data-add="900" aria-pressed="false">Porch <small>+$900</small></button>
+        <button class="pick addon" type="button" data-addon="ramp" data-add="250" aria-pressed="false">Ramp <small>+$250</small></button>
+      </div>
+      <p class="pick-note">Example prices, built and levelled on your lot. Permits and delivery over 25 miles quoted separately.</p>
+    </div>
+    </div>
+    <div class="cta"><a class="btn primary" href="#book" data-book="Quote for my shed">Get my exact quote</a><a class="btn ghost" href="tel:+15550100188">Call</a></div>
+  </div></section>
+
+  <section id="how"><div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>From this page to your backyard</h2>
+    <div class="grid three">
+      <div class="card"><h3>1 · Build it here</h3><p>Your choices come to us with the quote request: no forms to fill twice.</p></div>
+      <div class="card"><h3>2 · Free site check</h3><p>We check the ground, access and any permit, then confirm the price in writing.</p></div>
+      <div class="card"><h3>3 · Built in a day</h3><p>Our crew builds it on your lot, levelled, sealed and swept clean.</p></div>
+    </div>
+  </div></section>
+
+  <section id="reviews"><div class="wrap">
+    <p class="eyebrow" data-reviews>Reviews</p>
+    <h2>Backyards we've built</h2>
+    <div class="reviews">
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"We built it on the site with the kids, got the quote the same evening, and it looks exactly like the 3D."</p><span class="who">Megan P. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Seeing the price change as I added the porch made the decision easy. No pushy sales call."</p><span class="who">Tom H. (sample review)</span></article>
+      <article class="card review"><span class="stars" aria-label="5 stars">★★★★★</span><p>"Solid build, done in a day, and they hauled every scrap away."</p><span class="who">Ana G. (sample review)</span></article>
+    </div>
+  </div></section>
+
+  <section id="visit"><div class="wrap">
+    <p class="eyebrow">Display yard</p>
+    <h2>Walk through the real ones</h2>
+    <div class="map" role="img" aria-label="Map: the display yard on Route 9, at the edge of town">
+      <svg viewBox="0 0 400 250" aria-hidden="true"><rect width="400" height="250" fill="#e9e4d8"/><g stroke="#fff" stroke-width="12" fill="none"><path d="M0 140C120 130 240 160 400 120"/><path d="M140 0V250"/></g>
+        <g fill="#cbd9b5"><rect x="230" y="20" width="140" height="80" rx="10"/></g><text x="20" y="128" fill="#565046" font-size="11" font-family="system-ui">Route 9</text>
+        <path d="M270 132c-9 0-16 7-16 16 0 12 16 26 16 26s16-14 16-26c0-9-7-16-16-16z" fill="#8f2f22"/><circle cx="270" cy="148" r="6" fill="#fff"/></svg>
+    </div>
+    <div class="grid two">
+      <div class="card"><h3>Route 9, <span data-city>Millbrook</span></h3><p>12 sheds to walk into · Mon - Sat 9 am - 5 pm</p>
+        <div class="visit-cta"><a class="btn ghost small" href="https://maps.apple.com/?q=Route+9">Directions</a><a class="btn ghost small" href="tel:+15550100188">(555) 010-0188</a></div></div>
+      <div class="card"><h3>Financing</h3><p>From 0% for 12 months, or low monthly payments up to 36 months, subject to approval.</p></div>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><p>© <span data-year>2026</span> <span data-biz>Cedar Hollow Sheds</span> <span data-fict>(a fictional builder)</span>.</p><p>Demo website built by Olympus Agency: a shed builder that sells while you sleep.</p></div></footer>
+</main>
+
+<nav class="dock" aria-label="Quick actions"><a class="btn ghost" href="tel:+15550100188">Call</a><a class="btn primary" href="#book" data-book="Quote for my shed" style="white-space:nowrap">Quote · <span id="dockPrice">$5,750</span></a></nav>
+
+<dialog id="book" class="sheet" aria-labelledby="bookH"><div class="sheet-in">
+  <div class="sheet-head"><h2 id="bookH">Get your exact quote</h2><button class="x" type="button" data-close aria-label="Close">×</button></div>
+  <form>
+    <input type="hidden" name="what" value="Quote for my shed">
+    <label class="field">Your shed<textarea name="build" id="build" readonly></textarea></label>
+    <label class="field" style="margin-top:10px">Name<input name="name" autocomplete="name" required></label>
+    <label class="field" style="margin-top:10px">Phone<input name="tel" type="tel" autocomplete="tel" required></label>
+    <label class="field" style="margin-top:10px">Address (for the site check)<input name="addr" autocomplete="street-address" required></label>
+    <button class="btn primary" type="submit" style="width:100%;margin-top:14px">Send my build</button>
+    <p class="fine" style="margin-top:8px">Demo: nothing is sent. On the real site the builder gets this build and price by text and e-mail.</p>
+  </form>
+  <div class="done" hidden><h3 tabindex="-1">Build received</h3><p>We'll call within one working day to book your free site check.</p><button class="btn ghost" type="button" data-close style="margin-top:14px">Done</button></div>
+</div></dialog>
+<script>(function () {
+  var D = document, W = window, C = { red: '#a33a2b', sage: '#7d917a', navy: '#2e3d55', cedar: '#b07a4f' }, WIDE = { '8x10': .82, '10x12': 1, '12x16': 1.18 };
+  var fmt = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); }, st = D.getElementById('stage');
+  function pressed(group) { return D.querySelector('[data-group="' + group + '"] .pick[aria-pressed="true"]'); }
+  function addons() { return [].slice.call(D.querySelectorAll('#addons .addon[aria-pressed="true"]')); }
+  function update() {
+    var size = pressed('size'), roof = pressed('roof'), sid = pressed('siding'), adds = addons();
+    var total = (+size.getAttribute('data-base')) + (+roof.getAttribute('data-add') || 0) + adds.reduce(function (a, b) { return a + (+b.getAttribute('data-add')); }, 0);
+    W.DEMO_PICKS = W.DEMO_PICKS || {}; W.DEMO_PICKS.addons = adds.map(function (b) { return b.getAttribute('data-addon'); }); W.DEMO_PICKS.total = total;
+    D.getElementById('price').textContent = fmt(total); D.getElementById('dockPrice').textContent = fmt(total);
+    D.getElementById('month').textContent = fmt(total * 1.09 / 36) + '/mo';
+    if (st) { st.style.setProperty('--siding', C[sid.getAttribute('data-value')] || C.red); st.style.setProperty('--w', WIDE[size.getAttribute('data-value')] || 1); }
+    D.getElementById('build').value = 'Size ' + size.textContent.replace(/\s+\$.*/, '').trim() + ' ft, ' + roof.textContent.replace(/\s*\+.*/, '').trim() + ' roof, ' + sid.textContent.trim() +
+      (adds.length ? ', ' + adds.map(function (b) { return b.textContent.replace(/\s*\+.*/, '').trim(); }).join(', ') : '') + '. Total ' + fmt(total) + '.';
+  }
+  D.getElementById('addons').addEventListener('click', function (e) { var b = e.target.closest('.addon'); if (!b) return;
+    b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); update();
+    try { W.dispatchEvent(new CustomEvent('demo:addons', { detail: { addons: W.DEMO_PICKS.addons } })); } catch (x) { /* old browser */ } });
+  W.addEventListener('demo:pick', update);
+  D.addEventListener('DOMContentLoaded', function () { setTimeout(update, 0); });
+})();</script>
+</body>
+</html>

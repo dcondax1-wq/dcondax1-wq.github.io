@@ -111,3 +111,39 @@ export function jarvisCard(road, key, today) {
     kpis: [{ label: 'Typical 12 months', value: hd ? money(hd.mid) : 'n/a' }, { label: 'Bad run', value: hd ? money(hd.lo) : 'n/a' }, { label: 'First payout', value: nx ? dayWord(nx.typical) : 'n/a' }],
     lines: [str(hd ? hd.text : 'The money plan is not published yet.', 118), str(nx ? `Next: ${nx.short} first payout ${dayWord(nx.typical)} (typical).` : '', 118)].filter(Boolean), t: 1793394000, theme: '#14110e' };
 }
+
+// ------------------------------------------------------------------------------------------------ day-archive 2026-11-20: the real accounts, now
+// MFFU Builder payout rule (the same numbers as Demeter, demetercore.js PLANS): the first payout needs profit above the buffer plus the
+// minimum request; at least 2 trading days in the cycle and the best day at most 50% of the cycle's profit. Pure (the page passes accounts
+// from olympus/truth.js accountsOf + extraOf, laid over by the PC's status post).
+export const PAYOUT = { '50K': { target: 3000, buffer: 2100, min: 500, max: 2000 }, '25K': { target: 1500, buffer: 1100, min: 250, max: 1000 } };
+/** -> [{ key, name, kind, line, toGo, askAt }] for every real account (paper / BLITZ left out). */
+export function payoutNow(accts) {
+  const out = [];
+  for (const a of Array.isArray(accts) ? accts : []) {
+    if (!a || !a.has || a.paper || a.key === 'blitz') continue;
+    const size = a.size === '50K' || num(a.start) === 50000 ? '50K' : '25K', P = PAYOUT[size], need = P.buffer + P.min, start = num(a.start) || (size === '50K' ? 50000 : 25000);
+    const profit = num(a.profit) != null ? num(a.profit) : num(a.balance) != null ? num(a.balance) - start : null;
+    const name = `${a.name}${a.name && a.name.includes(size) ? '' : ' ' + size}`;
+    if (a.kind === 'funded') {
+      // MFFU's own terms (pc_feed.js mffuView, passed in as a.view; else the same math here): a sim-funded account starts at $0, so its
+      // balance is its profit and the payout lines are profit levels (25K: earliest $250 at $1,350, goal $1,000 at $2,100)
+      const V = a.view && a.view.funded ? a.view : null, bal = V ? num(V.balance) : profit;
+      const E = V ? V.earliest : { ask: P.min, at: need, need: bal == null ? null : Math.max(0, Math.ceil(need - bal)) };
+      const G = V ? V.goal : { ask: P.max, at: P.buffer + P.max, toYou: Math.round(P.max * 0.8), need: bal == null ? null : Math.max(0, Math.ceil(P.buffer + P.max - bal)) };
+      const line = bal == null ? `${name} (funded): no balance yet.` : bal >= G.at ? `${name} (funded): balance ${money(bal)}: the full ${money(G.ask)} payout can be requested (you get ${money(G.toYou)}).`
+        : `${name} (funded): balance ${money(bal)} (a funded sim starts at $0). Goal: ${money(G.ask)} at ${money(G.at)} (you get ${money(G.toYou)}), ${money(G.need)} to go. Earliest: ${money(E.ask)} at ${money(E.at)} (${money(E.need)} to go).`;
+      out.push({ key: a.key, name, kind: 'funded', line, balance: bal, toGo: E.need, askAt: E.at, goalAt: G.at, goalToGo: G.need });
+    } else {
+      const toPass = num(a.toTarget) != null ? Math.max(0, num(a.toTarget)) : profit != null ? Math.max(0, P.target - profit) : null;
+      out.push({ key: a.key, name, kind: 'eval', toGo: toPass, askAt: null,
+        line: `${name} (eval): ${toPass == null ? 'the target' : money(toPass)} to pass, then the payout goal: ${money(P.max)} once funded profit reaches ${money(P.buffer + P.max)} (earliest ${money(P.min)} at ${money(need)}).` });
+    }
+  }
+  return out;
+}
+/** how old the study is, in whole days, and what it still assumes */
+export function studyAge(road, today) {
+  const d = road && road.updated ? daysBetween(String(road.updated).slice(0, 10), today) : null;
+  return d == null ? '' : d > 7 ? `This study is from ${dayWord(String(road.updated).slice(0, 10))} (${d} days old): it still plans BLITZ and ATLAS as an eval. Your real accounts are in "First payouts, now".` : '';
+}

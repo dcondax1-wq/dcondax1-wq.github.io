@@ -41,7 +41,7 @@
         { label: 'Payout plan', greek: 'Hera', href: 'hera/', app: 'hera', words: 'payout payouts plan 12 month what to buy next roadmap' },
         { label: 'Fleet plan', greek: 'Business · Fleet Plan', href: 'business/plan.html', app: '', words: 'fleet plan accounts 6 months buy rapid builder monte carlo' },
         { label: 'Household', greek: 'Oikos', href: 'oikos/', app: 'oikos', words: 'household bills budget leaks buckets home spending' },
-        { label: 'More work', greek: 'Business · More Work', href: 'business/work.html', app: '', words: 'work jobs side work freelance agency websites income' },
+        { label: 'Websites: your web business HQ', greek: 'Agency', href: 'agency/', app: 'agency', words: 'website websites web 3d site sites marketing leads audit proposal proposals clients agency design build retainer care plan more work side income' },   // day-web-hub 2026-11-20: replaces 'More work' (business/work.html still in Business), the door stays at 8
       ],
       ids: ['business', 'widget', 'ledger', 'hera', 'plutus', 'chrysos', 'oikos', 'agency', 'mercury', 'mint', 'mintcity', 'harmonia', 'hermes', 'argo', 'arbiter'] },
     { id: 'kalshi', title: 'Kalshi', line: 'The Kalshi bot and its edges. Paused: paper only, no real bets', colour: '#b5a642',
@@ -55,9 +55,10 @@
       ids: ['kalshi', 'dionysus', 'kalshicity', 'sibyl', 'tyche'] },
     { id: 'more', title: 'More', line: 'Research, my day, Jarvis, settings and everything else', colour: '#9c6b3c',
       items: [
-        { label: 'Olympus World: every app in one giant city', greek: 'World', href: 'cities/world/', app: 'cities', words: 'world city cities giant map districts 3d all apps find' },
         { label: 'My day', greek: 'Planner', href: 'planner/', app: 'planner', words: 'day week plan calendar tasks habits shift' },
         { label: 'Ask Jarvis', greek: 'Jarvis', href: 'jarvis/', app: '', words: 'jarvis ask assistant voice talk' },
+        // day-manual 2026-11-20: 'Set up your iPhone' replaces 'Olympus World' here (the World lives in Cities, on the Home grid): the door stays at 8
+        { label: 'Set up your iPhone: Home Screen, widget, alerts, Siri', greek: 'Set up', href: 'hub/setup.html', app: '', words: 'setup set up iphone phone home screen icon icons app apps widget notifications alerts push siri shortcuts install add' },
         { label: 'Help: how do I...', greek: 'Help', href: 'hub/help.html', app: '', words: 'help how do i questions faq guide lost stuck find steps payout taxes account restart update pause flatten silent holidays kalshi cloudflare address' },
         { label: 'Owner manual: SOS, who is who, money, words', greek: 'Manual', href: 'hub/manual.html', app: '', words: 'manual sos emergency kill stop everything glossary words room drawdown dll eod pf twin edge who accounts bots hours payout tax' },
         { label: 'Your steps: what is left to do', greek: 'Steps', href: 'hub/steps.html', app: '', words: 'steps todo to do waiting list next need' },

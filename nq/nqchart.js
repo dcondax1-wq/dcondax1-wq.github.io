@@ -21,7 +21,7 @@ function tokens() {
   const cs = getComputedStyle(document.documentElement), v = (n, d) => (cs.getPropertyValue(n) || '').trim() || d;
   return { text: v('--ag-text', '#f3ece0'), soft: v('--ag-soft', '#cfc4b2'), muted: v('--ag-muted', '#9a8f7d'), line: v('--ag-line', '#3a3228'),
     up: v('--ag-olive-text', '#a0ac6e'), down: v('--ag-terra-text', '#e08a6b'), good: v('--ag-olive-text', '#a0ac6e'), bad: v('--ag-terra-text', '#e08a6b'),
-    gold: v('--ag-gold-hi', '#dcbd6e'), aegean: v('--ag-aegean-text', '#7fa7c2'), mauve: '#c9a3c4', sand: '#d8c39a', olive: v('--ag-olive', '#7f8a52'), rose: '#d9a3a3',
+    gold: v('--ag-gold-hi', '#67e8f9'), aegean: v('--ag-aegean-text', '#7fa7c2'), mauve: '#c9a3c4', sand: '#d8c39a', olive: v('--ag-olive', '#7f8a52'), rose: '#d9a3a3',
     font: getComputedStyle(document.body).fontFamily || 'system-ui, sans-serif' };
 }
 const col = (T, k) => T[k] || T.gold;
@@ -135,12 +135,19 @@ function makeChart(LC, T) {
     },
   });
   const marks = LC.createSeriesMarkers(series, []);
+  // v4 (owner: "light trails on the chart"): the last 3 hours of closes as a glowing cyan trail (a wide faint line under a bright one) whose newest
+  // point pulses; no axis label, no crosshair dot, never in the price scale's range. Reduced motion: the trail without the pulse.
+  let still = false; try { still = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { /* moving */ }
+  const quiet = { priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, autoscaleInfoProvider: () => null, priceFormat: { type: 'price', precision: 2, minMove: 0.25 } };
+  const glow = chart.addSeries(LC.LineSeries, { ...quiet, color: 'rgba(34,211,238,0.16)', lineWidth: 4, lineType: LC.LineType ? LC.LineType.Curved : 0 }, 0);
+  const trail = chart.addSeries(LC.LineSeries, { ...quiet, color: 'rgba(103,232,249,0.9)', lineWidth: 2, lineType: LC.LineType ? LC.LineType.Curved : 0,
+    lastPriceAnimation: still || !LC.LastPriceAnimationMode ? 0 : LC.LastPriceAnimationMode.OnDataUpdate }, 0);   // OnDataUpdate: a pulse when a new bar lands (Continuous repainted the chart every frame: +400 ms blocking at 4x CPU)
   // the view is set before the price axis has measured its labels: when the plot gets narrower (or the phone turns), set it again,
   // unless the owner moved the chart himself (a drag, a pinch, the wheel: from then on his view is kept)
   chart.timeScale().subscribeSizeChange(() => { if (S.want && S.mode !== 'user') setView(S.want[0], S.want[1]); });
   const mine = () => { S.mode = 'user'; };
   for (const ev of ['pointerdown', 'touchstart', 'wheel']) el.addEventListener(ev, mine, { passive: true });
-  return { chart, series, marks };
+  return { chart, series, marks, trail, glow };
 }
 /** bars of room right of `to` so an exit's "+$514.18" (centred on its bar) is not cut by the price axis (phone QA 2026-11-20) */
 function roomRight(from, to) {
@@ -176,6 +183,7 @@ function draw(m) {
   if (!S.chart) Object.assign(S, makeChart(LC, T));
   const keep = S.drawnN && S.viewKey === m.acct && (S.mode === 'user' || S.mode === 'focus') ? viewNow() : null;   // a refresh keeps where the owner looked
   S.series.setData(m.candles);
+  try { const tr = m.candles.slice(-36).map((c) => ({ time: c.time, value: c.close })); S.trail.setData(tr); S.glow.setData(tr); } catch (e) { /* the candles are the chart */ }
   S.drawnN = m.n;
   S.marks.setMarkers(m.markers.map((x) => ({ time: x.time, position: x.position, price: x.price, shape: x.shape, color: col(T, x.color), text: x.text, size: x.size, id: x.id })));
   for (const pl of S.lines) { try { S.series.removePriceLine(pl); } catch (e) { /* gone */ } }

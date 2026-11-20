@@ -12,6 +12,24 @@
  "items": [
   {
    "day": "2026-11-20",
+   "status": "you",
+   "title": "Olympus looks like an iPhone home screen; set up your phone",
+   "what": "Home now shows big app icons, 4 a row (Cities, Kalshi, NQ bot, Jarvis, My day, Business, Websites, Set up) with the four doors in a dock. The new Set up page puts Olympus and the main apps on your Home Screen, adds the widget, turns on notifications and Siri, about 8 minutes in all.",
+   "money": "",
+   "href": "setup.html",
+   "label": "Set up your iPhone"
+  },
+  {
+   "day": "2026-11-20",
+   "status": "site",
+   "title": "Website business HQ",
+   "what": "The Agency app is now your website business HQ: today's next step, the pipeline (leads, called, proposals, paid), monthly retainers against a $3,000 a month goal, 7 big tiles (Expert, Leads, Audit, Demos, Showcase, Offers, Calls) and a 4-hours-a-week plan around your day job. Search 'website', 'audit' or 'proposal' to get there.",
+   "money": "Goal: $3,000 a month in retainers = 10 clients at about $300 (the call engine: $500 setup + $299/mo). Research estimate, not a promise.",
+   "href": "../agency/index.html#hq",
+   "label": "Website business HQ"
+  },
+  {
+   "day": "2026-11-20",
    "status": "site",
    "title": "Your apps in your order, clutter gone",
    "what": "Cities, Kalshi, NQ bot and Jarvis come first everywhere (Home, the Jarvis switcher, search, the Doors page), then Planner and Business, then the rest. 28 apps you don't use (the forges, old duplicates) are hidden; their links still open. Cities is one entry with the World, Data City, Kalshi City, Atlas City and Mint City inside.",

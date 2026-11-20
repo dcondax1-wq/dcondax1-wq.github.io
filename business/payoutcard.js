@@ -87,7 +87,7 @@
       const ul = el('ul', 'coach-lines');
       C.lines(res).forEach((t, i) => ul.appendChild(el('li', i === 0 ? 'lead' : (/^Inactivity/.test(t) && res.idle_warn ? 'warn' : null), t)));
       box.appendChild(ul);
-      if (res.after_room != null) box.appendChild(el('p', 'meta', 'After this payout: balance ' + C.usd(res.after_balance) + ', room ' + C.usd(res.after_room) + ' above the floor (it sits at ' + C.usd(C.PLANS[r.planKey].start + C.PLANS[r.planKey].lock) + ' after the 1st payout).'));
+      if (res.after_room != null) box.appendChild(el('p', 'meta', 'After this payout: balance ' + C.usd(res.after_mffu != null ? res.after_mffu : res.after_balance) + ', room ' + C.usd(res.after_room) + ' above the floor (it sits at ' + C.usd(C.PLANS[r.planKey].start + C.PLANS[r.planKey].lock) + ' after the 1st payout).'));
       const age = p.t ? Math.max(0, nowS - p.t) : null, ago = age == null ? '' : age < 90 ? ', just now' : age < 5400 ? ', ' + Math.round(age / 60) + ' min ago' : age < 172800 ? ', ' + Math.round(age / 3600) + ' h ago' : ', ' + Math.round(age / 86400) + ' days ago';
       box.appendChild(el('p', 'meta', 'Numbers from ' + p.from + ago + '. Plan: ' + C.POLICY.text + ' (' + C.usd(res.plan_line) + ' above start). You request it in the MFFU dashboard; the bot never does.'));
     } else {

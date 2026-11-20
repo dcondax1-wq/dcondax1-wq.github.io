@@ -161,7 +161,7 @@ export function payoutPath(a) {
   const L = a.L, firstBal = L.buffer + L.pay_min;
   const steps = [];
   if (a.stage === 'eval') steps.push(`Pass the eval: reach the ${money(L.target)} profit target${a.toTarget != null ? ` (${money(a.toTarget)} to go)` : ''}.`);
-  steps.push(`On the funded account, earn ${money(firstBal)} of profit: the ${money(L.buffer)} buffer plus ${money(L.pay_min)}.`);
+  steps.push(`On the funded account (MFFU starts a funded sim at $0, so its balance is its profit): the earliest payout is ${money(L.pay_min)} at ${money(firstBal)} (the ${money(L.buffer)} buffer plus ${money(L.pay_min)}); the goal is the full ${money(L.pay_max)} at ${money(L.buffer + L.pay_max)}.`);
   steps.push(`Request a payout of ${money(L.pay_min)} to ${money(L.pay_max)}; you keep ${Math.round(L.split * 100)}% (${money(L.pay_min * L.split)} to ${money(L.pay_max * L.split)}).`);
   return steps;
 }

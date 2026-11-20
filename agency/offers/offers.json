@@ -1,0 +1,204 @@
+{
+  "v": 1,
+  "placeholder": false,
+  "source": "The research team's estimates (research/handoff/2026-11-20/web/research/offers.json, day-archive 3110fc34): public, mostly vendor ranges, not promises. The same prices as the Agency showcase.",
+  "as_of": "2026-11-20",
+  "deposit": 0.5,
+  "packages": [
+    {
+      "id": "starter",
+      "name": "Starter site",
+      "price": 1500,
+      "hours": 8,
+      "hard": 20,
+      "days": 7,
+      "monthly": 79,
+      "monthly_hours": 0.75,
+      "monthly_hard": 3,
+      "monthly_label": "Care plan",
+      "pitch": "The easiest yes: a fast, clean site for the business with no site or a broken one, with the care plan always attached.",
+      "includes": [
+        "Up to 5 pages: home, services, about, reviews, contact",
+        "Tap-to-call and a contact form that emails them",
+        "Their logo, photos and words",
+        "Works great on phones; loads in about a second",
+        "Their own domain set up (in their name)",
+        "Google Business Profile linked",
+        "Care plan: hosting, security updates, small edits every month"
+      ]
+    },
+    {
+      "id": "callengine",
+      "name": "Call engine",
+      "price": 500,
+      "hours": 4,
+      "hard": 0,
+      "days": 5,
+      "monthly": 299,
+      "monthly_hours": 2,
+      "monthly_hard": 50,
+      "monthly_label": "Call engine plan",
+      "badge": "Recommended",
+      "min_months": 3,
+      "pitch": "More calls from the map: site + Google profile + review requests + every review answered. It compounds: more reviews, more map calls, and it rarely cancels.",
+      "includes": [
+        "A one-page call site (or a tune-up of their current one)",
+        "Google Business Profile set up and kept fresh (posts, photos, hours)",
+        "Review requests by text after every job (they approve the wording)",
+        "Every review answered within 2 days",
+        "A one-page proof report each month: calls, reviews, map views in plain words",
+        "Works for any local service: trades, salons, clinics, shops"
+      ]
+    },
+    {
+      "id": "signature3d",
+      "name": "3D Signature",
+      "price": 2500,
+      "from": true,
+      "hours": 12,
+      "hard": 20,
+      "days": 14,
+      "monthly": 79,
+      "monthly_hours": 1,
+      "monthly_hard": 5,
+      "monthly_label": "Care plan",
+      "pitch": "The site people remember: a phone-scan 3D tour of their space or a 3D product page you can spin with a finger (AR on phones), still fast.",
+      "includes": [
+        "Everything in Starter",
+        "A 3D tour of their space (venues, gyms, studios, salons) or 3D product pages for 5-10 products (makers, dealers)",
+        "View in your room (AR) on iPhone and Android",
+        "A still-image fallback for old phones and reduced motion",
+        "Speed checked on a real phone before launch",
+        "Care plan: hosting, updates, small edits"
+      ]
+    }
+  ],
+  "extras": [
+    {
+      "id": "textback",
+      "name": "Missed-call text-back + booking link",
+      "price": 199,
+      "hours": 2,
+      "hard": 0,
+      "days": 1,
+      "monthly": 149,
+      "monthly_hours": 0.5,
+      "monthly_hard": 35
+    },
+    {
+      "id": "scan3d",
+      "name": "Phone-scan 3D tour (per scan)",
+      "price": 500,
+      "hours": 2,
+      "hard": 0,
+      "days": 2,
+      "monthly": 25,
+      "monthly_hours": 0.1,
+      "monthly_hard": 0,
+      "per": "scan"
+    },
+    {
+      "id": "gbp",
+      "name": "Google Business Profile clean-up (per location)",
+      "price": 499,
+      "hours": 4,
+      "hard": 0,
+      "days": 3,
+      "per": "location"
+    },
+    {
+      "id": "beforeafter",
+      "name": "Before / after showcase",
+      "price": 900,
+      "hours": 3,
+      "hard": 0,
+      "days": 3,
+      "monthly": 29,
+      "monthly_hours": 0.25,
+      "monthly_hard": 0
+    },
+    {
+      "id": "areas",
+      "name": "Service-area pages pack",
+      "price": 750,
+      "hours": 4,
+      "hard": 0,
+      "days": 4,
+      "monthly": 99,
+      "monthly_hours": 1,
+      "monthly_hard": 0
+    },
+    {
+      "id": "a11yfix",
+      "name": "Accessibility + speed fix",
+      "price": 600,
+      "hours": 3,
+      "hard": 0,
+      "days": 2,
+      "monthly": 49,
+      "monthly_hours": 0.25,
+      "monthly_hard": 0
+    },
+    {
+      "id": "copy",
+      "name": "Words written for them (per page)",
+      "price": 79,
+      "hours": 1,
+      "hard": 0,
+      "days": 0,
+      "per": "page"
+    }
+  ],
+  "terms": [
+    {
+      "id": "deposit",
+      "title": "50 % deposit to start",
+      "text": "Work starts when the deposit is paid. The other half is due the day the site goes live, before it is switched on."
+    },
+    {
+      "id": "scope",
+      "title": "What is included is written down",
+      "text": "The proposal lists the pages and features. Anything new (an extra page, a shop, a new 3D model) is quoted first, in writing, before any work."
+    },
+    {
+      "id": "revisions",
+      "title": "Two rounds of changes",
+      "text": "Two rounds of changes are included before launch. More rounds are billed by the hour at your rate, agreed first."
+    },
+    {
+      "id": "content",
+      "title": "Client sends photos, logo and words",
+      "text": "The clock starts when the client sends their photos, logo and words (or buys the writing / photo extras). Late content moves the date, not the price."
+    },
+    {
+      "id": "hosting",
+      "title": "Hosting and the domain",
+      "text": "The domain and the Google profile stay in the client's name. Hosting is part of the monthly plan; if they stop paying, the site is handed over or switched off after 30 days notice."
+    },
+    {
+      "id": "ownership",
+      "title": "Who owns what",
+      "text": "Once paid in full, the client owns their words, photos, logo and domain. You keep the right to reuse your own code and templates and to show the site in your portfolio."
+    },
+    {
+      "id": "monthly",
+      "title": "Monthly plan: cancel with 30 days notice",
+      "text": "The monthly plan is billed on the same day each month. Either side can stop it with 30 days notice; the Call engine has a 3-month minimum (reviews take time to add up)."
+    },
+    {
+      "id": "late",
+      "title": "Late payment",
+      "text": "An invoice is due in 14 days. After 30 days late, edits pause until it is paid."
+    },
+    {
+      "id": "access",
+      "title": "Logins stay with the client",
+      "text": "The client keeps the passwords for their domain and Google account; you get your own login, never theirs."
+    },
+    {
+      "id": "scanok",
+      "title": "Written OK before any 3D scan",
+      "text": "Get the owner's written permission before you scan a space or its products, and say where the tour will be shown."
+    }
+  ]
+}

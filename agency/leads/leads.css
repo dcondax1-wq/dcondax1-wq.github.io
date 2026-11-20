@@ -1,0 +1,26 @@
+/* WEB LEADS page (day-web-leads 2026-11-20): on top of olympus/agora.css; text in rem (Dynamic Type), taps >= 44 px */
+main#app { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; display: flex; flex-direction: column; gap: 12px; }
+.note, .sub { font-size: .9375rem; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 6px 0; }
+.tile { min-width: 0; } .tile small { display: block; font-size: .8125rem; color: var(--ag-muted, #a39883); } .tile b { font: 700 1.25rem/1.2 var(--ag-fh, inherit); }
+.filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.filters label { display: flex; flex-direction: column; gap: 4px; font-size: .875rem; min-width: 0; }
+.filters select { min-height: 44px; font-size: 1rem; width: 100%; }
+.chk { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: .9375rem; margin-top: 4px; }
+.chk input { width: 22px; height: 22px; }
+.leads { list-style: none; margin: 0; padding: 0; }
+.lead { padding: 12px 0; border-top: 1px solid rgba(127, 127, 127, .25); }
+.lead:first-child { border-top: 0; }
+.lt { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.ln { font-size: 1.0625rem; overflow-wrap: anywhere; }
+.heat { flex: 0 0 auto; } .heat.hot { color: #e8b04a; border-color: #e8b04a; } .heat.warm { color: #c9a77a; }
+.lk, .lw, .lo, .lh { margin: 3px 0 0; font-size: .9375rem; overflow-wrap: anywhere; }
+.lk, .lh { color: var(--ag-muted, #a39883); }
+.la, .lm { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.la .btn, .lm .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 14px; font-size: .9375rem; }
+.lm .btn[aria-pressed="true"] { outline: 2px solid currentColor; font-weight: 700; }
+.lm .btn.interested[aria-pressed="true"] { color: #7fbf7f; } .lm .btn.no[aria-pressed="true"] { color: #d9826a; }
+#more { min-height: 44px; margin-top: 8px; }
+.how li { font-size: .9375rem; margin: 6px 0; } .how code { font-size: .875rem; overflow-wrap: anywhere; }
+.foot { font-size: .875rem; text-align: center; color: var(--ag-muted, #a39883); }
+.la a.btn { color: inherit; text-decoration: none; }

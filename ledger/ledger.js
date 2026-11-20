@@ -445,8 +445,21 @@ function postCard() {
 }
 
 // ------------------------------------------------------------------------------------------------ start
+// perf (day-a11y 2026-11-20, PERF ask 3): the decorative 3D (three.js, ~165 KB + 650 KB to parse) waits for the page's load and an idle
+// moment, so the numbers paint first; it is skipped on a phone that asked to save data, a 2G / 3G line or a small memory (as olympus/lazy3d.js)
+function later3d() {
+  return new Promise((r) => {
+    const go = () => (window.requestIdleCallback ? window.requestIdleCallback(() => r(), { timeout: 2000 }) : setTimeout(r, 200));
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+  });
+}
+function weak3d() {
+  try { const c = navigator.connection || {}, m = navigator.deviceMemory; return !!c.saveData || /(^|-)(2g|3g)$/.test(String(c.effectiveType || '')) || (typeof m === 'number' && m <= 4); } catch (_) { return false; }
+}
 async function startScene() {
   try {
+    await later3d();
+    if (weak3d()) throw new Error('skipped on a slow or save-data phone');
     const { createVault } = await import('./ledgerscene.js');
     S.scene = createVault($('vault'), { O });
     $('lite').hidden = !S.scene.lite();
@@ -506,11 +519,10 @@ async function main() {
   recalc();
   const scene = startScene();
   renderHero(); setTab('over'); route();
-  await scene;
-  renderHero();
   document.body.dataset.ready = '1';
-  if (O && S.scene) O.ready();
+  if (O) O.ready();                      // the numbers are the page: the vault arrives after load + idle (startScene)
   S.ready = true;
+  scene.then(() => { if (S.scene) renderHero(); });
   // the PC's own status (0.5-3 s): its account list adds the evals the cloud copy does not know (their fees above)
   if (S.home) T.withPcFeed(S.home).then((h) => { const ex = T.extraOf(h); if (ex.length) { S.extra = ex; recalc(); renderHero(); setTab(S.tab); } }).catch(() => {});
 }

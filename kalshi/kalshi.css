@@ -1062,3 +1062,19 @@ button, input, select { font-size: .9375rem; }
 #body .wait ul.feat li { font-size: .9375rem; } code#step { font-size: .9375rem; }
 /* CLS: gate-nav.js wraps the back link in a 44 px row with a 6 px gap ~0.4 s in; keep that space from the first paint */
 main > a.olyback { display: flex; align-items: center; min-height: 44px; margin-bottom: 6px; }
+/* K8 TODAY (Olympus 2): the one-glance card at the top; space kept from the first paint (CLS) */
+.k8top { display: block; min-height: 15.5rem; }
+.k8t-r { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.k8t-r h2 { margin: 0; font: 700 1.0625rem/1.3 var(--fh); }
+.k8t-m { font: 800 .875rem/1 var(--fh); padding: 4px 8px; border-radius: 8px; border: 1px solid var(--warn); color: var(--warn); }
+.k8t-m.live { color: var(--ok); border-color: var(--ok); } .k8t-m.bad { color: var(--bad); border-color: var(--bad); }
+.k8t-age { margin-left: auto; font-size: .8125rem; color: var(--mut); } .k8t-age.old { color: var(--warn); }
+.k8t-n { margin: 8px 0 4px; font: 700 1rem/1.35 var(--fh); font-variant-numeric: tabular-nums; }
+.k8t-l { list-style: none; margin: 0; padding: 0; font-size: .9375rem; min-height: 7.2rem; }
+.k8t-l li { display: grid; grid-template-columns: 3.1rem minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 4px 0; border-top: 1px solid var(--dim2); }
+.k8t-l li.hd { display: block; border-top: 0; font-size: .8125rem; color: var(--mut); padding: 0 0 2px; }
+.k8t-l li em { font-style: normal; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.k8t-l li.w em { color: var(--ok); } .k8t-l li.l em { color: var(--bad); } .k8t-l li.sk em { color: var(--warn); }
+.k8t-p { margin: 6px 0 2px; font-size: .9375rem; font-variant-numeric: tabular-nums; }
+.k8t-c { display: flex; align-items: center; justify-content: space-between; min-height: 44px; font-size: .9375rem; color: var(--txt); text-decoration: none; border-top: 1px solid var(--dim2); }
+.k8t-c b { color: var(--warn); }

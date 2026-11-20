@@ -1,0 +1,22 @@
+[
+ {
+  "slug": "starbucks-com",
+  "name": "Starbucks Coffee Company",
+  "url": "https://www.starbucks.com/",
+  "when": "2026-11-20",
+  "grade": "D",
+  "lcp_s": 8.05,
+  "cls": 0.24,
+  "a11y": 100
+ },
+ {
+  "slug": "ikea-com",
+  "name": "IKEA",
+  "url": "https://www.ikea.com/us/en/",
+  "when": "2026-11-20",
+  "grade": "D",
+  "lcp_s": 35.03,
+  "cls": 0.0,
+  "a11y": 100
+ }
+]

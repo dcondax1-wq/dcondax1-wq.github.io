@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-page="agency">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Website expert</title>
+<meta name="description" content="The website-business expert: diagnose a prospect in 5 taps (the offer, the price, the words to say), and playbooks for pricing, 3D sites, cold calls, objections, local SEO, Google Business Profile, reviews, ads and retainers.">
+<meta name="theme-color" content="#14110e">
+<meta name="color-scheme" content="dark light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Expert">
+<link rel="icon" href="../icon.svg">
+<!-- AGENCY > EXPERT (team web-expert 2026-11-20; owner: "an expert expert on marketing 3D websites"). Data: playbook.json (Jarvis answers from the
+     same file: jarvis/biz.js 'web'); expertcore.js = the pure diagnose / find (node-tested); expert.js draws with textContent only. Offline, no AI service,
+     sends nothing. -->
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   day-manual NAV 2026-11-20: the same copy as the Doors, so this page follows the look too (it stayed dark under Ivory). */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
+<link rel="stylesheet" href="../../olympus/agora.css?v=a9">
+<style>
+html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
+body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
+.ex-main { max-width: 680px; margin: 0 auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(40px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; }
+.ex-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.ex-nav a, .ex-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: 12px; color: var(--ag-soft, #cfc4b2); text-decoration: none;
+  border: 1px solid var(--ag-line, #3a3228); background: transparent; font: 600 .9375rem/1.2 var(--ag-sans, system-ui, sans-serif); cursor: pointer; }
+.ex-title { margin: 14px 0 2px; font: 700 var(--ag-fs-h1, 1.875rem)/1.1 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.ex-sub { margin: 0 0 12px; color: var(--ag-soft, #cfc4b2); }
+.ex-h2 { margin: 22px 0 8px; font: 700 var(--ag-fs-lead, 1.0625rem)/1.25 var(--ag-serif, Georgia, serif); color: var(--ag-text, #f3ece0); }
+.ex-card { border-radius: 14px; padding: 14px; background: var(--ag-s2, #221d17); border: 1px solid var(--ag-line, #3a3228); border-left: 3px solid var(--ag-gold, #c8a24a); margin: 0 0 12px; }
+.ex-q { margin: 0 0 10px; font-weight: 700; }
+.ex-step { margin: 0 0 6px; color: var(--ag-muted, #a89c88); font-size: .9375rem; }
+.ex-opts { display: grid; gap: 8px; }
+.ex-opt { min-height: 48px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); color: var(--ag-text, #f3ece0); text-align: left;
+  font: 600 .9375rem/1.3 var(--ag-sans, system-ui, sans-serif); cursor: pointer; }
+.ex-opt[aria-pressed="true"] { border-color: var(--ag-gold, #c8a24a); background: var(--ag-s4, #332b22); }
+.ex-res h3 { margin: 0 0 4px; font: 700 1.25rem/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-gold-hi, #dcbd6e); }
+.ex-price { margin: 0 0 8px; font-weight: 700; font-size: 1.0625rem; }
+.ex-say { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line-gold, rgba(200,162,74,.32)); overflow-wrap: anywhere; }
+.ex-say b { display: block; margin-bottom: 4px; color: var(--ag-gold-hi, #dcbd6e); font-size: .9375rem; }
+.ex-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.ex-list { margin: 8px 0 0; padding-left: 20px; }
+.ex-list li { margin: 4px 0; overflow-wrap: anywhere; }
+.ex-chip { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .9375rem; font-weight: 700; border: 1px solid var(--ag-line, #3a3228); }
+.ex-chip.sells { color: var(--ag-olive-text, #a0ac6e); border-color: var(--ag-olive, #7f8a52); }
+.ex-chip.maybe { color: var(--ag-sun, #e0b060); border-color: var(--ag-sun, #e0b060); }
+.ex-chip.gimmick { color: var(--ag-terra-text, #e08a6b); border-color: var(--ag-terra, #c96a4a); }
+.ex-search { width: 100%; box-sizing: border-box; min-height: 44px; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s1, #1b1713); color: var(--ag-text, #f3ece0);
+  padding: 0 12px; font: 16px var(--ag-sans, system-ui, sans-serif); margin: 0 0 10px; }
+details.ex-card > summary { cursor: pointer; list-style: none; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font: 700 1rem/1.3 var(--ag-serif, Georgia, serif); }
+details.ex-card > summary::-webkit-details-marker { display: none; }
+details.ex-card > summary::after { content: "+"; color: var(--ag-gold-hi, #dcbd6e); font-size: 1.25rem; }
+details.ex-card[open] > summary::after { content: "\2212"; }
+.ex-usd { margin: 8px 0 0; color: var(--ag-gold-hi, #dcbd6e); font-weight: 700; }
+.ex-avoid { margin: 8px 0 0; color: var(--ag-terra-text, #e08a6b); }
+.ex-offers { width: 100%; border-collapse: collapse; }
+.ex-offers th, .ex-offers td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--ag-line, #3a3228); vertical-align: top; font-size: .9375rem; }
+.ex-offers td.p { width: 36%; overflow-wrap: anywhere; color: var(--ag-gold-hi, #dcbd6e); font-weight: 700; }
+.ex-foot { margin-top: 26px; color: var(--ag-muted, #a89c88); font-size: .9375rem; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+/* the room the playbook fills (measured at 390 px), held only while empty: the fill does not move the page (CLS) */
+.ex-wait { min-height: 462px; margin: 0; }
+#cards:empty { min-height: 1536px; } #nichelist:empty { min-height: 1020px; } #offers:empty { min-height: 2542px; } #honest:empty { min-height: 152px; }
+@media (min-width: 700px) { .ex-wait { min-height: 444px; } }
+</style>
+<script type="module" src="expert.js?v=1"></script>
+<script src="../../olympus/themes.js?v=o9" defer></script>
+<script src="../../olympus/a11y.js" async></script>
+<script>window.addEventListener('DOMContentLoaded', function () { try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ } });</script>
+</head>
+<body>
+<main class="ex-main" id="expert">
+  <nav class="ex-nav" aria-label="Pages"><a href="../" aria-label="Back to Agency">&#9664; Agency</a><a href="#diagnose">Diagnose</a><a href="#playbooks">Playbooks</a><a href="#niches">3D by trade</a></nav>
+  <h1 class="ex-title">Website expert</h1>
+  <p class="ex-sub">Sell, price, build and market websites (3D too) to local businesses. The exact words to say and the $ ranges. Jarvis answers from the same playbook.</p>
+
+  <h2 class="ex-h2" id="diagnose">Diagnose a prospect in 5 taps</h2>
+  <section class="ex-card" id="dx" aria-live="polite"><p class="ex-step ex-wait">Loading...</p></section>
+
+  <h2 class="ex-h2" id="playbooks">Playbooks</h2>
+  <input class="ex-search" id="find" type="search" placeholder="Search: pricing, 3D, roofer, reviews..." aria-label="Search the playbooks" autocomplete="off">
+  <section id="cards" aria-label="Playbooks"></section>
+
+  <h2 class="ex-h2" id="niches">3D by trade: when it sells</h2>
+  <section id="nichelist" aria-label="Trades"></section>
+
+  <h2 class="ex-h2" id="offersH">The offers</h2>
+  <section class="ex-card" id="offers" aria-labelledby="offersH"></section>
+
+  <p class="ex-foot" id="honest"></p>
+</main>
+</body>
+</html>

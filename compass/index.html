@@ -21,11 +21,10 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a9">
 <link rel="stylesheet" href="../olympus/pulse.css?v=p7">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o18" data-app="compass"></script>
+<script src="../olympus/olympus.js?v=o19" data-app="compass"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=5" defer></script>
-<script src="../olympus/sfx.js?v=s4" defer></script>
+<script src="../olympus/agora-ui.js?v=6" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="compass.css?v=a1qdef">
 <link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
@@ -72,8 +71,9 @@
   <p class="foot" id="foot">Compass reads the site's own files and, on this phone, your journal ratings and your Ledger (it never writes them). It sends nothing and it only suggests: it never trades, buys or changes anything. Dollar figures are estimates, never income. Done and Snooze are kept on this phone only.</p>
   <nav class="folded" aria-label="To-do lists folded into Compass"><a href="../stoa/">Stoa</a><a href="../hestia/">Hestia</a><a href="../inbox/">Inbox</a></nav><!-- day-arenas: the audit's MERGE verdicts -->
 </main>
-<script type="module" src="needleload.js?v=a1"></script>
+<!-- perf (day-a11y 2026-11-20, PERF ask 3): the decorative 3D loads through olympus/lazy3d.js: after the first paint, never on LITE or a save-data / slow / small phone -->
+<script src="../olympus/lazy3d.js?v=l2" data-src="needleload.js?v=a1" data-skip="lite" data-event="compass-rose" defer></script>
 <script type="module" src="compass.js?v=q6cd"></script>
-<script type="module" src="../olympus/pulse.js?v=p7"></script>
+<script type="module" src="../olympus/pulse.js?v=p8"></script>
 </body>
 </html>

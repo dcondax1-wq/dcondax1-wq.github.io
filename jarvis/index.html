@@ -120,7 +120,7 @@ window.addEventListener('error', function (e) {
 <script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
-<script src="../pc_feed.js?v=n5" id="pcFeedJs" async></script>
+<script src="../pc_feed.js?v=n6" id="pcFeedJs" async></script>
 <script src="../olympus/themes.js?v=o9" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <script src="../olympus/a11y.js" async></script>
@@ -1446,7 +1446,7 @@ ready.vault = Promise.all([load('obsidian', './obsidian.js', (m) => typeof m.cre
     addTodos: (list) => { let n = 0; for (const t of list || []) if (assistant && assistant.addTodo) { assistant.addTodo(t); n++; } return n; },       // "pull my tasks from Obsidian" (memory.js; asks first)
     todos: () => (assistant ? assistant.todos() : []) }); } return vault; }).catch(() => null);
 // the business answers (biz.js, day-jarvis 2026-11-20): accounts, trades, room, payout, news, to-do, Kalshi from the real feeds, before the brain
-ready.biz = load('biz', './biz.js?v=b2', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
+ready.biz = load('biz', './biz.js?v=b3', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
 ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianSheet === 'function').then((m) => { assist = m; return m; });
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
@@ -2543,6 +2543,7 @@ Promise.all([ready.brain, within(ready.vault, 4000), within(ready.assistant, 400
   ready.assist.then(() => { mountModesUI(); mountBotsUI(); setTimeout(() => thinkSlot(true), 4000); });
   ready.bots.then(() => { mountBotsUI(); setTimeout(botsTick, 3000); });
   setTimeout(tourHint, 7000);
+  setTimeout(pinHint, 12000);
   ready.assist.then((a) => { if (a && !proUI) { proUI = safe(() => a.mountProactive({ brain: () => brain, anchor: $('#sugs'), onAsk: (t) => ask(t) }), null); if (proUI) safe(() => proUI.render()); } });
 });
 D.onChange(({ source }) => { if (proUI) safe(() => proUI.render()); if (modesUI) safe(() => modesUI.render()); if (source === 'live') botsTick(); });
@@ -2954,6 +2955,19 @@ function offerAlerts() {                              // the first reminder: a t
 ready.assistant.then((a) => { if (!a) return; bootDone.then(() => setTimeout(checkReminders, 2500)); setInterval(checkReminders, 15000); });
 document.addEventListener('visibilitychange', () => { if (visible()) setTimeout(checkReminders, 800); });
 // the "What's new" note (2026-11-10): a slim banner in the page flow under the header, never over content; one tap on x = gone; once per version
+// "Pin to Home Screen" (team JARVIS 2026-11-20, owner: "work like a real app from the home screen"): once, on an iPhone / iPad in Safari (not
+// already opened from the Home Screen), after the tour hint's turn; a tap on the button opens the Siri shortcuts page. 'jarvis.pinHint' = seen.
+function pinHint(n = 0) {
+  try {
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const standalone = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+    if (!ios || standalone || raw('jarvis.pinHint') || active !== 'home' || !visible() || n > 6) return;
+    const wn = document.getElementById('wnb'), t = document.getElementById('toast');
+    if ((wn && !wn.hidden) || (t && !t.hidden) || root.hasAttribute('data-intro')) { setTimeout(() => pinHint(n + 1), 5000); return; }
+    rawSet('jarvis.pinHint', '1');
+    banner('Tap Share, then "Add to Home Screen": Jarvis opens like an app. Siri can ask it too.', 'Make it an app:', ['Siri shortcuts', () => { location.href = 'shortcuts.html'; }]);
+  } catch (_) { /* never in the way */ }
+}
 function banner(text, label, action) {
   const host = $('#home .hbody') || $('#home .home-in');
   if (!host) return;
@@ -3725,8 +3739,8 @@ if ('serviceWorker' in navigator) {
 <script src="./welcome.js?v=w1" defer></script>
 <script type="module" src="./transitions.js?v=t7"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
-<script src="../olympus/zeus_core.js?v=6" defer></script>
-<script src="../olympus/doors.js?v=d9" defer></script>
+<script src="../olympus/zeus_core.js?v=7" defer></script>
+<script src="../olympus/doors.js?v=d11" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>
 <script src="./push-ui.js?v=pu2" defer></script>

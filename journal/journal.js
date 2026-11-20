@@ -238,6 +238,9 @@ async function main() {
   S.trades = trades;
   $('demo').hidden = !S.demo;
   if (S.demo) $('trHint').textContent = 'DEMO: these are made-up trades so you can try the journal. The real ones appear here once the bot has trades to show. ' + $('trHint').textContent;
+  // day-archive 2026-11-20: the site's trade list (odeon/trades.json) can stop days before today: say where it ends
+  const upto = !S.demo && raw && typeof raw.upto === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(raw.upto) ? raw.upto : null, oldDays = upto ? Math.floor((Date.now() - Date.parse(upto + 'T21:00:00Z')) / 86400000) : null;
+  if (oldDays != null && oldDays > 2) $('trHint').textContent = `As of ${new Date(upto + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}: the site's trade list ends there (${oldDays} days ago). ` + $('trHint').textContent;
   try { const lite = !!(O && O.lite && O.lite()); if (O && O.mode) O.mode(lite); $('lite').hidden = !lite; } catch (_) { /* no tag */ }
   seedDemo();
   S.first = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);

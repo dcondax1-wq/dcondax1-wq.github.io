@@ -1,0 +1,12 @@
+{
+ "v": 1,
+ "note": "Website Business HQ (hq.js): which sections are live. live:false shows 'Being built' on its tile (no dead link). summary_file:true = the HQ also reads <slice>/summary.json (same shape as localStorage agency.<slice>.summary). The lead sets these when landing the day-web-* branches.",
+ "sections": {
+  "expert": {"live": true, "summary_file": false},
+  "leads": {"live": true, "summary_file": false},
+  "audit": {"live": true, "summary_file": false},
+  "demos": {"live": true, "summary_file": false},
+  "showcase": {"live": true, "summary_file": false},
+  "offers": {"live": true, "summary_file": false}
+ }
+}

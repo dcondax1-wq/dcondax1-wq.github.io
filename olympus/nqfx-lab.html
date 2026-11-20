@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ FX lab</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<!-- NQ FX lab (olympus/nqfx-lab.html, day-arenas 2026-11-20): every OLYMPUS_NQFX effect on one page, for the NQ dashboard team and the
+     tests (tests/test_nqfx.py). ?tier=ultra|high|low|off forces a tier (else the owner's quality setting). Numbers here are examples. -->
+<style>
+:root { --oly-accent-rgb: 242, 184, 75; color-scheme: dark; --bg: #0c0d10; --card: #16181d; --line: rgba(255, 255, 255, .1); --ink: #f3f1ec; --soft: #b4b0a8; --gold: #f2b84b; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.5 -apple-system, system-ui, sans-serif; padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+h1 { font-size: 1.5rem; margin: 0 0 4px; } h2 { font-size: 1.0625rem; margin: 0 0 10px; }
+p { margin: 0; color: var(--soft); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; margin-top: 14px; max-width: 640px; }
+#vault { width: 100%; aspect-ratio: 4 / 3; border-radius: 14px; background: radial-gradient(circle at 50% 40%, #2a2219, #0c0d10 70%); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
+button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #22252c; color: var(--ink); font: 600 15px/1 inherit; cursor: pointer; }
+input[type=range] { flex: 1; min-width: 160px; height: 44px; accent-color: var(--gold); }
+#ring { width: 132px; height: 132px; position: relative; display: grid; place-items: center; }
+#ringPct { font: 800 1.5rem/1 -apple-system, system-ui; font-variant-numeric: tabular-nums; position: relative; z-index: 3; }
+#pnl { font: 800 2.2rem/1 -apple-system, system-ui; font-variant-numeric: tabular-nums; color: #4ade80; }
+svg.chart { width: 100%; height: 160px; display: block; }
+</style>
+<script>(function () { var t = (location.search.match(/tier=(ultra|high|low|off)/) || [])[1]; if (t) try { localStorage.setItem('jfx', t); } catch (e) {} })();</script>
+<script src="nqfx.js?v=n1" defer></script>
+</head>
+<body>
+<h1>NQ FX lab</h1>
+<p>The trading dashboard's effects (example numbers). <span id="tier"></span></p>
+
+<section class="card"><h2>Payout vault (3D after load, drawn first)</h2>
+  <div id="vault"></div>
+  <div class="row"><input id="vv" type="range" min="0" max="100" value="62" aria-label="Payout goal"><button id="full" type="button">100%</button></div></section>
+
+<section class="card"><h2>Goal ring + number roll-up</h2>
+  <div class="row"><div id="ring"><span id="ringPct">0%</span></div><div><b id="pnl">$0</b><p>today, example</p></div></div>
+  <div class="row"><button id="ringUp" type="button">+15%</button><button id="pnlUp" type="button">+$420</button></div></section>
+
+<section class="card"><h2>Chart light trail</h2>
+  <svg class="chart" viewBox="0 0 320 160" preserveAspectRatio="none"><path id="line" d="M0 120 L40 110 L80 118 L120 90 L160 96 L200 70 L240 76 L280 40 L320 30" fill="none" stroke="#f2b84b" stroke-width="2"/></svg>
+  <div class="row"><button id="redraw" type="button">New data</button></div></section>
+
+<section class="card"><h2>Moments</h2>
+  <div class="row"><button id="win" type="button">Win +$180</button><button id="big" type="button">Big win +$1,250</button><button id="loss" type="button">Loss -$95</button><button id="ms" type="button">Eval passed</button></div></section>
+
+<script>
+addEventListener('DOMContentLoaded', function () {
+  var N = window.OLYMPUS_NQFX, $ = function (id) { return document.getElementById(id); };
+  N.ready().then(function (FX) {
+    $('tier').textContent = 'Tier: ' + (FX ? FX.tier() : 'none');
+    var vault = N.vault($('vault'), { value: .62, label: '$1,860 of $3,000' });
+    $('vv').addEventListener('input', function () { var v = this.value / 100; vault.call('set', v, '$' + Math.round(v * 3000).toLocaleString() + ' of $3,000'); });
+    $('full').addEventListener('click', function () { $('vv').value = 100; vault.call('set', 1, '$3,000 of $3,000'); N.milestone($('vault'), { text: 'Payout goal reached' }); });
+    var rv = .4, ring = N.ring($('ring'), { value: rv, stroke: 8 }), pct = N.roll($('ringPct'), { to: 40, duration: 1 });
+    $('ringPct').textContent = '40%';
+    $('ringUp').addEventListener('click', function () { rv = Math.min(1, rv + .15); ring.call('set', rv); pct.call('set', Math.round(rv * 100)); });
+    var pnl = 0, roll = N.roll($('pnl'), { to: 0 });
+    $('pnlUp').addEventListener('click', function () { pnl += 420; $('pnl').textContent = '$' + pnl.toLocaleString(); roll.call('set', pnl); N.win($('pnl'), { usd: 420 }); });
+    var trail = N.trail($('line'), { seconds: 2.4 });
+    $('redraw').addEventListener('click', function () { var d = 'M0 ' + (90 + Math.random() * 50); for (var x = 40; x <= 320; x += 40) d += ' L' + x + ' ' + (20 + Math.random() * 120); $('line').setAttribute('d', d); });
+    $('win').addEventListener('click', function () { N.win(this, { usd: 180 }); });
+    $('big').addEventListener('click', function () { N.win(this, { usd: 1250 }); });
+    $('loss').addEventListener('click', function () { N.loss(this, { usd: 95 }); });
+    $('ms').addEventListener('click', function () { N.milestone(this, { text: 'Eval passed' }); });
+    window.__nq = { vault: vault, ring: ring, trail: trail };
+  });
+});
+</script>
+</body>
+</html>

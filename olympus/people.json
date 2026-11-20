@@ -2839,7 +2839,7 @@
   {
    "id": "villager:agency",
    "name": "Nike",
-   "title": "Lives in Agency",
+   "title": "Lives in Websites",
    "kind": "villager",
    "area": "money",
    "app": "agency",
@@ -2856,8 +2856,8 @@
     "scene": "athens",
     "place": "agency"
    },
-   "bio": "Website agency: leads, demo sites, calls and the $ pipeline",
-   "appName": "Agency"
+   "bio": "Website business HQ: next step, leads, audits, 3D demos, offers, calls",
+   "appName": "Websites"
   },
   {
    "id": "villager:business",
