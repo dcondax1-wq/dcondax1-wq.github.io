@@ -26,7 +26,7 @@ import { $, el, clsRank, settings, money, num, pct } from './util.js';
 import { decode, loadPlugins, labelOf } from './data.js';
 import { walker } from './walk.js';
 import { layout } from './layout.js?v=dcgfx3';
-import { CityScene } from './scene.js?v=dcgfx8';
+import { CityScene } from './scene.js?v=dcgfx9';
 import { Orbit } from './controls.js';
 import { Tour, shots } from './tour.js';
 import { MODES, flight } from './fly.js';

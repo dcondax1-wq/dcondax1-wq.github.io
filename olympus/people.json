@@ -1746,13 +1746,13 @@
     "rate": 0.97
    },
    "sources": [
-    "../cities/jarvis.json"
+    "../cities/world/jarvis.json"
    ],
    "home": {
     "scene": "athens",
     "place": "cities"
    },
-   "bio": "A world of city islands",
+   "bio": "The 3D city of everything: every app, every idea tested",
    "appName": "Cities"
   },
   {

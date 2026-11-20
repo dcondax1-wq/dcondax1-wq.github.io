@@ -346,7 +346,20 @@ function render() {
   const n = C.counts(S.rows);
   say(`${S.live.head} ${n.live} live, ${n.paper} paper and ${n.backtest} backtest trades.${S.demo ? ' Example numbers, not real.' : ''}`);
   S.ready = true;
+  settleBoxes();
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
+}
+// no layout jump (night-polish 2026-11-20): trading.css holds the status line and the banner at their usual height and keeps the cards under them unseen
+// until the first draw, and keeps the ZEUS edge chip's place until it has drawn (or given up); here they are let go
+function settleBoxes() {
+  const root = document.documentElement, chip = $('zeusEdge');
+  root.classList.add('tr-drawn');
+  if (!chip || S.edgeWatch) return;
+  S.edgeWatch = true;
+  const done = () => root.classList.add('tr-edge');
+  if (chip.childElementCount) { done(); return; }
+  try { new MutationObserver((m, ob) => { if (chip.childElementCount) { ob.disconnect(); done(); } }).observe(chip, { childList: true }); } catch (_) { done(); return; }
+  setTimeout(done, 6000);                     // no edge data after 6 s (edge_chip.js waits up to ~4 s for the PC feed): the chip's place goes
 }
 async function refresh() {
   if (S.forced || document.hidden) return;

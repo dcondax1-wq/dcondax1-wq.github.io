@@ -1,9 +1,12 @@
 {
  "v": 1,
  "demo": true,
- "note": "EXAMPLE numbers, not real: three bots that reported a few minutes ago, with made-up trades, shown until the site's own home.json is there. Ages are counted back from now.",
+ "note": "EXAMPLE numbers, not real: the bots that reported a few minutes ago, with made-up trades, shown until the site's own home.json is there. Ages are counted back from now. hidden_bots = the repo's dashboard_view.json (owner 2026-11-15: BLITZ off every page, the example too).",
  "home": {
   "home_only": true,
+  "hidden_bots": [
+   "blitz"
+  ],
   "live": {
    "pc": {
     "present": true,

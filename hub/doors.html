@@ -15,6 +15,19 @@
 <!-- THE FOUR DOORS (2026-11-18, night-org, docs/ORGANIZATION.md). hub/doors.html#zeus | #money | #kalshi | #more opens that door.
      The doors and their shortcuts are DATA in olympus/doors.js; the apps come from olympus/apps-list.js. Read only: it links to pages and
      sends nothing. Text only through textContent. -->
+<script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT, the same copy as the hubs: the look this page gets, from the engine's copy).
+   night-polish 2026-11-20: the Doors had no theme engine, so they stayed dark under the Ivory light look. */
+(function (P, W) { try {
+  var d = document.documentElement, ls = window.localStorage, g = ls.getItem('olympus.theme') || 'agora', m = JSON.parse(ls.getItem('olympus.themeMix') || 'null'), on = [], k;
+  if (g === 'olympus' && ls.getItem('olympus.theme.v') !== '2') g = 'agora';
+  if (m) { var dd = (m.of && m.of[P]) || (P === 'today' ? 'trading' : ''); g = (m.app && m.app[P]) || (dd && m.district && m.district[dd]) || g; }
+  var c = g === 'agora' ? null : JSON.parse(ls.getItem('olympus.theme.look.' + W + '.' + g) || 'null');
+  if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', g); d.setAttribute('data-oly-scheme', c.scheme === 'light' ? 'light' : 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+  var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
+} catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'doors', 'page');</script>
 <link rel="stylesheet" href="../olympus/agora.css?v=a7">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
@@ -83,10 +96,12 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .dr-arc summary { color: var(--ag-muted, #a89c88); }
 .dr-arc .dr-row { opacity: .85; }
 </style>
-<script src="../olympus/apps-list.js?v=o9" defer></script>
+<script src="../olympus/apps-list.js?v=o10" defer></script>
 <script src="../olympus/doors.js?v=d7" defer></script>
 <script src="doors.js?v=d3" defer></script>
 <script src="../olympus/warp.js?v=w3" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
+<script src="../olympus/themes.js?v=o9"></script><!-- the theme engine (after warp.js's tag, so it does not load warp.js a second time) -->
+<script>try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ }</script>
 <link rel="stylesheet" href="../olympus/shell.css?v=s3">
 <link rel="stylesheet" href="../olympus/home-fx.css?v=x1"><!-- night-effects: the living home (hero, glass doors, intro) -->
 <script>try { if (localStorage.getItem('oly.homefx') !== 'off') document.documentElement.className += ' hfx' + (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches ? '' : ' hfx-intro'); } catch (e) { /* private mode: plain */ }</script>

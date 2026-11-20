@@ -1,5 +1,5 @@
 /* OLYMPUS app intro (olympus/intro-app.js, JOB 33a; docs/CLAUDE_REFERENCE.md "App intros"): the 2.4 s entrance every app plays when it opens.
- * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i9" defer></script>
+ * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i10" defer></script>
  * Pages WITHOUT the kit name themselves on the tag (data-app / data-name / data-glyph / data-color; Bridge, Kalshi).
  *   film   the app's flavour scene (FLAVOUR) + its glyph from particles; the name letter by letter with a light sweep, a tagline; fade out
  *   once   full film once per app per launch (sessionStorage 'oly.intro.<app>'), then a 400 ms version
@@ -102,11 +102,11 @@
   var seenKey = 'oly.intro.' + (O.app || 'app');
   var seen = ss(seenKey) === '1';
   var mode = seen ? 'short' : 'full';
-  var LEN = { full: 2.4, short: 0.4, lite: 0.7 };      // (lite is kept for old callers: LITE now plays nothing)
+  var LEN = { full: 2.4, short: 0.4, lite: 0.7 }; // (lite is kept for old callers: LITE now plays nothing)
   var LEN_S = LEN[mode];
   st.mode = mode; st.len = LEN_S;
   // film clock tt runs 0 -> 2.6; short plays its end
-  var tt0 = mode === 'full' ? 0 : mode === 'short' ? 1.55 : 1.75, ttK = (2.6 - tt0) / LEN_S;                      // the film's own clock runs to 2.6; full plays it in 2.4 s
+  var tt0 = mode === 'full' ? 0 : mode === 'short' ? 1.55 : 1.75, ttK = (2.6 - tt0) / LEN_S; // the film's own clock runs to 2.6; full plays it in 2.4 s
 
   // --- small helpers
   var cl = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
@@ -135,10 +135,10 @@
       '@media (prefers-reduced-motion:reduce){.oly-intro{display:none}}';
     (d.head || root).appendChild(s);
   }
-  function sfx(n) { try { var k = W.OLYMPUS_SFX; if (k && k.sound && !k.sound()) return; if (O.sfx) O.sfx(n); } catch (e) { /* the sound is never needed */ } }       // silent when the Sound switch says so
+  function sfx(n) { try { var k = W.OLYMPUS_SFX; if (k && k.sound && !k.sound()) return; if (O.sfx) O.sfx(n); } catch (e) { /* the sound is never needed */ } } // silent when the Sound switch says so
   function cue(key, name) { if (!soundsAt[key]) { soundsAt[key] = 1; sfx(name); } }
 
-  function finish(how) {                                       // removes everything; safe to call any number of times
+  function finish(how) { // removes everything; safe to call any number of times
     if (done) return;
     done = true; st.state = how || 'done'; st.ms = Math.round(now() - t0);
     // A hidden tab or a failed canvas never counts as a watched intro.
@@ -165,7 +165,7 @@
     if (e && e.type === 'pointerdown') holdUp = true;
     try { cancelAnimationFrame(raf); } catch (x) { /* */ }
     try { el.style.transition = 'opacity 70ms linear'; el.style.opacity = '0'; } catch (x) { /* */ }
-    setTimeout(function () {                                   // the tap's finger is still down: its click must not land on the app
+    setTimeout(function () { // the tap's finger is still down: its click must not land on the app
       var n = 0, tick = function () { if (!holdUp || (n += 50) > 700) finish('skipped'); else setTimeout(tick, 50); };
       tick();
     }, 70);
@@ -223,7 +223,7 @@
     init: function () { var s = this; s.p = []; for (var i = 0; i < 70; i++) s.p.push([rnd() * VW, rnd() * VH, rnd() * 6.28, 0.6 + rnd() * 1.4]); },
     draw: function (t, a) { var p = this.p, i; c.fillStyle = rgba(WHITE, 1); for (i = 0; i < p.length; i++) { c.globalAlpha = a * (0.25 + 0.5 * Math.abs(Math.sin(t * 1.6 + p[i][2]))); c.fillRect(p[i][0], p[i][1], p[i][3], p[i][3]); } c.globalAlpha = 1; }
   };
-  SC.smoke = {                                                  // Oracle / Athena: drifting smoke and shafts of light
+  SC.smoke = { // Oracle / Athena: drifting smoke and shafts of light
     init: function () { var s = this, i; s.b = []; for (i = 0; i < 12; i++) s.b.push([rnd(), rnd(), 120 + rnd() * 130, rnd() * 6.28, 0.5 + rnd()]); },
     draw: function (t, a) {
       var b = this.b, i, x, y, g;
@@ -232,7 +232,7 @@
         glow(x, y, b[i][2], mixc([170, 170, 200], COL, 0.25), 0.2 * a);
       }
       c.globalCompositeOperation = 'lighter';
-      for (i = 0; i < 3; i++) {                                 // light shafts from the upper right, swaying
+      for (i = 0; i < 3; i++) { // light shafts from the upper right, swaying
         x = VW * (0.95 - i * 0.28) + Math.sin(t * 0.7 + i) * 18; g = c.createLinearGradient(x, 0, x - VW * 0.5, VH);
         g.addColorStop(0, rgba(mixc(WHITE, COL, 0.45), 0.17 * a * ramp(t, 0.2 + i * 0.15, 1.1))); g.addColorStop(1, rgba(COL, 0));
         c.fillStyle = g; c.beginPath(); c.moveTo(x - 20, -10); c.lineTo(x + 24, -10); c.lineTo(x - VW * 0.5 + 70, VH); c.lineTo(x - VW * 0.5 - 40, VH); c.closePath(); c.fill();
@@ -240,13 +240,13 @@
       c.globalCompositeOperation = 'source-over';
     }
   };
-  SC.coins = {                                                  // Tyche / Plutus: gold coins fall into water and ring it
+  SC.coins = { // Tyche / Plutus: gold coins fall into water and ring it
     init: function () { var s = this, i; s.c = []; for (i = 0; i < 34; i++) s.c.push([rnd() * VW, rnd() * 1.1, 150 + rnd() * 160, rnd() * 6.28, 5 + rnd() * 4, 3 + rnd() * 3]); },
     draw: function (t, a) {
       var s = this, i, p, y, wy = VH * 0.74, age, g, k, X;
       g = c.createLinearGradient(0, wy, 0, VH); g.addColorStop(0, rgba(COL, 0.28 * a)); g.addColorStop(1, rgba(COL, 0.04 * a));
       c.fillStyle = g; c.beginPath(); c.moveTo(0, VH);
-      for (X = 0; X < VW + 12; X += 12) c.lineTo(Math.min(X, VW), wy + Math.sin(Math.min(X, VW) * 0.03 + t * 3) * 3);   // ends ON the right edge
+      for (X = 0; X < VW + 12; X += 12) c.lineTo(Math.min(X, VW), wy + Math.sin(Math.min(X, VW) * 0.03 + t * 3) * 3); // ends ON the right edge
       c.lineTo(VW, VH); c.closePath(); c.fill();
       for (i = 0; i < s.c.length; i++) {
         p = s.c[i]; age = t - p[1]; if (age < 0) continue;
@@ -256,13 +256,13 @@
           c.fillStyle = rgba(mixc(GOLD, COL, 0.12), 0.92 * a); c.beginPath(); c.ellipse(p[0], y, p[5] * (0.15 + k), p[5], 0, 0, 6.2832); c.fill();
           c.fillStyle = rgba(WHITE, 0.5 * a * k); c.fillRect(p[0] - p[5] * 0.5 * k, y - p[5] * 0.6, p[5] * k, 1);
         } else {
-          age = (y - wy) / p[2];                                 // seconds since it hit the water: a ring spreads and fades
+          age = (y - wy) / p[2]; // seconds since it hit the water: a ring spreads and fades
           if (age < 0.9) { c.strokeStyle = rgba(mixc(WHITE, COL, 0.4), 0.55 * (1 - age / 0.9) * a); c.lineWidth = 1.2; c.beginPath(); c.ellipse(p[0], wy + 3, 4 + age * 70, 1.5 + age * 16, 0, 0, 6.2832); c.stroke(); }
         }
       }
     }
   };
-  SC.embers = {                                                 // Prometheus / Hephaestus / Ares: sparks rise and ignite
+  SC.embers = { // Prometheus / Hephaestus / Ares: sparks rise and ignite
     init: function () { var s = this, i; s.p = []; for (i = 0; i < 90; i++) s.p.push([rnd() * VW, rnd(), 50 + rnd() * 150, rnd() * 6.28, 1 + rnd() * 2.2]); },
     draw: function (t, a) {
       var s = this, i, p, y, ign = sm(ramp(t, 0.2, 1.5)), hot = mixc(COL, WHITE, 0.55), fl = 0.85 + 0.15 * Math.sin(t * 17);
@@ -276,11 +276,11 @@
       c.globalCompositeOperation = 'source-over';
     }
   };
-  SC.neurons = {                                                // Mind / Argus: a network lights from the centre outwards
+  SC.neurons = { // Mind / Argus: a network lights from the centre outwards
     init: function () {
       var s = this, i, j, b1, b2, d1, d2, dd; s.n = []; s.e = [];
       for (i = 0; i < 42; i++) s.n.push([0.06 + rnd() * 0.88, 0.1 + rnd() * 0.8]);
-      for (i = 0; i < s.n.length; i++) {                         // each node joins its two nearest neighbours
+      for (i = 0; i < s.n.length; i++) { // each node joins its two nearest neighbours
         b1 = b2 = -1; d1 = d2 = 1e12;
         for (j = 0; j < s.n.length; j++) {
           if (j === i) continue;
@@ -302,7 +302,7 @@
       for (i = 0; i < s.n.length; i++) { f = lit(s.n[i]); if (f > 0) { glow(s.n[i][0] * VW, s.n[i][1] * VH, 14 + 8 * f, COL, 0.55 * f * a); c.fillStyle = rgba(WHITE, 0.9 * f * a); c.fillRect(s.n[i][0] * VW - 1.5, s.n[i][1] * VH - 1.5, 3, 3); } }
     }
   };
-  SC.skyline = {                                                // Cities: a camera flight through a layered, perspective city
+  SC.skyline = { // Cities: a camera flight through a layered, perspective city
     init: function () {
       var s = this, row, side, i;
       s.b = [];
@@ -352,7 +352,7 @@
       glow(cx, horizon, VW * 0.42, COL, 0.23 * a * sm(ramp(t, 0.55, 1.3)));
     }
   };
-  SC.torches = {                                                // Arena: two torches, a crowd that roars
+  SC.torches = { // Arena: two torches, a crowd that roars
     init: function () { var s = this, i; s.h = []; for (i = 0; i < 24; i++) s.h.push([(i + 0.5) / 24 * VW, VH - 16 - rnd() * 34, 9 + rnd() * 5, rnd() * 6.28]); },
     draw: function (t, a) {
       var s = this, i, k, x, y, roar = sm(ramp(t, 0.7, 1.05)) * (1 - sm(ramp(t, 1.9, 2.4))), fl, h;
@@ -364,7 +364,7 @@
       }
       c.globalCompositeOperation = 'source-over';
       c.strokeStyle = rgba([30, 20, 10], 0.9 * a); c.lineWidth = 4; c.beginPath(); c.moveTo(VW * 0.12, VH * 0.62); c.lineTo(VW * 0.12, VH); c.moveTo(VW * 0.88, VH * 0.62); c.lineTo(VW * 0.88, VH); c.stroke();
-      for (i = 0; i < s.h.length; i++) {                         // the crowd: heads bob, arms go up on the roar
+      for (i = 0; i < s.h.length; i++) { // the crowd: heads bob, arms go up on the roar
         h = s.h[i]; y = h[1] - Math.abs(Math.sin(t * 7 + h[3])) * 8 * roar;
         c.fillStyle = rgba([8, 6, 10], 0.95 * a); c.beginPath(); c.arc(h[0], y, h[2], 0, 6.2832); c.fill(); c.fillRect(h[0] - h[2] * 1.3, y + h[2] * 0.8, h[2] * 2.6, VH - y);
         if (roar > 0.02) { c.strokeStyle = rgba([8, 6, 10], 0.95 * a); c.lineWidth = 3.5; c.beginPath(); c.moveTo(h[0] - h[2], y + h[2]); c.lineTo(h[0] - h[2] * 1.6 - Math.sin(t * 9 + h[3]) * 4, y - 22 * roar); c.moveTo(h[0] + h[2], y + h[2]); c.lineTo(h[0] + h[2] * 1.6 + Math.sin(t * 9 + h[3] + 1) * 4, y - 22 * roar); c.stroke(); }
@@ -372,7 +372,7 @@
       if (roar > 0.5) cue('roar', 'thunder');
     }
   };
-  SC.threads = {                                                // Fates: three gold threads weave
+  SC.threads = { // Fates: three gold threads weave
     init: function () { },
     draw: function (t, a) {
       var i, y, x, k, end;
@@ -385,7 +385,7 @@
       }
     }
   };
-  SC.streaks = {                                                // Hermes / Bridge: fast wind lines
+  SC.streaks = { // Hermes / Bridge: fast wind lines
     init: function () { var s = this, i; s.p = []; for (i = 0; i < 44; i++) s.p.push([rnd() * VH, 40 + rnd() * 120, 500 + rnd() * 900, rnd(), 0.6 + rnd()]); },
     draw: function (t, a) {
       var s = this, i, p, x; c.globalCompositeOperation = 'lighter';
@@ -396,7 +396,7 @@
       c.globalCompositeOperation = 'source-over';
     }
   };
-  SC.bars = {                                                   // Odeon: an equaliser
+  SC.bars = { // Odeon: an equaliser
     init: function () { },
     draw: function (t, a) {
       var i, n = 22, w = VW / n, h; c.globalCompositeOperation = 'lighter';
@@ -407,7 +407,7 @@
       c.globalCompositeOperation = 'source-over';
     }
   };
-  SC.leaves = {                                                 // Daphne: leaves drift down
+  SC.leaves = { // Daphne: leaves drift down
     init: function () { var s = this, i; s.p = []; for (i = 0; i < 30; i++) s.p.push([rnd() * VW, rnd(), 30 + rnd() * 60, rnd() * 6.28, 4 + rnd() * 5]); },
     draw: function (t, a) {
       var s = this, i, p, y; for (i = 0; i < s.p.length; i++) {
@@ -416,7 +416,7 @@
       }
     }
   };
-  SC.columns = {                                                // Pantheon / Forum: marble columns rise
+  SC.columns = { // Pantheon / Forum: marble columns rise
     init: function () { },
     draw: function (t, a) {
       var i, n = 7, x, h, g;
@@ -428,7 +428,7 @@
       }
     }
   };
-  SC.shards = {                                                 // Nemesis: angular shards in the flicker of lightning
+  SC.shards = { // Nemesis: angular shards in the flicker of lightning
     init: function () { var s = this, i; s.p = []; for (i = 0; i < 16; i++) s.p.push([rnd() * VW, rnd() * VH, 30 + rnd() * 90, rnd() * 6.28, rnd()]); },
     draw: function (t, a) {
       var s = this, i, p, f = Math.max(Math.exp(-(t - 0.5) * 9) * (t > 0.5 ? 1 : 0), Math.exp(-(t - 1.15) * 9) * (t > 1.15 ? 1 : 0), Math.exp(-(t - 1.75) * 9) * (t > 1.75 ? 1 : 0));
@@ -441,7 +441,7 @@
       }
     }
   };
-  SC.rings = {                                                  // Chronos: clock rings turn, ticks run round
+  SC.rings = { // Chronos: clock rings turn, ticks run round
     init: function () { },
     draw: function (t, a) {
       var i, r, k, ang;
@@ -452,7 +452,7 @@
       }
     }
   };
-  SC.maze = {                                                   // Labyrinth: the walls draw themselves from the centre
+  SC.maze = { // Labyrinth: the walls draw themselves from the centre
     init: function () {
       var s = this, X, Y, G = 34; s.s = [];
       for (Y = 0; Y < VH; Y += G) for (X = 0; X < VW; X += G) {
@@ -470,7 +470,7 @@
   };
 
   // --- the frame
-  var TRACK = 0.3;                                              // letter spacing of the name, in em
+  var TRACK = 0.3; // letter spacing of the name, in em
   function spaced(text, midX, y, fs, track, alphaOf, litOf) {  // a line of letters one by one (a light sweep and a stagger need them apart)
     var i, w = [], tw = 0;
     c.font = '700 ' + fs + 'px ' + DISPLAY;

@@ -7,6 +7,7 @@
 //          sign poles, cranes, the harbor pier lines; lmLod: the temple and the Pharos beyond this distance)
 //          (fullTris: the full-detail tiles near the camera stop at this many triangles, nearest first, whatever maxFull says: the city
 //          grows with every run published, and the close-up of the densest district went from 223k to 264k triangles by 2026-11-16)
+//          (the reflected tile, mirrors, counts against fullTris too: it is the same towers drawn again; 250,134 > 250,000 on the phone, 2026-11-20)
 //          (full: richTris = the 8-sided near towers stop at this many triangles, nearest first, and fullTris caps every full tile: a clear
 //          night over the densest district drew 13 rich tiles, 706k triangles against the 700k budget, 2026-11-17)
 //   lite   the LITE tier (OLYMPUS low / off), exactly what it always was

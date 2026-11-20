@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-20",
- "say": "This week we wrote down 31 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
+ "say": "This week we wrote down 34 lessons. The strongest (2 files agree): Owner - \"improve all of our strategies, there's things we can do to make more\". What changed our mind: A yes replaces the older funded-only card atlas-on-50k-funded (its exact $500-lane version did not hold in 2021-25 here: +$0).",
  "week": [
   {
    "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
@@ -12,6 +12,16 @@
    "sources": [
     "research/writeups/lit-more-money-2026-11-19.md",
     "research/writeups/atlas-more-money-2026-11-19.md"
+   ]
+  },
+  {
+   "text": "Ten genuinely untested Zlarior ideas (time stop, NY-open exit / breakeven, news exit / breakeven, stall exit, breakeven on a close, NR7 size-up, London build-up size-up, 18:00 gap against size-down), one pre-declared ve…",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 2,
+   "sources": [
+    "research/writeups/zeus-lab-lit-ideas-2026-11-18.md",
+    "research/writeups/second-sr.md"
    ]
   },
   {
@@ -71,15 +81,6 @@
    "sources": [
     "docs/TESTED_AND_REJECTED.md"
    ]
-  },
-  {
-   "text": "Tested and rejected: ATLAS real-fill fixes (2026-11-20, atlas-fills-2026-11-20.md, tools/atlas_fills.py, research/second/atlas_fills.json,",
-   "cat": "NQ strategy",
-   "d": "2026-11-20",
-   "strength": 1,
-   "sources": [
-    "docs/TESTED_AND_REJECTED.md"
-   ]
   }
  ],
  "top": [
@@ -113,6 +114,16 @@
    "sources": [
     "research/writeups/lit-more-money-2026-11-19.md",
     "research/writeups/atlas-more-money-2026-11-19.md"
+   ]
+  },
+  {
+   "text": "Ten genuinely untested Zlarior ideas (time stop, NY-open exit / breakeven, news exit / breakeven, stall exit, breakeven on a close, NR7 size-up, London build-up size-up, 18:00 gap against size-down), one pre-declared ve…",
+   "cat": "NQ strategy",
+   "d": "2026-11-18",
+   "strength": 2,
+   "sources": [
+    "research/writeups/zeus-lab-lit-ideas-2026-11-18.md",
+    "research/writeups/second-sr.md"
    ]
   },
   {
@@ -153,16 +164,6 @@
    "sources": [
     "research/writeups/2026-11-15-lit-deep.md",
     "research/writeups/lit-retail-entries.md"
-   ]
-  },
-  {
-   "text": "(1m for 2026, 5m for 2021-25), costs in ($1.90 a micro, 1 tick on every market and stop fill, limits only when traded through, every same-bar tie booked against us), picked on 2026 Jan-Jun, checked on Jul-Oct, 2021-25 o…",
-   "cat": "NQ strategy",
-   "d": "2026-10-28",
-   "strength": 2,
-   "sources": [
-    "research/writeups/scalp-momentum.md",
-    "research/writeups/lit-gap-audit.md"
    ]
   }
  ],
@@ -211,10 +212,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 44,
+  "NQ strategy": 45,
   "Kalshi": 2,
   "money": 3,
-  "process": 11,
+  "process": 10,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

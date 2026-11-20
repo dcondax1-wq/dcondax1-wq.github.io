@@ -22,7 +22,7 @@
   {"id": "nemesis", "name": "Nemesis", "glyph": "\u039d", "colour": "#b55c66", "group": "trading", "groupName": "Trading", "purpose": "The fallen trades: what went wrong", "path": "nemesis/", "live": true},
   {"id": "chronos", "name": "Chronos", "glyph": "\u03a7", "colour": "#d4a574", "group": "trading", "groupName": "Trading", "purpose": "Time and the session clock", "path": "chronos/", "live": true},
   {"id": "hephaestus", "name": "Hephaestus", "glyph": "\u2692", "colour": "#c7773f", "group": "trading", "groupName": "Trading", "purpose": "The forge: tune the dials", "path": "hephaestus/", "live": true},
-  {"id": "cities", "name": "Cities", "glyph": "\u25c8", "colour": "#b88a50", "group": "trading", "groupName": "Trading", "purpose": "A world of city islands", "path": "cities/", "live": true},
+  {"id": "cities", "name": "Cities", "glyph": "\u25c8", "colour": "#b88a50", "group": "trading", "groupName": "Trading", "purpose": "The 3D city of everything: every app, every idea tested", "path": "cities/world/", "live": true},
   {"id": "kalshicity", "name": "Kalshi City", "glyph": "K", "colour": "#b5a642", "group": "money", "groupName": "Money", "purpose": "The Kalshi bot's edges as a night city", "path": "kalshicity/", "live": true},
   {"id": "journal", "name": "Mnemosyne", "glyph": "\u039c", "colour": "#e08a6b", "group": "trading", "groupName": "Trading", "purpose": "A 10-second trade journal: what your habits cost, in dollars", "path": "journal/", "live": true},
   {"id": "ledger", "name": "Ledger", "glyph": "L", "colour": "#c2b280", "group": "money", "groupName": "Money", "purpose": "Your real money: fees, payouts, net profit", "path": "ledger/", "live": true},

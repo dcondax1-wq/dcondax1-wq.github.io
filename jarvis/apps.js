@@ -62,7 +62,8 @@ export const ASCEND_URL = '';
 // A row whose folder is not on the site yet (its jarvis.json answers 404) never breaks anything: missing(app) is true, the
 // shell shows "not on the site yet" and does not open it.
 //   app(id, name, group, accent, sub, more?)   group: a GROUPS id; accent: its glow colour on the Jarvis screen;
-//   more: {url (default ../<id>/), icon, glyph, live (default true: its card from its jarvis.json; false: the shell draws it)}
+//   more: {url (default ../<id>/), icon, glyph, live (default true: its card from its jarvis.json; false: the shell draws it),
+//          statusUrl (default <url>jarvis.json: where its live card is read when the door opens a sub-page)}
 // The switcher shows JARVIS first, then the groups in GROUPS order, each in this list's order; apps added with + go in MORE.
 export const GROUPS = Object.freeze([
   Object.freeze({ id: 'trading', name: 'TRADING' }), Object.freeze({ id: 'life', name: 'LIFE' }),
@@ -86,7 +87,7 @@ export const BUILT_INS = Object.freeze([
   app('nemesis', 'Nemesis', 'trading', '#b55c66', 'The fallen trades: what went wrong', { glyph: '\u039d' }),
   app('chronos', 'Chronos', 'trading', '#d4a574', 'Time and the session clock', { glyph: '\u03a7' }),
   app('hephaestus', 'Hephaestus', 'trading', '#c7773f', 'The forge: tune the dials', { glyph: '\u2692' }),
-  app('cities', 'Cities', 'trading', '#b88a50', 'A world of city islands', { glyph: '\u25C8' }),
+  app('cities', 'Cities', 'trading', '#b88a50', 'The 3D city of everything: every app, every idea tested', { glyph: '\u25C8', url: '../cities/world/', statusUrl: '../cities/jarvis.json' }),
   app('kalshicity', 'Kalshi City', 'money', '#b5a642', "The Kalshi bot's edges as a night city", { glyph: 'K' }),
   app('journal', 'Mnemosyne', 'trading', '#e08a6b', 'A 10-second trade journal: what your habits cost, in dollars', { glyph: '\u039C' }),
   app('ledger', 'Ledger', 'money', '#c2b280', 'Your real money: fees, payouts, net profit', { glyph: 'L' }),
@@ -139,7 +140,7 @@ export const BUILT_INS = Object.freeze([
   app('trading', 'Trading', 'trading', '#c8a24a', 'Every trade: today, calendar, stats, payout rules', { glyph: 'T' }),
   app('board', 'Board', 'trading', '#c8a24a', 'What the bot, you and Claude know: accounts, events, notes', { glyph: '\u25a4' }),
   app('why', 'Why', 'trading', '#c8a24a', 'Why our trades win and lose, per bot, in plain $', { glyph: '?' }),
-  app('widget', 'Widget', 'money', '#c8a24a', 'Your accounts as an iPhone widget + the big Glance page', { glyph: '▣' }),
+  app('widget', 'Widget', 'money', '#c8a24a', 'Your accounts as an iPhone widget + the big Glance page', { glyph: '\u25A3' }),
   app('clio', 'Clio', 'trading', '#d8c9a8', 'The research library: every study in plain words', { glyph: '\u039a' }),
   app('atlas', 'Atlas', 'life', '#efc979', 'A fast map of every Olympus dashboard', { glyph: '\u25c8' }),
   app('athena', 'Athena', 'life', '#7f8a52', 'The library: strategy, rules, quiz', { glyph: '\ud83e\udd89' }),
@@ -378,7 +379,9 @@ function mirrorRemove(fp) {
 
 // a built-in with a live card gets its folder's jarvis.json (read against this page, like its link)
 function builtinView(b) {
-  return Object.assign({}, b, { glyph: b.glyph || firstChar(b.name), statusUrl: b.live ? defaultStatusUrl(cleanUrl(b.url)) : '', builtin: true, extra: false, removable: false });
+  // statusUrl (optional, 2026-11-20): a built-in whose door opens a sub-page reads its folder's card (Cities: cities/world/ -> cities/jarvis.json)
+  const su = b.live ? (b.statusUrl ? cleanUrl(b.statusUrl) : defaultStatusUrl(cleanUrl(b.url))) : '';
+  return Object.assign({}, b, { glyph: b.glyph || firstChar(b.name), statusUrl: su, builtin: true, extra: false, removable: false });
 }
 const warned = (v) => { if (sameSiteRisk(v.url)) v.warn = SAME_SITE_WARN; return v; };
 function slotView(s) {

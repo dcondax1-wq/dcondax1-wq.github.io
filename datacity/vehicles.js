@@ -6,7 +6,7 @@
 // Decor only: nothing here is data. The market's mood (uFlow: the VIX, slower when the futures market is closed) sets the traffic speed.
 import * as THREE from '../jarvis/three.module.min.js';
 import { FOG } from './shaders.js?v=dcgfx12';
-import { pick } from './skyline.js?v=dcgfx15';
+import { pick } from './skyline.js?v=dcgfx16';
 import { PROFILES } from './caps.js';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
 

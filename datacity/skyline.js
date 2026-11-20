@@ -204,7 +204,7 @@ export class Skyline {
   update(camera) {
     const C = this.caps, p = camera.position, lod = C.lod, near = C.mirrorNear;
     let changed = this.lodDirty;
-    const mir = [], dists = this._d || (this._d = new Float32Array(this.tiles.length));
+    const dists = this._d || (this._d = new Float32Array(this.tiles.length));
     this.tiles.forEach((rec, k) => { const t = rec.tile; dists[k] = Math.hypot(p.x - t.cx, p.y - t.hmax * 0.4, p.z - t.cz) - t.r; });
     // never more than MAX_FULL tiles in full (the nearest ones): a hard ceiling on draw calls and triangles whatever the camera does
     const order = this._o || (this._o = this.tiles.map((_, k) => k));
@@ -215,8 +215,12 @@ export class Skyline {
     // Each tile is counted at the geometry it will really draw.
     const full = new Set(), rich = this._rich || (this._rich = new Set()), capT = C.fullTris || Infinity, capR = C.richTris || Infinity;
     const triOf = (k, g) => (g.index ? g.index.count : g.attributes.position.count) / 3 * this.tiles[k].mesh.count;
+    // the reflected tiles (the wet street; a phone has one) are the same towers drawn again, so they count against the same budget: the nearest
+    // full tiles inside mirrorNear get one while it fits (night-polish 2026-11-20: the phone close-up drew 250,134 triangles against 250,000, the
+    // reflection of the nearest tile coming on top of fullTris)
+    const mirSet = this._mir || (this._mir = new Set());
     let tris = 0, richT = 0;
-    rich.clear();
+    rich.clear(); mirSet.clear();
     for (const k of order.slice(0, C.maxFull)) {
       if (!(dists[k] < lod)) continue;
       // rich 0 (LITE, a phone) means never: dist is negative with the camera inside a tile's radius, so `dist < 0` alone let the 8-sided
@@ -226,6 +230,8 @@ export class Skyline {
       if (full.size && tris + n > capT) break;
       full.add(k); tris += n;
       if (isRich) { rich.add(k); richT += nr; }
+      const nm = triOf(k, this.box);
+      if (mirSet.size < C.mirrors && near > 0 && dists[k] < near && tris + nm <= capT) { mirSet.add(k); tris += nm; }
     }
     this.fullTris = tris;
     this.tiles.forEach((rec, k) => {
@@ -237,11 +243,8 @@ export class Skyline {
       }
       rec.mesh.visible = detail && !isRich;
       rec.near.visible = isRich;
-      rec.mirror.visible = false;
-      if (detail && near > 0 && dist < near) mir.push([dist, rec]);
+      rec.mirror.visible = mirSet.has(k);
     });
-    mir.sort((a, b) => a[0] - b[0]);
-    for (let k = 0; k < Math.min(C.mirrors, mir.length); k++) mir[k][1].mirror.visible = true;
     if (this.landmarks) { this.landmarks.near.visible = this.quality === 'hq' && C.rich > 0; this.landmarks.mesh.visible = !this.landmarks.near.visible; this.landmarks.mirror.visible = near > 0 && C.mirrors >= 4; }
     if (changed && this.imp) this.impAttr.needsUpdate = true;
     this.lodDirty = false;

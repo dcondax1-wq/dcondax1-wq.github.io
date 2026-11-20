@@ -3,7 +3,7 @@
 // (a canvas, one row per district), ONE instanced draw for all boards, ONE instanced draw for the poles. Text goes in as canvas text, never HTML.
 import * as THREE from '../jarvis/three.module.min.js';
 import { FOG } from './shaders.js?v=dcgfx12';
-import { pick } from './skyline.js?v=dcgfx15';
+import { pick } from './skyline.js?v=dcgfx16';
 import { NEON } from './look-mode.js';   // the two looks of the Data City (look-mode.js): neon night (default) or AGORA marble
 
 const ROW_W = 640, ROW_H = 100;

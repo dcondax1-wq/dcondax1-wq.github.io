@@ -1,4 +1,4 @@
-{"v":1,"kinds":["app","writeup","run","rejected","event","quiz","money","kalshi","term","rule"],"counts":{"app":77,"writeup":226,"run":632,"rejected":109,"event":42,"quiz":20,"money":51,"kalshi":11,"term":46,"rule":11},"sha":"e5bf39de8e12","docs":[
+{"v":1,"kinds":["app","writeup","run","rejected","event","quiz","money","kalshi","term","rule"],"counts":{"app":77,"writeup":226,"run":632,"rejected":109,"event":42,"quiz":20,"money":51,"kalshi":11,"term":46,"rule":11},"sha":"dc836e5b7c61","docs":[
 [0,"Zenith","NQ bots · Zlarior · ATLAS. ZEUS Trading district, Trading","zenith","","the apps list + OLYMPUS_MAP.md"],
 [0,"Oracle","The market radar, live. ZEUS Trading district, Trading","oracle","","the apps list + OLYMPUS_MAP.md"],
 [0,"Odeon","Every trade, replayed in 3D. ZEUS Trading district, Trading","odeon","","the apps list + OLYMPUS_MAP.md"],
@@ -15,7 +15,7 @@
 [0,"Nemesis","The fallen trades: what went wrong. ZEUS Trading district, Trading","nemesis","","the apps list + OLYMPUS_MAP.md"],
 [0,"Chronos","Time and the session clock. ZEUS Trading district, Trading","chronos","","the apps list + OLYMPUS_MAP.md"],
 [0,"Hephaestus","The forge: tune the dials. More district, Trading","hephaestus","","the apps list + OLYMPUS_MAP.md"],
-[0,"Cities","A world of city islands. More district, Trading","cities","","the apps list + OLYMPUS_MAP.md"],
+[0,"Cities","The 3D city of everything: every app, every idea tested. More district, Trading","cities","","the apps list + OLYMPUS_MAP.md"],
 [0,"Kalshi City","The Kalshi bot's edges as a night city. Kalshi district, Money","kalshicity","","the apps list + OLYMPUS_MAP.md"],
 [0,"Mnemosyne","A 10-second trade journal: what your habits cost, in dollars. ZEUS Trading district, Trading","journal","","the apps list + OLYMPUS_MAP.md"],
 [0,"Ledger","Your real money: fees, payouts, net profit. Money district, Money","ledger","","the apps list + OLYMPUS_MAP.md"],
@@ -68,7 +68,7 @@
 [0,"Trading","Every trade: today, calendar, stats, payout rules. ZEUS Trading district, Trading","trading","","the apps list + OLYMPUS_MAP.md"],
 [0,"Board","What the bot, you and Claude know: accounts, events, notes. ZEUS Trading district, Trading","board","","the apps list + OLYMPUS_MAP.md"],
 [0,"Why","Why our trades win and lose, per bot, in plain $. ZEUS Trading district, Trading","why","","the apps list + OLYMPUS_MAP.md"],
-[0,"Widget","Your accounts as an iPhone widget + the big Glance page, Money","widget","","the apps list"],
+[0,"Widget","Your accounts as an iPhone widget + the big Glance page. Money district, Money","widget","","the apps list + OLYMPUS_MAP.md"],
 [0,"Clio","The research library: every study in plain words. More district, Trading","clio","","the apps list + OLYMPUS_MAP.md"],
 [0,"Atlas","A fast map of every Olympus dashboard. More district, Life","atlas","","the apps list + OLYMPUS_MAP.md"],
 [0,"Athena","The library: strategy, rules, quiz. More district, Life","athena","","the apps list + OLYMPUS_MAP.md"],
