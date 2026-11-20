@@ -20,6 +20,7 @@ export const sheet = {
     $('#sheetTitle').textContent = title;
     if (build) { body.replaceChildren(); build(body); body.scrollTop = 0; }
     s.dataset.view = name;
+    if (name !== 'now') s.classList.remove('peek');   // olympus2: only the first Market-now peek is small
     s.classList.add('on');
     view = name;
     document.querySelectorAll('#dock [data-tab]').forEach((b) => b.classList.toggle('on', b.dataset.tab === name));

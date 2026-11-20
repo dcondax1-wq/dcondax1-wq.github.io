@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 12:45 ET",
+ "built": "2026-11-20 12:52 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -147,14 +147,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Test pins follow the olympus.js tag bump",
+   "Lead QA: Home trade window - nq/ (Kairos retired), gate g18; Data City: the first Market-now sheet...",
    "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)",
    "Launcher + doors: the 28 retired apps shown nowhere (same list as the catalog, URLs still open),...",
    "DESIGN phone QA: body.oly-has-ask pads main/#app clear of the Ask Jarvis button and hides it while...",
    "Jarvis report: the switcher section",
    "Switcher after2 shots (Archive group last)",
-   "Archive strip reads the age 1.5 s after load from the browser's cached copy (force-cache: no...",
-   "What's new: your order + clutter gone, Data City drag, offline apps, faster pages",
-   "apps_list: Kalshi City lives inside Cities, the brain is one tap into Zenith (door trims)"
+   "Archive strip reads the age 1.5 s after load from the browser's cached copy (force-cache: no..."
   ]
  },
  "next": {

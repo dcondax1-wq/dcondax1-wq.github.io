@@ -80,6 +80,7 @@
 
   // ---------------------------------------------------------------------------------------------- the look (self-contained; the kit may restyle)
   const CSS = `
+body.oly-has-ask{padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))}
 .oly-ask-btn{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:2147483000;width:44px;height:44px;border-radius:50%;
  border:1px solid var(--oly-ask-accent,#c8a24a);background:var(--oly-ask-bg,rgba(20,16,10,.88));color:var(--oly-ask-accent,#dcbd6e);display:grid;place-items:center;padding:0;cursor:pointer;
  box-shadow:0 4px 14px rgba(0,0,0,.45);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -111,6 +112,7 @@
     btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>';
     btn.addEventListener('click', () => open());
     (o.host || document.body).appendChild(btn);
+    if (!o.host) document.body.classList.add('oly-has-ask');   // QA 2026-11-20: the page's last lines scroll clear of the button
     return btn;
   }
   function close() {

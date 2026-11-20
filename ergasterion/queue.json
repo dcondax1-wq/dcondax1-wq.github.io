@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795196760,
+   "t": 1795197120,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4386,6 +4386,22 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795197121,
+    "s": "Test pins follow the olympus.js tag bump"
+   },
+   {
+    "t": 1795197048,
+    "s": "Land Cities' last fixes (Home trade window - NQ, Data City market sheet opens as a peek + rebuilds on a resto…"
+   },
+   {
+    "t": 1795196788,
+    "s": "test_gate_page: the trade window opens NQ (Kairos retired); 90/90"
+   },
+   {
+    "t": 1795196748,
+    "s": "Lead QA: Home trade window - nq/ (Kairos retired), gate g18; Data City: the first Market-now sheet opens as a…"
+   },
    {
     "t": 1795196639,
     "s": "Landing: launcher test counts visible (non-retired) tiles, World rebuilt (455 places)"
@@ -4469,22 +4485,6 @@
    {
     "t": 1795195394,
     "s": "Merge remote-tracking branch 'olympus/day-arenas' into oly2-pre2"
-   },
-   {
-    "t": 1795195378,
-    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into oly2-pre2"
-   },
-   {
-    "t": 1795195378,
-    "s": "Merge remote-tracking branch 'olympus/day-quality' into oly2-pre2"
-   },
-   {
-    "t": 1795195378,
-    "s": "Merge remote-tracking branch 'olympus/day-archive' into oly2-pre2"
-   },
-   {
-    "t": 1795195378,
-    "s": "Merge remote-tracking branch 'olympus/day-manual' into oly2-pre2"
    }
   ],
   "branches": [

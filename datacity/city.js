@@ -646,6 +646,12 @@ class App {
     requestAnimationFrame(frame);
     this.route();
     if (!location.hash && !P.has('nonow')) this.showView('now');           // first open: the money question first (?nonow=1 skips it)
+    // olympus2 (lead QA: "the sheet covers 2/3 of the screen"): the first, automatic open is a small peek over the city; a tap or a scroll in it
+    // opens it fully, any other view opens normally
+    if (!location.hash && !P.has('nonow') && innerWidth < 700) {
+      const sh = document.getElementById('sheet');
+      if (sh) { sh.classList.add('peek'); const full = () => sh.classList.remove('peek'); sh.addEventListener('pointerdown', full, { once: true }); sh.addEventListener('wheel', full, { once: true, passive: true }); }
+    }
     this.checkGold();
   }
 }
@@ -713,6 +719,8 @@ function watchContextLoss(canvas, app, fallback) {
     event.preventDefault();
     failCity(app, fallback, new Error('WebGL context lost'));
   });
+  // olympus2 (iOS drops the GPU context under memory pressure, e.g. a long drag): when Safari gives it back, the whole city is built again
+  canvas.addEventListener('webglcontextrestored', () => { try { location.reload(); } catch (e) { /* the readable view stays */ } });
 }
 
 /** A usable, read-only data view when WebGL or the render core cannot start. */

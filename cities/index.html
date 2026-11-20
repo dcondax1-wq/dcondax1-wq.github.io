@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/quiet-net.js?v=q9"></script>
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o16" data-app="cities"></script>
+<script src="../olympus/olympus.js?v=o17" data-app="cities"></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/gate-nav.js?v=g7" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i11" defer></script>
@@ -106,6 +106,11 @@ html[data-oly-scheme=light] .city-places a{background:linear-gradient(180deg,rgb
 html[data-oly-scheme=light] .city-places small{color:#6b5d48} html[data-oly-scheme=light] .city-places b{color:#5a4210}
 body:not([data-mode=hub]) .city-places,body[data-ready=false] .city-places,.hellas-open .city-places,.athens-open .city-places{display:none}
 .world-fab{bottom:calc(var(--sb) + 248px)}
+:root{--map-bottom:330px}   /* olympus2: the islands fit above the World card + the city chips (agoramap.js reads it) */
+/* olympus2 (lead QA: the header tabs looked cut under the Cities button): the strip scrolls with a fade at its edge, snapping to whole tabs */
+.network-strip{scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:18px}
+.network-strip button{scroll-snap-align:start}
+@media(max-width:600px){.network-bar .network-strip button{font-size:13px;padding:0 10px}}
 @media (prefers-reduced-motion:reduce){.world-fab:active{transform:translateX(-50%)}.world-fab::after{animation:none;display:none}}
 /* olympus2: the World's entry card in a light look (Ivory and the other light themes): warm paper glass, dark ink, the same photo */
 html[data-oly-scheme=light] .world-fab{background:linear-gradient(180deg,rgba(255,252,244,.94),rgba(246,238,222,.92));border-color:rgba(138,106,31,.38);box-shadow:0 10px 28px rgba(60,40,10,.18),0 0 0 1px rgba(255,255,255,.6) inset}
@@ -339,7 +344,7 @@ async function recover() {
 }
 // Module import settles before its asynchronous boot does. Watch readiness itself.
 setTimeout(recover, 18000);
-import('./app.js?v=o27').catch(recover);
+import('./app.js?v=o28').catch(recover);
 </script>
 <script type="module" src="./athens-entry.js?v=t5"></script>
 <script type="module" src="./hellas-entry.js?v=h1"></script>

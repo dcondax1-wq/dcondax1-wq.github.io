@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a8">
 <script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o16" data-app="datacity"></script>
+<script src="../olympus/olympus.js?v=o17" data-app="datacity"></script>
 <script src="frame-safe.js?v=1" defer></script><!-- cities3: the parent's bottom safe area when framed in Jarvis (the dock off the home bar) -->
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
@@ -68,6 +68,7 @@ max-height:calc(100% - var(--sheet-bottom) - var(--top-h) - 26px - var(--st) - v
 background:var(--panel);border:1px solid var(--line);border-radius:var(--oly-r-card,16px);padding:0 14px 12px;backdrop-filter:blur(14px);
 -webkit-backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
 .sheet.on{display:block;animation:rise .2s ease-out}
+.sheet.on.peek{max-height:min(30vh,240px);overflow:hidden;-webkit-mask-image:linear-gradient(#000 calc(100% - 36px),transparent)}   /* olympus2: the first Market-now peek: a tap opens it */
 .sheet[data-view=now],.sheet[data-view=district],.sheet[data-view=today],.sheet[data-view=watch],.sheet[data-view=find],.sheet[data-view=districts]{max-height:min(calc(100% - var(--sheet-bottom) - var(--top-h) - 26px - var(--st) - var(--sb)),44vh)}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .sheet header{position:sticky;top:0;display:flex;align-items:center;gap:8px;padding:10px 0 6px;background:linear-gradient(var(--panel) 80%,transparent);z-index:1}
@@ -260,7 +261,7 @@ if(l==='neon'){var m=document.querySelector('meta[name=theme-color]');if(m)m.set
 </nav>
 <div class="caption" id="caption" aria-live="polite"></div>
 <div class="toast" id="toast" role="status"></div>
-<script type="module" src="./city.js?v=dcgfx15"></script>
+<script type="module" src="./city.js?v=dcgfx16"></script>
 <script type="module" src="glossary.js"></script>
 </body>
 </html>

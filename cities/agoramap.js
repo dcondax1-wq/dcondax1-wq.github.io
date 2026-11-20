@@ -212,7 +212,9 @@ export class AgoraMap {
     this.dirty = true;
   }
   _fit() {
-    const top = this.hz + 22, bot = this.H - 138, ww = WORLD.x1 - WORLD.x0, wh = WORLD.y1 - WORLD.y0;
+    // olympus2: the page says how much of the bottom its own panels take (--map-bottom: the World card + the city chips), so the islands and their labels fit above them
+    let padB = 138; try { const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--map-bottom')); if (v > 0) padB = Math.min(this.H * 0.5, v); } catch (e) { /* the default band */ }
+    const top = this.hz + 22, bot = this.H - padB, ww = WORLD.x1 - WORLD.x0, wh = WORLD.y1 - WORLD.y0;
     this.areaMid = (top + bot) / 2;
     this.fit = Math.min((this.W - 18) / ww, (bot - top) / wh);
   }
