@@ -72,6 +72,17 @@ export function chartOpen(chart, pick, nowS) {
 }
 
 // ------------------------------------------------------------------------------------------------ 1. the accounts strip
+// MFFU's own view of a SIM-FUNDED account (owner 2026-11-20: "our current balance for the funded account sims start at 0"): the balance is the
+// profit since it was funded (ATLAS $401, not $25,401), the floor in the same terms (-$1,000 end-of-day trailing, stops at +$100). PC_FEED.mffuView
+// (pc_feed.js: the one place for every page) when the page has it; the same arithmetic here otherwise (node tests).
+function mffuOf(bal, room, mll, p) {
+  if (bal === null) return null;
+  const F = typeof globalThis !== 'undefined' && globalThis.PC_FEED && typeof globalThis.PC_FEED.mffuView === 'function' ? globalThis.PC_FEED : null;
+  const size = (mll || 0) >= 2000 || /50k/i.test(String((p && (p.plan || p.name)) || '')) ? '50K' : '25K', start = size === '50K' ? 50000 : 25000;
+  if (F) { const v = F.mffuView({ kind: 'funded', size, balance: bal, start, room }); if (v && v.funded) return { balance: v.balance, floor: v.floor }; }
+  const b = Math.round((bal > start / 2 ? bal - start : bal) * 100) / 100;
+  return { balance: b, floor: room !== null ? Math.min(Math.round((b - room) * 100) / 100, 100) : -(mll || 1000) };
+}
 const PLAN = { zlarior: ['mffu50k_eval', 'lit'], fresh25: ['b25k_2'], atlas: ['atlas', 'acct_b'], rapid1: ['rapid'] };
 const SHORT = { zlarior: 'Zlarior 50K', fresh25: 'Zlarior 25K #2', atlas: 'ATLAS 25K', rapid1: 'Rapid EOD 25K' };
 const BOARD_OF = { zlarior: 'lit', atlas: 'atlas' };
@@ -91,13 +102,14 @@ export function accounts(home, biz, nowS, chart) {
     const today = num(ev.today) ?? num(acc && isObj(acc.pnl) && acc.pnl.today) ?? num(card && card.today_pnl);
     const goal = funded ? (num(card && card.to_target) ?? num(ev.to_target)) : (num(ev.to_target) ?? num(card && card.to_target));
     const has = bal !== null;
+    const mv = funded ? mffuOf(bal, room, mll, p) : null;   // MFFU's own terms (owner 2026-11-20): a sim-funded account shows its profit as the balance
     if (acc) used.add(acc.id);
     const connT = num(acc && isObj(acc.conn) && acc.conn.t);
     const age = has ? Math.max(connT ? nowS - connT : 0, fa.report ?? 0, 0) : null;     // an old report makes every number in it old
     const planned = !has && /buying|planned|plan/i.test(String(p.status || '') + (p.stage || ''));
     out.push({
       key: p.key, name: SHORT[p.key] || p.name || p.key, plan: p.plan || '', stage: funded ? 'Funded' : 'Eval',
-      has, balance: bal, room, mll, roomFrac: room !== null && mll ? Math.max(0, Math.min(1, room / mll)) : null, today,
+      has, balance: mv ? mv.balance : bal, room, mll, floor: mv ? mv.floor : null, mffu: !!mv, roomFrac: room !== null && mll ? Math.max(0, Math.min(1, room / mll)) : null, today,
       goalLabel: funded ? 'To payout' : 'To pass', goal, goalText: goal === null ? (funded && card && card.payout_text ? 'see payout line' : '-') : goal <= 0 ? (funded ? 'Payout ready' : 'Target reached') : money(goal),
       payoutText: funded && card && card.payout_text ? String(card.payout_text) : '',
       dot: has ? dotOf(age) : planned ? 'plan' : 'off', ageText: has ? updated(age) : planned ? 'plan only: no PC numbers yet' : 'no PC numbers', ageS: age,
@@ -292,6 +304,7 @@ function drawAccounts(box, list) {
     top.appendChild(d); top.appendChild(n); top.appendChild(el('span', 'dk-stage', a.stage)); c.appendChild(top);
     if (!a.has) { c.appendChild(el('p', 'dk-none', a.ageText)); box.appendChild(c); continue; }
     c.appendChild(el('p', 'dk-bal ag-num', money(a.balance)));
+    if (a.mffu) c.appendChild(el('p', 'dk-mffu', `MFFU view: profit since funded · floor ${money(a.floor)}`));
     const kv = el('dl', 'dk-kv');
     const add = (k, v, cls) => { kv.appendChild(el('dt', '', k)); kv.appendChild(el('dd', 'ag-num ' + (cls || ''), v)); };
     add('Today', money(a.today, true), a.today > 0.5 ? 'pos' : a.today < -0.5 ? 'neg' : '');

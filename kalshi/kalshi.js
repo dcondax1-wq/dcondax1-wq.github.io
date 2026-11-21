@@ -1619,13 +1619,92 @@
     }).join('') : '';
     const pn = arr(k.pn), led = k.m === 'L' ? 'Live' : 'Paper';
     const pl = num(pn[0]) == null ? `${led} $: no settled bets yet` : `${led} $: today ${usd(num(pn[0]), true)} · this week ${usd(num(pn[1]), true)} · since the start ${usd(num(pn[2]), true)}`;
+    K8T.pn = num(pn[0]) == null ? null : [num(pn[0]), num(pn[1]), num(pn[2])];
+    K8T.legs = R ? R.rows.filter((r) => r.L.live).map((r) => { const b = R.today ? lg.filter((x) => x[0] === r.L.c && x[1] === day).pop() : null; return { c: r.L.c, n: r.L.n, s: r.skip ? 'sk' : b ? (b[5] === 'W' ? 'w' : b[5] === 'L' ? 'l' : 'o') : 'p', usd: b ? num(b[4]) : null, day }; }) : [];
     const key = rows + '|' + pl + '|' + (R ? R.D.iso : '');
     if (key !== K8T.key) {
       K8T.key = key;
       ul.innerHTML = rows ? `<li class="hd">${R && R.today ? 'Today' : esc((R ? R.D.wd + ' ' + R.D.md : ''))}, New York time</li>${rows}` : '';
       const p = $('#k8top-pnl'); if (p) p.textContent = pl;
+      try { k8FxNews(); } catch (_) { /* effects never stop the card */ }
     }
     const g = $('#k8top-gon'), gn = $('#kgo-n'); if (g && gn && g.textContent !== gn.textContent) g.textContent = gn.textContent;
+  }
+  // ---- K8 FX (Olympus 2 FX): the orb hero, the $ roll-up, a win spark / a calm loss toast. Loaded after load + idle; reduced motion = still.
+  const FXK = { on: false, nq: null, raf: 0, t0: 0, seen: null, vis: true, pn: null };
+  const fxStill = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) { return false; } };
+  const FXC = { w: '#77db89', l: '#ef4444', o: '#dacbf0', p: '#9d59ee', sk: '#6b6478' };   // OLYMPUS NIGHT
+  function k8FxDraw(t) {
+    const cv = $('#k8fx-c'), host = $('#k8fx');
+    if (!cv || !host) return;
+    const W = host.clientWidth, H = host.clientHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+    const g = cv.getContext('2d');
+    if (!g) return;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2 + 4, rx = Math.min(W * 0.36, 150), ry = H * 0.26, legs = (K8T.legs && K8T.legs.length ? K8T.legs : [{ s: 'p' }, { s: 'p' }, { s: 'p' }]);
+    // the orbit ring (a tilted ellipse) + a faint grid floor
+    g.strokeStyle = 'rgba(157,89,238,.30)'; g.lineWidth = 1; g.beginPath(); g.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); g.stroke();
+    g.strokeStyle = 'rgba(218,203,240,.12)'; g.beginPath(); g.ellipse(cx, cy, rx * 0.62, ry * 0.62, 0, 0, Math.PI * 2); g.stroke();
+    // sparks drifting up (seeded, so a still frame is the same each time)
+    for (let i = 0; i < 26; i++) {
+      const a = (i * 137.5) % 360, x = cx + Math.cos(a) * rx * (0.3 + (i % 7) / 9), life = ((t / 4200) + i / 26) % 1, y = cy + ry - life * H * 0.9;
+      g.fillStyle = `rgba(${i % 5 === 0 ? '241,193,75' : i % 3 ? '157,89,238' : '218,203,240'},${(0.5 * (1 - life)).toFixed(3)})`; g.beginPath(); g.arc(x, y, 1.2 + (i % 3) * 0.4, 0, Math.PI * 2); g.fill();
+    }
+    // the 3 orbs on the orbit, depth-sorted, bigger + brighter in front
+    const orbs = legs.map((L, i) => { const a = t / 5200 + i * (Math.PI * 2 / legs.length); return { L, x: cx + Math.cos(a) * rx, y: cy + Math.sin(a) * ry, z: Math.sin(a) }; }).sort((u, v) => u.z - v.z);
+    for (const o of orbs) {
+      const col = FXC[o.L.s] || FXC.p, r = 9 + (o.z + 1) * 5, gr = g.createRadialGradient(o.x - r * 0.35, o.y - r * 0.35, r * 0.1, o.x, o.y, r * 2.6);
+      gr.addColorStop(0, '#ffffff'); gr.addColorStop(0.18, col); gr.addColorStop(0.42, col + '55'); gr.addColorStop(1, col + '00');
+      g.globalAlpha = 0.55 + (o.z + 1) * 0.22; g.fillStyle = gr; g.beginPath(); g.arc(o.x, o.y, r * 2.6, 0, Math.PI * 2); g.fill(); g.globalAlpha = 1;
+    }
+  }
+  function k8FxLoop(now) {
+    if (!FXK.on) return;
+    if (FXK.vis && !document.hidden) k8FxDraw(now - FXK.t0);
+    FXK.raf = requestAnimationFrame(k8FxLoop);
+  }
+  function k8FxStart() {
+    if (FXK.on || !$('#k8fx-c')) return;
+    FXK.on = true; FXK.t0 = performance.now();
+    if (fxStill()) { FXK.on = false; k8FxDraw(1800); return; }
+    try { new IntersectionObserver((es) => { FXK.vis = es.some((e) => e.isIntersecting); }).observe($('#k8fx')); } catch (_) { FXK.vis = true; }
+    FXK.raf = requestAnimationFrame(k8FxLoop);
+    // the kit (rolls, bursts): after the hero, never on the first paint
+    if (!window.OLYMPUS_NQFX) { const sc = document.createElement('script'); sc.src = '../olympus/nqfx.js?v=n5'; sc.async = true; sc.onload = () => { k8FxKit(); }; document.head.appendChild(sc); } else k8FxKit();
+  }
+  async function k8FxKit() {
+    try { FXK.nq = await window.OLYMPUS_NQFX.ready() ? window.OLYMPUS_NQFX : null; } catch (_) { FXK.nq = null; }
+    if (FXK.nq) { try { FXK.nq.theme({ base: '#000000', cyan: '#9d59ee', cyanHi: '#dacbf0', blue: '#4d2e76', violet: '#9d59ee', win: '#77db89', loss: '#ef4444' }); } catch (_) { /* default look */ } }
+    k8FxNews();
+  }
+  function k8FxNews() {                            // a still frame for reduced motion; the $ roll-up; a spark for a new win, a calm toast for a new loss
+    if (fxStill()) { if ($('#k8fx-c')) k8FxDraw(1800); return; }
+    const NQ = FXK.nq, pn = K8T.pn, p = $('#k8top-pnl');
+    if (NQ && pn && p && JSON.stringify(pn) !== JSON.stringify(FXK.pn)) {
+      const from = FXK.pn;
+      FXK.pn = pn;
+      try { NQ.roll(p, { to: pn[2], from: from ? from[2] : 0, duration: 1.1 }); } catch (_) { /* the text stays right */ }
+      const fix = () => { const k = K8D.k || {}, led = k.m === 'L' ? 'Live' : 'Paper'; p.textContent = `${led} $: today ${usd(pn[0], true)} · this week ${usd(pn[1], true)} · since the start ${usd(pn[2], true)}`; };
+      setTimeout(fix, 1300);
+    }
+    if (!NQ || !K8T.legs) return;
+    let seen = FXK.seen;
+    if (!seen) { try { seen = JSON.parse(sessionStorage.getItem('kalshi.fx.seen') || '{}'); } catch (_) { seen = {}; } FXK.seen = seen; }
+    for (const L of K8T.legs) {
+      const id = L.c + '@' + L.day;
+      if ((L.s === 'w' || L.s === 'l') && !seen[id]) {
+        seen[id] = 1;
+        const row = document.querySelector(`#k8top-legs li[data-leg="${L.c}"]`) || $('#k8top');
+        try { if (L.s === 'w') NQ.win(row, { usd: L.usd || 0, bigAt: 999, text: L.n + ' won' }); else NQ.loss(row, { usd: L.usd || 0, text: L.n + ' lost' }); } catch (_) { /* no burst */ }
+      }
+    }
+    try { sessionStorage.setItem('kalshi.fx.seen', JSON.stringify(seen)); } catch (_) { /* private mode */ }
+  }
+  function k8FxBoot() {
+    const go = () => { if ('requestIdleCallback' in window) requestIdleCallback(k8FxStart, { timeout: 2500 }); else setTimeout(k8FxStart, 600); };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
   }
   function k8Tick() {
     const now = Date.now();
@@ -2584,6 +2663,8 @@
   rewardsLoad();
   k1Load();
   k8Show(null);                                       // the K8 status card: the next-window countdown from the first paint
+  try { k8FxBoot(); } catch (_) { /* no effects, the page stays */ }
+  window.KALSHI_FX = FXK;                             // the test hook of the effects (on, nq)
   k8Load();                                           // + the K8 day dashboard's k8.json (Kalshi's public results), again every 15 min
   setInterval(k8Load, 15 * 60e3);
   offline();

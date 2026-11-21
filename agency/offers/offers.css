@@ -33,8 +33,9 @@ main#app .pkg.picked, .pkg.picked { border-color: var(--ag-gold); box-shadow: in
 .goalbar > i { position: absolute; inset: 0 auto 0 0; width: var(--p, 0%); border-radius: 6px; background: linear-gradient(90deg, var(--ag-bronze), var(--ag-gold)); }
 .goalbar > b { position: absolute; top: 16px; transform: translateX(-100%); font: 600 .8125rem var(--ag-sans); color: var(--ag-muted); }
 .goalbar > b[data-g="1000"] { left: 20%; } .goalbar > b[data-g="3000"] { left: 60%; } .goalbar > b[data-g="5000"] { left: 100%; }
-.ag-tabs { position: sticky; top: calc(var(--st) + 4px); z-index: 5; background: var(--ag-night); margin: 0 -4px; padding: 6px 4px; }
+.ag-tabs { position: sticky; top: calc(var(--st) + 48px);   /* under the kit's compact app bar */ z-index: 5; background: var(--ag-night); margin: 0 -4px; padding: 6px 4px; }
 .ag-tabs .ag-tab { flex: 1 0 auto; padding: 0 12px; }
+main#app > .ag-tabs { background: var(--ag-night, #000) !important; -webkit-backdrop-filter: none; backdrop-filter: none; }   /* opaque: no card text showing through while it sticks */
 .panel { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
 .ag-btn { min-height: 44px; } .ag-btn.sm { min-height: 44px; padding: 0 12px; font-size: var(--ag-fs-body, .9375rem); }
 main#app .ag-btn.primary, .ag-btn.primary { background: linear-gradient(180deg, var(--ag-gold-hi), var(--ag-gold)); color: var(--ag-on-gold); border-color: var(--ag-line-gold); }

@@ -1,0 +1,83 @@
+/* OLYMPUS dashboard FX (tools/web_public/olympus/dashfx.css + dashfx.js, day-arenas 2026-11-20; research/handoff/2026-11-20/fx/DASHFX_API.md).
+   Load this in <head> (before first paint) so every reserved size is there from the first frame; dashfx.js does the moving parts.
+   The palette is "OLYMPUS NIGHT" (owner 2026-11-20): black base, near-black violet cards, deep violet outlines, violet glows, small bright gold
+   accents (never gold / brown card backgrounds), mint for profit, red for loss. Every value is a --dfx-* variable at zero specificity: a page
+   (or OLYMPUS_DASHFX.theme()) overrides any of them. Reduced motion: nothing moves, every final state shows. */
+:where(:root) {
+  --dfx-base: #000000;
+  --dfx-card-a: #16131e;
+  --dfx-card-b: #020204;
+  --dfx-warm: #231d16;
+  --dfx-line: #3e255e;
+  --dfx-line-2: #462a6a;
+  --dfx-line-3: #4d2e76;
+  --dfx-glow: #9d59ee;
+  --dfx-hi: #dacbf0;
+  --dfx-dim: #483081;
+  --dfx-gold: #f1c14b;
+  --dfx-gold-text: #ebbf4f;
+  --dfx-gold-muted: #ac8a36;
+  --dfx-good: #77db89;
+  --dfx-good-line: #557b61;
+  --dfx-bad: #ef4444;
+  --dfx-text: #ebe9f1;
+  --dfx-muted: #898497;
+  --dfx-radius: 18px;
+  --dfx-bar-h: 8px;
+}
+
+/* ---------------------------------------------------------------- glass: a near-black violet card with a slow travelling edge light */
+@property --dfx-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+[data-dfx~="glass"] {
+  position: relative; isolation: isolate;
+  background:
+    radial-gradient(120% 55% at 50% -12%, color-mix(in srgb, var(--dfx-warm) 75%, transparent), transparent 62%),
+    linear-gradient(180deg, var(--dfx-card-a), var(--dfx-card-b));
+  border: 1px solid var(--dfx-line);
+  border-radius: var(--dfx-radius);
+  color: var(--dfx-text);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dfx-line-3) 25%, transparent) inset, 0 10px 30px -14px color-mix(in srgb, var(--dfx-glow) 45%, transparent);
+}
+[data-dfx~="glass"]::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 0;
+  background: conic-gradient(from var(--dfx-a), transparent 0 56%, color-mix(in srgb, var(--dfx-glow) 85%, transparent) 70%,
+    var(--dfx-gold) 75%, color-mix(in srgb, var(--dfx-glow) 85%, transparent) 80%, transparent 94%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude;
+  opacity: .75; animation: dfx-edge 11s linear infinite;
+}
+[data-dfx~="glass"].dfx-idle::before { animation-play-state: paused; }
+@keyframes dfx-edge { to { --dfx-a: 360deg; } }
+
+/* ---------------------------------------------------------------- tilt: transform only (never layout); dashfx.js sets --dfx-rx / --dfx-ry */
+[data-dfx~="tilt"] { transform: perspective(900px) rotateX(var(--dfx-rx, 0deg)) rotateY(var(--dfx-ry, 0deg)); transform-style: preserve-3d; will-change: transform; }
+[data-dfx~="tilt"].dfx-tilt-ease { transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+
+/* ---------------------------------------------------------------- reveal: only elements below the fold at wire time get .dfx-pre (translate + opacity, no size change) */
+[data-dfx~="reveal"].dfx-pre { opacity: 0; translate: 0 14px; }
+[data-dfx~="reveal"].dfx-in { opacity: 1; translate: 0 0; transition: opacity .6s ease, translate .6s cubic-bezier(.2, .8, .2, 1); }
+
+/* ---------------------------------------------------------------- roll: tabular digits, the box keeps its final width while it counts */
+[data-dfx~="roll"] { font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------- bar: a fixed-height track from the first frame, the fill scales (no reflow) */
+[data-dfx~="bar"] { position: relative; display: block; height: var(--dfx-bar-h); border-radius: 999px; overflow: hidden;
+  background: color-mix(in srgb, var(--dfx-dim) 38%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--dfx-line) 70%, transparent) inset; }
+[data-dfx~="bar"] > .dfx-bar-fill { position: absolute; inset: 0; border-radius: inherit; transform-origin: 0 50%; transform: scaleX(var(--dfx-v, 0));
+  background: linear-gradient(90deg, var(--dfx-dim), var(--dfx-glow) 65%, var(--dfx-hi));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--dfx-glow) 70%, transparent); }
+[data-dfx~="bar"].dfx-full > .dfx-bar-fill { background: linear-gradient(90deg, var(--dfx-glow), var(--dfx-gold)); box-shadow: 0 0 14px color-mix(in srgb, var(--dfx-gold) 60%, transparent); }
+[data-dfx~="bar"].dfx-anim > .dfx-bar-fill { transition: transform 1s cubic-bezier(.2, .8, .2, 1); }
+
+/* ---------------------------------------------------------------- bg: the aurora / particle canvas behind the content */
+canvas.dfx-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+canvas.dfx-bg.dfx-in-box { position: absolute; width: 100%; height: 100%; }
+canvas.dfx-bg-aurora { filter: blur(6px); }
+.dfx-bg-host { position: relative; isolation: isolate; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-dfx~="glass"]::before { animation: none; }
+  [data-dfx~="tilt"] { transform: none; }
+  [data-dfx~="reveal"].dfx-pre { opacity: 1; translate: none; }
+  [data-dfx~="reveal"].dfx-in, [data-dfx~="bar"].dfx-anim > .dfx-bar-fill { transition: none; }
+}

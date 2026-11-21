@@ -184,7 +184,7 @@ html.framed #vault { top: 72px; }
 #app .snapt { padding: 12px 14px; border-radius: 14px; background: var(--ag-s2, #221d17); border-color: rgba(var(--oly-th-n37-rgb, 243, 236, 224), .06); }
 #app .foot { text-align: center; font-size: var(--ag-fs-cap, 12px); color: var(--ag-muted, #a89c88); }
 .fab { border: 1px solid var(--oly-th-a11, #e2c47a); background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), var(--g-gold)); color: var(--ag-on-gold, #1b1610); font: 500 34px/1 var(--ag-sans, -apple-system, sans-serif);
-  box-shadow: 0 1px 0 rgba(255, 246, 220, .4) inset, 0 2px 4px rgba(0, 0, 0, .4), 0 10px 24px rgba(0, 0, 0, .4); transition: scale var(--ag-d1, 200ms) var(--ag-ease, ease-out); }
+  box-shadow: 0 1px 0 rgba(var(--oly-th-n37-rgb, 255, 246, 220), .4) inset, 0 2px 4px rgba(0, 0, 0, .4), 0 10px 24px rgba(0, 0, 0, .4); transition: scale var(--ag-d1, 200ms) var(--ag-ease, ease-out); }
 .toast { border-radius: 16px; background: linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1e1914)); border: 1px solid rgba(var(--g-gold-rgb), .3); box-shadow: var(--ag-e3); }
 .sheet { background: linear-gradient(180deg, var(--oly-th-n6, #2c251c), var(--oly-th-n4, #1e1914) 40%); border-color: rgba(var(--g-gold-rgb), .28); box-shadow: var(--ag-e3); }
 .sheet h2 { font: 600 var(--ag-fs-h3, 18px)/1.25 var(--ag-serif, Georgia, serif); color: var(--ag-text, #f3ece0); }

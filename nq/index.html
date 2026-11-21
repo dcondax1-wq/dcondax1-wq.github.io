@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NQ</title>
 <meta name="description" content="OLYMPUS NQ: the NQ bots, right now. Zlarior (LIT 50K), ATLAS 25K and BLITZ 25K: status with the exact age of the last report, drawdown left, today's P&L in $ with R, eval progress, the last 10 trades and the rule that closed each, and how to bring reporting back.">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NQ">
@@ -32,25 +32,25 @@
       if (topic && /^https:\/\/[A-Za-z0-9.-]+(:\d+)?$/.test(base)) { var u = base + '/' + encodeURIComponent(topic) + '/json?poll=1&since=latest'; X[u] = get(u, 'text', 'no-store'); } } catch (e) { /* the chart asks itself */ }
     return t; }); })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
-<script src="../olympus/themes.js?v=o9"></script>
-<script src="../pc_feed.js?v=n6"></script><script src="../business/payoutcoach.js?v=2"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o20" data-app="nq"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<script src="../olympus/themes.js?v=o10"></script>
+<script src="../pc_feed.js?v=n7"></script><script src="../business/payoutcoach.js?v=2"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
+<script src="../olympus/olympus.js?v=o22" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=6" defer></script>
-<script src="../olympus/gate-nav.js?v=g8" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
-<script src="../olympus/sfx.js?v=s4" defer></script>
-<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#22d3ee'); r.setProperty('--oly-accent-rgb', '34, 211, 238'); })();</script>
-<link rel="stylesheet" href="nq.css?v=a4r">
-<link rel="stylesheet" href="../nqdeep.css?v=2">
-<link rel="stylesheet" href="nqdesk.css?v=8">
-<link rel="stylesheet" href="nqgoals.css?v=6">
-<link rel="stylesheet" href="nqtheme.css?v=3"><!-- owner 2026-11-20: navy + cyan/blue/violet, no gold (loaded last) -->
+<script src="../olympus/agora-ui.js?v=7" defer></script>
+<script src="../olympus/gate-nav.js?v=g9" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#f1c14b'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
+<link rel="stylesheet" href="nq.css?v=a8">
+<link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
+<link rel="stylesheet" href="nqdesk.css?v=10">
+<link rel="stylesheet" href="nqgoals.css?v=9">
+<link rel="stylesheet" href="nqtheme.css?v=6"><!-- owner 2026-11-20 15:15 ET: the NQ terminal look (navy, cyan / blue glows, violet), last so it wins -->
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="glGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="gl-g0"/><stop offset="1" class="gl-g1"/></linearGradient></defs></svg>
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ</h1><p class="sub">Are the bots on, and how much $ each account can still lose before it fails.</p></div></div>
@@ -74,10 +74,12 @@
 
   <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars with every entry, stop and target; its own module -->
   <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
-    <div class="row"><h2 id="chartH">Live chart</h2><span class="pill" id="chartPill">Loading</span></div>
+    <div class="row"><h2 id="chartH">Live chart</h2><span class="ctools"><button type="button" class="btn ctog" id="chart3dBtn" aria-pressed="false" hidden>3D</button><span class="pill" id="chartPill">Loading</span></span></div>
     <p class="note" id="chartAsOf" hidden></p>
     <div class="chartbox" id="chartBox" role="img" aria-label="The NQ chart with our trades">
       <div class="chart" id="chart"></div>
+      <span class="cpulse" id="chartPulse" aria-hidden="true" hidden></span>
+      <div class="c3d" id="chart3d" hidden></div>
       <p class="chartmsg" id="chartMsg">Loading the PC's chart...</p>
     </div>
     <div class="chips" id="chartChips" role="group" aria-label="Show the trades of"></div>
@@ -89,7 +91,7 @@
     <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
   </section>
 
-  <!-- v4: ATLAS's first payout as a vault (DESIGN's NQFX.vault: a drawn vault at once, a 3D steel door + gold coins after load + idle) -->
+  <!-- v4: ATLAS's first payout as a vault (DESIGN's NQFX.vault: a drawn vault at once, a 3D steel door + coins after load + idle) -->
   <section class="ag-card card" id="vaultCard" aria-labelledby="vaultH">
     <div class="row"><h2 id="vaultH">ATLAS first payout</h2><span class="pill" id="vaultPill"></span></div>
     <div class="vault" id="vault"></div>
@@ -116,7 +118,7 @@
       <div class="l3d" id="land3d" hidden></div>
       <svg class="land-fb" id="landFb" viewBox="0 0 360 240" preserveAspectRatio="none" aria-hidden="true"></svg>
     </div>
-    <p class="note" id="landNote">Today's 5-minute bars from your PC. A green beacon is a winning trade, coral a loss, cyan an open one.</p>
+    <p class="note" id="landNote">Today's 5-minute bars from your PC. A green beacon is a winning trade, red a loss, cyan an open one.</p>
   </section>
 
   <!-- round 3 (Ares merged here): can each account's bot trade right now? -->
@@ -207,10 +209,10 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r23"></script>
-<script type="module" src="nqchart.js?v=c5"></script>
+<script type="module" src="nq.js?v=r29"></script>
+<script type="module" src="nqchart.js?v=c8"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
-<script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6d" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
-<script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=1" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6f" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=3" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
 </body>
 </html>

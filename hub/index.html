@@ -39,14 +39,15 @@
   window.__olyPaint = on;
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'hub', 'page');</script>
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<script>/* OLYMPUS NIGHT from the first frame while nothing is chosen (kit, day-arenas 2026-11-20) */(function(){try{var ls=window.localStorage,v=ls.getItem('olympus.theme'),d=document.documentElement,k,on=window.__olyPaint||[];if((v&&v!=='agora')||ls.getItem('olympus.theme.night')==='1'||ls.getItem('olympus.themeMix')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches))return;var c=JSON.parse(ls.getItem('olympus.theme.look.page.night')||'null');if(!c||!c.vars)return;for(k in c.vars){d.style.setProperty(k,c.vars[k]);on.push(k);}d.setAttribute('data-oly-theme','night');d.setAttribute('data-oly-scheme','dark');if(c.style)d.setAttribute('data-oly-style',c.style);window.__olyPaint=on;}catch(e){}})();</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
 <link rel="stylesheet" href="hub.css?v=h6">
 <link rel="stylesheet" href="me.css?v=m2">
-<script src="../olympus/themes.js?v=o9"></script>
+<script src="../olympus/themes.js?v=o10"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/gate-catalog.js?v=nv9"></script>
-<script src="../olympus/hub-status.js?v=h3"></script>
-<script src="../olympus/gate-nav.js?v=g8" data-app="hub" defer></script>
+<script src="../olympus/gate-catalog.js?v=nv10"></script>
+<script src="../olympus/hub-status.js?v=h4"></script>
+<script src="../olympus/gate-nav.js?v=g9" data-app="hub" defer></script>
 <script src="me.js?v=m2" defer></script>
 <script src="hub.js?v=h5" defer></script>
 <link rel="stylesheet" href="../olympus/shell.css?v=s6">

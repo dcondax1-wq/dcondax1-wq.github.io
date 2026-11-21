@@ -27,7 +27,7 @@
   // opt-in now ('jarvis.look' = 'agora', ⋯ → Look → Jarvis look). Under the default OLYMPUS theme only.
   if (g('jarvis.look') !== 'agora' && (g('olympus.theme') || 'agora') === 'agora') {
     d.setAttribute('data-jlook', 'classic');
-    var cl = document.createElement('link'); cl.rel = 'stylesheet'; cl.id = 'jclassic'; cl.href = 'classic.css?v=c3'; document.head.appendChild(cl);
+    var cl = document.createElement('link'); cl.rel = 'stylesheet'; cl.id = 'jclassic'; cl.href = 'classic.css?v=c4'; document.head.appendChild(cl);
   }
   // the OLYMPUS look (../olympus/themes.js, key 'olympus.theme'; the engine loads after the start, async, never waited on, and repaints):
   // its colours and Jarvis's palette from the first frame, from the engine's copy of the look Jarvis gets (themes.js FIRST PAINT)
@@ -110,6 +110,9 @@ window.addEventListener('error', function (e) {
 </script>
 <link rel="stylesheet" id="jcss" href="jarvis.css?v=j24">
 <link rel="stylesheet" id="jhome" href="home3d.css?v=h4">
+<!-- JARVIS FX (day-jarvis 2026-11-20, owner: "3D, effects, no gold"): after the first paint, never holding the start -->
+<link rel="stylesheet" href="../olympus/dashfx.css?v=d1" media="print" onload="this.media='all'"><script src="../olympus/dashfx.js?v=d1" async></script><!-- the DESIGN kit (OLYMPUS NIGHT glass); async, never defer: outside Jarvis's saved copy, a slow line must not hold the start -->
+<link rel="stylesheet" id="jfx" href="jfx.css?v=3" media="print" onload="this.media='all'"><script src="jfx.js?v=2" async></script>
 <!-- quiet-net (night-bugsweep 2026-11-19): Kalshi's state comes from the PC feed first (data.js: when the PC carries Kalshi, kalshi.json
      is not asked at all); the old kalshi-feed repo is on the suspended account and is never asked. data-fresh="site:kalshi.json"
      (night-jarvisfix 2026-11-20): otherwise this site's kalshi.json is asked once per Jarvis load, as data.js promises ("opening Jarvis
@@ -120,8 +123,8 @@ window.addEventListener('error', function (e) {
 <script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json" async></script>
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
-<script src="../pc_feed.js?v=n6" id="pcFeedJs" async></script>
-<script src="../olympus/themes.js?v=o9" id="olyThemesJs" async></script>
+<script src="../pc_feed.js?v=n7" id="pcFeedJs" async></script>
+<script src="../olympus/themes.js?v=o10" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <script src="../olympus/a11y.js" async></script>
 <style>.booted #bootfx{display:none}
@@ -129,7 +132,7 @@ window.addEventListener('error', function (e) {
 [hidden]{display:none!important}
 /* the business chips (day-jarvis 2026-11-20): one scrolling row of the owner's daily questions, in the HTML so they are there at first paint */
 .bizchips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 10px}
-.bchip{min-width:0;min-height:44px;padding:6px 8px;border-radius:12px;border:1px solid var(--oly-th-gold,rgba(200,162,74,.55));background:rgba(20,16,10,.55);color:var(--oly-th-n10,#f3ece0);font:600 15px/1.1 var(--fb,system-ui,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;touch-action:manipulation}
+.bchip{min-width:0;min-height:44px;padding:6px 8px;border-radius:12px;border:1px solid var(--oly-th-gold,rgba(200,162,74,.55));background:rgba(20,16,10,.55);color:var(--oly-th-n37,#f3ece0);font:600 15px/1.1 var(--fb,system-ui,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;touch-action:manipulation}
 .stage-tap{position:absolute;inset:8%;z-index:0;border:0;border-radius:50%;background:transparent;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .stage-tap:focus-visible{outline:2px solid var(--oly-th-gold,#dcbd6e);outline-offset:4px}
 /* A11Y 2026-11-20 (FOR_jarvis.md): the hints and status lines the owner reads at 15 px, in rem so they grow with the iPhone text size */
@@ -1446,7 +1449,7 @@ ready.vault = Promise.all([load('obsidian', './obsidian.js', (m) => typeof m.cre
     addTodos: (list) => { let n = 0; for (const t of list || []) if (assistant && assistant.addTodo) { assistant.addTodo(t); n++; } return n; },       // "pull my tasks from Obsidian" (memory.js; asks first)
     todos: () => (assistant ? assistant.todos() : []) }); } return vault; }).catch(() => null);
 // the business answers (biz.js, day-jarvis 2026-11-20): accounts, trades, room, payout, news, to-do, Kalshi from the real feeds, before the brain
-ready.biz = load('biz', './biz.js?v=b4', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
+ready.biz = load('biz', './biz.js?v=b5', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
 ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianSheet === 'function').then((m) => { assist = m; return m; });
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
@@ -1658,7 +1661,7 @@ const olyOn = () => olyId() !== olyDefault();
 const jlook = () => (root.dataset.jlook === 'classic' ? 'classic' : 'agora');
 function classicSheet() {
   if (document.getElementById('jclassic')) return;
-  const l = document.createElement('link'); l.rel = 'stylesheet'; l.id = 'jclassic'; l.href = 'classic.css?v=c3';
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.id = 'jclassic'; l.href = 'classic.css?v=c4';
   l.addEventListener('load', () => { readColors(); if (core && typeof core.setTheme === 'function') safe(() => core.setTheme(coreTheme())); });
   document.head.appendChild(l);
 }
@@ -3739,10 +3742,10 @@ if ('serviceWorker' in navigator) {
 <script src="./welcome.js?v=w1" defer></script>
 <script type="module" src="./transitions.js?v=t7"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
-<script src="../olympus/zeus_core.js?v=7" defer></script>
-<script src="../olympus/doors.js?v=d11" defer></script>
+<script src="../olympus/zeus_core.js?v=8" defer></script>
+<script src="../olympus/doors.js?v=d12" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>
-<script src="./push-ui.js?v=pu2" defer></script>
+<script src="./push-ui.js?v=pu3" defer></script>
 </body>
 </html>

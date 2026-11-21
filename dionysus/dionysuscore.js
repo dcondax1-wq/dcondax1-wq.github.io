@@ -104,12 +104,14 @@ export function k8Panel(j, nowMs) {
   if (!isObj(j) || !Array.isArray(j.legs)) return null;
   const now = num(nowMs) == null ? Date.now() : num(nowMs), p = {};
   try { for (const x of new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date(now))) p[x.type] = +x.value; } catch (_) { return null; }
+  const today = p.year ? `${p.year}-${String(p.month).padStart(2, '0')}-${String(p.day).padStart(2, '0')}` : '';
   const legs = j.legs.filter((x) => isObj(x) && x.live === true).slice(0, 5).map((x) => {
     const m = /^(\d{1,2}):(\d{2})$/.exec(String(x.open || '')), tz = x.tz === 'Europe/London' ? 'Europe/London' : 'America/New_York';
     let at = '';
     if (m) { try { at = new Date(K8_ET(p.year, p.month - 1, p.day, +m[1], +m[2], tz)).toLocaleTimeString('en-GB', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }); } catch (_) { at = ''; } }
     const name = str(x.name, 60).replace(/\s*\d{1,2}:\d{2}(-\d{1,2}:\d{2})?\s*ET\s*$/, '') || 'K8 leg', fair = num(x.fair_c);
-    return { name, at, fair: fair == null ? null : Math.round(fair), last10: String(x.last10 || '').replace(/[^WL]/g, '').slice(-10), rate: num(x.rate), n: num(x.n) };
+    return { name, at, fair: fair == null ? null : Math.round(fair), last10: String(x.last10 || '').replace(/[^WL]/g, '').slice(-10), rate: num(x.rate), n: num(x.n),
+      winToday: x.last_res === 'W' && String(x.last_day || '') === today, winUsd: num(x.last_c) == null ? 0 : Math.max(0, Math.round(100 - num(x.last_c)) / 100) };   // FX (day-kalshi 2026-11-20): the leg's last result is a win from today (New York date)
   });
   if (!legs.length) return null;
   const pool = isObj(j.pool) ? j.pool : {}, min = isObj(j.rule) && num(j.rule.min_win) != null ? num(j.rule.min_win) : 0.58;

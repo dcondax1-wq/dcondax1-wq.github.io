@@ -1,0 +1,76 @@
+{
+  "v": 1,
+  "note": "Outreach + close kit (day-a11y 2026-11-20). {braces} are filled per lead on the phone: business, town, niche, demo, demo_short, offer_line, your_name, your_business, your_phone, your_email, postal_address. [Square brackets] are left for the owner to fill. Never cold-text a cell number (TCPA): calls dialled by hand and email only. Not legal advice.",
+  "rules": [
+    "Calls are dialled by hand, one at a time. No auto-dialer, no recorded message, no ringless voicemail drops.",
+    "No cold texts to any number (TCPA). Text only someone who texted you first or asked you to.",
+    "Email: a true subject line, your real name and business, your postal address, and a one-line way to say no. Stop within 10 business days of a no (CAN-SPAM). Never buy email lists.",
+    "Call business hours only (9 AM to 6 PM their time, weekdays). If anyone says 'do not call', mark Not interested and never contact them again.",
+    "Not legal advice: these rules are a careful summary of the US rules for contacting businesses; a big campaign deserves a lawyer's look."
+  ],
+  "email": [
+    {
+      "day": 0, "id": "first", "label": "Day 0: first email",
+      "subject": "A free website draft for {business}",
+      "body": "Hi {business} team,\n\nI'm {your_name} with {your_business}, a small web studio. I noticed {business} doesn't have a website on Google Maps, so people searching for {niche} in {town} find someone else first.\n\nI already built a draft so you can see it. It costs nothing to look:\n{demo}\n\nIf you like it, I can make it yours this week with your photos, your phone number and your own domain. {offer_line}\n\nWould a 10-minute call this week work? Reply with a good time, or call me at {your_phone}.\n\n{your_name}\n{your_business} · {your_phone}\n{postal_address}\n\nThis is a one-time business offer, sent because {business} is listed publicly as a local business. Reply \"no thanks\" and I won't write again."
+    },
+    {
+      "day": 3, "id": "bump", "label": "Day 3: short follow-up",
+      "subject": "Re: A free website draft for {business}",
+      "body": "Hi again,\n\nJust making sure this reached you: the draft site I made for {business} is here:\n{demo}\n\nIt works on phones, has tap-to-call and shows up properly when someone searches for {niche} in {town}. Happy to change anything you don't like before you decide.\n\n{your_name} · {your_phone}\n{postal_address}\n\nReply \"no thanks\" and I won't write again."
+    },
+    {
+      "day": 7, "id": "last", "label": "Day 7: last note",
+      "subject": "Close the file on {business}'s website?",
+      "body": "Hi,\n\nI haven't heard back about the website for {business}, so I'll take that as not right now and won't keep emailing. The draft stays up for another week if you want to look:\n{demo}\n\nIf the timing changes, my number is {your_phone}.\n\nThanks,\n{your_name}\n{your_business}\n{postal_address}"
+    }
+  ],
+  "phone": {
+    "opener": "Hi, is this the owner? This is {your_name} with {your_business}, I'll be quick. When people search for {niche} in {town}, {business} doesn't show a website, so they call whoever does. I already built you a free draft. Can I email you the link to look at, no cost, or walk you through it right now in two minutes?",
+    "voicemail": "Hi, this is {your_name} with {your_business}, calling for {business}. I built a free draft website for you: no cost to look. The link is {demo_short}. My number is {your_phone}. Again, {your_name}, {your_phone}. Thanks, have a good day.",
+    "after_yes": "Great. What's the best email for the link? ... And is there anything you'd want on it first: your prices, photos, booking? ... I'll send it in the next ten minutes, then let's talk Thursday or Friday: which is better?"
+  },
+  "objections": [
+    { "q": "We don't need a website, we get work by word of mouth.", "a": "That's the best kind of work. Word of mouth is exactly when people look you up before they call: if they find nothing, or a competitor, some of those referrals go elsewhere. The site just makes the referral land. You can look at the draft for free." },
+    { "q": "It's too expensive.", "a": "Fair. There's a no-upfront option: $149 a month for 12 months, then it's yours. One extra customer a month usually covers it. Want me to send both options in writing?" },
+    { "q": "I already have a Facebook page.", "a": "Keep it. Google shows websites first, though, and a lot of people don't use Facebook. The site links to your page, so you only post in one place." },
+    { "q": "I'm busy, call me later.", "a": "Of course. When's a better time, morning or afternoon? I'll also email the link so you can look whenever you have a minute." },
+    { "q": "Just send me some information.", "a": "Happy to. What's the best email? I'll send the draft link and the two prices: nothing to sign, and nobody will chase you." },
+    { "q": "My nephew / a friend is doing one for us.", "a": "Great, then you're covered. If it doesn't get finished, the draft I made is yours to look at any time; I'll leave it up a couple of weeks." },
+    { "q": "How did you get my number? Is this a scam?", "a": "Good question to ask. Your business is listed publicly on the map, that's where I found it. I'm a local web designer: you don't pay anything unless you want the site, and you can check the draft first. I'll email you so you have it in writing." },
+    { "q": "We tried a web company before and it didn't work.", "a": "Sorry to hear that. What went wrong? ... Here you see the finished draft before you pay anything, the domain stays in your name, and you can stop the monthly plan with 30 days' notice." }
+  ],
+  "agreement": {
+    "title": "Website agreement (plain English)",
+    "intro": "Between {client_business} (\"you\") and {your_business} (\"we\"), dated {date}.",
+    "items": [
+      ["What we build", "{package}: {package_scope}"],
+      ["Price", "{setup_price} to build. {deposit} deposit to start; the rest ({balance}) when the site goes live, before it is switched on."],
+      ["Monthly plan", "{monthly_line} It starts the day the site goes live and is billed on that day each month. Either side can stop it with 30 days' notice{min_term}."],
+      ["Timeline", "About {days} working days after the deposit and your photos, logo and words. Late content moves the date, not the price."],
+      ["Changes", "Two rounds of changes before launch are included. Anything new (an extra page, a shop) is quoted in writing first."],
+      ["Your domain and accounts", "You buy the domain in your own name, and you keep the logins for your domain and your Google Business Profile. We get our own access, never your password."],
+      ["Who owns what", "Once paid in full you own your words, photos, logo and domain, and a copy of the site files. We may reuse our own code and templates and show the site in our portfolio."],
+      ["Payment", "Invoices are due in 14 days. After 30 days late, edits pause until it is paid."],
+      ["Ending", "Either of us can end this in writing. You pay for the work done up to then; if the monthly plan stops, we hand the site over or switch it off after 30 days."]
+    ],
+    "sign": "Signed: ____________________ ({client_name}, {client_business})      ____________________ ({your_name}, {your_business})",
+    "foot": "This template is plain words, not legal advice. For a big job, have a lawyer read a real contract."
+  },
+  "invoice": {
+    "title": "Invoice",
+    "pay_line": "[Payment link: OWNER STEP. Set up your own free payment account (for example a free business checking account with free invoicing) and paste its link here. No paid service.]",
+    "terms": "Due in 14 days. Thank you for your business."
+  },
+  "delivery": [
+    { "who": "owner", "step": "Send the agreement and the deposit invoice ({deposit}). Wait for the deposit before building anything new." },
+    { "who": "client", "step": "Buys the domain in THEIR name (about $10-15 a year at a registrar that sells at cost) and shares access with your email. You never hold their password." },
+    { "who": "claude", "step": "Fill the draft with their real details: logo, photos, prices, hours, phone, the words they approved. Check every page on a phone." },
+    { "who": "claude", "step": "Put the site on free static hosting (a free tier: no monthly bill), connect the domain, HTTPS on." },
+    { "who": "claude", "step": "Contact form to their email on a free tier, tap-to-call, a map link; a test message sent and received." },
+    { "who": "client", "step": "Google Business Profile: they claim and verify it themselves (video or postcard), then add you as a Manager." },
+    { "who": "claude", "step": "In the profile: the website link, hours, categories, 5+ photos, services; then a launch check (speed on a phone, every link, the form, the 404 page)." },
+    { "who": "owner", "step": "Send the final invoice ({balance}). Start the monthly plan on launch day (same day each month)." },
+    { "who": "owner", "step": "Two weeks later: ask for a Google review and one referral." }
+  ]
+}

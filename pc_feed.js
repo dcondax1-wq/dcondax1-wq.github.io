@@ -12,7 +12,7 @@
 //   parseLatest(ndjsonText)          -> the newest lite live.json in an ntfy /json?poll=1 answer (ext merged in), or null
 //   merge(core, exts)                -> a copy of core with the ext blocks laid in
 //   feedUrls(feed)                   -> the ntfy poll URLs for {ntfy, topic} (a 70-minute window = core + ext first, since=latest
-//                                       = the core alone as the fallback, since=12h = the last real post when the PC is quiet)
+//                                       = the core alone as the fallback, since=3h / 12h = the last real post when the PC is quiet)
 //   fetchLatest({feedUrl, fetch})    -> Promise of the newest lite live.json or null (never throws)
 //   mergeBoard(siteBoard, liteBoard) -> the site's board with the PC's fresher account cards laid in (map / health / progress /
 //                                       trades of the site kept); the site's when it is newer. A CLOUD site board (where "cloud",
@@ -124,9 +124,9 @@
     const base = String(feed.ntfy || 'https://ntfy.sh').replace(/\/+$/, '');
     if (!/^https:\/\//.test(base)) return [];
     const t = encodeURIComponent(feed.topic);
-    // day-archive 2026-11-20: + the last 12 hours (all ntfy keeps). When the PC has been quiet for over 70 minutes, 'latest' is often only an
+    // day-archive 2026-11-20: + the last 3 hours, then 12 hours (all ntfy keeps; about 0.8 MB, only when the PC was quiet over 3 h). When the PC has been quiet for over 70 minutes, 'latest' is often only an
     // ext part (no account numbers), so every page fell back to its DEMO copy; now it gets the PC's last real post and shows its age.
-    return [`${base}/${t}/json?poll=1&since=70m`, `${base}/${t}/json?poll=1&since=latest`, `${base}/${t}/json?poll=1&since=12h`];
+    return [`${base}/${t}/json?poll=1&since=70m`, `${base}/${t}/json?poll=1&since=latest`, `${base}/${t}/json?poll=1&since=3h`, `${base}/${t}/json?poll=1&since=12h`];
   }
 
   // ONE answer per page (night-feedsA 2026-11-18): a page asks the feed from 3-4 modules at load (Jarvis: data.js, truth.js, zeus_core.js);

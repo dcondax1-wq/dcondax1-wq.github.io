@@ -460,7 +460,7 @@ async function startScene() {
   try {
     await later3d();
     if (weak3d()) throw new Error('skipped on a slow or save-data phone');
-    const { createVault } = await import('./ledgerscene.js');
+    const { createVault } = await import('./ledgerscene.js?v=n7');
     S.scene = createVault($('vault'), { O });
     $('lite').hidden = !S.scene.lite();
     S.scene.onQuality(() => { $('lite').hidden = !S.scene.lite(); });

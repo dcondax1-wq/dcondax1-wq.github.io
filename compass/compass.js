@@ -131,7 +131,7 @@ async function boot() {
   const q = new URLSearchParams(location.search); S.forced = q.get('demo') === '1';
   const nowQ = Date.parse(q.get('now') || ''); S.now = Number.isFinite(nowQ) ? nowQ : Date.now();
   const [fx, home, money, rules, odeon] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), S.forced ? null : getJSON('../money/index.json'),
-    S.forced ? null : getJSON('../ledger/rules.json'), S.forced ? null : getJSON('../odeon/trades.json')]);
+    S.forced ? null : getJSON('../ledger/rules.json'), S.forced ? null : getJSON('../odeon/trades_lite.json').then((x) => x || getJSON('../odeon/trades.json'))]);   // the slim copy first (dogfood 2026-11-20: 7 KB, not 131 KB)
   S.found = [['home.json', home], ['money/index.json', money], ['ledger/rules.json', rules], ['odeon/trades.json', odeon]].filter((x) => x[1]).map((x) => x[0]);
   const real = !S.forced && (S.found.length > 0);
   S.demo = !real;

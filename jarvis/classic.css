@@ -67,7 +67,7 @@ html:root[data-jlook="classic"] .jtitle span { display: grid; justify-items: cen
   text-shadow: 0 0 14px rgba(168,85,247,.85), 0 0 2px rgba(233,221,255,.9); }
 html:root[data-jlook="classic"] .jtitle small { font: 600 10px/1.2 var(--fh); letter-spacing: .5em; color: var(--c3); text-shadow: none; margin-bottom: 3px; }
 html:root[data-jlook="classic"] .hero-top { gap: 8px; }
-html:root[data-jlook="classic"] .hero .hero-h { font: 700 17px/1.2 var(--fb); letter-spacing: .04em; text-transform: none; color: #22d3ee; text-shadow: 0 0 10px rgba(34,211,238,.35); }
+html:root[data-jlook="classic"] .hero .hero-h { font: 700 17px/1.2 var(--fb); letter-spacing: .04em; text-transform: none; color: #dacbf0; text-shadow: 0 0 10px rgba(157,89,238,.45); }
 html:root[data-jlook="classic"] .hero .hsub { margin: 0; font: 500 14px/1.35 var(--fb); color: var(--mut); }
 /* the boxes and the core, right under the header */
 html:root[data-jlook="classic"] #sec-system > .hpanel { padding-top: 0; }

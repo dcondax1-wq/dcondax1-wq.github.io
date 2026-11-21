@@ -19,19 +19,20 @@
      The 7-day checklist ticks stay in this browser only (localStorage, wrapped in try/catch). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
 <link rel="stylesheet" href="../olympus/pulse.css?v=p7">
-<script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o20" data-app="business"></script>
+<script src="../olympus/themes.js?v=o10"></script>
+<script src="../olympus/olympus.js?v=o22" data-app="business"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=6" defer></script>
-<script src="../olympus/gate-nav.js?v=g8" defer></script>
+<script src="../olympus/agora-ui.js?v=7" defer></script>
+<script src="../olympus/gate-nav.js?v=g9" defer></script>
 <link rel="prefetch" href="../olympus/sfx.js?v=s4" as="script"><!-- the sound engine (32 KB gzipped) is not in the deferred chain the page waits on: olympus.js loads it after the page has loaded (its sound bed) or on the first cue -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
 <link rel="stylesheet" href="business.css?v=6">
 <link rel="stylesheet" href="dashkit.css?v=2fg"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
 <link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
+<link rel="stylesheet" href="../nq/nqtheme.css?v=6"><!-- owner 2026-11-20: the navy trading-terminal look, no gold (loaded last) -->
 </head>
 <body>
 <main id="app">
@@ -141,6 +142,8 @@
 <script type="module" src="business.js?v=4e"></script>
 <script src="../widget/olympus-widget.js?v=w4"></script><!-- live accounts: the PC post, else the site copy -->
 <script src="dashkit.js?v=1"></script>
-<script type="module" src="../olympus/pulse.js?v=p8"></script>
+<script type="module" src="../olympus/pulse.js?v=p9"></script>
+<script src="../olympus/nqfx.js?v=n5" defer></script>
+<script src="../trading/panelfx.js?v=2" data-look="night" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
 </body>
 </html>

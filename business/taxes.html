@@ -14,8 +14,8 @@
      set-aside calculator, drawn with textContent. The 30% default matches Oikos and the Ledger. Education, not tax advice. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
-<script src="../olympus/themes.js?v=o9"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<script src="../olympus/themes.js?v=o10"></script>
 <script src="../olympus/a11y.js" defer></script>
 <link rel="stylesheet" href="business.css?v=6">
 <style>
@@ -74,6 +74,7 @@
       <dt>SE tax</dt><dd>15.3% = 12.4% Social Security + 2.9% Medicare, on 92.35% of profit. Half of it is deducted from your income.</dd>
       <dt>Not 60/40</dt><dd>The futures 60/40 rule is for your own contracts. A payout is the firm paying you, so treat it as normal income.</dd>
       <dt>QBI</dt><dd>Likely up to 20% of the profit off your income tax (Form 8995); from 2026 at least $400 if you have $1,000+ of active business income. It does not lower SE tax.</dd>
+      <dt>Rise payouts</dt><dd>Rise pays in USDC (a stablecoin), so you likely answer <b>Yes</b> to the "digital assets" question at the top of Form 1040. Payouts by MFFU's bank route (ACH / Plaid) avoid it. Either way the income is the same.</dd>
       <dt>Losing year</dt><dd>If fees beat payouts and you run it like a business, the loss can lower other income. Ask a pro.</dd>
     </dl>
   </section>
@@ -130,7 +131,7 @@
       <li><span>4. Live-account fund, 20% until $5,000</span><b id="wfLive">$160</b></li>
       <li class="you"><span>5. Yours to spend</span><b id="wfYours">$240</b></li>
     </ol></div>
-    <p class="note" id="wfDue">Pay the $240 tax pot to the IRS and Maryland by Jan 15, 2027 (1040-ES, Sep - Dec 2026).</p>
+    <p class="note" id="wfDue">Money landing today is 2026 tax: pay the $240 pot to the IRS and Maryland by Jan 15, 2027 (1040-ES 2026, for Sep - Dec 2026).</p>
     <p class="note" id="month">At $2,800 a month: $840 to the pot, $1,960 yours, about $2,520 ready each quarter.</p>
     <p class="note">The "payout" is what lands in your bank (MFFU keeps 20%, so a $1,000 request = $800). Picking your year and the day-job box fills the Maryland % from the table below; you can still type your own. A full bucket gives its share back to you.</p>
   </section>
@@ -158,6 +159,8 @@
       <li><b>Your 2026 tax was $0?</b> (a full year, no tax owed) Then there is no underpayment penalty for 2027 at all. You still owe the 2027 tax by Apr 15, 2028, so keep the pot anyway.</li>
       <li><b>Otherwise:</b> by each due date pay a quarter of 100% of your 2026 total tax (110% if your 2026 income was over $150,000). Then no penalty, however big 2027 gets.</li>
       <li><b>Day job trick:</b> raise the extra withholding on your W-4 at work. Withholding counts as paid evenly all year, even if you add it in December.</li>
+      <li><b>A payout you can take Dec 24 - 31? Take it in December.</b> With your 2026 fees against it, 2026 tax on it is close to $0 (about $70 of SE tax on $800); waiting until January makes it 2027 income at about 30%. Worth about $100 - $175 per $800 payout (no day job).</li>
+      <li>The year is the day the money lands: a January payout is 2027 tax, due Apr 15, 2027 (the calculator above picks the right date).</li>
       <li>Pay from the pot on the four dates above, free at IRS Direct Pay. Keep every confirmation number.</li>
     </ul>
   </section>
@@ -168,7 +171,7 @@
       <li><b>Day 1, any amount</b><span>Separate savings for the tax pot. Save every MFFU receipt (eval fees, resets, data, NinjaTrader). Write down the business % of the PC and internet. Each $100 of fees saves you about $15 - $30 of tax.</span></li>
       <li><b>Under $15,000</b><span>Your income tax is near $0, so a <b>Roth IRA</b> beats a deduction: up to $7,500 a year (2026 and 2027) goes in after tax and comes out tax free later. Open one free at any big broker.</span></li>
       <li><b>$15,000 - $30,000</b><span>Open a free <b>Solo 401(k)</b> (Fidelity, Schwab, E*TRADE). Pick <b>Roth</b> while your bracket is 10-12%; pick traditional once part of your income is taxed at 22%. You can put in up to about 93% of the profit at this level.</span></li>
-      <li><b>$30,000 - $60,000</b><span>Solo 401(k), traditional on the part above the 12% bracket. Example: $6,000 in at $60,000 saves about $1,060 of federal + Maryland tax (about $1,670 with a day job). If you buy your own health insurance, it is deductible too. An <b>HSA</b> only if your health plan is a high-deductible one ($4,400 a year single).</span></li>
+      <li><b>$30,000 - $60,000</b><span>Solo 401(k), traditional on the part above the 12% bracket. Example: $6,000 in at $60,000 saves about $1,060 of federal + Maryland tax (about $1,670 with a day job). If you buy your own health insurance, it is deductible too. An <b>HSA</b> only with a high-deductible health plan. On your parents' HSA plan and <b>not</b> their tax dependent? You can put in the <b>family</b> limit yourself: $8,750 (2026), $9,000 (2027), all deductible.</span></li>
       <li><b>About $60,000+, steady for a year</b><span>Talk to a CPA about an <b>S-corp</b>. Break-even in Maryland is around $49,000 profit: below it the payroll, the extra return and the $300 report cost more than it saves. About $1,450 saved at $60,000, $2,600 at $100,000, $4,150 at $150,000. On hold: MFFU's terms say every account belongs to one person, so it likely can't pay an S-corp.</span></li>
       <li><b>LLC?</b><span>An LLC only protects your personal things; it changes no tax by itself (a one-owner LLC is taxed just like you now). In Maryland it costs $100 + $300 every year, so only worth it with the S-corp.</span></li>
     </ol>
@@ -263,6 +266,6 @@
     </ul>
   </footer>
 </main>
-<script src="taxes.js?v=3"></script>
+<script src="taxes.js?v=4"></script>
 </body>
 </html>

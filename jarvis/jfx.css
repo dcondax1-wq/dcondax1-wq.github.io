@@ -1,0 +1,70 @@
+/* JARVIS FX (day-jarvis 2026-11-20, owner via lead: "It needs some 3D, it needs some effects"), in OLYMPUS NIGHT: the switcher's own colours,
+   which the owner picked for the whole site ("Whatever these colors are I like"): black, violet outlines #3e255e / #462a6a / #4d2e76, the
+   violet ring #9d59ee, the bright gold accent #f1c14b / #ebbf4f, mint #77db89 for a gain.
+   Loaded after the first paint (media=print swap), so the start is unchanged. Only transform and opacity animate; no blur over content;
+   reduced motion = everything still. Pairs with jfx.js (number roll-ups, the finger tilt on the switcher's cards).
+     ZEUS      the accounts card: the kit's glass (olympus/dashfx: near-black violet, the travelling violet / gold edge), the title bright gold
+     cards     the KALSHI / NQ tiles, bot cards and tiles: black glass with a violet outline and a glow that breathes, a 3D press
+     switcher  unchanged (the palette's source); its cards lean in 3D under the finger with a glare (jfx.js) */
+:root { --jfx-cy: var(--dfx-gold, #f1c14b); --jfx-vi: var(--dfx-glow, #9d59ee); --jfx-up: var(--dfx-good, #77db89); --jfx-dn: var(--dfx-bad, #ef4444); }
+
+/* ---------------------------------------------------------------- ZEUS, the accounts card: the kit's glass (olympus/dashfx.css, data-dfx="glass" set by
+   jfx.js: near-black violet card, deep violet outline, the travelling violet / gold edge light); here only what is ZEUS's own */
+html:root[data-oly-page="jarvis"] .zeus-card[data-dfx] { border-top-width: 1px; }
+html:root[data-oly-page="jarvis"] .zeus-card > * { position: relative; z-index: 1; }
+html:root[data-oly-page="jarvis"] .zeus-card.bad { border-color: #ef4444; box-shadow: 0 0 0 1px rgba(239,68,68,.3), 0 10px 32px rgba(239,68,68,.16); }
+html:root[data-oly-page="jarvis"] .zeus-t { color: var(--dfx-gold, #f1c14b); text-shadow: 0 0 14px rgba(157,89,238,.55); }
+html:root[data-oly-page="jarvis"] .zeus-row { border-top-color: rgba(70,42,106,.7); }
+html:root[data-oly-page="jarvis"] .zeus-n small.passed { color: #000; background: var(--dfx-gold, #f1c14b); border-color: var(--dfx-gold, #f1c14b); }
+html:root[data-oly-page="jarvis"] .zeus-n small.eval, html:root[data-oly-page="jarvis"] .zeus-n small.plan { color: var(--dfx-hi, #dacbf0); }
+html:root[data-oly-page="jarvis"] .zeus-n, html:root[data-oly-page="jarvis"] .zeus-b { color: var(--dfx-text, #ebe9f1); }
+html:root[data-oly-page="jarvis"] .zeus-d.pos, html:root[data-oly-page="jarvis"] .zeus-b.pos { color: var(--jfx-up); text-shadow: 0 0 12px rgba(119,219,137,.35); }
+html:root[data-oly-page="jarvis"] .zeus-d.neg, html:root[data-oly-page="jarvis"] .zeus-b.neg { color: var(--jfx-dn); text-shadow: 0 0 12px rgba(239,68,68,.3); }
+html:root[data-oly-page="jarvis"] .zeus-g, html:root[data-oly-page="jarvis"] .zeus-more, html:root[data-oly-page="jarvis"] .zeus-d, html:root[data-oly-page="jarvis"] .zeus-none { color: var(--dfx-muted, #898497); }
+
+/* ---------------------------------------------------------------- the bot cards, tiles and KALSHI / NQ: the same NIGHT glass, by hand (their ::before
+   is taken: the side bar), with a violet glow that breathes and a 3D press */
+html:root[data-oly-page="jarvis"] .hc-bot, html:root[data-oly-page="jarvis"] #hfirst .tile, html:root[data-oly-page="jarvis"] .tiles .tile, html:root[data-oly-page="jarvis"] .hsec .kbox[type] {
+  position: relative; isolation: isolate; overflow: hidden; border-radius: 14px;
+  background: radial-gradient(120% 70% at 50% -20%, rgba(157,89,238,.22), transparent 62%), radial-gradient(120% 55% at 50% -12%, rgba(35,29,22,.75), transparent 62%), linear-gradient(180deg, #16131e, #020204);
+  border: 1px solid #3e255e;
+  box-shadow: 0 0 0 1px rgba(77,46,118,.25) inset, 0 10px 30px -14px rgba(157,89,238,.45), 0 0 18px rgba(157,89,238,.12);
+  transition: transform .18s cubic-bezier(.2,.8,.2,1.2); }
+html:root[data-oly-page="jarvis"] .hsec .kbox[type] { border-left: 3px solid var(--jfx-cy); }
+html:root[data-oly-page="jarvis"] .hsec #nbox[type] { border-left-color: var(--jfx-vi); }
+html:root[data-oly-page="jarvis"] .hsec #nbox[type]::after { animation-delay: -2.7s; }
+html:root[data-oly-page="jarvis"] .hsec .kbox[type]::before { background: linear-gradient(180deg, var(--jfx-cy), var(--jfx-vi)); }
+html:root[data-oly-page="jarvis"] .hsec .kbox[type] small { color: var(--dfx-hi, #dacbf0); }
+html:root[data-oly-page="jarvis"] .hsec .kbox[type] em { color: var(--dfx-muted, #898497); }
+html:root[data-oly-page="jarvis"] .hc-bot:active, html:root[data-oly-page="jarvis"] #hfirst .tile:active, html:root[data-oly-page="jarvis"] .tiles .tile:active, html:root[data-oly-page="jarvis"] .hsec .kbox[type]:active {
+  transform: perspective(700px) rotateX(6deg) scale(.975); }
+html:root[data-oly-page="jarvis"] .hc-n.up, html:root[data-oly-page="jarvis"] .tile .up, html:root[data-oly-page="jarvis"] #npnl.up, html:root[data-oly-page="jarvis"] #kpct.up { color: var(--jfx-up); text-shadow: 0 0 14px rgba(119,219,137,.4); }
+html:root[data-oly-page="jarvis"] .hc-n.dn, html:root[data-oly-page="jarvis"] .tile .dn, html:root[data-oly-page="jarvis"] #npnl.dn, html:root[data-oly-page="jarvis"] #kpct.dn { color: var(--jfx-dn); text-shadow: 0 0 14px rgba(239,68,68,.35); }
+/* the breathing glow: box-shadow is not transform / opacity, so it breathes through a ::after layer's opacity */
+html:root[data-oly-page="jarvis"] .hc-bot::after, html:root[data-oly-page="jarvis"] .hsec .kbox[type]::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  background: radial-gradient(90% 60% at 50% 0%, rgba(157,89,238,.22), transparent 70%); animation: jfx-breathe 5.5s ease-in-out infinite; }
+@keyframes jfx-breathe { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+
+/* ---------------------------------------------------------------- the $ roll-up (jfx.js): the real number stays in the text (readers, tests); the
+   rolling one is drawn over it until it lands */
+.jfx-roll { position: relative; }
+.jfx-roll.on { -webkit-text-fill-color: transparent; }
+.jfx-roll.on::after { content: attr(data-roll); position: absolute; left: 0; right: 0; top: 0; white-space: nowrap; text-align: inherit; -webkit-text-fill-color: currentColor; pointer-events: none; }
+
+/* ---------------------------------------------------------------- the switcher: kept exactly as the owner liked it; only the glare of the 3D lean */
+.nx-card .jfx-glare { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .2s ease;
+  background: radial-gradient(circle at var(--jgx, 50%) var(--jgy, 30%), rgba(255,255,255,.16), transparent 55%); }
+.nx-card.jfx-tilt .jfx-glare { opacity: 1; }
+
+/* ---------------------------------------------------------------- the Ivory (light) look: ink, not glow */
+html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-card, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .hc-bot, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .tiles .tile, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] #hfirst .tile, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .kbox {
+  background: linear-gradient(160deg, #ffffff, #f6f0ff 70%, #fbf6ea); color: #0f172a; border-color: rgba(77,46,118,.3); box-shadow: 0 6px 20px rgba(77,46,118,.1), 0 1px 0 rgba(255,255,255,.9) inset; }
+html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-t { color: #6b2fb3; text-shadow: none; }
+html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-g, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-more, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-d, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-none, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-pc.wait { color: #334155; }
+html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-d.pos, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .hc-n.up { color: #047857; text-shadow: none; }
+html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .zeus-d.neg, html:root[data-oly-scheme="light"][data-oly-page="jarvis"] .hc-n.dn { color: #be123c; text-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:root[data-oly-page="jarvis"] .hc-bot::after, html:root[data-oly-page="jarvis"] .hsec .kbox[type]::after { animation: none; opacity: .7; }
+}
+html[data-fx="low"] .hc-bot::after, html[data-fx="low"] .hsec .kbox[type]::after { animation: none; opacity: .7; }

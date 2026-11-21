@@ -98,7 +98,7 @@
       ctx.beginPath(); ctx.moveTo(L, fy); ctx.lineTo(W - R, fy); ctx.stroke(); ctx.restore();
     }
     if (tgt != null && tgt <= hi) {
-      const ty = Y(tgt); ctx.save(); ctx.setLineDash([2, 5]); ctx.strokeStyle = 'rgba(200,162,74,.55)'; ctx.lineWidth = 1;
+      const ty = Y(tgt); ctx.save(); ctx.setLineDash([2, 5]); ctx.strokeStyle = 'rgba(157,89,238,.6)'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(L, ty); ctx.lineTo(W - R, ty); ctx.stroke(); ctx.restore();
     }
     // the area under the curve, then the curve (smooth), then the bloom pass
@@ -109,7 +109,7 @@
     path(); ctx.lineTo(X(n - 1), H - B); ctx.lineTo(X(0), H - B); ctx.closePath();
     const fill = ctx.createLinearGradient(0, T, 0, H - B); fill.addColorStop(0, `rgba(${c1},.34)`); fill.addColorStop(1, `rgba(${c1},0)`);
     ctx.fillStyle = fill; ctx.fill();
-    const lg = ctx.createLinearGradient(L, 0, W - R, 0); lg.addColorStop(0, '#9c6b3c'); lg.addColorStop(1, up ? '#a3ae6b' : '#e0795a');
+    const lg = ctx.createLinearGradient(L, 0, W - R, 0); lg.addColorStop(0, '#4d2e76'); lg.addColorStop(1, up ? '#77db89' : '#ef4444');   // OLYMPUS NIGHT: violet into mint / red
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';
     if (!lite) { ctx.save(); path(); ctx.strokeStyle = lg; ctx.lineWidth = 6; ctx.globalAlpha = .16; ctx.stroke(); ctx.restore(); }
     path(); ctx.strokeStyle = lg; ctx.lineWidth = 2.4; ctx.stroke();
@@ -144,10 +144,10 @@
   function html(H) {
     const pills = H.As.map((a) => {
       const st = a.placeholder ? 'off' : a.state;
-      return `<span class="zh-bot st-${st}" style="--c:${esc(a.color || '#c8a24a')}"><i aria-hidden="true"></i><span><em>${esc(a.name)}</em><b>${a.placeholder ? 'Paper only' : STATE[st] || st}</b></span>`
+      return `<span class="zh-bot st-${st}" style="--c:${esc(a.color || '#9d59ee')}"><i aria-hidden="true"></i><span><em>${esc(a.name)}</em><b>${a.placeholder ? 'Paper only' : STATE[st] || st}</b></span>`
         + `<u class="${cls(a.today)}" data-zn-num="zh-${esc(a.key)}">${a.placeholder ? '' : sUsd(a.today)}</u></span>`;
     }).join('');
-    const tabs = H.withCurve.length > 1 ? `<div class="zh-tabs" role="tablist">${H.withCurve.map((a) => `<button type="button" role="tab" aria-selected="${a.key === ST.sel}" class="${a.key === ST.sel ? 'on' : ''}" data-zh="${esc(a.key)}" style="--c:${esc(a.color || '#c8a24a')}">${esc(a.name)}</button>`).join('')}</div>` : '';
+    const tabs = H.withCurve.length > 1 ? `<div class="zh-tabs" role="tablist">${H.withCurve.map((a) => `<button type="button" role="tab" aria-selected="${a.key === ST.sel}" class="${a.key === ST.sel ? 'on' : ''}" data-zh="${esc(a.key)}" style="--c:${esc(a.color || '#9d59ee')}">${esc(a.name)}</button>`).join('')}</div>` : '';
     return `<div class="zh-top"><div class="zh-big"><em>Today · all bots</em><b class="${cls(H.today)}" data-zn-num="zh-today">${sUsd(H.today)}</b>
         <small>${H.trades ? H.trades + (H.trades === 1 ? ' trade' : ' trades') + ' closed or open' : 'No trade yet today'}</small></div>
       <div class="zh-next" data-zh-next></div></div>

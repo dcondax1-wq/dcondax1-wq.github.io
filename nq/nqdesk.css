@@ -63,7 +63,7 @@
 @keyframes dk-ping { 0% { opacity: .7; transform: scale(.6); } 80%, 100% { opacity: 0; transform: scale(1.6); } }
 @media (prefers-reduced-motion: reduce) { .dk-acct, .dk-bot, .dk-qr, .dk-meter i { animation: none; } .dk-dot.live::after { animation: none; opacity: 0; } }
 
-/* round 3: GO / WAIT / HALT (Ares), the day line (Kairos), replay a past day (Chronos) */
+
 .dk-gates { display: grid; gap: 8px; }
 .dk-gate { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px; border-radius: 10px; border: 1px solid var(--ag-line); animation: dk-in .45s ease both; }
 .dk-gv { display: grid; place-items: center; min-height: 36px; border-radius: 8px; font: 800 13px/1 var(--ag-sans); letter-spacing: .06em; border: 2px solid currentColor; }
@@ -87,8 +87,9 @@
 @media (prefers-reduced-motion: reduce) { .dk-gate { animation: none; } .dk-now { animation: none; } }
 .dk-ctx { color: var(--ag-muted); } .dk-ctx b { color: var(--ag-muted); } .dk-brief { color: var(--ag-text); font-weight: 600; } .dk-note.warn { color: var(--ag-sun, #d9a441); }
 
-/* perf 2026-11-20: the accounts card keeps the strip's filled height from the first frame (4 tiles at 390 px), the GO card its rows */
+
 #acctCard { min-height: 560px; } #gateCard { min-height: 330px; } #dayCard { min-height: 210px; }
 @media (min-width: 600px) { #acctCard { min-height: 330px; } }
-#chartChips { min-height: 52px; }     /* perf: the chips row is there from the first frame (it filled at 6.5 s) */
-#chartAsOf[hidden] { display: block !important; visibility: hidden; min-height: 2.9em; }   /* the "As of" line above the chart: its place kept */
+#chartChips { min-height: 52px; }     
+#chartAsOf[hidden] { display: block !important; visibility: hidden; min-height: 2.9em; }   
+.dk-mffu { margin: -2px 0 2px; font-size: .9375rem; color: var(--ag-muted); }

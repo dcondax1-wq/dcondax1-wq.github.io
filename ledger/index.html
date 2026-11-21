@@ -20,18 +20,19 @@
      core, ledger.js = the page. Plutus projects; Ledger records. Nothing here is tax advice and nothing here moves money. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<link rel="stylesheet" href="../olympus/agora.css?v=a10"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
 <link rel="stylesheet" href="../olympus/pulse.css?v=p7">
 <script src="../olympus/quiet-net.js?v=q9"></script>
-<script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o20" data-app="ledger"></script>
+<script src="../olympus/themes.js?v=o10"></script>
+<script src="../olympus/olympus.js?v=o22" data-app="ledger"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=6" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
+<script src="../olympus/agora-ui.js?v=7" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c2b280'); r.setProperty('--oly-accent-rgb', '194, 178, 128'); })();</script>
-<link rel="stylesheet" href="ledger.css?v=s3bqfg">
+<link rel="stylesheet" href="ledger.css?v=s3bqfh">
 <link rel="stylesheet" href="../olympus/shell.css?v=s6"><!-- day-arenas: the one design layer, loaded last -->
+<link rel="stylesheet" href="../nq/nqtheme.css?v=6"><link rel="stylesheet" href="../olympus/moneyfx.css?v=2"><!-- day-archive 2026-11-20: navy terminal look + glow (no gold), loaded last -->
 </head>
 <body>
 <canvas id="vault" aria-label="A golden vault with a pile of coins that grows with your net profit" role="img"></canvas>
@@ -55,6 +56,11 @@
     <button type="button" role="tab" id="t-tax" data-tab="tax" aria-selected="false" aria-controls="p-tax" tabindex="-1">Taxes</button>
     <button type="button" role="tab" id="t-list" data-tab="list" aria-selected="false" aria-controls="p-list" tabindex="-1">Entries</button>
   </nav>
+  <section class="ag-card card mfx-card" data-moneyfx="payout" aria-labelledby="mfxH"><!-- day-archive 2026-11-20: payout goal as a 3D vault + the earliest-payout ring (olympus/moneyfx.js) -->
+    <h2 id="mfxH">Payout goal</h2>
+    <div class="mfx-row"><div class="mfx-vault" data-mfx-vault></div><div class="mfx-ring" data-mfx-ring role="img" aria-label="Earliest payout"><b data-mfx-pct>-</b><small>earliest</small></div></div>
+    <p class="note" data-mfx-note style="min-height:4.4em">Loading the funded account...</p>
+  </section>
   <section class="pulse" data-pulse="money,strip" data-pulse-app="ledger" aria-label="Payouts and fees, accounts today" aria-busy="true"><div class="pu-part pu-money"></div><div class="pu-part pu-strip"></div></section><!-- day-arenas: olympus/pulse.js -->
   <section class="panel" id="p-over" role="tabpanel" aria-labelledby="t-over"></section>
   <section class="panel" id="p-acct" role="tabpanel" aria-labelledby="t-acct" hidden></section>
@@ -82,7 +88,8 @@
     <div class="row-b"><button type="submit" class="go" id="fSave" data-oly-cue="success">Save</button><button type="button" class="del" id="fDelete" data-oly-cue="warning" hidden>Delete</button></div>
   </form>
 </section>
-<script type="module" src="ledger.js?v=s3dd"></script>
-<script type="module" src="../olympus/pulse.js?v=p8"></script>
+<script type="module" src="ledger.js?v=s3df"></script>
+<script type="module" src="../olympus/pulse.js?v=p9"></script>
+<script type="module" src="../olympus/moneyfx.js?v=2"></script>
 </body>
 </html>

@@ -42,6 +42,15 @@
     }
     return out;
   }
+  // the estimate that covers money landing on `day` (lead 2026-11-20: a January payout is 2027 tax, due Apr 15, not Jan 15):
+  // Jan-Mar -> Apr 15, Apr-May -> Jun 15, Jun-Aug -> Sep 15, Sep-Dec -> Jan 15 of the next year (weekend / holiday moved)
+  function dueFor(day) {
+    let y, m;
+    if (typeof day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(day)) { y = +day.slice(0, 4); m = +day.slice(5, 7) - 1; }
+    else { const d = day instanceof Date ? day : new Date(); y = d.getFullYear(); m = d.getMonth(); }
+    const q = m <= 2 ? 0 : m <= 4 ? 1 : m <= 7 ? 2 : 3;
+    return Object.assign(yearDates(y)[q], { taxYear: y });
+  }
   const fmtDate = (d) => MONTHS[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' + d.getUTCFullYear();
   const iso = (d) => d.toISOString().slice(0, 10);
   const r2 = (v) => Math.round(v * 100) / 100;
@@ -74,7 +83,7 @@
     return { payout: P, pct: s.pct, pot: s.pot, reserve, retire, live, yours: r2(P - s.pot - reserve - retire - live) };
   }
 
-  const api = { DEFAULT_PCT, dueDates, split, fmtDate, iso, usd, potPct, waterfall, LIVE_TARGET, RESERVE_TARGET };
+  const api = { DEFAULT_PCT, dueDates, dueFor, split, fmtDate, iso, usd, potPct, waterfall, LIVE_TARGET, RESERVE_TARGET };
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.TAXES = api;
   if (typeof document === 'undefined') return;
@@ -99,8 +108,8 @@
     const w = waterfall($('pay').value, s.pct, $('liveHave') ? $('liveHave').value : 0, $('resHave') ? $('resHave').value : 0);
     $('wfPot').textContent = usd(w.pot); $('wfRes').textContent = usd(w.reserve); $('wfRet').textContent = usd(w.retire);
     $('wfLive').textContent = usd(w.live); $('wfYours').textContent = usd(w.yours);
-    const d = dueDates(new Date(), 1)[0];
-    if (d && $('wfDue')) $('wfDue').textContent = 'Pay the ' + usd(w.pot) + ' tax pot to the IRS and Maryland by ' + fmtDate(d.due) + ' (1040-ES, ' + d.period + ').';
+    const d = dueFor(new Date());
+    if (d && $('wfDue')) $('wfDue').textContent = 'Money landing today is ' + d.taxYear + ' tax: pay the ' + usd(w.pot) + ' pot to the IRS and Maryland by ' + fmtDate(d.due) + ' (1040-ES ' + d.taxYear + ', for ' + d.period + ').';
   }
   function suggest() {
     const y = $('year'), j = $('job'); if (!y || !$('pct')) return;

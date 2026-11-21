@@ -1,26 +1,26 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 15:21 ET",
+ "built": "2026-11-20 19:35 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
   "to": "2026-11-20",
   "label": "Nov 16 - Nov 20",
-  "complete": false,
-  "sessions_done": 4
+  "complete": true,
+  "sessions_done": 5
  },
- "pc": "PC last reported Nov 20 15:15 ET",
+ "pc": "PC last reported Nov 20 19:30 ET",
  "accounts": [
   {
    "key": "zlarior",
    "name": "Zlarior",
    "plan": "MFFU Builder 50K",
    "stage": "eval",
-   "end": 49192.78,
-   "src": "PC live, Nov 20 15:13 ET",
-   "room": 1024.58,
-   "to_pass": 3807.22,
+   "end": 49213.9,
+   "src": "PC live, Nov 20 19:26 ET",
+   "room": 1045.7,
+   "to_pass": 3786.1,
    "trades": 1,
    "win_pct": 0,
    "usd_week": -129.4,
@@ -29,17 +29,17 @@
     "usd": -129.4
    },
    "strat": "Zlarior",
-   "start": 49322.18,
+   "start": 49343.3,
    "wins": 0,
    "losses": 1,
    "r_week": -1.01,
-   "room_start": 1153.98,
-   "to_pass_start": 3677.82,
+   "room_start": 1175.1,
+   "to_pass_start": 3656.7,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "No winning day this week."
    },
-   "status_line": "$3,807 to pass, $1,025 of room above the floor"
+   "status_line": "$3,786 to pass, $1,046 of room above the floor"
   },
   {
    "key": "atlas",
@@ -47,8 +47,8 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 20 15:13 ET",
-   "room": 1401.38,
+   "src": "PC live, Nov 20 19:26 ET",
+   "room": 1000.0,
    "to_pass": null,
    "trades": 2,
    "win_pct": 50,
@@ -62,7 +62,7 @@
    "wins": 1,
    "losses": 1,
    "r_week": 5.59,
-   "room_start": 1000.0,
+   "room_start": 598.62,
    "consistency": {
     "rule": "funded: best day at most 50% of the cycle profit",
     "line": "best day 11-20 +$514 = 128% of the cycle profit (over 50%: payout waits for more days)."
@@ -70,12 +70,12 @@
    "status_line": "Payout: Not yet: need $949 more."
   },
   {
-   "key": "fresh25",
-   "name": "Zlarior 25K #2",
-   "plan": "MFFU Builder 25K",
+   "key": "rapid1",
+   "name": "Rapid EOD 25K",
+   "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 25000.0,
-   "src": "PC live, Nov 20 15:13 ET",
+   "src": "PC live, Nov 20 19:26 ET",
    "room": 1000.0,
    "to_pass": 1500.0,
    "trades": 0,
@@ -90,10 +90,36 @@
    "room_start": 1000.0,
    "to_pass_start": 1500.0,
    "consistency": {
-    "rule": "Builder eval: no best-day rule",
+    "rule": "Rapid EOD eval: best day at most 30% of the profit",
     "line": "No trading day this week."
    },
    "status_line": "$1,500 to pass, $1,000 of room above the floor"
+  },
+  {
+   "key": "fresh25",
+   "name": "Zlarior 25K #2",
+   "plan": "MFFU Builder 25K",
+   "stage": "eval",
+   "end": 25023.62,
+   "src": "PC live, Nov 20 19:26 ET",
+   "room": 1000.0,
+   "to_pass": 1476.38,
+   "trades": 0,
+   "win_pct": null,
+   "usd_week": 0,
+   "best_day": null,
+   "strat": "Zlarior",
+   "start": 25023.62,
+   "wins": 0,
+   "losses": 0,
+   "r_week": null,
+   "room_start": 1000.0,
+   "to_pass_start": 1476.38,
+   "consistency": {
+    "rule": "Builder eval: no best-day rule",
+    "line": "No trading day this week."
+   },
+   "status_line": "$1,476 to pass, $1,000 of room above the floor"
   }
  ],
  "strategies": [
@@ -113,10 +139,10 @@
     4.98
    ],
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
-   "exp_usd_week": 306.0,
+   "exp_usd_week": 382.0,
    "plan_usd_month": 1656.0,
    "verdict": "behind",
-   "why": "-$129 this week"
+   "why": "1 trades (target 2-4); -$129 this week"
   },
   {
    "name": "ATLAS",
@@ -134,10 +160,10 @@
     2.75
    ],
    "exp_src": "edge_health.json (40-session medians, 2026)",
-   "exp_usd_week": 92.0,
+   "exp_usd_week": 115.0,
    "plan_usd_month": 500.0,
    "verdict": "ahead",
-   "why": "+$401 vs about $92 expected"
+   "why": "+$401 vs about $115 expected"
   }
  ],
  "light": {
@@ -147,14 +173,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "NQ v4 round 3 (goals in MFFU's $0 terms: ATLAS $401, goal $1,000 at $2,100, honest Dec 18-31 date,...",
-   "NQ terminal look (owner: no gold): nq/nqtheme.css loaded last (navy base + glass cards, cyan/blue...",
-   "NQ v4 round 3 (lead + owner corrections): ATLAS goal in MFFU's own terms (sim-funded starts at $0:...",
-   "DESIGN kit: NQ FX re-coloured (owner: no gold): navy / cyan / blue / violet, green only for a win;...",
-   "Jarvis funded view: use mffuView's trailing floor + payout levels when present, else floor from...",
-   "Jarvis: MFFU funded view (owner): funded accounts from $0 (ATLAS $401, floor -$1,000, earliest...",
-   "Landing: MFFU $0 view everywhere (PC_FEED.mffuView: ATLAS funded $401, floor -$1,000, goal $1,000...",
-   "NQ v4: light themes (Athena etc.) read in dark ink on the goal tiles and the numbers card..."
+   "Landing round 3 fixes: trading month arrows back to 44 px (a kit FX rule squeezed them to 28),...",
+   "Landing round 3: day-quality 9bc9b918 (page_bg helper, phone_fit, navfx v5 overflow, trading.css...",
+   "Phone notifications: Settings - 'Open the notifications card (Send a test)' (../jarvis/#pushCard)...",
+   "Agency-inbox H1 gate: nothing is pushed (replies, caller/*, postcard results) unless the GitHub...",
+   "Postcards: the per-lead code (FR-27, day-cities3's site_factory_codes.json) on both sides and the...",
+   "phone_fit d: the empty band is measured to the lowest bar (Ask button / orb) or the home bar, the...",
+   "dionysus_merge: nqfx n5 pin (as on land-night); the card edge = the page's gradient OR the OLYMPUS...",
+   "Land the OLYMPUS NIGHT round 2 + 6 arenas + factory: DESIGN 329b7b9c (gold warn, Classic kept,..."
   ]
  },
  "next": {
@@ -174,14 +200,16 @@
    }
   ],
   "decisions": [
-   "Tell Claude: 2027 health cover (job / parent / spouse / none), under 34? Deadline Dec 31",
-   "Before ATLAS's first payout: open a free brokerage + Treasury fund for the tax pot (20 min)"
+   "Rapid 25K: Sat STOP BOT, START BOT, type your phrase (skip if Claude says it fixed itself)",
+   "Sat at the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
+   "Before ATLAS's first payout: open a free brokerage + Treasury fund for the tax pot (20 min)",
+   "Ask parents: is your health plan HSA / high-deductible? Do they claim you as a dependent?"
   ],
   "steps": []
  },
  "pace": {
-  "usd_month": 1470.0,
-  "line": "On pace for $1,470 a month (estimate: this week's +$272 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
+  "usd_month": 1180.0,
+  "line": "On pace for $1,180 a month (estimate: this week's +$272 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
   "basis": "this week"
  },
  "twins": {
@@ -301,10 +329,10 @@
   "mode": "paper",
   "loss_used": 0.0,
   "loss_stop": 13.75,
-  "last": "WWWLLLL",
-  "bets_total": 7,
-  "won_pct": 43,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 7 bets WWWLLLL; 7 bets so far, 43% won."
+  "last": "LWW",
+  "bets_total": 3,
+  "won_pct": 67,
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 3 bets LWW; 3 bets so far, 67% won."
  },
  "calendar": [
   {
@@ -343,11 +371,18 @@
    "news": []
   }
  ],
- "weekend": [],
+ "weekend": [
+  {
+   "id": "copilot-test",
+   "question": "Big idea: run a free 30-day test of a 'Prop Slot Planner' page for other prop traders (faceless brand, no name), plus 1 short video a day?",
+   "usd_month": 600.0,
+   "src": "Decide card"
+  }
+ ],
  "missing": [],
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 20 15:15 ET"
+  "board_pc": "Nov 20 19:30 ET"
  }
 }

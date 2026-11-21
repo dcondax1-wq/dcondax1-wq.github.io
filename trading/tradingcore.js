@@ -18,6 +18,7 @@ export const ACCTS = {
   z50k: { name: 'Zlarior 50K', bot: 'LIT', ids: ['zlarior', 'mffu50k_eval', 'lit', 'main'] },
   z25k2: { name: 'Zlarior 25K #2', bot: 'LIT', ids: ['b25k_2'] },
   atlas25f: { name: 'ATLAS funded 25K', bot: 'ATLAS', ids: ['atlas', 'acctb', 'account_b'] },
+  atlas25e: { name: 'ATLAS eval 25K, before funded', bot: 'ATLAS', ids: [] },     // the same MFFU login before it was funded: never the funded account's $
   rapid25: { name: 'Rapid 25K', bot: null, ids: ['rapid', 'acctr', 'rapid25k', 'rapid_25k', 'rapideod', 'rapid_eod'] },
 };
 export const FEED_FRESH_S = 36 * 3600;   // a PC feed older than this is not read for trades (the same 36 hours the banner calls stale)
@@ -159,7 +160,35 @@ export function merge(file, home, lite, nowS) {
   for (const r of homeRows(home)) add(r);
   for (const r of feedRows(lite, nowS)) add(r);
   rows.sort((a, b) => a.t - b.t || (a.bot < b.bot ? -1 : a.bot > b.bot ? 1 : 0) || (String(a.ak || '') < String(b.ak || '') ? -1 : 1));
-  return rows;
+  return splitEras(rows, fundedSince(lite));
+}
+// EVAL era vs FUNDED era (finder round 2026-11-20: ATLAS's passed-eval trades were booked as 'ATLAS funded 25K': the page showed +$2,024 where
+// MFFU's funded account shows $401 since it was funded). A funded account starts at $0 (MFFU's own view): a trade that closed before the account
+// was funded is the eval's. The PC says when: life.acc[id].since (the epoch it turned funded) / mf.a[id].sd (that day); else business/accounts.json.
+export const FUNDED_SINCE = { atlas25f: { day: '2026-11-17', t: null } };   // ATLAS passed + funded 2026-11-17 (business/accounts.json funded.as_of)
+const ERA_OF = { atlas25f: 'atlas25e' };
+export function fundedSince(lite) {
+  const L = obj(lite), out = {};
+  for (const k of Object.keys(FUNDED_SINCE)) out[k] = { ...FUNDED_SINCE[k] };
+  const life = obj(obj(L.life).acc), mf = arr(obj(L.mf).a);
+  for (const k of Object.keys(ERA_OF)) {
+    const ids = ACCTS[k].ids, li = ids.map((i) => obj(life[i])).find((x) => /funded/i.test(String(x.stage || '')));
+    const m = mf.find((x) => isObj(x) && ids.includes(String(x.id)) && isObj(x.f));
+    if (li && num(li.since) != null) out[k] = { day: (etParts(num(li.since)) || {}).day || out[k].day, t: num(li.since) };
+    else if (m && isDay(m.sd)) out[k] = { day: m.sd, t: null };
+  }
+  return out;
+}
+/** rows of a funded account that closed before it was funded -> its eval key (the $ stay real: they are the eval's) */
+export function splitEras(rows, since) {
+  const S = obj(since);
+  return arr(rows).map((r) => {
+    const f = S[r.ak], e = ERA_OF[r.ak];
+    if (r.src !== 'live' || !f || !e) return r;
+    const end = num(r.xt) != null ? num(r.xt) : num(r.t);
+    const before = f.t != null && end != null ? end < f.t : isDay(r.day) && r.day <= f.day;
+    return before ? { ...r, ak: e, an: ACCTS[e].name, era: 'eval' } : r;
+  });
 }
 export function pick(rows, f) {
   const o = obj(f), bot = o.bot || 'all', src = o.src || 'backtest', acct = o.acct || 'all';

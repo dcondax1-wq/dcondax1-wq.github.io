@@ -1,0 +1,73 @@
+/* NAV FX (2026-11-20 day-manual; owner: "It needs some 3D, it needs some effects"; palette = OLYMPUS NIGHT, owner 16:00 ET: the Jarvis
+   switcher sheet's colours: black, violet glass, lavender highlights, bright gold only as small accents, mint for money). Home (gate/), ZEUS (hub/zeus.html), the
+   Website Business HQ (agency/). Active only under html.nfx (navfx.js adds it after the first paint: no JS = the page as before).
+   Colour, glow and transform only (no size, no border width): layout shift 0. Reduced motion: still. Light looks: softer. */
+:root { --nfx-cyan: #9d59ee; --nfx-blue: #dacbf0; --nfx-violet: #9d59ee; --nfx-cyan-rgb: 157, 89, 238; --nfx-blue-rgb: 218, 203, 240; --nfx-violet-rgb: 157, 89, 238;
+  --nfx-gold: #f1c14b; --nfx-gold-ink: #ebbf4f; --nfx-mint: #77db89; --nfx-line: #3e255e; --nfx-line-2: #4d2e76; --nfx-card-a: #16131e; --nfx-card-b: #020204; }   /* the old cyan names now hold the Night violet / lavender */
+
+/* ---- the aurora: one fixed layer behind the page, 3 soft blobs that drift (transform only, GPU) */
+.nfx-aurora { position: fixed; inset: -20vmax; z-index: -1; pointer-events: none; opacity: .5; contain: strict; overflow: hidden; }   /* overflow: the blobs never count as page width (QUALITY 2026-11-20, phone_fit) */
+.nfx-aurora i { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; filter: blur(60px); opacity: .32; will-change: transform; }
+.nfx-aurora i:nth-child(1) { left: 0; top: 4vmax; background: radial-gradient(circle, rgba(var(--nfx-cyan-rgb), .55), transparent 62%); animation: nfx-a1 26s ease-in-out infinite alternate; }
+.nfx-aurora i:nth-child(2) { right: 0; top: 20vmax; background: radial-gradient(circle, rgba(var(--nfx-violet-rgb), .5), transparent 62%); animation: nfx-a2 32s ease-in-out infinite alternate; }
+.nfx-aurora i:nth-child(3) { left: 18vmax; bottom: 0; background: radial-gradient(circle, rgba(77, 46, 118, .7), transparent 62%); animation: nfx-a3 38s ease-in-out infinite alternate; }
+@keyframes nfx-a1 { to { transform: translate3d(14vmax, 10vmax, 0) scale(1.1); } }
+@keyframes nfx-a2 { to { transform: translate3d(-16vmax, 8vmax, 0) scale(.95); } }
+@keyframes nfx-a3 { to { transform: translate3d(10vmax, -12vmax, 0) scale(1.08); } }
+html[data-oly-scheme="light"] .nfx-aurora { opacity: .28; }
+html.nfx-lite .nfx-aurora i { filter: none; opacity: .22; }      /* a slow phone / Save-Data: no blur */
+
+/* ---- glass: cards and tiles get a cool glass edge + glow (no gold) */
+html.nfx :is(.g-card.g-now, .zs-acct, .zs-pc:not(.bad), .hq .card, .hq-tile, #doors4.g-qgrid, .g-arena) {
+  border-color: var(--nfx-line) !important;
+  background-color: var(--nfx-card-b) !important; background-image: linear-gradient(170deg, var(--nfx-card-a), var(--nfx-card-b)) !important;
+  box-shadow: 0 0 0 1px rgba(var(--nfx-violet-rgb), .06) inset, 0 12px 30px -20px rgba(var(--nfx-violet-rgb), .7), 0 0 24px -14px rgba(var(--nfx-violet-rgb), .55) !important;
+}
+html.nfx .zs-acct { border-left-color: var(--nfx-line-2) !important; }
+html.nfx .hq { --acc: var(--nfx-gold); }
+html.nfx .hq-go { background: var(--nfx-gold) !important; color: #000 !important; box-shadow: 0 8px 24px -10px rgba(241, 193, 75, .75), 0 0 0 1px rgba(255, 255, 255, .12) inset; }
+html.nfx .hq-bar::after { background: linear-gradient(90deg, var(--nfx-violet), var(--nfx-gold)) !important; box-shadow: 0 0 12px rgba(var(--nfx-violet-rgb), .8); }
+html.nfx .hq-kicker { color: var(--nfx-gold-ink) !important; } html.nfx .hq-tile .hq-live { color: #dacbf0 !important; }
+html.nfx #hqMrr { color: var(--nfx-mint) !important; }
+html.nfx .hq-pipe li.paid b { color: var(--nfx-mint); }
+html.nfx .hq-pipe li { background: var(--nfx-card-b); border-color: var(--nfx-line); }
+html.nfx .zs-bal { text-shadow: 0 0 18px rgba(var(--nfx-violet-rgb), .45); }
+html.nfx .zs-today.pos { color: var(--nfx-mint) !important; } html.nfx .zs-today.neg { color: #ef4444 !important; }
+
+/* ---- app icons (Home) = the Jarvis switcher sheet's: a dark rounded tile, a violet glow inside (the app's colour mixed in), a thin violet
+   edge, the serif glyph in near-white, the names in small capitals */
+html.nfx .g-ic { position: relative; color: #ebe9f1; text-shadow: 0 0 12px rgba(var(--nfx-violet-rgb), .6);
+  background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--ac) 30%, #9d59ee) 0%, #3a1f66 42%, var(--nfx-card-a) 78%, var(--nfx-card-b) 100%);
+  border: 1px solid var(--nfx-line-2);
+  box-shadow: inset 0 1px 0 rgba(218, 203, 240, .22), 0 10px 22px -12px rgba(var(--nfx-violet-rgb), .9), 0 0 16px -8px rgba(var(--nfx-violet-rgb), .8); }
+html.nfx .g-ic::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(218, 203, 240, .16), transparent 45%); pointer-events: none; }
+html.nfx #quick .g-q b, html.nfx #doors4 .g-dr b { font: 700 .875rem/1.2 var(--ag-serif) !important; letter-spacing: .03em; text-transform: uppercase; color: #ebe9f1 !important; }
+html.nfx #quick .g-q:active .g-ic, html.nfx #doors4 .g-dr:active .g-ic, html.nfx .g-amain:active .g-ic { border-color: var(--nfx-gold); }
+html.nfx .g-amain b { text-transform: uppercase; font-size: 1rem; }
+html.nfx .g-eapp { background: var(--nfx-card-a); border-color: var(--nfx-line); }
+html.nfx .g-eapp:nth-child(-n+5) { border-color: var(--nfx-line-2); }
+
+/* ---- 3D tilt (navfx.js sets --rx / --ry from the finger; nothing moves without a touch) */
+html.nfx [data-nfx-tilt] { transform: perspective(600px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 380ms cubic-bezier(.2, .8, .2, 1); will-change: transform; }
+html.nfx [data-nfx-tilt].nfx-on { transition-duration: 60ms; }
+
+/* ---- the number roll-up: an overlay over the real number (the real text never changes, so VoiceOver and the tests read the final value) */
+.nfx-rolling { position: relative; color: transparent !important; text-shadow: none !important; }
+.nfx-rolling::after { content: attr(data-nfx-roll); position: absolute; left: 0; top: 0; color: var(--nfx-roll-ink); white-space: nowrap; pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nfx-aurora i { animation: none !important; }
+  html.nfx [data-nfx-tilt] { transform: none !important; transition: none !important; }
+}
+
+/* ---- OLYMPUS NIGHT in the default look: black base, violet lines, bright gold only for active / CTA, text #ebe9f1 / #898497.
+   A look the owner picks (Ivory, Stocks Light ...) keeps its own colours and gets the glass + glow on top. */
+html.nfx:not([data-oly-theme]), html.nfx[data-oly-theme="agora"] {
+  --ag-night: #000000; --ag-panel: #0d0b12; --ag-raise: #16131e; --ag-s0: #000000; --ag-s1: #0d0b12; --ag-s2: #16131e; --ag-s3: #1d1928; --ag-s4: #251f33; --ag-line: #3e255e;
+  --ag-text: #ebe9f1; --ag-soft: #bdb8c9; --ag-muted: #898497; --ag-on-gold: #000000; --ag-olive-text: #77db89; --ag-terra-text: #ef4444;
+  --o-bg: #000000; --o-surface: #0d0b12; --o-surface-2: #16131e; --o-surface-3: #1d1928; --o-line: rgba(77, 46, 118, .55); --o-line-2: #4d2e76; --o-ink: #ebe9f1; --o-ink-2: #bdb8c9; --o-muted: #898497;
+  --ag-gold: #f1c14b; --ag-gold-hi: #ebbf4f; --ag-gold-rgb: 241, 193, 75; --o-accent: #f1c14b; --o-accent-ink: #ebbf4f; --oly-accent: #f1c14b; --ag-line-gold: rgba(157, 89, 238, .45);
+}
+html.nfx:not([data-oly-theme]) body, html.nfx[data-oly-theme="agora"] body { background-color: #000000; }
+/* the Home's gold temple hero (olympus/home-fx.js): violet, with one GPU filter (its canvas untouched) */
+html.nfx .hfx-hero { filter: hue-rotate(225deg) saturate(1.2); }

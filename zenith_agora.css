@@ -662,3 +662,6 @@ html[data-oly-style] :is(.btn.primary, .mg-btn.primary, .zn-nq-a) { background: 
 .zn-nq[data-level="warn"] .zn-nq-t { color: var(--oly-th-warn, #e0b060); } .zn-nq[data-level="bad"] .zn-nq-t { color: var(--oly-th-r10, #e08a6b); }
 .zn-nq[data-level="warn"] .zn-nq-x, .zn-nq[data-level="bad"] .zn-nq-x { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .zn-nq[data-level="warn"] .zn-nq-a, .zn-nq[data-level="bad"] .zn-nq-a { padding: 0 14px; font-size: 14px; }
+
+/* OLYMPUS NIGHT (owner 2026-11-20): a faint gold over black reads brown; the selected side item glows violet instead (gold stays the bright marker) */
+html[data-oly-style="night"] .nav a.on, html[data-oly-style="night"] .nav button.on { background-image: linear-gradient(90deg, rgba(157, 89, 238, .24), rgba(157, 89, 238, 0)) !important; }

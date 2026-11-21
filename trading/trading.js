@@ -3,9 +3,9 @@
 // createElementNS. window.TRADING is the test hook. ?demo=1 = the example; ?src=live|paper|backtest and ?bot=LIT|ATLAS open on that filter; ?month=2026-10 on that month;
 // ?acct=z25k2 opens LIVE on one account. LIVE rows per account: trades.json (the PC's data branch, tools/trading_export.py) + the PC's 15-minute ntfy feed
 // (../pc_feed.js: board_trades + "at", read here once per refresh, used for trades only while it is fresh: C.feedRows).
-import * as C from './tradingcore.js';
+import * as C from './tradingcore.js?v=5';
 import * as T from '../olympus/truth.js';
-import * as DK from '../nq/nqdesk.js?v=6';
+import * as DK from '../nq/nqdesk.js?v=7';
 import * as NB from '../nq/nqbars.js?v=b1';
 import * as PR from '../nq/payready.js?v=2';
 import * as MG from './merged.js?v=1';     // round 3: Odeon reels + the Why study as cards   // nqdash3 round 2: payout readiness per funded account   // the PC's chart post (le-bars): an open trade's stop as it is now and the last price   // nqdash3: the accounts strip (the same cards as the NQ page)
@@ -36,7 +36,7 @@ const nowS = () => Math.floor(Date.now() / 1000);
 let feedLib = null;
 function loadFeedLib() {
   if (window.PC_FEED) return Promise.resolve(window.PC_FEED);
-  if (!feedLib) feedLib = new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n6'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
+  if (!feedLib) feedLib = new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n7'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
   return feedLib;
 }
 async function withFeed(home) {
@@ -86,7 +86,7 @@ function zeusRows() {                       // olympus/zeus_core.js (the ZEUS ca
   zeusP = new Promise((res) => {
     const go = () => { try { window.ZEUS_CORE.fetchAll().then((d) => res(window.ZEUS_CORE.summary(d).rows || []), () => res([])); } catch (_) { res([]); } };
     if (window.ZEUS_CORE) { go(); return; }
-    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=7'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
+    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=8'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
   });
   return zeusP;
 }

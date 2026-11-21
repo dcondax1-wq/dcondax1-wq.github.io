@@ -193,3 +193,31 @@ html:root main#app :is(.win small, .rowbtn small, .dayhead) { font-size: var(--a
 html:root main#app section.pulse .pu-title { white-space: normal; overflow: visible; text-overflow: clip; }   /* the headline is never cut */
 html:root main#app section.pulse { min-height: 15.75rem; }   /* the pulse card fills in after its feed: hold its place so Quick add does not jump (PERF: CLS 0.29) */
 html:root main#app > header.top .brand { padding-right: 84px; }   /* the sundial (canvas#scene, 76 px, bottom-right of the header) never covers the subtitle */
+
+/* ---- OLYMPUS NIGHT (owner 2026-11-20: the Jarvis switcher's colours everywhere): black, violet glass cards (#16131e -> #020204, violet
+   outlines), violet / lavender glows, bright gold only as a small accent (active tab, the main button), mint for profit, red for loss.
+   !important beats the theme engine's inline tokens (as nq/nqtheme.css). Text #ebe9f1 / #898497 are >= 4.5:1 on every card. */
+:root {
+  --ag-gold: #f1c14b !important; --ag-gold-hi: #f6d47a !important; --ag-gold-rgb: 241, 193, 75 !important; --ag-line-gold: rgba(157, 89, 238, .45) !important;
+  --ag-on-gold: #120c02 !important; --oly-th-a8: #f1c14b !important; --oly-th-a8-rgb: 241, 193, 75 !important; --oly-th-a9: #f6d47a !important;
+  --oly-th-a5: #9d59ee !important; --oly-th-a10: #f6d47a !important; --oly-th-a11: #dacbf0 !important; --ag-bronze: #9d59ee !important;
+  --ag-sun: #dacbf0 !important; --ag-sun-rgb: 218, 203, 240 !important; --acc: #f1c14b !important; --oly-accent: #f1c14b !important; --oly-accent-rgb: 241, 193, 75 !important;
+  --ag-olive: #77db89 !important; --ag-olive-text: #77db89 !important; --ag-olive-rgb: 119, 219, 137 !important;
+  --ag-terra: #ef4444 !important; --ag-terra-text: #f87171 !important; --ag-terra-rgb: 239, 68, 68 !important;
+  --ag-aegean: #9d59ee !important; --ag-aegean-text: #dacbf0 !important;
+}
+html:not([data-oly-scheme="light"]) {
+  --ag-night: #000000 !important; --ag-panel: #16131e !important; --ag-raise: #1c1826 !important; --ag-line: #3e255e !important;
+  --ag-s0: #000000 !important; --ag-s1: #0c0a12 !important; --ag-s2: #110e18 !important; --ag-s3: #16131e !important; --ag-s4: #1c1826 !important;
+  --ag-text: #ebe9f1 !important; --ag-soft: #c9c4d6 !important; --ag-muted: #898497 !important;
+  --oly-th-n3: #000000 !important; --oly-th-n4: #16131e !important; --oly-th-n5: #1c1826 !important; --oly-th-n6: #221d2e !important; --oly-th-n8: #3e255e !important;
+  --oly-th-n37: #ebe9f1 !important; --oly-th-n30: #c9c4d6 !important; --oly-th-n24: #898497 !important;
+  --oly-th-card-bg: linear-gradient(180deg, #16131e, #020204) !important; --oly-th-card-border: 1px solid #3e255e !important;
+}
+html:not([data-oly-scheme="light"]) body { background: radial-gradient(120% 70% at 50% -10%, #1a1030 0%, #000000 60%) fixed !important; background-color: #000 !important; }
+html:not([data-oly-scheme="light"]) :is(.ag-card, .ag-stat) { background: linear-gradient(180deg, #16131e, #020204) !important; border-color: #3e255e !important; }
+html[data-oly-scheme="light"] {
+  --ag-gold: #6b3fb8 !important; --ag-gold-hi: #7d4fd0 !important; --ag-gold-rgb: 107, 63, 184 !important; --ag-on-gold: #ffffff !important;
+  --oly-th-a8: #6b3fb8 !important; --oly-th-a9: #7d4fd0 !important; --ag-sun: #5b2d9e !important; --acc: #6b3fb8 !important; --oly-accent: #6b3fb8 !important;
+  --ag-olive-text: #15803d !important; --ag-terra-text: #b91c1c !important;
+}

@@ -21,7 +21,7 @@
    "funded"
   ]
  ],
- "pc": "PC: no report seen from the cloud (check the PC)",
+ "pc": "PC: reporting",
  "week": [
   {
    "date": "2026-11-18",
@@ -87,26 +87,18 @@
   },
   {
    "id": "z25_pass",
-   "date": "2026-11-30",
+   "date": "2026-12-09",
    "what": "Zlarior 25K #2 passes",
-   "detail": "Needs +$1,500 with at most $1,000 lost: 82 in 100 runs pass within 3 months (2 fail). Then it is funded: your 2nd funded 25K.",
-   "when": "~Nov 30",
+   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 9; 70 in 100 runs by Dec 31. Needs +$1,500 with at most $1,000 lost: 82 in 100 runs pass within 3 months (2 fail). Then it is funded: your 2nd funded 25K.",
+   "when": "~Dec 9",
    "status": "later"
   },
   {
    "id": "z50_pass",
-   "date": "2026-12-10",
+   "date": "2026-12-24",
    "what": "Zlarior 50K passes",
-   "detail": "Needs about $3,807 more with only ~$1,025 of room: 70 in 100 runs pass within 3 months, 26 fail (then a re-buy, $91.80).",
-   "when": "~Dec 10",
-   "status": "later"
-  },
-  {
-   "id": "r25_pass",
-   "date": "2026-12-23",
-   "what": "Rapid EOD 25K passes",
-   "detail": "About 25 trading days from tonight (90 in 100 runs within 3 months). Payouts then come daily (you keep 90%).",
-   "when": "~Dec 23",
+   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 24; 59 in 100 runs by Dec 31. Needs about $3,807 more with only ~$1,025 of room: 70 in 100 runs pass within 3 months, 26 fail (then a re-buy, $91.80).",
+   "when": "~Dec 24",
    "status": "later"
   },
   {
@@ -125,6 +117,14 @@
    "detail": "Once the payouts you keep (after the tax pot) reach $165: 100 in 100 runs get there. It fills your 5th funded slot (about $1,969 a month); the bot runs one Rapid today, so it needs your yes.",
    "usd": -165.0,
    "when": "~Dec 28",
+   "status": "later"
+  },
+  {
+   "id": "r25_pass",
+   "date": "2026-12-31",
+   "what": "Rapid EOD 25K passes",
+   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 31; 50 in 100 runs by Dec 31. About 25 trading days from tonight (90 in 100 runs within 3 months). Payouts then come daily (you keep 90%).",
+   "when": "~Dec 31",
    "status": "later"
   },
   {
@@ -197,8 +197,10 @@
   ]
  ],
  "decisions": [
-  "Tell Claude: 2027 health cover (job / parent / spouse / none), under 34? Deadline Dec 31",
-  "Before ATLAS's first payout: open a free brokerage + Treasury fund for the tax pot (20 min)"
+  "Rapid 25K: Sat STOP BOT, START BOT, type your phrase (skip if Claude says it fixed itself)",
+  "Sat at the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
+  "Before ATLAS's first payout: open a free brokerage + Treasury fund for the tax pot (20 min)",
+  "Ask parents: is your health plan HSA / high-deductible? Do they claim you as a dependent?"
  ],
  "sources": [
   "research/lab/money_plan.json (2026-11-18) + research/lab/payday_plan.json (2026-11-20)",

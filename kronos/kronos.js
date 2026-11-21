@@ -121,7 +121,7 @@ function stepMonth(n) { const months = C.monthsWithData(S.v.dm, S.today ? C.mont
 
 async function boot() {
   const q = new URLSearchParams(location.search), forced = q.get('demo') === '1', at = q.get('at');
-  const [fx, real] = await Promise.all([getJSON('./fixture.json'), forced ? null : getJSON('../odeon/trades.json')]);
+  const [fx, real] = await Promise.all([getJSON('./fixture.json'), forced ? null : getJSON('../odeon/trades_lite.json').then((x) => x || getJSON('../odeon/trades.json'))]);   // the slim copy first (dogfood 2026-11-20)
   S.fixture = fx; const data = C.chooseData(real, fx); if (!data) throw new Error('no numbers');
   S.data = data;
   const now = at && Number.isFinite(Date.parse(at)) ? Date.parse(at) / 1000 : Date.now() / 1000;

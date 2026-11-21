@@ -34,7 +34,7 @@ async function getJSON(url, ms = 8000) {
 let feedLib = null;
 /** the PC's ntfy status (../pc_feed.js, the same file and version the Trading page loads), or null; never throws, ~3 s at most */
 function pcFeed() {
-  if (!feedLib) feedLib = window.PC_FEED ? Promise.resolve(window.PC_FEED) : new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n6'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
+  if (!feedLib) feedLib = window.PC_FEED ? Promise.resolve(window.PC_FEED) : new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n7'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
   return feedLib.then((F) => (F && F.fetchLatest ? Promise.race([F.fetchLatest({ feedUrl: '../status_feed.json' }), new Promise((r) => setTimeout(() => r(null), 3000))]) : null)).catch(() => null);
 }
 
@@ -235,7 +235,7 @@ function render() {
 }
 
 async function start() {
-  const [edge, trading, odeon] = await Promise.all([getJSON('./edge.json'), getJSON('../trading/trades.json'), getJSON('../odeon/trades.json')]);
+  const [edge, trading, odeon] = await Promise.all([getJSON('./edge.json'), getJSON('../trading/trades.json'), getJSON('../odeon/trades_lite.json').then((x) => x || getJSON('../odeon/trades.json'))]);   // the slim copy first (dogfood 2026-11-20)
   S.edge = edge; S.trading = trading; S.odeon = odeon;
   S.rows = C.rowsFrom(edge);
   S.real = C.realRows(trading, odeon, null, nowS());

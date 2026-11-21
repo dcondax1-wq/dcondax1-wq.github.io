@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
+<script>/* FIRST PAINT (day-arenas 2026-11-20, DESIGN): Home's small home.json starts here, with the page, not after main.js (it waited 3 s behind 50 scripts on a phone line); main.js picks this promise up as window.HOMEP0 */try { window.HOMEP0 = fetch('home.json?t=' + Date.now(), { cache: 'no-store', priority: 'high' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); } catch (e) {}</script>
 <style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="olympus/warp.css?v=w3" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
 <title>Zenith</title>
 <meta name="description" content="NQ futures paper bot on the LIT strategy: bot status, MFFU eval tracker, trades, replays, backtest results and the research lab. The previous strategy is kept in the Archive.">
@@ -1016,6 +1017,16 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
   window.__olyPaint = on;
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })('today', (function () { try { return window.localStorage.getItem('le.theme') === '"light"' ? 'off' : 'page'; } catch (e) { return 'page'; } })());</script>
+<script>/* OLYMPUS NIGHT from the first frame while nothing is chosen (day-arenas 2026-11-20: the kit's default is no longer saved as a choice,
+   so the FIRST PAINT copy above paints nothing then; this paints the engine's saved copy of 'night', which it writes on every apply) */
+(function () { try {
+  var ls = window.localStorage, v = ls.getItem('olympus.theme'), d = document.documentElement, k, on = window.__olyPaint || [];
+  if ((v && v !== 'agora') || ls.getItem('olympus.theme.night') === '1' || ls.getItem('le.theme') === '"light"' || ls.getItem('olympus.themeMix') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches)) return;
+  var c = JSON.parse(ls.getItem('olympus.theme.look.page.night') || 'null'); if (!c || !c.vars) return;
+  for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
+  d.setAttribute('data-oly-theme', 'night'); d.setAttribute('data-oly-scheme', 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
+  window.__olyPaint = on;
+} catch (e) { /* the engine paints it a moment later */ } })();</script>
 <script>(function () {
   var R = document.documentElement, own = function () { return R.getAttribute('data-theme') === 'light'; };
   function go() {
@@ -1026,7 +1037,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
     var was = own();
     if (window.MutationObserver) new MutationObserver(function () { if (own() !== was) { was = own(); T.apply('page', opts); } }).observe(R, { attributes: true, attributeFilter: ['data-theme'] });
   }
-  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o9'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o10'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 <script>
 /* Inside Jarvis (2026-11-01, owner: "on Jarvis I can switch between that mode [Jarvis], zenith mode with all of the
@@ -1153,7 +1164,7 @@ html[data-oly-scheme="light"] {
 <!-- deep space (2026-10-29): the static CSS sky paints at once; the WebGL scene (fx.js, space.js) fades in over it -->
 <div class="space-css" aria-hidden="true"><i class="sc-stars"></i><i class="sc-stars sc-b"></i><i class="sc-mw"></i><i class="sc-sun"></i><i class="sc-moon"></i><i class="sc-earth"></i></div>
 <!-- the intro (2026-10-30): first open of the day only, skippable (tap / any key / Skip), never with reduced motion -->
-<div id="splash" aria-hidden="true"><canvas id="spCv"></canvas><div class="sp-orbs"><i style="--c:#c8a24a;--a0:0deg;--dl:0s"></i><i style="--c:#9c6b3c;--a0:120deg;--dl:.1s"></i><i style="--c:#e0b060;--a0:240deg;--dl:.2s"></i></div>
+<div id="splash" aria-hidden="true"><canvas id="spCv"></canvas><div class="sp-orbs"><i style="--c:#9d59ee;--a0:0deg;--dl:0s"></i><i style="--c:#4d2e76;--a0:120deg;--dl:.1s"></i><i style="--c:#f1c14b;--a0:240deg;--dl:.2s"></i></div>
   <div class="sp-in"><img src="zenith-icon.webp?v=1" alt="" width="132" height="132" decoding="async">
   <div class="sp-t">Zenith</div><div class="sp-s">Zlarior · ATLAS · NQ futures · read-only</div><div class="sp-line" id="spLine"></div><div class="sp-bar"><i></i></div></div>
   <button type="button" class="sp-skip" id="spSkip">Skip</button></div>
@@ -1173,18 +1184,20 @@ html[data-oly-scheme="light"] {
       <button class="iconbtn" id="refresh" type="button" title="Refresh data" aria-label="Refresh data"></button>
     </header>
     <div class="sub" id="sub"></div>
+    <section class="zn-nq" id="znNq" aria-label="NQ bots: reporting" data-level="ok"><div class="zn-nq-w"><b class="zn-nq-t">Zlarior and ATLAS on one page</b><span class="zn-nq-x">Status, drawdown left, today, the last trades.</span></div><a class="zn-nq-a" href="nq/" id="znNqLink" aria-label="Open the new NQ page">Open the new NQ page</a><script>/* day-arenas 2026-11-20 (DESIGN): the NQ strip is in the page from the first frame (the NQ note script fills it; it landed at 5.4 s above Home: a 0.06-0.08 layout shift) */if (/^#\/(?!today\b)[a-z]/.test(location.hash)) document.currentScript.parentNode.hidden = true;</script></section>
     <main class="page" id="page"><div class="skel"></div><div class="skel"></div><div class="skel"></div></main>
   </div>
   <nav class="tabs" id="tabs" aria-label="Main"></nav>
 </div>
 <div class="toast" id="toast"></div>
-<script src="main.js?v=w13" defer></script><!-- the Zenith app itself (QA Round 7: was a 422 KB inline script; deferred so the skeleton paints first) -->
-<script type="module">import * as T from "./olympus/truth.js?v=r12"; window.OLYMPUS_TRUTH = T;</script><!-- one source for drawdown / balance / data age (QA round 6) -->
-<script src="extras.js?v=3" defer></script>
-<script src="hub.js?v=11d" defer></script>
+<script src="main.js?v=w15" defer fetchpriority="high"></script><!-- the Zenith app itself (QA Round 7: was a 422 KB inline script; deferred so the skeleton paints first) -->
+<script src="zenith_settle.js?v=5" defer></script><!-- day-arenas DESIGN: Home start-up changes happen behind a still copy of the last frame, shown in one step (no cascade of jumps) -->
+<script type="module">import * as T from "./olympus/truth.js?v=r13"; window.OLYMPUS_TRUTH = T;</script><!-- one source for drawdown / balance / data age (QA round 6) -->
+<script src="extras.js?v=3" defer fetchpriority="high"></script>
+<script src="hub.js?v=11d" defer fetchpriority="high"></script>
 <script src="more.js?v=q6be" defer></script>
-<script src="pc_feed.js?v=n6" defer></script>
-<script src="live.js?v=4" defer></script>
+<script src="pc_feed.js?v=n7" defer></script>
+<script src="live.js?v=5" defer></script>
 <script src="intel.js?v=1" defer></script>
 <script src="tradepics.js?v=3" defer></script>
 <script src="brain.js?v=8" defer></script>
@@ -1203,10 +1216,10 @@ html[data-oly-scheme="light"] {
 <script src="clean.js?v=4" defer></script>
 <script src="board.js?v=3" defer></script>
 <script src="real.js?v=3" defer></script>
-<script src="liveview.js?v=5" defer></script>
+<script src="liveview.js?v=6" defer></script>
 <script src="missioncore.js?v=3" defer></script>
 <script src="mission.js?v=2" defer></script>
-<script src="holo.js?v=6e1b6af9" defer></script>
+<script src="holo.js?v=6e1b6afa" defer></script>
 <script src="blitzcore.js?v=3" defer></script>
 <script src="mindcore.js?v=2" defer></script>
 <script src="deckcore.js?v=2" defer></script>
@@ -1218,8 +1231,8 @@ html[data-oly-scheme="light"] {
 <script src="pro.js?v=1" defer></script>
 <script src="zenithcore.js?v=2" defer></script>
 <script src="zenith.js?v=2" defer></script>
-<script src="zenith_hero.js?v=5" defer></script>
-<script src="launcher.js?v=l22" defer></script>
+<script src="zenith_hero.js?v=6" defer></script>
+<script src="launcher.js?v=l23" defer></script>
 <script src="olympus/a11y.js?v=a2" defer></script><!-- A11Y K9 (day-arenas DESIGN): focus ring, auto names, text growth -->
 <script src="zenith_money.js?v=4" defer></script>
 <script src="moneynowcore.js?v=q11" defer></script>
@@ -1228,9 +1241,10 @@ html[data-oly-scheme="light"] {
 <script src="sessionday.js?v=1" defer></script>
 <script src="zenpagescore.js?v=1" defer></script>
 <script src="zenith_pages.js?v=1" defer></script>
-<script src="zenith_nq.js?v=4" defer></script>
+<script src="zenith_nq.js?v=5" defer></script>
 <script src="embed.js?v=1" defer></script>
-<script src="olympus/zeus_core.js?v=7" defer></script>
+<script src="olympus/zeus_core.js?v=8" defer></script>
+<script src="olympus/dashfx.js?v=d1" defer></script><script src="zenith_fx.js?v=4" defer></script>
 <script>/* ZEUS (2026-11-18, night-zcard): Home starts with ONE ZEUS card (olympus/zeus_core.js, the same matching as hub/zeus.html): PC reported X min ago
    (red PC SILENT), one line per real account (stage, balance, $ to pass / payout, today's $), the ZEUS edge chip; a tap opens hub/zeus.html.
    Kept the first child of #page through every Home redraw; other pages never show it. Paper / cloud ledgers stay lower (Money now: "Paper test"). */

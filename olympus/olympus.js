@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
- *   <script src="../olympus/themes.js?v=o9"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o20" data-app="mind"></script>
+ *   <script src="../olympus/themes.js?v=o10"></script>  (the OLYMPUS themes: optional, just before)
+ *   <script src="../olympus/olympus.js?v=o22" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,
@@ -200,7 +200,8 @@
   function ambKit(cb) {
     var k = window.OLYMPUS_SFX;
     if (k) { cb(k); return; }
-    if (ambLoading || !me || !me.src) return;
+    if (!me || !me.src) return;
+    if (ambLoading) { var t2 = 0, w2 = function () { if (window.OLYMPUS_SFX) cb(window.OLYMPUS_SFX); else if (++t2 < 12) setTimeout(w2, 500); }; w2(); return; }
     ambLoading = true;
     var tries = 0, wait = function () { if (window.OLYMPUS_SFX) { cb(window.OLYMPUS_SFX); } else if (++tries < 12) setTimeout(wait, 500); };
     if (!d.getElementById('olySfxJs')) {
@@ -222,7 +223,13 @@
       });
     } catch (e) { /* the bed is never needed */ }
   }
-  fxOnLoad(function () { setTimeout(ambApply, 400); });
+  // dogfood 2026-11-20: the pages no longer carry their own <script src="../olympus/sfx.js" defer> (31 KB gz fetched during the first paint
+  // on a phone line, for a sound engine that stays silent until the first tap anyway): the kit loads it here, after load, when the phone
+  // is idle (2 s cap), so OLYMPUS.cue(...) and the beds work as before; the first tap still unlocks the audio (sfx.js is there by then).
+  fxOnLoad(function () {
+    var go = function () { try { if (!window.OLYMPUS_SFX && level !== 'off') ambKit(function () {}); } catch (e) { /* no sound */ } setTimeout(ambApply, 50); };
+    if (window.requestIdleCallback) window.requestIdleCallback(go, { timeout: 2000 }); else setTimeout(go, 400);
+  });
   function fxOnLoad(fn) { if (d.readyState === 'complete') fn(); else window.addEventListener('load', fn); }
 
   // ---------------------------------------------------------------- WebGL guard (QA round 6, 2026-11-11: the real-phone pass)
@@ -642,7 +649,7 @@
     } catch (e) { /* no worker on this browser */ }
     try {
       if (base && !framed && id !== 'jarvis' && !d.querySelector('script[src*="jarvis/ask.js"]') && d.body) {
-        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=5'; s.defer = true; if (id) s.setAttribute('data-app', id);
+        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=6'; s.defer = true; if (id) s.setAttribute('data-app', id);
         d.body.appendChild(s); d.body.classList.add('oly-has-ask');   // agora.css: the last lines scroll clear of the fixed button
       }
     } catch (e) { /* the page works without the button */ }

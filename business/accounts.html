@@ -15,8 +15,8 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="preconnect" href="https://ntfy.sh" crossorigin><!-- speed: the PC live line (../pc_feed.js -> ntfy.sh) skips its DNS + TLS wait -->
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
-<script src="../olympus/themes.js?v=o9" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<script src="../olympus/themes.js?v=o10" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
 <script src="../olympus/a11y.js" defer></script>
 <link rel="stylesheet" href="business.css?v=6">
 <link rel="stylesheet" href="dashkit.css?v=2fg"><!-- night-revamp-dash: the Money charts + live cards (dashkit.js) -->
@@ -45,6 +45,7 @@
   .coach-form .ag-btn { min-height: 44px; margin-top: 6px; }
   main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
 </style>
+<link rel="stylesheet" href="../nq/nqtheme.css?v=6"><!-- owner 2026-11-20: the navy trading-terminal look, no gold (loaded last) -->
 </head>
 <body>
 <main id="app">
@@ -73,12 +74,14 @@
   </section>
   <p class="note" id="foot"></p>
 </main>
-<script src="../pc_feed.js?v=n6"></script><!-- after the content (was in <head>: render-blocking); still before the page scripts that read it -->
+<script src="../pc_feed.js?v=n7"></script><!-- after the content (was in <head>: render-blocking); still before the page scripts that read it -->
 <script src="payoutcoach.js?v=2"></script>
 <script src="payoutcard.js?v=3"></script>
-<script src="mffumodel.js?v=2"></script>
+<script src="mffumodel.js?v=3"></script>
 <script src="accounts.js?v=5"></script>
 <script src="../widget/olympus-widget.js?v=w4"></script><!-- live accounts: the PC post, else the site copy -->
 <script src="dashkit.js?v=1"></script>
+<script src="../olympus/nqfx.js?v=n5" defer></script>
+<script src="../trading/panelfx.js?v=2" data-look="night" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
 </body>
 </html>

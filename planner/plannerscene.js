@@ -25,7 +25,7 @@ export function draw(canvas, hours, opts) {
   g.fillStyle = top; g.beginPath(); g.ellipse(cx, cy, R, ry, 0, 0, TAU); g.fill();
   g.strokeStyle = '#9c6b3c'; g.lineWidth = 1.4; g.beginPath(); g.ellipse(cx, cy, R * 0.92, ry * 0.92, 0, 0, TAU); g.stroke();
   // the inner ring turns gold while the bots may enter (02:00 to 15:30)
-  g.strokeStyle = o.open ? '#c8a24a' : '#b3a68f'; g.lineWidth = 2; g.beginPath(); g.ellipse(cx, cy, R * 0.78, ry * 0.78, 0, 0, TAU); g.stroke();
+  g.strokeStyle = o.open ? '#f1c14b' : '#898497'; g.lineWidth = 2; g.beginPath(); g.ellipse(cx, cy, R * 0.78, ry * 0.78, 0, 0, TAU); g.stroke();
   // hour marks
   g.strokeStyle = '#7a6a52'; g.lineWidth = 1;
   for (let i = 0; i < 12; i++) {
@@ -37,9 +37,9 @@ export function draw(canvas, hours, opts) {
   g.fillStyle = 'rgba(40,30,20,.38)'; g.beginPath(); g.moveTo(cx - 2.5, cy); g.lineTo(cx + 2.5, cy); g.lineTo(sx, sy); g.closePath(); g.fill();
   const br = g.createLinearGradient(cx - 5, 0, cx + 5, 0); br.addColorStop(0, '#b98550'); br.addColorStop(1, '#7a4f28');
   g.fillStyle = br; g.beginPath(); g.moveTo(cx - 4, cy + 1); g.lineTo(cx + 4, cy + 1); g.lineTo(cx, cy - h); g.closePath(); g.fill();
-  g.fillStyle = '#e0b060'; g.beginPath(); g.arc(cx, cy - h, 2.2, 0, TAU); g.fill();
+  g.fillStyle = '#dacbf0'; g.beginPath(); g.arc(cx, cy - h, 2.2, 0, TAU); g.fill();
   // the "now" dot on the dial
-  const na = ang - Math.PI; g.fillStyle = o.open ? '#7f8a52' : '#c8a24a'; g.beginPath(); g.arc(cx + Math.cos(na) * R * 0.8, cy + Math.sin(na) * ry * 0.8, 2.6, 0, TAU); g.fill();
+  const na = ang - Math.PI; g.fillStyle = o.open ? '#77db89' : '#9d59ee'; g.beginPath(); g.arc(cx + Math.cos(na) * R * 0.8, cy + Math.sin(na) * ry * 0.8, 2.6, 0, TAU); g.fill();
   return true;
 }
 

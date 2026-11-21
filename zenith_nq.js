@@ -40,6 +40,9 @@
   function mount() {
     var pg = document.getElementById('page'); if (!pg || !pg.parentNode) return null;
     if (box && box.parentNode === pg.parentNode) return box;
+    // the strip index.html already holds (in place from the first frame: nothing moves when this file lands)
+    var have = document.getElementById('znNq');
+    if (have && have.parentNode === pg.parentNode && have.querySelector('.zn-nq-t') && have.querySelector('.zn-nq-x') && have.querySelector('.zn-nq-a')) { box = have; return box; }
     box = el('section', 'zn-nq'); box.id = 'znNq'; box.setAttribute('aria-label', 'NQ bots: reporting');
     var words = el('div', 'zn-nq-w'); words.appendChild(el('b', 'zn-nq-t')); words.appendChild(el('span', 'zn-nq-x')); box.appendChild(words);
     var a = el('a', 'zn-nq-a', 'Open the new NQ page'); a.href = 'nq/'; a.id = 'znNqLink'; box.appendChild(a);

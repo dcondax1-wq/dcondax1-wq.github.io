@@ -18,10 +18,10 @@
      payoutcoach.js = the payout rules (= engine/payout_coach.py), mffu.js = the page. textContent only. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
-<script src="../olympus/themes.js?v=o9"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<script src="../olympus/themes.js?v=o10"></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../pc_feed.js?v=n6"></script>
+<script src="../pc_feed.js?v=n7"></script>
 <link rel="stylesheet" href="business.css?v=6">
 <style>
   main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
@@ -85,6 +85,7 @@
   html:not(.framed) main#app { padding-bottom: calc(40px + var(--sb, env(safe-area-inset-bottom, 0px))); }
 </style>
 <link rel="stylesheet" href="../nqdeep.css?v=2">
+<link rel="stylesheet" href="../nq/nqtheme.css?v=6"><!-- owner 2026-11-20: the navy trading-terminal look, no gold (loaded last) -->
 </head>
 <body>
 <main id="app">
@@ -107,10 +108,12 @@
   <p class="note" id="foot"></p>
 </main>
 <script src="payoutcoach.js?v=2"></script>
-<script src="mffumodel.js?v=2"></script>
+<script src="mffumodel.js?v=3"></script>
 <script src="mffucenter.js?v=2"></script>
 <script src="../edge_chip.js?v=1"></script>
 <script src="../nqdeep.js?v=1"></script>
 <script src="mffu.js?v=5"></script>
+<script src="../olympus/nqfx.js?v=n5" defer></script>
+<script src="../trading/panelfx.js?v=2" data-look="night" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
 </body>
 </html>

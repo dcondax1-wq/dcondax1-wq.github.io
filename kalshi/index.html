@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kalshi</title>
 <meta name="description" content="The Kalshi bot (paused: ready to go live when you type the phrase): balance, $ won or lost, alerts, open bets, and the paper tests.">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png?v=j5">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k54">
+<link rel="stylesheet" href="kalshi.css?v=k56">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a3"><!-- with a11y.js: in the head so the text never jumps when it arrives (CLS) -->
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
@@ -43,9 +43,10 @@
   window.__olyPaint = on;
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })('kalshi', 'page');</script>
+<script>/* OLYMPUS NIGHT from the first frame while nothing is chosen (kit, day-arenas 2026-11-20) */(function(){try{var ls=window.localStorage,v=ls.getItem('olympus.theme'),d=document.documentElement,k,on=window.__olyPaint||[];if((v&&v!=='agora')||ls.getItem('olympus.theme.night')==='1'||ls.getItem('olympus.themeMix')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches))return;var c=JSON.parse(ls.getItem('olympus.theme.look.page.night')||'null');if(!c||!c.vars)return;for(k in c.vars){d.style.setProperty(k,c.vars[k]);on.push(k);}d.setAttribute('data-oly-theme','night');d.setAttribute('data-oly-scheme','dark');if(c.style)d.setAttribute('data-oly-style',c.style);window.__olyPaint=on;}catch(e){}})();</script>
 <script>(function () {
   function go() { var T = window.OLYMPUS_THEMES; if (T) T.apply('page', { meta: true }); }
-  var s = document.createElement('script'); s.src = '../olympus/themes.js?v=o9'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = '../olympus/themes.js?v=o10'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 </head>
 <body>
@@ -69,6 +70,10 @@
     <ul class="k8t-l" id="k8top-legs"></ul>
     <p class="k8t-p" id="k8top-pnl">Paper $: no settled bets yet</p>
     <a class="k8t-c" id="k8top-go" href="#kgo">Monday go-live checklist <b id="k8top-gon">…</b></a></section>
+  <!-- K8 FX hero (Olympus 2 FX, owner "it needs some 3D, some effects"): the 3 live bets as glowing orbs on a tilted orbit (canvas 2D,
+       no WebGL needed), coloured by today's state (won green / lost red / bet in cyan / waiting violet), sparks drifting. Its height is
+       kept from the first paint (CLS 0); it starts only after load + idle, after the K8 today card; reduced motion = one still frame. kalshi.js k8Fx -->
+  <div class="k8fx" id="k8fx" role="img" aria-label="K8: today's three bets"><canvas id="k8fx-c" aria-hidden="true"></canvas></div>
   <!-- K8 live day (day-kalshi round 3): the big countdown to the next LIVE window, what the bot will do, $ left before each stop, and how
        to switch K8 off (as coded: the PC page STOP, ZEUS Safety, KALSHI_STOP.bat, the Kalshi app). kalshi.js k8Live. -->
   <section class="note k8d" id="k8d" aria-label="K8 live day"><h2>K8 live day</h2>
@@ -141,12 +146,12 @@
   <p class="foot" id="foot"></p>
 </main>
 <script src="../olympus/quiet-net.js?v=q9" data-fresh="site:kalshi.json"></script>
-<script src="../olympus/gate-nav.js?v=g8" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/gate-nav.js?v=g9" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script src="../olympus/intro-app.js?v=i11" data-app="kalshi" data-name="Kalshi" data-glyph="K" data-color="#8fa07a" defer></script><!-- the app intro without the kit (olympus/intro-app.js) -->
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k54" defer></script>
+<script src="kalshi.js?v=k56" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 </body>
 </html>

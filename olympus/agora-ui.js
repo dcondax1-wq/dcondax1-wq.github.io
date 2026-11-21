@@ -1,5 +1,5 @@
 /* AGORA v2 behaviour (tools/web_public/olympus/agora-ui.js; docs/DESIGN_AGORA.md "v2"). Classic script, no dependencies, no network, no storage.
- * Load it deferred after the kit: <script src="../olympus/agora-ui.js?v=6" defer></script>. It exposes window.AGORA:
+ * Load it deferred after the kit: <script src="../olympus/agora-ui.js?v=7" defer></script>. It exposes window.AGORA:
  *   AGORA.icon(name, {cls, label})        one 24 px line icon (SVG element); AGORA.ICONS lists the names. [data-ag-icon="name"] elements get theirs on load.
  *   AGORA.chart(el, opts)                 one shared mini chart: {type: 'line' | 'area' | 'bar' | 'spark', values, labels, fmt, height, label, tone}
  *   AGORA.toast(text, {kind, ms, icon})   a short message above the bottom edge (kind ok | bad | info)
@@ -302,7 +302,7 @@
      already has its own tag or runs inside Jarvis's frame. A failed load leaves the shell's own back link. */
   function gateNav() {
     if (framed || window.OLYMPUS_GATE_NAV || !meSrc || root.hasAttribute('data-ag-nonav') || d.querySelector('script[src*="gate-nav.js"]')) return;
-    var s = el('script', ''); s.src = new URL('gate-nav.js?v=g8', meSrc).href; s.async = true; (d.head || d.documentElement).appendChild(s);
+    var s = el('script', ''); s.src = new URL('gate-nav.js?v=g9', meSrc).href; s.async = true; (d.head || d.documentElement).appendChild(s);
   }
   var boot = function () { try { shell(); } catch (e) { /* the page works without the shell */ } try { hydrateIcons(d); } catch (e) { /* plain labels stay */ } try { gateNav(); } catch (e) { /* the shell's back link stays */ } };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();

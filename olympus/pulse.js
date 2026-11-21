@@ -13,7 +13,7 @@
 // The markup reserves each part's height in pulse.css before data arrives, so filling it in moves nothing (CLS 0).
 import * as T from './truth.js';
 import '../age.js';
-import '../pc_feed.js?v=n6';      // MFFU's own view of an account (PC_FEED.mffuView: a sim-funded account shows balance = profit, day-archive 2026-11-20)          // the site's one data-age format (root age.js, DATA TRUTH) (window.OLY_AGE: "updated 4 min ago", amber / red per kind)
+import '../pc_feed.js?v=n7';      // MFFU's own view of an account (PC_FEED.mffuView: a sim-funded account shows balance = profit, day-archive 2026-11-20)          // the site's one data-age format (root age.js, DATA TRUTH) (window.OLY_AGE: "updated 4 min ago", amber / red per kind)
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const num = T.num;
@@ -141,7 +141,7 @@ export function hero(m, kind) {
   const nm = (a) => `${a.name}${a.size && !String(a.name).includes(a.size) ? ' ' + a.size : ''}`;
   if (kind === 'today') return { label: 'Today, every real account', value: m.today == null ? '-' : usdS(m.today), tone: m.today > 0 ? 'good' : m.today < 0 ? 'bad' : '', sub: `${m.accts.length} accounts · ${m.ages ? m.ages.pc.text : 'no PC report yet'}` };
   if (kind === 'pass') { const a = m.pass; return a ? { label: `To pass · ${nm(a)}`, value: usd(Math.max(0, a.toTarget)), tone: '', sub: `of the ${usd(a.target)} target · drawdown left ${usd(a.room)}` } : { label: 'To pass', value: '-', sub: 'No eval running', tone: '' }; }
-  if (kind === 'payout') { const x = m.pay; return x ? (x.p.ready ? { label: `Payout ready · ${nm(x.a)}`, value: usd(x.p.ask), tone: 'good', sub: `about ${usd(x.p.toYou)} to you after the 80% split` } : { label: `Payout goal · ${nm(x.a)}`, value: `${usd(x.p.goal.need)} to go`, tone: '', sub: `Goal: ${usd(x.p.goal.ask)} at ${usd(x.p.goal.at)} (you get ${usd(x.p.goal.toYou)}). Earliest: ${usd(x.p.min)} at ${usd(x.p.line)} (${usd(x.p.need)} to go)` }) : { label: 'Next payout', value: '-', sub: 'Payouts start once an eval passes', tone: '' }; }
+  if (kind === 'payout') { const x = m.pay; return x ? (x.p.ready ? { label: `Payout ready · ${nm(x.a)}`, value: usd(x.p.ask), tone: 'good', sub: `about ${usd(x.p.toYou)} to you after the 80% split` } : { label: `Payout goal · ${nm(x.a)}`, value: `${usd(x.p.goal.need)} to go`, tone: '', sub: `Goal ${usd(x.p.goal.ask)} at ${usd(x.p.goal.at)} · earliest ${usd(x.p.min)} at ${usd(x.p.line)}` }) : { label: 'Next payout', value: '-', sub: 'Payouts start once an eval passes', tone: '' }; }
   if (kind === 'net') return { label: 'Net: payouts minus fees', value: usdS(m.fees.net), tone: m.fees.net >= 0 ? 'good' : 'bad', sub: `fees ${usd(m.fees.fees)} · payouts ${usd(m.fees.payouts)} · from ${m.fees.src}` };
   if (kind === 'last') { const t = m.stats.last; return t ? { label: `Last trade · ${t.src === 'live' ? 'real' : 'paper'}`, value: usdS(t.usd), tone: t.usd > 0 ? 'good' : t.usd < 0 ? 'bad' : '', sub: `${dayWord(t.day)} ${t.hm || ''} · ${t.bot} ${String(t.side || '').toLowerCase()} · ${t.k || ''}`.replace(/\s+/g, ' ') } : { label: 'Last trade', value: '-', sub: 'No trade yet', tone: '' }; }
   const a = m.tight;   // room
@@ -211,7 +211,7 @@ export function render(root, m, parts, app) {
     } else if (part === 'money') {
       box.appendChild(head('Payouts and fees', app, part));
       const g = el('div', 'pu-grid'), x = m.pay, F = m.fees;
-      g.append(tile('Payout goal', x ? (x.p.ready ? usd(x.p.ask) : `${usd(x.p.goal.need)} to go`) : '-', x ? (x.p.ready ? `ready now · ${x.a.name}` : `Goal: ${usd(x.p.goal.ask)} at ${usd(x.p.goal.at)} (you get ${usd(x.p.goal.toYou)}). Earliest: ${usd(x.p.min)} at ${usd(x.p.line)} (${usd(x.p.need)} to go)`) : 'after an eval passes', x && x.p.ready ? 'good' : ''),
+      g.append(tile('Payout goal', x ? (x.p.ready ? usd(x.p.ask) : `${usd(x.p.goal.need)} to go`) : '-', x ? (x.p.ready ? `ready now · ${x.a.name}` : `Goal ${usd(x.p.goal.ask)} at ${usd(x.p.goal.at)} · earliest ${usd(x.p.min)} at ${usd(x.p.line)}`) : 'after an eval passes', x && x.p.ready ? 'good' : ''),
         tile('To you', x && x.p.ready ? usd(x.p.toYou) : '-', '80% split, before tax'),
         tile('Fees paid', usd(F.fees), F.src, 'bad'),
         tile('Net so far', usdS(F.net), `payouts ${usd(F.payouts)}`, toneOf(F.net)));

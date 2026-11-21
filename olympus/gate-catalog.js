@@ -171,7 +171,7 @@
   HUBS.forEach(function (h) { DNAME[h.id] = h.name.toLowerCase(); });
   /* the owner's order (2026-11-20, lead): Cities, Kalshi, the NQ bot, Jarvis first; then Planner and Business; then the rest. RETIRED apps
      (day-archive's list + Hephaestus + the city apps that live inside Cities) never show in search or A to Z; their URLs still open. */
-  var FIRST = { cities: 60, kalshi: 60, nq: 60, jarvis: 60, planner: 30, business: 30 };
+  var FIRST = { cities: 60, kalshi: 60, nq: 60, jarvis: 60, agency: 30, business: 30, planner: 30 };
   var RETIRED = ['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity',
     'gallery', 'mintcity', 'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes',
     'hephaestus', 'datacity', 'kalshicity'];

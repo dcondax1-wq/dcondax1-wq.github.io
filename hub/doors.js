@@ -11,7 +11,7 @@
   if (!D || !out) return;
   // the owner's order + retired apps (2026-11-20; the same lists as olympus/gate-catalog.js FIRST / RETIRED, tests.test_nav_pages checks they match):
   // retired apps never show here (not in a door, the Archive fold or the search); their URLs still open
-  var FIRST = { cities: 60, kalshi: 60, nq: 60, jarvis: 60, planner: 30, business: 30 };
+  var FIRST = { cities: 60, kalshi: 60, nq: 60, jarvis: 60, agency: 30, business: 30, planner: 30 };
   var RETIRED = ['delphi', 'stoa', 'hestia', 'plutus', 'argo', 'mint', 'harmonia', 'kairos', 'chronos', 'lyceum', 'polis', 'atlascity',
     'gallery', 'mintcity', 'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes',
     'hephaestus', 'datacity', 'kalshicity'];

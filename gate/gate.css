@@ -377,7 +377,7 @@ html[data-oly-scheme="light"] .g-abar { background: rgba(0, 0, 0, .08); }
 @keyframes g-tpulse { 50% { opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .g-tdot { animation: none; } }
 .g-next { display: flex; flex-direction: column; gap: 4px; }
-.g-nrow { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 2px 2px; text-decoration: none; color: var(--ag-text); font-size: .8125rem; line-height: 1.3; border-top: 1px solid var(--o-line, var(--ag-line)); }
+.g-nrow { display: flex; align-items: center; gap: 8px; min-height: 45px; flex-shrink: 0; padding: 2px 2px; text-decoration: none; color: var(--ag-text); font-size: .8125rem; line-height: 1.3; border-top: 1px solid var(--o-line, var(--ag-line)); }
 .g-nrow:first-child { border-top: 0; }
 .g-nrow b { flex: none; font: 650 .75rem/1.3 var(--ag-sans); letter-spacing: .03em; text-transform: uppercase; color: var(--ag-gold, #c9a45c); min-width: 70px; }
 .g-nrow span { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; color: var(--ag-soft, var(--ag-text)); }
@@ -430,3 +430,24 @@ html.hfx #doors4 .g-dr .hfx-glyph, html.hfx #doors4 .g-dr .hfx-lit, html.hfx #do
 #quick .g-q:focus-visible, #doors4 .g-dr:focus-visible { outline: 2px solid var(--ag-gold); outline-offset: 4px; border-radius: 16px !important; }
 @media (prefers-reduced-motion: no-preference) { #quick .g-q:active .g-ic, #doors4 .g-dr:active .g-ic { transform: scale(.92); transition: transform 120ms ease; } }
 @media (min-width: 560px) { #quick.g-qgrid, #doors4.g-qgrid { grid-template-columns: repeat(4, minmax(0, 96px)); justify-content: center; gap: 18px 20px; } }
+
+/* ------------------------------------------------------------------ THE 6 ARENAS + EVERYTHING ELSE (2026-11-20 day-manual; owner 17:00 ET)
+   6 big tiles, 2 a row at 390 px (3 at >= 700 px): a big glass icon, the name, one live line; OLYMPUS NIGHT (navfx.css / dashfx.css glass).
+   Then ONE "Everything else" area: compact pills, Planner first. Fixed heights: the live lines land without moving anything (CLS 0). */
+.g-agrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.g-arena { position: relative; min-width: 0; min-height: 156px; border-radius: 22px; border: 1px solid var(--o-line, var(--ag-line)); background: var(--o-surface, var(--ag-s1)); }
+.g-amain { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; height: 100%; min-height: 156px; padding: 14px; box-sizing: border-box; color: var(--ag-text); text-decoration: none; border-radius: inherit; }
+.g-arena .g-aic { width: 54px; height: 54px; border-radius: 15px; font-size: 1.5rem; }
+.g-amain b { font: 700 1.125rem/1.15 var(--ag-serif); letter-spacing: .02em; color: var(--ag-text); }
+.g-aline { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; font-size: .9375rem; line-height: 1.3; color: var(--ag-soft); overflow-wrap: anywhere; }
+.g-aline.up { color: #77db89; } .g-aline.down { color: #ef4444; } .g-aline.warn { color: var(--ag-gold-hi, #ebbf4f); }
+.g-asub { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 10px; border-radius: 999px;
+  font: 600 .875rem/1 var(--ag-sans); color: var(--ag-text); text-decoration: none; border: 1px solid var(--o-line, var(--ag-line)); background: rgba(0, 0, 0, .25); }
+.g-amain:focus-visible, .g-asub:focus-visible { outline: 2px solid var(--ag-gold); outline-offset: 2px; }
+@media (min-width: 700px) { .g-agrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.g-else { display: grid; gap: 10px; }
+.g-elist { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; }
+.g-eapp { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--o-line, var(--ag-line)); background: var(--o-surface, var(--ag-s1));
+  color: var(--ag-text); text-decoration: none; font: 600 .9375rem/1.1 var(--ag-sans); }
+.g-eapp:nth-child(-n+5) { border-color: var(--ag-line-gold, var(--o-line)); }
+.g-elsemore { justify-self: start; }

@@ -1,0 +1,36 @@
+/* MONEY FX look (day-archive 2026-11-20): Board, Ledger and Hera in OLYMPUS NIGHT (owner 16:00 ET, the Jarvis switcher's colours):
+   black base, violet glass cards (#16131e -> #020204, outlines #3e255e / #4d2e76, glow #9d59ee, lavender #dacbf0), bright gold #f1c14b only
+   as small accents (pressed chips, CTA), mint #77db89 profit, red #ef4444 loss. Fixed boxes for the payout vault and ring (no layout
+   shift when the 3D arrives). Loaded last, after the page CSS and nq/nqtheme.css. */
+html:not([data-oly-scheme="light"]) {
+  --mfx-card: linear-gradient(180deg, #16131e, #020204); --mfx-line: #3e255e; --mfx-line-hi: #4d2e76; --mfx-glow: 157, 89, 238;
+  --mfx-gold: #f1c14b; --mfx-text: #ebe9f1; --mfx-mute: #898497;
+}
+html:not([data-oly-scheme="light"]) body { background: #000 !important; }
+html:not([data-oly-scheme="light"]) :is(.ag-card, .card) { background: var(--mfx-card) !important; border: 1px solid var(--mfx-line) !important;
+  box-shadow: 0 0 0 1px rgba(var(--mfx-glow), .08), 0 12px 30px rgba(0, 0, 0, .6), 0 0 26px rgba(var(--mfx-glow), .10) !important; }
+.mfx-card .mfx-row { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 12px; align-items: center; }
+.mfx-vault { aspect-ratio: 4 / 3; width: 100%; max-height: 300px; border-radius: 16px; overflow: hidden; position: relative;
+  background: radial-gradient(120% 90% at 50% 20%, #1c1430 0%, #020204 72%); border: 1px solid #462a6a; }
+.mfx-ring { width: 96px; height: 96px; display: grid; place-items: center; position: relative; border-radius: 50%;
+  background: radial-gradient(circle, #0b0910 60%, transparent 61%), conic-gradient(rgba(157, 89, 238, .18) 0 100%); }
+.mfx-ring b { position: relative; z-index: 3; font: 700 20px/1 var(--oly-font-num, -apple-system, system-ui, sans-serif); color: #ebe9f1; }
+.mfx-ring small { position: absolute; bottom: -20px; left: 0; right: 0; text-align: center; font-size: 12px; color: #898497; }
+html[data-oly-scheme="light"] .mfx-vault { background: radial-gradient(120% 90% at 50% 20%, #ede4fb 0%, #f6f3fb 70%); border-color: rgba(77, 46, 118, .3); }
+html[data-oly-scheme="light"] .mfx-ring { background: radial-gradient(circle, #ffffff 60%, transparent 61%), conic-gradient(rgba(157, 89, 238, .2) 0 100%); }
+html[data-oly-scheme="light"] .mfx-ring b { color: #1a1426; }
+/* pressed chips + CTAs: a small bright gold on black (never brown / olive fills) */
+html:not([data-oly-scheme="light"]) :is(button, .btn, .chip, .seg button)[aria-pressed="true"] { background: rgba(241, 193, 75, .12) !important; color: #f1c14b !important; border-color: #f1c14b !important; box-shadow: 0 0 14px rgba(241, 193, 75, .18) !important; }
+html:not([data-oly-scheme="light"]) :is(.btn:not(.primary), button.refresh, #refresh) { background: #0b0910 !important; color: #ebe9f1 !important; border-color: #4d2e76 !important; }
+html:not([data-oly-scheme="light"]) .btn.primary { background: #f1c14b !important; color: #000 !important; border-color: #f1c14b !important; }
+/* the kit / NQ accent tokens -> NIGHT (does not wait for nq/nqtheme.css to be re-pointed): violet glow, lavender highlight, mint profit */
+html:not([data-oly-scheme="light"]) {
+  --oly-accent: #9d59ee !important; --oly-accent-rgb: 157, 89, 238 !important; --oly-th-a8: #9d59ee !important; --oly-th-a8-rgb: 157, 89, 238 !important; --oly-th-a9: #4d2e76 !important;
+  --ag-gold: #dacbf0 !important; --ag-gold-hi: #f1c14b !important; --ag-gold-rgb: 218, 203, 240 !important; --ag-line-gold: rgba(157, 89, 238, .32) !important; --ag-on-gold: #000 !important;
+  --ag-sun: #9d59ee !important; --ag-sun-rgb: 157, 89, 238 !important; --acc: #9d59ee !important; --nq-cyan: #9d59ee; --nq-cyan-hi: #dacbf0; --nq-blue: #4d2e76;
+  --ag-olive: #77db89 !important; --ag-olive-text: #77db89 !important; --ag-olive-rgb: 119, 219, 137 !important;
+  --ag-night: #000 !important; --ag-panel: #0b0910 !important; --ag-raise: #16131e !important; --ag-line: #3e255e !important;
+  --oly-th-card-bg: linear-gradient(180deg, #16131e, #020204) !important; --oly-th-card-border: 1px solid #3e255e !important;
+  --oly-th-n3: #000 !important; --oly-th-n4: #0b0910 !important; --oly-th-n5: #16131e !important; --oly-th-n8: #3e255e !important;
+}
+html:not([data-oly-scheme="light"]) a { color: #dacbf0; }

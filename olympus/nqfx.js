@@ -1,29 +1,14 @@
-/* OLYMPUS NQ FX (tools/web_public/olympus/nqfx.js, day-arenas 2026-11-20; docs/DESIGN_SYSTEM.md section 6, docs/OLYMPUS_FX.md).
- * The trading dashboard's effects, on the kit's FX library (fx-core.js: tiers, ONE frame loop, caps, cleanup, reduced motion = off).
- * A classic script; it loads fx-core / fx-text / fx-burst itself when the page has not:
- *   <script src="../olympus/nqfx.js?v=n3" defer></script>      then   await OLYMPUS_NQFX.ready()
- *
- *   NQFX.theme({ base, cyan, blue, violet, win, loss, steel })   the colours (the NQ look: navy, cyan, blue, violet; green only for a win)
- *   NQFX.win(el, { usd, bigAt: 500 })       green sparks from el, a toast "Win +$123"; confetti too when usd >= bigAt
- *   NQFX.loss(el, { usd })                  a calm red toast "-$80", no celebration
- *   NQFX.milestone(el, { text })            confetti + a toast (eval passed, payout ready, new high)
- *   NQFX.ring(host, { value, stroke })      the glowing goal ring (0..1), cyan -> blue as it fills, violet at 100%; .call('set', v)
- *   NQFX.roll(el, { to, from, duration })   the number rolls up to `to` ($ , . % kept); .call('set', v)
- *   NQFX.trail(pathEl, { color, seconds, width })   a cyan light trail runs along an SVG chart line (<path> / <polyline>), glow under it
- *   NQFX.vault(host, { value, label })      the payout-goal hero: a titanium 3D vault door with a cyan seam + glowing crystal bars (three.js,
- *                                           after load + idle, never blocks the first paint); the door opens, the bars stack with value
- * Every call returns the FX handle { stop(), call(verb, ...), tier }. Tiers follow the owner's quality setting (OLYMPUS.fx()): ultra / high /
- * low (30 fps, fewer particles, pixel ratio 1) / off; prefers-reduced-motion = off: nothing moves, the ring / number / vault show their final
- * state still, toasts show plain. No WebGL, a lost context, Save-Data or a 2G / 3G line: the vault stays its drawn 2D picture.
- */
+/* OLYMPUS NQ FX (olympus/nqfx.js; docs/DESIGN_SYSTEM.md section 6, research/handoff/2026-11-20/nq4/FX_API.md): the trading dashboard's
+ * effects on fx-core.js. NQFX.theme / win / loss / milestone / ring / roll / trail / vault; each returns an FX handle { stop(), call() }.
+ * Tiers follow OLYMPUS.fx(); reduced motion = still final states; no WebGL / Save-Data / 2G-3G = the drawn vault. */
 (function () {
   'use strict';
   if (window.OLYMPUS_NQFX) return;
   var d = document, me = d.currentScript, BASE = me && me.src ? me.src.replace(/[^\/]*$/, '') : '../olympus/';
   var NS = 'http://www.w3.org/2000/svg';
   var readyP = null;
-  // the NQ look (owner 2026-11-20: no gold): deep navy, electric cyan + blue glows, violet accents, green only for a win
-  var THEME = { base: '#0b1220', cyan: '#22d3ee', blue: '#3b82f6', violet: '#8b5cf6', win: '#22c55e', loss: '#f43f5e', steel: '#9aa4b2' };
+  // OLYMPUS NIGHT (slot names kept for NQFX.theme callers)
+  var THEME = { base: '#000000', cyan: '#9d59ee', cyanHi: '#dacbf0', blue: '#4d2e76', violet: '#f1c14b', win: '#77db89', loss: '#ef4444', steel: '#8d8a9a' };
   function hex(c) { var m = /^#?([0-9a-f]{6})$/i.exec(String(c || '').trim()); if (!m) return null; var n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
   function mix(a, b, k) { var x = hex(a), y = hex(b); if (!x || !y) return a; return 'rgb(' + [0, 1, 2].map(function (i) { return Math.round(x[i] + (y[i] - x[i]) * k); }).join(',') + ')'; }
 
@@ -63,7 +48,7 @@
       if (blur) { var f = svgNode('filter', { id: id, x: '-20%', y: '-50%', width: '140%', height: '200%' }, defs, ctx); svgNode('feGaussianBlur', { stdDeviation: String(blur) }, f, ctx); }
       var under = svgNode('path', { fill: 'none', stroke: color, 'stroke-width': String(w * 2.2), 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: still ? '.35' : '.25', 'pointer-events': 'none' }, null, ctx);
       if (blur) under.setAttribute('filter', 'url(#' + id + ')');
-      var comet = still ? null : svgNode('path', { fill: 'none', stroke: o.head || '#e0f7ff', 'stroke-width': String(w * 1.6), 'stroke-linecap': 'round', 'pointer-events': 'none' }, null, ctx);
+      var comet = still ? null : svgNode('path', { fill: 'none', stroke: o.head || THEME.cyanHi, 'stroke-width': String(w * 1.6), 'stroke-linecap': 'round', 'pointer-events': 'none' }, null, ctx);
       var glowC = still ? null : svgNode('path', { fill: 'none', stroke: color, 'stroke-width': String(w * 4), 'stroke-linecap': 'round', opacity: '.7', 'pointer-events': 'none' }, null, ctx);
       if (glowC && blur) glowC.setAttribute('filter', 'url(#' + id + ')');
       var len = 0;
@@ -177,7 +162,7 @@
       if (still || weak() || !(window.WebGLRenderingContext || window.WebGL2RenderingContext)) { host.setAttribute('data-nqfx-vault', '2d'); return api; }
       var go = function () {
         if (dead || d.hidden) return;
-        import(BASE + 'nqvault3d.js?v=n2').then(function (m) {
+        import(BASE + 'nqvault3d.js?v=n3').then(function (m) {
           if (dead) return;
           three = m.mount(host, { value: value, tier: ctx.tier, pick: ctx.pick, tick: ctx.ticker, add: ctx.add, theme: Object.assign({}, THEME),
             lost: function () { three = null; pic.el.style.opacity = '1'; host.setAttribute('data-nqfx-vault', '2d'); } });

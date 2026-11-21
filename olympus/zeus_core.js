@@ -31,12 +31,28 @@
   }
 
   // the PC line from the Board's pick (same STALE_S = 30 min): {silent, text}
-  function pcLine(BM, res, nowS) {
+  // the bot's own state in the PC's post (finder round 2026-11-20: the card stayed green "PC reported 7 min ago" while the bot was STOPPED):
+  // pc.running false or the paper adapter = stopped; red in the bots' hours (weekdays 01:50-16:10 ET), amber outside them
+  function inHours(nowS) {
+    try {
+      var p = {};
+      new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+        .formatToParts(new Date(nowS * 1000)).forEach(function (x) { p[x.type] = x.value; });
+      var m = +p.hour * 60 + +p.minute;
+      return ['Sat', 'Sun'].indexOf(p.weekday) < 0 && m >= 110 && m <= 970;
+    } catch (e) { return true; }
+  }
+  function pcLine(BM, res, nowS, lite) {
     var b = res && res.board, t = b && b.pc && okN(+b.pc.t) && +b.pc.t > 0 ? +b.pc.t : null;
     var age = t ? nowS - t : null, silent = age == null || age > (BM && BM.STALE_S || 1800);
-    return { silent: silent, age_s: age, mode: res ? res.mode : 'none',
+    var pc = isObj(lite) && isObj(lite.pc) ? lite.pc : null;
+    var stopped = !silent && !!pc && (pc.running === false || String(pc.adapter || '').toLowerCase() === 'paper');
+    var hours = inHours(nowS);
+    return { silent: silent, stopped: stopped, level: silent ? 'bad' : stopped ? (hours ? 'bad' : 'warn') : 'good', age_s: age, mode: res ? res.mode : 'none',
              text: !t ? 'PC SILENT: your PC has never reported here. The bots may not be running.'
-               : silent ? 'PC SILENT: last report ' + ago(age) + '. On the PC: STOP BOT, then START BOT.' : 'PC reported ' + ago(age) };
+               : silent ? 'PC SILENT: last report ' + ago(age) + '. On the PC: STOP BOT, then START BOT.'
+               : stopped ? 'BOT STOPPED: PC reported ' + ago(age) + (hours ? ', the bot is not trading. On the PC: START BOT.' : ', the bot is off (market quiet).')
+               : 'PC reported ' + ago(age) };
   }
 
   // one account row from an MFFU_MODEL card: {name, chip, cls, balance, goal, today, src}
@@ -49,8 +65,11 @@
     else if (st === 'passed') goal = 'Passed: waiting for MFFU\'s funded account';
     else goal = c.target && okN(c.target.left) ? usd(c.target.left) + ' to pass' : 'To pass: no live balance yet';
     var today = c.dll && okN(c.dll.today) ? c.dll.today : null;
+    // MFFU's own view of a sim-FUNDED account (owner 2026-11-20): its profit is the balance (ATLAS $401, not $25,401): PC_FEED.mffuView
+    var bv = c.balance ? c.balance.v : null, F = root.PC_FEED;
+    if (cls === 'funded' && okN(bv) && F && typeof F.mffuView === 'function') { var mv = F.mffuView({ kind: 'funded', plan: c.plan, name: c.name, balance: bv }); if (mv && okN(mv.balance)) bv = mv.balance; }
     var src = c.balance && c.balance.src ? c.balance.src + (c.age_s != null ? ' · ' + ago(c.age_s) : '') : 'no number yet';
-    return { key: c.key, name: c.name, chip: chip, cls: cls, balance: c.balance ? c.balance.v : null, goal: goal, today: today,
+    return { key: c.key, name: c.name, chip: chip, cls: cls, balance: bv, goal: goal, today: today,
              todayText: today == null ? 'Today: -' : 'Today: ' + usd(today, true), src: src, planOnly: !!c.planOnly };
   }
 
@@ -70,10 +89,10 @@
     try { res = BM ? BM.pick({ site: o.site, lite: o.lite, plan: o.plan }, now) : null; } catch (e) { res = null; }
     try { if (MM) cards = MM.cards({ lite: o.lite, plan: o.plan, board: o.site, coach: coach, today: todayET(now) }, now) || []; } catch (e) { cards = []; }
     var rows = cards.filter(function (c) { return isObj(c) && !/blitz|paper|cloud/i.test(String(c.key)); }).map(function (c) { return acctRow(c, now); });
-    return { pc: pcLine(BM, res, now), rows: rows, mode: res ? res.mode : 'none', label: res ? res.label : '' };
+    return { pc: pcLine(BM, res, now, o.lite), rows: rows, mode: res ? res.mode : 'none', label: res ? res.label : '' };
   }
 
-  var API = { usd: usd, ago: ago, pcLine: pcLine, acctRow: acctRow, summary: summary, todayET: todayET };
+  var API = { usd: usd, ago: ago, inHours: inHours, pcLine: pcLine, acctRow: acctRow, summary: summary, todayET: todayET };
   root.ZEUS_CORE = API;
   if (typeof module === 'object' && module && module.exports) module.exports = API;
   if (typeof document === 'undefined') return;
@@ -82,7 +101,7 @@
   var d = document, me = d.currentScript && d.currentScript.src ? d.currentScript.src : null;
   function url(rel) { try { return new URL(rel, me || d.baseURI).href; } catch (e) { return rel; } }
   // the models this file needs, in the order the ZEUS page loads them (boardmodel after mffumodel)
-  var DEPS = [['PC_FEED', '../pc_feed.js?v=n6'], ['PAYOUT_COACH', '../business/payoutcoach.js?v=2'], ['MFFU_MODEL', '../business/mffumodel.js?v=2'],
+  var DEPS = [['PC_FEED', '../pc_feed.js?v=n7'], ['PAYOUT_COACH', '../business/payoutcoach.js?v=2'], ['MFFU_MODEL', '../business/mffumodel.js?v=3'],
               ['BOARD_MODEL', '../board/boardmodel.js?v=b6'], ['EDGE_CHIP', '../edge_chip.js?v=1']];
   var needP = null;
   function need() {
@@ -120,25 +139,26 @@
   }
 
   // ------------------------------------------------------------------------------------------------ the home card
-  var CSS = '.zeus-card{display:block;margin:0 0 12px;padding:0;border-radius:16px;background:rgba(27,23,19,.92);color:#f3ece0;border:1px solid rgba(200,162,74,.45);'
-    + 'border-top:3px solid #c8a24a;box-shadow:0 6px 22px rgba(0,0,0,.28);overflow:hidden;font:400 15px/1.4 -apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;text-align:left}'
+  // OLYMPUS NIGHT (owner 2026-11-20): near-black violet card, violet edge glow, bright gold name, mint for good (no brown / marble)
+  var CSS = '.zeus-card{display:block;margin:0 0 12px;padding:0;border-radius:16px;background:linear-gradient(180deg,#16131e,#020204);color:#ebe9f1;border:1px solid #3e255e;'
+    + 'border-top:3px solid #9d59ee;box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 22px rgba(157,89,238,.14);overflow:hidden;font:400 15px/1.4 -apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;text-align:left}'
     + '.zeus-card.bad{border-color:#ff5a4f;border-top-color:#ff5a4f}'
     + '.zeus-go{display:block;padding:10px 14px 6px;color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}.zeus-go:active{background:rgba(255,255,255,.05)}'
     + '.zeus-h{display:flex;align-items:center;gap:10px;min-height:28px}'
-    + '.zeus-t{font:700 19px/1 "Iowan Old Style",Palatino,Georgia,serif;letter-spacing:.08em;color:#dcbd6e}'
-    + '.zeus-pc{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-weight:600;color:#a9c47e;overflow-wrap:anywhere}'
-    + '.zeus-dot{flex:none;width:9px;height:9px;border-radius:50%;background:#8fbf6a}'
+    + '.zeus-t{font:700 19px/1 "Iowan Old Style",Palatino,Georgia,serif;letter-spacing:.08em;color:var(--oly-th-a8,#f1c14b)}'
+    + '.zeus-pc{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-weight:600;color:#77db89;overflow-wrap:anywhere}'
+    + '.zeus-dot{flex:none;width:9px;height:9px;border-radius:50%;background:#77db89}'
     + '.zeus-pc.bad{color:#fff;background:#8f1d1d;border:2px solid #ff5a4f;border-radius:10px;padding:6px 10px;font-size:15px}.zeus-pc.bad .zeus-dot{background:#ff5a4f}'
-    + '.zeus-pc.wait{color:#cfc4b2}.zeus-pc.wait .zeus-dot{background:#a89c88}'
-    + '.zeus-more{flex:none;color:#cfc4b2;font-size:13px;white-space:nowrap}'
+    + '.zeus-pc.wait{color:#c8c3d4}.zeus-pc.wait .zeus-dot{background:#898497}'
+    + '.zeus-more{flex:none;color:#c8c3d4;font-size:13px;white-space:nowrap}'
     + '.zeus-rows{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}'
-    + '.zeus-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 10px;padding:4px 0 0;line-height:1.3;border-top:1px solid rgba(200,184,150,.16)}'
+    + '.zeus-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 10px;padding:4px 0 0;line-height:1.3;border-top:1px solid rgba(157,89,238,.18)}'
     + '.zeus-n{font-weight:700;overflow-wrap:anywhere}.zeus-n small{margin-left:6px;font:700 12px/1 system-ui,sans-serif;padding:3px 7px;border-radius:999px;border:1px solid currentColor;vertical-align:2px}'
-    + '.zeus-n small.eval{color:var(--ag-aegean-text,#7fa7c2)}.zeus-n small.funded{color:var(--ag-olive-text,#a0ac6e)}.zeus-n small.passed{color:#14110e;background:#c8a24a;border-color:#c8a24a}.zeus-n small.failed{color:#fff;background:#b33a2e;border-color:#b33a2e}'
+    + '.zeus-n small.eval{color:var(--ag-aegean-text,#7fa7c2)}.zeus-n small.funded{color:var(--ag-olive-text,#a0ac6e)}.zeus-n small.passed{color:#000;background:var(--oly-th-a8,#f1c14b);border-color:var(--oly-th-a8,#f1c14b)}.zeus-n small.failed{color:#fff;background:#b33a2e;border-color:#b33a2e}'
     + '.zeus-b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}'
-    + '.zeus-g{color:#cfc4b2;font-size:13px;min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}'
-    + '.zeus-d{font-size:13px;font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:#cfc4b2}.zeus-d.pos{color:#8fbf6a}.zeus-d.neg{color:#ff8a7a}'
-    + '.zeus-none{margin:8px 0 0;color:#cfc4b2;font-size:13.5px}'
+    + '.zeus-g{color:#c8c3d4;font-size:13px;min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}'
+    + '.zeus-d{font-size:13px;font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;color:#c8c3d4}.zeus-d.pos{color:#77db89}.zeus-d.neg{color:#f87171}'
+    + '.zeus-none{margin:8px 0 0;color:#c8c3d4;font-size:13.5px}'
     + '.zeus-edge{padding:0 14px 8px}.zeus-edge:empty,.zeus-edge[hidden]{display:none}'
     // the edge chip on one line per bot here (its light first; the numbers and the help one tap away, on the chip or the ZEUS page)
     + '.zeus-card .zeus-edge.edge-chip{margin:0}.zeus-card .zeus-edge.edge-chip>button{padding:5px 10px;min-height:44px}'
@@ -171,9 +191,10 @@
   function draw(c, s) {
     if (!c || !s) return;
     var pcEl = c.querySelector('.zeus-pc'), rowsEl = c.querySelector('.zeus-rows');
-    c.classList.toggle('bad', !!s.pc.silent);
-    pcEl.className = 'zeus-pc ' + (s.pc.silent ? 'bad' : 'good');
-    pcEl.setAttribute('role', s.pc.silent ? 'alert' : 'status');
+    var lvl = s.pc.level || (s.pc.silent ? 'bad' : 'good');
+    c.classList.toggle('bad', lvl === 'bad'); c.classList.toggle('warn', lvl === 'warn');
+    pcEl.className = 'zeus-pc ' + lvl;
+    pcEl.setAttribute('role', lvl === 'good' ? 'status' : 'alert');
     // the card's short form (the fix, STOP BOT then START BOT, is in the aria label and on the ZEUS page)
     pcEl.replaceChildren(el('i', 'zeus-dot'), el('span', '', s.pc.silent ? s.pc.text.replace(/\. On the PC: .*$/, '') : s.pc.text));
     rowsEl.replaceChildren();

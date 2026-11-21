@@ -1078,3 +1078,33 @@ main > a.olyback { display: flex; align-items: center; min-height: 44px; margin-
 .k8t-p { margin: 6px 0 2px; font-size: .9375rem; font-variant-numeric: tabular-nums; }
 .k8t-c { display: flex; align-items: center; justify-content: space-between; min-height: 44px; font-size: .9375rem; color: var(--txt); text-decoration: none; border-top: 1px solid var(--dim2); }
 .k8t-c b { color: var(--warn); }
+/* ===== Olympus 2 FX, OLYMPUS NIGHT (owner 2026-11-20 16:00 ET, the Jarvis app-switcher colours; replaces the cyan terminal look):
+   black base, cards #16131e -> #020204, violet outlines + glows, lavender highlights, bright gold ONLY as small live / active accents,
+   mint for a win, red for a loss. The engine's chosen look (inline vars) still wins. */
+:root[data-theme="kalshi"] {
+  --bg: #000000; --bg2: #16131e; --pr: 22, 19, 30; --txt: #ebe9f1; --mut: #898497; --dim: #0b0910; --dim2: #3e255e; --dim3: #4d2e76;
+  --c: #9d59ee; --c2: #7c3aed; --c3: #dacbf0; --cr: 157, 89, 238; --cr2: 77, 46, 118; --tint: #dacbf0;
+  --ok: #77db89; --bad: #ef4444; --warn: #ebbf4f; --ok-rgb: 119, 219, 137; --bad-rgb: 239, 68, 68; --warn-rgb: 235, 191, 79;
+  --gold: #f1c14b; --gold-rgb: 241, 193, 75; --lav: #dacbf0; --lav-rgb: 218, 203, 240; --vio: #9d59ee; --vio-rgb: 157, 89, 238;
+}
+:root[data-theme="kalshi"] body { background: radial-gradient(120% 55% at 50% -10%, rgba(var(--vio-rgb), .16), transparent 60%), #000000; }
+:root[data-theme="kalshi"] .top h1::after { background: linear-gradient(90deg, var(--gold), var(--vio), transparent); }
+/* glowing K8 cards: a violet edge and a soft violet glow on the night gradient */
+.k8top, .k8d, .k8s, .kgo { position: relative; border: 1px solid #462a6a; background: linear-gradient(180deg, #16131e, #020204);
+  box-shadow: 0 0 0 1px rgba(var(--vio-rgb), .12) inset, 0 10px 32px rgba(var(--vio-rgb), .16), 0 0 22px rgba(var(--lav-rgb), .05); }
+.k8top::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; border-radius: inherit; background: linear-gradient(90deg, transparent, var(--gold), var(--vio), transparent); opacity: .95; }
+.k8t-m { color: var(--lav); border-color: #4d2e76; box-shadow: 0 0 12px rgba(var(--vio-rgb), .3); }
+.k8t-m.live, #k8sub b.live { color: var(--gold); border-color: var(--gold); box-shadow: 0 0 14px rgba(var(--gold-rgb), .4); }
+.k8t-n, .k8d .k8d-big { color: #f4f1fa; text-shadow: 0 0 18px rgba(var(--vio-rgb), .45); }
+.k8t-l li.o em { color: var(--lav); } .k8t-c b, .kgo .kgo-n { color: var(--gold); } .kgo .kgo-n.ok { color: var(--ok); }
+/* the orb hero: its height is kept from the first paint */
+.k8fx { position: relative; height: 140px; margin: -2px 0 0; border-radius: var(--rs, 12px); overflow: hidden;
+  background: radial-gradient(70% 90% at 50% 60%, rgba(var(--vio-rgb), .18), transparent 70%), linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(77, 46, 118, .16)); }
+.k8fx canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .k8top::before { background-size: 200% 100%; animation: k8sheen 6s linear infinite; }
+  @keyframes k8sheen { from { background-position: 0 0; } to { background-position: 200% 0; } }
+}
+/* CLS: the K8 today card and its bet list keep their filled height (a heading line + 3 rows) */
+.k8top { min-height: 17.4rem; } .k8t-l { min-height: 8.6rem; }
+.k8t-n { min-height: 2.7em; }

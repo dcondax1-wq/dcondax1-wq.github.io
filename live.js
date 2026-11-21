@@ -2,15 +2,17 @@
 // The PC pushes live.json (the Home essentials: verdict, account, position, today's P&L, eval $ to go / room / session,
 // feed ages, health, last check-in) to the branch `live` of this site's public repo every 60 s while the bot runs (5 min
 // otherwise). data.json comes from the cloud monitor every ~30 min in the session, nothing overnight.
-// This file polls live.json every 30-60 s while the app is open and visible (and at once on focus): first GitHub's API
-// (fresh within ~60 s, 60 calls an hour per network without a login), then raw.githubusercontent.com (may be up to
-// ~5 min behind) when the API's limit is used up. Always network-only (cross-origin: the service worker never caches it).
+// This file polls the PC's status post (ntfy, via pc_feed.js) every 30-60 s while the app is open and visible (and at once on focus).
+// The old GitHub live.json is asked only on a local test server (DEV_ONLY): the real site never polls the old, suspended account.
 // It merges live.json into data.json's live.pc / live.pc_verdict / accounts (only when newer), so Home, Trades > Accounts
 // and Money show it, and redraws those pages. window.LIVE.apply(X) is called by index.html after every data.json load.
 // Classic script loaded after hub.js; uses the main page's globals (D, PAGE, render, $, openDD). Read-only.
 (function () {
   'use strict';
   const host = location.hostname, seg = location.pathname.split('/').filter(Boolean)[0];
+  // the old GitHub live.json (branch `live` of the repo below) was on the old, suspended account: on the real site every page got two 404s
+  // (dogfood 2026-11-20). It is asked ONLY on a local test server (the browser suites still feed it); the site reads the PC's ntfy post.
+  const DEV_ONLY = /^(127\.0\.0\.1|localhost)$/.test(host);
   const OWNER = /\.github\.io$/.test(host) ? host.split('.')[0] : 'demetrades2000-coder';
   const REPO = /\.github\.io$/.test(host) && seg && !/\./.test(seg) ? seg : 'nq-dashboard';
   const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/live.json?ref=live`;
@@ -97,7 +99,8 @@
     try {
       const lj = window.PC_FEED && await window.PC_FEED.fetchLatest();
       if (lj) return { j: window.PC_FEED.toLive(lj, (window.HOMEJ || {}).board), raw: lj, src: 'ntfy' };
-    } catch (e) { /* fall through to the old sources */ }
+    } catch (e) { /* fall through */ }
+    if (!DEV_ONLY) throw new Error('no PC status post yet (the PC status feed, ntfy)');
     let r = null, src = 'api';
     if (Date.now() >= LIVE.apiUntil) {
       try {

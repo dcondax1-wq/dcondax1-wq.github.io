@@ -19,6 +19,8 @@
   const host = location.hostname, seg = location.pathname.split('/').filter(Boolean)[0];
   const OWNER = /\.github\.io$/.test(host) ? host.split('.')[0] : 'demetrades2000-coder';
   const REPO = /\.github\.io$/.test(host) && seg && !/\./.test(seg) ? seg : 'nq-dashboard';
+  // the live branch was on the old, suspended account: asked only on a local test server (dogfood 2026-11-20: 404s on the real site)
+  const DEV_ONLY = /^(127\.0\.0\.1|localhost)$/.test(host);
   const API = (f) => `https://api.github.com/repos/${OWNER}/${REPO}/contents/${f}?ref=live`;
   const RAW = (f) => `https://raw.githubusercontent.com/${OWNER}/${REPO}/live/${f}`;
   const okN = (v) => typeof v === 'number' && Number.isFinite(v);
@@ -34,6 +36,7 @@
   async function get(url, opts) { const r = await fetch(url, opts); if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; e.r = r; throw e; } return r; }
   // the live branch file: GitHub's API first (fresh), raw.githubusercontent.com when its hourly limit runs low
   async function fetchFile(f, kind) {
+    if (!DEV_ONLY) throw new Error('the Holodeck feed (the old GitHub live branch) is retired');
     const LV = window.LIVE || {};
     let r = null;
     if (Date.now() >= (LV.apiUntil || 0) && Date.now() >= (H.apiUntil || 0) && Date.now() >= ((window.LVP && window.LVP.apiUntil) || 0)) {

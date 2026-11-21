@@ -145,7 +145,7 @@ html[data-oly-lite="1"] .s2d .flame, html[data-oly-lite="1"] .sheet { animation:
 .ctbtn:disabled { cursor: default; opacity: .85; }
 .ctbtn:not(:disabled):active { background: rgba(var(--ag-gold-rgb, 200, 162, 74), .07); }
 .cdot { width: 12px; height: 12px; border-radius: 50%; background: var(--c, var(--ag-gold)); box-shadow: 0 0 0 2px rgba(0, 0, 0, .35); }
-.ctl { display: grid; gap: 2px; min-width: 0; } .ctl b { font: 600 15px/1.3 var(--ag-serif); } .ctl .note { font-size: 12.5px; }
+.ctl { display: grid; gap: 2px; min-width: 0; } .ctl b { font: 600 15px/1.3 var(--ag-sans); }   /* lead 2026-11-20: rows in the page sans, the serif for headings only */ .ctl .note { font-size: 12.5px; }
 .ctr { text-align: right; } .ctr b { font: 700 16px var(--ag-num); font-variant-numeric: tabular-nums; } .ctr .openw { color: var(--ag-sun); }
 .cnone { padding: 6px 0; }
 .attrib { display: inline-flex; align-items: center; justify-self: start; min-height: 44px; min-width: 44px; font-size: 0.9375rem; color: var(--ag-muted); text-decoration: underline; text-underline-offset: 2px; }

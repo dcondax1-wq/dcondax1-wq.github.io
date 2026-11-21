@@ -16,12 +16,12 @@
      Business listings only (OSM maps businesses, not people). Data (c) OpenStreetMap contributors, ODbL. Text only via textContent. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../../olympus/agora.css?v=a9">
+<link rel="stylesheet" href="../../olympus/agora.css?v=a10">
 <link rel="stylesheet" href="../../olympus/a11y.css?v=a2">
-<script src="../../olympus/themes.js?v=o9"></script>
+<script src="../../olympus/themes.js?v=o10"></script>
 <script src="../../olympus/a11y.js" defer></script>
-<script src="../../olympus/gate-nav.js?v=g8" defer></script>
-<link rel="stylesheet" href="leads.css?v=l2">
+<script src="../../olympus/gate-nav.js?v=g9" defer></script>
+<link rel="stylesheet" href="leads.css?v=l6">
 </head>
 <body>
 <main id="app">
@@ -42,15 +42,23 @@
       <label>Town <select id="fTown"><option value="">All towns</option></select></label>
       <label>Kind <select id="fNiche"><option value="">All kinds</option></select></label>
       <label>Heat <select id="fHeat"><option value="">All</option><option value="hot">Hot only</option><option value="warm">Hot + warm</option></select></label>
-      <label>Status <select id="fStatus"><option value="todo">To call</option><option value="">All</option><option value="called">Called</option><option value="interested">Interested</option><option value="no">Not interested</option></select></label>
+      <label>Status <select id="fStatus"><option value="todo">New</option><option value="">All</option><option value="demo">Demo ready</option><option value="contacted">Contacted</option><option value="replied">Replied</option><option value="booked">Call booked</option><option value="won">Won</option><option value="lost">Lost</option></select></label>
     </div>
-    <label class="chk"><input type="checkbox" id="fPhone" checked> Only with a phone number</label>
+    <label class="chk"><input type="checkbox" id="fPhone"> Only with a phone number</label>
+    <label class="chk"><input type="checkbox" id="fMail"> Only mailable (a full street address for a postcard)</label>
   </section>
 
   <section class="ag-card card" id="listCard" aria-labelledby="listH">
     <h2 id="listH">Businesses <span id="listN"></span></h2>
     <ul class="leads" id="list"></ul>
     <button type="button" class="btn block" id="more" hidden>Show 25 more</button>
+  </section>
+
+  <section class="ag-card card" aria-labelledby="expH">
+    <h2 id="expH">Export</h2>
+    <p class="note">Every business with its stage, as a spreadsheet file (CSV). Your stages stay on this phone; export them to keep a copy.</p>
+    <button type="button" class="btn block" id="exportBtn">Export the list (CSV)</button>
+    <textarea id="exportBox" class="exbox" rows="5" readonly hidden aria-label="The exported list"></textarea>
   </section>
 
   <section class="ag-card card" aria-labelledby="howH">
@@ -64,6 +72,6 @@
   </section>
   <p class="foot" id="foot">Data &copy; OpenStreetMap contributors (ODbL). Your marks stay on this phone.</p>
 </main>
-<script type="module" src="leads.js?v=l3"></script>
+<script type="module" src="leads.js?v=l6"></script>
 </body>
 </html>

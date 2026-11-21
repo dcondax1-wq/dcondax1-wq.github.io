@@ -28,7 +28,8 @@
   window.__olyPaint = on;
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'doors', 'page');</script>
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
+<script>/* OLYMPUS NIGHT from the first frame while nothing is chosen (kit, day-arenas 2026-11-20) */(function(){try{var ls=window.localStorage,v=ls.getItem('olympus.theme'),d=document.documentElement,k,on=window.__olyPaint||[];if((v&&v!=='agora')||ls.getItem('olympus.theme.night')==='1'||ls.getItem('olympus.themeMix')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches))return;var c=JSON.parse(ls.getItem('olympus.theme.look.page.night')||'null');if(!c||!c.vars)return;for(k in c.vars){d.style.setProperty(k,c.vars[k]);on.push(k);}d.setAttribute('data-oly-theme','night');d.setAttribute('data-oly-scheme','dark');if(c.style)d.setAttribute('data-oly-style',c.style);window.__olyPaint=on;}catch(e){}})();</script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
 body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
@@ -41,7 +42,7 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .dr-find { display: flex; gap: 8px; margin: 8px 0 14px; }
 .dr-find input { flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228); background: var(--ag-s0, #14110e); color: var(--ag-text, #f3ece0); padding: 0 14px; font: 500 16px var(--ag-sans, system-ui, sans-serif); }
 .dr-find input:focus { outline: 0; border-color: var(--ag-gold, #c8a24a); }
-.dr-start { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 12px; }   /* the owner's order (2026-11-20): Cities, Kalshi, NQ bot, Jarvis, then Planner, Business */
+.dr-start { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 12px; }   /* the 6 arenas (owner 2026-11-20 17:00 ET): Cities, Kalshi, NQ Bot, Jarvis, Websites, Business */
 .dr-start a { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 8px; border-radius: 12px; border: 1px solid var(--ag-line, #3a3228);
   background: var(--ag-s2, #221d17); color: var(--ag-text, #f3ece0); text-decoration: none; font: 650 var(--ag-fs-body, .9375rem)/1.2 var(--ag-sans, system-ui); text-align: center; overflow-wrap: anywhere; }
 .dr-start a:nth-child(-n+4) { border-color: var(--ag-gold, #c8a24a); }
@@ -101,10 +102,10 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .dr-arc .dr-row { opacity: .85; }
 </style>
 <script src="../olympus/apps-list.js?v=o12" defer></script>
-<script src="../olympus/doors.js?v=d11" defer></script>
-<script src="doors.js?v=d4" defer></script>
+<script src="../olympus/doors.js?v=d12" defer></script>
+<script src="doors.js?v=d5" defer></script>
 <script src="../olympus/warp.js?v=w3" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
-<script src="../olympus/themes.js?v=o9"></script><!-- the theme engine (after warp.js's tag, so it does not load warp.js a second time) -->
+<script src="../olympus/themes.js?v=o10"></script><!-- the theme engine (after warp.js's tag, so it does not load warp.js a second time) -->
 <script>try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ }</script>
 <link rel="stylesheet" href="../olympus/shell.css?v=s6">
 <link rel="stylesheet" href="../olympus/home-fx.css?v=x1"><!-- night-effects: the living home (hero, glass doors, intro) -->
@@ -120,7 +121,7 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
   <div class="dr-find"><label class="sr" for="q" style="position:absolute;left:-9999px">Find anything</label>
     <input id="q" type="search" placeholder="Find: payout, taxes, accounts, kalshi..." autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" aria-controls="out"></div>
   <!-- plain links in the page: the doors work even if the script does not load -->
-  <nav class="dr-start" id="startHere" aria-label="Start here"><a href="../cities/" data-first="cities">Cities</a><a href="../kalshi/" data-first="kalshi">Kalshi</a><a href="../nq/" data-first="nq">NQ bot</a><a href="../jarvis/" data-first="jarvis">Jarvis</a><a href="../planner/" data-first="planner">Planner</a><a href="../business/" data-first="business">Business</a></nav>
+  <nav class="dr-start" id="startHere" aria-label="Your 6 arenas"><a href="../cities/" data-first="cities">Cities</a><a href="../kalshi/" data-first="kalshi">Kalshi</a><a href="../nq/" data-first="nq">NQ Bot</a><a href="../jarvis/" data-first="jarvis">Jarvis</a><a href="../agency/" data-first="agency">Websites</a><a href="../business/" data-first="business">Business</a></nav>
   <nav class="dr-doors" id="doorGrid" aria-label="The four doors">
     <a class="dr-door" data-door="zeus" href="#zeus" style="--dc:#c8a24a"><b>ZEUS Trading</b><small>Accounts, live bots, trades, brain, rules, payouts</small></a>
     <a class="dr-door" data-door="money" href="#money" style="--dc:#a0ac6e"><b>Money</b><small>Business, taxes, payouts, fleet plan, household</small></a>

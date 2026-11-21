@@ -19,18 +19,22 @@
      Reads only its own published leads.json (built by `python -m agency.run` from OpenStreetMap) and fixture.json (DEMO, never blank). The owner's stages, notes,
      call-back days and prices stay in this browser (localStorage, export / import as JSON, download as CSV). It sends nothing: Call / Email open the phone's own apps. -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<script>document.documentElement.className += ' nfx';</script><!-- NAV FX: the navy / cyan look from the first frame (hub/navfx.css) -->
+<link rel="stylesheet" href="../hub/navfx.css?v=5">
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9">
-<script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o20" data-app="agency"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<script src="../olympus/themes.js?v=o10"></script>
+<script src="../olympus/olympus.js?v=o22" data-app="agency"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=6" defer></script>
+<script src="../olympus/agora-ui.js?v=7" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#d08c4a'); r.setProperty('--oly-accent-rgb', '208, 140, 74'); })();</script>
 <link rel="stylesheet" href="agency.css?v=a1q11">
 <link rel="stylesheet" href="hq.css?v=4">
 <script src="hq.js?v=2" defer></script>
+
+<script src="../hub/navfx.js?v=2" defer></script>
 </head>
 <body>
 <main id="app">

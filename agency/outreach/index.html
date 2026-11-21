@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Agency Outreach</title>
+<meta name="description" content="Owner-only: today's 20 businesses to contact, the email / call / voicemail words for each, follow-ups on day 3 and 7, answers to objections, and the close kit (agreement, invoice, delivery checklist).">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Outreach">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../icon.svg">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<!-- AGENCY · OUTREACH (day-a11y 2026-11-20, the Website Factory: Claude builds the sites, the owner only contacts the businesses).
+     outreachcore.js = the pure logic (node-tested, tests/test_web_outreach.py); outreach.js = the page; scripts.json = every word.
+     Reads ../leads/leads.json, ../offers/offers.json (prices) and ../sites/index.json when the factory publishes one (each lead's own site).
+     Saved on this phone only: the status marks in 'agency.leads.status.v1' (the SAME key as the Leads page) and the owner's details + touches
+     in 'agency.outreach.v1'. It sends nothing: Call opens the phone, Email opens the mail app, Copy copies. Never cold texts (TCPA). noindex. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<link rel="stylesheet" href="../../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../../olympus/agora.css?v=a10">
+<script src="../../olympus/themes.js?v=o10"></script>
+<script src="../../olympus/olympus.js?v=o22" data-app="agency"></script>
+<script src="../../olympus/a11y.js" defer></script>
+<script src="../../olympus/agora-ui.js?v=7" defer></script>
+<link rel="stylesheet" href="outreach.css?v=1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="../icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Outreach</h1><p class="sub">Who to contact today, and what to say</p></div></div>
+    <div class="tags"><a class="tag back" href="../">Agency</a></div>
+  </header>
+  <p id="status" class="note" role="status">Loading...</p>
+
+  <section class="ag-card card" id="meWarn" hidden aria-labelledby="meWarnH">
+    <h2 id="meWarnH">Fill in your details first</h2>
+    <p class="note">Your name, business, phone and postal address go into every message. A postal address in each email is the law (CAN-SPAM). They stay on this phone only.</p>
+    <button type="button" class="ag-btn primary" data-go="me">Add my details</button>
+  </section>
+
+  <div class="ag-tabs" role="tablist" aria-label="Outreach views" id="tabs">
+    <button type="button" class="ag-tab" role="tab" id="tab-today" data-tab="today" aria-controls="p-today" aria-selected="true">Today</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-words" data-tab="words" aria-controls="p-words" aria-selected="false" tabindex="-1">Words</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-close" data-tab="close" aria-controls="p-close" aria-selected="false" tabindex="-1">Close</button>
+    <button type="button" class="ag-tab" role="tab" id="tab-me" data-tab="me" aria-controls="p-me" aria-selected="false" tabindex="-1">Me</button>
+  </div>
+
+  <!-- today's 20 -->
+  <section id="p-today" class="panel" role="tabpanel" aria-labelledby="tab-today">
+    <div class="ag-card card auto" id="auto" aria-labelledby="autoH">
+      <div class="row"><h2 id="autoH">Email autopilot (your PC)</h2></div>
+      <p class="note" id="autoState">Checking the PC...</p>
+      <div class="tiles" id="autoNums"></div>
+      <p class="note">It emails only businesses with a public email, 20 new a day at most, Mon-Fri 9-16 ET; a "no thanks" or a bounce = never again. Replies go to Claude, who drafts the answers; you get one phone alert when one needs you.</p>
+    </div>
+    <div class="ag-card card tiles" id="tiles" aria-label="Today in numbers"></div>
+    <ol class="leads" id="today" aria-label="Today's businesses"></ol>
+    <p class="note">Calls only by hand, emails only with your real details and a way to say no. Never a cold text. <button type="button" class="linkbtn" data-go="words">The rules</button></p>
+  </section>
+
+  <!-- the words -->
+  <section id="p-words" class="panel" role="tabpanel" aria-labelledby="tab-words" hidden>
+    <div class="ag-card card"><h2>The rules</h2><ul class="plain" id="rules"></ul></div>
+    <div class="ag-card card"><h2>Phone</h2><div id="phoneWords"></div></div>
+    <div class="ag-card card"><h2>Emails: day 0, 3 and 7</h2><div id="emailWords"></div></div>
+    <div class="ag-card card"><h2>When they say...</h2><div id="objections"></div></div>
+  </section>
+
+  <!-- the close kit -->
+  <section id="p-close" class="panel" role="tabpanel" aria-labelledby="tab-close" hidden>
+    <form class="ag-card card" id="closeForm" autocomplete="off">
+      <h2>They said yes</h2>
+      <label class="fld">Their business<input id="cBiz" list="bizList" maxlength="80"></label>
+      <datalist id="bizList"></datalist>
+      <label class="fld">Their name (who signs)<input id="cName" maxlength="80" placeholder="Owner's name"></label>
+      <fieldset class="fld"><legend>Plan</legend><div class="seg" id="cPlan"></div></fieldset>
+    </form>
+    <article class="ag-card card sheet" id="agreement" aria-labelledby="agH"></article>
+    <article class="ag-card card sheet" id="invoice" aria-labelledby="invH"></article>
+    <div class="actions">
+      <button type="button" class="ag-btn primary" id="printAg">Agreement as PDF</button>
+      <button type="button" class="ag-btn" id="printInv">Deposit invoice as PDF</button>
+    </div>
+    <div class="ag-card card"><h2>Delivery checklist</h2><p class="note">Who does each step: <b>you</b>, <b>the client</b>, or <b>Claude</b> (on your PC or in a chat). Tick as you go; saved on this phone.</p><ol class="checklist" id="delivery"></ol></div>
+  </section>
+
+  <!-- me -->
+  <section id="p-me" class="panel" role="tabpanel" aria-labelledby="tab-me" hidden>
+    <form class="ag-card card" id="meForm" autocomplete="on">
+      <h2>Your details</h2>
+      <p class="note">They fill every email, script, agreement and invoice. Saved on this phone only, never sent anywhere, never in the website's files.</p>
+      <label class="fld">Your name<input id="your_name" autocomplete="name" maxlength="80"></label>
+      <label class="fld">Your business name<input id="your_business" autocomplete="organization" maxlength="80"></label>
+      <label class="fld">Your phone<input id="your_phone" type="tel" autocomplete="tel" maxlength="40"></label>
+      <label class="fld">Your email<input id="your_email" type="email" autocomplete="email" maxlength="120"></label>
+      <label class="fld">Postal address (required in every email)<input id="postal_address" autocomplete="street-address" maxlength="160" placeholder="A street address or a PO box"></label>
+      <button type="submit" class="ag-btn primary">Save</button>
+    </form>
+  </section>
+
+  <p class="foot">Owner only (not listed for search engines). It reads the lead list and the prices; your marks, notes and details stay on this phone.</p>
+</main>
+<div id="print" class="print" aria-hidden="true"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="../../pc_feed.js?v=n7"></script>
+<script type="module" src="outreach.js?v=1"></script>
+</body>
+</html>

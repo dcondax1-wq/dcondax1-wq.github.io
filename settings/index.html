@@ -20,9 +20,9 @@
      shown. ?tour=1 opens the first-run tour (it also opens by itself once, until olympus.tour.done is saved). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a9"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
-<script src="../olympus/themes.js?v=o9"></script>
-<script src="../olympus/olympus.js?v=o20" data-app="settings"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a10"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
+<script src="../olympus/themes.js?v=o10"></script>
+<script src="../olympus/olympus.js?v=o22" data-app="settings"></script>
 <script src="../olympus/intro-app.js?v=i11" defer></script>
 <script src="../olympus/sfx.js?v=s4" defer></script>
 <script src="../olympus/fx-core.js?v=f1"></script><script src="../olympus/fx-ui.js?v=f1"></script><script src="../olympus/fx-text.js?v=f1"></script><script src="../olympus/fx-burst.js?v=f1"></script>
@@ -31,7 +31,7 @@
 <link rel="stylesheet" href="settings.css?v=s5aqde">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a3">
 <script src="../olympus/a11y.js?v=a2" defer></script>
-<script src="../olympus/agora-ui.js?v=6" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
+<script src="../olympus/agora-ui.js?v=7" defer></script><!-- the AGORA shell: back row, Go to, compact bar -->
 <link rel="stylesheet" href="../olympus/shell.css?v=s6">
 </head>
 <body>
@@ -101,7 +101,7 @@
       <div class="row ro times"><label>From <input type="time" class="tm" id="aFrom" aria-label="Quiet from"></label><label>To <input type="time" class="tm" id="aTo" aria-label="Quiet until"></label></div></article>
     <article class="ag-card card" id="c-push"><h2>Phone notifications</h2><!-- day-arenas: settings/extras.js, this phone's storage only -->
       <p class="row ro"><span><b>Trade alerts on this phone</b><small id="pushNote">Checking</small></span><span class="st" id="pushSt">—</span></p>
-      <a class="go" href="../jarvis/#pushCard">Open the notifications card</a>
+      <a class="go" href="../jarvis/#pushCard">Open the notifications card (Send a test)</a>
       <p class="hint">Which alerts the PC sends (trade opened / closed, quiet hours 23:00-07:00 ET) is set on the PC in notify_settings.json; see "Trade alerts" in the help.</p></article>
     <article class="ag-card card" id="c-mode"><h2>Default mode</h2><p class="hint">What Jarvis starts in.</p><div class="seg wrap" id="modeSeg" role="radiogroup" aria-label="Default mode"></div></article>
     <article class="ag-card card" id="c-keys"><h2>Brain key and Obsidian</h2>

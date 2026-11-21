@@ -39,6 +39,7 @@
   window.__olyPaint = on;
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })('gate', 'page');</script>
+<script>/* OLYMPUS NIGHT from the first frame while nothing is chosen (kit, day-arenas 2026-11-20) */(function(){try{var ls=window.localStorage,v=ls.getItem('olympus.theme'),d=document.documentElement,k,on=window.__olyPaint||[];if((v&&v!=='agora')||ls.getItem('olympus.theme.night')==='1'||ls.getItem('olympus.themeMix')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches))return;var c=JSON.parse(ls.getItem('olympus.theme.look.page.night')||'null');if(!c||!c.vars)return;for(k in c.vars){d.style.setProperty(k,c.vars[k]);on.push(k);}d.setAttribute('data-oly-theme','night');d.setAttribute('data-oly-scheme','dark');if(c.style)d.setAttribute('data-oly-style',c.style);window.__olyPaint=on;}catch(e){}})();</script>
 <script>(function () {
   var p = location.pathname || '', b = /\/gate\/(index\.html)?$/.test(p) ? '../' : '';
   window.GATE_BASE = b;
@@ -46,10 +47,11 @@
   try { if (window.top !== window) d.documentElement.className += ' framed'; } catch (e) { d.documentElement.className += ' framed'; }
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
-  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a9'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g20'; h.appendChild(l);
+  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a10'; h.appendChild(k);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g22'; h.appendChild(l);
   var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s6'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
   var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);
+  var nf = d.createElement('link'); nf.rel = 'stylesheet'; nf.setAttribute('blocking', 'render'); nf.href = b + 'hub/navfx.css?v=5'; h.appendChild(nf); d.documentElement.className += ' nfx';   /* NAV FX 2026-11-20: navy + cyan / blue / violet, no gold, from the first frame (no colour flash) */
   var ag = d.createElement('link'); ag.rel = 'stylesheet'; ag.href = b + 'age.css?v=2'; h.appendChild(ag);   /* olympus2: the shared data-age chip */   /* night-effects: the living home (hero, glass doors, intro) */
   try { if (localStorage.getItem('oly.homefx') !== 'off') {   /* olympus2: the intro plays once per New York day ('oly.homefx.day'), never on a repeat visit that day */
     var dk = ''; try { dk = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date()); } catch (e2) { dk = new Date().toDateString(); }
@@ -58,7 +60,7 @@
     if (!again) localStorage.setItem('oly.homefx.day', dk);
   } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o9', 'pc_feed.js?v=n6', 'olympus/gate-catalog.js?v=nv9', 'olympus/hub-status.js?v=h3', 'age.js?v=1', 'business/payoutcoach.js?v=2', 'gate/gate.js?v=g19', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o10', 'pc_feed.js?v=n7', 'olympus/gate-catalog.js?v=nv10', 'olympus/hub-status.js?v=h4', 'age.js?v=1', 'business/payoutcoach.js?v=2', 'gate/gate.js?v=g20', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -69,7 +71,7 @@
 <main id="gate" class="g-main">
   <header class="g-head">
     <h1 class="g-title">Olympus</h1>
-    <p class="g-sub">Your money first. Search, or open a door below.</p>
+    <p class="g-sub">Your 6 arenas, then everything else. Or search.</p>
   </header>
 
   <section class="g-find" aria-labelledby="findH">
@@ -84,7 +86,30 @@
   </section>
 
   <!-- olympus2 2026-11-20 (owner: "money first on the home page"): Right now = the daily cockpit, right under the search, before the doors -->
-  <section class="g-card g-now" id="now" aria-labelledby="nowH" data-state="loading">
+    <!-- THE 6 ARENAS (owner 2026-11-20 17:00 ET: "organize the dashboard, I want like 6 arenas, that's it, then a separate area for the smaller stuff").
+       Plain links (they work without any script); gate/arenas.js writes one live line each from the data this page already reads. -->
+  <section class="g-arenas" id="arenas" aria-labelledby="arenasH">
+    <h2 class="g-h2 g-vh" id="arenasH">Your 6 arenas</h2>
+    <nav class="g-agrid" aria-labelledby="arenasH">
+      <div class="g-arena" data-arena="cities" data-dfx="glass"><a class="g-amain" data-to="cities/index.html" href="cities/index.html"><i class="g-ic g-aic" style="--ac:#6366f1" aria-hidden="true">◈</i><b>Cities</b><small class="g-aline" id="arena-cities">The 3D world of all your apps</small></a></div>
+      <div class="g-arena" data-arena="kalshi" data-dfx="glass"><a class="g-amain" data-to="kalshi/index.html" href="kalshi/index.html"><i class="g-ic g-aic" style="--ac:#14b8a6" aria-hidden="true">K</i><b>Kalshi</b><small class="g-aline" id="arena-kalshi">The K8 clock bets</small></a></div>
+      <div class="g-arena" data-arena="nq" data-dfx="glass"><a class="g-amain" data-to="nq/index.html" href="nq/index.html"><i class="g-ic g-aic" style="--ac:#9d59ee" aria-hidden="true">Ν</i><b>NQ Bot</b><small class="g-aline" id="arena-nq">Zlarior + ATLAS right now</small></a></div>
+      <div class="g-arena" data-arena="jarvis" data-dfx="glass"><a class="g-amain" data-to="jarvis/index.html" href="jarvis/index.html"><i class="g-ic g-aic" style="--ac:#a855f7" aria-hidden="true">◉</i><b>Jarvis</b><small class="g-aline" id="arena-jarvis">Ask anything</small></a></div>
+      <div class="g-arena" data-arena="agency" data-dfx="glass"><a class="g-amain" data-to="agency/index.html" href="agency/index.html"><i class="g-ic g-aic" style="--ac:#d946ef" aria-hidden="true">Ε</i><b>Websites</b><small class="g-aline" id="arena-agency">Your website business HQ</small></a></div>
+      <div class="g-arena" data-arena="business" data-dfx="glass"><a class="g-amain" data-to="business/index.html" href="business/index.html"><i class="g-ic g-aic" style="--ac:#3b82f6" aria-hidden="true">B</i><b>Business</b><small class="g-aline" id="arena-business">Accounts, payouts, plan</small></a><a class="g-asub" data-to="planner/index.html" href="planner/index.html">Planner</a></div>
+    </nav>
+  </section>
+
+  <!-- EVERYTHING ELSE: the 10 smaller apps he uses (lead 2026-11-20), then one button to the A to Z sheet (every live app) -->
+  <section class="g-else" id="elseSec" aria-labelledby="elseH">
+    <h2 class="g-h2" id="elseH">Everything else</h2>
+    <nav class="g-elist" id="elseList" aria-labelledby="elseH">
+      <a class="g-eapp" data-to="planner/index.html" href="planner/index.html" data-app="planner">Day and week plan</a><a class="g-eapp" data-to="trading/index.html" href="trading/index.html" data-app="trading">Every trade</a><a class="g-eapp" data-to="ledger/index.html" href="ledger/index.html" data-app="ledger">Your real money</a><a class="g-eapp" data-to="board/index.html" href="board/index.html" data-app="board">Live board</a><a class="g-eapp" data-to="hera/index.html" href="hera/index.html" data-app="hera">12-month money plan</a><a class="g-eapp" data-to="inbox/index.html" href="inbox/index.html" data-app="inbox">Inbox</a><a class="g-eapp" data-to="widget/index.html" href="widget/index.html" data-app="widget">iPhone widget</a><a class="g-eapp" data-to="dionysus/index.html" href="dionysus/index.html" data-app="dionysus">Kalshi desk</a><a class="g-eapp" data-to="helios/index.html" href="helios/index.html" data-app="helios">Morning briefing</a><a class="g-eapp" data-to="settings/index.html" href="settings/index.html" data-app="settings">Settings</a>
+    </nav>
+    <a class="g-btn g-elsemore" id="elseAll" data-to="gate/index.html#az" href="gate/index.html#az">See all apps (A to Z)</a>
+  </section>
+
+<section class="g-card g-now" id="now" aria-labelledby="nowH" data-state="loading">
     <div class="g-nowhead"><h2 id="nowH">Right now</h2><span class="oly-age" id="nowAge" hidden></span><span class="g-badge" id="nowBadge">Checking</span></div><!-- olympus2: the PC report age in the one site-wide format (age.js) -->
     <p class="g-nowline" id="nowLine" role="status" aria-live="polite">Looking for the bots' numbers...</p>
     <div class="g-trade" id="nowTrade" hidden></div><!-- olympus2: the open trade, if any -->
@@ -96,13 +121,13 @@
   </section>
 
   <!-- THE FOUR DOORS (2026-11-18, night-org, docs/ORGANIZATION.md, olympus/doors.js): everything lives behind one of these; plain links -->
-  <section class="g-four" id="doorsSec" aria-labelledby="doorsH">
+  <section class="g-four" id="doorsSec" aria-labelledby="doorsH" hidden>
     <h2 class="g-h2 g-vh" id="doorsH">Four doors</h2><!-- night-gate: heading for screen readers only (the subtitle names the doors), so Your six stay on the first phone screen -->
     <nav class="g-qgrid" id="doors4" aria-labelledby="doorsH">
-      <a class="g-dr" data-door="zeus" data-to="hub/doors.html#zeus" href="hub/doors.html#zeus"><i class="g-ic" style="--ac:#c8a24a" aria-hidden="true">Ζ</i><b>ZEUS Trading</b><small class="g-qline">Accounts, live bots, trades, brain, rules, payouts</small></a>
-      <a class="g-dr" data-door="money" data-to="hub/doors.html#money" href="hub/doors.html#money"><i class="g-ic" style="--ac:#a0ac6e" aria-hidden="true">$</i><b>Money</b><small class="g-qline">Business, taxes, payouts, fleet plan, household</small></a>
-      <a class="g-dr" data-door="kalshi" data-to="hub/doors.html#kalshi" href="hub/doors.html#kalshi"><i class="g-ic" style="--ac:#c9b94e" aria-hidden="true">⬡</i><b>Kalshi</b><small class="g-qline">The Kalshi bot and its edges (paused)</small></a>
-      <a class="g-dr" data-door="more" data-to="hub/doors.html#more" href="hub/doors.html#more"><i class="g-ic" style="--ac:#d1a06a" aria-hidden="true">⋯</i><b>More</b><small class="g-qline">Research, my day, Jarvis, settings, the rest</small></a>
+      <a class="g-dr" data-door="zeus" data-to="hub/doors.html#zeus" href="hub/doors.html#zeus"><i class="g-ic" style="--ac:#3b82f6" aria-hidden="true">Ζ</i><b>ZEUS Trading</b><small class="g-qline">Accounts, live bots, trades, brain, rules, payouts</small></a>
+      <a class="g-dr" data-door="money" data-to="hub/doors.html#money" href="hub/doors.html#money"><i class="g-ic" style="--ac:#10b981" aria-hidden="true">$</i><b>Money</b><small class="g-qline">Business, taxes, payouts, fleet plan, household</small></a>
+      <a class="g-dr" data-door="kalshi" data-to="hub/doors.html#kalshi" href="hub/doors.html#kalshi"><i class="g-ic" style="--ac:#06b6d4" aria-hidden="true">⬡</i><b>Kalshi</b><small class="g-qline">The Kalshi bot and its edges (paused)</small></a>
+      <a class="g-dr" data-door="more" data-to="hub/doors.html#more" href="hub/doors.html#more"><i class="g-ic" style="--ac:#8b5cf6" aria-hidden="true">⋯</i><b>More</b><small class="g-qline">Research, my day, Jarvis, settings, the rest</small></a>
     </nav>
   </section>
 
@@ -112,17 +137,17 @@
   </section>
 
 
-  <section class="g-quick" aria-labelledby="quickH">
+  <section class="g-quick" aria-labelledby="quickH" hidden>
     <h2 class="g-h2" id="quickH">Your apps</h2>
     <nav class="g-qgrid" id="quick" aria-labelledby="quickH"><!-- olympus2 2026-11-20 (owner): Cities, Kalshi, the NQ bot, Jarvis first, then the Planner and Business -->
-      <a class="g-q" data-app="cities" data-to="cities/index.html" href="cities/index.html"><i class="g-ic" style="--ac:#b88a50" aria-hidden="true">◈</i><b>Cities</b><small class="g-qline">World, Data City, Kalshi, Atlas, Mint</small></a>
-      <a class="g-q" data-app="kalshi" data-to="kalshi/index.html" href="kalshi/index.html"><i class="g-ic" style="--ac:#8fa07a" aria-hidden="true">K</i><b>Kalshi</b><small class="g-qline">Kalshi bot</small></a>
-      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><i class="g-ic" style="--ac:#c8a24a" aria-hidden="true">Ν</i><b>NQ bot</b><small class="g-qline">Zlarior · ATLAS right now</small></a>
-      <a class="g-q" data-app="jarvis" data-to="jarvis/index.html" href="jarvis/index.html"><i class="g-ic" style="--ac:#c9a45c" aria-hidden="true">◉</i><b>Jarvis</b><small class="g-qline">Ask anything</small></a>
-      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><i class="g-ic" style="--ac:#7fa7c2" aria-hidden="true">Π</i><b>My day</b><small class="g-qline">Day and week plan</small></a>
-      <a class="g-q" data-app="business" data-to="business/index.html" href="business/index.html"><i class="g-ic" style="--ac:#c8a24a" aria-hidden="true">B</i><b>Business</b><small class="g-qline">Accounts, payouts, plan</small></a>
-      <a class="g-q" data-app="agency" data-to="agency/index.html" href="agency/index.html"><i class="g-ic" style="--ac:#d08c4a" aria-hidden="true">Ε</i><b>Websites</b><small class="g-qline">Web business HQ</small></a>
-      <a class="g-q g-setup" data-to="hub/setup.html" href="hub/setup.html"><i class="g-ic" style="--ac:#9aa6b2" aria-hidden="true">⚙</i><b>Set up</b><small class="g-qline">iPhone, widget, alerts</small></a>
+      <a class="g-q" data-app="cities" data-to="cities/index.html" href="cities/index.html"><i class="g-ic" style="--ac:#6366f1" aria-hidden="true">◈</i><b>Cities</b><small class="g-qline">World, Data City, Kalshi, Atlas, Mint</small></a>
+      <a class="g-q" data-app="kalshi" data-to="kalshi/index.html" href="kalshi/index.html"><i class="g-ic" style="--ac:#14b8a6" aria-hidden="true">K</i><b>Kalshi</b><small class="g-qline">Kalshi bot</small></a>
+      <a class="g-q" data-app="nq" data-to="nq/index.html" href="nq/index.html"><i class="g-ic" style="--ac:#22d3ee" aria-hidden="true">Ν</i><b>NQ bot</b><small class="g-qline">Zlarior · ATLAS right now</small></a>
+      <a class="g-q" data-app="jarvis" data-to="jarvis/index.html" href="jarvis/index.html"><i class="g-ic" style="--ac:#a855f7" aria-hidden="true">◉</i><b>Jarvis</b><small class="g-qline">Ask anything</small></a>
+      <a class="g-q" data-app="planner" data-to="planner/index.html" href="planner/index.html"><i class="g-ic" style="--ac:#0ea5e9" aria-hidden="true">Π</i><b>My day</b><small class="g-qline">Day and week plan</small></a>
+      <a class="g-q" data-app="business" data-to="business/index.html" href="business/index.html"><i class="g-ic" style="--ac:#3b82f6" aria-hidden="true">B</i><b>Business</b><small class="g-qline">Accounts, payouts, plan</small></a>
+      <a class="g-q" data-app="agency" data-to="agency/index.html" href="agency/index.html"><i class="g-ic" style="--ac:#d946ef" aria-hidden="true">Ε</i><b>Websites</b><small class="g-qline">Web business HQ</small></a>
+      <a class="g-q g-setup" data-to="hub/setup.html" href="hub/setup.html"><i class="g-ic" style="--ac:#64748b" aria-hidden="true">⚙</i><b>Set up</b><small class="g-qline">iPhone, widget, alerts</small></a>
     </nav>
   </section>
 
@@ -131,7 +156,7 @@
     <div class="g-chips" id="recent"></div>
   </section>
 
-  <section class="g-hubs" aria-labelledby="hubsH">
+  <section class="g-hubs" aria-labelledby="hubsH" hidden>
     <h2 class="g-h2" id="hubsH">Your hubs</h2>
     <p class="g-hint" id="hubsHint">Money and the two bots first. Each hub is one of your jobs; everything else lives inside them.</p>
     <nav class="g-hubgrid" id="hubs" aria-labelledby="hubsH">
@@ -164,6 +189,13 @@
 </main>
 <script>(function () { var b = window.GATE_BASE || '', a = document.querySelectorAll('[data-to]'), i;
   for (i = 0; i < a.length; i++) a[i].setAttribute('href', b + a[i].getAttribute('data-to'));
+})();</script>
+<script>(function () { /* NAV FX (2026-11-20, owner: "3D, effects, no gold"): glass icons, aurora, tilt, roll-ups; loaded after the first paint */
+  var b = window.GATE_BASE || '', d = document;
+  var s = d.createElement('script'); s.src = b + 'hub/navfx.js?v=2'; s.defer = true; d.body.appendChild(s);
+  var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=3'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
+  var dl = d.createElement('link'); dl.rel = 'stylesheet'; dl.href = b + 'olympus/dashfx.css?v=d1'; d.head.appendChild(dl);
+  var dx = d.createElement('script'); dx.src = b + 'olympus/dashfx.js?v=d1'; dx.defer = true; d.body.appendChild(dx);   /* DESIGN's glass on the arenas */
 })();</script>
 </body>
 </html>

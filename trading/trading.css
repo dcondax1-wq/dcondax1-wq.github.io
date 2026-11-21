@@ -13,7 +13,7 @@ button { cursor: pointer; }
 html.framed #app { padding-top: 12px; }
 /* alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal (18 px in): 96 px + the home bar clears it; the 176 px seat (Jarvis's
    80 x 160 orb) stays for the framed page. Owner 2026-11-20: the empty band at the end looked "funky". */
-html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+html:not(.framed) #app { padding-bottom: calc(132px + var(--sb)); }   /* clears the Ask button (its top is 162 px above the bottom with the home bar): QUALITY 2026-11-20, phone_fit 
 .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 52px; }
 .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand img { width: 44px; height: 44px; border-radius: 12px; flex: none; box-shadow: var(--ag-shadow); }
@@ -78,6 +78,7 @@ html:not(.tr-edge) #zeusEdge, html:not(.tr-edge) #zeusEdge[hidden] { display: bl
 
 /* 2. the calendar (Mon-Fri: 5 columns stay 44 px wide at 320 px) */
 .calnav { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 8px; }
+.calnav .btn.icon { min-height: 44px; height: 44px; }   /* 2026-11-20 landing: a kit FX rule squeezed the month arrows to 28 px tall */
 .calmonth { margin: 0; text-align: center; font: 600 18px var(--ag-serif); }
 .calhead, .calrow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
 .calhead span { text-align: center; font: 600 12px var(--ag-sans); color: var(--ag-muted); }

@@ -52,13 +52,13 @@
     var left = 0, fin = function () { if (--left > 0) return; listState = window.OLYMPUS_APPS_LIST ? 'done' : 'failed'; var w = waiters; waiters = []; w.forEach(function (f) { try { f(); } catch (e) { /* */ } }); };
     var add = function (src) { left++; var s = d.createElement('script'); s.async = true; s.src = src; s.onload = fin; s.onerror = fin; (d.head || root).appendChild(s); };
     if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l10' : 'olympus/apps-list.js?v=l10');
-    if (!doors()) add(isPC ? '/js/next/doors.js?v=d11' : 'olympus/doors.js?v=d11');      // the four doors (same file on both sites)
+    if (!doors()) add(isPC ? '/js/next/doors.js?v=d12' : 'olympus/doors.js?v=d12');      // the four doors (same file on both sites)
     if (!left) { left = 1; fin(); }
   }
   function apps() {
     var L = window.OLYMPUS_APPS_LIST;
     if (!L || !L.length) return [];
-    var out = [], D = doors(), FIRST = ['cities', 'kalshi', 'nq', 'jarvis', 'planner', 'business'];   // owner 2026-11-20: his order first
+    var out = [], D = doors(), FIRST = ['cities', 'kalshi', 'nq', 'jarvis', 'agency', 'business', 'planner'];   // owner 2026-11-20 17:00 ET: the 6 arenas first, then Planner
     for (var i = 0; i < L.length; i++) if (L[i].id !== 'zenith' && L[i].path && !(D && D.retired && D.retired(L[i].id))) out.push(L[i]);   // retired: shown nowhere
     var rank = function (a) { var k = FIRST.indexOf(a.id); return k < 0 ? FIRST.length : k; };
     return out.map(function (a, i) { return [rank(a), i, a]; }).sort(function (x, y) { return x[0] - y[0] || x[1] - y[1]; }).map(function (x) { return x[2]; });
@@ -260,9 +260,15 @@
       var fd = el('div', 'oly-fav'); fd.appendChild(el('h3', '', '\u2605 Favourites'));
       var fg = el('div', 'oly-gr'); fv.forEach(function (a) { fg.appendChild(tile(a, n++, false)); }); fd.appendChild(fg); frag.push(fd);
     }
-    var D = doors();
+    var D = doors(), AR = D && D.ARENAS ? D.ARENAS : [], isAr = function (id) { return !!(D && D.arena && D.arena(id === 'home' ? 'jarvis' : id)); };
+    if (AR.length) {                                           // owner 2026-11-20 17:00 ET: the 6 arenas first, everything else under More
+      var asec = el('section'); asec.setAttribute('data-group', 'arenas'); asec.appendChild(el('h3', '', 'Arenas'));
+      var agr = el('div', 'oly-gr'); AR.forEach(function (r) { var a = byId[r.id] || (r.id === 'jarvis' ? (byId.home || { id: 'jarvis', name: 'Jarvis', glyph: '\u0399', colour: '#9d59ee', group: 'life', purpose: r.line, path: 'jarvis/' }) : null); /* Jarvis has no app-list row (the big button opens it): its tile comes from doors.js */ if (!a) return; var t = tile(a, n++, false); st.tiles[a.id] = t; agr.appendChild(t); });
+      asec.appendChild(agr); frag.push(asec);
+      var mh = el('h3', 'oly-morehead', 'More'); frag.push(mh);
+    }
     (D ? D.DOORS.map(function (x) { return [x.id, x.title, x]; }) : GROUPS).forEach(function (g) {
-      var list = st.apps.filter(function (a) { return D ? D.doorOf(a.id) === g[0] : a.group === g[0]; });
+      var list = st.apps.filter(function (a) { return (D ? D.doorOf(a.id) === g[0] : a.group === g[0]) && !isAr(a.id); });
       if (!list.length && !(g[2] && g[2].items.length)) return;
       var sec = el('section'); sec.setAttribute('data-group', g[0]);
       if (g[2]) {                                              // a door: its heading opens the Doors page there, then its shortcuts

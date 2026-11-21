@@ -224,7 +224,8 @@
   }
   /* olympus2 2026-11-20 (owner): retired apps never show on the Home (search, A to Z, recent, pins); their pages still open from an old link */
   var RETIRED = { delphi: 1, stoa: 1, hestia: 1, plutus: 1, argo: 1, mint: 1, harmonia: 1, kairos: 1, chronos: 1, lyceum: 1, polis: 1, atlascity: 1, gallery: 1, mintcity: 1, nike: 1,
-    arena: 1, mind: 1, symposium: 1, herald: 1, ergasterion: 1, observatory: 1, pheme: 1, bridge: 1, arbiter: 1, hermes: 1, hephaestus: 1 };
+    arena: 1, mind: 1, symposium: 1, herald: 1, ergasterion: 1, observatory: 1, pheme: 1, bridge: 1, arbiter: 1, hermes: 1, hephaestus: 1,
+    prometheus: 1 };   // lead 2026-11-20 (owner 12:04: "the forges and stuff we don't need"): the Strategy forge off the Home too; its page stays
   function live(a) { return !!a && !RETIRED[a.id]; }
   function drawResults() {
     var box = $('results'), q = ($('q').value || '').replace(/^\s+|\s+$/g, ''); clear(box);
@@ -256,7 +257,7 @@
     var done = false, fin = function () { if (done) return; done = true; cb(w.OLYMPUS_TRUTH || null); };
     w.addEventListener('gate-truth', fin);
     try {
-      var url = new w.URL(base + 'olympus/truth.js?v=r12', w.location.href).href, s = d.createElement('script');
+      var url = new w.URL(base + 'olympus/truth.js?v=r13', w.location.href).href, s = d.createElement('script');
       s.type = 'module';
       s.textContent = 'import * as T from ' + JSON.stringify(url) + '; window.OLYMPUS_TRUTH = T; window.dispatchEvent(new Event("gate-truth"));';
       d.head.appendChild(s);

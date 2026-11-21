@@ -11,6 +11,7 @@
 .dk-tag { display: inline-flex; align-items: center; white-space: nowrap; font: 700 12px/1 var(--ag-sans, system-ui); letter-spacing: .03em; padding: 4px 6px;
   border-radius: 6px; border: 1px solid currentColor; color: var(--ag-muted, #a89c88); }
 .dk-tag small { font-size: inherit; font-weight: 600; letter-spacing: 0; text-transform: none; opacity: .9; }
+.dk-tag:has(small) { white-space: normal; flex-wrap: wrap; max-width: 100%; row-gap: 2px; }   /* a long "BACKTEST · run ..., data to ..." tag wraps instead of widening the page (QUALITY 2026-11-20, lab.html at 390 px) */
 .dk-tag.live { color: var(--ag-olive-text, #a0ac6e); } .dk-tag.paper, .dk-tag.cached, .dk-tag.offline { color: var(--oly-th-warn, #e0b25a); }
 .dk-tag.backtest { color: var(--ag-aegean-text, #7fa7c2); } .dk-tag.estimate { color: var(--ag-gold, #c8a24a); } .dk-tag.funded { color: var(--ag-gold-hi, #dcbd6e); }
 .dk-tag.offline, .dk-tag.cached, .dk-tag.stale { color: var(--ag-terra-text, #e08a6b); }

@@ -417,6 +417,26 @@
    "valued": "2026-11-20 ATLAS 10 ticks a side, 1,000 paths (rapid-launch-2026-11-20.md)",
    "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
    "next": "live after a code review + tests this weekend (Rapid lane only)"
+  },
+  {
+   "id": "copilot-test",
+   "question": "Big idea: run a free 30-day test of a 'Prop Slot Planner' page for other prop traders (faceless brand, no name), plus 1 short video a day?",
+   "why": "Bot income depends on the market (about $0 in a 2021-25-like market). The one thing no prop tool sells yet is our planner: which account to buy next, when, and what you keep after tax.",
+   "impact": "Bear $0, base ~$600/mo by month 6, bull ~$3,900/mo by month 12; 3-6 of your hours a week (the videos). Kill it if there are under 300 visits, 30 emails or 3 pre-orders in 30 days; go at 10+ pre-orders.",
+   "impact_usd": 600,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/huge-idea-2026-11-20.md",
+   "applies": "Claude builds the free page + waitlist on a separate faceless site (no MFFU logos, rules math only, never signals); you post the videos. Nothing goes public before your yes.",
+   "added": "2026-11-20",
+   "usd_month": 600,
+   "risk": "Crowded market (TradeZella gives prop tracking away free; trackers sell for $15-50/mo). Costs only your time; $0 cash.",
+   "recommend": "later",
+   "recommend_why": "Website clients are the surer non-trading money ($2,500/mo at 10 clients). Start this test in January if the website outreach is running and you enjoy making videos."
   }
  ]
 }

@@ -13,7 +13,6 @@ const O = window.OLYMPUS || null;   // the OLYMPUS kit (../olympus/olympus.js): 
 const $ = (id) => document.getElementById(id);
 const Q = new URLSearchParams(location.search);
 const RM = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false, addEventListener() {} };
-const LIVE_URL = 'https://raw.githubusercontent.com/demetrades2000-coder/nq-dashboard/live/live.json';
 const LIVE_EVERY = 5 * 60e3;
 const S = {
   data: null, demo: false, route: C.parseRoute(location.hash),
@@ -57,7 +56,7 @@ async function pollLive() {
   const own = Q.get('live');
   if ((!own && S.demo) || (O ? O.hidden() : document.hidden)) return;
   let j = own ? await getJson(own) : await pcFeed();
-  if (j === undefined) j = await getJson(LIVE_URL);
+  if (j === undefined) j = null;                    // no pc_feed.js: no live numbers (the old GitHub copy on the suspended account is no longer asked)
   if (j && j.board) { S.live = j; S.liveAt = Date.now(); renderLive(); }
 }
 

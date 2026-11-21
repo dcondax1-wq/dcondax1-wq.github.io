@@ -10,8 +10,8 @@ import { createRenderer } from '../olympus/render.js';
 import * as M from '../olympus/materials.js';
 
 const TIERS = { ultra: { max: 900, dust: 500, rays: true }, high: { max: 620, dust: 320, rays: true }, low: { max: 260, dust: 120, rays: false }, off: { max: 120, dust: 0, rays: false } };
-const GOLD = '#c8a24a';
-const AG_THEME = { sky: '#3a2c1e', fog: '#2a2118', emissive: '#c8a24a', bloom: '#c8a24a', accent: '#c8a24a' };   // AGORA: warm dusk, no violet rims
+const GOLD = '#f1c14b';   // day-archive 2026-11-20 (OLYMPUS NIGHT): violet steel and violet light; this bright gold only on the thin rings
+const AG_THEME = { sky: '#16131e', fog: '#000000', emissive: '#9d59ee', bloom: '#9d59ee', accent: '#f1c14b' };   // AGORA: warm dusk, no violet rims
 const hdr = (c, k) => new THREE.Color(c).multiplyScalar(k);
 /** dollars per coin: the pile stays readable from a few hundred dollars to tens of thousands */
 export const unitFor = (net) => { const a = Math.abs(net || 0); return a < 500 ? 5 : a < 2000 ? 10 : a < 8000 ? 25 : a < 30000 ? 100 : 500; };
@@ -20,8 +20,8 @@ export const coinsFor = (net, unit, max) => (net > 0 ? Math.min(max, Math.max(1,
 export function createVault(canvas, { O = null } = {}) {
   const reduced = () => (O ? O.reduced() : !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches));
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color('#2a2118');
-  scene.fog = new THREE.FogExp2(0x2a2118, 0.035);
+  scene.background = new THREE.Color('#000000');
+  scene.fog = new THREE.FogExp2(0x000000, 0.035);
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 120);
   let lite = false, dirty = true, qcb = null, drawn = 0, frames = 0, stopped = false, raf = 0, net = 0, unit = 5, count = 0, tier = TIERS.low, th = 0.2, ph = 0.28, dist = 15, drag = null, rain = [], rayFx = null, t0 = performance.now() / 1000;
   const rc = createRenderer({ canvas, scene, camera, env: 'night', theme: AG_THEME, tint: GOLD, exposure: 0.95, maxDpr: 1.6, bloom: { strength: 0.22, radius: 0.5, threshold: 1.0 },
@@ -30,34 +30,34 @@ export function createVault(canvas, { O = null } = {}) {
   // the OLYMPUS look (2026-11-14, team T2): the vault's night and fog lean toward the look's (by its mix; the default AGORA: untouched)
   try { if (O && O.themeScene) O.themeScene({ scene, renderer: rc.renderer, redraw: () => { dirty = true; } }); } catch (e) { /* the vault's own colours */ }
 
-  scene.add(new THREE.HemisphereLight('#e0b060', '#3a2c1e', 0.8));
-  const key = new THREE.DirectionalLight('#e0b060', 0.9); key.position.set(-6, 10, 8); scene.add(key);
-  const glow = new THREE.PointLight('#e0b060', 30, 22, 1.5); glow.position.set(0, 2.4, -1.5); scene.add(glow);
-  const lamp = new THREE.PointLight('#c96a4a', 0, 14, 1.6); lamp.position.set(-4.5, 5.4, -1); scene.add(lamp);
+  scene.add(new THREE.HemisphereLight('#9d59ee', '#16131e', 0.8));
+  const key = new THREE.DirectionalLight('#9d59ee', 0.9); key.position.set(-6, 10, 8); scene.add(key);
+  const glow = new THREE.PointLight('#9d59ee', 30, 22, 1.5); glow.position.set(0, 2.4, -1.5); scene.add(glow);
+  const lamp = new THREE.PointLight('#8b5cf6', 0, 14, 1.6); lamp.position.set(-4.5, 5.4, -1); scene.add(lamp);
 
   // ---- the room and the vault
-  const floor = new THREE.Mesh(new THREE.CircleGeometry(30, 48), M.marble({ color: '#cfc4b0', roughness: 0.4, scale: 0.5, envMapIntensity: 0.7 }));
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(30, 48), M.marble({ color: '#1c1430', roughness: 0.4, scale: 0.5, envMapIntensity: 0.7 }));
   floor.rotation.x = -Math.PI / 2; floor.position.y = -0.02; scene.add(floor);
-  const steel = M.marble({ color: '#d8cdb8', vein: '#c8a24a', roughness: 0.35, scale: 0.6, envMapIntensity: 0.9 });
+  const steel = M.marble({ color: '#898497', vein: '#f1c14b', roughness: 0.35, scale: 0.6, envMapIntensity: 0.9 });
   const wall = new THREE.Mesh(new THREE.BoxGeometry(14, 9, 1.2), steel); wall.position.set(0, 4.5, -4); scene.add(wall);
-  const hole = new THREE.Mesh(new THREE.CylinderGeometry(3.3, 3.3, 1.3, 48), new THREE.MeshBasicMaterial({ color: hdr('#e0b060', 1.6) }));
+  const hole = new THREE.Mesh(new THREE.CylinderGeometry(3.3, 3.3, 1.3, 48), new THREE.MeshBasicMaterial({ color: hdr('#9d59ee', 1.6) }));
   hole.rotation.x = Math.PI / 2; hole.position.set(0, 4.3, -3.55); scene.add(hole);
-  const rim = new THREE.Mesh(new THREE.TorusGeometry(3.4, 0.28, 16, 64), M.metal({ kind: 'gold', color: GOLD, roughness: 0.22, envMapIntensity: 1.4 })); rim.position.set(0, 4.3, -3.3); scene.add(rim);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(3.4, 0.28, 16, 64), M.metal({ kind: 'chrome', color: GOLD, roughness: 0.22, envMapIntensity: 1.4 })); rim.position.set(0, 4.3, -3.3); scene.add(rim);
   const door = new THREE.Group();
-  const slab = new THREE.Mesh(new THREE.CylinderGeometry(3.15, 3.15, 0.55, 56), M.metal({ kind: 'gold', color: '#e0b060', roughness: 0.25, clearcoat: 0.8, envMapIntensity: 1.5 })); slab.rotation.x = Math.PI / 2; door.add(slab);
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.9, 32), M.metal({ kind: 'chrome', color: '#fff1c8', roughness: 0.12 })); hub.rotation.x = Math.PI / 2; hub.position.z = 0.4; door.add(hub);
+  const slab = new THREE.Mesh(new THREE.CylinderGeometry(3.15, 3.15, 0.55, 56), M.metal({ kind: 'chrome', color: '#9d59ee', roughness: 0.25, clearcoat: 0.8, envMapIntensity: 1.5 })); slab.rotation.x = Math.PI / 2; door.add(slab);
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.9, 32), M.metal({ kind: 'chrome', color: '#dacbf0', roughness: 0.12 })); hub.rotation.x = Math.PI / 2; hub.position.z = 0.4; door.add(hub);
   const spokes = new THREE.Group();
-  for (let i = 0; i < 6; i++) { const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2.6, 10), M.metal({ kind: 'chrome', color: '#fff1c8', roughness: 0.15 })); sp.position.z = 0.4; sp.rotation.z = (i / 6) * Math.PI; spokes.add(sp); }
+  for (let i = 0; i < 6; i++) { const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2.6, 10), M.metal({ kind: 'chrome', color: '#dacbf0', roughness: 0.15 })); sp.position.z = 0.4; sp.rotation.z = (i / 6) * Math.PI; spokes.add(sp); }
   door.add(spokes);
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(2.55, 0.09, 12, 64), M.metal({ kind: 'gold', color: '#c8a24a', roughness: 0.3 })); ring.position.z = 0.32; door.add(ring);
-  for (const [r, k] of [[1.9, 0.07], [1.25, 0.06]]) { const g = new THREE.Mesh(new THREE.TorusGeometry(r, k, 10, 56), M.metal({ kind: 'gold', color: '#c8a24a', roughness: 0.35 })); g.position.z = 0.3; door.add(g); }
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(2.55, 0.09, 12, 64), M.metal({ kind: 'chrome', color: '#f1c14b', roughness: 0.3 })); ring.position.z = 0.32; door.add(ring);
+  for (const [r, k] of [[1.9, 0.07], [1.25, 0.06]]) { const g = new THREE.Mesh(new THREE.TorusGeometry(r, k, 10, 56), M.metal({ kind: 'chrome', color: '#f1c14b', roughness: 0.35 })); g.position.z = 0.3; door.add(g); }
   door.position.set(3.1, 4.3, -2.7); door.rotation.y = -1.05; door.userData.hinge = 3.1;       // ajar: swung out on the right
   scene.add(door);
 
   // ---- the coin pile
   const MAX = 900;
   const coinGeo = new THREE.CylinderGeometry(0.46, 0.46, 0.11, 24);
-  const coinMat = M.metal({ kind: 'gold', color: GOLD, roughness: 0.2, clearcoat: 0.9, envMapIntensity: 1.6 });
+  const coinMat = M.metal({ kind: 'chrome', color: GOLD, roughness: 0.2, clearcoat: 0.9, envMapIntensity: 1.6 });
   const pile = new THREE.InstancedMesh(coinGeo, coinMat, MAX); pile.frustumCulled = false; scene.add(pile);
   const rainMesh = new THREE.InstancedMesh(coinGeo, coinMat, 90); rainMesh.frustumCulled = false; rainMesh.count = 0; scene.add(rainMesh);
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), p3 = new THREE.Vector3(), s3 = new THREE.Vector3(1, 1, 1);
@@ -95,9 +95,9 @@ export function createVault(canvas, { O = null } = {}) {
     unit = o && o.unit > 0 ? o.unit : unitFor(net);
     count = coinsFor(net, unit, tier.max); layout(count);
     const win = net > 0, loss = net < 0;
-    glow.intensity = win ? 22 + Math.min(30, count / 25) : 6; glow.color.set(win ? '#e0b060' : '#9c6b3c');
+    glow.intensity = win ? 22 + Math.min(30, count / 25) : 6; glow.color.set(win ? '#9d59ee' : '#475569');
     lamp.intensity = loss ? 26 : 0;
-    hole.material.color.copy(hdr(loss ? '#9c6b3c' : '#e0b060', loss ? 0.8 : 1.6 + Math.min(1.2, count / 500)));
+    hole.material.color.copy(hdr(loss ? '#475569' : '#9d59ee', loss ? 0.8 : 1.6 + Math.min(1.2, count / 500)));
     door.rotation.y = loss ? -0.2 : -1.05;
     setRays(); dirty = true;
   }

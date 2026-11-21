@@ -1,7 +1,7 @@
 /* SETTINGS v2 (designqa 2026-11-19, owner: "nothing 2000's looking"): on the AGORA page shell (olympus/agora.css section 14: back row, icon tile,
    serif title, compact bar, the sticky tab rail). Grouped cards like the phone's own Settings: a serif card title, rows with the label and a muted
    line, a switch on the right; segmented pickers on one rail with a raised thumb; theme swatches as tiles. The aurora and the glass are gone.
-   Every colour is a kit token (--oly-th-*), so a theme change still repaints the page live. Jarvis's orb owns the bottom-right 80 x 160 px:
+   Every colour is a kit token (a theme slot), so a theme change still repaints the page live. Jarvis's orb owns the bottom-right 80 x 160 px:
    the page ends 176 px above the bottom. Safe areas on every edge; no sideways scroll at 375 px. Every animation sits behind
    prefers-reduced-motion and the LITE / Still tiers. */
 :root {

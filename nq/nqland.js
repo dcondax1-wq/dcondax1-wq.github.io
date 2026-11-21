@@ -1,7 +1,7 @@
 // NQ PRICE LANDSCAPE (NQ v4 hero, 2026-11-20, owner: "it should look 3D, have crazy effects ... it should look really good"; it must stay fast).
-// Today's 5-minute NQ bars as a glowing 3D ridge: the price is the height (normalised to the day's range), up bars warm green / gold, down
-// bars coral; a gold light trail runs along the price line toward the newest bar; a glowing beacon stands at every trade (green = a win,
-// coral = a loss, pulsing gold = still open); embers drift up; a gold arc on the floor shows the fleet's progress to its next goal (data.goal
+// Today's 5-minute NQ bars as a glowing 3D ridge: the price is the height (normalised to the day's range), up bars cyan / blue, down
+// bars violet; a cyan light trail runs along the price line toward the newest bar; a glowing beacon stands at every trade (green = a win,
+// red = a loss, pulsing cyan = still open); cyan / violet embers drift up; a cyan arc on the floor shows the fleet's progress to its next goal (data.goal
 // 0..1); the camera sways slowly. burst('win' | 'goal') throws one shower of sparks from the newest trade (or the centre).
 // Optional ES module, loaded late by olympus/lazy3d.js. Plain three.js (no HDR, no textures to download, no shadows): one draw per kind
 // (one ridge mesh, one line, one instanced beacon mesh, three point clouds). A phone / Save-Data: DPR <= 1.5, no antialias, 150 particles,
@@ -11,8 +11,10 @@
 // burst(kind), dispose() } and fires 'nqland'. mount returns false (the box untouched) when WebGL cannot be made.
 import * as THREE from '../jarvis/three.module.min.js';
 
-const BG = 0x070b14, GOLD = new THREE.Color('#22d3ee'), UP = new THREE.Color('#9fd07a'), UPG = new THREE.Color('#3b82f6'), DN = new THREE.Color('#ef7f62');
-const WIN = new THREE.Color('#7ee08a'), LOSS = new THREE.Color('#ff6f5a'), OPEN = new THREE.Color('#ffd36b');
+// owner 2026-11-20 15:15 ET: the NQ terminal look: a navy night, the ridge cyan (up) / blue / violet (down), the light trail + goal arc cyan (GOLD keeps its
+// name: the accent), beacons green (a win) / red (a loss) / bright cyan (open): green and red only where it is $
+const BG = 0x000000, GOLD = new THREE.Color('#9d59ee'), UP = new THREE.Color('#dacbf0'), UPG = new THREE.Color('#9d59ee'), DN = new THREE.Color('#4d2e76');
+const WIN = new THREE.Color('#77db89'), LOSS = new THREE.Color('#ef4444'), OPEN = new THREE.Color('#f1c14b');
 const W = 12, HMAX = 2.6, ROWS = 14, DEPTH = 3.2;
 let R = null;
 
@@ -23,7 +25,7 @@ const reduced = () => media('(prefers-reduced-motion: reduce)');
 function glowTex() {                                   // a soft round dot, drawn here (nothing downloaded)
   const c = document.createElement('canvas'); c.width = c.height = 64;
   const g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-  r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(0.25, 'rgba(200,240,255,.75)'); r.addColorStop(1, 'rgba(150,220,255,0)');
+  r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(0.25, 'rgba(225,205,255,.75)'); r.addColorStop(1, 'rgba(157,89,238,0)');
   g.fillStyle = r; g.fillRect(0, 0, 64, 64);
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
@@ -76,12 +78,12 @@ function mount(box, data) {
   box.appendChild(cv);
   const scene = new THREE.Scene(); scene.fog = new THREE.Fog(BG, 14, 34);
   const camera = new THREE.PerspectiveCamera(36, 1.6, 0.1, 60);
-  scene.add(new THREE.HemisphereLight(0xfff0d0, 0x2a1d0c, 1.3));
-  const sun = new THREE.DirectionalLight(0xffe2b0, 1.6); sun.position.set(-4, 6, 5); scene.add(sun);
+  scene.add(new THREE.HemisphereLight(0xece4ff, 0x140a24, 1.3));
+  const sun = new THREE.DirectionalLight(0xdacbf0, 1.6); sun.position.set(-4, 6, 5); scene.add(sun);
   const tex = glowTex(), NP = phone ? 150 : 400;
   // the floor: a faint gold grid, and the goal arc on it
-  const grid = new THREE.GridHelper(26, 26, 0x4a3a1e, 0x2a2014); grid.material.transparent = true; grid.material.opacity = 0.5; scene.add(grid);
-  const ridgeMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.25, flatShading: true, emissive: 0x2a1a08, emissiveIntensity: 1 });
+  const grid = new THREE.GridHelper(26, 26, 0x4d2e76, 0x1e1230); grid.material.transparent = true; grid.material.opacity = 0.5; scene.add(grid);
+  const ridgeMat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55, metalness: 0.25, flatShading: true, emissive: 0x160a2a, emissiveIntensity: 1 });
   const ridge = new THREE.Mesh(new THREE.BufferGeometry(), ridgeMat); scene.add(ridge);
   const line = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false })); scene.add(line);
   const beaconG = new THREE.CylinderGeometry(0.035, 0.07, 1, 8, 1, true); beaconG.translate(0, 0.5, 0);
@@ -93,7 +95,7 @@ function mount(box, data) {
   const sparks = points(phone ? 90 : 160, 0.22, tex); scene.add(sparks);
   const arc = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
   arc.rotation.x = -Math.PI / 2; arc.position.set(0, 0.01, -1.2); scene.add(arc);
-  const ring = new THREE.Mesh(new THREE.RingGeometry(6.2, 6.28, 96), new THREE.MeshBasicMaterial({ color: 0x5a4524, transparent: true, opacity: 0.6, side: THREE.DoubleSide }));
+  const ring = new THREE.Mesh(new THREE.RingGeometry(6.2, 6.28, 96), new THREE.MeshBasicMaterial({ color: 0x2b2a6e, transparent: true, opacity: 0.6, side: THREE.DoubleSide }));
   ring.rotation.x = -Math.PI / 2; ring.position.set(0, 0.005, -1.2); scene.add(ring);
   // embers: random spots over the ridge, drifting up and fading
   const eP = embers.geometry.attributes.position.array, eV = new Float32Array(NP), eL = new Float32Array(NP);
@@ -143,7 +145,7 @@ function update(data) {
 function burst(kind) {
   if (!R || R.still) return;
   const b = R.trades[R.trades.length - 1], o = b ? [b.x, b.y + 0.9, 0] : [0, 1.6, 0];
-  const p = R.sparks.geometry.attributes.position.array, c = R.sparks.geometry.attributes.color.array, col = kind === 'goal' ? GOLD : WIN;
+  const p = R.sparks.geometry.attributes.position.array, c = R.sparks.geometry.attributes.color.array, col = kind === 'goal' ? DN : WIN;   // a goal: violet + cyan; a win: green + cyan
   for (let i = 0; i < R.sN; i++) {
     const a = Math.random() * Math.PI * 2, u = Math.random() * 2 - 1, s = 1.6 + Math.random() * 2.6, r = Math.sqrt(1 - u * u);
     p[i * 3] = o[0]; p[i * 3 + 1] = o[1]; p[i * 3 + 2] = o[2];
@@ -172,7 +174,7 @@ function frame(now, force) {
     for (let k = 0; k < TN; k++) {
       const f = Math.max(0, head - k * 0.55), i = Math.floor(f), w = f - i, a = pts[i], b = pts[Math.min(n - 1, i + 1)], fade = Math.pow(1 - k / TN, 1.6);
       tp[k * 3] = a.x + (b.x - a.x) * w; tp[k * 3 + 1] = a.y + (b.y - a.y) * w + 0.05; tp[k * 3 + 2] = 0;
-      tc[k * 3] = GOLD.r * fade * 1.4; tc[k * 3 + 1] = GOLD.g * fade * 1.3; tc[k * 3 + 2] = GOLD.b * fade;
+      tc[k * 3] = GOLD.r * fade; tc[k * 3 + 1] = GOLD.g * fade * 1.2; tc[k * 3 + 2] = GOLD.b * fade * 1.3;
     }
     R.trail.geometry.attributes.position.needsUpdate = R.trail.geometry.attributes.color.needsUpdate = true;
   }
@@ -182,7 +184,7 @@ function frame(now, force) {
     if (R.still) { ec[i * 3] = ec[i * 3 + 1] = ec[i * 3 + 2] = 0; continue; }
     R.eL[i] += dt * 0.18; ep[i * 3 + 1] += R.eV[i] * dt; ep[i * 3] += Math.sin(t + i) * dt * 0.08;
     if (R.eL[i] > 1) { R.seed(i); R.eL[i] = 0; }
-    const a = Math.sin(Math.PI * R.eL[i]) * 0.55; ec[i * 3] = 1 * a; ec[i * 3 + 1] = 0.72 * a; ec[i * 3 + 2] = 0.36 * a;
+    const a = Math.sin(Math.PI * R.eL[i]) * 0.55, v = i % 3 === 0; ec[i * 3] = (v ? 0.95 : 0.62) * a; ec[i * 3 + 1] = (v ? 0.76 : 0.35) * a; ec[i * 3 + 2] = (v ? 0.29 : 0.93) * a;   // violet sparks, a few gold
   }
   R.embers.geometry.attributes.position.needsUpdate = R.embers.geometry.attributes.color.needsUpdate = true;
   // the burst sparks: gravity, fade

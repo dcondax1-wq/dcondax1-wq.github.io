@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard FX lab</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<!-- OLYMPUS dashboard FX lab (olympus/dashfx-lab.html, day-arenas 2026-11-20): every data-dfx effect on example numbers, for the app teams
+     and tests/test_dashfx.py. ?nofx=1 = the same page without dashfx.js (the test's baseline). -->
+<link rel="stylesheet" href="dashfx.css?v=d1">
+<style>
+html { background: var(--dfx-base); }
+body { margin: 0; color: var(--dfx-text); font: 400 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; padding: 16px 16px calc(32px + env(safe-area-inset-bottom, 0px)); }
+h1 { font-size: 1.5rem; margin: 0 0 4px; } h2 { font-size: 1.0625rem; margin: 0 0 10px; }
+p { margin: 0; } .muted { color: var(--dfx-muted); }
+.grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); max-width: 680px; margin: 14px auto 0; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.card { padding: 16px; }
+.k { font-size: .8125rem; color: var(--dfx-muted); text-transform: uppercase; letter-spacing: .08em; }
+.v { display: block; font: 800 1.75rem/1.15 -apple-system, system-ui, sans-serif; margin-top: 4px; }
+.good { color: var(--dfx-good); } .bad { color: var(--dfx-bad); } .gold { color: var(--dfx-gold-text); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 10px; }
+.chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--dfx-gold); color: var(--dfx-gold-text); background: transparent; font: 700 .875rem/1 system-ui; letter-spacing: .06em; }
+svg.spark { width: 100%; height: 72px; display: block; margin-top: 10px; }
+canvas.cv { width: 100%; height: 90px; display: block; margin-top: 10px; }
+.tall { height: 560px; }
+</style>
+<script>if (!/[?&]nofx=1/.test(location.search)) document.write('<script src="dashfx.js?v=d1" defer><\/script>');</script>
+</head>
+<body data-dfx-bg>
+<h1>Dashboard FX lab</h1>
+<p class="muted">OLYMPUS NIGHT: every effect on example numbers.</p>
+<div class="grid">
+  <section class="card" data-dfx="glass tilt" id="hero">
+    <span class="k">Today</span>
+    <b class="v good" data-dfx="roll" id="pnl">+$1,284.50</b>
+    <p class="muted">3 trades · 2 wins</p>
+    <svg class="spark" data-dfx="spark" viewBox="0 0 300 72" preserveAspectRatio="none" id="spk"><path d="M0 60 L30 52 L60 56 L90 40 L120 44 L150 30 L180 34 L210 20 L240 24 L270 12 L300 8" fill="none"/></svg>
+    <div class="row"><span class="k">Goal</span><span class="gold" data-dfx="roll" id="goalPct">72%</span></div>
+    <div data-dfx="bar" data-dfx-value="0.72" id="bar1" style="margin-top:8px"></div>
+  </section>
+  <div class="two">
+    <section class="card" data-dfx="glass" id="c2"><span class="k">Room</span><b class="v" data-dfx="roll" id="room">$1,860</b><div data-dfx="bar" data-value="1" id="bar2" style="margin-top:10px"></div></section>
+    <section class="card" data-dfx="glass" id="c3"><span class="k">Drawdown</span><b class="v bad" data-dfx="roll" id="dd">-$412</b><p class="muted">of $2,000</p></section>
+  </div>
+  <section class="card" data-dfx="glass" id="c4"><h2>Canvas chart helper</h2><canvas class="cv" id="cv" width="600" height="180"></canvas>
+    <div class="row"><span class="muted">Active chip</span><button class="chip" type="button">OPEN</button></div></section>
+  <div class="tall muted">Scroll: the sections below rise in.</div>
+  <section class="card" data-dfx="glass reveal" id="r1"><h2>Revealed section</h2><b class="v" data-dfx="roll" id="r1n">$9,999.99</b><p class="muted">Below the fold at load.</p></section>
+  <section class="card" data-dfx="glass reveal tilt" id="r2"><h2>Second revealed section</h2><div data-dfx="bar" data-dfx-value="0.35" id="bar3"></div></section>
+</div>
+<script>
+addEventListener('load', function () {
+  var cv = document.getElementById('cv'); if (!cv || !window.OLYMPUS_DASHFX) return;
+  var g = cv.getContext('2d'), pts = []; for (var i = 0; i <= 12; i++) pts.push([i * 50, 140 - Math.sin(i / 2) * 40 - i * 6]);
+  OLYMPUS_DASHFX.chart.canvas(g, pts, { bottom: 180 });
+});
+</script>
+</body>
+</html>

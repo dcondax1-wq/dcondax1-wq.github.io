@@ -160,6 +160,14 @@
     const pnl = bal.v != null && start != null ? S(r2(bal.v - start), bal.src, bal.t) : S(null);
     if (stage === 'eval' && R && pnl.v != null && pnl.v >= R.target) stage = 'passed';
     if (!l && brow && brow.chip === 'PASSED') stage = 'passed';
+    // finder round 2026-11-20: with the bot STOPPED the PC sends no live card, and the board's old 'PASSED $26,946' row made ATLAS an unfunded
+    // passed eval on the ZEUS card. The plan says funded: it is funded, at the PC's last LIVE balance (lite.life.acc, the funded lifecycle)
+    if (/funded/i.test(String(P.stage || '')) && !l && (stage === 'passed' || stage === 'funded')) {
+      stage = 'funded';
+      const life = isObj(ctx.lite) && isObj(ctx.lite.life) && isObj(ctx.lite.life.acc) ? ctx.lite.life.acc : {};
+      const li = ids(P).concat([String(row.key)]).map((i) => life[i]).find((x) => isObj(x) && num(x.bal) != null);
+      if (li) bal = S(num(li.bal), 'the last LIVE balance (PC)', num(ctx.lite.t) || null);
+    }
     const floor = l && l.floor != null ? S(l.floor, pcSrc, pcT) : brow && num(brow.floor) != null ? S(num(brow.floor), 'Board copy', num(ctx.board.t)) : S(null);
     const room = l && l.room != null ? S(l.room, pcSrc, pcT) : bal.v != null && floor.v != null ? S(r2(bal.v - floor.v), bal.src, bal.t) : S(null);
     const out = { key: row.key, name: (P.name || (l && l.name) || row.key), last4: mf && mf.l4 ? mf.l4 : null, plan: planText || '-', stage,

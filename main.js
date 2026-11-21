@@ -550,7 +550,7 @@ function render(soft = false) {
   RTOK++;
   FX?.detachAll();                      // 3D views are kept and re-attached by key when the page draws again
   if (!D) {                             // Home draws from the small home.json (hub.js) while data.json is still on its way
-    if (PAGE === 'today' && window.HOMEJ && window.HUB) { try { VIEWS.today(el); } catch (err) { console.error(err); el.innerHTML = skel(3); } return; }
+    if (PAGE === 'today' && window.HOMEJ && window.HUB) { try { VIEWS.today(el); window.__homeDrawn = true; } catch (err) { console.error(err); el.innerHTML = skel(3); } return; }
     el.innerHTML = skel(3); return;
   }
   if (!soft) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
@@ -3485,7 +3485,11 @@ async function load(manual = false) {
     status(); actBadge(); if (pushSupport() && Notification.permission === 'granted') pushEnsure(false).catch(() => null);
     if (first) subBar(PAGE, groupOf(PAGE));        // detail pages show previous / next once the lists are known
     if (FX) { FX.mood(moodNow()); if (changed && manual !== 'boot') FX.pulse(); }
-    if (changed && !(PAGE === 'replays' && RP?.timer)) render(!first);
+    // dogfood 2026-11-20 (DESIGN ASKS 11, layout shift ~0.9 on a phone line): Home was already drawn from home.json, which is the SAME
+    // build as this data.json (every Home part reads D || HOMEJ): redrawing it re-ran the entry animation and re-shuffled the cards 10-16 s
+    // after the first paint. Same build = nothing to redraw; a newer build, another page, the minute's refresh and live.json still redraw.
+    const sameHome = first && PAGE === 'today' && window.HOMEJ && window.__homeDrawn && window.HOMEJ.built && window.HOMEJ.built === nd.built;
+    if (changed && !sameHome && !(PAGE === 'replays' && RP?.timer)) render(!first);
     splashDone();
     if (manual === true) toast(changed ? 'Updated' : 'Already up to date');
   } catch (e) {
@@ -3604,11 +3608,16 @@ addEventListener('scroll', () => { if (!pxQ) { pxQ = true; requestAnimationFrame
 })();
 
 // home.json: the Home screen's small first-paint file (same build as data.json); data.json follows at once
-window.HOMEP = fetch('home.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then((j) => {
+// (day-arenas 2026-11-20) index.html's <head> already started it (window.HOMEP0): Home's first draw no longer waits for main.js to download
+window.HOMEP = (window.HOMEP0 || fetch('home.json?t=' + Date.now(), { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null))).then((j) => {
   if (j && window.OLY_HIDDEN) window.OLY_HIDDEN.seen(j);
   if (j && !D) { window.HOMEJ = j; if (window.LIVE) window.LIVE.apply(j); if (window.HUB && PAGE === 'today') { render(true); splashDone(); } }
   return j;
 }).catch(() => null);
-applyLook(); nav(); route(); load('boot'); schedule(); loadFX(); loadLK();
+applyLook(); nav(); route();
+// data.json (1.5 MB on the wire) waits for Home's first draw from home.json (or 2.5 s): it no longer takes the phone line from the scripts Home needs
+if (PAGE === 'today') Promise.race([window.HOMEP, new Promise((r) => setTimeout(r, 2500))]).then(() => requestAnimationFrame(() => setTimeout(() => load('boot'), 0)));
+else load('boot');
+schedule(); loadFX(); loadLK();
 setInterval(() => FX && D && FX.mood(moodNow()), 60000);
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => null);

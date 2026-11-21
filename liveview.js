@@ -19,6 +19,8 @@
   const host = location.hostname, seg = location.pathname.split('/').filter(Boolean)[0];
   const OWNER = /\.github\.io$/.test(host) ? host.split('.')[0] : 'demetrades2000-coder';
   const REPO = /\.github\.io$/.test(host) && seg && !/\./.test(seg) ? seg : 'nq-dashboard';
+  // the live branch was on the old, suspended account: asked only on a local test server (dogfood 2026-11-20: 404s on the real site)
+  const DEV_ONLY = /^(127\.0\.0\.1|localhost)$/.test(host);
   const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/liveview.json?ref=live`;
   const RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/live/liveview.json`;
   const OLD_S = 3 * 60, OFF_S = 20 * 60;           // data older than this: "x min old" / "the PC is not sending"
@@ -111,6 +113,7 @@ html.lv-lock, html.lv-lock body { overflow: hidden; }`;
   // ------------------------------------------------------------------ data: liveview.json from the live branch
   async function get(url, opts) { const r = await fetch(url, opts); if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; e.r = r; throw e; } return r; }
   async function fetchView() {
+    if (!DEV_ONLY) { L.missing = true; throw new Error('not sent yet (the old GitHub live branch is retired)'); }
     const LV = window.LIVE || {};
     let r = null, src = 'api';
     if (Date.now() >= (LV.apiUntil || 0) && Date.now() >= (L.apiUntil || 0)) {

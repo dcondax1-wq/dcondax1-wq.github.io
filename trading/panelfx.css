@@ -1,0 +1,42 @@
+/* PANEL FX (day-a11y 2026-11-20): the look half of panelfx.js. Glass cards with a soft glow, glowing chart lines, the aurora layer, the
+   reveal. Only paint (background / shadow / filter / opacity / transform): nothing here changes a size, so no layout shift. --pfx-* = the look. */
+:root { --pfx-glow: 157, 89, 238; --pfx-glow2: 218, 203, 240; --pfx-glow3: 241, 193, 75; }   /* OLYMPUS NIGHT: violet, lavender, bright gold */
+
+/* the aurora: fixed behind everything, fades in once drawn */
+.pfx-aurora { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; filter: blur(18px); }
+.pfx-aurora.on { opacity: 1 !important; }
+html.pfx main#app { position: relative; z-index: 1; }
+
+/* glass cards with a soft glow (dark looks only; Ivory keeps its paper cards) */
+html.pfx:not([data-oly-scheme="light"]) main :is(.ag-card, .card) {
+  -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
+  box-shadow: 0 0 0 1px rgba(77, 46, 118, .55), 0 10px 30px rgba(0, 0, 0, .5), 0 0 28px rgba(var(--pfx-glow), .10);
+  transition: box-shadow .3s ease, opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+html.pfx:not([data-oly-scheme="light"]) main :is(.ag-card, .card):is(:hover, :focus-within) {
+  box-shadow: 0 0 0 1px rgba(var(--pfx-glow), .55), 0 12px 34px rgba(0, 0, 0, .55), 0 0 36px rgba(var(--pfx-glow), .22);
+}
+/* a thin light along the top edge of each card */
+html.pfx:not([data-oly-scheme="light"]) main :is(.ag-card, .card)::after {
+  content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(var(--pfx-glow), 0), rgba(var(--pfx-glow), .6), rgba(var(--pfx-glow3), .55), rgba(var(--pfx-glow), 0));
+}
+html.pfx main :is(.ag-card, .card) { position: relative; }
+
+/* glowing chart lines (svg paths / polylines marked by panelfx.js) */
+html.pfx:not([data-oly-scheme="light"]) .pfx-line { filter: drop-shadow(0 0 3px rgba(var(--pfx-glow), .6)) drop-shadow(0 0 8px rgba(var(--pfx-glow2), .22)); }
+
+/* big numbers: a faint glow */
+html.pfx:not([data-oly-scheme="light"]) :is(.ag-hero-num, .big) { text-shadow: 0 0 18px rgba(var(--pfx-glow), .28); }
+
+/* reveal below the first screen (transform / opacity only) */
+html.pfx .pfx-wait { opacity: 0; transform: translateY(14px); }
+html.pfx .pfx-wait.pfx-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pfx-aurora { transition: none; }
+  html.pfx .pfx-wait { opacity: 1; transform: none; }
+  html.pfx main :is(.ag-card, .card) { transition: none; }
+}
+/* paper and print: no effects */
+@media print { .pfx-aurora { display: none; } html.pfx main :is(.ag-card, .card) { box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; } }

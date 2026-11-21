@@ -231,7 +231,7 @@ function postCard() {
 
 async function main() {
   S.forced = /[?&]demo=1(&|$)/.test(location.search);
-  const raw = S.forced ? null : await getJSON('../odeon/trades.json');       // ?demo=1: the fixture only (offline, tests)
+  const raw = S.forced ? null : ((await getJSON('../odeon/trades_lite.json')) || await getJSON('../odeon/trades.json'));   // the slim copy first (dogfood 2026-11-20)       // ?demo=1: the fixture only (offline, tests)
   let trades = raw ? K.normTrades(raw, 30) : [];
   if (!trades.length) { trades = K.normTrades(await getJSON('./fixture.json'), 30); S.demo = true; }
   if (!trades.length) trades = K.normTrades(FALLBACK, 30);              // never blank: even with no file at all the demo trades below are shown (DEMO)

@@ -379,6 +379,21 @@ html[data-theme="agora"] .scan, html[data-theme="agora"] .scanlines, html[data-t
 html[data-fx="off"] main#app > *, html[data-fx="off"] .ag-stagger > *, html[data-fx="off"] .ag-enter { animation: none !important; }
 html[data-oly-lite="1"] .ag-appbar, html[data-oly-lite="1"] .ag-tabbar { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(var(--oly-th-n3-rgb, 26, 22, 18), .97); }
 
+/* the Ask Jarvis button (jarvis/ask.js, mounted by olympus.js on every kit app) follows the look: gold accent, card surface, text ink */
+:root { --oly-ask-accent: var(--ag-gold); --oly-ask-bg: var(--ag-panel); --oly-ask-text: var(--ag-text); }
+
+/* 2026-11-20 phone QA: the fixed Ask Jarvis button (jarvis/ask.js, bottom-left, 44 px) never sits on the page's last lines */
+body.oly-has-ask main, body.oly-has-ask #app { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+/* the button steps aside while an app's own sheet is open (it sat on Planner's sheet Save button) */
+body:has(.sheet:not([hidden]), .ag-sheet:not([hidden])) .oly-ask-btn { display: none; }
+
+/* OLYMPUS NIGHT: faint gold washes read brown; violet instead */
+html[data-oly-theme="night"] .ag-card.ag-hero, html[data-oly-theme="night"] .ag-hero {
+  background: radial-gradient(130% 90% at 0% 0%, rgba(157, 89, 238, .16), rgba(157, 89, 238, 0) 60%), linear-gradient(180deg, #16131e, #020204); border-color: #462a6a; }
+html[data-oly-theme="night"] ::selection { background: rgba(157, 89, 238, .38); }
+html[data-oly-theme="night"] :is(a, button).ag-row:active { background: rgba(157, 89, 238, .1); }
+html[data-oly-theme="night"] .ag-chip[aria-pressed="true"], html[data-oly-theme="night"] .ag-chip.on { background: #1a1029; }
+
 /* ================================================================================================ style themes (olympus/themes.js 'style', 2026-11-14)
    Only under <html data-oly-style> (a style theme is on): the page background (a gradient or a pattern), the cards' surface, border, shadow and
    blur, the titles' weight / case / tracking / italic and the primary button, from the --oly-th-* the engine paints. The default (AGORA) and the
@@ -393,10 +408,3 @@ html[data-oly-style] :is(h1, h2, h3, .ag-title, .ag-display, .ag-h2, .ag-h3) { f
 html[data-oly-style] .ag-btn.primary { background: var(--oly-th-btn-bg) !important; color: var(--oly-th-btn-fg) !important; border: var(--oly-th-btn-border) !important; box-shadow: none !important; }
 html[data-oly-style] .ag-sheet { border-radius: var(--oly-th-radius-l, var(--oly-th-radius)) var(--oly-th-radius-l, var(--oly-th-radius)) 0 0; }
 html[data-oly-style] .ag-toast { border-radius: var(--oly-th-radius-s, var(--oly-th-radius)); }
-/* the Ask Jarvis button (jarvis/ask.js, mounted by olympus.js on every kit app) follows the look: gold accent, card surface, text ink */
-:root { --oly-ask-accent: var(--ag-gold); --oly-ask-bg: var(--ag-panel); --oly-ask-text: var(--ag-text); }
-
-/* 2026-11-20 phone QA: the fixed Ask Jarvis button (jarvis/ask.js, bottom-left, 44 px) never sits on the page's last lines */
-body.oly-has-ask main, body.oly-has-ask #app { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
-/* the button steps aside while an app's own sheet is open (it sat on Planner's sheet Save button) */
-body:has(.sheet:not([hidden]), .ag-sheet:not([hidden])) .oly-ask-btn { display: none; }

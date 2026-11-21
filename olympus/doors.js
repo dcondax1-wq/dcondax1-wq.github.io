@@ -102,7 +102,19 @@
     'gallery', 'mintcity', 'nike', 'arena', 'mind', 'symposium', 'herald', 'ergasterion', 'observatory', 'pheme', 'bridge', 'arbiter', 'hermes',
     'hephaestus', 'datacity', 'kalshicity'];
   var ret = {}; for (var ri = 0; ri < RETIRED.length; ri++) ret[RETIRED[ri]] = 1;
-  function retired(id) { return !!ret[id]; }                     // still in its door's ids, so doorOf() keeps working
+  function retired(id) { return !!ret[id]; }
+  // THE 6 ARENAS (owner 2026-11-20 17:00 ET: "I want like 6 arenas, that's it, then a separate area for the smaller stuff"): shown FIRST on the
+  // Home, the launcher and the Doors page, in this order; every other app stays in its door, under "More". The four doors stay (the World's
+  // four districts, Atlas and the Doors page are built on them).
+  var ARENAS = [
+    { id: 'cities', label: 'Cities', href: 'cities/index.html', line: 'The 3D world of all your apps' },
+    { id: 'kalshi', label: 'Kalshi', href: 'kalshi/index.html', line: 'The K8 clock bets' },
+    { id: 'nq', label: 'NQ Bot', href: 'nq/index.html', line: 'Zlarior + ATLAS right now' },
+    { id: 'jarvis', label: 'Jarvis', href: 'jarvis/index.html', line: 'Ask anything' },
+    { id: 'agency', label: 'Websites', href: 'agency/index.html', line: 'Your website business HQ' },
+    { id: 'business', label: 'Business', href: 'business/index.html', line: 'Accounts, payouts, plan (Planner at its top)' }
+  ];
+  function arena(id) { for (var k = 0; k < ARENAS.length; k++) if (ARENAS[k].id === id) return true; return false; }                     // still in its door's ids, so doorOf() keeps working
   function homeOf(id) { var d = door(id); return d && d.home ? d.home : 'hub/doors.html#' + (d ? d.id : 'zeus'); }
   function words(a) {
     if (!a) return '';
@@ -120,7 +132,7 @@
     for (var n = 0; n < list.length; n++) if (list[n] && !ret[list[n].id] && all(words(list[n]))) res.apps.push(list[n]);
     return res;
   }
-  var api = { VERSION: 2, DOORS: DOORS, WORDS: WORDS, ARCHIVE: ARCHIVE, archived: archived, RETIRED: RETIRED, retired: retired, door: door, doorOf: doorOf, homeOf: homeOf, words: words, find: find, ALL: 'gate/index.html#az', PAGE: 'hub/doors.html' };
+  var api = { VERSION: 2, ARENAS: ARENAS, arena: arena, DOORS: DOORS, WORDS: WORDS, ARCHIVE: ARCHIVE, archived: archived, RETIRED: RETIRED, retired: retired, door: door, doorOf: doorOf, homeOf: homeOf, words: words, find: find, ALL: 'gate/index.html#az', PAGE: 'hub/doors.html' };
   g.OLYMPUS_DOORS = api;
   if (typeof module === 'object' && module && module.exports) module.exports = api;
 }(typeof window !== 'undefined' ? window : typeof globalThis !== 'undefined' ? globalThis : this));

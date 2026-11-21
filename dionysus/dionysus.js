@@ -89,7 +89,8 @@ function renderK8() {                       // K8 today: the site's ../kalshi/k8
   for (const L of k.legs) {
     const li = h('li', 'k8leg'); li.appendChild(h('b', '', `${L.at ? L.at + ' ET ' : ''}${L.name}`));
     li.appendChild(h('span', 'note', `fair ${L.fair == null ? '–' : L.fair + '¢'}${L.rate == null ? '' : ` · won ${Math.round(L.rate * 100)}%${L.n ? ' of ' + L.n : ''}`}`));
-    const wl = h('span', 'k8wl'); for (const c of L.last10.split('')) wl.appendChild(h('i', c === 'W' ? 'w' : 'l', c)); if (!L.last10) wl.appendChild(h('span', 'note', 'no results yet'));
+    const wl = h('span', 'k8wl'); L.last10.split('').forEach((c, i, a) => wl.appendChild(h('i', (c === 'W' ? 'w' : 'l') + (L.winToday && i === a.length - 1 ? ' today' : ''), c)));
+    if (L.winToday) { li.dataset.win = 'today'; li.dataset.usd = String(L.winUsd || 0); } if (!L.last10) wl.appendChild(h('span', 'note', 'no results yet'));
     li.appendChild(wl); ul.appendChild(li);
   }
   const pc = (x) => (x == null ? '–' : Math.round(x * 100) + '%');
@@ -159,7 +160,7 @@ function renderEmpty() {
   try { renderK8(); } catch (_) { $('k8Card').classList.remove('loading'); $('k8Card').classList.add('none'); }
   for (const [f, id] of [[renderFees, 'feeCard'], [renderRuin, 'ruinCard'], [renderLessons, 'lessonCard'], [renderSibyl, 'sibylCard']]) { try { f(); } catch (_) { $(id).hidden = true; } }
   say(`${offWord()}No Kalshi numbers could be read right now (the files are missing or could not be read). ${S.k8 ? headline() : 'Try again later.'}`);
-  S.ready = true;
+  S.ready = true; if (S.k8) fxLater();
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
 }
 
@@ -185,6 +186,42 @@ async function boot() {
   S.book = book; S.demo = book.src === 'demo';
   S.edges = S.demo ? (fx && fx.edges) || null : edges; S.whatif = S.demo ? (fx && fx.whatif) || null : wi;
   render();
+  fxLater();
 }
-window.DIONYSUS = { S, C, ready: () => S.ready, render };
+// ------------------------------------------------------------------------------------------------ FX (day-kalshi 2026-11-20, owner: "it needs some 3D, some effects")
+// olympus/nqfx.js (the NQ effects kit) is added only AFTER the first paint: after load + idle, so the page paints exactly as before. OLYMPUS NIGHT colours
+// (black, violet), the balance and K8's pool numbers roll up (the real text is already written and comes back when the roll ends), and a K8 leg whose last
+// result is a win from today gets the green sparks once per page view. Reduced motion / FX off: the kit shows the final state still. No kit = nothing.
+const FX_SRC = '../olympus/nqfx.js?v=n5';
+const FX_COLORS = { base: '#000000', cyan: '#9d59ee', cyanHi: '#dacbf0', blue: '#4d2e76', violet: '#9d59ee', win: '#77db89', loss: '#ef4444' };   // OLYMPUS NIGHT (owner 2026-11-20)
+const FX = { started: false, won: false, loaded: null, done: false, busyUntil: 0 };   // done + busyUntil: the test hook waits for the rolls to land
+function fxScript() {
+  if (FX.loaded) return FX.loaded;
+  FX.loaded = new Promise((res) => {
+    if (window.OLYMPUS_NQFX) return res(window.OLYMPUS_NQFX);
+    const s = document.createElement('script'); s.src = FX_SRC; s.defer = true; s.dataset.fx = 'dionysus';
+    s.onload = () => res(window.OLYMPUS_NQFX || null); s.onerror = () => res(null); document.head.appendChild(s);
+  });
+  return FX.loaded;
+}
+async function runFx() {
+  if (FX.started) return; FX.started = true;
+  const NQ = await fxScript(); if (!NQ) return;
+  try { if (!(await NQ.ready())) return; } catch (_) { return; }
+  try { NQ.theme(FX_COLORS); } catch (_) { /* default palette */ }
+  // a number rolls once, when it first comes into view (an off-screen roll would only sit half-way: the kit's loop sleeps off screen)
+  const go = (el, to) => { const t = el.textContent; FX.busyUntil = Math.max(FX.busyUntil, performance.now() + 1600); try { NQ.roll(el, { to, duration: 1.1 }); } catch (_) { el.textContent = t; } };
+  const io = typeof IntersectionObserver === 'function' ? new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) { io.unobserve(e.target); go(e.target, +e.target.dataset.to); } }, { threshold: 0.9 }) : null;
+  const roll = (el, to) => { if (!el || !Number.isFinite(to)) return; if (io) { el.dataset.to = String(to); io.observe(el); } else go(el, to); };
+  if (S.book && !$('heroCard').hidden) roll($('bal'), S.book.balance > 0 ? S.book.balance : NaN);
+  for (const b of $('k8Pool').querySelectorAll('b')) { const n = parseFloat(b.textContent); if (Number.isFinite(n)) roll(b, n); }
+  const leg = $('k8Legs').querySelector('li[data-win="today"]');
+  if (leg && !FX.won) { FX.won = true; try { NQ.win(leg, { usd: +leg.dataset.usd || 0, bigAt: 1e9, text: 'K8 won today, 1 contract' }); } catch (_) { /* no sparks */ } }
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); FX.done = true;
+}
+function fxLater() {                        // after load + idle: never on the first paint
+  const go = () => { const idle = window.requestIdleCallback || ((f) => setTimeout(f, 300)); idle(() => { runFx(); }, { timeout: 2500 }); };
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+}
+window.DIONYSUS = { S, C, ready: () => S.ready, render, fx: () => FX, settled: () => !FX.started || (FX.done && performance.now() > FX.busyUntil) };
 boot().catch(() => { say(`${offWord()}Dionysus could not show the numbers right now. Try again later.`); S.ready = true; try { if (O && O.ready) O.ready(); } catch (_) { /* nothing */ } });

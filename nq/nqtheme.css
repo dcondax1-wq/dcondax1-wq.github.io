@@ -1,34 +1,104 @@
-/* NQ terminal look (owner 2026-11-20: "I don't like the gold-ish theme for the NQ, change all of that"): deep navy base, electric
-   cyan + blue glows, violet accents; green / red only for money. Loaded LAST on nq/: the kit's gold tokens are overridden here
-   (!important beats the theme engine's inline tokens). One place to change the NQ colours. */
-:root {
-  --nq-cyan: #22d3ee; --nq-cyan-hi: #67e8f9; --nq-blue: #3b82f6; --nq-violet: #8b5cf6; --nq-violet-hi: #a78bfa;
-  --oly-accent: #22d3ee !important; --oly-accent-rgb: 34, 211, 238 !important;
-  --oly-th-a8: #22d3ee !important; --oly-th-a8-rgb: 34, 211, 238 !important; --oly-th-a9: #3b82f6 !important;
-  --ag-gold: #22d3ee !important; --ag-gold-hi: #67e8f9 !important; --ag-gold-rgb: 34, 211, 238 !important;
-  --ag-line-gold: rgba(34, 211, 238, .32) !important; --ag-on-gold: #04131a !important;
-  --ag-sun: #a78bfa !important; --ag-sun-rgb: 167, 139, 250 !important;
-  --acc: #22d3ee !important;
-  --ag-olive: #22c55e !important; --ag-olive-text: #4ade80 !important; --ag-olive-rgb: 34, 197, 94 !important;
-  --ag-terra: #ef4444 !important; --ag-terra-text: #f87171 !important; --ag-terra-rgb: 239, 68, 68 !important;
+/* NQ OLYMPUS NIGHT (owner 2026-11-20: no brown gold; 16:00 ET "whatever these colors are I like" = the Jarvis switcher). Loaded LAST on nq/ only:
+   black base, violet glows + lavender highlights, bright gold only as small accents, mint / red for $ and R; dark + light. AA text in both. */
+
+html:root[data-theme] {
+  /* OLYMPUS NIGHT (owner 2026-11-20 16:00 ET, the Jarvis switcher's colours): pure black, near-black violet cards, deep violet outlines,
+     violet #9d59ee glows with lavender #dacbf0 highlights, bright gold #f1c14b as small accents only, mint / red for $ and R.
+     (--nq-cyan / --nq-blue keep their names: they are the glow pair, now violet + deep violet; --nq-violet is the gold accent) */
+  --nq-cyan: #9d59ee; --nq-cyan-rgb: 157, 89, 238; --nq-cyan-hi: #dacbf0; --nq-blue: #6d3fc0; --nq-blue-rgb: 109, 63, 192;
+  --nq-violet: #f1c14b; --nq-violet-rgb: 241, 193, 75; --nq-violet-hi: #ebbf4f; --nq-up: #77db89; --nq-up-text: #77db89; --nq-dn: #ef4444; --nq-dn-text: #f87171;
+  --ag-night: #000000; --ag-panel: #0c0a12; --ag-raise: #16131e; --ag-line: #3e255e;
+  --ag-s0: #000000; --ag-s1: #0a0810; --ag-s2: #100d18; --ag-s3: #16131e; --ag-s4: #1d1828;
+  --ag-line-soft: rgba(157, 89, 238, .1); --ag-line-gold: rgba(77, 46, 118, .7);
+  --ag-text: #ebe9f1; --ag-soft: #cfcadb; --ag-muted: #9a95a8;
+  --ag-gold: #f1c14b; --ag-gold-hi: #ebbf4f; --ag-bronze: #9d59ee; --ag-olive: #3fae55; --ag-terra: #dc2626; --ag-aegean: #9d59ee; --ag-sun: #dacbf0;
+  --ag-olive-text: #77db89; --ag-terra-text: #f87171; --ag-aegean-text: #dacbf0;
+  --ag-gold-rgb: 241, 193, 75; --ag-olive-rgb: 119, 219, 137; --ag-terra-rgb: 239, 68, 68; --ag-sun-rgb: 218, 203, 240; --ag-aegean-rgb: 157, 89, 238;
+  --ag-on-gold: #000000;
+  --oly-accent: #f1c14b; --oly-accent-rgb: 241, 193, 75;
+  --ag-good: #77db89; --ag-bad: #f87171; --ag-accent: #f1c14b; --ag-surface: #0c0a12; --ag-surface-2: rgba(157, 89, 238, .06); --ag-ink: #ebe9f1; --ag-focus: #dacbf0;
 }
-html:not([data-oly-scheme="light"]) {
-  --ag-night: #070b14 !important; --ag-panel: #0d1424 !important; --ag-raise: #131c31 !important; --ag-line: #1e2a44 !important;
+html:root[data-oly-scheme="light"] {
+  --nq-cyan: #6b2fc4; --nq-cyan-rgb: 107, 47, 196; --nq-cyan-hi: #5b21b6; --nq-blue: #4c1d95; --nq-blue-rgb: 76, 29, 149;
+  --nq-violet: #8a5a00; --nq-violet-rgb: 138, 90, 0; --nq-violet-hi: #7a4f00; --nq-up: #15803d; --nq-up-text: #15803d; --nq-dn: #b91c1c; --nq-dn-text: #b91c1c;
+  --ag-night: #f6f3fb; --ag-panel: #ffffff; --ag-raise: #faf8fe; --ag-line: #d9cdee;
+  --ag-s0: #f6f3fb; --ag-s1: #ffffff; --ag-s2: #f8f5fd; --ag-s3: #efe9f8; --ag-s4: #e6ddf4;
+  --ag-line-soft: rgba(76, 29, 149, .07); --ag-line-gold: rgba(107, 47, 196, .3);
+  --ag-text: #17121f; --ag-soft: #352c45; --ag-muted: #554a66;
+  --ag-gold: #6b2fc4; --ag-gold-hi: #6b2fc4; --ag-bronze: #4c1d95; --ag-olive: #15803d; --ag-terra: #b91c1c; --ag-aegean: #4c1d95; --ag-sun: #8a5a00;
+  --ag-olive-text: #15803d; --ag-terra-text: #b91c1c; --ag-aegean-text: #4c1d95;
+  --ag-gold-rgb: 107, 47, 196; --ag-olive-rgb: 21, 128, 61; --ag-terra-rgb: 185, 28, 28; --ag-sun-rgb: 138, 90, 0; --ag-aegean-rgb: 76, 29, 149;
+  --ag-on-gold: #ffffff;
+  --oly-accent: #6b2fc4; --oly-accent-rgb: 107, 47, 196;
+  --ag-good: #15803d; --ag-bad: #b91c1c; --ag-accent: #6b2fc4; --ag-surface: #ffffff; --ag-surface-2: rgba(76, 29, 149, .04); --ag-ink: #17121f; --ag-focus: #6b2fc4;
 }
-html:not([data-oly-scheme="light"]) body { background: radial-gradient(120% 70% at 50% -10%, #0f1d3a 0%, #070b14 55%, #05070d 100%) fixed !important; background-color: #070b14 !important; }
-html[data-oly-scheme="light"] {
-  --oly-accent: #0e7490 !important; --oly-accent-rgb: 14, 116, 144 !important; --oly-th-a8: #0e7490 !important; --oly-th-a9: #1d4ed8 !important;
-  --ag-gold: #0e7490 !important; --ag-gold-hi: #0891b2 !important; --ag-gold-rgb: 14, 116, 144 !important; --ag-line-gold: rgba(14, 116, 144, .3) !important;
-  --ag-on-gold: #ffffff !important; --ag-sun: #6d28d9 !important; --ag-sun-rgb: 109, 40, 217 !important; --acc: #0e7490 !important;
-  --ag-olive-text: #15803d !important; --ag-terra-text: #b91c1c !important;
-}
-.btn.primary { background: linear-gradient(180deg, #38bdf8, #2563eb) !important; color: #04131a !important; border-color: #38bdf8 !important; }
-html[data-oly-scheme="light"] .btn.primary { color: #ffffff !important; }
-/* cards: the theme engine paints every card with --oly-th-card-bg (warm by default): navy glass on NQ */
-html:not([data-oly-scheme="light"]) {
-  --oly-th-card-bg: linear-gradient(180deg, rgba(19, 28, 49, .92), rgba(10, 16, 30, .92)) !important;
-  --oly-th-card-border: 1px solid rgba(34, 211, 238, .18) !important;
-  --ag-raise: #131c31 !important; --ag-panel: #0d1424 !important;
-  --oly-th-n3: #070b14 !important; --oly-th-n4: #0d1424 !important; --oly-th-n5: #131c31 !important; --oly-th-n8: #1e2a44 !important;
-}
-html:not([data-oly-scheme="light"]) :is(.ag-card, .ag-stat) { background: linear-gradient(180deg, rgba(19, 28, 49, .92), rgba(10, 16, 30, .92)) !important; border-color: rgba(34, 211, 238, .18) !important; }
+html[data-theme] body { background: radial-gradient(90% 50% at 50% -10%, rgba(157, 89, 238, .16), transparent 62%), var(--ag-night) !important; }
+html[data-oly-scheme="light"] body { background: radial-gradient(90% 50% at 50% -10%, rgba(107, 47, 196, .08), transparent 62%), var(--ag-night) !important; }
+html[data-theme] .ag-card, html[data-theme] .card,
+html[data-theme][data-oly-style] body :is(.ag-card, .ag-stat, main#app :is(.card, .hero):not(.ag-card)) {
+  background: linear-gradient(180deg, #16131e, #020204) !important; border: 1px solid #3e255e !important;
+  box-shadow: 0 0 0 1px rgba(157, 89, 238, .06) inset, 0 10px 28px rgba(0, 0, 0, .6), 0 0 24px rgba(157, 89, 238, .08) !important; }
+html[data-oly-scheme="light"][data-theme] body :is(.ag-card, .card) { background: #ffffff !important; border-color: var(--ag-line) !important; }
+html[data-oly-scheme="light"][data-theme] body :is(.ag-card, .card) { box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 6px 18px rgba(15, 23, 42, .07) !important; }
+html[data-theme] .ag-appbar { background: rgba(0, 0, 0, .86) !important; border-color: rgba(var(--nq-cyan-rgb), .18) !important; }
+html[data-oly-scheme="light"] .ag-appbar { background: rgba(255, 255, 255, .9) !important; border-color: var(--ag-line) !important; }
+html[data-theme] .pill.ok { color: var(--nq-up-text); border-color: rgba(34, 197, 94, .5); }
+html[data-theme] .pill.bad { color: var(--nq-dn-text); border-color: rgba(239, 68, 68, .5); }
+html[data-theme] .pill.warn { color: var(--nq-violet-hi); border-color: rgba(var(--nq-violet-rgb), .45); }
+html[data-theme] .btn.primary { background: #000; color: #f1c14b; border-color: #4d2e76; box-shadow: 0 0 14px rgba(157, 89, 238, .35); }
+html[data-oly-scheme="light"] .btn.primary { background: #ffffff; color: #6b2fc4; }
+html[data-theme] .chartbox { background: #000000; border-color: rgba(var(--nq-cyan-rgb), .2); }
+html[data-oly-scheme="light"] .chartbox { background: #ffffff; }
+html[data-theme] .gl-tile { border-color: rgba(var(--nq-cyan-rgb), .3); background: radial-gradient(120% 140% at 0% 0%, rgba(var(--nq-cyan-rgb), .14), transparent 60%), rgba(157, 89, 238, .05); color: var(--ag-text); }
+html[data-theme] .gl-tile[aria-expanded="true"] { border-color: var(--nq-cyan); box-shadow: 0 0 18px rgba(var(--nq-cyan-rgb), .35); }
+html[data-theme] .gl-big { color: var(--ag-text); text-shadow: 0 0 14px rgba(var(--nq-cyan-rgb), .45); }
+html[data-theme] .gl-pct { color: var(--ag-text); }
+html[data-theme] .gl-name, html[data-theme] .gl-unit, html[data-theme] .gl-goal { color: var(--ag-muted); }
+html[data-theme] .gl-track { stroke: rgba(var(--nq-cyan-rgb), .14); }
+html[data-theme] .gl-arc, html[data-theme] .gl-arc.pass, html[data-theme] .gl-arc.fleet { stroke: url(#glGrad); }
+html[data-theme] .gl-arc.done { stroke: var(--nq-violet); }
+html[data-theme] .gl-arc.plan { stroke: var(--ag-muted); }
+html[data-theme] .gl-detail { background: rgba(157, 89, 238, .06); border-color: rgba(var(--nq-cyan-rgb), .25); }
+html[data-theme] .gl-when { color: var(--nq-cyan-hi); }
+html[data-oly-scheme="light"] .gl-when { color: var(--nq-cyan); }
+html[data-theme] .gl-chips li { border-color: rgba(var(--nq-cyan-rgb), .3); }
+html[data-theme] .gl-chips li.ok { border-color: rgba(34, 197, 94, .6); color: var(--nq-up-text); }
+html[data-theme] .gl-chips li.no { border-color: rgba(239, 68, 68, .6); color: var(--nq-dn-text); }
+html[data-oly-scheme="light"] .gl-tile { background: radial-gradient(120% 140% at 0% 0%, rgba(var(--nq-cyan-rgb), .10), transparent 60%), #ffffff; }
+html[data-oly-scheme="light"] .gl-big { text-shadow: none; }
+html[data-theme] .pos { color: var(--nq-up-text) !important; } html[data-theme] .neg { color: var(--nq-dn-text) !important; }
+html[data-theme] .nm-acct, html[data-theme] .nm-stat { background: rgba(157, 89, 238, .06); }
+html[data-theme] .nm-bar i { background: linear-gradient(180deg, var(--nq-cyan-hi), var(--nq-blue)); box-shadow: 0 0 10px rgba(var(--nq-cyan-rgb), .5); }
+html[data-theme] .nm-bar.pos i { background: linear-gradient(180deg, #86efac, #16a34a); box-shadow: 0 0 10px rgba(34, 197, 94, .5); }
+html[data-theme] .nm-bar.neg i { background: linear-gradient(180deg, #fca5a5, #dc2626); box-shadow: 0 0 10px rgba(239, 68, 68, .45); }
+html[data-theme] .nm-bar em, html[data-theme] .nm-bar small, html[data-theme] .nm-k, html[data-theme] .nm-who, html[data-theme] .nm-h, html[data-theme] .nm-stat span { color: var(--ag-muted); }
+html[data-theme] .nm-dial { background: radial-gradient(circle, var(--ag-panel) 58%, transparent 59%), conic-gradient(from 0deg, var(--nq-cyan), var(--nq-violet) var(--p), rgba(var(--nq-cyan-rgb), .12) 0); box-shadow: 0 0 16px rgba(var(--nq-cyan-rgb), .3); }
+html[data-theme] .nm-w { border-color: rgba(var(--nq-cyan-rgb), .3); }
+html[data-theme] .nm-w.on { border-color: var(--nq-cyan); color: var(--nq-cyan-hi); box-shadow: 0 0 10px rgba(var(--nq-cyan-rgb), .4); }
+html[data-oly-scheme="light"] .nm-w.on { color: var(--nq-cyan); }
+html[data-theme] .nm-next.on { color: var(--nq-cyan-hi); } html[data-oly-scheme="light"] .nm-next.on { color: var(--nq-cyan); }
+html[data-theme] .nm-band { border-color: rgba(var(--nq-violet-rgb), .5); color: var(--nq-violet-hi); }
+html[data-theme] .nm-band.high { border-color: rgba(239, 68, 68, .6); color: var(--nq-dn-text); }
+html[data-theme] .nm-band.low, html[data-theme] .nm-band.normal { border-color: rgba(var(--nq-cyan-rgb), .6); color: var(--nq-cyan-hi); }
+html[data-theme] .nm-open { border: 1px solid rgba(var(--nq-cyan-rgb), .55); background: radial-gradient(120% 160% at 0% 0%, rgba(var(--nq-cyan-rgb), .14), transparent 60%), rgba(157, 89, 238, .05); box-shadow: 0 0 16px rgba(var(--nq-cyan-rgb), .22); }
+html[data-theme] .nm-open.pos { border-color: rgba(34, 197, 94, .6); box-shadow: 0 0 16px rgba(34, 197, 94, .22); }
+html[data-theme] .nm-open.neg { border-color: rgba(239, 68, 68, .6); box-shadow: 0 0 16px rgba(239, 68, 68, .2); }
+html[data-theme] .nm-otag { background: rgba(var(--nq-cyan-rgb), .16); color: var(--nq-cyan-hi); }
+html[data-oly-scheme="light"] .nm-otag { color: var(--nq-cyan); }
+html[data-theme] .nm-oname { color: var(--ag-text); }
+html[data-theme] .land, html[data-theme] .vault { background: radial-gradient(120% 90% at 50% 100%, rgba(var(--nq-cyan-rgb), .14), transparent 60%), #000000; }
+html[data-theme] .land-fb path.l { stroke: var(--nq-cyan); filter: drop-shadow(0 0 4px rgba(var(--nq-cyan-rgb), .8)); }
+html[data-theme] .dk-meter i { background: linear-gradient(90deg, var(--nq-cyan), var(--nq-blue)); }
+html[data-theme] .dk-open { border-color: rgba(var(--nq-cyan-rgb), .55); }
+html[data-theme] .dk-dot.stale { background: #f1c14b; }
+.gl-g0 { stop-color: var(--nq-cyan); } .gl-g1 { stop-color: var(--nq-blue); }
+.ctools{display:flex;gap:8px;align-items:center}.ctog{min-height:44px;min-width:56px;padding:0 14px;border-radius:999px;font-weight:800;letter-spacing:.04em;background:#000;color:#f1c14b;border:1px solid #4d2e76;box-shadow:0 0 12px rgba(157,89,238,.35)}
+.ctog[aria-pressed="true"]{border-color:#f1c14b;box-shadow:0 0 14px rgba(241,193,75,.45)}
+html[data-theme] .chartbox{border-color:#3e255e;box-shadow:0 0 0 1px rgba(157,89,238,.12) inset,0 0 26px rgba(157,89,238,.18)}
+.chartbox::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 95% at 50% 45%,transparent 62%,rgba(0,0,0,.55));z-index:2}
+html[data-theme] #chart canvas{filter:drop-shadow(0 0 3px rgba(157,89,238,.5))}
+.chartbox.intro .chart{animation:nqIn .9s cubic-bezier(.2,.8,.2,1) both}@keyframes nqIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+.cpulse{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#f1c14b;box-shadow:0 0 10px #f1c14b;pointer-events:none;z-index:3}
+.cpulse::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(241,193,75,.7);animation:nqPulse 1.6s ease-out infinite}@keyframes nqPulse{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}
+.c3d{position:absolute;inset:0;z-index:4;background:#000;touch-action:none}.chartbox.is3d .cpulse{display:none}
+@media (prefers-reduced-motion:reduce){.chartbox.intro .chart,.cpulse::after{animation:none}}

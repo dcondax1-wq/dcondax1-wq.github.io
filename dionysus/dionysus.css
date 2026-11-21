@@ -103,3 +103,83 @@ main#app .ag-card .note, main#app > .foot { font-size: .9375rem; }
 main#app header.top .brand p.sub, main#app p#status, main#app #status.note { font-size: .9375rem; }
 main#app .tile span { font-size: .8125rem; }
 main#app .tile span { font-size: .9375rem; }
+
+/* ================================================================================================ TERMINAL look, "OLYMPUS NIGHT" (day-kalshi FX 2026-11-20, owner: "it needs some 3D, some effects")
+   Dionysus only (this sheet is loaded by this page alone; agora.css / olympus.css untouched). Black base #000; cards #16131e -> #020204 with a thin
+   violet gradient edge (#3e255e / #462a6a / #4d2e76) and a soft violet #9d59ee light; lavender #dacbf0 highlights; bright gold #f1c14b ONLY for small
+   active / call-to-action / live accents (text gold #ebbf4f); mint #77db89 only for a win, red #ef4444 only for a loss; text #ebe9f1, muted #898497.
+   3D: a still perspective grid under the page and a press tilt on cards. Motion (the hero sheen, today's win pulse) only under
+   prefers-reduced-motion: no-preference; the effects themselves (number roll, win sparks) come from olympus/nqfx.js after the first paint. */
+html:root[data-theme="agora"] {
+  --ag-night: #000000; --ag-panel: #0b0a10; --ag-raise: #16131e; --ag-line: #3e255e; --ag-s0: #000000; --ag-s1: #0b0a10; --ag-s2: #100e16; --ag-s3: #16131e; --ag-s4: #1c1826;
+  --ag-line-soft: rgba(218, 203, 240, .08); --ag-line-gold: rgba(157, 89, 238, .45);
+  --ag-text: #ebe9f1; --ag-soft: #c9c4d6; --ag-muted: #898497;
+  --ag-gold: #9d59ee; --ag-gold-hi: #dacbf0; --ag-gold-rgb: 157, 89, 238; --ag-bronze: #4d2e76; --ag-aegean: #9d59ee; --ag-aegean-text: #dacbf0; --ag-aegean-rgb: 157, 89, 238;
+  --ag-olive: #77db89; --ag-olive-text: #77db89; --ag-olive-rgb: 119, 219, 137; --ag-terra: #ef4444; --ag-terra-text: #f87171; --ag-terra-rgb: 239, 68, 68;
+  --ag-sun: #ebbf4f; --ag-sun-rgb: 241, 193, 75; --ag-on-gold: #000000;
+  --ag-shadow: 0 8px 24px rgba(0, 0, 0, .6);
+  --dx-violet: #9d59ee; --dx-lav: #dacbf0; --dx-gold: #f1c14b; --dx-gold-t: #ebbf4f; --dx-win: #77db89; --dx-loss: #ef4444; --dx-tile: #0e0c14;
+  --dx-card: linear-gradient(180deg, #16131e, #020204);
+  --dx-edge: linear-gradient(135deg, #4d2e76, #3e255e 45%, #462a6a);
+  --dx-light: 0 10px 30px rgba(0, 0, 0, .7), 0 0 22px rgba(157, 89, 238, .14), 0 0 44px rgba(157, 89, 238, .07);
+  --oly-accent: #9d59ee; --oly-accent-rgb: 157, 89, 238;
+}
+html { background: #000000; }
+html[data-theme="agora"] body { background: radial-gradient(120% 55% at 50% -12%, #1a1228 0%, #07050b 42%, #000000 72%) fixed, #000000; }
+/* the 3D floor: a still perspective grid of faint violet lines fading into the black (one fixed layer, painted once, never animated) */
+body::before { content: ""; position: fixed; left: -50%; right: -50%; bottom: 0; height: 62vh; z-index: 0; pointer-events: none;
+  background: linear-gradient(rgba(157, 89, 238, .13) 1px, transparent 1px) 0 0 / 56px 56px, linear-gradient(90deg, rgba(157, 89, 238, .10) 1px, transparent 1px) 0 0 / 56px 56px;
+  transform: perspective(420px) rotateX(62deg); transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, .9), transparent 78%); mask-image: linear-gradient(to top, rgba(0, 0, 0, .9), transparent 78%); }
+html[data-oly-lite="1"] body::before { display: none; }
+/* cards: the night gradient, a thin violet edge (padding-box / border-box layers, no extra node), a soft violet light */
+main#app .ag-card.card { border: 1px solid transparent; background: var(--dx-card) padding-box, var(--dx-edge) border-box; box-shadow: var(--dx-light);
+  transition: transform .18s ease-out, box-shadow .18s ease-out; }
+main#app .ag-card.card:active { transform: perspective(900px) rotateX(2.2deg) translateZ(-6px); box-shadow: var(--dx-light), 0 0 30px rgba(157, 89, 238, .22); }
+main#app .ag-card.card.k8 { background: var(--dx-card) padding-box, linear-gradient(135deg, #9d59ee, #4d2e76 50%, #462a6a) border-box; box-shadow: var(--dx-light), 0 0 34px rgba(157, 89, 238, .2); }
+main#app .ag-card.card.hero { overflow: hidden; background: linear-gradient(160deg, #1d1530 0%, #0d0a14 55%, #020204 100%) padding-box, var(--dx-edge) border-box; }
+#guardCard[data-level="bad"] { background: var(--dx-card) padding-box, linear-gradient(135deg, rgba(239, 68, 68, .6), #3e255e) border-box !important; }
+#guardCard[data-level="warn"] { background: var(--dx-card) padding-box, linear-gradient(135deg, #9d59ee, #3e255e) border-box !important; }
+#guardCard[data-level="ok"] { background: var(--dx-card) padding-box, linear-gradient(135deg, rgba(119, 219, 137, .55), #3e255e) border-box !important; }
+/* the hero sheen: a soft diagonal band of lavender light; it sweeps only when motion is welcome (transform only: compositor, no layout) */
+main#app .card.hero::after { content: ""; position: absolute; inset: -40% auto -40% -60%; width: 45%; pointer-events: none; z-index: 0;
+  background: linear-gradient(100deg, transparent, rgba(218, 203, 240, .07) 40%, rgba(157, 89, 238, .10) 60%, transparent); transform: translateX(0) skewX(-12deg); }
+main#app .card.hero > * { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  main#app .card.hero::after { animation: dx-sheen 7s ease-in-out 1.2s infinite; }
+  @keyframes dx-sheen { 0% { transform: translateX(0) skewX(-12deg); } 55%, 100% { transform: translateX(420%) skewX(-12deg); } }
+  main#app .k8wl i.w.today { animation: dx-pulse 2.4s ease-in-out infinite; }
+  @keyframes dx-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(119, 219, 137, 0); } 50% { box-shadow: 0 0 10px 2px rgba(119, 219, 137, .45); } }
+}
+@media (prefers-reduced-motion: reduce) { main#app .ag-card.card, main#app .ag-card.card:active { transition: none; transform: none; } }
+html[data-oly-lite="1"] main#app .card.hero::after { display: none; }
+/* the numbers: lavender -> violet ink, tabular, a little light */
+main#app .big { background: linear-gradient(90deg, #ebe9f1, #dacbf0 40%, #9d59ee); -webkit-background-clip: text; background-clip: text; color: transparent; font-variant-numeric: tabular-nums;
+  filter: drop-shadow(0 0 14px rgba(157, 89, 238, .35)); }
+.ag-title { color: #ebe9f1; } .ag-title::after { background: linear-gradient(90deg, #f1c14b, #9d59ee 45%, rgba(157, 89, 238, 0)); width: 64px; }
+.card h2 { color: #ebe9f1; letter-spacing: .01em; }
+.brand img { box-shadow: 0 0 0 1px #4d2e76, 0 0 18px rgba(157, 89, 238, .3); }
+/* surfaces that were warm brown: night tiles with a faint violet edge */
+.tile, .plain li, .banner, .pill { background: var(--dx-tile); border-color: #3e255e; }
+.tile { box-shadow: inset 0 1px 0 rgba(218, 203, 240, .06); }
+.dots li { background: none; }
+.banner { border: 1px dashed #4d2e76; }
+.tag.demo { color: #000000; background: #f1c14b; }
+.pill.ok { color: #77db89; border-color: rgba(119, 219, 137, .45); } .pill.bad { color: #f87171; border-color: rgba(239, 68, 68, .45); }
+.pill.warn { color: #ebbf4f; border-color: rgba(241, 193, 75, .45); } .pill.info { color: #dacbf0; border-color: #4d2e76; }
+.btn { background: #120f19; border-color: #462a6a; color: #ebe9f1; box-shadow: 0 0 14px rgba(157, 89, 238, .1); }
+.lnk .btn { border-color: rgba(241, 193, 75, .55); color: #ebbf4f; }   /* the one call to action per card: a small gold accent */
+.btn[aria-pressed="true"], .btn.on, .ag-chip[aria-pressed="true"] { border-color: #f1c14b; color: #ebbf4f; background: #1a1424; box-shadow: 0 0 16px rgba(157, 89, 238, .25); }
+:focus-visible { outline-color: #9d59ee; }
+/* K8: the W / L chips are little 3D keys (top light, bottom shade); today's win glows mint */
+.k8wl i { color: #000000; background: linear-gradient(180deg, #f87171, #dc2626); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 2px 0 #7f1d1d; }
+.k8wl i.w { background: linear-gradient(180deg, #9be8a8, #77db89 55%, #4fb866); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 2px 0 #2f6b3b; }
+.k8leg { border-top-color: rgba(157, 89, 238, .2); }
+.k8pool b { display: inline-block; min-width: 3.4ch; text-align: right; font-variant-numeric: tabular-nums; }
+.k8pool b.ok { color: #77db89; } .k8pool b.watch { color: #ebbf4f; } .k8pool b.off { color: #f87171; }
+.ftab tr.k8 td { color: #ebbf4f; } .ftab th, .ftab td { border-bottom-color: #3e255e; }
+.sblock.watch h3 { color: #ebbf4f; }
+/* the shared header's "Go to" button and the page icon in the same night / violet (this page only) */
+html[data-theme="agora"] .gn-go { background: rgba(10, 8, 14, .88); border-color: #462a6a; }
+/* found on the way (2026-11-20): framed in Jarvis, agora.css's ask-button rule (body.oly-has-ask #app: 72 px) beat the 176 px seat, so the last links sat under the orb */
+html.framed body.oly-has-ask main#app { padding-bottom: calc(176px + var(--sb)); }

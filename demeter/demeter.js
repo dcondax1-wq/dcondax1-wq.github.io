@@ -3,7 +3,7 @@
 // window.DEMETER is the test hook. ?acct=atlas&size=1.5 opens a given account and size.
 import * as C from './demetercore.js';
 import * as T from '../olympus/truth.js';
-import '../pc_feed.js?v=n6';      // PC_FEED.mffuView (MFFU's own view of an account)
+import '../pc_feed.js?v=n7';      // PC_FEED.mffuView (MFFU's own view of an account)
 const nameOf = (a) => (String(a.name || '').includes(String(a.size || '~')) || !a.size ? String(a.name || '') : `${a.name} ${a.size}`);   // day-arenas: never 'Zlarior 25K #2 25K'
 
 const O = window.OLYMPUS || null;

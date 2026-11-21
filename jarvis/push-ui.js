@@ -290,6 +290,8 @@
   // PC lost this phone). Turning it off later: iPhone Settings, Notifications, Olympus.
   const SNOOZE_MS = 7 * 86400 * 1000, ON_SHOW_MS = 86400 * 1000;
   function quiet(state) {
+    // Settings -> "Open the notifications card" (../jarvis/#pushCard): always show it, so "Send a test" is one tap away (owner 2026-11-20)
+    if (location.hash === '#pushCard' && state !== 'loading') return false;
     const s0 = store.get(), now = Date.now();
     if ((state === 'ready' || state === 'nopc' || state === 'off') && +s0.later > now) return true;
     if (state === 'on' && +s0.onAt > 0 && now - +s0.onAt > ON_SHOW_MS) return true;
@@ -309,6 +311,7 @@
       + '</div>' + (b ? '<div class="pushc-b">' + b + '</div>' : '') + '</section>';
     if (host.__html !== html) { host.innerHTML = html; host.__html = html; }
     host.hidden = st.state === 'loading' || quiet(st.state);
+    if (!host.hidden && location.hash === '#pushCard' && !host.__shown) { host.__shown = true; try { host.scrollIntoView({ block: 'center' }); } catch (e) { /* fine */ } }
     host.dataset.state = st.state;
   }
   function set(next) { st = next; render(); return st; }
