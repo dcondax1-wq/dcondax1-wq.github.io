@@ -5,7 +5,7 @@
 //   sources = { home, money, odeon, rules, pythia, planner, journal, ledger, compassState, at: { home: ms, ... } }
 //     home    ../home.json            { accounts: [{ name, kind, conn:{connected}, eval:{balance, room, mll, dll, dll_used, target, to_target}, pnl:{today}, paused }], t }
 //     money   ../money/index.json     { streams: [{ id, status, items: [{ title, detail, usd, score, expires, picked, n, win, break_even, stake_usd }], headline:{text, usd_month} }] }
-//     odeon   ../odeon/trades.json    { trades: [{ id, day, usd, r, risk_usd, side, strat, entry, exit, mfe_r, mae_r, held_min, target, stop }], upto }
+//     odeon   ../odeon/trades_lite.json (else trades.json)    { trades: [{ id, day, usd, r, risk_usd, side, strat, entry, exit, mfe_r, mae_r, held_min, target, stop }], upto }
 //     rules   ../ledger/rules.json    { limits: { builder_50k: {...} }, accounts, source: { built } }
 //     pythia  ../pythia/events.json   { events: [{ date, time, kind, title, impact, verify }], updated }
 //     planner this phone's 'planner.agora.v1' state · journal 'journal.v1' · ledger 'ledger.v1' · compassState 'compass.state.v1'
@@ -15,8 +15,11 @@
 // last trades from odeon, shown with the $ it was computed from), or null when it cannot be known.
 
 export const FILES = {
-  home: '../home.json', money: '../money/index.json', odeon: '../odeon/trades.json', rules: '../ledger/rules.json', pythia: '../pythia/events.json',
+  home: '../home.json', money: '../money/index.json', odeon: '../odeon/trades_lite.json', rules: '../ledger/rules.json', pythia: '../pythia/events.json',
 };
+// odeon: the slim copy (QA 2026-11-21: the full trades.json, 128 KB gz with every trade's bars / levels / events, was Jarvis's longest task);
+// the same trades and fields Jarvis reads. Missing (an old site copy): the full file.
+const FALLBACK = { odeon: '../odeon/trades.json' };
 // the Kalshi City engine's own published files (the live feed kalshi.json comes from the brain's facts: sources.kalshi)
 export const KFILES = { kalshiEdges: '../kalshicity/edges.json', kalshiLog: '../kalshicity/learning_log.json', kalshiLearned: '../kalshicity/learned.json', kalshiLedger: '../kalshicity/ledger.json' };
 // small cards other apps publish for Jarvis (the money copilot reads Fates' pass odds from it); day = your calendars' day, made by the PC
@@ -68,7 +71,7 @@ export function fileTime(obj, fetchedAt) {
 }
 /** the source tag of an answer: "home.json, 6 min ago" */
 export function srcTag(S, name, now) {
-  const file = { home: 'home.json', money: 'money/index.json', odeon: 'odeon/trades.json', rules: 'ledger/rules.json', pythia: 'pythia/events.json', kalshi: 'kalshi.json', kalshiEdges: 'kalshicity/edges.json', kalshiLog: 'kalshicity/learning_log.json', kalshiLedger: 'kalshicity/ledger.json', day: 'day/day.json (your calendars)', household: 'money/household.json', health: 'me/health.json (your Apple Watch)' }[name] || name;
+  const file = { home: 'home.json', money: 'money/index.json', odeon: 'odeon/trades_lite.json', rules: 'ledger/rules.json', pythia: 'pythia/events.json', kalshi: 'kalshi.json', kalshiEdges: 'kalshicity/edges.json', kalshiLog: 'kalshicity/learning_log.json', kalshiLedger: 'kalshicity/ledger.json', day: 'day/day.json (your calendars)', household: 'money/household.json', health: 'me/health.json (your Apple Watch)' }[name] || name;
   const t = S && isObj(S[name]) ? fileTime(S[name], S.at && S.at[name]) : null;
   return { file, ms: t, text: `${file}, ${agoText(t, now)}` };
 }
@@ -110,7 +113,7 @@ async function loadSourcesNow(opts) {
   await Promise.all(Object.keys(KFILES).map(async (k) => { const j = await getJson(fetchFn, base + KFILES[k]); if (j) { S[k] = j; S.at[k] = now; } }));
   const priv = typeof o.private === 'boolean' ? o.private : onPrivateLink();
   await Promise.all(Object.keys(XFILES).filter((k) => priv || !PRIVATE_X.includes(k)).map(async (k) => { const j = await getJson(fetchFn, base + XFILES[k]); if (j) { S[k] = j; S.at[k] = now; } }));
-  await Promise.all(Object.keys(FILES).map(async (k) => { const j = await getJson(fetchFn, base + FILES[k]); if (j) { S[k] = j; S.at[k] = now; } }));
+  await Promise.all(Object.keys(FILES).map(async (k) => { const j = (await getJson(fetchFn, base + FILES[k])) || (FALLBACK[k] ? await getJson(fetchFn, base + FALLBACK[k]) : null); if (j) { S[k] = j; S.at[k] = now; } }));
   // SYNC (night A 2026-11-16): home.json through olympus/truth.js like the Gate, the hubs, Aegis and Helios: the PC feed laid over when it is
   // newer (withPcFeed), then the canonical account rows (canonHome), so every Jarvis answer says the same drawdown / today's $ / balance
   if (isObj(S.home) && !o.raw) {

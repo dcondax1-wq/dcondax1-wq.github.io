@@ -144,7 +144,7 @@ const ageNote = (F) => (F.age == null ? '' : F.age <= FRESH_S ? F.src + ', ' + a
 
 // ------------------------------------------------------------------------------------------------ the answers
 function rowLine(r) {
-  const parts = [usd(r.balance)];
+  const parts = [r.stage === 'funded' ? funBal(r) : usd(r.balance)];
   if (r.today != null) parts.push('today ' + susd(r.today));
   if (r.stage === 'eval') { if (r.to_pass != null) parts.push(usd(r.to_pass) + ' to pass'); }
   else if (r.stage === 'funded') { const pl = payLine(r); if (pl) parts.push(pl.toGo > 0 ? usd(pl.toGo) + ' to the first ' + usd(pl.ask) + ' payout' : 'payout line reached'); }
@@ -152,11 +152,20 @@ function rowLine(r) {
   if (r.room != null) parts.push(usd(r.room) + ' room');
   return r.name + ' ' + (r.stage === 'eval' ? 'eval' : r.stage) + ': ' + parts.join(', ') + '.';
 }
-function payLine(r) {
+// a funded sim the way MFFU shows it (owner 2026-11-20, QA 2026-11-21): the balance starts at $0 and IS the profit (ATLAS "+$401", not
+// $25,401); the full ask comes at buffer + ask (+$2,100 on a 25K), the earliest at buffer + the smallest payout (+$1,350). PC_FEED.mffuView
+// (pc_feed.js, the one rule for every app) when the page has it, else the balance minus the plan's start (a balance already in MFFU terms is kept)
+function mffuProfit(r) {
   const P = PAYOUT[r.size]; if (!P || r.balance == null) return null;
-  const line = P.start + P.buffer + P.ask;
-  return { line, toGo: Math.max(0, Math.round(line - r.balance)), ask: P.ask, you: P.ask * P.split, net: P.ask * P.split * (1 - TAX) };
+  try { const F = globalThis.PC_FEED; if (F && typeof F.mffuView === 'function') { const v = F.mffuView({ kind: 'funded', stage: 'funded', plan: r.size, name: r.name, balance: r.balance }); if (isObj(v) && num(v.profit) != null) return num(v.profit); } } catch (_) { /* the plan's rule below */ }
+  return r.balance > P.start / 2 ? Math.round((r.balance - P.start) * 100) / 100 : r.balance;
 }
+function payLine(r) {
+  const P = PAYOUT[r.size], profit = mffuProfit(r); if (!P || profit == null) return null;
+  const line = P.buffer + P.ask, early = P.buffer + P.min;
+  return { profit, line, toGo: Math.max(0, Math.round(line - profit)), early, min: P.min, toEarly: Math.max(0, Math.round(early - profit)), ask: P.ask, you: P.ask * P.split, net: P.ask * P.split * (1 - TAX) };
+}
+const funBal = (r) => { const pl = payLine(r); return pl ? susd(pl.profit) : usd(r.balance); };   // a funded account's balance in MFFU terms
 function waitingLine(live) {
   const full = isObj(live) && isObj(live.raw) ? live.raw : isObj(live) ? live : {};
   const ms = str(full.model_state || (isObj(full.pc) ? full.pc.model_state : ''), 120);
@@ -188,9 +197,10 @@ function payoutReply(rows, plan, F) {
   for (const r of rows.filter((x) => x.stage === 'funded')) {
     const pl = payLine(r); if (!pl) continue;
     const est = r.plan && str(r.plan.payout, 80).replace(/\s*\(estimate\)$/i, '');
-    lines.push(r.name + ' (funded): ' + (pl.toGo > 0 ? 'first payout when the balance reaches ' + usd(pl.line) + ' (' + usd(pl.toGo) + ' to go)' : 'the balance is past ' + usd(pl.line) + ': you can ask now')
-      + ', then ask the full ' + usd(pl.ask) + ' (' + usd(pl.you) + ' to you, ' + usd(pl.net) + ' after the 30% tax pot). MFFU also needs 2 traded days.' + (est ? ' Estimate: ' + est + '.' : ''));
-    say.push(r.name + ' pays first, at ' + sayUsd(pl.line) + ', ' + sayUsd(pl.toGo) + ' to go' + (est ? ', ' + est.replace(/[~()]/g, '') : '') + '.');
+    lines.push(r.name + ' (funded): at ' + susd(pl.profit) + ' (MFFU counts from $0); ' + (pl.toGo > 0 ? 'the ' + usd(pl.ask) + ' ask comes at +' + usd(pl.line) + ' (' + usd(pl.toGo) + ' to go)' : 'past +' + usd(pl.line) + ': you can ask the full ' + usd(pl.ask) + ' now')
+      + ', ' + usd(pl.you) + ' to you, ' + usd(pl.net) + ' after the 30% tax pot.' + (pl.toGo > 0 ? ' Earliest: ' + usd(pl.min) + ' at +' + usd(pl.early) + (pl.toEarly > 0 ? ' (' + usd(pl.toEarly) + ' to go)' : ' (reached)') + ', but the goal is the full ' + usd(pl.ask) + ' (only 5 sim payouts).' : '')
+      + ' MFFU also needs 2 traded days.' + (est ? ' Estimate: ' + est + '.' : ''));
+    say.push(r.name + ' is at ' + (pl.profit < 0 ? 'minus ' : 'plus ') + sayUsd(Math.abs(pl.profit)) + '; the ' + sayUsd(pl.ask) + ' ask comes at plus ' + sayUsd(pl.line) + (pl.toGo > 0 ? ', ' + sayUsd(pl.toGo) + ' to go' : ': you can ask now') + (est ? ', ' + est.replace(/[~()]/g, '') : '') + '.');
   }
   for (const r of rows.filter((x) => x.stage === 'eval')) {
     const est = r.plan && str(r.plan.payout, 80);
@@ -281,12 +291,12 @@ function tradingReply(rows, F) {
   if (!rows.length) return { text: 'I have no account numbers right now: the PC has not reported and the Board is not loaded, so I cannot say which bot is on which account. Open Business → My Accounts.', speak: 'I have no account numbers right now.', intent: 'zeus_trading' };
   const lines = ['What each account trades (' + ageNote(F) + '):'], say = [];
   for (const r of rows) {
-    const bot = botOf(r), parts = [usd(r.balance)];
+    const bot = botOf(r), parts = [r.stage === 'funded' ? funBal(r) : usd(r.balance)];
     if (r.stage === 'eval') { if (r.to_pass != null) parts.push(usd(r.to_pass) + ' to pass'); }
     else if (r.stage === 'funded') { const pl = payLine(r); if (pl) parts.push(pl.toGo > 0 ? usd(pl.toGo) + ' to the first ' + usd(pl.ask) + ' payout' : 'payout line reached'); }
     if (r.room != null) parts.push(usd(r.room) + ' room');
     lines.push(r.name + ' ' + r.stage + ' → ' + (bot || 'bot not reported') + ': ' + parts.join(', ') + '.');
-    say.push(r.name.replace(/#(\d)/, 'number $1') + ' ' + r.stage + ' runs ' + (/zlarior/i.test(bot) ? 'Zlarior' : /atlas/i.test(bot) ? 'ATLAS' : bot ? bot.split(/[,(]/)[0].trim() : 'an unknown bot') + ', at ' + sayUsd(r.balance) + '.');
+    say.push(r.name.replace(/#(\d)/, 'number $1') + ' ' + r.stage + ' runs ' + (/zlarior/i.test(bot) ? 'Zlarior' : /atlas/i.test(bot) ? 'ATLAS' : bot ? bot.split(/[,(]/)[0].trim() : 'an unknown bot') + ', at ' + (r.stage === 'funded' && payLine(r) ? (payLine(r).profit < 0 ? 'minus ' : 'plus ') + sayUsd(Math.abs(payLine(r).profit)) : sayUsd(r.balance)) + '.');
   }
   return { text: lines.join('\n'), speak: say.join(' '), intent: 'zeus_trading', cards: [{ title: 'Accounts and bots', lines: lines.slice(1) }] };
 }

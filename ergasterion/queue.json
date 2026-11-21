@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795280940,
+   "t": 1795282860,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,8 +4387,32 @@
   "available": true,
   "commits": [
    {
+    "t": 1795282387,
+    "s": "Land JARVIS 2dc977b0 (DESIGN + JARVIS sky combined: poster + skip gating, calm idle start, idle-slice compile…"
+   },
+   {
+    "t": 1795282381,
+    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into web-pre2"
+   },
+   {
+    "t": 1795282361,
+    "s": "Render test i-low = DESIGN's no-3D at effects Low (56/56); Jarvis 2026-11-21 LEAD_WIRES (sw.js backdrop b8 +…"
+   },
+   {
+    "t": 1795280968,
+    "s": "Merge olympus/pc (DESIGN sky pass 6ee9eb81 + classic c5) into day-jarvis; backdrop.js combined: DESIGN's post…"
+   },
+   {
     "t": 1795280838,
     "s": "Jarvis bars: solid violet, no blur (AGORA 2026-11-10: no glass blur on the dock keeps phones fast); jarvis_ho…"
+   },
+   {
+    "t": 1795279075,
+    "s": "test_jarvis_home_v2 e: reduced motion accepts = 0.001 s (olympus/a11y.css's deliberate value)"
+   },
+   {
+    "t": 1795278979,
+    "s": "Render test i: in still mode the sky's frame is drawn again on return (then every 3 s); PERF report final num…"
    },
    {
     "t": 1795278838,
@@ -4427,6 +4451,10 @@
     "s": "NQ Brain reads the PC's glance v2 + the ext 'glog': Zlarior's setup checks (n of m passed) and what blocks a…"
    },
    {
+    "t": 1795277034,
+    "s": "Jarvis sky: starts only after 2.5 s without a tap / key / scroll on any screen, and each compile slice waits…"
+   },
+   {
     "t": 1795276880,
     "s": "Jarvis (Classic look): no more black slabs over the violet sky (owner phone): the top bar, the dock, the base…"
    },
@@ -4439,6 +4467,14 @@
     "s": "Olympus app owns the whole site (manifest scope ../): ZEUS / NQ / Kalshi open full screen inside the Home Scr…"
    },
    {
+    "t": 1795275748,
+    "s": "Jarvis sky: wait for Jarvis's own start (data-ready) + 1.5 s, never competing with the first data; test_jarvi…"
+   },
+   {
+    "t": 1795274560,
+    "s": "Jarvis PERF report: the sky changes, before / after table, tests"
+   },
+   {
     "t": 1795274098,
     "s": "test_rapid25 i: the START BOT rehearsal pins the market open, so a weekend run reaches step 3/4 (94/94)"
    },
@@ -4449,42 +4485,6 @@
    {
     "t": 1795273708,
     "s": "Privacy gate: the per-town OpenStreetMap lead files and a concept site's own listed business email are review…"
-   },
-   {
-    "t": 1795272852,
-    "s": "Bump the phone cache for the Board fix (le-public-v185)"
-   },
-   {
-    "t": 1795272667,
-    "s": "Merge DESIGN day-arenas 77b623fb: Board CLS 0.48 - 0 (Decide under the accounts, nothing below the header bef…"
-   },
-   {
-    "t": 1795272391,
-    "s": "Hera/money pages: keep the folded links out of Jarvis's corner (pulse.css p8); hera 40/40"
-   },
-   {
-    "t": 1795272178,
-    "s": "Board CLS 0.48 - 0 on a slow line: Decide card under the accounts, nothing below the header visible before th…"
-   },
-   {
-    "t": 1795271891,
-    "s": "Merge remote-tracking branch 'origin/pc' into day-arenas"
-   },
-   {
-    "t": 1795271865,
-    "s": "Land Saturday round 2: NQ speed f5d1eb94 (formatters once, tokens per theme), DESIGN 7d954dee (Zenith LCP: se…"
-   },
-   {
-    "t": 1795271835,
-    "s": "Merge remote-tracking branch 'olympus/day-archive' into web-pre2"
-   },
-   {
-    "t": 1795271834,
-    "s": "Merge remote-tracking branch 'olympus/day-a11y' into web-pre2"
-   },
-   {
-    "t": 1795271834,
-    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into web-pre2"
    }
   ],
   "branches": [

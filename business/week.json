@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-21 12:08 ET",
+ "built": "2026-11-21 12:41 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -127,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Land JARVIS 2dc977b0 (DESIGN + JARVIS sky combined: poster + skip gating, calm idle start,...",
+   "Render test i-low = DESIGN's no-3D at effects Low (56/56); Jarvis 2026-11-21 LEAD_WIRES (sw.js...",
    "Jarvis bars: solid violet, no blur (AGORA 2026-11-10: no glass blur on the dock keeps phones...",
+   "Render test i: in still mode the sky's frame is drawn again on return (then every 3 s); PERF...",
    "Jarvis worker: SHELL backdrop.js b7 + sky-poster.webp (DESIGN 6ee9eb81 LEAD_WIRES), cache jarvis-v87",
    "Jarvis sky tests: test_jarvis_sky 8/8 (Fast 3G line); test_jarvis_home LITE = no 3D sky, the...",
    "JARVIS_SKY.md: poster tag in LEAD_WIRES",
-   "Jarvis sky poster: violet floor ( - ), no near-black under the bars (lead: Classic 'little bits of...",
-   "Jarvis sky: CSS poster from the first frame, 3D sky only after load + idle and never for Off / Low...",
-   "NQ Brain reads the PC's glance v2 + the ext 'glog': Zlarior's setup checks (n of m passed) and...",
-   "Jarvis (Classic look): no more black slabs over the violet sky (owner phone): the top bar, the..."
+   "Jarvis sky poster: violet floor ( - ), no near-black under the bars (lead: Classic 'little bits of..."
   ]
  },
  "next": {

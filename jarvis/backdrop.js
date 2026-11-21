@@ -13,7 +13,7 @@
 // pixel ratio <= 1.25 (soft by design), so the core in front keeps the GPU.
 
 const root = document.documentElement;
-const state = (window.__jarvisBackdrop = { state: 'loading', frames: 0, quality: '', passes: 0, error: '' });
+const state = (window.__jarvisBackdrop = { state: 'loading', frames: 0, quality: '', passes: 0, error: '', ms: {} });   // ms: what each step took (QA)
 const FPS = 30, STYLE_ID = 'jbackdrop-css';
 const CSS = `
 .bgfx canvas.jbackdrop { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .9s ease; }
@@ -37,10 +37,43 @@ function quiet() {
     const chk = () => {
       const w = Math.max(QUIET_MS - (Date.now() - lastInput), loadAt + 6000 - performance.now());   // a phone: never in the first 6 s after load (the first taps)
       if (phoneNow() && w > 0) { setTimeout(chk, w + 50); return; }
+      // any screen (QA 2026-11-21): not before Jarvis's own start is done (data-ready) and 1.5 s more, so the sky never competes with the
+      // page's first data (the bots' numbers, the cards)
+      if (root.dataset.ready !== '1' && performance.now() < 20000) { setTimeout(chk, 200); return; }
+      if (!readyAt) readyAt = performance.now();
+      if (performance.now() - readyAt < START_MS) { setTimeout(chk, START_MS - (performance.now() - readyAt) + 50); return; }
+      const calm = QUIET_MS - (Date.now() - lastInput);               // any screen: 2.5 s without a tap, a key or a scroll (the owner first)
+      if (calm > 0) { setTimeout(chk, calm + 50); return; }
       if (window.requestIdleCallback) requestIdleCallback(() => (phoneNow() && Date.now() - lastInput < QUIET_MS ? chk() : ok()), { timeout: 2000 }); else setTimeout(ok, 30);
     };
     chk();
   });
+}
+// the scene's shaders, one top-level object per idle slice (lights stay on: the light count is part of every program), for the buffer the
+// composer draws into; the first frame then only draws. Where the browser compiles in parallel render.js does it in the background anyway.
+async function compileStepwise(rc, scene, camera) {
+  const R = rc && rc.renderer;
+  if (!R || typeof R.compile !== 'function') return 0;
+  const kids = scene.children.filter((o) => !o.isLight && o.visible);
+  kids.forEach((o) => { o.visible = false; });
+  let n = 0;
+  const done = new Set((R.info && R.info.programs) || []);
+  for (const o of kids) {
+    o.visible = true;
+    // a slice may hold the page while the driver links (software GL): never right after a tap, a key or a scroll (the owner's action first)
+    while (Date.now() - lastInput < INPUT_GAP_MS) await new Promise((ok) => setTimeout(ok, 250));
+    await new Promise((ok) => (window.requestIdleCallback ? requestIdleCallback(ok, { timeout: 500 }) : setTimeout(ok, 16)));
+    try {
+      const prev = R.getRenderTarget(), c = rc.composer;
+      R.setRenderTarget(c && c.renderTarget2 ? c.renderTarget2 : null); R.compile(scene, camera); R.setRenderTarget(prev); n++;
+      // three links a program lazily: its first use waits for the driver. Ask each new program for its uniforms here, so that wait is
+      // this slice's, not the first frame's (where KHR_parallel_shader_compile exists render.js compiles in the background anyway)
+      if (!(rc.software === false && R.extensions && R.extensions.has && R.extensions.has('KHR_parallel_shader_compile'))) {
+        for (const pr of (R.info && R.info.programs) || []) if (pr && !done.has(pr)) { done.add(pr); try { pr.getUniforms(); } catch (_) { /* first draw */ } }
+      }
+    } catch (_) { /* the first frame compiles what is left, as before */ }
+  }
+  return n;
 }
 async function mount() {
   await quiet();
@@ -58,9 +91,12 @@ async function mount() {
   camera.position.set(0, 1.5, 10); camera.lookAt(0, 1.6, 0);
   const fog = new T.FogExp2(0x2a2118, 0.03); scene.fog = fog;      // a warm umber haze: far things fade into colour, not black
   const K = colours();
-  const rc = RC.createRenderer({ canvas: probe, scene, camera, quality: level(), env: 'night', tint: K.c, maxDpr: 1.25, msaa: false, adapt: false, exposure: 0.85,
+  let tm = performance.now(); const ms = (k) => { const n = performance.now(); state.ms[k] = Math.round(n - tm); tm = n; };
+  // the first frames at the low tier (no bloom pass: the first picture costs least); the chosen tier once the frames prove fast (want())
+  const rc = RC.createRenderer({ canvas: probe, scene, camera, quality: level() === 'off' ? 'off' : 'low', env: 'night', tint: K.c, maxDpr: 1.25, msaa: false, adapt: false, exposure: 0.85,
     theme: null, bloom: { strength: 0.22, radius: 0.6, threshold: 0.9 }, grade: { vignette: 0.35, grain: 0.015, aberration: 0 } });
-  await quiet();                                                     // the renderer + its environment, then the scene: separate tasks
+  ms('renderer');
+  await quiet(); tm = performance.now();                                                     // the renderer + its environment, then the scene: separate tasks
 
   // sky: nebula + stars (both added light, no fog)
   const nebula = M.nebula({ colors: [K.c, K.c2, K.c3, '#4b3a52'], count: 10, radius: 70, size: 85, opacity: 0.10 }); nebula.position.y = 12; scene.add(nebula);
@@ -146,7 +182,7 @@ async function mount() {
   // scrolls, the sky holds its last frame (no WebGL frame under the moving, blurred panels) and comes back 250 ms after the scroll stops
   const still = () => level() === 'off' || level() === 'low' || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const phone = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
-  const fpsCap = () => (phone && level() !== 'ultra' ? 20 : FPS);
+  const fpsCap = () => (slowLvl >= 1 ? 15 : phone && level() !== 'ultra' ? 20 : FPS);
   document.addEventListener('scroll', () => {
     if (!scrolling) { scrolling = true; if (raf) { cancelAnimationFrame(raf); raf = 0; } }
     clearTimeout(scrollT); scrollT = setTimeout(() => { scrolling = false; kick(); }, 250);
@@ -161,31 +197,55 @@ async function mount() {
     for (const f of ext.onStep) { try { f(dt, t); } catch (e) { ext.onStep.length = 0; state.extError = String((e && e.stack) || e); } }       // a broken extra drops out, the backdrop goes on
   }
   function draw() {
+    const t0 = performance.now();
     if (!rc.render()) return;
+    if (!drawn) state.ms.first = Math.round(performance.now() - t0);
     state.frames++;
     if (!drawn) { drawn = true; root.dataset.bg3d = 'on'; state.state = 'on'; }
   }
+  let slow = 0, slowLvl = 0;                                           // 0: as set; 1: 15 fps + the low tier; 2: a still frame
+  let fast = 0, earned = false;                                        // 30 quick frames in a row earn the chosen tier (once)
+  const want = () => (level() === 'off' ? 'off' : earned && slowLvl === 0 ? level() : 'low');
   function frame(now) {
     raf = 0;
     if (!live()) return;
     raf = requestAnimationFrame(frame);
     if (now - last < 1000 / fpsCap() - 2) return;
-    const dt = last ? Math.min(0.1, (now - last) / 1000) : 1 / fpsCap();
+    const gapMs = last ? now - last : 0, dt = last ? Math.min(0.1, gapMs / 1000) : 1 / fpsCap();
     last = now;
+    const t0 = performance.now();
     step(dt); draw();
+    // slow = this frame's own work over 50 ms, or the frame before it held the page (the GPU / the compositor's part lands between frames)
+    const isSlow = performance.now() - t0 > SLOW_MS || gapMs > 1000 / fpsCap() + SLOW_MS;
+    if (isSlow) { slow++; fast = 0; } else { if (slow > 0) slow--; if (!earned && ++fast >= 30) { earned = true; const q = want(); if (q !== rc.quality()) { rc.setQuality(q); state.quality = q; } } }
+    if (slow >= SLOW_HITS) {
+      slow = 0; slowLvl++; state.slow = slowLvl;
+      if (slowLvl === 1) { if (rc.quality() !== 'low' && rc.quality() !== 'off') { rc.setQuality('low'); state.quality = 'low'; } }
+      else { if (raf) cancelAnimationFrame(raf); raf = 0; state.still = 'slow'; stillTick(); }   // the last frame stays; a fresh one every 3 s
+    }
   }
-  const live = () => onHome() && !document.hidden && !still() && !scrolling;
+  const live = () => onHome() && !document.hidden && !still() && !scrolling && slowLvl < 2;
+  // too slow for motion: still, but not frozen: one frame every 3 s keeps the sky on the New York clock, the VIX weather and the mode's colour
+  let stillT = 0, stillLast = 0;
+  function stillTick() {
+    clearTimeout(stillT);
+    stillT = setTimeout(() => {
+      if (slowLvl < 2) return;
+      if (onHome() && !document.hidden && !scrolling) { const n = performance.now(); step(stillLast ? Math.min(3, (n - stillLast) / 1000) : 0); stillLast = n; draw(); }
+      stillTick();
+    }, STILL_MS);
+  }
   // an app open over Jarvis (the home is hidden): release the composer's buffers and the environment, not just the loop
   function kick() {
     if (!onHome()) { if (raf) cancelAnimationFrame(raf); raf = 0; rc.suspend(); state.asleep = true; return; }
     if (rc.asleep()) { rc.resume(); state.asleep = false; themeKey = ''; theme(); }
     if (live()) { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } return; }
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
-    if (onHome() && !document.hidden && still()) { step(0); draw(); }      // off / low / reduced motion: one still frame
+    if (onHome() && !document.hidden && (still() || slowLvl >= 2)) { step(0); draw(); }      // off / low / reduced motion / too slow: one still frame (again after an app: its buffers were freed)
   }
   // follow the effects level, the theme and the home screen (attributes the shell already sets)
   new MutationObserver(() => {
-    const q = level();
+    const q = want();
     if (q !== rc.quality()) { rc.setQuality(q); state.quality = q; state.passes = rc.stats().passes; }
     theme(); kick();
   }).observe(root, { attributes: true, attributeFilter: ['data-fx', 'data-theme', 'data-oly-theme', 'data-mode', 'style'] });
@@ -194,6 +254,7 @@ async function mount() {
   document.addEventListener('visibilitychange', kick);
   probe.addEventListener('webglcontextlost', (e) => { e.preventDefault(); delete root.dataset.bg3d; state.state = 'lost'; if (raf) cancelAnimationFrame(raf); raf = 0; });
   state.quality = rc.quality(); state.passes = rc.stats().passes; state.stats = () => rc.stats();
+  ms('scene'); state.compiled = await compileStepwise(rc, scene, camera); tm = performance.now();
   kick();
   // the living home's objects compile in the background (perf v2: rc.warm()) instead of holding the home on their first frame
   import('./home3d.js').then((m) => { m.attach(ext); if (rc.warm) rc.warm(); state.extra = 'on'; kick(); }).catch((e) => { state.extra = 'off'; state.extError = String((e && e.stack) || e); });
@@ -233,12 +294,17 @@ const start = () => {
   // shader compile (the owner's first taps: the business chips, the mic)
   mount().catch((e) => { state.state = 'off'; state.error = String((e && (e.stack || e.message)) || e); delete root.dataset.bg3d; });
 };
-const QUIET_MS = 2500;
+const QUIET_MS = 2500, START_MS = 1500;
+let readyAt = 0;
+// QA 2026-11-21 (lead): the sky must be cheap at start. Until it is ready the page shows DESIGN's poster (sky-poster.webp, the first
+// .bgfx layer) from the first frame, the 3D fading in over it. The scene's shaders compile one object per idle slice (compileStepwise), never all at
+// once on the first frame; and a frame that costs more than 50 ms twice drops to 15 fps and the low tier, then (twice more) to a still frame.
+const SLOW_MS = 50, SLOW_HITS = 2, STILL_MS = 3000, INPUT_GAP_MS = 1500;
 let loadAt = 0;                                    // when the page finished loading (a slow line: the 6 s count from here, not from the first byte)
 let lastInput = Date.now();
 const COARSE = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
 const phoneNow = () => COARSE && Math.min(innerWidth, innerHeight) < 600;
-for (const ev of ['pointerdown', 'keydown', 'wheel', 'touchmove']) window.addEventListener(ev, () => { lastInput = Date.now(); }, { passive: true, capture: true });
+for (const ev of ['pointerdown', 'keydown', 'wheel', 'touchmove', 'input', 'click']) window.addEventListener(ev, () => { lastInput = Date.now(); }, { passive: true, capture: true });
 const booted = () => !document.getElementById('bootfx') && (!window.__olyIntro || window.__olyIntro.done);
 const idle = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 600));
 let waited = 0;
