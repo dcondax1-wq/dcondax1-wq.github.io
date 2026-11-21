@@ -69,5 +69,9 @@ html:not(.bd-drawn) #accounts { min-height: 1100px; }
 #edgeChip:empty { min-height: 92px; }        /* day-archive 2026-11-21 (QA CLS 0.23): the two edge lines it gets (ZEUS + ATLAS) */
 .pcline:empty { min-height: 1.45em; }          /* the PC line arrives a moment after the first paint */
 .accounts:empty { min-height: 760px; }         /* three account cards, so nothing on screen moves when they land */
+/* DESIGN 2026-11-21 (slow line CLS 0.48): until the first draw only the header shows, so the PC SILENT alert (121 px), drawn with the accounts,
+   moves nothing visible; the edge chip keeps its phone height (two lines, 93 px at 390) while edge.json is on its way. 8 s safety in board.js */
+html:not(.bd-drawn) #app > :not(.bd-top) { visibility: hidden; }
+@media (max-width: 600px) { #edgeChip:empty { min-height: 93px; } }
 
 #mode { font-size: 0.9375rem; }   /* a11y: the source tag reads as a sentence */

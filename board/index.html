@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a10"><link rel="stylesheet" href="../olympus/agora-apps.css?v=g2">
 <script src="../olympus/themes.js?v=o10" defer></script><!-- nothing on this page paints a look with it before the first frame (only a11y.js hooks it): never render-blocking -->
 <script src="../olympus/a11y.js" defer></script>
-<link rel="stylesheet" href="board.css?v=b3fx">
+<link rel="stylesheet" href="board.css?v=b3g">
 <link rel="stylesheet" href="../age.css?v=2">
 <link rel="stylesheet" href="../nq/payready.css?v=2">
 <style>
@@ -51,11 +51,12 @@
   <p id="pcLine" class="pcline" role="status" aria-live="polite"></p>
   <!-- ZEUS edge chip (../edge_chip.js): LIT + ATLAS last 40 sessions vs 2026; board.js hands it the PC status -->
   <div id="edgeChip" data-edge-chip data-edge-src="../edge.json"></div>
-  <!-- the Decide card (../business/decide.js + decisions.json): Yes / No / Later on the PC link only; a tap = one owner note for Claude, never a live change -->
-  <section id="decide" data-decide data-decide-board="board.json" aria-label="Decide" hidden></section>
   <h2 class="sect">Accounts</h2>
   <p class="hint"><a href="../business/mffu.html">My accounts (MFFU view) &rarr;</a> every account the way MFFU shows it: dates, floor, target, days, payout.</p>
   <div id="accounts" class="accounts"></div>
+  <!-- the Decide card (../business/decide.js + decisions.json): Yes / No / Later on the PC link only; a tap = one owner note for Claude, never a live change.
+       Under the accounts (DESIGN 2026-11-21): it lands after its own fetch, and above them its 649 px pushed the drawn accounts off the phone (CLS 0.39) -->
+  <section id="decide" data-decide data-decide-board="board.json" aria-label="Decide" hidden></section>
   <div id="payouts" class="payouts" hidden></div>
   <!-- nqdash3 round 2 (../nq/payready.js): payout readiness per funded account: eligible yes / no and why, $ and days to the ask, projected date, MFFU steps -->
   <section class="ag-card card mfx-card" data-moneyfx="payout" aria-labelledby="mfxH"><!-- day-archive 2026-11-20: payout goal as a 3D vault + the earliest-payout ring (olympus/moneyfx.js) -->

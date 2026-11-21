@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-21 09:48 ET",
+ "built": "2026-11-21 09:54 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -127,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Bump the phone cache for the Board fix (le-public-v185)",
    "Hera/money pages: keep the folded links out of Jarvis's corner (pulse.css p8); hera 40/40",
+   "Board CLS 0.48 - 0 on a slow line: Decide card under the accounts, nothing below the header...",
    "Land Saturday round 2: NQ speed f5d1eb94 (formatters once, tokens per theme), DESIGN 7d954dee...",
    "Caller portal list rebuilt on the merged leads",
    "Leads split by town: one loader (agency/leadsfile.py: leads.json 'leads' + its 'files' -...",
    "Brain 3D is read-only: lab controls renamed 'Demo: ...', test fails on an Arm / Start / Stop /...",
-   "Zenith LCP: the greeting shows the moment it lands (settle copy released, 1.5 s cap, copy no...",
-   "Site factory rebuilt on the merged Frederick-area leads: 817 concept sites (noindex, 12 KB each),...",
-   "nq perf: cache chart tokens, one ET formatter, one NumberFormat"
+   "Zenith LCP: the greeting shows the moment it lands (settle copy released, 1.5 s cap, copy no..."
   ]
  },
  "next": {

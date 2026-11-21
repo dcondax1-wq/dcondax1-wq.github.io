@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795272480,
+   "t": 1795272840,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,8 +4387,24 @@
   "available": true,
   "commits": [
    {
+    "t": 1795272852,
+    "s": "Bump the phone cache for the Board fix (le-public-v185)"
+   },
+   {
+    "t": 1795272667,
+    "s": "Merge DESIGN day-arenas 77b623fb: Board CLS 0.48 - 0 (Decide under the accounts, nothing below the header bef…"
+   },
+   {
     "t": 1795272391,
     "s": "Hera/money pages: keep the folded links out of Jarvis's corner (pulse.css p8); hera 40/40"
+   },
+   {
+    "t": 1795272178,
+    "s": "Board CLS 0.48 - 0 on a slow line: Decide card under the accounts, nothing below the header visible before th…"
+   },
+   {
+    "t": 1795271891,
+    "s": "Merge remote-tracking branch 'origin/pc' into day-arenas"
    },
    {
     "t": 1795271865,
@@ -4469,22 +4485,6 @@
    {
     "t": 1795270971,
     "s": "NQ Brain: DESIGN's 3D brain wired (olympus/brain3d.js in head, mounted in the body before the first paint = n…"
-   },
-   {
-    "t": 1795270866,
-    "s": "Site factory: hand-added leads (agency_added_leads.json) + the caller portal in the neutral-host export (link…"
-   },
-   {
-    "t": 1795270828,
-    "s": "Leads data: Frederick done (frederick)"
-   },
-   {
-    "t": 1795270778,
-    "s": "Merge branch 'day-a11y' of https://github.com/dcondax1-wq/olympus into day-cities3"
-   },
-   {
-    "t": 1795270720,
-    "s": "Caller portal (agency/portal/ + python -m agency.portal): the human cold caller's list (tap-to-call, code FR-…"
    }
   ],
   "branches": [
