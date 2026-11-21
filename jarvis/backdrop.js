@@ -35,7 +35,7 @@ const onHome = () => { const h = document.getElementById('home'), b = document.q
 function quiet() {
   return new Promise((ok) => {
     const chk = () => {
-      const w = Math.max(QUIET_MS - (Date.now() - lastInput), 6000 - performance.now());   // a phone: never in the first 6 s (the first taps)
+      const w = Math.max(QUIET_MS - (Date.now() - lastInput), loadAt + 6000 - performance.now());   // a phone: never in the first 6 s after load (the first taps)
       if (phoneNow() && w > 0) { setTimeout(chk, w + 50); return; }
       if (window.requestIdleCallback) requestIdleCallback(() => (phoneNow() && Date.now() - lastInput < QUIET_MS ? chk() : ok()), { timeout: 2000 }); else setTimeout(ok, 30);
     };
@@ -201,15 +201,40 @@ async function mount() {
 
 // once Jarvis has booted (the boot log or the OLYMPUS intro gone) and the page is idle: compiling the shaders and the
 // environment takes the main thread for a moment, and that must never hold up the boot screen or the intro
+// the 3D sky is never built (the CSS poster in index.html stays) when it would cost more than it gives (DESIGN 2026-11-21, phone TBT 5.1 s):
+// effects Off or Low (LITE), reduced motion, Save-Data, a 2G / 3G line, a phone with <= 2 GB. day-jarvis 2026-11-20: Off used to build it anyway.
+function skipWhy() {
+  if (level() === 'off') return 'effects off';
+  if (level() === 'low') return 'effects low';
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return 'reduced motion';
+  try {
+    const c = navigator.connection || {};
+    if (c.saveData) return 'save-data';
+    if (/(^|-)(2g|3g)$/.test(String(c.effectiveType || ''))) return 'slow line';
+    if (phoneNow() && typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 2) return 'small memory';
+  } catch (e) { /* an old browser: build */ }
+  return '';
+}
+let started = false, watching = false;
 const start = () => {
-  // effects off = the flat 2D sky: the 3D scene is never built (day-jarvis 2026-11-20: it was built anyway and drew one still frame,
-  // ~2 s of main thread on a phone-speed CPU for nothing)
-  if (level() === 'off') { state.state = 'off'; state.why = 'effects off'; return; }
+  if (started) return;
+  const why = skipWhy();
+  if (why) {
+    state.state = 'off'; state.why = why;
+    // effects raised later (Low -> High): build it then, after a quiet moment
+    if (!watching && (why === 'effects off' || why === 'effects low')) {
+      watching = true;
+      new MutationObserver(() => { if (!started && !skipWhy()) idle(); }).observe(root, { attributes: true, attributeFilter: ['data-fx'] });
+    }
+    return;
+  }
+  started = true; state.state = 'loading'; delete state.why;
   // a phone: the scene is built only after 2.5 s without a touch, a key or a scroll, so a first tap is never stuck behind the
   // shader compile (the owner's first taps: the business chips, the mic)
   mount().catch((e) => { state.state = 'off'; state.error = String((e && (e.stack || e.message)) || e); delete root.dataset.bg3d; });
 };
 const QUIET_MS = 2500;
+let loadAt = 0;                                    // when the page finished loading (a slow line: the 6 s count from here, not from the first byte)
 let lastInput = Date.now();
 const COARSE = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
 const phoneNow = () => COARSE && Math.min(innerWidth, innerHeight) < 600;
@@ -217,5 +242,8 @@ for (const ev of ['pointerdown', 'keydown', 'wheel', 'touchmove']) window.addEve
 const booted = () => !document.getElementById('bootfx') && (!window.__olyIntro || window.__olyIntro.done);
 const idle = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 600));
 let waited = 0;
-const whenBooted = () => { if (booted() || (waited += 250) > 15000) setTimeout(idle, 400); else setTimeout(whenBooted, 250); };
+const whenBooted = () => {
+  if (!loadAt) loadAt = performance.now();
+  if (booted() || (waited += 250) > 15000) setTimeout(idle, 400); else setTimeout(whenBooted, 250);
+};
 if (document.readyState === 'complete') whenBooted(); else window.addEventListener('load', whenBooted, { once: true });

@@ -10,7 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Olympus">
-<link rel="manifest" href="manifest.webmanifest?v=j6">
+<link rel="manifest" href="manifest.webmanifest?v=j7">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=j5">
 <link rel="icon" href="icon-192.png?v=j5">
 <!-- dark from the first paint, even before (or without) the stylesheet: never a white screen -->
@@ -27,7 +27,7 @@
   // opt-in now ('jarvis.look' = 'agora', ⋯ → Look → Jarvis look). Under the default OLYMPUS theme only.
   if (g('jarvis.look') !== 'agora' && (g('olympus.theme') || 'agora') === 'agora') {
     d.setAttribute('data-jlook', 'classic');
-    var cl = document.createElement('link'); cl.rel = 'stylesheet'; cl.id = 'jclassic'; cl.href = 'classic.css?v=c4'; document.head.appendChild(cl);
+    var cl = document.createElement('link'); cl.rel = 'stylesheet'; cl.id = 'jclassic'; cl.href = 'classic.css?v=c5'; document.head.appendChild(cl);
   }
   // the OLYMPUS look (../olympus/themes.js, key 'olympus.theme'; the engine loads after the start, async, never waited on, and repaints):
   // its colours and Jarvis's palette from the first frame, from the engine's copy of the look Jarvis gets (themes.js FIRST PAINT)
@@ -1022,7 +1022,14 @@ html[data-intro] .oly{display:block;animation:olyGo .25s linear .7s forwards}
   else { st.state = 'off'; st.done = true; }               // no intro this start: nothing may wait for one
 }());
 </script>
-<div class="bgfx" aria-hidden="true"><canvas id="stars"></canvas></div>
+<style>/* the sky's POSTER (DESIGN 2026-11-21, phone TBT 5.1 s): a 0.7 KB blurred still of the 3D sky, painted with the first frame by CSS alone;
+   backdrop.js builds the 3D sky only once the page is loaded and idle, and fades it in over this. Effects Off / Low (LITE), reduced motion,
+   Save-Data and a slow line keep the poster and never build the 3D. Low-detail on purpose: never the page's "main content" (LCP). */
+.bgfx > .jposter { position: absolute; inset: 0; background: #160d2a url(sky-poster.webp?v=2) center / cover no-repeat; transition: opacity .9s ease; }
+html[data-oly-style] .bgfx > .jposter { opacity: .35; }
+html[data-bg3d="on"] .bgfx > .jposter { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .bgfx > .jposter { transition: none; } }</style>
+<div class="bgfx" aria-hidden="true"><div class="jposter"></div><canvas id="stars"></canvas></div>
 
 <header class="bar">
   <div class="bar-in">
@@ -1661,7 +1668,7 @@ const olyOn = () => olyId() !== olyDefault();
 const jlook = () => (root.dataset.jlook === 'classic' ? 'classic' : 'agora');
 function classicSheet() {
   if (document.getElementById('jclassic')) return;
-  const l = document.createElement('link'); l.rel = 'stylesheet'; l.id = 'jclassic'; l.href = 'classic.css?v=c4';
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.id = 'jclassic'; l.href = 'classic.css?v=c5';
   l.addEventListener('load', () => { readColors(); if (core && typeof core.setTheme === 'function') safe(() => core.setTheme(coreTheme())); });
   document.head.appendChild(l);
 }
@@ -3737,12 +3744,12 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <!-- the home backdrop and the portal jump on the OLYMPUS render core (docs/OLYMPUS_RENDER.md): each self-contained, each optional -->
-<script type="module" src="./backdrop.js?v=b6"></script>
+<script type="module" src="./backdrop.js?v=b7"></script>
 <script type="module" src="./portal.js?v=p2"></script>
 <script src="./welcome.js?v=w1" defer></script>
 <script type="module" src="./transitions.js?v=t7"></script>
 <script type="module" src="./briefing.js?v=r3"></script>
-<script src="../olympus/zeus_core.js?v=8" defer></script>
+<script src="../olympus/zeus_core.js?v=9" defer></script>
 <script src="../olympus/doors.js?v=d12" defer></script>
 <script type="module" src="./home-cards.js?v=hc3"></script>
 <script type="module" src="./copilot-card.js?v=cp3"></script>

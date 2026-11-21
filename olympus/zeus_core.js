@@ -49,7 +49,7 @@
     var stopped = !silent && !!pc && (pc.running === false || String(pc.adapter || '').toLowerCase() === 'paper');
     var hours = inHours(nowS);
     return { silent: silent, stopped: stopped, level: silent ? 'bad' : stopped ? (hours ? 'bad' : 'warn') : 'good', age_s: age, mode: res ? res.mode : 'none',
-             text: !t ? 'PC SILENT: your PC has never reported here. The bots may not be running.'
+             text: !t ? 'PC SILENT: no report from your PC in the last 12 hours (off, asleep or offline?). The bots may not be running.'
                : silent ? 'PC SILENT: last report ' + ago(age) + '. On the PC: STOP BOT, then START BOT.'
                : stopped ? 'BOT STOPPED: PC reported ' + ago(age) + (hours ? ', the bot is not trading. On the PC: START BOT.' : ', the bot is off (market quiet).')
                : 'PC reported ' + ago(age) };
@@ -101,8 +101,8 @@
   var d = document, me = d.currentScript && d.currentScript.src ? d.currentScript.src : null;
   function url(rel) { try { return new URL(rel, me || d.baseURI).href; } catch (e) { return rel; } }
   // the models this file needs, in the order the ZEUS page loads them (boardmodel after mffumodel)
-  var DEPS = [['PC_FEED', '../pc_feed.js?v=n7'], ['PAYOUT_COACH', '../business/payoutcoach.js?v=2'], ['MFFU_MODEL', '../business/mffumodel.js?v=3'],
-              ['BOARD_MODEL', '../board/boardmodel.js?v=b6'], ['EDGE_CHIP', '../edge_chip.js?v=1']];
+  var DEPS = [['PC_FEED', '../pc_feed.js?v=n7'], ['PAYOUT_COACH', '../business/payoutcoach.js?v=2'], ['MFFU_MODEL', '../business/mffumodel.js?v=4'],
+              ['BOARD_MODEL', '../board/boardmodel.js?v=b9'], ['EDGE_CHIP', '../edge_chip.js?v=1']];
   var needP = null;
   function need() {
     if (needP) return needP;

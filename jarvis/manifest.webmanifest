@@ -4,7 +4,7 @@
   "description": "OLYMPUS: Jarvis and every app (the NQ bots, Planner, Kalshi, Mind, Data City and more) in one home screen app.",
   "id": "./",
   "start_url": "./",
-  "scope": "./",
+  "scope": "../",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#14110e",

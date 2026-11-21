@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-21 09:54 ET",
+ "built": "2026-11-21 12:08 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -127,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Bump the phone cache for the Board fix (le-public-v185)",
-   "Hera/money pages: keep the folded links out of Jarvis's corner (pulse.css p8); hera 40/40",
-   "Board CLS 0.48 - 0 on a slow line: Decide card under the accounts, nothing below the header...",
-   "Land Saturday round 2: NQ speed f5d1eb94 (formatters once, tokens per theme), DESIGN 7d954dee...",
-   "Caller portal list rebuilt on the merged leads",
-   "Leads split by town: one loader (agency/leadsfile.py: leads.json 'leads' + its 'files' -...",
-   "Brain 3D is read-only: lab controls renamed 'Demo: ...', test fails on an Arm / Start / Stop /...",
-   "Zenith LCP: the greeting shows the moment it lands (settle copy released, 1.5 s cap, copy no..."
+   "Jarvis bars: solid violet, no blur (AGORA 2026-11-10: no glass blur on the dock keeps phones...",
+   "Jarvis worker: SHELL backdrop.js b7 + sky-poster.webp (DESIGN 6ee9eb81 LEAD_WIRES), cache jarvis-v87",
+   "Jarvis sky tests: test_jarvis_sky 8/8 (Fast 3G line); test_jarvis_home LITE = no 3D sky, the...",
+   "JARVIS_SKY.md: poster tag in LEAD_WIRES",
+   "Jarvis sky poster: violet floor ( - ), no near-black under the bars (lead: Classic 'little bits of...",
+   "Jarvis sky: CSS poster from the first frame, 3D sky only after load + idle and never for Off / Low...",
+   "NQ Brain reads the PC's glance v2 + the ext 'glog': Zlarior's setup checks (n of m passed) and...",
+   "Jarvis (Classic look): no more black slabs over the violet sky (owner phone): the top bar, the..."
   ]
  },
  "next": {

@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795272840,
+   "t": 1795280940,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4386,6 +4386,70 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795280838,
+    "s": "Jarvis bars: solid violet, no blur (AGORA 2026-11-10: no glass blur on the dock keeps phones fast); jarvis_ho…"
+   },
+   {
+    "t": 1795278838,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
+   },
+   {
+    "t": 1795278823,
+    "s": "test_jarvis_transitions f.: switch to Pantheon (columns) from Oracle; Mind left the switcher 2026-11-20 (door…"
+   },
+   {
+    "t": 1795278464,
+    "s": "Jarvis worker: SHELL backdrop.js b7 + sky-poster.webp (DESIGN 6ee9eb81 LEAD_WIRES), cache jarvis-v87"
+   },
+   {
+    "t": 1795278450,
+    "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
+   },
+   {
+    "t": 1795278427,
+    "s": "Jarvis sky tests: test_jarvis_sky 8/8 (Fast 3G line); test_jarvis_home LITE = no 3D sky, the poster stays (Lo…"
+   },
+   {
+    "t": 1795277415,
+    "s": "JARVIS_SKY.md: poster tag in LEAD_WIRES"
+   },
+   {
+    "t": 1795277405,
+    "s": "Jarvis sky poster: violet floor (#160d2a - #1e1234), no near-black under the bars (lead: Classic 'little bits…"
+   },
+   {
+    "t": 1795277374,
+    "s": "Jarvis sky: CSS poster from the first frame, 3D sky only after load + idle and never for Off / Low / reduced…"
+   },
+   {
+    "t": 1795277075,
+    "s": "NQ Brain reads the PC's glance v2 + the ext 'glog': Zlarior's setup checks (n of m passed) and what blocks a…"
+   },
+   {
+    "t": 1795276880,
+    "s": "Jarvis (Classic look): no more black slabs over the violet sky (owner phone): the top bar, the dock, the base…"
+   },
+   {
+    "t": 1795276601,
+    "s": "zeus_hub / board tests: the PC SILENT line now says 'no report from your PC in the last 12 hours' (52/52, 63/…"
+   },
+   {
+    "t": 1795275778,
+    "s": "Olympus app owns the whole site (manifest scope ../): ZEUS / NQ / Kalshi open full screen inside the Home Scr…"
+   },
+   {
+    "t": 1795274098,
+    "s": "test_rapid25 i: the START BOT rehearsal pins the market open, so a weekend run reaches step 3/4 (94/94)"
+   },
+   {
+    "t": 1795274074,
+    "s": "test_brain day-end: compare only the sessions the reference backtest covers (to 2026-10-16); the 7 'extra fil…"
+   },
+   {
+    "t": 1795273708,
+    "s": "Privacy gate: the per-town OpenStreetMap lead files and a concept site's own listed business email are review…"
+   },
    {
     "t": 1795272852,
     "s": "Bump the phone cache for the Board fix (le-public-v185)"
@@ -4421,70 +4485,6 @@
    {
     "t": 1795271834,
     "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into web-pre2"
-   },
-   {
-    "t": 1795271834,
-    "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
-   },
-   {
-    "t": 1795271741,
-    "s": "Caller portal list rebuilt on the merged leads (814 businesses, 76 with a phone; 3 chains left out)"
-   },
-   {
-    "t": 1795271721,
-    "s": "Merge remote-tracking branch 'origin/pc' into day-a11y"
-   },
-   {
-    "t": 1795271712,
-    "s": "Leads split by town: one loader (agency/leadsfile.py: leads.json 'leads' + its 'files' - towns/.json, first r…"
-   },
-   {
-    "t": 1795271672,
-    "s": "Brain 3D is read-only: lab controls renamed 'Demo: ...', test fails on an Arm / Start / Stop / Flatten button…"
-   },
-   {
-    "t": 1795271624,
-    "s": "Zenith LCP: the greeting shows the moment it lands (settle copy released, 1.5 s cap, copy no longer clips it)…"
-   },
-   {
-    "t": 1795271617,
-    "s": "Site factory rebuilt on the merged Frederick-area leads: 817 concept sites (noindex, 12 KB each), gallery + s…"
-   },
-   {
-    "t": 1795271506,
-    "s": "nq perf: cache chart tokens, one ET formatter, one NumberFormat (TBT at 4x ~870 - ~700-990, noisy)"
-   },
-   {
-    "t": 1795271437,
-    "s": "Money FX speed (QA): moneyfx.js loads nothing before first paint (libs after load + idle, the 3D kit only whe…"
-   },
-   {
-    "t": 1795271050,
-    "s": "Land Saturday morning: 3D bot brains (DESIGN brain3d kit ba9f6118 + NQ nq/brain.html 39db8d70, read-only), Ka…"
-   },
-   {
-    "t": 1795271011,
-    "s": "Merge remote-tracking branch 'olympus/day-a11y' into web-pre2"
-   },
-   {
-    "t": 1795271011,
-    "s": "Merge remote-tracking branch 'olympus/day-kalshi' into web-pre2"
-   },
-   {
-    "t": 1795271011,
-    "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into web-pre2"
-   },
-   {
-    "t": 1795271009,
-    "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
-   },
-   {
-    "t": 1795270978,
-    "s": "Neutral-host fixes at the source (day-cities3 00618ddf merged): no private name in any shipped agency file (t…"
-   },
-   {
-    "t": 1795270971,
-    "s": "NQ Brain: DESIGN's 3D brain wired (olympus/brain3d.js in head, mounted in the body before the first paint = n…"
    }
   ],
   "branches": [

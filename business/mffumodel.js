@@ -150,7 +150,7 @@
     const mfT = isObj(ctx.lite) && isObj(ctx.lite.mf) ? num(ctx.lite.mf.t) || pcT : pcT;
     const brow = (isObj(ctx.board) && Array.isArray(ctx.board.accounts) ? ctx.board.accounts : []).find((x) => isObj(x) && x.key === row.key) || null;
     let stage = l ? l.stage : String(P.stage || 'eval');
-    let bal = l ? S(l.balance, pcSrc, pcT) : null;
+    let bal = l ? S(l.balance, pcSrc, pcT) : null, evalCopy = false;
     if (!bal && brow && num(brow.balance) != null) bal = S(num(brow.balance), 'Board copy (' + (brow.src || 'PLAN') + ')', num(brow.src_t) || num(ctx.board.t));
     if (!bal) {
       const m = String(P.next || '').match(/balance\s+\$?([\d,]+(?:\.\d+)?)\s*\(owner,\s*([A-Za-z]{3,9}\s+\d{1,2})\)/i);
@@ -167,8 +167,11 @@
       const life = isObj(ctx.lite) && isObj(ctx.lite.life) && isObj(ctx.lite.life.acc) ? ctx.lite.life.acc : {};
       const li = ids(P).concat([String(row.key)]).map((i) => life[i]).find((x) => isObj(x) && num(x.bal) != null);
       if (li) bal = S(num(li.bal), 'the last LIVE balance (PC)', num(ctx.lite.t) || null);
+      // owner phone 2026-11-21: ATLAS showed "$1,946" funded = the EVAL's PASSED $26,946 (Nov 17) in MFFU's $0 view; the funded
+      // account started later from $0. With no PC number, the funded card shows none rather than the eval's
+      else if (bal && /^Board copy/.test(bal.src || '') && brow && brow.chip === 'PASSED') { bal = S(null); evalCopy = true; }
     }
-    const floor = l && l.floor != null ? S(l.floor, pcSrc, pcT) : brow && num(brow.floor) != null ? S(num(brow.floor), 'Board copy', num(ctx.board.t)) : S(null);
+    const floor = l && l.floor != null ? S(l.floor, pcSrc, pcT) : !evalCopy && brow && num(brow.floor) != null ? S(num(brow.floor), 'Board copy', num(ctx.board.t)) : S(null);
     const room = l && l.room != null ? S(l.room, pcSrc, pcT) : bal.v != null && floor.v != null ? S(r2(bal.v - floor.v), bal.src, bal.t) : S(null);
     const out = { key: row.key, name: (P.name || (l && l.name) || row.key), last4: mf && mf.l4 ? mf.l4 : null, plan: planText || '-', stage,
                   status: statusWord(stage, l), notInPlan: !row.plan, planOnly: !l && !(brow && num(brow.balance) != null && !/^PLAN/.test(String(brow.src || 'PLAN'))),

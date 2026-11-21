@@ -151,7 +151,7 @@
     const age = t ? nowS - t : null;
     const isSilent = age == null || age > STALE_S;
     return { silent: isSilent, age_s: age,
-             text: !t ? 'PC SILENT: your PC has never reported here. The bots may not be running.'
+             text: !t ? 'PC SILENT: no report from your PC in the last 12 hours (off, asleep or offline?). The bots may not be running.'
                       : isSilent ? 'PC SILENT: last report ' + ago(age) + '. Check the PC: STOP BOT, then START BOT.' : 'PC reporting: ' + ago(age) };
   }
 

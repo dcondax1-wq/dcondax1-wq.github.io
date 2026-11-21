@@ -1,7 +1,7 @@
 // NQ BRAIN page (ES module): the 2D brain from braincore.js at once; DESIGN's brain (olympus/brain3d.js, window.Brain3D, mounted in brain.html's body) gets the live states.
 // lands, only on this page, after the first paint and never on LITE. Text only through textContent; no storage; GET only; nothing armed.
 // ?bot=atlas opens ATLAS. window.NQBRAIN is the test hook.
-import * as BC from './braincore.js?v=3';
+import * as BC from './braincore.js?v=4';
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -74,6 +74,7 @@ function drawGrade(B) {
   if (!B.grade.arms.length) box.appendChild(h('p', 'bnone', 'Nothing armed right now.'));
   for (const a of B.grade.arms) { const p = h('div', 'barm'); p.appendChild(h('b', 'bside ' + a.side.toLowerCase(), a.side)); p.appendChild(h('span', '', a.text)); if (a.trig) p.appendChild(h('p', 'note', a.trig)); box.appendChild(p); }
   box.appendChild(h('p', 'note', B.grade.gradeText));
+  for (const b of B.grade.blocks || []) box.appendChild(h('p', 'note bblk', 'Blocked: ' + b));
 }
 function drawRisk(B) {
   const ul = $('bRisk'); clear(ul);
@@ -136,7 +137,7 @@ function closeCard() { $('bCardSheet').hidden = true; $('bVeil').hidden = true; 
 // DESIGN's brain (olympus/brain3d.js, window.Brain3D, mounted in the body by brain.html before the first paint; its three.js scene comes after
 // load + on screen + idle, only on this page). Read only: it shows states, a tap opens the glass card. A bot switch = a new mount (another layout).
 const ST3 = { done: 'passed', now: 'current', wait: 'waiting', off: 'waiting', blocked: 'blocked' };
-const LOBE3 = { done: 'passed', armed: 'current', trade: 'current', signal: 'current', window: 'waiting', unknown: 'waiting' };
+const LOBE3 = { done: 'passed', armed: 'current', trade: 'current', signal: 'current', window: 'waiting', off: 'waiting', unknown: 'waiting' };
 const RISK3 = { dll: 'daily' };
 function feed3d(B) {
   let T = window.NQBRAIN_3D;

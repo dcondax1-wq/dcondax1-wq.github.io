@@ -53,7 +53,11 @@ export function stageN(stageText) {
 }
 /** an ATLAS lobe's words from the glance ("EMA: Done for today ...; MACD: Armed (short): ...") -> { state, text } */
 export function lobeState(glanceBot, lobe) {
-  const g = isObj(glanceBot) ? glanceBot : {}, all = `${g.wait || ''} · ${g.why || ''}`;
+  const g = isObj(glanceBot) ? glanceBot : {};
+  // glance v2 (engine/brain_glance._lobes, 2026-11-21): the PC sends each lobe's state; the text parse below is the v1 fallback
+  const L2 = arr(g.lobes).find((x) => isObj(x) && x.id === lobe.id);
+  if (L2 && ['window', 'signal', 'armed', 'trade', 'done', 'off'].includes(L2.st)) return { state: L2.st, text: str(L2.text, 160) };
+  const all = `${g.wait || ''} · ${g.why || ''}`;
   const rx = new RegExp(`(?:^|[;·]\\s*)${lobe.name.replace('/', '\\/')}:\\s*([^;·]+)`, 'i'), m = rx.exec(all);
   const t = m ? m[1].trim().replace(/…$/, '') : '';
   const state = !t ? 'unknown' : /done for today/i.test(t) ? 'done' : /in (a )?trade|managing/i.test(t) ? 'trade' : /armed/i.test(t) ? 'armed'
@@ -79,9 +83,10 @@ export function steps(bot, g, nowS, pcStopped) {
   for (const L of ATLAS_LOBES) {
     const st = lobeState(g, L), idx = ATLAS_STEPS.findIndex((x) => x[0] === st.state);
     ATLAS_STEPS.forEach(([key, label, help], i) => {
-      let state = idx < 0 ? 'wait' : i < idx ? 'done' : i === idx ? (st.state === 'done' ? 'done' : 'now') : 'wait';
+      let state = st.state === 'off' ? 'off' : idx < 0 ? 'wait' : i < idx ? 'done' : i === idx ? (st.state === 'done' ? 'done' : 'now') : 'wait';
       if (pcStopped || (g && g.on === false)) state = i < Math.max(0, idx) ? 'done' : 'off';
-      out.push({ n: out.length + 1, lobe: L.id, lobeName: L.name, key: `${L.id}:${key}`, label: `${L.name} · ${label}`, help, state, word: STATE_WORD[state], text: i === idx ? st.text : '' });
+      const offText = st.state === 'off' && i === 0 ? st.text : '';
+      out.push({ n: out.length + 1, lobe: L.id, lobeName: L.name, key: `${L.id}:${key}`, label: `${L.name} · ${label}`, help, state, word: STATE_WORD[state], text: i === idx ? st.text : offText });
     });
   }
   return out;
@@ -127,7 +132,11 @@ export function memory(bot, lite, file, edge, zl) {
 /** the setup grade: the armed setups as the PC posts them (the engine's setup grade itself is not posted yet: LEAD_WIRES O) */
 export function grade(g) {
   const arms = arr(g && g.arm).filter(isObj).map((a) => ({ side: str(a.side, 6), text: str(a.text, 160), trig: str(a.trig, 200) }));
-  return { arms, grade: null, gradeText: 'Setup grade (A-D): not sent by the PC yet', armed: !!(g && g.armed) };
+  // glance v2: chk = [passed, total] of the latest setup's checks, blk = what blocks a new trade (the engine has no A-D grade: none is made up)
+  const c = arr(g && g.chk), ok = num(c[0]), n = num(c[1]);
+  const checks = ok !== null && n ? { ok, n } : null, blocks = arr(g && g.blk).map((x) => str(x, 120)).filter(Boolean);
+  const gradeText = checks ? `Latest setup: ${ok} of ${n} checks passed${ok === n ? ' (all)' : ''}` : 'Setup checks: not sent by the PC yet';
+  return { arms, grade: null, checks, blocks, gradeText, armed: !!(g && g.armed) };
 }
 
 /** plan for today: the bot's windows (the brief), today's news, early close, the next window countdown */
@@ -154,19 +163,26 @@ export function risk(bot, g, lite, acct, nowS) {
   const fr = room !== null && mll ? room / mll : null;
   const mf = arr(isObj(lite) && isObj(lite.mf) ? lite.mf.a : null).find((x) => isObj(x) && (bot === 'lit' ? ['mffu50k_eval', 'lit'] : ['atlas', 'acct_b']).includes(String(x.id))) || null;
   const accts = arr(isObj(lite) ? lite.accounts : null), ev = isObj(accts.find((a) => isObj(a) && (bot === 'lit' ? a.id === 'mffu50k_eval' : a.id === 'atlas'))) ? accts.find((a) => isObj(a) && (bot === 'lit' ? a.id === 'mffu50k_eval' : a.id === 'atlas')).eval || {} : {};
-  const dll = num(ev.dll), used = num(ev.dll_used);
+  const dll = num(ev.dll) ?? num(g && g.dll), used = num(ev.dll_used) ?? num(g && g.dll_used);   // glance v2 carries ATLAS's (its account row has none)
   const f = mf && isObj(mf.f) ? mf.f : null, bestPct = f && num(f.cp) > 0 && num(f.bd) !== null ? Math.round((num(f.bd) / num(f.cp)) * 100) : null;
   const lt = mf && mf.lt ? mf.lt : null, idle = lt ? Math.floor((Date.parse(etParts(nowS).day) - Date.parse(lt)) / 86400000) : null;
   const node = (k, label, level, value, why) => ({ k, label, level, value, why });
   return [
     node('dd', 'Drawdown left', fr === null ? 'unknown' : fr < 0.3 ? 'bad' : fr < 0.55 ? 'warn' : 'ok', room === null ? '-' : room > (mll || 0) ? `${usd(room)} above the floor (max loss ${usd(mll)})` : `${usd(room)} of ${usd(mll)}`, 'MFFU end-of-day trailing max loss: the account fails at the floor.'),
-    node('dll', 'Daily loss used', dll === null ? 'unknown' : used / dll > 0.7 ? 'bad' : used / dll > 0.4 ? 'warn' : 'ok', dll === null ? 'not sent' : `${usd(used)} of ${usd(dll)}`, 'A day that loses this much pauses the account until tomorrow.'),
+    node('dll', 'Daily loss used', dll === null || used === null ? 'unknown' : used / dll > 0.7 ? 'bad' : used / dll > 0.4 ? 'warn' : 'ok', dll === null ? 'not sent' : `${used === null ? '-' : usd(used)} of ${usd(dll)}`, 'A day that loses this much pauses the account until tomorrow.'),
     node('best', 'Best day share', bestPct === null ? (f ? 'ok' : 'unknown') : bestPct > 50 ? 'warn' : 'ok', bestPct === null ? (f ? 'no profit yet' : 'eval: no rule') : `${bestPct}% of the cycle (max 50%)`, 'Funded: no day over 50% of the cycle profit when you ask for a payout.'),
     node('idle', '7-day clock', idle === null ? 'unknown' : idle >= 5 ? 'bad' : idle >= 3 ? 'warn' : 'ok', idle === null ? 'no trade date' : `${idle} day${idle === 1 ? '' : 's'} since the last trade`, 'No trade for 7 calendar days and MFFU can close the account.'),
     node('news', 'News block', 'ok', 'Builder: news allowed', 'The Builder plan allows news (a Rapid funded account does not): the bot trades through releases with its normal stop.'),
     node('limit', '2% price limit', 'unknown', 'not sent by the PC yet', 'CME halts / limits: the PC does not post this yet (LEAD_WIRES O).'),
     node('hedge', 'Hedge guard', 'unknown', 'not sent by the PC yet', 'Never long and short NQ at once across the accounts: the guard runs on the PC; its state is not posted yet (LEAD_WIRES O).'),
   ];
+}
+
+/** the thought stream: the ext block "glog" (engine/brain_glance.logs: 8 lines a bot, newest first) when it came, else the glance's 4; oldest first */
+export function thoughts(g, lite, bot) {
+  const gl = isObj(lite) && isObj(lite.glog) ? arr(lite.glog[bot]) : [], gg = arr(g && g.log);
+  const rows = (gl.length >= gg.length ? gl : gg).filter((x) => Array.isArray(x));
+  return rows.slice(0, 8).map(([hm, t]) => ({ hm: str(hm, 5), text: str(t, 220) })).reverse();
 }
 
 /** the whole brain of one bot. src = { lite, home, biz, goals, brief, news, edge, file } */
@@ -177,7 +193,7 @@ export function brain(bot, src, nowS) {
   const home = S.home || {}, A = deskAccounts(home, S.biz, nowS, null);
   const mine = A.filter((a) => (bot === 'lit' ? ['zlarior', 'fresh25', 'rapid1'] : ['atlas', 'rapid1']).includes(a.key));
   const st = steps(bot, g, nowS, pcStopped), cur = st.find((x) => x.state === 'now') || null;
-  const last = num(isObj(lite) ? lite.price : null);
+  const last = num(isObj(lite) ? lite.price : null) ?? num(g && g.px);   // glance v2 posts the last price every run
   const fa = feedAge(home, nowS), gt = num(isObj(pc.glance) ? pc.glance.t : null), gAge = gt !== null ? Math.max(0, nowS - gt) : null;
   const tiles = goalTiles(A, [], S.goals, nowS, {}, typeof globalThis !== 'undefined' && globalThis.PC_FEED ? globalThis.PC_FEED.mffuView : null);
   const pay = bot === 'atlas' ? tiles.find((t) => t.kind === 'payout') || null : null;
@@ -191,7 +207,7 @@ export function brain(bot, src, nowS) {
     bot, name: g ? str(g.name, 30) : bot === 'lit' ? 'Zlarior' : 'ATLAS', what: g ? str(g.what, 80) : '', mode: g ? str(g.mode, 40) : '', on: !!(g && g.on), armed: !!(g && g.armed),
     has: !!g, stopped: pcStopped, steps: st, current: cur,
     regions: bot === 'lit' ? st.map((s) => ({ id: s.key, label: s.label, state: s.state })) : ATLAS_LOBES.map((L) => ({ id: L.id, label: L.name, state: lobeState(g, L).state, text: lobeState(g, L).text })),
-    thoughts: arr(g && g.log).filter((x) => Array.isArray(x)).map(([hm, t]) => ({ hm: str(hm, 5), text: str(t, 220) })).reverse(),
+    thoughts: thoughts(g, lite, bot),
     watch: watch(g, bot, last), memory: memory(bot, lite, S.file, S.edge, lite && lite.zl), grade: grade(g), plan: plan(bot, S.brief, S.news, nowS),
     risk: risk(bot, g, lite, mine[0] || null, nowS),
     accounts: mine.map((a) => ({ key: a.key, name: a.name, stage: a.stage, balance: a.balance, room: a.room, dot: a.dot, ageText: a.ageText })),

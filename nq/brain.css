@@ -54,3 +54,4 @@
 .bglass .row { display: flex; justify-content: space-between; align-items: center; } .bglass h2 { margin: 0; font-size: 17px; }
 .bglass .bk { margin: 10px 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #f1c14b; } .bglass p { margin: 0; font-size: 15px; }
 @media (prefers-reduced-motion: reduce) { .bstep.now .bstepb { animation: none; } }
+.bblk { color: #f87171; }
