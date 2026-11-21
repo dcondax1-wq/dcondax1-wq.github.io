@@ -66,6 +66,8 @@ html:not(.framed) main { padding-bottom: calc(40px + env(safe-area-inset-bottom,
 /* perf 2026-11-20 (CLS 0.66): the accounts area keeps its filled height (3-4 tiles at 390 px) from the first frame, so the notes / feed under it
    start below the screen and nothing visible moves when the PC's numbers arrive; the edge chip keeps its line */
 html:not(.bd-drawn) #accounts { min-height: 1100px; }
-#edgeChip:empty { min-height: 44px; }
+#edgeChip:empty { min-height: 92px; }        /* day-archive 2026-11-21 (QA CLS 0.23): the two edge lines it gets (ZEUS + ATLAS) */
+.pcline:empty { min-height: 1.45em; }          /* the PC line arrives a moment after the first paint */
+.accounts:empty { min-height: 760px; }         /* three account cards, so nothing on screen moves when they land */
 
 #mode { font-size: 0.9375rem; }   /* a11y: the source tag reads as a sentence */

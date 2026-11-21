@@ -12,13 +12,14 @@
 //   clock(nowS)                 -> the session clock: London / New York windows, the next entry window and how long until it
 //   vixLine(brief)              -> the VIX band and the LIT target size (one VIX day move, at least 1.5R, banked at 8R)
 // Read only: it never trades, arms or fetches. The page (nq.js) hands in everything.
-import { etParts, DAY } from './nqdesk.js?v=7';
+import { etParts, DAY } from './nqdesk.js?v=8';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);
 const num = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(+v) ? null : +v);
 const r2 = (v) => Math.round(v * 100) / 100;
-export const usd = (v, sign) => { const n = num(v); if (n === null) return '-'; const a = '$' + Math.abs(Math.round(n)).toLocaleString('en-US'); return n < 0 && Math.round(n) ? '-' + a : (sign && Math.round(n) > 0 ? '+' + a : a); };
+const NF = new Intl.NumberFormat('en-US');   // perf 2026-11-21: toLocaleString per frame of every roll-up was ~60 ms at 4x CPU
+export const usd = (v, sign) => { const n = num(v); if (n === null) return '-'; const a = '$' + NF.format(Math.abs(Math.round(n))); return n < 0 && Math.round(n) ? '-' + a : (sign && Math.round(n) > 0 ? '+' + a : a); };
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const addDays = (d, n) => { const t = new Date(d + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
 const isWd = (d) => ![0, 6].includes(new Date(d + 'T12:00:00Z').getUTCDay());

@@ -9,6 +9,8 @@ html:not([data-oly-scheme="light"]) {
 html:not([data-oly-scheme="light"]) body { background: #000 !important; }
 html:not([data-oly-scheme="light"]) :is(.ag-card, .card) { background: var(--mfx-card) !important; border: 1px solid var(--mfx-line) !important;
   box-shadow: 0 0 0 1px rgba(var(--mfx-glow), .08), 0 12px 30px rgba(0, 0, 0, .6), 0 0 26px rgba(var(--mfx-glow), .10) !important; }
+.mfx-card { contain: layout; }
+.mfx-card [data-mfx-note] { min-height: 4.5em; }
 .mfx-card .mfx-row { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 12px; align-items: center; }
 .mfx-vault { aspect-ratio: 4 / 3; width: 100%; max-height: 300px; border-radius: 16px; overflow: hidden; position: relative;
   background: radial-gradient(120% 90% at 50% 20%, #1c1430 0%, #020204 72%); border: 1px solid #462a6a; }
@@ -25,12 +27,10 @@ html:not([data-oly-scheme="light"]) :is(.btn:not(.primary), button.refresh, #ref
 html:not([data-oly-scheme="light"]) .btn.primary { background: #f1c14b !important; color: #000 !important; border-color: #f1c14b !important; }
 /* the kit / NQ accent tokens -> NIGHT (does not wait for nq/nqtheme.css to be re-pointed): violet glow, lavender highlight, mint profit */
 html:not([data-oly-scheme="light"]) {
-  --oly-accent: #9d59ee !important; --oly-accent-rgb: 157, 89, 238 !important; --oly-th-a8: #9d59ee !important; --oly-th-a8-rgb: 157, 89, 238 !important; --oly-th-a9: #4d2e76 !important;
+  --oly-accent: #9d59ee !important; --oly-accent-rgb: 157, 89, 238 !important;
   --ag-gold: #dacbf0 !important; --ag-gold-hi: #f1c14b !important; --ag-gold-rgb: 218, 203, 240 !important; --ag-line-gold: rgba(157, 89, 238, .32) !important; --ag-on-gold: #000 !important;
   --ag-sun: #9d59ee !important; --ag-sun-rgb: 157, 89, 238 !important; --acc: #9d59ee !important; --nq-cyan: #9d59ee; --nq-cyan-hi: #dacbf0; --nq-blue: #4d2e76;
   --ag-olive: #77db89 !important; --ag-olive-text: #77db89 !important; --ag-olive-rgb: 119, 219, 137 !important;
   --ag-night: #000 !important; --ag-panel: #0b0910 !important; --ag-raise: #16131e !important; --ag-line: #3e255e !important;
-  --oly-th-card-bg: linear-gradient(180deg, #16131e, #020204) !important; --oly-th-card-border: 1px solid #3e255e !important;
-  --oly-th-n3: #000 !important; --oly-th-n4: #0b0910 !important; --oly-th-n5: #16131e !important; --oly-th-n8: #3e255e !important;
 }
 html:not([data-oly-scheme="light"]) a { color: #dacbf0; }

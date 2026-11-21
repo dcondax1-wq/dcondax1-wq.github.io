@@ -18,12 +18,14 @@
   // host reads the frame's text at once (tests/test_zenith_mode.py e.)
   var framed = false; try { framed = window.top !== window || document.documentElement.classList.contains('framed'); } catch (e) { framed = true; }
   if (framed) { window.ZENITH_SETTLE = { holds: 0, released: 0, done: true, longest: 0, log: [], framed: true }; return; }
-  var QUIET = 300, MAX_HOLD = 3000, STARTUP = 25000, t0 = performance.now();
+  // MAIN: Home's greeting (polish.js .pl-hi), the largest text = the browser's "main content" (LCP). When it lands under a copy, the copy
+  // goes at once (the next burst gets a fresh copy of that frame): the hold used to keep it hidden to the 3 s cap (LCP 4.7 s, 2026-11-21)
+  var QUIET = 300, MAX_HOLD = 1500, STARTUP = 25000, t0 = performance.now(), MAIN = '.pl-hi', mainShown = false;
   var S = window.ZENITH_SETTLE = { holds: 0, released: 0, done: false, longest: 0, log: [] };
   var capT = 0, snap = null, ghost = null, quietT = 0, heldAt = 0, drawn = false, settledFull = false, snapQ = 0;
   var css = document.createElement('style');
   css.textContent = '#page.zs-hold { visibility: hidden; }' +
-    '.zs-ghost { position: absolute !important; margin: 0 !important; z-index: 2; pointer-events: auto; contain: layout paint; }' +
+    '.zs-ghost { position: absolute !important; margin: 0 !important; z-index: 2; pointer-events: auto; contain: layout; }' +
     '.zs-ghost, .zs-ghost * { animation: none !important; transition: none !important; }';
   (document.head || document.documentElement).appendChild(css);
 
@@ -105,6 +107,7 @@
     if (!moves(list)) { if (!ghost) queueSnap(); return; }
     if (!hold()) { takeSnap(); return; }
     clearTimeout(quietT);
+    if (!mainShown && pg.querySelector(MAIN)) { mainShown = true; release(); return; }   // now, not on a timer (start-up scripts keep the thread busy)
     quietT = setTimeout(release, now - heldAt > MAX_HOLD ? 0 : QUIET);
   });
   mo.observe(pg, { childList: true, subtree: true, attributes: true, attributeOldValue: true, attributeFilter: ['class', 'style', 'hidden'] });

@@ -36,9 +36,10 @@ export function ageText(s) {
 export const updated = (s) => (num(s) === null ? 'age unknown' : num(s) < 90 ? 'updated just now' : 'updated ' + ageText(s));
 export const AGE_LIMITS = { pc: [20 * 60, 60 * 60], bars: [80 * 60, 3 * 3600], daily: [26 * 3600, 3 * 86400] };   // = age.js LIMITS (tests/test_truth_check)
 export function ageLevel(s, kind) { const n = num(s), L = AGE_LIMITS[kind] || AGE_LIMITS.daily; return n === null ? 'warn' : n > L[1] ? 'bad' : n > L[0] ? 'warn' : 'ok'; }
+let ET_FMT = null;   // perf 2026-11-21: one formatter (a new one per call was ~40 ms of the load at 4x CPU)
 export function etParts(tS) {
   try {
-    const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short' })
+    const p = Object.fromEntries((ET_FMT || (ET_FMT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', weekday: 'short' })))
       .formatToParts(new Date(tS * 1000)).map((x) => [x.type, x.value]));
     return { day: `${p.year}-${p.month}-${p.day}`, hm: `${p.hour}:${p.minute}`, wd: p.weekday };
   } catch (_) { const d = new Date(tS * 1000).toISOString(); return { day: d.slice(0, 10), hm: d.slice(11, 16), wd: '' }; }

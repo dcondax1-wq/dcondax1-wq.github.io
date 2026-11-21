@@ -52,7 +52,7 @@
 .pulse:not(.ready) .pu-part { opacity: .55; }
 .pulse a:focus-visible { outline: 2px solid var(--ag-gold, #c8a24a); outline-offset: 2px; border-radius: 6px; }
 /* "folded in here": the archived apps whose job this page now does (the audit's MERGE verdicts); they stay reachable */
-.folded { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.folded { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; padding-right: 88px; } /* keep the links out of Jarvis's corner */
 .folded a { box-sizing: border-box; min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; border: 1px solid var(--ag-line); color: var(--ag-soft); text-decoration: none; font: 600 13px/1 var(--ag-sans); }
 /* Oikos: the tax pot link card (a tap target, fixed height) */
 a.taxpot { display: grid; gap: 2px; height: 140px; box-sizing: border-box; text-decoration: none; color: inherit; margin-bottom: 12px; overflow: hidden; }

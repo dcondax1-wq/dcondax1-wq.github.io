@@ -17,7 +17,14 @@ const S = { feed: undefined, post: null, why: '', acct: 'all', model: null, lib:
   whole: false, want: null, mode: 'default', viewKey: '', drawnN: 0, ready: false, fetchedAt: 0, busy: false, err: '' };
 
 // ------------------------------------------------------------------------------------------------ the AGORA colours (canvas needs real colours)
+// perf (CPU profile 2026-11-21: tokens() + its getComputedStyle reads were 171 ms of the load at 4x CPU): read once per theme
+let TOK = null, TOK_KEY = '';
 function tokens() {
+  const key = (document.documentElement.getAttribute('data-oly-theme') || '') + '|' + (document.documentElement.getAttribute('data-oly-scheme') || '');
+  if (TOK && TOK_KEY === key) return TOK;
+  TOK_KEY = key; TOK = tokensRead(); return TOK;
+}
+function tokensRead() {
   const cs = getComputedStyle(document.documentElement), v = (n, d) => (cs.getPropertyValue(n) || '').trim() || d;
   return { text: v('--ag-text', '#f3ece0'), soft: v('--ag-soft', '#cfc4b2'), muted: v('--ag-muted', '#9a8f7d'), line: v('--ag-line', '#3a3228'),
     up: v('--ag-olive-text', '#a0ac6e'), down: v('--ag-terra-text', '#e08a6b'), good: v('--ag-olive-text', '#a0ac6e'), bad: v('--ag-terra-text', '#e08a6b'),

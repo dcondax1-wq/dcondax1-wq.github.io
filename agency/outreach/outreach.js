@@ -207,6 +207,16 @@ function autoTiles(a) {
   }
 }
 async function getJSON(u) { try { const r = await fetch(u, { cache: 'no-cache' }); return r.ok ? await r.json() : null; } catch (_) { return null; } }
+// leads.json holds the list, or (a big list) "leads": [] + "files": ["towns/<town>.json", ...]: merged here, first row per id wins (as leads.js)
+async function allLeads(L) {
+  let rows = L && Array.isArray(L.leads) ? L.leads.slice() : [];
+  if (L && Array.isArray(L.files) && L.files.length) {
+    const parts = await Promise.all(L.files.filter((f) => /^towns\/[a-z0-9-]+\.json$/.test(f)).map((f) => getJSON('../leads/' + f)));
+    for (const x of parts) if (x && Array.isArray(x.leads)) rows = rows.concat(x.leads);
+  }
+  const seen = new Set();
+  return rows.filter((x) => x && x.id && !seen.has(x.id) && seen.add(x.id));
+}
 async function start() {
   load(); wire();
   const [W, L, O, sites, pub] = await Promise.all([getJSON('scripts.json'), getJSON('../leads/leads.json'), getJSON('../offers/offers.json'), getJSON('../sites/index.json'), getJSON('../portal/portal.json')]);
@@ -214,7 +224,7 @@ async function start() {
   S.agencyNumber = (pub && pub.agency_number) || '';
   const lift = () => { try { const K = window.OLYMPUS; if (K && K.ready) K.ready(); } catch (_) { /* the veil lifts by itself */ } };
   if (!W || !Array.isArray(W.email)) { $('status').textContent = 'The scripts (scripts.json) did not load. Reload the page to try again.'; lift(); return; }
-  S.words = W; S.offers = O; S.leads = (L && Array.isArray(L.leads) ? L.leads : []);
+  S.words = W; S.offers = O; S.leads = await allLeads(L);
   // the factory's built sites: { sites: { <lead id>: "<url or path>" } } or { sites: [{ id, url }] }
   if (sites && sites.sites) S.sites = Array.isArray(sites.sites) ? Object.fromEntries(sites.sites.filter((x) => x && x.id && x.url).map((x) => [x.id, x.url])) : sites.sites;
   const dl = clear($('bizList')); for (const x of S.leads.slice(0, 300)) { const o = document.createElement('option'); o.value = x.name; dl.appendChild(o); }

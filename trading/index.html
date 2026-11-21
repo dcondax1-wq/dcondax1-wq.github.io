@@ -21,7 +21,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <!-- perf 2026-11-20 (largest paint 5.6 s on a phone: page -> trading.js -> its imports -> the data, one after the other): the module files and
      the data start at once; trading.js takes the early data (window.TR_EARLY) instead of asking again -->
-<link rel="modulepreload" href="trading.js?v=17">
+<link rel="modulepreload" href="trading.js?v=18">
 <script>(function () { var E = window.TR_EARLY = {}; if (/[?&]demo=1\b/.test(location.search) || typeof fetch !== 'function') return;
   ['./trades.json', '../home.json', '../ledger/rules.json', '../business/accounts.json', './fixture.json', '../why/why.json'].forEach(function (u) {
     E[u] = fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }); })();</script>
@@ -194,7 +194,7 @@
 <script src="../edge_chip.js?v=2"></script>
 <script src="../business/payoutcoach.js?v=2"></script>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="trading.js?v=17" async></script><!-- async: runs as soon as it and its data are in, not after every deferred kit script (perf) -->
+<script type="module" src="trading.js?v=18" async></script><!-- async: runs as soon as it and its data are in, not after every deferred kit script (perf) -->
 <script src="panelfx.js?v=2" data-look="night" data-burst="1" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
 </body>
 </html>

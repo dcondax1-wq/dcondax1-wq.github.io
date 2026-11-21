@@ -52,10 +52,11 @@ export function ageWords(sec) {
 }
 export const ageText = (sec) => `${ageWords(sec)} ago`;
 /** New York wall time of an epoch in seconds: { day: '2026-11-06', hm: '15:56', label: 'Fri 6 Nov' } */
+let ET_FMT = null;   // perf 2026-11-21: one formatter, not one per call
 export function etParts(t) {
   const v = num(t); if (v == null) return null;
   try {
-    const p = {}; for (const x of new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }).formatToParts(new Date(v * 1000))) p[x.type] = x.value;
+    const p = {}; for (const x of (ET_FMT || (ET_FMT = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }))).formatToParts(new Date(v * 1000))) p[x.type] = x.value;
     const mon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][parseInt(p.month, 10) - 1] || '';
     const hh = p.hour === '24' ? '00' : p.hour;
     return { day: `${p.year}-${p.month}-${p.day}`, hm: `${hh}:${p.minute}`, label: `${p.weekday} ${parseInt(p.day, 10)} ${mon}` };
