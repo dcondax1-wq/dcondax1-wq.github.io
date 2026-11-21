@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795221360,
+   "t": 1795271700,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,104 +4387,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795220861,
-    "s": "Landing round 3 fixes: trading month arrows back to 44 px (a kit FX rule squeezed them to 28), nq_goals pins…"
+    "t": 1795271617,
+    "s": "Site factory rebuilt on the merged Frederick-area leads: 817 concept sites (noindex, 12 KB each), gallery + s…"
    },
    {
-    "t": 1795220157,
-    "s": "Landing round 3: day-quality 9bc9b918 (page_bg helper, phone_fit, navfx v5 overflow, trading.css v6, ui_polis…"
+    "t": 1795271050,
+    "s": "Land Saturday morning: 3D bot brains (DESIGN brain3d kit ba9f6118 + NQ nq/brain.html 39db8d70, read-only), Ka…"
    },
    {
-    "t": 1795220114,
+    "t": 1795271011,
     "s": "Merge remote-tracking branch 'olympus/day-a11y' into web-pre2"
    },
    {
-    "t": 1795220114,
-    "s": "Merge remote-tracking branch 'olympus/day-quality' into web-pre2"
-   },
-   {
-    "t": 1795219026,
-    "s": "STATE: notifications rebuild plan (Telegram-first alert bus) for Sat"
-   },
-   {
-    "t": 1795218601,
-    "s": "Phone notifications: Settings - 'Open the notifications card (Send a test)' (../jarvis/#pushCard) always show…"
-   },
-   {
-    "t": 1795215226,
-    "s": "Agency-inbox H1 gate: nothing is pushed (replies, caller/, postcard results) unless the GitHub API says the r…"
-   },
-   {
-    "t": 1795215150,
-    "s": "Postcards: the per-lead code (FR-27, day-cities3's site_factory_codes.json) on both sides and the QR to agenc…"
-   },
-   {
-    "t": 1795214985,
-    "s": "phone_fit d: the empty band is measured to the lowest bar (Ask button / orb) or the home bar, the same limit…"
-   },
-   {
-    "t": 1795214955,
-    "s": "dionysus_merge: nqfx n5 pin (as on land-night); the card edge = the page's gradient OR the OLYMPUS NIGHT kit…"
-   },
-   {
-    "t": 1795214855,
-    "s": "Land the OLYMPUS NIGHT round 2 + 6 arenas + factory: DESIGN 329b7b9c (gold warn, Classic kept, violet-black g…"
-   },
-   {
-    "t": 1795214772,
+    "t": 1795271011,
     "s": "Merge remote-tracking branch 'olympus/day-kalshi' into web-pre2"
    },
    {
-    "t": 1795214771,
-    "s": "Merge remote-tracking branch 'olympus/day-a11y' into web-pre2"
-   },
-   {
-    "t": 1795214771,
-    "s": "Merge remote-tracking branch 'olympus/day-cities3' into web-pre2"
-   },
-   {
-    "t": 1795214771,
-    "s": "Merge remote-tracking branch 'olympus/day-quality' into web-pre2"
-   },
-   {
-    "t": 1795214762,
-    "s": "Merge remote-tracking branch 'olympus/day-taxes' into web-pre2"
-   },
-   {
-    "t": 1795214737,
-    "s": "Merge remote-tracking branch 'olympus/day-manual' into web-pre2"
-   },
-   {
-    "t": 1795214736,
-    "s": "Merge remote-tracking branch 'olympus/day-jarvis' into web-pre2"
-   },
-   {
-    "t": 1795214736,
+    "t": 1795271011,
     "s": "Merge remote-tracking branch 'olympus/day-nqdash3' into web-pre2"
    },
    {
-    "t": 1795214736,
+    "t": 1795271009,
     "s": "Merge remote-tracking branch 'olympus/day-arenas' into web-pre2"
    },
    {
-    "t": 1795214634,
-    "s": "DESIGN kit: OLYMPUS NIGHT page glow violet-black (no brown), the automatic default steps aside on a light pho…"
+    "t": 1795270978,
+    "s": "Neutral-host fixes at the source (day-cities3 00618ddf merged): no private name in any shipped agency file (t…"
    },
    {
-    "t": 1795214462,
-    "s": "STATE: cold calling by a real person (legal) replaces postcards"
+    "t": 1795270971,
+    "s": "NQ Brain: DESIGN's 3D brain wired (olympus/brain3d.js in head, mounted in the body before the first paint = n…"
    },
    {
-    "t": 1795214444,
-    "s": "Cold-calling plan (owner 17:50: no postcards, cold calling, legal + not harassment): a real person dials by h…"
+    "t": 1795270866,
+    "s": "Site factory: hand-added leads (agency_added_leads.json) + the caller portal in the neutral-host export (link…"
    },
    {
-    "t": 1795214350,
-    "s": "Switcher header on one line ('Six arenas, then More · swipe'); handoff shot: pc vs final switcher (gold back…"
+    "t": 1795270828,
+    "s": "Leads data: Frederick done (frederick)"
    },
    {
-    "t": 1795214349,
-    "s": "Owner to-do: make the olympus repo private Sat (+ GITHUB_SIGNIN.bat); STATE: repo still public, caller review…"
+    "t": 1795270778,
+    "s": "Merge branch 'day-a11y' of https://github.com/dcondax1-wq/olympus into day-cities3"
+   },
+   {
+    "t": 1795270720,
+    "s": "Caller portal (agency/portal/ + python -m agency.portal): the human cold caller's list (tap-to-call, code FR-…"
+   },
+   {
+    "t": 1795270684,
+    "s": "Merge remote-tracking branch 'origin/day-arenas' into day-nqdash3"
+   },
+   {
+    "t": 1795270645,
+    "s": "Merge remote-tracking branch 'origin/pc' into day-nqdash3"
+   },
+   {
+    "t": 1795270637,
+    "s": "NQ Bot Brain, 2D first (owner Fri 19:50 ET; research/handoff/2026-11-21/brain3d/SPEC.md): nq/brain.html, a Br…"
+   },
+   {
+    "t": 1795270628,
+    "s": "Brain 3D kit: each bot's brain as a glass 3D brain (olympus/brain3d.js + scene + lab), API for nq/brain.html,…"
+   },
+   {
+    "t": 1795270158,
+    "s": "Kalshi NIGHT labels: header state, checklist count, paper box lavender/violet (gold only on LIVE); ?v k57; LE…"
+   },
+   {
+    "t": 1795270102,
+    "s": "Site factory: --export for a neutral host (refuses without public_base, no Olympus/owner/PC refs), per-town l…"
+   },
+   {
+    "t": 1795269952,
+    "s": "Merge remote-tracking branch 'origin/pc' into day-kalshi"
+   },
+   {
+    "t": 1795269927,
+    "s": "STATE: PC silent since ~21:00 Fri; Saturday work started"
+   },
+   {
+    "t": 1795222905,
+    "s": "Ledger: evening findings (public repo, perf regressions, Jarvis payout number, Rapid unarmed after restart)"
+   },
+   {
+    "t": 1795222312,
+    "s": "Spec: 3D bot brains for Zlarior and ATLAS (owner 19:50 ET): trade steps in order, risk-gate ring, thought str…"
+   },
+   {
+    "t": 1795221899,
+    "s": "STATE: leads 812 no-website businesses in 6 towns (76 phones)"
+   },
+   {
+    "t": 1795221829,
+    "s": "STATE: 19:45 publish live (v182/jarvis-v86), PC updated 18:01, Rapid still unarmed, Sat list"
+   },
+   {
+    "t": 1795221409,
+    "s": "Leads: geocode cache (addresses from the stopped re-run, reused tomorrow)"
    }
   ],
   "branches": [

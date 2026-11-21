@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brain 3D lab</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<!-- Brain 3D lab (olympus/brain3d-lab.html, DESIGN 2026-11-21): both bot brains on EXAMPLE data (Zlarior's 10 steps, ATLAS's three lobes over
+     one risk ring), for the NQ team (nq/brain.html wires the real data) and tests/test_brain3d.py. Buttons step through a trade. -->
+<link rel="stylesheet" href="brain3d.css?v=b1">
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #000; color: #ebe9f1; font: 400 15px/1.5 -apple-system, system-ui, sans-serif; padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+h1 { font-size: 1.5rem; margin: 0 0 4px; } h2 { font-size: 1.125rem; margin: 22px 0 10px; }
+p { margin: 0; color: #898497; }
+.wrap { max-width: 560px; margin: 0 auto; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #3e255e; background: #16131e; color: #ebe9f1; font: 600 15px/1 inherit; cursor: pointer; }
+.card { margin-top: 10px; padding: 12px 14px; border-radius: 16px; border: 1px solid #3e255e; background: linear-gradient(180deg, #16131e, #020204); min-height: 76px; }
+.card b { color: #f1c14b; }
+</style>
+<script src="brain3d.js?v=b1"></script><!-- 13 KB, in <head> on purpose: mount() runs in the body, before the first paint (no shift) -->
+</head>
+<body>
+<div class="wrap">
+  <h1>Brain 3D lab</h1>
+  <p>Example data. Drag to turn, pinch to zoom, tap a region.</p>
+
+  <h2>Zlarior (LIT)</h2>
+  <div id="zl"></div>
+  <div class="row"><button id="zlNext" type="button">Next step</button><button id="zlBlock" type="button">Block (news)</button><button id="zlRing" type="button">Daily loss warn</button></div>
+  <div class="card" id="zlCard" aria-live="polite"><b>Tap a step</b><br>what I'm doing now / why / what would change my mind</div>
+
+  <h2>ATLAS (EMA · MACD · S/R)</h2>
+  <div id="at"></div>
+  <div class="row"><button id="atArm" type="button">Arm MACD</button></div>
+  <div class="card" id="atCard" aria-live="polite"><b>Tap a lobe</b></div>
+</div>
+<script>
+(function () {
+  var RING = [{ id: 'dd', name: 'Drawdown left' }, { id: 'daily', name: 'Daily loss' }, { id: 'best', name: 'Best-day rule' }, { id: 'idle', name: '7-day clock' },
+    { id: 'news', name: 'News ban' }, { id: 'limit', name: '2% limit' }, { id: 'hedge', name: 'Hedge guard' }, { id: 'cross', name: 'Cross-account' }];
+  var ZL = [['data', 'Market data in'], ['window', 'Entry window open'], ['map', 'Liquidity map'], ['sweep', 'Sweep'], ['induce', 'Inducement'], ['cisd', 'CISD / shift'],
+    ['limit', 'Limit order placed'], ['confirm', '1-minute confirm'], ['trade', 'In the trade'], ['done', 'Done / journal']].map(function (x) { return { id: x[0], name: x[1] }; });
+  var WHY = { data: 'Bars and the VIX band are in (VIX 15.2: target 3.4R).', window: '02:00-15:30 ET, open now.', map: 'Asia high 26,547 (38 pts, $760 on 1 NQ), NY 1st-hour low 26,402.',
+    sweep: 'Waiting for price to take a level by 0.5 ATR (11 pts).', induce: 'A small pull into the swept range.', cisd: 'The shift that turns the sweep into a setup.',
+    limit: 'A limit at the CISD line, stop 1 tick beyond the sweep extreme.', confirm: 'A 1-minute CISD the same way.', trade: 'Stop 26,551.25, target 26,431 (3.4R), banked at 8R.', done: 'Journalled in Mnemosyne.' };
+  var zl = Brain3D.mount(document.getElementById('zl'), { stages: ZL, ring: RING, layout: 'path', title: 'Zlarior' }), i = 3;
+  function zlState() {
+    var st = {}; ZL.forEach(function (s, k) { st[s.id] = k < i ? 'passed' : k === i ? 'current' : 'waiting'; });
+    zl.update({ stageStates: st, currentId: ZL[i].id, reasons: WHY, now: WHY[ZL[i].id], pulse: 0.6,
+      ringValues: { dd: '$1,025', daily: '$0 of $1,000', best: '31%', idle: '1 day', news: 'none', limit: 'ok', hedge: 'ok', cross: 'ok' } });
+  }
+  zlState();
+  document.getElementById('zlNext').addEventListener('click', function () { i = (i + 1) % ZL.length; zlState(); });
+  document.getElementById('zlBlock').addEventListener('click', function () { var st = {}; st[ZL[i].id] = 'blocked'; zl.update({ stageStates: st, now: 'Blocked: CPI at 08:30 ET, no new trade 10 min either side.' }); });
+  document.getElementById('zlRing').addEventListener('click', function () { zl.update({ ringStates: { daily: 'warn' }, ringValues: { daily: '$620 of $1,000' } }); });
+  zl.on('tap', function (id, kind) { var c = document.getElementById('zlCard'); c.innerHTML = ''; var b = document.createElement('b'); b.textContent = (kind === 'ring' ? 'Risk: ' : '') + id; c.appendChild(b);
+    c.appendChild(document.createElement('br')); c.appendChild(document.createTextNode(WHY[id] || 'Rule ' + id + ': fine today.')); window.__lastTap = [id, kind]; });
+
+  var AT = [{ id: 'ema', name: 'EMA' }, { id: 'macd', name: 'MACD' }, { id: 'sr', name: 'S/R' }];
+  var at = Brain3D.mount(document.getElementById('at'), { stages: AT, ring: RING.slice(0, 6), layout: 'lobes', title: 'ATLAS' });
+  at.update({ stageStates: { ema: 'passed', macd: 'waiting', sr: 'blocked' }, currentId: null, reasons: { ema: 'Done for today (1 trade a day): +2.98R.', macd: 'Its hours: 09:30-11:00 ET.', sr: 'No level within 20 pts.' },
+    now: 'EMA done for today; MACD waits for its hours.', ringValues: { dd: '$1,401' } });
+  document.getElementById('atArm').addEventListener('click', function () { at.update({ stageStates: { macd: 'current' }, currentId: 'macd', now: 'MACD armed: long 26,410, stop 26,392, target 26,452.' }); });
+  at.on('tap', function (id) { var c = document.getElementById('atCard'); c.textContent = 'Lobe: ' + id; window.__lastTapAt = id; });
+  window.__lab = { zl: zl, at: at };
+})();
+</script>
+</body>
+</html>

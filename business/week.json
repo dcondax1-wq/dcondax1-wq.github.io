@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-20 19:35 ET",
+ "built": "2026-11-21 09:35 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -10,126 +10,80 @@
   "complete": true,
   "sessions_done": 5
  },
- "pc": "PC last reported Nov 20 19:30 ET",
+ "pc": "PC last reported Nov 7 1:05 ET",
  "accounts": [
   {
    "key": "zlarior",
    "name": "Zlarior",
    "plan": "MFFU Builder 50K",
    "stage": "eval",
-   "end": 49213.9,
-   "src": "PC live, Nov 20 19:26 ET",
-   "room": 1045.7,
-   "to_pass": 3786.1,
-   "trades": 1,
-   "win_pct": 0,
-   "usd_week": -129.4,
-   "best_day": {
-    "day": "2026-11-16",
-    "usd": -129.4
-   },
+   "end": 49192.78,
+   "src": "PLAN (owner, Nov 17)",
+   "room": 1025.0,
+   "to_pass": 3807.22,
+   "trades": null,
+   "win_pct": null,
+   "usd_week": null,
+   "best_day": null,
    "strat": "Zlarior",
-   "start": 49343.3,
-   "wins": 0,
-   "losses": 1,
-   "r_week": -1.01,
-   "room_start": 1175.1,
-   "to_pass_start": 3656.7,
+   "start": null,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
-    "line": "No winning day this week."
+    "line": "No trading day this week."
    },
-   "status_line": "$3,786 to pass, $1,046 of room above the floor"
+   "status_line": "$3,807 to pass, $1,025 of room above the floor"
   },
   {
    "key": "atlas",
    "name": "ATLAS",
    "plan": "MFFU Builder 25K (funded)",
-   "stage": "funded",
-   "end": 25401.38,
-   "src": "PC live, Nov 20 19:26 ET",
-   "room": 1000.0,
-   "to_pass": null,
-   "trades": 2,
-   "win_pct": 50,
-   "usd_week": 401.38,
-   "best_day": {
-    "day": "2026-11-20",
-    "usd": 514.18
-   },
-   "strat": "ATLAS",
-   "start": 25000.0,
-   "wins": 1,
-   "losses": 1,
-   "r_week": 5.59,
-   "room_start": 598.62,
-   "consistency": {
-    "rule": "funded: best day at most 50% of the cycle profit",
-    "line": "best day 11-20 +$514 = 128% of the cycle profit (over 50%: payout waits for more days)."
-   },
-   "status_line": "Payout: Not yet: need $949 more."
-  },
-  {
-   "key": "rapid1",
-   "name": "Rapid EOD 25K",
-   "plan": "MFFU Rapid EOD 25K",
-   "stage": "eval",
-   "end": 25000.0,
-   "src": "PC live, Nov 20 19:26 ET",
-   "room": 1000.0,
-   "to_pass": 1500.0,
-   "trades": 0,
+   "stage": "PASSED",
+   "end": 26946.1,
+   "src": "owner, typed, Nov 17, Nov 17 16:38 ET",
+   "room": null,
+   "to_pass": 0.0,
+   "trades": null,
    "win_pct": null,
-   "usd_week": 0,
+   "usd_week": null,
    "best_day": null,
-   "strat": "Zlarior",
-   "start": 25000.0,
-   "wins": 0,
-   "losses": 0,
-   "r_week": null,
-   "room_start": 1000.0,
-   "to_pass_start": 1500.0,
+   "strat": "ATLAS",
+   "start": null,
    "consistency": {
-    "rule": "Rapid EOD eval: best day at most 30% of the profit",
+    "rule": "Builder eval: no best-day rule",
     "line": "No trading day this week."
    },
-   "status_line": "$1,500 to pass, $1,000 of room above the floor"
+   "status_line": "Passed. Locked until MFFU issues the funded account."
   },
   {
    "key": "fresh25",
    "name": "Zlarior 25K #2",
    "plan": "MFFU Builder 25K",
    "stage": "eval",
-   "end": 25023.62,
-   "src": "PC live, Nov 20 19:26 ET",
-   "room": 1000.0,
-   "to_pass": 1476.38,
-   "trades": 0,
+   "end": null,
+   "src": "PLAN",
+   "room": null,
+   "to_pass": null,
+   "trades": null,
    "win_pct": null,
-   "usd_week": 0,
+   "usd_week": null,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 25023.62,
-   "wins": 0,
-   "losses": 0,
-   "r_week": null,
-   "room_start": 1000.0,
-   "to_pass_start": 1476.38,
+   "start": null,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "No trading day this week."
    },
-   "status_line": "$1,476 to pass, $1,000 of room above the floor"
+   "status_line": "Pass: $1,500 profit, $1,000 max loss. Started Nov 18"
   }
  ],
  "strategies": [
   {
    "name": "Zlarior",
-   "trades": 1,
+   "trades": null,
    "target": "2-4 a week",
-   "pf": 0.0,
-   "usd": -129.4,
-   "win_pct": 0,
+   "pf": null,
+   "usd": null,
+   "win_pct": null,
    "exp_tpw": [
     2.56,
     3.12
@@ -141,16 +95,16 @@
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
    "exp_usd_week": 382.0,
    "plan_usd_month": 1656.0,
-   "verdict": "behind",
-   "why": "1 trades (target 2-4); -$129 this week"
+   "verdict": "unknown",
+   "why": "No trade list this week (see what is missing)."
   },
   {
    "name": "ATLAS",
-   "trades": 2,
+   "trades": null,
    "target": "2-4 a week",
-   "pf": 4.56,
-   "usd": 401.38,
-   "win_pct": 50,
+   "pf": null,
+   "usd": null,
+   "win_pct": null,
    "exp_tpw": [
     3.12,
     4.38
@@ -162,8 +116,8 @@
    "exp_src": "edge_health.json (40-session medians, 2026)",
    "exp_usd_week": 115.0,
    "plan_usd_month": 500.0,
-   "verdict": "ahead",
-   "why": "+$401 vs about $115 expected"
+   "verdict": "unknown",
+   "why": "No trade list this week (see what is missing)."
   }
  ],
  "light": {
@@ -173,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Landing round 3 fixes: trading month arrows back to 44 px (a kit FX rule squeezed them to 28),...",
-   "Landing round 3: day-quality 9bc9b918 (page_bg helper, phone_fit, navfx v5 overflow, trading.css...",
-   "Phone notifications: Settings - 'Open the notifications card (Send a test)' (../jarvis/#pushCard)...",
-   "Agency-inbox H1 gate: nothing is pushed (replies, caller/*, postcard results) unless the GitHub...",
-   "Postcards: the per-lead code (FR-27, day-cities3's site_factory_codes.json) on both sides and the...",
-   "phone_fit d: the empty band is measured to the lowest bar (Ask button / orb) or the home bar, the...",
-   "dionysus_merge: nqfx n5 pin (as on land-night); the card edge = the page's gradient OR the OLYMPUS...",
-   "Land the OLYMPUS NIGHT round 2 + 6 arenas + factory: DESIGN 329b7b9c (gold warn, Classic kept,..."
+   "Site factory rebuilt on the merged Frederick-area leads: 817 concept sites (noindex, 12 KB each),...",
+   "Land Saturday morning: 3D bot brains (DESIGN brain3d kit ba9f6118 + NQ nq/brain.html 39db8d70,...",
+   "Neutral-host fixes at the source (day-cities3 00618ddf merged): no private name in any shipped...",
+   "NQ Brain: DESIGN's 3D brain wired (olympus/brain3d.js in head , mounted in the body before the...",
+   "Site factory: hand-added leads (agency_added_leads.json) + the caller portal in the neutral-host...",
+   "Leads data: Frederick done (frederick)",
+   "Caller portal (agency/portal/ + python -m agency.portal): the human cold caller's list...",
+   "NQ Bot Brain, 2D first (owner Fri 19:50 ET; research/handoff/2026-11-21/brain3d/SPEC.md):..."
   ]
  },
  "next": {
@@ -208,9 +162,9 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 1180.0,
-  "line": "On pace for $1,180 a month (estimate: this week's +$272 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
-  "basis": "this week"
+  "usd_month": null,
+  "basis": "none",
+  "line": "On pace: unknown this week (no trade list and no start-of-week balance). The plan says about $2,156 a month once funded (estimate)."
  },
  "twins": {
   "to": "2026-11-19",
@@ -231,21 +185,21 @@
       "who": "LIT",
       "twin_exit": "STOP",
       "twin_r": -1.01,
-      "status": "matched",
-      "live_r": -1.01,
-      "live_usd": -129.4
+      "status": "missed",
+      "live_r": null,
+      "live_usd": null
      }
     ],
     "n": {
-     "matched": 1,
-     "missed": 0,
+     "matched": 0,
+     "missed": 1,
      "extra": 0,
      "not live yet": 0
     },
     "twin_r": -1.01,
-    "live_r": -1.01,
-    "verdict": "same as the twin",
-    "line": "twin 1 trades -1.01R, live 1 trades -1.01R."
+    "live_r": 0,
+    "verdict": "differs from the twin",
+    "line": "twin 1 trades -1.01R, live 0 trades +0.00R; 1 missed."
    },
    {
     "name": "ATLAS",
@@ -257,7 +211,7 @@
       "who": "EMA",
       "twin_exit": "TARGET",
       "twin_r": 6.87,
-      "status": "not live yet",
+      "status": "missed",
       "live_r": null,
       "live_usd": null
      },
@@ -268,7 +222,7 @@
       "who": "S/R",
       "twin_exit": "STOP",
       "twin_r": -1.02,
-      "status": "not live yet",
+      "status": "missed",
       "live_r": null,
       "live_usd": null
      },
@@ -279,61 +233,28 @@
       "who": "MACD",
       "twin_exit": "STOP",
       "twin_r": -1.04,
-      "status": "matched",
-      "live_r": -1.04,
-      "live_usd": -112.8
+      "status": "missed",
+      "live_r": null,
+      "live_usd": null
      }
     ],
     "n": {
-     "matched": 1,
-     "missed": 0,
+     "matched": 0,
+     "missed": 3,
      "extra": 0,
-     "not live yet": 2
+     "not live yet": 0
     },
-    "twin_r": -1.04,
-    "live_r": -1.04,
-    "verdict": "same as the twin",
-    "line": "twin 3 trades -1.04R, live 1 trades -1.04R; 2 before the account was live."
+    "twin_r": 4.81,
+    "live_r": 0,
+    "verdict": "differs from the twin",
+    "line": "twin 3 trades +4.81R, live 0 trades +0.00R; 3 missed."
    }
   ],
   "note": "R only (the twin's $ is at the research size). Days after the cloud's last bars are not compared."
  },
- "best": {
-  "acct": "atlas",
-  "bot": "ATLAS",
-  "day": "2026-11-20",
-  "time": "03:45",
-  "side": "SHORT",
-  "usd": 514.18,
-  "r": 6.63,
-  "exit": "TARGET",
-  "mfe_r": null,
-  "cause": "target",
-  "lesson": "Target hit: the plan did exactly what it should. Nothing to change."
- },
- "worst": {
-  "acct": "zlarior",
-  "bot": "Zlarior",
-  "day": "2026-11-16",
-  "time": "06:16",
-  "side": "LONG",
-  "usd": -129.4,
-  "r": -1.01,
-  "exit": "STOP",
-  "mfe_r": 0.39,
-  "cause": "never",
-  "lesson": "It never worked: a clean 1R loss, the normal cost of the setup. Only worth a look if 3 or more in a row."
- },
- "kalshi": {
-  "src": "PC status post (card)",
-  "mode": "paper",
-  "loss_used": 0.0,
-  "loss_stop": 13.75,
-  "last": "LWW",
-  "bets_total": 3,
-  "won_pct": 67,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 3 bets LWW; 3 bets so far, 67% won."
- },
+ "best": null,
+ "worst": null,
+ "kalshi": null,
  "calendar": [
   {
    "date": "2026-11-23",
@@ -379,10 +300,16 @@
    "src": "Decide card"
   }
  ],
- "missing": [],
+ "missing": [
+  "PC live numbers: last report Nov 7 1:05 ET (14 days ago)",
+  "trade list: no PC ledger here and no data pipe days yet (on the PC this fills itself; in the cloud run python tools/data_pull.py once the PC's data branch exists)",
+  "Zlarior: no live PC balance this week (plan / owner-typed number shown)",
+  "Zlarior 25K #2: no live PC balance this week (plan / owner-typed number shown)",
+  "start-of-week balances: not known (needs the trade list or a balance typed before Monday)"
+ ],
  "sources": {
-  "trades": "PC status post",
+  "trades": "none",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 20 19:30 ET"
+  "board_pc": "Nov 7 1:05 ET"
  }
 }

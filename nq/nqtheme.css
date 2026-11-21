@@ -96,9 +96,10 @@ html[data-theme] .dk-dot.stale { background: #f1c14b; }
 .ctog[aria-pressed="true"]{border-color:#f1c14b;box-shadow:0 0 14px rgba(241,193,75,.45)}
 html[data-theme] .chartbox{border-color:#3e255e;box-shadow:0 0 0 1px rgba(157,89,238,.12) inset,0 0 26px rgba(157,89,238,.18)}
 .chartbox::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 95% at 50% 45%,transparent 62%,rgba(0,0,0,.55));z-index:2}
-html[data-theme] #chart canvas{filter:drop-shadow(0 0 3px rgba(157,89,238,.5))}
-.chartbox.intro .chart{animation:nqIn .9s cubic-bezier(.2,.8,.2,1) both}@keyframes nqIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+/* perf 2026-11-21 (TBT 525 -> 880 ms with the 3D chart): no CSS filter on the chart canvases (every chart repaint re-ran the blur); the glow is the violet area + glow line */
+.chartbox.intro .chart{animation:nqIn .9s cubic-bezier(.2,.8,.2,1) both}@keyframes nqIn{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
 .cpulse{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#f1c14b;box-shadow:0 0 10px #f1c14b;pointer-events:none;z-index:3}
 .cpulse::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(241,193,75,.7);animation:nqPulse 1.6s ease-out infinite}@keyframes nqPulse{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}
 .c3d{position:absolute;inset:0;z-index:4;background:#000;touch-action:none}.chartbox.is3d .cpulse{display:none}
 @media (prefers-reduced-motion:reduce){.chartbox.intro .chart,.cpulse::after{animation:none}}
+.brainlink{min-height:44px;min-width:64px;display:inline-grid;place-items:center;padding:0 14px;border-radius:999px;background:#000;color:#f1c14b;border:1px solid #4d2e76;box-shadow:0 0 12px rgba(157,89,238,.35);text-decoration:none;font-weight:800}

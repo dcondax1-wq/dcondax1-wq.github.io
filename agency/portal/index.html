@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Caller Portal</title>
+<meta name="description" content="For the agency's callers: today's businesses to call by hand, the rules, the words, and the log.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f141c" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Cpath d='M22 16c3 0 5 6 5 8s-3 3-3 5c0 3 8 11 11 11 2 0 3-3 5-3s8 2 8 5-4 7-8 7C27 49 15 37 15 24c0-4 4-8 7-8z' fill='%23fff'/%3E%3C/svg%3E">
+<!-- CALLER PORTAL (day-a11y 2026-11-21; plan: research/writeups/cold-calling-plan-2026-11-20.md). Self-contained: no Olympus file, so it works
+     on the neutral public host. portalcore.js = the rules (node-tested: tests/test_web_portal.py); portal.js = the page; calllist.json = the list
+     (python -m agency.portal build); portal.json = the public facts + the passphrase's salted hash (python -m agency.portal pass).
+     Saved on this phone only ('agency.portal.v1'); it sends nothing by itself: Call opens the phone, Email opens the agency Gmail's compose,
+     the log goes back as a file the owner imports (python -m agency.portal import). No secret, no private data, never the owner's address. -->
+<link rel="stylesheet" href="portal.css?v=1">
+<script type="module" src="portal.js?v=1"></script>
+</head>
+<body>
+<a class="skip" href="#list">Skip to the list</a>
+<main id="app">
+  <section id="lock" class="card lock" aria-labelledby="lockH">
+    <h1 id="lockH">Caller Portal</h1>
+    <p class="muted">For the agency's callers. Type your name and the passphrase the agency gave you.</p>
+    <form id="lockForm" autocomplete="off">
+      <label for="who">Your name (it goes on every call you log, for your commission)</label>
+      <input id="who" name="who" required maxlength="40" autocomplete="name">
+      <label for="phrase">Passphrase</label>
+      <input id="phrase" name="phrase" type="password" required autocomplete="current-password">
+      <button type="submit" class="btn primary">Open the list</button>
+      <p id="lockMsg" class="msg" role="alert"></p>
+    </form>
+  </section>
+
+  <div id="main" hidden>
+    <header class="top">
+      <div>
+        <h1>Calls</h1>
+        <p class="muted" id="hello"></p>
+      </div>
+      <button type="button" class="btn ghost" id="signout">Sign out</button>
+    </header>
+
+    <section class="say card" aria-labelledby="sayH">
+      <h2 id="sayH">Say this first</h2>
+      <p id="identify" class="identify"></p>
+      <details>
+        <summary>The rules (stricter than the law)</summary>
+        <ul class="rules">
+          <li>Weekdays 9:00 am to 5:00 pm, their time. No holidays.</li>
+          <li>1 call + 1 follow-up per business, never twice in a day.</li>
+          <li>"Not interested" or "don't call" = tap No or Do not call. They are never called again.</li>
+          <li>Businesses only. You are a real person dialing by hand: never a recording, never an AI voice, never a text.</li>
+          <li>No pressure and no made-up claims. The website is free to look at, and they owe nothing.</li>
+        </ul>
+      </details>
+      <p id="window" class="pill" role="status"></p>
+    </section>
+
+    <section class="stats" aria-label="Your numbers">
+      <div><b id="sCalls">0</b><span>calls today</span></div>
+      <div><b id="sInt">0</b><span>interested</span></div>
+      <div><b id="sBooked">0</b><span>booked</span></div>
+      <div><b id="sWon">0</b><span>won</span></div>
+      <div class="money"><b id="sMoney">$0</b><span>if it all closes</span></div>
+    </section>
+
+    <nav class="tabs" aria-label="Filter the list">
+      <button type="button" data-f="go" aria-pressed="true">Call now <span id="nGo"></span></button>
+      <button type="button" data-f="need" aria-pressed="false">Need a number <span id="nNeed"></span></button>
+      <button type="button" data-f="wait" aria-pressed="false">Later <span id="nWait"></span></button>
+      <button type="button" data-f="done" aria-pressed="false">Done <span id="nDone"></span></button>
+    </nav>
+    <p id="status" class="muted" role="status">Loading the list...</p>
+    <ol id="list" class="list" tabindex="-1"></ol>
+
+    <section class="card" aria-labelledby="addH">
+      <h2 id="addH">Add a business you found on Google Maps</h2>
+      <p class="muted">Pick one with <b>no website button</b>. We build its free concept site, and it shows up on your list with a link.</p>
+      <form id="addForm" autocomplete="off">
+        <label for="aName">Business name</label><input id="aName" required maxlength="80">
+        <label for="aPhone">Phone</label><input id="aPhone" type="tel" inputmode="tel" required maxlength="20">
+        <label for="aTown">Town</label><input id="aTown" required maxlength="40">
+        <label for="aNiche">Kind of business</label>
+        <select id="aNiche">
+          <option value="trades">Contractor / trades</option><option value="health">Dentist / health</option><option value="beauty">Salon / beauty</option>
+          <option value="auto">Auto</option><option value="food">Restaurant / food</option><option value="fitness">Gym / fitness</option>
+          <option value="retail">Shop</option><option value="pets">Pets</option><option value="home">Home services</option><option value="other">Other</option>
+        </select>
+        <button type="submit" class="btn">Add to my list</button>
+        <p id="addMsg" class="msg" role="status"></p>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="sendH">
+      <h2 id="sendH">Send your log to the agency</h2>
+      <p class="muted">Once a day: your calls, what happened, and the businesses you added. This is how your commission is counted ($300 a sale, $40 a booked call that happens).</p>
+      <div class="row">
+        <button type="button" class="btn primary" id="saveLog">Save my log file</button>
+        <a class="btn" id="mailLog" href="#" target="_blank" rel="noopener">Email the agency</a>
+      </div>
+      <p class="muted small">Attach the saved file to the email. Your log stays on this phone too.</p>
+    </section>
+  </div>
+</main>
+<template id="rowT">
+  <li class="lead">
+    <div class="head">
+      <h3 class="name"></h3>
+      <span class="code"></span>
+    </div>
+    <p class="meta muted"></p>
+    <p class="why"></p>
+    <div class="row acts">
+      <a class="btn primary call" href="#"></a>
+      <a class="btn site" href="#" target="_blank" rel="noopener">Their site</a>
+      <a class="btn maps" href="#" target="_blank" rel="noopener">Find on Google Maps</a>
+    </div>
+    <form class="phoneForm" hidden>
+      <label>Number you found <input type="tel" inputmode="tel" maxlength="20" class="foundPhone"></label>
+      <button type="submit" class="btn">Save</button>
+    </form>
+    <fieldset class="outcomes" hidden>
+      <legend>What happened?</legend>
+      <div class="grid"></div>
+    </fieldset>
+    <form class="mailForm" hidden>
+      <label>Their email <input type="email" inputmode="email" maxlength="80" class="theirEmail"></label>
+      <button type="submit" class="btn">Email them the link</button>
+    </form>
+    <p class="msg small" role="status"></p>
+  </li>
+</template>
+</body>
+</html>

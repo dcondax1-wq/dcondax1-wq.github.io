@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Brain</title>
+<meta name="description" content="OLYMPUS NQ Brain: what each bot (Zlarior, ATLAS) is doing right now, the steps of a trade in order, what it watches, its memory, plan, risk, accounts, payout path and health.">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NQ Brain">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- NQ BRAIN (day-nqdash3 2026-11-21, owner Fri 19:50 ET: "a brain for each bot ... the steps in order for a trade, and tons more";
+     research/handoff/2026-11-21/brain3d/SPEC.md). The 2D brain (the steps in order with their live state + every module) paints first from
+     braincore.js; DESIGN's 3D brain (olympus/brain3d.js, three.js) comes only on this page, after the first paint, and never on LITE.
+     Read only: it reads the PC's status post (ntfy, pc_feed.js) and the site's JSON files, sends nothing, places nothing. -->
+<script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
+<script>(function () { var J = {}; window.NQ_EARLY = { json: J, text: {} }; if (typeof fetch !== 'function') return;
+  ['../home.json', '../business/accounts.json', '../business/goals.json', './brief.json', './news_week.json', '../edge.json', '../trading/trades.json']
+    .forEach(function (u) { J[u] = fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }); })();</script>
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<script src="../olympus/themes.js?v=o10"></script>
+<script src="../pc_feed.js?v=n7"></script><script src="../business/payoutcoach.js?v=2"></script>
+<script src="../olympus/olympus.js?v=o22" data-app="nq"></script>
+<script src="../olympus/intro-app.js?v=i11" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=7" defer></script>
+<script src="../olympus/gate-nav.js?v=g9" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#f1c14b'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
+<link rel="stylesheet" href="nq.css?v=a8">
+<link rel="stylesheet" href="nqtheme.css?v=9">
+<link rel="stylesheet" href="../olympus/brain3d.css?v=b1">
+<link rel="stylesheet" href="brain.css?v=2">
+<script src="../olympus/brain3d.js?v=b1"></script><!-- DESIGN's brain (window.Brain3D): in <head>, NOT defer, so the body mounts it before the first paint (no shift); three.js comes later, only on this page -->
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ Brain</h1><p class="sub">What each bot is doing, step by step, and why.</p></div></div>
+  </header>
+  <nav class="nqtabs" aria-label="NQ"><a href="./">Desk</a><a href="brain.html" aria-current="page">Brain</a></nav>
+
+  <div class="bswitch" role="group" aria-label="Which bot">
+    <button type="button" class="btn bsw" data-bot="lit" aria-pressed="true">Zlarior</button>
+    <button type="button" class="btn bsw" data-bot="atlas" aria-pressed="false">ATLAS</button>
+  </div>
+  <p class="note" id="bStatus" role="status" aria-live="polite">Loading the bot's brain...</p>
+
+  <section class="ag-card card" id="brainCard" aria-labelledby="brainH">
+    <div class="row"><h2 id="brainH">Zlarior's brain</h2><span class="pill" id="bMode">-</span></div>
+    <p class="bnow" id="bNow"></p>
+    <div class="bstage" id="bStage">
+      <div class="bhost" id="brain3d"></div>
+      <script>/* mount DESIGN's brain now (before the first paint: no shift), with the bot's regions; brain.js feeds it the live states.
+         Never on LITE (the steps list below says everything). Ids = braincore.js (LIT_STAGES keys, ATLAS_LOBES ids, risk keys). */
+      (function () { try {
+        var O = window.OLYMPUS, lite = !!(O && O.lite && O.lite()), bot = new URLSearchParams(location.search).get('bot') === 'atlas' ? 'atlas' : 'lit';
+        if (lite || !window.Brain3D || new URLSearchParams(location.search).get('flat') === '1') return;
+        window.NQBRAIN_DEF = function (b) { return b === 'atlas'
+          ? { layout: 'lobes', title: 'ATLAS', list: false, stages: [{ id: 'ema', name: 'EMA' }, { id: 'macd', name: 'MACD' }, { id: 'sr', name: 'S/R' }],
+              ring: [{ id: 'dd', name: 'Drawdown left' }, { id: 'best', name: 'Best day' }, { id: 'idle', name: '7-day clock' }, { id: 'news', name: 'News' }] }
+          : { layout: 'path', title: 'Zlarior', list: false, stages: [{ id: 'levels', name: 'Levels' }, { id: 'sweep', name: 'Sweep' }, { id: 'inducement', name: 'Inducement' },
+              { id: 'displacement', name: 'Displacement' }, { id: 'cisd5', name: '5m CISD' }, { id: 'limit', name: 'Limit armed' }, { id: 'cisd1m', name: '1m CISD wait' },
+              { id: 'entry', name: 'Entry' }, { id: 'trade', name: 'In trade' }, { id: 'done', name: 'Done for today' }],
+              ring: [{ id: 'dd', name: 'Drawdown left' }, { id: 'daily', name: 'Daily loss' }, { id: 'best', name: 'Best day' }, { id: 'idle', name: '7-day clock' }, { id: 'news', name: 'News' }] }; };
+        window.NQBRAIN_3D = { bot: bot, api: window.Brain3D.mount(document.getElementById('brain3d'), window.NQBRAIN_DEF(bot)) };
+      } catch (e) { window.NQBRAIN_3D = null; } })();</script>
+      <ol class="bsteps" id="bSteps" aria-label="The steps of a trade, in order"></ol>
+    </div>
+    <p class="note">Tap a step for what the bot is doing now, why, and what would change its mind. Mint = passed today, the pulsing one = now, lavender = waiting, red = blocked.</p>
+  </section>
+
+  <section class="ag-card card" id="thinkCard" aria-labelledby="thinkH"><h2 id="thinkH">Thought stream</h2><ol class="bthoughts" id="bThoughts"></ol></section>
+  <section class="ag-card card" id="watchCard" aria-labelledby="watchH"><h2 id="watchH">What I watch</h2><ul class="bwatch" id="bWatch"></ul></section>
+  <section class="ag-card card" id="gradeCard" aria-labelledby="gradeH"><h2 id="gradeH">The armed setup</h2><div id="bGrade"></div></section>
+  <section class="ag-card card" id="riskCard" aria-labelledby="riskH"><h2 id="riskH">The risk ring</h2><ul class="brisk" id="bRisk"></ul></section>
+  <section class="ag-card card" id="planCard" aria-labelledby="planH"><h2 id="planH">Plan for today</h2><div id="bPlan"></div></section>
+  <section class="ag-card card" id="memCard" aria-labelledby="memH"><h2 id="memH">Memory</h2><div id="bMem"></div></section>
+  <section class="ag-card card" id="payCard" aria-labelledby="payH" hidden><h2 id="payH">Payout path</h2><div id="bPay"></div></section>
+  <section class="ag-card card" id="acctCard" aria-labelledby="acctH"><h2 id="acctH">Accounts it trades</h2><ul class="baccts" id="bAccts"></ul></section>
+  <section class="ag-card card" id="replayCard" aria-labelledby="replayH"><h2 id="replayH">Replay today's trade</h2><div id="bReplay"></div></section>
+  <section class="ag-card card" id="healthCard" aria-labelledby="healthH"><h2 id="healthH">Health</h2><ul class="bhealth" id="bHealth"></ul></section>
+  <p class="foot">Read only: the Brain shows what your PC posts every 15 minutes. It cannot start, stop or change a bot, and it never places an order.</p>
+</main>
+
+<div class="bveil" id="bVeil" hidden></div>
+<section class="bglass" id="bCardSheet" role="dialog" aria-modal="true" aria-labelledby="bCardH" hidden>
+  <div class="row"><h2 id="bCardH">Step</h2><button type="button" class="btn" id="bCardClose">Close</button></div>
+  <p class="bk">What I'm doing now</p><p id="bCardNow"></p>
+  <p class="bk">Why</p><p id="bCardWhy"></p>
+  <p class="bk">What would change my mind</p><p id="bCardChange"></p>
+</section>
+<script type="module" src="brain.js?v=2"></script>
+</body>
+</html>

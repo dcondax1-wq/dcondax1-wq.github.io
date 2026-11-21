@@ -45,7 +45,7 @@
 <link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
 <link rel="stylesheet" href="nqdesk.css?v=10">
 <link rel="stylesheet" href="nqgoals.css?v=9">
-<link rel="stylesheet" href="nqtheme.css?v=6"><!-- owner 2026-11-20 15:15 ET: the NQ terminal look (navy, cyan / blue glows, violet), last so it wins -->
+<link rel="stylesheet" href="nqtheme.css?v=9"><!-- owner 2026-11-20 15:15 ET: the NQ terminal look (navy, cyan / blue glows, violet), last so it wins -->
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
@@ -54,7 +54,7 @@
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ</h1><p class="sub">Are the bots on, and how much $ each account can still lose before it fails.</p></div></div>
-    <div class="tags"><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+    <div class="tags"><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <p id="src" class="note" data-truth="source"></p>

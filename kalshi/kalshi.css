@@ -1108,3 +1108,8 @@ main > a.olyback { display: flex; align-items: center; min-height: 44px; margin-
 /* CLS: the K8 today card and its bet list keep their filled height (a heading line + 3 rows) */
 .k8top { min-height: 17.4rem; } .k8t-l { min-height: 8.6rem; }
 .k8t-n { min-height: 2.7em; }
+/* NIGHT labels (lead QA 2026-11-21): the header state word, the checklist count and the paper box were gold-brown on every theme.
+   Now lavender / violet; bright gold stays only on LIVE (a small accent). Uses the page's own --lav / --vio, never a theme slot. */
+#k8sub b { color: var(--lav, #dacbf0); } #k8sub b.live { color: var(--gold, #f1c14b); } #k8sub b.bad { color: var(--bad); }
+.k8t-c b, .kgo .kgo-n { color: var(--lav, #dacbf0); } .kgo .kgo-n.ok { color: var(--ok); }
+.k8d .k8d-w.paper { border-color: rgba(var(--vio-rgb, 157, 89, 238), .55); }

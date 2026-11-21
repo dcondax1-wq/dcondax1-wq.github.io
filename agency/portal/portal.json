@@ -1,0 +1,25 @@
+{
+ "v": 1,
+ "agency": "",
+ "agency_email": "",
+ "postal": "",
+ "public_base": "",
+ "agency_number": "",
+ "pass": {
+  "salt": "",
+  "sha256": ""
+ },
+ "prices": {
+  "starter": "$1,500 + $79/month",
+  "monthly": "$149/month for 12 months, nothing upfront"
+ },
+ "commission": {
+  "sale": 300,
+  "booked_show": 40
+ },
+ "hours": [
+  540,
+  1020
+ ],
+ "tz": "America/New_York"
+}

@@ -1,0 +1,56 @@
+/* NQ BRAIN (day-nqdash3 2026-11-21): the 2D brain (steps in order with live states) + the modules, OLYMPUS NIGHT (black, violet glow, lavender,
+   small gold accents, mint / red for $ only). Reduced motion: no pulse. */
+.nqtabs { display: flex; gap: 6px; margin: 2px 0 8px; }
+.nqtabs a { flex: 1; min-height: 44px; display: grid; place-items: center; border-radius: 999px; border: 1px solid #3e255e; color: var(--ag-text); text-decoration: none; font-weight: 700; background: #0c0a12; }
+.nqtabs a[aria-current="page"] { border-color: #f1c14b; color: #f1c14b; box-shadow: 0 0 14px rgba(157, 89, 238, .35); }
+.bswitch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0 6px; }
+.bsw { min-height: 48px; font-weight: 800; letter-spacing: .02em; background: #000; border: 1px solid #4d2e76; color: var(--ag-text); border-radius: 14px; }
+.bsw[aria-pressed="true"] { border-color: #9d59ee; color: #f1c14b; box-shadow: 0 0 18px rgba(157, 89, 238, .45), inset 0 0 12px rgba(157, 89, 238, .18); }
+.bnow { margin: 0 0 8px; font-size: 15px; color: #dacbf0; }
+.bstage { position: relative; } .bhost { margin: 0 0 10px; }
+
+.bsteps { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; counter-reset: s; }
+.blobe { margin: 8px 0 0; font-size: 13px; font-weight: 800; letter-spacing: .08em; color: #f1c14b; text-transform: uppercase; }
+.bstepb { width: 100%; min-height: 44px; display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 4px 10px; padding: 8px 12px; text-align: left;
+  border-radius: 14px; border: 1px solid #3e255e; background: linear-gradient(180deg, #16131e, #07060b); color: var(--ag-text); font: inherit; cursor: pointer; }
+.bn { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; background: rgba(157, 89, 238, .16); color: #dacbf0; }
+.bl { font-weight: 700; } .bw { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ag-muted); }
+.bt { grid-column: 2 / -1; font-size: 14px; color: #dacbf0; }
+.bstep.done .bstepb { border-color: rgba(119, 219, 137, .45); } .bstep.done .bn { background: rgba(119, 219, 137, .2); color: #77db89; } .bstep.done .bw { color: #77db89; }
+.bstep.now .bstepb { border-color: #9d59ee; box-shadow: 0 0 0 1px rgba(157, 89, 238, .5), 0 0 22px rgba(157, 89, 238, .45); animation: bPulse 1.8s ease-in-out infinite; }
+.bstep.now .bn { background: #9d59ee; color: #000; } .bstep.now .bw { color: #f1c14b; }
+.bstep.blocked .bstepb { border-color: rgba(239, 68, 68, .6); } .bstep.blocked .bw { color: #f87171; }
+.bstep.off .bstepb { opacity: .55; }
+.bstep.lit .bstepb { outline: 2px solid #f1c14b; outline-offset: 2px; }
+@keyframes bPulse { 50% { box-shadow: 0 0 0 1px rgba(157, 89, 238, .8), 0 0 34px rgba(157, 89, 238, .7); } }
+.bthoughts, .bwatch, .brisk, .baccts, .bhealth, .bmem, .bwins { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.bth { display: grid; grid-template-columns: 52px 1fr; gap: 8px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 14px; color: #dacbf0; }
+.bth b { color: #f1c14b; }
+.bwl { padding: 10px 12px; border-radius: 14px; border: 1px solid #3e255e; background: rgba(157, 89, 238, .05); }
+.bwl .row { display: flex; justify-content: space-between; gap: 8px; } .bwl p { margin: 4px 0 0; }
+.bd { font-size: 15px; color: #dacbf0; }
+.barm { padding: 8px 0; border-bottom: 1px solid rgba(157, 89, 238, .15); } .barm span { margin-left: 8px; }
+.bside { padding: 2px 8px; border-radius: 999px; font-size: 12px; } .bside.long { color: #77db89; border: 1px solid rgba(119, 219, 137, .5); } .bside.short { color: #f87171; border: 1px solid rgba(239, 68, 68, .5); }
+.brn { display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 8px; min-height: 36px; }
+.bdot { width: 10px; height: 10px; border-radius: 50%; background: var(--ag-muted); }
+.brn.ok .bdot { background: #77db89; box-shadow: 0 0 8px rgba(119, 219, 137, .7); } .brn.warn .bdot { background: #f1c14b; box-shadow: 0 0 8px rgba(241, 193, 75, .7); }
+.brn.bad .bdot { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, .7); } .brn.unknown .bdot { background: #4a4458; }
+.brn span { text-align: right; font-size: 14px; color: #dacbf0; }
+.bwin { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; } .bwin small { font-size: 12px; text-transform: uppercase; color: var(--ag-muted); }
+.bwin.open small { color: #77db89; } .bcount { margin: 8px 0 4px; font-weight: 700; color: #f1c14b; }
+.bmem li { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }
+.bstreak { font-weight: 700; } .bstreak.W { color: #77db89; } .bstreak.L { color: #f87171; }
+.bedge { margin: 8px 0 0; } .bedge.green { color: #77db89; } .bedge.amber { color: #f1c14b; } .bedge.red { color: #f87171; }
+.bpay { display: flex; gap: 14px; align-items: center; }
+.bring { --p: 0%; flex: none; width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle, #0c0a12 60%, transparent 61%), conic-gradient(#9d59ee var(--p), rgba(157, 89, 238, .14) 0); box-shadow: 0 0 20px rgba(157, 89, 238, .4); }
+.bbig { margin: 0; font-size: 20px; font-weight: 800; }
+.bacct { display: flex; justify-content: space-between; gap: 8px; min-height: 36px; align-items: center; }
+.bscrub { width: 100%; min-height: 44px; accent-color: #9d59ee; } .bframe { margin: 4px 0 0; color: #dacbf0; }
+.bnone { color: var(--ag-muted); }
+.bveil { position: fixed; inset: 0; background: rgba(0, 0, 0, .55); z-index: 80; }
+.bglass { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 81; padding: 14px 16px; border-radius: 20px; max-width: 520px; margin: 0 auto;
+  background: rgba(22, 19, 30, .82); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid #4d2e76; box-shadow: 0 0 30px rgba(157, 89, 238, .35); color: var(--ag-text); }
+.bglass .row { display: flex; justify-content: space-between; align-items: center; } .bglass h2 { margin: 0; font-size: 17px; }
+.bglass .bk { margin: 10px 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #f1c14b; } .bglass p { margin: 0; font-size: 15px; }
+@media (prefers-reduced-motion: reduce) { .bstep.now .bstepb { animation: none; } }

@@ -33,8 +33,11 @@ export function fill(text, vars) {
 export function money(n) { const v = Math.round(+n || 0); return (v < 0 ? '−$' : '$') + Math.abs(v).toLocaleString('en-US'); }
 
 export function demoFor(lead, sites, base) {
-  const b = String(base || '').replace(/\/+$/, '');
+  // the PUBLIC base only (portal.json public_base, a neutral host): never this page's own address, which can be the owner's private dashboards
+  const b = /^https:\/\/[^\s"'<>]{4,}$/.test(String(base || '')) ? String(base).replace(/\/+$/, '') : '';   // checked on the PC (agency/public.py)
   const own = (isObj(sites) && sites[lead && lead.id]) || (lead && lead.demo_url);
+  if (!b && !(own && String(own).startsWith('https://'))) return { url: '[the site link: set public_base first]', own: !!own };
+  if (own && /^f\/[a-z2-9]{8}\/$/.test(own)) return { url: b + '/' + own, own: true };   // the neutral host: <base>/f/<id>/
   if (own && /^(https:\/\/|\.\.\/|\/)/.test(own)) return { url: own.startsWith('https://') ? own : b + '/agency/' + own.replace(/^(\.\.\/)+/, '').replace(/^\/?agency\//, ''), own: true };
   const d = NICHE_DEMO[(lead && lead.niche) || ''] || '';
   return { url: b + '/agency/demos/' + (d ? d + '/' : ''), own: false };
@@ -115,4 +118,5 @@ export function parseCard(am) {
   return { t: +am.t, mode: ['off', 'dry', 'live'].includes(am.m) ? am.m : 'off', new: n('n'), cap: n('c') || 20, followup: n('f'), replies_today: n('r'),
     interested: n('i'), suppressed: n('s'), queue: n('q') };
 }
-export const CALL_LINE = 'Prefer a quick call? On your draft site, tap "Have our assistant call me" and pick a time that suits you.';
+// inbound only (lead 2026-11-20/21): the AI assistant answers calls, it never rings anyone; voice only (no texts), and only while the PC runs it
+export function callLine(agencyNumber) { const n = String(agencyNumber == null ? '' : agencyNumber).trim(); return n ? 'Questions? Call ' + n + ': our AI assistant answers.' : ''; }
