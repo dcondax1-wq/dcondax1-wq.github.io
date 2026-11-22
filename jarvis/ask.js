@@ -48,7 +48,7 @@
 
   // ---------------------------------------------------------------------------------------------- the data: biz.js + the PC report
   let bizP = null, liteP = null, liteAt = 0;
-  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b5', BASE).href).catch(() => { bizP = null; return null; }));
+  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b6', BASE).href).catch(() => { bizP = null; return null; }));
   function script(src, global) {
     if (window[global]) return Promise.resolve(window[global]);
     return new Promise((ok) => { const s = document.createElement('script'); s.src = new URL(src, SITE).href; s.async = true; s.onload = () => ok(window[global] || null); s.onerror = () => ok(null); document.head.appendChild(s); });
@@ -86,6 +86,8 @@
 .oly-ask-btn{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:2147483000;width:44px;height:44px;border-radius:50%;
  border:1px solid var(--oly-ask-accent,#c8a24a);background:var(--oly-ask-bg,rgba(20,16,10,.88));color:var(--oly-ask-accent,#dcbd6e);display:grid;place-items:center;padding:0;cursor:pointer;
  box-shadow:0 4px 14px rgba(0,0,0,.45);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.oly-ask-btn{transition:opacity .2s ease,transform .2s ease}.oly-ask-btn.oly-ask-away{opacity:0;transform:translateY(10px);pointer-events:none}
+@media (prefers-reduced-motion:reduce){.oly-ask-btn{transition:none}}
 .oly-ask-btn:focus-visible{outline:2px solid var(--oly-ask-accent,#dcbd6e);outline-offset:3px}
 .oly-ask-btn svg{width:22px;height:22px}
 .oly-ask-back{position:fixed;inset:0;z-index:2147483001;background:rgba(0,0,0,.45)}
@@ -115,6 +117,9 @@
     btn.addEventListener('click', () => open());
     (o.host || document.body).appendChild(btn);
     if (!o.host) document.body.classList.add('oly-has-ask');   // QA 2026-11-20: the page's last lines scroll clear of the button
+    // QA 2026-11-21 (owner: things over the text at the bottom): while a finger scrolls the page, the button steps out of the way (it sat over
+    // the cards' left edge); it comes back 0.9 s after the scroll stops. Never while it has focus.
+    if (!o.host) { let t = 0; addEventListener('scroll', () => { if (document.activeElement === btn) return; btn.classList.add('oly-ask-away'); clearTimeout(t); t = setTimeout(() => btn && btn.classList.remove('oly-ask-away'), 900); }, { passive: true }); }
     return btn;
   }
   function close() {

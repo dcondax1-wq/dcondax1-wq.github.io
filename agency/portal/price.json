@@ -1,0 +1,30 @@
+{
+ "v": 1,
+ "kind": "proposal-prices",
+ "as_of": "2026-11-21",
+ "from": "agency/pricebook.json (python -m agency.proposal)",
+ "package": {
+  "name": "Starter site",
+  "setup": 1500,
+  "monthly": 79,
+  "pages": 5,
+  "days": 7
+ },
+ "deposit_pct": 50,
+ "deposit": 750,
+ "balance": 750,
+ "no_upfront": {
+  "monthly": 149,
+  "months": 12
+ },
+ "care": {
+  "monthly": 79,
+  "term_months": 12,
+  "notice_days": 30,
+  "edit_minutes": 30
+ },
+ "tax_pct": 3,
+ "invoice_due_days": 14,
+ "revision_rounds": 2,
+ "valid_days": 14
+}

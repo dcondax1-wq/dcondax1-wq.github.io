@@ -1,9 +1,9 @@
 // CALLER PORTAL page (day-a11y 2026-11-21). The rules live in portalcore.js; this file only draws and saves (this phone only).
-import * as P from './portalcore.js?v=1';
+import * as P from './portalcore.js?v=4';
 
 const $ = (id) => document.getElementById(id);
 const UNLOCK = 'agency.portal.unlock';
-let conf = null, list = [], st = P.emptyState(), filter = 'go';
+let conf = null, list = [], st = P.emptyState(), filter = 'today', page = 25, price = null, book = null;   // book = price.json (the proposal's numbers, from the price book)   // page: rows drawn (25 more per tap: 4,500 rows never at once)
 
 function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { /* private mode: works for this visit */ } }
 function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -39,7 +39,8 @@ async function open() {
   $('lock').hidden = true; $('main').hidden = false;
   $('hello').textContent = 'Signed in as ' + st.caller + (conf.agency ? ' · ' + conf.agency : '');
   $('identify').textContent = '"' + P.identify(st.caller, conf.agency) + '"';
-  try { const j = await getJSON('calllist.json'); list = Array.isArray(j.leads) ? j.leads : []; } catch (e) { list = []; $('status').textContent = 'Could not load the list. Pull down to try again.'; }
+  try { book = await getJSON('price.json'); } catch (e) { book = null; }
+  try { const j = await getJSON('calllist.json'); list = Array.isArray(j.leads) ? j.leads : []; price = j.price || null; } catch (e) { list = []; $('status').textContent = 'Could not load the list. Pull down to try again.'; }
   wire(); render();
   setInterval(render, 60000);
 }
@@ -53,17 +54,23 @@ function render() {
   const d0 = Date.now() - (P.partsIn(now, conf.tz).min * 60000);
   const t = P.tally(st, conf, d0), all = P.tally(st, conf, 0);
   $('sCalls').textContent = t.calls; $('sInt').textContent = all.interested; $('sBooked').textContent = all.booked; $('sWon').textContent = all.won; $('sMoney').textContent = money(all.maybe);
-  const rows = P.sortForNow(P.allLeads(list, st), st, now, conf), n = { go: 0, need: 0, wait: 0, done: 0 };
-  for (const r of rows) n[r.s.tone]++;
+  const leadsAll = P.allLeads(list, st), rows = P.sortForNow(leadsAll, st, now, conf), n = { today: 0, go: 0, need: 0, redesign: 0, wait: 0, done: 0 };
+  for (const r of rows) { r.tab = P.tabOf(r.L, r.s); n[r.tab]++; }
+  const today = P.todayList(leadsAll, st, now, conf, 60); n.today = today.length;
+  const T = P.dayTally(st, now, conf, price);
+  $('eDials').textContent = T.dials; $('eConn').textContent = T.connects; $('eBooked').textContent = T.booked; $('ePipe').textContent = money(T.pipeline);
+  $('eText').textContent = T.text;
   for (const k of Object.keys(n)) $('n' + k[0].toUpperCase() + k.slice(1)).textContent = '(' + n[k] + ')';
   const ol = $('list'); ol.textContent = '';
-  const shown = rows.filter((r) => r.s.tone === filter);
-  $('status').textContent = shown.length ? shown.length + ' businesses' : ({ go: w.open ? 'Nobody to call right now. Check "Need a number": find a few on Google Maps.' : 'Calls are closed now: ' + w.why.toLowerCase() + '.', need: 'Every business has a number.', wait: 'Nobody waiting.', done: 'Nothing done yet.' })[filter];
-  for (const r of shown) ol.appendChild(row(r.L, r.s));
+  let shown = filter === 'today' ? today : rows.filter((r) => r.tab === filter);
+  if (filter === 'redesign') shown = shown.sort((a, b) => (b.s.ok - a.s.ok) || ((b.L.score || 0) - (a.L.score || 0)));   // callable first, the most dated site first
+  $('status').textContent = shown.length ? (filter === 'today' ? shown.length + ' to call now: follow-ups due first, then the best hour for each kind of business' : shown.length + ' businesses') : ({ today: w.open ? 'Nobody to call this hour. Try "Need a number" or "Redesign".' : 'Calls are closed now: ' + w.why.toLowerCase() + '. Today fills up when they open.', go: w.open ? 'Nobody to call right now. Check "Need a number": find a few on Google Maps.' : 'Calls are closed now: ' + w.why.toLowerCase() + '.', need: 'Every business has a number.', redesign: 'No business with a site on the list.', wait: 'Nobody waiting.', done: 'Nothing done yet.' })[filter];
+  for (const r of shown.slice(0, page)) ol.appendChild(row(r.L, r.s, r.best));
+  const more = $('moreRows'); more.hidden = shown.length <= page; more.textContent = 'Show ' + Math.min(25, shown.length - page) + ' more (' + (shown.length - page) + ' left)';
   mailLink();
 }
 
-function row(L, s) {
+function row(L, s, best) {
   const li = $('rowT').content.firstElementChild.cloneNode(true);
   li.classList.add(s.tone); li.dataset.id = L.id;
   li.querySelector('.name').textContent = L.name;
@@ -76,8 +83,13 @@ function row(L, s) {
     if (s.ok) call.href = P.telHref(ph); else { call.removeAttribute('href'); call.setAttribute('aria-disabled', 'true'); call.setAttribute('role', 'link'); }
     call.addEventListener('click', () => { if (s.ok) showOutcomes(li, L); });
   } else call.remove();
-  const site = li.querySelector('.site'), url = P.siteUrl(L, conf);
-  if (url) site.href = url; else site.remove();
+  const lane = P.laneOf(L), lb = li.querySelector('.lane');
+  lb.textContent = P.LANES[lane] + (lane === 'redesign' && L.score ? ' · ' + L.score + '/11' : ''); lb.classList.add(lane);
+  li.querySelector('.opener').textContent = P.opener(L);
+  if (lane === 'redesign' && Array.isArray(L.why) && L.why.length) { const c = li.querySelector('.checks'); c.textContent = 'Their site: ' + L.why.join(', '); c.hidden = false; }
+  if (lane === 'site_down' && L.proof) { const c = li.querySelector('.checks'); c.textContent = String(L.proof).slice(0, 200); c.hidden = false; }   // what failed + when (tools/site_down_proof.py)
+  const site = li.querySelector('.site'), url = lane === 'redesign' ? P.theirSite(L) : P.siteUrl(L, conf);
+  if (url) { site.href = url; if (lane === 'redesign') site.textContent = 'Their current site'; } else site.remove();
   const maps = li.querySelector('.maps');
   if (s.tone === 'need') { maps.href = P.mapsUrl(L); phoneForm(li, L); } else maps.remove();
   if (s.ok) showOutcomes(li, L, true);
@@ -90,6 +102,18 @@ function row(L, s) {
   }
   const talked = P.entriesOf(st, L.id).some((e) => ['called', 'interested', 'booked', 'won'].indexOf(e.k) >= 0);
   if (talked && url) mailForm(li, L);
+  const keen = P.entriesOf(st, L.id).some((e) => e.k === 'interested' || e.k === 'booked');
+  if (keen && book && s.tone !== 'done' && !s.mail) proposalPanel(li, L);
+  if (s.mail) followUpPanel(li, L);
+  // the best hour for this kind of business, the scripts, the Do Not Call field
+  const bw = document.createElement('span'); bw.className = 'best'; bw.textContent = best ? 'Best hour now' : 'Best: ' + P.bestWords(L, conf);
+  if (best || s.ok) li.querySelector('.why').appendChild(bw);
+  const sc = P.scripts(L, st.caller, conf);
+  li.querySelector('.vm').textContent = sc.voicemail; li.querySelector('.tx').textContent = sc.text;
+  li.querySelector('.copyVm').addEventListener('click', () => copy(sc.voicemail, li));
+  li.querySelector('.copyTx').addEventListener('click', () => copy(sc.text, li));
+  const sel = li.querySelector('.dncSel'); sel.value = P.dncOf(L, st);
+  sel.addEventListener('change', () => { P.setDnc(st, L, sel.value); save(); render(); announce(L.name + ': Do Not Call list = ' + sel.options[sel.selectedIndex].text + '.'); });
   return li;
 }
 
@@ -136,17 +160,56 @@ function mailForm(li, L) {
   });
 }
 
+// ---------------------------------------------------------------------------------------------------- close the sale
+function theirEmail(li) { const v = (li.querySelector('.theirEmail') || {}).value || ''; return v.trim(); }
+function logOnce(L, k) { const es = P.entriesOf(st, L.id), last = es[es.length - 1]; if (!(last && last.k === k && Date.now() - last.t < 600000)) { P.logOutcome(st, L, k, Date.now()); save(); } }
+function proposalPanel(li, L) {
+  const box = li.querySelector('.proposal'); box.hidden = false;
+  if (P.theirSite(L) || P.siteUrl(L, conf)) li.querySelector('.mailForm').hidden = false;   // their email, for "Email it"
+  const prop = () => P.proposalFor(L, st.caller, conf, book, Date.now());
+  box.querySelector('.openProp').addEventListener('click', () => {
+    try { localStorage.setItem('agency.portal.proposal', JSON.stringify({ lead: L, caller: st.caller, conf: { agency: conf.agency, agency_email: conf.agency_email, postal: conf.postal,
+      agency_number: conf.agency_number, public_base: conf.public_base, tz: conf.tz }, price: book, t: Date.now() })); } catch (e) { /* private mode: the copy email still works */ }
+    window.open('proposal.html', '_blank', 'noopener'); logOnce(L, 'proposal'); announce(L.name + ': proposal opened (print or save it as PDF).');
+  });
+  box.querySelector('.copyProp').addEventListener('click', () => { copy(prop().email, li); logOnce(L, 'proposal'); });
+  box.querySelector('.gmailProp').addEventListener('click', () => {
+    const to = theirEmail(li), m = li.querySelector('.msg');
+    if (!P.validEmail(to)) { m.textContent = 'Type their email address first (in the box below).'; return; }
+    if (!P.validEmail(conf.agency_email)) { m.textContent = 'The agency email is not set yet: copy the email instead.'; return; }
+    const x = prop(); window.open(P.gmailUrl(conf, to, x.subject, x.email), '_blank', 'noopener'); logOnce(L, 'proposal');
+    m.textContent = 'The agency Gmail opened with the proposal. Check it and press Send.';
+  });
+}
+function followUpPanel(li, L) {
+  const box = li.querySelector('.fuMail'), f = P.proposalFollowUp(L, st.caller, conf); box.hidden = false;
+  li.querySelector('.mailForm').hidden = false;   // their email, for "Email it"
+  box.querySelector('.copyFu').addEventListener('click', () => copy(f.email, li));
+  box.querySelector('.gmailFu').addEventListener('click', () => {
+    const to = theirEmail(li), m = li.querySelector('.msg');
+    if (!P.validEmail(to) || !P.validEmail(conf.agency_email)) { m.textContent = 'Copy the email and send it from the agency inbox.'; return; }
+    window.open(P.gmailUrl(conf, to, f.subject, f.email), '_blank', 'noopener');
+  });
+  box.querySelector('.sentFu').addEventListener('click', () => { P.logOutcome(st, L, 'fu_email', Date.now()); save(); render(); announce(L.name + ': follow-up email logged. That was the last step.'); });
+}
+function copy(text, li) {
+  const done = () => { const m = li.querySelector('.msg'); if (m) m.textContent = 'Copied.'; };
+  try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, done); return; } } catch (e) { /* older phone */ }
+  const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch (e) { /* ignore */ } t.remove(); done();
+}
 function announce(t) { $('status').textContent = t; }
 
 // ---------------------------------------------------------------------------------------------------- the rest of the page
 function wire() {
   for (const b of document.querySelectorAll('.tabs button')) {
     b.addEventListener('click', () => {
-      filter = b.dataset.f;
+      filter = b.dataset.f; page = 25;
       for (const x of document.querySelectorAll('.tabs button')) x.setAttribute('aria-pressed', String(x === b));
       render();
     });
   }
+  $('eCopy').addEventListener('click', () => { const T = P.dayTally(st, Date.now(), conf, price); copy(T.text, { querySelector: () => $('eText') }); });
+  $('moreRows').addEventListener('click', () => { page += 25; render(); });
   $('signout').addEventListener('click', () => { store(UNLOCK, null); location.reload(); });
   $('addForm').addEventListener('submit', (ev) => {
     ev.preventDefault();

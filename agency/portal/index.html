@@ -15,8 +15,8 @@
      (python -m agency.portal build); portal.json = the public facts + the passphrase's salted hash (python -m agency.portal pass).
      Saved on this phone only ('agency.portal.v1'); it sends nothing by itself: Call opens the phone, Email opens the agency Gmail's compose,
      the log goes back as a file the owner imports (python -m agency.portal import). No secret, no private data, never the owner's address. -->
-<link rel="stylesheet" href="portal.css?v=1">
-<script type="module" src="portal.js?v=1"></script>
+<link rel="stylesheet" href="portal.css?v=4">
+<script type="module" src="portal.js?v=5"></script>
 </head>
 <body>
 <a class="skip" href="#list">Skip to the list</a>
@@ -59,6 +59,13 @@
       <p id="window" class="pill" role="status"></p>
     </section>
 
+    <section class="card eod" aria-labelledby="eodH">
+      <h2 id="eodH">Today so far</h2>
+      <div class="eodnums"><div><b id="eDials">0</b><span>dials</span></div><div><b id="eConn">0</b><span>connects</span></div><div><b id="eBooked">0</b><span>shows booked</span></div><div class="money"><b id="ePipe">$0</b><span>pipeline</span></div></div>
+      <p class="muted small" id="eText"></p>
+      <button type="button" class="btn" id="eCopy">Copy today's tally</button>
+    </section>
+
     <section class="stats" aria-label="Your numbers">
       <div><b id="sCalls">0</b><span>calls today</span></div>
       <div><b id="sInt">0</b><span>interested</span></div>
@@ -68,13 +75,16 @@
     </section>
 
     <nav class="tabs" aria-label="Filter the list">
-      <button type="button" data-f="go" aria-pressed="true">Call now <span id="nGo"></span></button>
+      <button type="button" data-f="today" aria-pressed="true">Today <span id="nToday"></span></button>
+      <button type="button" data-f="go" aria-pressed="false">Call now <span id="nGo"></span></button>
       <button type="button" data-f="need" aria-pressed="false">Need a number <span id="nNeed"></span></button>
+      <button type="button" data-f="redesign" aria-pressed="false">Redesign <span id="nRedesign"></span></button>
       <button type="button" data-f="wait" aria-pressed="false">Later <span id="nWait"></span></button>
       <button type="button" data-f="done" aria-pressed="false">Done <span id="nDone"></span></button>
     </nav>
     <p id="status" class="muted" role="status">Loading the list...</p>
     <ol id="list" class="list" tabindex="-1"></ol>
+    <button type="button" class="btn wide" id="moreRows" hidden>Show 25 more</button>
 
     <section class="card" aria-labelledby="addH">
       <h2 id="addH">Add a business you found on Google Maps</h2>
@@ -113,9 +123,11 @@
     </div>
     <p class="meta muted"></p>
     <p class="why"></p>
+    <p class="say"><span class="lane"></span> <q class="opener"></q></p>
+    <p class="checks small muted" hidden></p>
     <div class="row acts">
       <a class="btn primary call" href="#"></a>
-      <a class="btn site" href="#" target="_blank" rel="noopener">Their site</a>
+      <a class="btn site" href="#" target="_blank" rel="noopener noreferrer">Their site</a>
       <a class="btn maps" href="#" target="_blank" rel="noopener">Find on Google Maps</a>
     </div>
     <form class="phoneForm" hidden>
@@ -126,6 +138,34 @@
       <legend>What happened?</legend>
       <div class="grid"></div>
     </fieldset>
+    <details class="scripts">
+      <summary>Voicemail + text follow-up</summary>
+      <p class="small muted">Voicemail (say it yourself, never a recording):</p>
+      <p class="vm"></p>
+      <button type="button" class="btn copyVm">Copy the voicemail</button>
+      <p class="small muted">Text, ONLY if they asked you to text (no cold texts). Type it on your phone:</p>
+      <p class="tx"></p>
+      <button type="button" class="btn copyTx">Copy the text</button>
+    </details>
+    <label class="dncRow">Do Not Call list
+      <select class="dncSel"><option value="unknown">Not checked</option><option value="clear">Checked: not on it</option><option value="listed">On the list: never call</option></select>
+    </label>
+    <div class="proposal" hidden>
+      <p class="small"><b>Close today:</b> send the one-page proposal (their link, the price, 7 days, the deposit).</p>
+      <div class="row">
+        <button type="button" class="btn primary openProp">Open the proposal</button>
+        <button type="button" class="btn copyProp">Copy proposal email</button>
+        <button type="button" class="btn gmailProp">Email it</button>
+      </div>
+    </div>
+    <div class="fuMail" hidden>
+      <p class="small"><b>Last step:</b> the follow-up email for the proposal (then stop).</p>
+      <div class="row">
+        <button type="button" class="btn copyFu">Copy the email</button>
+        <button type="button" class="btn gmailFu">Email it</button>
+        <button type="button" class="btn sentFu">I sent it</button>
+      </div>
+    </div>
     <form class="mailForm" hidden>
       <label>Their email <input type="email" inputmode="email" maxlength="80" class="theirEmail"></label>
       <button type="submit" class="btn">Email them the link</button>

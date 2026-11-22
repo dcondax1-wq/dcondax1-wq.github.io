@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>POLIS lab</title>
 <meta name="description" content="OLYMPUS POLIS kit: meander borders, column frames, carved inscriptions, painted pottery, mosaics, owl coins, the Attic calendar, a sundial, an oil-lamp loader and gold laurels.">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <!-- The POLIS kit's lab (docs/POLIS_KIT.md): every piece of olympus/polis.js + polis.css on one page, phone first.
      ?lite=1 shows the LITE tier (no animation, smaller canvases), ?still=1 = reduced motion, ?t=<ISO time> pins the sundial's clock,
      ?style=red starts the pottery in red-figure. tests/test_polis_kit.py drives it through window.__polisLab. Nothing is fetched. -->
 <script>window.__polisLab = { ready: false, errors: [] }; window.addEventListener('error', function (e) { window.__polisLab.errors.push(String(e.message || e)); });</script>
-<link rel="stylesheet" href="agora.css?v=a10">
+<link rel="stylesheet" href="agora.css?v=a11">
 <link rel="stylesheet" href="polis.css?v=p3">
 <script src="polis.js?v=p1"></script>
 <style>
@@ -75,6 +75,7 @@
   .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
   footer { max-width: 980px; margin: 22px auto 0; padding: 0 16px; color: var(--ag-muted); font: 400 13px/1.45 var(--ag-sans); }
 </style>
+<script src="gate-nav.js?v=g11" defer></script><!-- ORGANIZE 2026-11-21: back + Home + arena breadcrumb on every page -->
 </head>
 <body class="agora">
 <header class="hero" id="hero">

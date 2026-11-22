@@ -12,18 +12,18 @@
     "stage": "eval",
     "room": 2000.0,
     "price": 91.8,
-    "request": 1500.0,
-    "to_you": 1200.0,
+    "request": 2000.0,
+    "to_you": 1600.0,
     "funded_month": 546.0,
     "state": "eval",
     "pass_typical": "2026-12-01",
     "pass_slow": "2026-12-15",
     "sessions_to_pass": 10,
-    "payout_typical": "2026-12-18",
-    "payout_slow": "2027-01-22",
-    "bank_typical": "2026-12-24",
-    "sessions_to_payout": 12,
-    "text": "Zlarior (LIT): passes about 2026-12-01 (slow 2026-12-15), first payout about 2026-12-18 (slow 2027-01-22): ask $1,500, $1,200 to you, in the bank about 2026-12-24."
+    "payout_typical": "2026-12-22",
+    "payout_slow": "2027-01-28",
+    "bank_typical": "2026-12-28",
+    "sessions_to_payout": 14,
+    "text": "Zlarior (LIT): passes about 2026-12-01 (slow 2026-12-15), first payout about 2026-12-22 (slow 2027-01-28): ask $2,000, $1,600 to you, in the bank about 2026-12-28."
    },
    {
     "name": "ATLAS",
@@ -32,18 +32,18 @@
     "stage": "eval",
     "room": 1000.0,
     "price": 63.0,
-    "request": 750.0,
-    "to_you": 600.0,
+    "request": 1000.0,
+    "to_you": 800.0,
     "funded_month": 338.0,
     "state": "eval",
     "pass_typical": "2026-12-01",
     "pass_slow": "2026-12-15",
     "sessions_to_pass": 10,
-    "payout_typical": "2026-12-21",
-    "payout_slow": "2027-01-26",
-    "bank_typical": "2026-12-25",
-    "sessions_to_payout": 13,
-    "text": "ATLAS: passes about 2026-12-01 (slow 2026-12-15), first payout about 2026-12-21 (slow 2027-01-26): ask $750, $600 to you, in the bank about 2026-12-25."
+    "payout_typical": "2026-12-22",
+    "payout_slow": "2027-01-28",
+    "bank_typical": "2026-12-28",
+    "sessions_to_payout": 14,
+    "text": "ATLAS: passes about 2026-12-01 (slow 2026-12-15), first payout about 2026-12-22 (slow 2027-01-28): ask $1,000, $800 to you, in the bank about 2026-12-28."
    }
   ],
   "account4": {
@@ -58,18 +58,18 @@
    "adds_month": 1969.0,
    "sale": null,
    "doc": "business/fleet_plan.json",
-   "buy_on": "2026-12-24",
+   "buy_on": "2026-12-28",
    "in_sale": false,
    "after": "Zlarior (LIT)",
-   "text": "Next buys (MFFU only): the Rapid EOD 25K now (added today), then the Rapid EOD 50K about 2026-12-24, the day Zlarior (LIT)'s first payout is in your bank ($165 with code CLUB; adds about $1,969 a month, estimate), then a fresh Builder 50K."
+   "text": "Next buys (MFFU only): the Rapid EOD 25K now (added today), then the Rapid EOD 50K about 2026-12-28, the day Zlarior (LIT)'s first payout is in your bank ($165 with code CLUB; adds about $1,969 a month, estimate), then a fresh Builder 50K."
   },
-  "first_payout_to_you": 1800.0,
+  "first_payout_to_you": 2400.0,
   "funded_month": 884.0,
   "funded_month_with_4": 2853.0,
   "first": {
    "name": "Zlarior (LIT)",
-   "bank": "2026-12-24",
-   "to_you": 1200.0
+   "bank": "2026-12-28",
+   "to_you": 1600.0
   },
   "note": "Typical pace from the research (not a promise). Evals can fail; the slow date is about twice the sessions. Bank dates assume about 4 business days after the request: check MFFU's payout page.",
   "demo": true
@@ -303,7 +303,7 @@
    "id": "demo-sites",
    "kind": "sites",
    "name": "Demo websites to sell",
-   "usd": 499.0,
+   "usd": 1500.0,
    "minutes": 30,
    "where": "Netlify Drop (free)",
    "file": "agency/out/",
@@ -484,11 +484,11 @@
  "moves": [
   {
    "id": "m-evals",
-   "what": "Let Zlarior and ATLAS trade every session; check the eval room each evening (first payout about 2026-12-24).",
+   "what": "Let Zlarior and ATLAS trade every session; check the eval room each evening (first payout about 2026-12-28).",
    "minutes": 5,
    "usd": [
     0,
-    1200.0
+    1600.0
    ],
    "where": "Business > Trading money"
   },
@@ -524,11 +524,11 @@
   },
   {
    "id": "m-agency",
-   "what": "AGENCY_DAY.bat, then 10 calls by hand (one Starter sale = $499 + $49 a month).",
+   "what": "AGENCY_DAY.bat, then 10 calls by hand (one Starter sale = $1,500 + $79 a month).",
    "minutes": 75,
    "usd": [
     0,
-    548
+    1579
    ],
    "where": "Website agency"
   },
@@ -544,7 +544,7 @@
   },
   {
    "id": "m-account4",
-   "what": "Next buy after the Rapid EOD 25K: the Rapid EOD 50K about 2026-12-24 (money in the bank first; MFFU only).",
+   "what": "Next buy after the Rapid EOD 25K: the Rapid EOD 50K about 2026-12-28 (money in the bank first; MFFU only).",
    "minutes": 0,
    "usd": [
     0,
@@ -614,7 +614,7 @@
     5,
     7
    ],
-   "why": "One Starter sale is $499 + $49 a month. Month 3 assumes 0-2 sales a month (the docs' plan of 4 a month needs 6 calls a working day).",
+   "why": "One Starter sale is $1,500 + $79 a month (agency/pricebook.json). Month 3 assumes 0-2 sales a month (the docs' plan of 4 a month needs 6 calls a working day).",
    "doc": "docs/AGENCY.md",
    "paused": false,
    "next": "Double-click AGENCY_DAY.bat and fill in agency/config.json (name, phone, email, address, city).",
@@ -880,21 +880,21 @@
  "prices": [
   {
    "id": "starter",
-   "name": "Starter",
-   "setup": 499.0,
-   "monthly": 49.0
-  },
-  {
-   "id": "growth",
-   "name": "Growth",
-   "setup": 999.0,
+   "name": "Starter site",
+   "setup": 1500.0,
    "monthly": 79.0
   },
   {
+   "id": "growth",
+   "name": "Call engine",
+   "setup": 500.0,
+   "monthly": 299.0
+  },
+  {
    "id": "pro",
-   "name": "Pro",
-   "setup": 1999.0,
-   "monthly": 129.0
+   "name": "3D Signature",
+   "setup": 2500.0,
+   "monthly": 79.0
   }
  ],
  "week": [

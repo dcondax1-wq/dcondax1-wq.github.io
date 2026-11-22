@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Olympus doors</title>
 <meta name="description" content="OLYMPUS in four doors: ZEUS Trading, Money, Kalshi, More. Each door holds the few things you use, in plain words, then all its apps. Search finds everything.">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -29,7 +29,7 @@
   var mt = document.querySelector('meta[name="theme-color"]'); if (mt && c.meta) { mt.setAttribute('data-oly-own', mt.getAttribute('content') || ''); mt.setAttribute('content', c.meta); }
 } catch (e) { return; } })(document.documentElement.getAttribute('data-oly-page') || 'doors', 'page');</script>
 <script>/* OLYMPUS NIGHT from the first frame while nothing is chosen (kit, day-arenas 2026-11-20) */(function(){try{var ls=window.localStorage,v=ls.getItem('olympus.theme'),d=document.documentElement,k,on=window.__olyPaint||[];if((v&&v!=='agora')||ls.getItem('olympus.theme.night')==='1'||ls.getItem('olympus.themeMix')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches))return;var c=JSON.parse(ls.getItem('olympus.theme.look.page.night')||'null');if(!c||!c.vars)return;for(k in c.vars){d.style.setProperty(k,c.vars[k]);on.push(k);}d.setAttribute('data-oly-theme','night');d.setAttribute('data-oly-scheme','dark');if(c.style)d.setAttribute('data-oly-style',c.style);window.__olyPaint=on;}catch(e){}})();</script>
-<link rel="stylesheet" href="../olympus/agora.css?v=a10">
+<link rel="stylesheet" href="../olympus/agora.css?v=a11">
 <style>
 html, body { background: var(--ag-night, #14110e); color: var(--ag-text, #f3ece0); margin: 0; }
 body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, system-ui, sans-serif); -webkit-text-size-adjust: 100%; }
@@ -101,11 +101,11 @@ body { font: 400 var(--ag-fs-body, .9375rem)/1.45 var(--ag-sans, -apple-system, 
 .dr-arc summary { color: var(--ag-muted, #a89c88); }
 .dr-arc .dr-row { opacity: .85; }
 </style>
-<script src="../olympus/apps-list.js?v=o12" defer></script>
+<script src="../olympus/apps-list.js?v=o13" defer></script>
 <script src="../olympus/doors.js?v=d12" defer></script>
 <script src="doors.js?v=d5" defer></script>
 <script src="../olympus/warp.js?v=w3" defer></script><!-- the world-to-world jump (olympus/warp.js; the kit apps get it through themes.js) -->
-<script src="../olympus/themes.js?v=o10"></script><!-- the theme engine (after warp.js's tag, so it does not load warp.js a second time) -->
+<script src="../olympus/themes.js?v=o11"></script><!-- the theme engine (after warp.js's tag, so it does not load warp.js a second time) -->
 <script>try { if (window.OLYMPUS_THEMES && window.OLYMPUS_THEMES.apply) window.OLYMPUS_THEMES.apply('page', { meta: true }); } catch (e) { /* the default look */ }</script>
 <link rel="stylesheet" href="../olympus/shell.css?v=s6">
 <link rel="stylesheet" href="../olympus/home-fx.css?v=x1"><!-- night-effects: the living home (hero, glass doors, intro) -->

@@ -104,9 +104,9 @@ function cleanIdeas(v) {
 
 // ---- the payout planner: the same math as engine/payout_plan.py (tests.test_money_door runs both on the same accounts)
 export const PLANS = {
-  builder50k: { label: 'MFFU Builder 50K', mll: 2000, buffer: 2100, pay_min: 500, pay_max: 2000, split: 0.8, cycle_days: 2, first_wait_h: 48, ask_above: 1500, typical_day: 300,
+  builder50k: { label: 'MFFU Builder 50K', mll: 2000, buffer: 2100, pay_min: 500, pay_max: 2000, split: 0.8, cycle_days: 2, first_wait_h: 48, ask_above: 2000, typical_day: 300,
     target: 3000, eval_day: Math.round((3000 / 9) * 100) / 100, funded_month: 546, price: 91.8, bot: 'Zlarior (LIT)' },
-  builder25k: { label: 'MFFU Builder 25K', mll: 1000, buffer: 1100, pay_min: 250, pay_max: 1000, split: 0.8, cycle_days: 2, first_wait_h: 48, ask_above: 750, typical_day: 150,
+  builder25k: { label: 'MFFU Builder 25K', mll: 1000, buffer: 1100, pay_min: 250, pay_max: 1000, split: 0.8, cycle_days: 2, first_wait_h: 48, ask_above: 1000, typical_day: 150,
     target: 1500, eval_day: 150, funded_month: 338, price: 63, bot: 'ATLAS' },
 };
 const SLOW = 2;

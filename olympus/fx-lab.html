@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OLYMPUS FX lab</title>
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <!-- The OLYMPUS effects library's lab (docs/OLYMPUS_FX.md): every effect of olympus/fx-*.js with a tier switcher.
      Scene effects draw on the sticky stage (the render core), card / button / number effects on their own sample.
@@ -12,8 +12,8 @@
      no fx script at all (only olympus.js: the zero-edit data-oly-fx wiring loads what it needs), ?fx=<tier> starts the effects on that tier.
      tests/test_olympus_fx.py drives it through window.__fxLab. -->
 <link rel="stylesheet" href="olympus.css?v=o7">
-<script src="themes.js?v=o10"></script>
-<script src="olympus.js?v=o22"></script>
+<script src="themes.js?v=o11"></script>
+<script src="olympus.js?v=o24"></script>
 <script>
   if (!/[?&]bare=1/.test(location.search)) ['fx-core', 'fx-ui', 'fx-text', 'fx-burst'].forEach(function (f) { document.write('<script src="' + f + '.js?v=f1"><\/script>'); });
 </script>
@@ -49,6 +49,7 @@
   .scene-note { font-size: 12px; color: var(--oly-dim); }
   .wire { display: grid; gap: 10px; }
 </style>
+<script src="gate-nav.js?v=g11" defer></script><!-- ORGANIZE 2026-11-21: back + Home + arena breadcrumb on every page -->
 </head>
 <body>
 <header>

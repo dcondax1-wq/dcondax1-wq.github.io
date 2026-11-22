@@ -88,24 +88,31 @@ const weekStart = (ymd, dow) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd
 
 // ------------------------------------------------------------------------------------------------ intents
 const RX = [
+  // the owner's money questions (lead QA 2026-11-21, tests/test_jarvis_money_answers.py): asked first, each from the PC's report with its age
+  ['acctrules', /\b(how many (contracts|minis|micros)|max(imum)? (contracts|size|minis|micros)|contracts (can|may) i|(trade|trading) (the )?news|news (on|allowed)|consistency( rule)?|best day rule)\b/],
+  ['inactive', /\b((7|seven)[- ]day( rule)?|inactiv\w*|trade (it |atlas |zlarior |them |the \w+ )?by|need to trade|keep (my )?accounts?|last (day|chance) to trade)\b/],
+  ['lasttrade', /\b(last trade|last traded|(when|what) (was|did) (the |my )?(\w+ )?last trade)\b/],
+  ['next', /\b(which account|what('s| is) next for|focus on|closest to (pass|a payout|payout)|trades next)\b/],
+  ['monthpnl', /\b(this month|month so far|(how much|what) (did|have) (i|we) (make|made|earn|earned) (this|in) (the )?month)\b/],
+  ['mode', /\b(armed|live or paper|paper or live|real money|(is|are) (zlarior|atlas|it|the bots?) (trading )?(live|on paper))\b/],
   // the website business (team web-expert 2026-11-20): agency/expert/playbook.json, the same file the Expert page reads
   ['web', /\b(3d (site|website|web)|immersive (site|website|web)|websites?|web ?design|web studio|agency|cold call(s|ing)?|my prospects?|local seo|seo|google business profile|gbp|care plan)\b|\bwhat (do|should) i say to an? \w+|\b(price|pricing|charge|quote) (a |for a |my )?(site|website|3d)\b|\bbest (niche|trade)s?\b|\bobjections?\b/],
-  ['pc', /\b(is (the|my) (pc|computer|bot|bots|ninjatrader|server|system) (ok|on|running|alive|up|working|fine|healthy)|(pc|computer|system) (ok|status|health)|(ninjatrader|nt) (ok|on|connected|running)|disk space|is the pc on)\b/],
+  ['pc', /\b(when did the pc (last )?(report|check)|pc last report(ed)?|last report(ed)?|is zeus (running|on)|is (the|my) (pc|computer|bot|bots|ninjatrader|server|system) (ok|on|running|alive|up|working|fine|healthy)|(pc|computer|system) (ok|status|health)|(ninjatrader|nt) (ok|on|connected|running)|disk space|is the pc on)\b/],
   ['decide', /\b(decide|decision|decisions|yes ?\/? ?no questions?|what do you recommend|your recommendations?|what would you do)\b/],
   ['taxes', /\b(tax|taxes|irs|set aside|estimated payment)\b/],
   ['payoutnow', /\b(can i (ask|request|take|get) (for )?a payout|(how much|how far) (more )?(to|until|till|before) (a |my |the |the first )?payout|payout (now|today)|ready for a payout|when can (i|atlas) (ask|request|get paid|withdraw)|need for a payout)\b/],
   ['review', /^ *(how did yesterday go|yesterday'?s review|daily review|what happened yesterday|last night'?s review|review yesterday) *$/],
   ['window', /\b(when (do|does|will|can) (the )?(bots?|zlarior|atlas|lit) (trade|enter|start)|trading hours|entry window|is the window open|when is the next (trade|entry) window)\b/],
   ['month', /\b(how much (will|can|could|do) (i|we|the bots?) make|per month|a month from|monthly income|make a month)\b/],
-  ['pass', /\b(how (far|much) (to|until|till|from) pass(ing)?|when (will|do|does|can) (i|we|it|zlarior|the 50k|the 25k)( \w+)? pass|(left|need) to pass|pass the eval)\b/],
+  ['pass', /\b(how far (am i|are we|is \w+) (from|to) pass(ing)?|(profit )?target on|has (atlas|zlarior|the \w+) passed|how (far|much) (to|until|till|from) pass(ing)?|when (will|do|does|can) (i|we|it|zlarior|the 50k|the 25k)( \w+)? pass|(left|need) to pass|pass the eval)\b/],
   ['edge', /\b(edge (health|light|ok|check)|is (the )?edge|is (lit|zlarior|atlas|the strategy|the bot) still working|still (has|have) an edge)\b/],
   ['intrade', /\b(in a trade|in trade|any trades? open|open (trade|position)s?|positions?|holding|in the market right now|trade on now)\b/],
-  ['room', /\b(zlarior|atlas|lit)\b.*\b(room|drawdown|cushion|buffer|lose)\b|\b(room|drawdown|cushion|buffer)\b.*\b(zlarior|atlas|lit|all (my )?accounts|each account|left)\b/],
+  ['room', /\b(how much room|room do i|lose today|can i lose|daily loss( limit)?|max(imum)? loss|floor|how close am i to)\b|\b(zlarior|atlas|lit)\b.*\b(room|drawdown|cushion|buffer|lose)\b|\b(room|drawdown|cushion|buffer)\b.*\b(zlarior|atlas|lit|all (my )?accounts|each account|left)\b/],
   ['payout', /\b(pay ?outs?|pay ?day|get paid|paid out|withdraw(al)?|cash out|first check)\b/],
   ['news', /\b(news|economic calendar|econ(omic)? (data|news|calendar)|cpi|fomc|nfp|payrolls|data (today|release)|big releases?|market movers?)\b/],
   ['steps', /\b(what should i do|what do i (need to )?do|my (to-?do|steps)|to-?do list|my list|anything for me|need(s)? me|waiting on me)\b/],
   ['kalshi', /\b(kalshi|k8)\b/],
-  ['bots', /\b((what|how) (did|have) (the )?(bots?|zlarior|atlas)|recap|bots? (do|did|today|this week|last week)|trades? (today|this week|last week)|today'?s trades|this week'?s trades|last week|how much did (i|we) make|am i (up|down)( today)?|what did (i|we) make)\b/],
+  ['bots', /\b(p&l (today|this week)|pnl (today|this week)|(my )?p ?and ?l (today|this week)|(what|how) (did|have) (the )?(bots?|zlarior|atlas)|recap|bots? (do|did|today|this week|last week)|trades? (today|this week|last week)|today'?s trades|this week'?s trades|last week|how much did (i|we) make|am i (up|down)( today)?|what did (i|we) make)\b/],
   ['accounts', /\b(accounts?|balances?|how am i doing|money status|how (are|is) (zlarior|atlas|my evals?))\b/],
 ];
 export function match(text) {
@@ -114,7 +121,7 @@ export function match(text) {
   if (/\b(hide|show|mask|unhide|blur)\b/.test(q)) return null;                          // the brain's hide / show my balance switch
   if (/\bblitz\b/.test(q)) return null;                                    // BLITZ is hidden: the old brain keeps its rule
   if (/^ (and|what about|how about|why|compare|explain|next|back)\b|^ open (it|that|this|the (first|second|third|last|next)) /.test(q)) return null;    // a follow-up: the brain's dialogue has the context
-  if (/\b(why|explain|strategy|rules?|game ?plan|how does|backtest|chart)\b/.test(q) && !/\b(in a trade|still working)\b/.test(q)) return null;   // the brain keeps the deeper answers
+  if (/\b(why|explain|strategy|rules?|game ?plan|how does|backtest|chart)\b/.test(q) && !/\b(in a trade|still working|(7|seven)[- ]day|consistency|contracts|news on|inactiv\w*|payout)\b/.test(q)) return null;   // the account-rule questions stay here (QA 2026-11-21)   // the brain keeps the deeper answers
   for (const [id, rx] of RX) if (rx.test(id === 'review' ? q.trim() : q)) return id;
   return null;
 }
@@ -203,7 +210,7 @@ export function liveFromLite(j, cached) {
     extra.push({ ...e, id: a.id, key: a.id, name: txt(a.name, 40).replace(/\bBuilder\s+/i, '').replace(/^MFFU\s+/i, ''), plan: txt(a.plan, 40), stage: a.kind === 'funded' ? 'funded' : 'eval',
       status: a.kind === 'funded' ? 'funded' : e.status, today_pnl: isObj(a.pnl) && num(a.pnl.today) != null ? num(a.pnl.today) : num(e.today) });
   }
-  const trades = arr(b.trades).filter(isObj).slice(-12).map((x) => ({ acct: x.acct, side: x.side, qty: x.qty, exit: x.exit, usd: num(x.usd), r: num(x.r), day: x.day, open: !!x.open,
+  const trades = arr(b.trades).filter(isObj).slice(-12).map((x) => ({ acct: x.acct, side: x.side, qty: x.qty, exit: x.exit, usd: num(x.usd), r: num(x.r), day: x.day, open: !!x.open, t: num(x.exit_t) || num(x.entry_t),
     src: x.src === 'paper' ? 'paper' : undefined, member: typeof x.member === 'string' ? x.member.slice(0, 12) : undefined }));
   return { lit: b.lit || null, atlas: b.atlas || null, extra, trades, price: num(j.price), t: num(j.t), verdict: isObj(j.pc_verdict) ? j.pc_verdict : null, raw: cached ? null : j, cached: !!cached };
 }
@@ -233,7 +240,7 @@ export function fundedView(a, feed) {
 export function fundedLine(a, feed) {
   const v = fundedView(a, feed); if (!v) return '';
   const left = (n) => (n > 0 ? ` (${usd(n)} to go)` : ' (reached)');
-  return `${a.name} funded: ${usd(v.profit)}, today ${usd(a.today || 0, true)}, floor ${v.floor < 0 ? '-' + usd(-v.floor) : usd(v.floor)} (${usd(v.room)} room left). Earliest payout at ${usd(v.early)}${left(v.toEarly)}; goal ${usd(v.goalPay)} at ${usd(v.goal)} (you get ${usd(v.toYou)}), ${v.toGoal > 0 ? `${usd(v.toGoal)} to go` : 'reached'}.`;
+  return `${a.name} funded: ${v.profit > 0 ? '+' : ''}${usd(v.profit)}, today ${usd(a.today || 0, true)}, floor ${v.floor < 0 ? '-' + usd(-v.floor) : usd(v.floor)} (${usd(v.room)} room left). Earliest payout at ${usd(v.early)}${left(v.toEarly)}; goal ${usd(v.goalPay)} at ${usd(v.goal)} (you get ${usd(v.toYou)}), ${v.toGoal > 0 ? `${usd(v.toGoal)} to go` : 'reached'}.`;
 }
 
 // ------------------------------------------------------------------------------------------------ the answers
@@ -296,7 +303,11 @@ A.room = async (deps, nowD, text) => {
   const rows = sel.map((a) => {
     const dllLeft = a.dll != null ? Math.max(0, a.dll - (a.dllUsed || 0)) : null, pct = a.room != null && a.mll ? Math.round((a.room / a.mll) * 100) : null;
     const warn = pct != null && pct < 25 ? ' Tight: under a quarter left.' : '';
-    return `${a.name}: ${usd(a.room)} of ${usd(a.mll)} drawdown left${pct != null ? ` (${pct}%)` : ''}${dllLeft != null ? `; today it can still lose ${usd(dllLeft)} before the daily limit` : ''}.${warn}`;
+    if (a.stage === 'funded') {                                         // MFFU terms: the floor trails from -$1,000 (25K) and stops at +$100
+      const v = fundedView(a);
+      if (v) return `${a.name} funded: ${usd(v.room)} above its floor (the floor is ${v.floor < 0 ? '-' + usd(-v.floor) : usd(v.floor)} in MFFU terms, ${usd(v.profit)} now; it rises with new highs and stops at +$100)${dllLeft != null ? `; today it can still lose ${usd(dllLeft)} before the daily limit (a pause, never a fail)` : ''}.`;
+    }
+    return `${a.name}: ${usd(a.room)} of ${usd(a.mll)} drawdown left${pct != null ? ` (${pct}%)` : ''}${dllLeft != null ? `; today it can still lose ${usd(dllLeft)} before the daily limit (a pause, never a fail)` : ''}.${warn}`;
   });
   return { text: rows.join('\n'), src: liveSrc(L, +nowD) };
 };
@@ -310,7 +321,17 @@ A.payout = async (deps, nowD) => {
   const [, n0, r0] = list[0];
   const head = `First payout most likely ${n0}: about ${usd(r0.first_pay_usd)} around ${dayText(r0.first_pay_med, et.ymd)} (could be as early as ${dayText(r0.first_pay_p10, et.ymd)}; ${Math.round(num(r0.p_by_dec31) || 0)}% chance by Dec 31).`;
   const more = list.slice(1).map(([, nm, r]) => `${nm}: about ${usd(r.first_pay_usd)} around ${dayText(r.first_pay_med, et.ymd)}.`);
-  return { text: [head, ...more, 'Estimates from 1,000 simulated runs of a Jul-Oct-like market, not a promise.'].join('\n'), src: srcLine(`business/payday.json (${txt(f.j.date, 10) || 'no date'})`, f, +nowD) };
+  const L = await freshLive(deps), fund = accountsOf(L).filter((x) => x.stage === 'funded'), now = [];
+  for (const x of fund) {                                             // the live numbers first, in MFFU terms (QA 2026-11-21)
+    const v = fundedView(x); if (!v) continue;
+    now.push(fundedLine(x));
+    now.push(v.toEarly > 0 ? `Eligible now? Not yet: ${usd(v.toEarly)} more to the earliest (${usd(v.earlyPay)} at +${usd(v.early)}), ${usd(v.toGoal)} more to the full ${usd(v.goalPay)} the plan waits for.`
+      : v.toGoal > 0 ? `Eligible by the balance: yes for ${usd(v.earlyPay)}-${usd(Math.min(v.goalPay, Math.floor(v.profit - (v.early - v.earlyPay))))}; the plan waits for the full ${usd(v.goalPay)} (${usd(v.toGoal)} more).`
+      : `Eligible by the balance: yes, the full ${usd(v.goalPay)}.`);
+  }
+  if (fund.length) now.push(`The rules: each payout ${usd(fund.some((x) => /50k/i.test(x.name)) ? 500 : 250)} min, ${usd(fund.some((x) => /50k/i.test(x.name)) ? 2000 : 1000)} max; 80% to you ($1,000 = $800, $560 after the 30% tax pot); 2 traded days a cycle, the best day <= 50% of the cycle's profit, 48 h after the first funded trade; 5 sim payouts, then MFFU moves you to live.`);
+  return { text: [...now, ...(now.length ? ['Dates:'] : []), head, ...more, 'Estimates from 1,000 simulated runs of a Jul-Oct-like market, not a promise.'].join('\n'),
+    src: (fund.length ? liveSrc(L, +nowD) + ' ' : '') + srcLine(`business/payday.json (${txt(f.j.date, 10) || 'no date'})`, f, +nowD) };
 };
 A.news = async (deps, nowD) => {
   const et = etNow(nowD), [nw, ev] = await Promise.all([getFile('news', deps), getFile('events', deps)]);
@@ -551,6 +572,79 @@ A.pass = async (deps, nowD, text) => {
   if (!evals.length) return { text: want && /atlas/i.test(String(want)) ? 'ATLAS already passed: it trades the funded 25K.' : 'No eval account on the PC report right now.', src: liveSrc(L, +nowD) };
   const rows = evals.map((a) => { const pd = est(a.name); return `${a.name}: ${usd(a.toTarget)} to pass (balance ${usd(a.balance)}, ${usd(a.room)} room)${pd ? `; most likely passes around ${dayText(pd, et.ymd)} (estimate)` : ''}.`; });
   return { text: rows.join('\n'), src: liveSrc(L, +nowD) + (h2 ? ' Dates: business/dash.json (1,000 simulated runs).' : '') };
+};
+// ------------------------------------------------------------------------------------------------ the money set (lead QA 2026-11-21)
+// docs/ACCOUNT_RULES.md (source research/lit/mffu_rules.json, checked 2026-11-20): the rules Jarvis says out loud
+const ACCT_OF = (who) => ['Zlarior 25K #2', 'Zlarior 50K', 'ATLAS 25K'].find((n) => String(who || '').startsWith(n)) || String(who || '');   // a trade's account (ATLAS ones carry their member)
+const RULES_DATE = 'MFFU rules checked 2026-11-20 (docs/ACCOUNT_RULES.md).';
+A.acctrules = async (deps, nowD, text) => {
+  const q = String(text || '').toLowerCase(), lines = [];
+  if (/contract|minis|micros|size/.test(q)) {
+    if (!/50k/.test(q)) lines.push('Builder 25K (Zlarior 25K #2, ATLAS funded): max 2 minis / 20 micros.');
+    if (!/25k/.test(q)) lines.push('Builder 50K (Zlarior): max 4 minis / 40 micros.');
+    lines.push('Rapid EOD 25K: 2 minis / 20 micros (the plain Rapid 25K is 3 / 30: not ours).');
+  }
+  if (/news/.test(q)) lines.push('News: allowed on every Builder account (Zlarior evals and ATLAS funded are news-unrestricted). Only a Rapid sim-funded account must be flat 2 min before to 2 min after FOMC, minutes, jobs and CPI.');
+  if (/consisten|best day/.test(q)) lines.push('Consistency: none in the Builder evals. Builder funded (ATLAS): for each payout the best day must be <= 50% of the cycle\'s profit (not a breach: trade more days). Rapid EOD eval: best day <= 30% of the profit; Rapid funded: none.');
+  if (!lines.length) lines.push('Builder 25K: 2 minis / 20 micros, news allowed. Builder 50K: 4 minis / 40 micros. Funded payouts: best day <= 50% of the cycle.');
+  return { text: lines.join('\n'), src: RULES_DATE };
+};
+// the last trade per account: the PC's report (its trades, newest by exit time), never the 25-day-old replay file
+// the same trades as "this week" (allTrades: the ATLAS report's own list first, then the board's), closed and real, oldest first
+function tradesOf(L, deps) { return allTrades(L, rawBits(L, deps)).filter((x) => isObj(x) && !x.open && x.src !== 'paper'); }
+A.lasttrade = async (deps, nowD, text) => {
+  const L = await freshLive(deps), q = String(text || '').toLowerCase(), et = etNow(nowD);
+  const want = /\batlas\b/.test(q) ? /^ATLAS/ : /\b25k\b|#2/.test(q) ? /25K #2/ : /\bzlarior|lit\b/.test(q) ? /^Zlarior 50K/ : null;
+  const tr = tradesOf(L, deps).filter((x) => !want || want.test(x.who));
+  if (!tr.length) return { text: `No closed trade${want ? ' for that account' : ''} in the PC's report (it carries the recent trades only).`, src: liveSrc(L, +nowD) };
+  const x = tr[tr.length - 1];
+  return { text: `Last trade: ${x.who}, ${dayText(x.day, et.ymd)}: ${x.side}, ${x.usd != null ? usd(x.usd, true) : '?'}${x.r != null ? ` (${x.r > 0 ? '+' : ''}${x.r.toFixed(1)}R)` : ''}${x.exit ? `, ${String(WHY[String(x.exit).toUpperCase()] || x.exit).toLowerCase()}` : ''}.`, src: liveSrc(L, +nowD) };
+};
+// 7 calendar days without a trade = MFFU may close the account (sim profits forfeited): each account's last trade + 7 days
+A.inactive = async (deps, nowD) => {
+  const L = await freshLive(deps), et = etNow(nowD), list = accountsOf(L), tr = tradesOf(L, deps), lines = ['MFFU can close an account after 7 calendar days without a trade (sim profits are lost).'];
+  const plus7 = (ymd) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd || ''); return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]) + 7 * 864e5).toISOString().slice(0, 10) : ''; };
+  const left = (ymd) => { const a = Date.parse(ymd + 'T00:00:00Z'), b = Date.parse(et.ymd + 'T00:00:00Z'); return Math.round((a - b) / 864e5); };
+  for (const a of list) {
+    const mine = tr.filter((x) => ACCT_OF(x.who) === a.name), last = mine.length ? mine[mine.length - 1].day : (a.today ? et.ymd : null);
+    if (!last) { lines.push(`${a.name}: no trade in the PC's report (it carries the last 12): check its last trade on MFFU, the deadline is 7 days after it.`); continue; }
+    const due = plus7(last), d = left(due);
+    lines.push(`${a.name}: last trade ${dayText(last, et.ymd)}; trade by ${dayText(due, et.ymd)}${d >= 0 ? ` (${plural(d, 'day')} left)` : ' (past: check MFFU now)'}.`);
+  }
+  return { text: lines.join('\n'), src: liveSrc(L, +nowD) };
+};
+// which account next: the closest to passing, the closest to a payout, the next entry window
+A.next = async (deps, nowD) => {
+  const L = await freshLive(deps), list = accountsOf(L), lines = [];
+  if (!list.length) return { text: 'I have no account numbers from the PC yet.', src: liveSrc(L, +nowD) };
+  const ev = list.filter((a) => a.stage === 'eval' && a.toTarget != null).sort((a, b) => a.toTarget - b.toTarget);
+  if (ev.length) lines.push(`Closest to passing: ${ev[0].name} (${usd(ev[0].toTarget)} to go)${ev.length > 1 ? `; then ${ev.slice(1).map((a) => `${a.name} (${usd(a.toTarget)})`).join(', ')}` : ''}.`);
+  for (const a of list.filter((x) => x.stage === 'funded')) { const v = fundedView(a); if (v) lines.push(`Closest to a payout: ${a.name}, ${usd(v.toEarly)} to the earliest (+${usd(v.early)}), ${usd(v.toGoal)} to the full ${usd(v.goalPay)}.`); }
+  const ms = isObj(L && L.raw) ? txt(L.raw.model_state, 120) : '';
+  if (ms) lines.push(`Next trade: ${ms.replace(/^LIT:\s*/i, 'Zlarior ')}.`);
+  lines.push('The bots trade every account by themselves; nothing to do but keep the PC on.');
+  return { text: lines.join('\n'), src: liveSrc(L, +nowD) };
+};
+// this month: the PC report's closed trades this calendar month (ET)
+A.monthpnl = async (deps, nowD) => {
+  const L = await freshLive(deps), et = etNow(nowD), m = et.ymd.slice(0, 7), tr = tradesOf(L, deps).filter((x) => String(x.day || '').startsWith(m));
+  const mon = MON[+m.slice(5) - 1];
+  if (!tr.length) return { text: `This month (${mon}): no closed trade in the PC's report (it carries the last 12 trades).`, src: liveSrc(L, +nowD) };
+  const tot = tr.reduce((s2, x) => s2 + (num(x.usd) || 0), 0), by = {};
+  for (const x of tr) { const k = ACCT_OF(x.who); by[k] = (by[k] || 0) + (num(x.usd) || 0); }
+  return { text: `This month (${mon}): ${plural(tr.length, 'closed trade')}, ${usd(tot, true)} in all (${Object.entries(by).map(([k, v]) => `${k} ${usd(v, true)}`).join(', ')}). From the PC's report (its recent trades).`, src: liveSrc(L, +nowD) };
+};
+// live or paper / armed: each account's badge from the PC (Jarvis never arms anything)
+A.mode = async (deps, nowD) => {
+  const L = await freshLive(deps), list = accountsOf(L);
+  if (!list.length) return { text: 'I have no account cards from the PC yet.', src: liveSrc(L, +nowD) };
+  const card = (k) => (isObj(L) && isObj(L[k]) ? L[k] : arr(L && L.extra).find((e) => isObj(e) && (e.key === k || e.id === k)) || null), rows = [];
+  for (const a of list) {
+    const c = card(a.key), badge = txt((c && c.badge) || '', 12).toUpperCase();
+    rows.push(`${a.name}: ${badge === 'LIVE' ? 'LIVE, armed: real orders through NinjaTrader' : badge === 'PAPER' ? 'paper (no real orders)' : badge ? badge.toLowerCase() : 'the report does not say'}.`);
+  }
+  rows.push('Only you arm or disarm a bot, on the PC; Jarvis never does.');
+  return { text: rows.join('\n'), src: liveSrc(L, +nowD) };
 };
 A.edge = async (deps, nowD) => {
   const f = await getFile('dash', deps), e = f && f.j && f.j.edge;

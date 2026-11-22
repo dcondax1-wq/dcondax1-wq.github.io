@@ -15,7 +15,9 @@
   'use strict';
   var d = document, w = window, base = w.GATE_BASE || '';
   if (w.GATE_ARENAS) return;
-  var SIX = ['cities', 'kalshi', 'nq', 'jarvis', 'agency', 'business'];
+  try { w.sessionStorage.setItem('olympus.home.v1', '1'); } catch (e) { /* private mode */ }   // Home opened this launch: Jarvis's tile never bounces back here
+  var SIX = ['nq', 'jarvis', 'agency', 'cities', 'business', 'kalshi'];      // the apps the 6 tiles open (2026-11-22 order); Everything else skips them
+  var TILES = ['nq', 'jarvis', 'agency', 'data', 'money', 'kalshi'];        // the tiles' ids (= the arenas in olympus/gate-catalog.js)
   var FIRST = ['planner', 'trading', 'ledger', 'board', 'hera', 'inbox', 'widget', 'dionysus', 'helios', 'settings'];   // lead 2026-11-20: only these 10, then 'See all apps (A to Z)'
   var PAYOUT_GOAL = 2100;      // MFFU Builder 25K funded: the first (max) payout request at $2,100 profit (CLAUDE.md, docs/ACCOUNT_RULES.md)
   function $(id) { return d.getElementById(id); }
@@ -40,7 +42,7 @@
       var f = cards.filter(function (c) { return c.kind === 'funded'; })[0];
       if (f) {
         var ask = num(f.toAsk);
-        out.business = ask != null ? { text: ask <= 0 ? 'Payout ready: ask MFFU' : 'Payout: ' + money(Math.max(0, PAYOUT_GOAL - ask)) + ' of ' + money(PAYOUT_GOAL), cls: ask <= 0 ? 'up' : '' }
+        out.money = ask != null ? { text: ask <= 0 ? 'Payout ready: ask MFFU' : 'Payout: ' + money(Math.max(0, PAYOUT_GOAL - ask)) + ' of ' + money(PAYOUT_GOAL), cls: ask <= 0 ? 'up' : '' }
           : { text: 'Payout goal ' + money(PAYOUT_GOAL) };
       }
     }
@@ -54,7 +56,7 @@
     });
     out.agency = due ? { text: due + ' call-back' + (due === 1 ? '' : 's') + ' due today', cls: 'warn' } : { text: won ? won + ' client' + (won === 1 ? '' : 's') + ' · next: call 5 leads' : 'Next: call 5 leads at lunch' };
     if (brief && brief.headline) out.jarvis = { text: 'Brief: ' + String(brief.headline).split('. ')[0].slice(0, 64) };
-    out.cities = { text: 'The 3D world of all your apps' };
+    out.data = { text: 'Every idea tested, + the Research hub' };
     return out;
   }
 
@@ -103,8 +105,26 @@
       w.setTimeout(wait, 250);
     })();
   }
-  var API = { SIX: SIX, FIRST: FIRST, lines: lines, others: others, ready: false };
+  var API = { SIX: SIX, TILES: TILES, FIRST: FIRST, lines: lines, others: others, ready: false };
   w.GATE_ARENAS = API;
   if (typeof module === 'object' && module && module.exports) module.exports = API;
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
+
+  /* MORE (2026-11-22, owner: "I want 6 main dashboards", the app opened on More): Home = the 6 tiles; the rest only after a tap on More.
+     Nothing is stored, and an old #more address is dropped, so the app always opens on the 6. */
+  (function more() {
+    var b = $('moreBtn'), r = d.documentElement; if (!b) return;
+    if (/^#more\b/.test(w.location.hash || '')) { try { w.history.replaceState(null, '', w.location.pathname + w.location.search); } catch (e) { /* file:// */ } }
+    function set(open) {
+      r.classList.toggle('g-more-open', open); b.setAttribute('aria-expanded', String(open));
+      b.textContent = open ? 'Back to the 6 dashboards' : 'More: every other app';
+    }
+    set(false);
+    b.addEventListener('click', function () {
+      var open = !r.classList.contains('g-more-open'); set(open);
+      var t = open ? $('elseSec') : $('arenas');
+      if (t && t.scrollIntoView) { try { t.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { t.scrollIntoView(); } }
+    });
+    w.GATE_MORE = { open: function () { set(true); }, close: function () { set(false); } };
+  }());
 }());

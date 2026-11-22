@@ -58,17 +58,38 @@
   if (G) { PAGES.pro.group = G.id; if (!G.pages.some((p) => p[0] === 'pro')) G.pages.push(['pro', 'Scorecard', 'results', PAGES.pro.desc]); }
 
   // ------------------------------------------------------------------ Home: the compact card under the quick tiles
+  const hasD = () => typeof D !== 'undefined' && !!D;
+  const ph = (b, em, wait) => `<button type="button" class="pr-home${wait ? ' pr-home-wait' : ' pr-home-none'}" ${go('pro')} aria-label="Scorecard: ${esc(b)}">`
+    + '<span class="pr-home-ring" aria-hidden="true" style="display:block;width:68px;height:68px;border-radius:50%;border:7px solid rgba(148,163,184,.18)"></span>'
+    + `<span class="pr-home-t"><span class="pr-eye">Scorecard · H2 check</span><b>${esc(b)}</b><em>${esc(em)}</em></span><span class="pr-home-go" aria-hidden="true">›</span></button>`;
+  function homeHTML() {
+    if (!hasD()) return ph('Loading the trades…', 'expectancy, risk, playbook, what-if sizing', true);
+    return PU.home(model(), { go }) || ph('No scorecard yet', 'it needs at least 5 trades in the span; tap for the full page', false);
+  }
+  function fillLater(box) {
+    let n = 0;
+    const t = setInterval(() => {
+      n++;
+      if (!box.isConnected || n > 240) { clearInterval(t); return; }      // left Home, or 2 min without data.json (offline: the tap still works)
+      if (!hasD()) return;
+      clearInterval(t);
+      try { box.innerHTML = homeHTML(); } catch (e) { console.warn('pro home', e); }
+    }, 500);
+  }
   const h0 = VIEWS.today;
   if (h0 && !h0.__pro) {
     const w = function (el) {
       h0.apply(this, arguments);
       try {
         el.querySelectorAll('.pr-homebox').forEach((x) => x.remove());
-        if (typeof D === 'undefined' || !D) return;          // needs the trades (data.json), not the small home.json
-        const html = PU.home(model(), { go }); if (!html) return;
-        const box = document.createElement('div'); box.className = 'pr-homebox'; box.innerHTML = html;
+        // fix 2026-11-21 (test_zenith_pro red): Home is drawn from the small home.json first and main.js does NOT redraw it when
+        // data.json is the same build (dogfood 2026-11-20, no layout shift), so a card that needs the trades never came. Now a
+        // placeholder of the same height stands in and is filled in place once data.json is there (no shift); no trades -> an
+        // honest "no scorecard yet" line, never an empty slot.
+        const box = document.createElement('div'); box.className = 'pr-homebox'; box.innerHTML = homeHTML();
         const q = el.querySelector('.pl-home > .pl-quick');
         if (q) q.after(box); else { const h = el.querySelector(':scope > .pl-home'); if (h) h.appendChild(box); else el.prepend(box); }
+        if (!hasD()) fillLater(box);
       } catch (e) { console.warn('pro home', e); }
     };
     Object.keys(h0).forEach((k) => { w[k] = h0[k]; });

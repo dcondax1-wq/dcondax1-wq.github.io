@@ -75,3 +75,6 @@ html:not(.bd-drawn) #app > :not(.bd-top) { visibility: hidden; }
 @media (max-width: 600px) { #edgeChip:empty { min-height: 93px; } }
 
 #mode { font-size: 0.9375rem; }   /* a11y: the source tag reads as a sentence */
+/* QA 2026-11-21 (OLYMPUS NIGHT, no brown): PC SILENT is a red alert on the night card, not terra-cotta on bronze */
+html:not([data-oly-scheme="light"]) .silent { background: radial-gradient(120% 120% at 0% 0%, rgba(239, 68, 68, .22), rgba(239, 68, 68, .05) 60%), linear-gradient(180deg, #16131e, #020204); border-color: rgba(239, 68, 68, .6); }
+html:not([data-oly-scheme="light"]) .silent b { color: #f87171; } html:not([data-oly-scheme="light"]) .silent b::before { background: #ef4444; box-shadow: 0 0 0 4px rgba(239, 68, 68, .22); }

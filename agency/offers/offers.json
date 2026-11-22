@@ -182,8 +182,8 @@
     },
     {
       "id": "monthly",
-      "title": "Monthly plan: cancel with 30 days notice",
-      "text": "The monthly plan is billed on the same day each month. Either side can stop it with 30 days notice; the Call engine has a 3-month minimum (reviews take time to add up)."
+      "title": "Care plan: 12-month term, then 30 days notice",
+      "text": "The care plan ($79 a month) starts on launch day and runs for a 12-month term, billed on the same day each month; after that it continues month to month and either side can stop it with 30 days notice. The Call engine has a 3-month minimum (reviews take time to add up)."
     },
     {
       "id": "late",

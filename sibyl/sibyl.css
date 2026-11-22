@@ -23,14 +23,14 @@ html.framed #app { padding-top: 12px; }
 .lead { margin: 0; font-size: 15px; color: var(--ag-soft); }
 .note { margin: 0; font-size: 13px; color: var(--ag-muted); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 8px; }
-.tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: #211c16; border: 1px solid var(--ag-line); min-width: 0; }
+.tile { padding: 10px 12px; border-radius: var(--ag-radius-s, 12px); background: var(--oly-th-n5, #211c16); border: 1px solid var(--ag-line); min-width: 0; }
 .tile small { display: block; font-size: 12px; color: var(--ag-muted); }
 .tile b { display: block; margin-top: 2px; font: 700 20px/1.15 var(--ag-num); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .tile span { display: block; margin-top: 2px; font-size: 12px; color: var(--ag-soft); }
 .pos { color: var(--ag-olive); } .neg { color: var(--ag-terra); }
 .kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; margin: 0; font-size: 14px; }
 .kv dt { color: var(--ag-soft); } .kv dd { margin: 0; text-align: right; font-family: var(--ag-num); font-variant-numeric: tabular-nums; font-weight: 600; }
-.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: #211c16; white-space: nowrap; }
+.pill { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font: 700 12px var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); background: var(--oly-th-n5, #211c16); white-space: nowrap; }
 .pill.ok { color: var(--ag-olive); border-color: #4c5530; } .pill.warn { color: var(--ag-sun); border-color: #6e5424; } .pill.bad { color: var(--ag-terra); border-color: #6e3424; } .pill.info { color: #7fa7c2; border-color: #2f4a5c; }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); background: var(--ag-raise); color: var(--ag-text); }
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -46,11 +46,11 @@ details > summary { min-height: 44px; display: flex; align-items: center; cursor
 .hero { border-color: #5a4630; }
 .ballbox { position: relative; width: 100%; aspect-ratio: 1.45; max-height: 300px; border-radius: 14px; overflow: hidden; background: radial-gradient(90% 80% at 50% 30%, #3a2c1d 0%, #1a140e 80%); border: 1px solid var(--ag-line); }
 #stage, #flat { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
-.banner { margin: 0; padding: 10px 12px; border-radius: 12px; background: #211c16; border: 1px dashed var(--ag-bronze); font-size: 13px; color: var(--ag-soft); }
+.banner { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--oly-th-n5, #211c16); border: 1px dashed var(--ag-bronze); font-size: 13px; color: var(--ag-soft); }
 .fld { display: grid; gap: 4px; font-size: 13px; color: var(--ag-soft); }
-.fld input { min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ag-line); background: #211c16; font: 600 18px var(--ag-num); width: 100%; }
+.fld input { min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ag-line); background: var(--oly-th-n5, #211c16); font: 600 18px var(--ag-num); width: 100%; }
 .plain { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; color: var(--ag-soft); }
-.plain > li { padding: 10px 12px; border-radius: 12px; background: #211c16; border: 1px solid var(--ag-line); }
+.plain > li { padding: 10px 12px; border-radius: 12px; background: var(--oly-th-n5, #211c16); border: 1px solid var(--ag-line); }
 .pick { padding: 0 !important; overflow: hidden; }
 .pick.sel { border-color: var(--ag-gold) !important; }
 .prow { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; min-height: 56px; padding: 8px 12px; background: transparent; border: 0; text-align: left; color: var(--ag-text); }

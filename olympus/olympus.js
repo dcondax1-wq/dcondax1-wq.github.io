@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
- *   <script src="../olympus/themes.js?v=o10"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o22" data-app="mind"></script>
+ *   <script src="../olympus/themes.js?v=o11"></script>  (the OLYMPUS themes: optional, just before)
+ *   <script src="../olympus/olympus.js?v=o24" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,
@@ -39,7 +39,7 @@
     widget: ['Widget', '▣', '#c8a24a'],
     why: ['Why', '?', '#c8a24a'],
     board: ['Board', '▤', '#c8a24a'],
-    business: ['Business', 'B', '#c8a24a'],
+    business: ['Money', '$', '#f1c14b'],
     trading: ['Trading', 'T', '#c8a24a'],
     agency: ['Websites', 'Ε', '#d08c4a'],
     polis: ['Polis', 'Πλ', '#e0b060'],
@@ -61,7 +61,7 @@
     hermes: ['Hermes', 'Η', '#f7c948'], prometheus: ['Prometheus', 'Π', '#ff7a1a'], tyche: ['Tyche', 'Τ', '#cf8f7a'],
     pantheon: ['Pantheon', 'Σ', '#f2d68a'], arena: ['Arena', 'Α', '#ffb547'],
     ares: ['Ares', 'Λ', '#c8402e'], plutus: ['Plutus', 'Ρ', '#a9b84f'], athena: ['Athena', '🦉', '#7f8a52'],
-    cities: ['Cities', '◈', '#b88a50'], settings: ['Settings', '⚙', '#a39883'], inbox: ['Inbox', '✉', '#9aa3a8'], ledger: ['Ledger', 'L', '#c2b280'], planner: ['Planner', 'Π', '#7fa7c2'], delphi: ['Delphi', 'Φ', '#e0b060'], pnyx: ['Pnyx', 'Π', '#c8a24a'], hestia: ['Hestia', 'Η', '#c8a24a'], demeter: ['Demeter', 'Δ', '#9aa564'], apollo: ['Apollo', 'Α', '#e0b060'], hera: ['Hera', 'Ω', '#c96a4a'], dionysus: ['Dionysus', 'Σ', '#b77a8a'], clio: ['Clio', 'Κ', '#d8c9a8'], journal: ['Mnemosyne', 'Μ', '#e08a6b'], kalshicity: ['Kalshi City', 'K', '#b5a642'], forum: ['Forum', 'Γ', '#8f9f3c'], labyrinth: ['Labyrinth', 'Ξ', '#a8765a'], argus: ['Argus', 'Α', '#3f8a8a'], nemesis: ['Nemesis', 'Ν', '#b55c66'], chronos: ['Chronos', 'Χ', '#d4a574'], hephaestus: ['Hephaestus', '⚒', '#c7773f'],
+    cities: ['Data City', '◈', '#b88a50'], settings: ['Settings', '⚙', '#a39883'], inbox: ['Inbox', '✉', '#9aa3a8'], ledger: ['Ledger', 'L', '#c2b280'], planner: ['Planner', 'Π', '#7fa7c2'], delphi: ['Delphi', 'Φ', '#e0b060'], pnyx: ['Pnyx', 'Π', '#c8a24a'], hestia: ['Hestia', 'Η', '#c8a24a'], demeter: ['Demeter', 'Δ', '#9aa564'], apollo: ['Apollo', 'Α', '#e0b060'], hera: ['Hera', 'Ω', '#c96a4a'], dionysus: ['Dionysus', 'Σ', '#b77a8a'], clio: ['Clio', 'Κ', '#d8c9a8'], journal: ['Mnemosyne', 'Μ', '#e08a6b'], kalshicity: ['Kalshi City', 'K', '#b5a642'], forum: ['Forum', 'Γ', '#8f9f3c'], labyrinth: ['Labyrinth', 'Ξ', '#a8765a'], argus: ['Argus', 'Α', '#3f8a8a'], nemesis: ['Nemesis', 'Ν', '#b55c66'], chronos: ['Chronos', 'Χ', '#d4a574'], hephaestus: ['Hephaestus', '⚒', '#c7773f'],
     bridge: ['Bridge', 'Β', '#8c7a5a'], observatory: ['Observatory', '◉', '#a9bfd0'], atlas: ['Atlas', '◈', '#efc979'],
   };
   // each app's own CSS tokens -> the theme token they take under any theme but the default (bg = the app's own page colour
@@ -649,7 +649,7 @@
     } catch (e) { /* no worker on this browser */ }
     try {
       if (base && !framed && id !== 'jarvis' && !d.querySelector('script[src*="jarvis/ask.js"]') && d.body) {
-        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=6'; s.defer = true; if (id) s.setAttribute('data-app', id);
+        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=7'; s.defer = true; if (id) s.setAttribute('data-app', id);
         d.body.appendChild(s); d.body.classList.add('oly-has-ask');   // agora.css: the last lines scroll clear of the fixed button
       }
     } catch (e) { /* the page works without the button */ }

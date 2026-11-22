@@ -1,0 +1,71 @@
+{
+ "v": 1,
+ "note": "hero photos for the premium concept sites; all CC0, downloaded once and served from this folder (never hotlinked)",
+ "photos": {
+  "dentist": {
+   "title": "Chair Dentist",
+   "source": "https://stocksnap.io/photo/chair-dentist-3J10QN5PTS",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "clinic": {
+   "title": "Doctor Patient",
+   "source": "https://stocksnap.io/photo/doctor-patient-EDI8LWKSBB",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "locksmith": {
+   "title": "Keys Door",
+   "source": "https://stocksnap.io/photo/keys-door-Z1TKDI29FZ",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "carpet": {
+   "title": "Living Room",
+   "source": "https://stocksnap.io/photo/living-room-BI0P6D3WL9",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "movers": {
+   "title": "Cardboard Box",
+   "source": "https://stocksnap.io/photo/cardboard-box-USP4WCYPBW",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "roofing": {
+   "title": "Roof Shingle",
+   "source": "https://stocksnap.io/photo/roof-shingle-RIUJONCXNY",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "handyman": {
+   "title": "Wrench Tools",
+   "source": "https://stocksnap.io/photo/wrench-tools-F91K0WLE2D",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "cleaning": {
+   "title": "Mop Sweeping",
+   "source": "https://stocksnap.io/photo/mop-sweeping-J4C1WJDMMU",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "physio": {
+   "title": "Stretching Exercises",
+   "source": "https://stocksnap.io/photo/stretching-exercises-BIOFWEIURU",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "acupuncture": {
+   "title": "Aromatherapy Spa",
+   "source": "https://stocksnap.io/photo/aromatherapy-spa-5A5JLDXM4R",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "optometry": {
+   "title": "Eyeglasses Book",
+   "source": "https://stocksnap.io/photo/eyeglasses-book-OU5DSWRBTQ",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "drywall": {
+   "title": "Construction Worker",
+   "source": "https://stocksnap.io/photo/construction-worker-6B70C91911",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  },
+  "hvac": {
+   "title": "House Home",
+   "source": "https://stocksnap.io/photo/house-home-LJ515CPAKI",
+   "license": "CC0 (StockSnap via Openverse): free to use, no attribution needed"
+  }
+ }
+}

@@ -55,7 +55,8 @@ const DIST = [
 ];
 const DGROUP = { trading: 'zeus', money: 'money' };
 // the switcher's order (owner 2026-11-20): Cities, Kalshi, the NQ bot, Jarvis, the Planner, Business, then ZEUS (Zenith); then the doors
-export const FIRST = ['cities', 'kalshi', 'nq', 'home', 'agency', 'business'];
+// 2026-11-22 (owner: "I want 6 main dashboards"): the same 6 and order as Home (gate/): NQ Bot, Jarvis, Websites, Data City, Money, Kalshi
+export const FIRST = ['nq', 'home', 'agency', 'cities', 'business', 'kalshi'];
 // owner 2026-11-20 17:00 ET ("6 arenas, that's it, then a separate area for the smaller stuff"): FIRST is the six arenas; everything else is
 // ONE "More" group, the Planner first, then Zenith, then the rest in door order (olympus/doors.js), the archived apps at its end
 export const MORE_FIRST = ['planner', 'zenith'];

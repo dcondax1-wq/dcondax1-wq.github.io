@@ -1,13 +1,13 @@
 {
  "v": 1,
- "date": "2026-11-21",
+ "date": "2026-11-22",
  "number": 2,
- "built": "2026-11-21T17:41:16Z",
+ "built": "2026-11-22T11:57:58Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
   "motto": "Only what the files say",
-  "date_words": "Saturday, 21 November 2026"
+  "date_words": "Sunday, 22 November 2026"
  },
  "label": "Some stories rest on sample data and say so.",
  "lead": {
@@ -149,9 +149,9 @@
    "standfirst": "Who is building what today, straight from the lead's roster.",
    "body": [
     "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
-    "On the bench today: Kalshi team C: Hunting for a real Kalshi edge in weather and index markets.",
-    "Next to it: Theme finisher: One calm AGORA look in every app; a unique accent per app.",
-    "And a third: Hellas: A world of 200+ cities built from the real research data.",
+    "On the bench today: Ergasterion: The agent factory: watch every worker and what it learned.",
+    "Next to it: Kalshi team C: Hunting for a real Kalshi edge in weather and index markets.",
+    "And a third: Theme finisher: One calm AGORA look in every app; a unique accent per app.",
     "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
     "The roster was last updated at 2026-11-11T01:10:00Z."
    ],
@@ -161,6 +161,16 @@
      "src": "handoff/agents_now.json",
      "calc": "count of agents",
      "raw": 10
+    },
+    {
+     "t": "Ergasterion",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "The agent factory: watch every worker and what it learned",
+     "src": "handoff/agents_now.json",
+     "quote": true
     },
     {
      "t": "Kalshi team C",
@@ -179,16 +189,6 @@
     },
     {
      "t": "One calm AGORA look in every app; a unique accent per app",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Hellas",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "A world of 200+ cities built from the real research data",
      "src": "handoff/agents_now.json",
      "quote": true
     },
@@ -673,9 +673,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 230 write-ups.",
-    "The newest lesson on file, dated 2026-11-20, reads: 1. Do not sell \"a website\". Sell a monthly engine that brings calls (site + Google profile + reviews + missed-call text-back), with the site as the first step.",
-    "It was filed under \"finding\" and comes from research/writeups/web-business-2026-11-20.md."
+    "The research shelf now counts 247 write-ups.",
+    "The newest lesson on file, dated 2026-11-22, reads: No pre-trade market signal separates the losing 2021-25 years from 2026; every guard costs 2026 money.",
+    "It was filed under \"rejected\" and comes from research/writeups/regime-guard-2026-11-22.md."
    ],
    "facts": [
     {
@@ -707,28 +707,28 @@
      "quote": true
     },
     {
-     "t": "230",
+     "t": "247",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 230
+     "raw": 247
     },
     {
-     "t": "2026-11-20",
+     "t": "2026-11-22",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "1. Do not sell \"a website\". Sell a monthly engine that brings calls (site + Google profile + reviews + missed-call text-back), with the site as the first step.",
+     "t": "No pre-trade market signal separates the losing 2021-25 years from 2026; every guard costs 2026 money.",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "finding",
+     "t": "rejected",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/web-business-2026-11-20.md",
+     "t": "research/writeups/regime-guard-2026-11-22.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }
@@ -908,40 +908,40 @@
  },
  "quiz": [
   {
-   "id": "t3",
-   "topic": "target",
-   "q": "The target is based on",
-   "o": [
-    "The 18:00 open plus or minus one VIX day move",
-    "Yesterday's high",
-    "A round number"
-   ],
-   "a": 0,
-   "why": "The 18:00 New York open plus or minus one VIX day move, the same every day."
-  },
-  {
-   "id": "f1",
+   "id": "f2",
    "topic": "flat",
-   "q": "What time is the bot flat by?",
+   "q": "What is the latest time for a new entry?",
    "o": [
-    "15:55 New York time",
-    "16:10, the firm's limit",
-    "Whenever the trade ends"
+    "15:30 New York",
+    "15:55",
+    "16:10"
    ],
    "a": 0,
-   "why": "Flat at 15:55 ET. MFFU requires flat by 16:10, so 15:55 leaves a margin."
+   "why": "Entries run from 02:00 to 15:30 ET, so a trade has time to work before flat."
   },
   {
-   "id": "s3",
+   "id": "s4",
    "topic": "stop",
-   "q": "Price is close to your stop and you feel sure it will turn. Move the stop further away?",
+   "q": "Why is the stop at the protected low or high?",
    "o": [
-    "No. A stop never moves away from price",
-    "Yes, give the trade room",
-    "Yes, but only by a few points"
+    "If price takes it, the trade idea is wrong",
+    "It is always the tightest stop",
+    "It makes the target bigger"
    ],
    "a": 0,
-   "why": "The stop only ever moves toward safety: to break-even at 1R. Widening it turns a small loss into a big one."
+   "why": "That level is where the idea is proven wrong, so the loss is cut exactly there."
+  },
+  {
+   "id": "t2",
+   "topic": "target",
+   "q": "Price reaches the target. You",
+   "o": [
+    "Bank it",
+    "Wait for a bit more",
+    "Move the target up"
+   ],
+   "a": 0,
+   "why": "The target is the plan. Bank it and the trade is done."
   }
  ],
  "interviews": [
@@ -987,22 +987,22 @@
    ]
   },
   {
-   "id": "builder:a9fa9fcc",
-   "name": "Colosseum",
-   "title": "Build agent, arena",
+   "id": "builder:a545b014",
+   "name": "NQ bot",
+   "title": "Build agent, trading",
    "src": "handoff/agents_now.json",
    "qa": [
     {
      "q": "What are you building?",
-     "a": "A 3D arena where two strategies duel on real numbers."
+     "a": "The NQ page and the kit that updates the PC's bot folder."
     },
     {
      "q": "Where does your work live?",
-     "a": "On my own branch, worktree-agent-a9fa9fcc5a553e79b. The lead merges it when it is ready."
+     "a": "On my own branch, worktree-agent-a545b014870ea708c. The lead merges it when it is ready."
     },
     {
      "q": "Which part of OLYMPUS is yours?",
-     "a": "The arena area."
+     "a": "The trading area."
     }
    ]
   }

@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-21 12:41 ET",
+ "built": "2026-11-22 06:55 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -127,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Land JARVIS 2dc977b0 (DESIGN + JARVIS sky combined: poster + skip gating, calm idle start,...",
-   "Render test i-low = DESIGN's no-3D at effects Low (56/56); Jarvis 2026-11-21 LEAD_WIRES (sw.js...",
-   "Jarvis bars: solid violet, no blur (AGORA 2026-11-10: no glass blur on the dock keeps phones...",
-   "Render test i: in still mode the sky's frame is drawn again on return (then every 3 s); PERF...",
-   "Jarvis worker: SHELL backdrop.js b7 + sky-poster.webp (DESIGN 6ee9eb81 LEAD_WIRES), cache jarvis-v87",
-   "Jarvis sky tests: test_jarvis_sky 8/8 (Fast 3G line); test_jarvis_home LITE = no 3D sky, the...",
-   "JARVIS_SKY.md: poster tag in LEAD_WIRES",
-   "Jarvis sky poster: violet floor ( - ), no near-black under the bars (lead: Classic 'little bits of..."
+   "Rebuild Jarvis search index",
+   "Jarvis worker: offline copy holds nqbars/expertcore/dashfx (jarvis-v94), version bumps for the...",
+   "hermes: the stage clips its 3D-tilted card",
+   "Lane E fleet plan: 72 fleets + Risk-team sensitivity; $300/mo Rapid EOD 50K + FundedNext 50K...",
+   "lucid red team report + 5-day dry run (unchanged lanes, 85/85 both ways)",
+   "Bump versions for site-down proof",
+   "fleet: engine + 24-month horizon for the Corvette date (before the scored run)",
+   "fleet: pre-registered design (lane E follow-up)"
   ]
  },
  "next": {
@@ -154,10 +154,11 @@
    }
   ],
   "decisions": [
-   "Rapid 25K: Sat STOP BOT, START BOT, type your phrase (skip if Claude says it fixed itself)",
-   "Sat at the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
-   "Before ATLAS's first payout: open a free brokerage + Treasury fund for the tax pot (20 min)",
-   "Ask parents: is your health plan HSA / high-deductible? Do they claim you as a dependent?"
+   "At the PC: STOP BOT, then START_BOT.bat, type I ACCEPT LIVE RISK; check 'Rapid EOD 25K ... armed'",
+   "At the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
+   "Phone alerts from the phone: PC link + :8444/alerts/ - BotFather token - Paste - Connect - START (or ALERTS_SETUP.bat)",
+   "Sunday before 6 PM: KEEPALIVE_ON.bat, type KEEP ALIVE ON (the 7-day rule on every MFFU account)",
+   "Before ATLAS's first payout: free brokerage + Treasury fund for the tax pot; ask parents about HSA / dependent"
   ],
   "steps": []
  },
@@ -294,14 +295,38 @@
  ],
  "weekend": [
   {
+   "id": "plan-rapid50k-max2-rebuys",
+   "question": "Rapid EOD 50K ($165): buy it with a hard stop of at most 2 re-buys (3 evals in all, max $495 at risk)?",
+   "usd_month": 2282.0,
+   "src": "Decide card"
+  },
+  {
+   "id": "plan-fundednext50k-max2-rebuys",
+   "question": "FundedNext Rapid Daily 50K (~$150 with code RAPID): add one, with at most 2 re-buys (max $450 at risk)?",
+   "usd_month": 1546.0,
+   "src": "Decide card"
+  },
+  {
    "id": "copilot-test",
    "question": "Big idea: run a free 30-day test of a 'Prop Slot Planner' page for other prop traders (faceless brand, no name), plus 1 short video a day?",
    "usd_month": 600.0,
    "src": "Decide card"
+  },
+  {
+   "id": "buy-rapid50-now",
+   "question": "Buy the 5th funded slot (Rapid EOD 50K, $165 with CLUB) now from your pocket, instead of waiting for ATLAS's first payout (about Jan 13)?",
+   "usd_month": 554.0,
+   "src": "Decide card"
+  },
+  {
+   "id": "rapid-funded-refit",
+   "question": "Rapid funded: let a winner pay up to $2,000 on the 25K ($4,000 on a 50K) and keep $1,000 ($2,000) in the account?",
+   "usd_month": 314.0,
+   "src": "Decide card"
   }
  ],
  "missing": [
-  "PC live numbers: last report Nov 7 1:05 ET (14 days ago)",
+  "PC live numbers: last report Nov 7 1:05 ET (15 days ago)",
   "trade list: no PC ledger here and no data pipe days yet (on the PC this fills itself; in the cloud run python tools/data_pull.py once the PC's data branch exists)",
   "Zlarior: no live PC balance this week (plan / owner-typed number shown)",
   "Zlarior 25K #2: no live PC balance this week (plan / owner-typed number shown)",

@@ -22,118 +22,200 @@
   {
    "m": "2026-12",
    "month": "2026-12",
-   "median": 74,
-   "bad": -29,
-   "median_half": -36,
-   "median_ref": -159
+   "median": 62,
+   "bad": -31,
+   "median_half": -37,
+   "median_ref": -157
   },
   {
    "m": "2027-01",
    "month": "2027-01",
-   "median": 572,
-   "bad": -28,
-   "median_half": -43,
-   "median_ref": -162
+   "median": 557,
+   "bad": -26,
+   "median_half": -44,
+   "median_ref": -161
   },
   {
    "m": "2027-02",
    "month": "2027-02",
-   "median": 1523,
-   "bad": 0,
-   "median_half": -24,
+   "median": 1432,
+   "bad": 10,
+   "median_half": -32,
    "median_ref": -189
   },
   {
    "m": "2027-03",
    "month": "2027-03",
-   "median": 2731,
-   "bad": 63,
-   "median_half": 0,
+   "median": 2578,
+   "bad": 66,
+   "median_half": -8,
    "median_ref": -223
   },
   {
    "m": "2027-04",
    "month": "2027-04",
-   "median": 3434,
-   "bad": 291,
-   "median_half": 19,
+   "median": 3402,
+   "bad": 231,
+   "median_half": 0,
    "median_ref": -218
   },
   {
    "m": "2027-05",
    "month": "2027-05",
-   "median": 3548,
-   "bad": 65,
-   "median_half": 37,
+   "median": 3525,
+   "bad": 235,
+   "median_half": 20,
    "median_ref": -218
   },
   {
    "m": "2027-06",
    "month": "2027-06",
-   "median": 3874,
+   "median": 3863,
    "bad": 266,
-   "median_half": 52,
+   "median_half": 3,
    "median_ref": -218
   }
  ],
  "total": {
-  "median": 19510,
-  "bad": 6886,
-  "median_half": 1987,
-  "median_ref": -1347,
-  "median_stress": 16346
+  "median": 19268,
+  "bad": 6577,
+  "median_half": 1883,
+  "median_ref": -1353,
+  "median_stress": 16043
  },
  "next_buy": {
   "what": "Rapid EOD 50K",
   "price": 165.0,
   "code": "CLUB",
-  "when_med": "2027-01-05",
-  "when_p10": "2026-12-14",
-  "when_p90": "2027-02-12",
+  "when_med": "2027-01-08",
+  "when_p10": "2026-12-15",
+  "when_p90": "2027-02-16",
   "chance": 99.9,
   "from": "kept payout money only (after MFFU's cut, the tax set-aside and fees)",
-  "when": "2027-01-05",
+  "when": "2027-01-08",
   "usd": 165.0,
-  "why": "5th funded slot, the biggest earner (median $7,840 by June); 8 in 10 runs between 2026-12-14 and 2027-02-12, paid from payouts in the bank"
+  "why": "5th funded slot, the biggest earner (median $7,667 by June); 8 in 10 runs between 2026-12-15 and 2027-02-16, paid from payouts in the bank"
  },
  "top_cards": [
   {
    "id": "atlas-on-rapid",
    "what": "Rapid: ATLAS next to Zlarior (built ON; NO = LIT alone)",
-   "yes_usd_month": 390,
-   "yes_usd_month_half": 33,
-   "yes_usd_month_ref": -32
+   "yes_usd_month": 391,
+   "yes_usd_month_half": 32,
+   "yes_usd_month_ref": -33
   },
   {
    "id": "zlarior-funded25",
    "what": "ATLAS's funded 25K: LIT trades it too",
-   "yes_usd_month": 159,
-   "yes_usd_month_half": 89,
+   "yes_usd_month": 166,
+   "yes_usd_month_half": 93,
    "yes_usd_month_ref": 27
   },
   {
    "id": "zlarior-atlas-50k",
    "what": "ATLAS on Zlarior's 50K once funded (LIT + ATLAS $500)",
-   "yes_usd_month": 209,
-   "yes_usd_month_half": -22,
-   "yes_usd_month_ref": -13
+   "yes_usd_month": 216,
+   "yes_usd_month_half": -19,
+   "yes_usd_month_ref": -12
   }
  ],
  "top_decide": [
   {
-   "id": "atlas-on-rapid",
-   "title": "Rapid: ATLAS next to Zlarior (built ON; NO = LIT alone)",
-   "usd": 390
+   "id": "buy-rapid50-now",
+   "title": "Buy: Rapid EOD 50K (your 5th funded slot) ($165.00, now (Mon Nov 23))",
+   "usd": 554
   },
   {
-   "id": "zlarior-funded25",
-   "title": "ATLAS's funded 25K: LIT trades it too",
-   "usd": 159
+   "id": "refill-25k-with-rapid50",
+   "title": "Buy: Rapid EOD 50K instead of a new Builder 25K ($165.00, the night a Builder 25K dies)",
+   "usd": 249
   },
   {
-   "id": "zlarior-atlas-50k",
-   "title": "ATLAS on Zlarior's 50K once funded (LIT + ATLAS $500)",
-   "usd": 209
+   "id": "second-50k-eval-now",
+   "title": "Buy: 2nd Builder 50K eval ($91.80, this week)",
+   "usd": 63
   }
- ]
+ ],
+ "ninety": {
+  "date": "2026-11-21",
+  "tax": 0.3,
+  "source": "research/lab/fleet_90day.json (tools/money/fleet_90day.py)",
+  "months": [
+   {
+    "m": "2026-12",
+    "today": 0,
+    "with_buys": 0,
+    "good": 1680,
+    "half": 0,
+    "ref": -257
+   },
+   {
+    "m": "2027-01",
+    "today": 743,
+    "with_buys": 1583,
+    "good": 6776,
+    "half": -92,
+    "ref": -330
+   },
+   {
+    "m": "2027-02",
+    "today": 1680,
+    "with_buys": 3025,
+    "good": 9202,
+    "half": 0,
+    "ref": -330
+   }
+  ],
+  "totals": {
+   "today": 3055,
+   "with_buys": 5561,
+   "good": 15932,
+   "bad": 468,
+   "half": -51,
+   "ref": -873,
+   "jun_today": 22117,
+   "jun_with_buys": 28833,
+   "jun_if_dormant": 17196
+  },
+  "buys": [
+   {
+    "id": "buy-rapid50-now",
+    "what": "Rapid EOD 50K (your 5th funded slot)",
+    "when": "now (Mon Nov 23)",
+    "price": 165.0,
+    "gain_feb": 2673,
+    "gain_jun": 4435,
+    "half_jun": 1310,
+    "worst_jun": -639,
+    "usd_month": 554
+   },
+   {
+    "id": "refill-25k-with-rapid50",
+    "what": "Rapid EOD 50K instead of a new Builder 25K",
+    "when": "the night a Builder 25K dies",
+    "price": 165.0,
+    "gain_feb": 43,
+    "gain_jun": 1993,
+    "half_jun": 1005,
+    "worst_jun": -573,
+    "usd_month": 249
+   },
+   {
+    "id": "second-50k-eval-now",
+    "what": "2nd Builder 50K eval",
+    "when": "this week",
+    "price": 91.8,
+    "gain_feb": 479,
+    "gain_jun": 507,
+    "half_jun": 62,
+    "worst_jun": -39,
+    "usd_month": 63
+   }
+  ],
+  "risk": {
+   "live_move_med": "2027-04-28",
+   "p_by_mar31": 27.7,
+   "jun_drop_pct": 40
+  }
+ }
 }

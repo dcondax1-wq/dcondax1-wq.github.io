@@ -4,8 +4,8 @@
 // pooled pulses: thousands of buildings in about a dozen calls. Everything that moves is computed on the GPU from uTime.
 import * as THREE from '../../jarvis/three.module.min.js';
 import { createRenderer } from '../../olympus/render.js';
-import * as SH from './ow-shaders.js?v=w4';
-import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w5';
+import * as SH from './ow-shaders.js?v=w5';
+import { poseToCam, lerpPose, ease, warpCurve, clampPose, homePose, overviewPose, districtPose, placePose, clamp, hex, rng, skyFor } from './ow-core.js?v=w8';
 
 const MOON = new THREE.Vector3(0.28, 0.2, -1).normalize();
 
@@ -124,7 +124,7 @@ export function createWorld(opts) {
   }
   scene.add(mirror, buildings);
   // ---- the ground: one plane, streets and glow drawn by its shader from a small light map of the city
-  const E = R + 60, S = opts.tier === 'low' ? 512 : 1024;
+  const E = R + 60, S = opts.tier === 'low' || (typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches) ? 512 : 1024;   // a phone: 1 MB, not 4
   const glowCanvas = document.createElement('canvas'); glowCanvas.width = glowCanvas.height = S;
   paintGlow(glowCanvas.getContext('2d'), world, plan, E, S);
   const glowTex = new THREE.CanvasTexture(glowCanvas); glowTex.flipY = false; glowTex.colorSpace = THREE.SRGBColorSpace;
@@ -198,7 +198,7 @@ export function createWorld(opts) {
   rings.renderOrder = 3; rings.frustumCulled = false;
   scene.add(rings);
   // ---- LED displays: ticker bands round the tallest towers (the Gate, ZEUS, the Kalshi bot, Business); text = setDisplay(row, line)
-  const ROWS = 4, TXW = 3072, TXH = 128;   // cities3: 3072 wide = about 72 letters a row (the live district lines)
+  const ROWS = 4, TXW = 3072, TXH = 64;    // half height at half the font = the same LEDs in 3 MB, not 6 (the phone heap budget)   // cities3: 3072 wide = about 72 letters a row (the live district lines)
   const txt = document.createElement('canvas'); txt.width = TXW; txt.height = TXH * ROWS;
   const tg = txt.getContext('2d');
   tg.fillStyle = '#000'; tg.fillRect(0, 0, TXW, TXH * ROWS);
@@ -232,7 +232,7 @@ export function createWorld(opts) {
     if (!t || shown[r] === t) return false;
     shown[r] = t;
     tg.fillStyle = '#000'; tg.fillRect(0, r * TXH, TXW, TXH);
-    tg.font = '700 72px -apple-system, "SF Pro Display", system-ui, "Helvetica Neue", Arial, sans-serif';
+    tg.font = '700 36px -apple-system, "SF Pro Display", system-ui, "Helvetica Neue", Arial, sans-serif';
     tg.textBaseline = 'middle'; tg.fillStyle = '#fff';
     const unit = t + '   \u2022   ', w = Math.max(1, tg.measureText(unit).width), n = Math.max(1, Math.round(TXW / w));
     tg.save(); tg.setTransform(TXW / (n * w), 0, 0, 1, 0, 0);                   // a whole number of repeats, stretched a little: a seamless loop
@@ -262,6 +262,28 @@ export function createWorld(opts) {
     new THREE.ShaderMaterial({ vertexShader: SH.PLANE_VS, fragmentShader: SH.PLANE_FS, uniforms: { ...U }, ...additive }));
   planes.renderOrder = 6; planes.frustumCulled = false; planes.visible = !reduced;
   scene.add(planes);
+  // ---- the payout beacon over the funded account nearest its payout (setPayout(share) moves its fill); none without an account
+  const accts = plan.places.filter((p) => p.kind === 'account' && p.raw.progress != null);
+  const goalAcct = accts.sort((a, b) => (+b.raw.progress || 0) - (+a.raw.progress || 0))[0] || null;
+  const BU = { uTime: U.uTime, uFill: { value: goalAcct ? clamp(+goalAcct.raw.progress || 0, 0, 1) : 0 }, uCol: { value: new THREE.Color(1.0, 0.78, 0.36) },
+    uBeacon: { value: new THREE.Vector4(goalAcct ? goalAcct.x : 0, goalAcct ? goalAcct.top : 0, goalAcct ? goalAcct.z : 0, 1.3) }, uBeaconH: { value: 120 } };
+  const beacon = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 20, 1, true).translate(0, 0.5, 0),
+    new THREE.ShaderMaterial({ vertexShader: SH.BEACON_VS, fragmentShader: SH.BEACON_FS, uniforms: BU, side: THREE.DoubleSide, ...additive }));
+  beacon.renderOrder = 4; beacon.frustumCulled = false; beacon.visible = !!goalAcct;
+  scene.add(beacon);
+  // ---- the Kalshi harbour: one lit boat per Kalshi bet place, in the water off the Kalshi district (instanced, one draw)
+  const kd = (world.districts || []).find((d) => d.id === 'kalshi');
+  const bets = plan.places.filter((p) => p.district === 'kalshi' && p.kind !== 'app').length;
+  const bn2 = Math.min(opts.tier === 'low' ? 24 : 64, Math.max(4, bets)), bA = new Float32Array(bn2 * 3 * 4), bK = new Float32Array(bn2 * 3), br = rng(91);
+  const hx = kd ? (kd.x / (Math.hypot(kd.x, kd.z) || 1)) * (R + 70) : R + 70, hz = kd ? (kd.z / (Math.hypot(kd.x, kd.z) || 1)) * (R + 70) : 0;
+  for (let k = 0; k < bn2; k++) {
+    const b = [hx + (br() - 0.5) * 40, hz + (br() - 0.5) * 40, 6 + br() * 26, br() * 6.28];
+    for (let j = 0; j < 3; j++) { bA.set(b, (k * 3 + j) * 4); bK[k * 3 + j] = j; }
+  }
+  const boats = new THREE.Mesh(instanced(new THREE.PlaneGeometry(1, 1), [['aBoat', bA, 4], ['aKind', bK, 1]], bn2 * 3),
+    new THREE.ShaderMaterial({ vertexShader: SH.BOAT_VS, fragmentShader: SH.BOAT_FS, uniforms: { ...U }, ...additive }));
+  boats.renderOrder = 6; boats.frustumCulled = false;
+  scene.add(boats);
   // ---- warp streaks (view space)
   const wn = opts.tier === 'low' ? 220 : 480, wS = new Float32Array(wn * 4), wC = new Float32Array(wn * 3), wr = rng(5);
   for (let k = 0; k < wn; k++) {
@@ -556,7 +578,9 @@ export function createWorld(opts) {
 
   const api = {
     THREE, rc, scene, camera, plan,
-    flyTo, burst, select, setTrading, setLight, setDisplay, project, candidates, startHistory, stopHistory, startTour, stopTour, groundAt,
+    flyTo, burst, select, setTrading, setLight, setDisplay, project,
+    setPayout(share) { BU.uFill.value = clamp(+share || 0, 0, 1); return !!goalAcct; },
+    payoutPlace: () => (goalAcct ? goalAcct.i : -1), boats: () => bn2, candidates, startHistory, stopHistory, startTour, stopTour, groundAt,
     pose: () => ({ ...pose }),
     setPose(p) { tween = null; introT = -1; pose = clampPose(p, world); grow.fill(1); texDirty = true; },
     flyToPlace(i, o) { const p = plan.places[i]; if (p) flyTo(placePose(p, pose), { warp: true, ms: 950, ...(o || {}), done: () => { burst(i); if (o && o.done) o.done(); } }); },

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Money pipeline</title>
+<meta name="description" content="Calls to dollars: dials, talks, proposals, deposits, live sites; setup collected, monthly recurring, and the Corvette fund.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<!-- MONEY PIPELINE (day-a11y 2026-11-22). pipelinecore.js = the pure part (tests/test_money_pipeline.py); pipeline.js = the page.
+     Reads: the PC report's "ap" card through ../pc_feed.js (agency/pipeline.py: every caller + CLEARED client money, counts and $ only),
+     else this phone's caller log (agency.portal.v1, counts only); ../home.json goals.money.payouts (trading payouts that reached you);
+     the goal + your own entries on this phone ('money.corvette.v1'). Only cleared money counts. It sends nothing. -->
+<link rel="stylesheet" href="pipeline.css?v=1">
+<script src="../pc_feed.js?v=n7" defer></script>
+<script src="../olympus/a11y.js" data-app="business" defer></script>
+<script type="module" src="pipeline.js?v=1"></script>
+</head>
+<body>
+<main id="app">
+  <header class="top"><h1>Money pipeline</h1><p class="sub">From calls to cleared dollars. Only money that cleared counts.</p><p class="src" id="src" role="status">Loading...</p></header>
+
+  <section class="card goal" aria-labelledby="gH">
+    <div class="gh"><h2 id="gH"><span id="gName">Corvette fund</span></h2><button type="button" class="btn ghost" id="gEdit" aria-expanded="false">Edit</button></div>
+    <p class="big"><b id="gHave">$0</b> <span>of <span id="gTarget">$70,000</span></span></p>
+    <div class="bar" role="progressbar" aria-labelledby="gH" aria-valuemin="0" aria-valuemax="100" id="gBar"><i id="gFill"></i></div>
+    <p class="muted" id="gLine"></p>
+    <ul class="parts" id="gParts"></ul>
+    <form id="gForm" hidden>
+      <label for="gTargetIn">Goal ($)</label><input id="gTargetIn" inputmode="numeric" maxlength="9">
+      <label for="gNameIn">Name</label><input id="gNameIn" maxlength="40">
+      <p class="muted small">Add money that already reached you (it counts at once):</p>
+      <div class="row2"><input id="gAmt" inputmode="decimal" placeholder="Amount $" aria-label="Amount in dollars" maxlength="10">
+        <select id="gSrc" aria-label="Where it came from"><option value="website">Website client</option><option value="trading">Trading payout</option><option value="other">Other</option></select></div>
+      <button type="submit" class="btn">Save</button>
+      <p class="msg" id="gMsg" role="status"></p>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="fH">
+    <h2 id="fH">Calls to clients</h2>
+    <ol class="funnel" id="funnel"></ol>
+  </section>
+
+  <section class="tiles" aria-label="Website money">
+    <div><b id="tSetup">-</b><span>setup collected</span></div>
+    <div><b id="tMrr">-</b><span>monthly recurring</span></div>
+    <div><b id="tCleared">-</b><span>cleared in total</span></div>
+  </section>
+  <p class="muted small" id="note">Website $ comes from the PC (python -m agency.portal paid ... records cleared payments; python -m agency.pipeline sums them).</p>
+  <p><a class="btn ghost" href="mffu.html">My MFFU Accounts</a> <a class="btn ghost" href="../agency/portal/index.html">Caller portal</a></p>
+</main>
+</body>
+</html>

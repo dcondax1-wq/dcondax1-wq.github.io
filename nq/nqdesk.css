@@ -93,3 +93,10 @@
 #chartChips { min-height: 52px; }     
 #chartAsOf[hidden] { display: block !important; visibility: hidden; min-height: 2.9em; }   
 .dk-mffu { margin: -2px 0 2px; font-size: .9375rem; color: var(--ag-muted); }
+
+/* day-nqops 2026-11-21: the MFFU 7-day clock card (OLYMPUS NIGHT: violet outline, gold accent, mint / red for the state) */
+.k7 { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.k7r { display: grid; gap: 2px; padding: 10px 12px; border-radius: 14px; border: 1px solid #3e255e; background: #16131e; }
+.k7r b { color: #f1c14b; } .k7r span { font-size: 14px; color: #dacbf0; }
+.k7r.ok { border-color: rgba(119, 219, 137, .45); } .k7r.warn { border-color: #f1c14b; } .k7r.bad { border-color: #ef4444; box-shadow: 0 0 14px rgba(239, 68, 68, .35); }
+.k7r.bad .k7h { color: #f87171; font-weight: 700; } .k7r.warn .k7h { color: #f1c14b; }

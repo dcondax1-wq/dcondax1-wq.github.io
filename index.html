@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<script>/* FIRST PAINT (day-arenas 2026-11-20, DESIGN): Home's small home.json starts here, with the page, not after main.js (it waited 3 s behind 50 scripts on a phone line); main.js picks this promise up as window.HOMEP0 */try { window.HOMEP0 = fetch('home.json?t=' + Date.now(), { cache: 'no-store', priority: 'high' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); } catch (e) {}</script>
 <style>@view-transition{navigation:auto;types:oly-warp}</style><link rel="stylesheet" href="olympus/warp.css?v=w3" media="print" onload="this.media='all'"><!-- the world-to-world jump (olympus/warp.js): this page opts in before any style is computed; the arrival sheet never holds the first frame -->
+<script>/* FIRST PAINT (day-arenas 2026-11-20, DESIGN): Home's small home.json starts here, with the page, not after main.js (it waited 3 s behind 50 scripts on a phone line); main.js picks this promise up as window.HOMEP0 */try { window.HOMEP0 = fetch('home.json?t=' + Date.now(), { cache: 'no-store', priority: 'high' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); } catch (e) {}</script>
 <title>Zenith</title>
 <meta name="description" content="NQ futures paper bot on the LIT strategy: bot status, MFFU eval tracker, trades, replays, backtest results and the research lab. The previous strategy is kept in the Archive.">
 <link rel="preconnect" href="https://ntfy.sh" crossorigin><!-- speed: the PC live line (pc_feed.js -> ntfy.sh) skips its DNS + TLS wait -->
@@ -997,7 +997,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
 }
 </style>
 <link rel="stylesheet" href="space.css?v=1"><link rel="stylesheet" href="mission.css?v=2"><link rel="stylesheet" href="polish.css?v=4f"><link rel="stylesheet" href="zenith.css?v=9">
-<link rel="stylesheet" href="zenith_agora.css?v=a5df">
+<link rel="stylesheet" href="zenith_agora.css?v=a5dq">
 <!-- OLYMPUS theme (olympus/themes.js; the owner picks it on the Gate's Look row or in Jarvis: Look; key 'olympus.theme'): every colour
      of the dashboard's sheets reads a theme slot with today's AGORA colour as its fallback (tools/theme_tokenize.py), so a theme
      reaches every card, bar, hero and label; the default paints nothing (today's look, byte for byte). Zenith's own light look
@@ -1021,7 +1021,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
    so the FIRST PAINT copy above paints nothing then; this paints the engine's saved copy of 'night', which it writes on every apply) */
 (function () { try {
   var ls = window.localStorage, v = ls.getItem('olympus.theme'), d = document.documentElement, k, on = window.__olyPaint || [];
-  if ((v && v !== 'agora') || ls.getItem('olympus.theme.night') === '1' || ls.getItem('le.theme') === '"light"' || ls.getItem('olympus.themeMix') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches)) return;
+  if ((v && v !== 'agora') || ls.getItem('olympus.theme.night') === '1' || ls.getItem('le.theme') === '"light"' || ls.getItem('olympus.themeMix')) return;   /* QA 2026-11-21: a light phone gets night too (Zenith's own light is the le.theme choice above) */
   var c = JSON.parse(ls.getItem('olympus.theme.look.page.night') || 'null'); if (!c || !c.vars) return;
   for (k in c.vars) { d.style.setProperty(k, c.vars[k]); on.push(k); }
   d.setAttribute('data-oly-theme', 'night'); d.setAttribute('data-oly-scheme', 'dark'); if (c.style) d.setAttribute('data-oly-style', c.style);
@@ -1037,7 +1037,7 @@ a.lnk { color: var(--accent-2); text-decoration: underline; text-decoration-colo
     var was = own();
     if (window.MutationObserver) new MutationObserver(function () { if (own() !== was) { was = own(); T.apply('page', opts); } }).observe(R, { attributes: true, attributeFilter: ['data-theme'] });
   }
-  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o10'; s.async = true; s.onload = go; document.head.appendChild(s);
+  var s = document.createElement('script'); s.src = 'olympus/themes.js?v=o11'; s.async = true; s.onload = go; document.head.appendChild(s);
 })();</script>
 <script>
 /* Inside Jarvis (2026-11-01, owner: "on Jarvis I can switch between that mode [Jarvis], zenith mode with all of the
@@ -1228,12 +1228,12 @@ html[data-oly-scheme="light"] {
 <script src="statuscore.js?v=3" defer></script>
 <script src="polish.js?v=4" defer></script>
 <script src="procore.js?v=1" defer></script>
-<script src="pro.js?v=1" defer></script>
+<script src="pro.js?v=2" defer></script>
 <script src="zenithcore.js?v=2" defer></script>
 <script src="zenith.js?v=2" defer></script>
 <script src="zenith_hero.js?v=6" defer></script>
-<script src="launcher.js?v=l23" defer></script>
-<script src="olympus/a11y.js?v=a2" defer></script><!-- A11Y K9 (day-arenas DESIGN): focus ring, auto names, text growth -->
+<script src="launcher.js?v=l24" defer></script>
+<script src="olympus/a11y.js?v=a4" defer></script><!-- A11Y K9 (day-arenas DESIGN): focus ring, auto names, text growth -->
 <script src="zenith_money.js?v=4" defer></script>
 <script src="moneynowcore.js?v=q11" defer></script>
 <script src="moneynow.js?v=1" defer></script>
@@ -1252,7 +1252,7 @@ document.addEventListener('DOMContentLoaded', function () { var Z = window.ZEUS_
   if (Z && Z.keep && pg) Z.keep(pg, { when: function () { return typeof PAGE === 'undefined' || PAGE == null ? !/^#\/(?!today\b)[a-z]/.test(location.hash) : PAGE === 'today'; } }); });</script>
 <script>/* POLIS life on the Zenith home (QA round 6): the herald's banner under the status and the accounts, put back after every live redraw; hidden when the city file has no news */
 /* speed (2026-11-18): the herald's library (28 KB gzipped) arrives after the page has loaded, never in the deferred chain the first view waits on */
-addEventListener('load', function () { setTimeout(function () { var s = document.createElement('script'); s.src = 'olympus/polis-life.js?v=pl4'; s.async = true;
+addEventListener('load', function () { setTimeout(function () { var s = document.createElement('script'); s.src = 'olympus/polis-life.js?v=pl5'; s.async = true;
   s.onload = function () { var L = window.OLYMPUS_POLIS_LIFE, pg = document.getElementById('page'); if (L && L.keep && pg) L.keep(pg, 'herald', { label: 'The herald cries the latest news', when: function () { return typeof PAGE !== 'undefined' && PAGE === 'today'; } }); };
   document.head.appendChild(s); }, 0); });</script>
 </body>

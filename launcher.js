@@ -51,7 +51,7 @@
     listState = 'loading';
     var left = 0, fin = function () { if (--left > 0) return; listState = window.OLYMPUS_APPS_LIST ? 'done' : 'failed'; var w = waiters; waiters = []; w.forEach(function (f) { try { f(); } catch (e) { /* */ } }); };
     var add = function (src) { left++; var s = d.createElement('script'); s.async = true; s.src = src; s.onload = fin; s.onerror = fin; (d.head || root).appendChild(s); };
-    if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l10' : 'olympus/apps-list.js?v=l10');
+    if (!window.OLYMPUS_APPS_LIST) add(isPC ? '/js/next/apps-list.js?v=l11' : 'olympus/apps-list.js?v=l11');
     if (!doors()) add(isPC ? '/js/next/doors.js?v=d12' : 'olympus/doors.js?v=d12');      // the four doors (same file on both sites)
     if (!left) { left = 1; fin(); }
   }

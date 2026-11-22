@@ -3,7 +3,7 @@
 //   <section class="ag-card card mfx-card" data-moneyfx="payout">          <- the funded payout goal: 3D vault + an "earliest" ring
 //     <div class="mfx-vault" data-mfx-vault></div><div class="mfx-ring" data-mfx-ring><b data-mfx-pct>0%</b></div>
 //     <p class="note" data-mfx-note>...</p></section>
-//   <script type="module" src="../olympus/moneyfx.js?v=3"></script>
+//   <script type="module" src="../olympus/moneyfx.js?v=4"></script>
 // and may call window.MONEYFX.roll(el) on a number it just wrote (the number rolls up to its own text).
 // Numbers: the PC's last post over home.json (olympus/truth.js), each funded account in MFFU's own terms (pc_feed.js mffuView:
 // balance = profit; goal = the full request at buffer + max; earliest = buffer + min). Effects: DESIGN's kit (olympus/nqfx.js: navy /
@@ -56,7 +56,7 @@ async function fillPayout(card) {
   await afterLoad(); await libs();
   let home = null;
   try { const r = await fetch(new URL('../home.json', import.meta.url).href, { cache: 'no-cache' }); home = r.ok ? await r.json() : null; } catch (_) { home = null; }
-  if (!home) return;
+  if (!home) { if (note) note.textContent = 'No account numbers yet: the site copy did not load. Open again with signal.'; return; }   // never a stuck 'Loading' (QA 2026-11-21)
   const fed = await T.withPcFeed(home), list = payouts(fed);
   if (!list.length) { if (note) note.textContent = 'No funded account yet: the payout vault fills once an eval passes.'; return; }
   const { a, v } = list[0], G = v.goal, E = v.earliest, frac = Math.max(0, Math.min(1, v.balance / G.at)), early = Math.max(0, Math.min(1, v.balance / E.at));
@@ -74,7 +74,7 @@ async function fillPayout(card) {
   try { if (ring && F.ring) F.ring(ring, { value: early, stroke: 7 }); if (pct && F.roll) F.roll(pct, { to: Math.round(early * 100), from: 0, duration: 1.1 }); } catch (_) { /* the % is written */ }
 }
 function start() {
-  for (const c of document.querySelectorAll('[data-moneyfx="payout"]')) fillPayout(c).catch(() => { /* the card keeps its text */ });
+  for (const c of document.querySelectorAll('[data-moneyfx="payout"]')) fillPayout(c).catch(() => { const n = c.querySelector('[data-mfx-note]'); if (n && /^Loading/.test(n.textContent)) n.textContent = 'No account numbers yet.'; });
   const rolls = document.querySelectorAll('[data-mfx-roll]');
   if (rolls.length) kit().then(() => { for (const el of rolls) roll(el); });   // after load + idle: the page has written its numbers
 }

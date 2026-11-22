@@ -1,5 +1,5 @@
 /* OLYMPUS app intro (olympus/intro-app.js, JOB 33a; docs/CLAUDE_REFERENCE.md "App intros"): the 1.15 s entrance every app plays the first time it opens each day.
- * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i11" defer></script>
+ * One deferred line in each app's index.html after olympus.js: <script src="../olympus/intro-app.js?v=i12" defer></script>
  * Pages WITHOUT the kit name themselves on the tag (data-app / data-name / data-glyph / data-color; Bridge, Kalshi).
  *   film   the app's flavour scene (FLAVOUR) + its glyph from particles; the name letter by letter with a light sweep, a tagline; fade out
  *   once   the 1.15 s film once per app per New York day (localStorage 'oly.intro.d.<app>' + sessionStorage 'oly.intro.<app>'), then nothing that day
@@ -133,7 +133,7 @@
   var VW = 0, VH = 0, DPR = 1, scene = null, parts = null, glyphPx = 0, cx = 0, cy = 0, soundsAt = {}, motionQuery = null, motionListener = null;
   function addCss() {
     var s = d.createElement('style');
-    s.textContent = '.oly-intro{position:fixed;left:0;top:0;right:0;bottom:0;z-index:70;background:#090807;overflow:hidden;touch-action:none;' +
+    s.textContent = '.oly-intro{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483001;background:#090807;overflow:hidden;touch-action:none;' +
       '-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}' +
       '.oly-intro canvas{position:absolute;left:0;top:0;width:100%;height:100%;display:block}' +
       '@media (prefers-reduced-motion:reduce){.oly-intro{display:none}}';
@@ -569,7 +569,9 @@
     c = cv.getContext('2d');
     if (!c) { finish('failed'); return; }
     fit();
-    d.body.appendChild(el);
+    // on <html>, not <body>: an archived page's banner gives <body> a transform (its fixed children would be laid out inside body, 45 px down
+    // and 45 px short); on <html> the film is always the full screen, over the banner too (QA 2026-11-21)
+    root.appendChild(el);
     root.setAttribute('data-oly-intro', mode);
     try { if (d.fonts && d.fonts.load) d.fonts.load('700 30px "Iowan Old Style","Palatino Linotype",Palatino,Georgia'); } catch (e) { /* the fallback font draws */ }
     if (mode !== 'lite') { var S = SC[st.scene] || SC.stars; scene = Object.create(S); scene.init(); }

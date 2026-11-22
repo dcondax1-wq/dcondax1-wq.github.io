@@ -59,3 +59,21 @@ summary { min-height: 44px; display: flex; align-items: center; cursor: pointer;
 .money b { color: var(--go); }
 @media (max-width: 360px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .phoneForm, .mailForm { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+
+/* lanes (2026-11-22): the badge + the line to say first, per lane; the Redesign tab's checks */
+.say { margin: 0 0 8px; font-size: .95rem; }
+.say q { quotes: "\201C" "\201D"; }
+.lane { display: inline-block; padding: 2px 8px; border-radius: 999px; font: 700 .72rem/1.5 system-ui, sans-serif; letter-spacing: .02em; text-transform: uppercase; vertical-align: 1px;
+  background: var(--need-bg); color: var(--need); }
+.lane.site_down { background: var(--wait-bg); color: var(--wait); }
+.lane.redesign { background: var(--go-bg); color: var(--go); }
+.checks { margin: -4px 0 8px; }
+.btn.wide { width: 100%; margin: 4px 0 12px; }
+
+/* tomorrow's dialing session (2026-11-22): the end-of-day card, the best-window chip, the scripts, the DNC field */
+.eodnums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 4px 0 6px; }
+.eodnums div { text-align: center; min-width: 0; } .eodnums b { display: block; font-size: 1.25rem; } .eodnums span { display: block; font-size: .72rem; color: var(--muted); }
+.best { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: var(--go-bg); color: var(--go); font: 700 .72rem/1.6 system-ui, sans-serif; }
+.scripts { margin: 8px 0 0; } .scripts .vm, .scripts .tx { margin: 4px 0 6px; padding: 8px 10px; border-left: 3px solid var(--line); background: var(--bg); border-radius: 6px; overflow-wrap: anywhere; }
+.dncRow { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; margin: 8px 0 0; font-size: .9rem; }
+.dncRow select { min-width: 0; }

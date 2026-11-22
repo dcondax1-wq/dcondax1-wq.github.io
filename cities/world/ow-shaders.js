@@ -612,7 +612,7 @@ varying vec2 vUv; varying vec4 vB2; varying vec3 vC; varying vec3 vW; varying fl
 void main() {
   if (vG < 0.02) discard;
   float u = fract(vUv.x * vB2.z + uTime * vB2.w);                              // reads left to right from outside, scrolls right to left
-  vec2 cells = vec2(uTexW * 0.25, 128.0 * 0.25);                              // one LED per 4 x 4 canvas pixels
+  vec2 cells = vec2(uTexW * 0.5, 64.0 * 0.5);                                 // one LED per 2 x 2 canvas pixels
   vec2 q = vec2(u, vUv.y) * cells;
   vec2 fw = fwidth(q);
   float detail = 1.0 - smoothstep(0.35, 0.9, max(fw.x, fw.y));
@@ -651,6 +651,54 @@ void main() {
 }
 `;
 export const PLANE_FS = /* glsl */`
+varying vec3 vC; varying vec2 vUv;
+void main() { float d = length(vUv) * 2.0; gl_FragColor = vec4(vC * exp(-d * d * 6.0), 1.0); }
+`;
+
+// ------------------------------------------------------------------------------------------------ the payout beacon (lead 2026-11-21: "the payout goal as a beacon")
+// an open column of light over the funded account: lit from the ground up to the share of the way to the payout (uFill), a bright
+// line at the fill, a crown flare when the goal is reached. uBeacon = x, base y, z, radius; uBeaconH = height.
+export const BEACON_VS = /* glsl */`
+uniform vec4 uBeacon; uniform float uBeaconH;
+varying vec2 vUv; varying vec3 vW;
+void main() { vUv = uv; vec3 wp = uBeacon.xyz + vec3(position.x * uBeacon.w, position.y * uBeaconH, position.z * uBeacon.w); vW = wp;
+  gl_Position = projectionMatrix * viewMatrix * vec4(wp, 1.0); }
+`;
+export const BEACON_FS = /* glsl */`
+uniform float uTime, uFill; uniform vec3 uCol;
+varying vec2 vUv; varying vec3 vW;
+void main() {
+  float y = vUv.y, f = clamp(uFill, 0.0, 1.0);
+  float lit = 1.0 - smoothstep(f - 0.004, f + 0.004, y);
+  float line = exp(-pow((y - f) * 90.0, 2.0));
+  float rise = 0.6 + 0.4 * sin(y * 40.0 - uTime * 3.0);
+  float a = lit * (0.10 + 0.08 * rise) * (1.0 - y * 0.4) + line * 1.6 + (1.0 - lit) * 0.025;
+  a += step(0.999, f) * exp(-pow((y - 0.98) * 18.0, 2.0)) * (1.5 + sin(uTime * 4.0));
+  gl_FragColor = vec4(uCol * a, 1.0);
+}
+`;
+
+// ------------------------------------------------------------------------------------------------ the Kalshi harbour: one lit boat per bet place
+// aBoat = harbour centre x, z, circle radius, phase; aKind = 0 the mast light, 1 the cabin window, 2 its reflection streak on the water
+export const BOAT_VS = /* glsl */`
+attribute vec4 aBoat; attribute float aKind;
+uniform float uTime;
+varying vec3 vC; varying vec2 vUv;
+void main() {
+  float a = aBoat.w + uTime * 0.02 * (0.6 + fract(aBoat.w * 7.3));
+  vec3 c = vec3(aBoat.x + cos(a) * aBoat.z, 0.0, aBoat.y + sin(a) * aBoat.z * 0.6);
+  c.y = aKind < 0.5 ? 1.6 : aKind < 1.5 ? 0.45 : -0.6;
+  c.y += 0.08 * sin(uTime * 1.3 + aBoat.w * 5.0);
+  vec3 right = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
+  vec3 up = aKind > 1.5 ? vec3(0.0, 1.0, 0.0) : vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
+  float s = max(0.35, distance(cameraPosition, c) * 0.0032);
+  vec2 sz = aKind > 1.5 ? vec2(s * 0.6, s * 5.0) : vec2(s);
+  vC = aKind < 0.5 ? vec3(2.6, 2.6, 2.9) : aKind < 1.5 ? vec3(2.2, 1.3, 0.6) : vec3(0.5, 0.32, 0.18) * (0.6 + 0.4 * sin(uTime * 2.0 + aBoat.w * 9.0));
+  vUv = position.xy;
+  gl_Position = projectionMatrix * viewMatrix * vec4(c + right * position.x * sz.x + up * position.y * sz.y, 1.0);
+}
+`;
+export const BOAT_FS = /* glsl */`
 varying vec3 vC; varying vec2 vUv;
 void main() { float d = length(vUv) * 2.0; gl_FragColor = vec4(vC * exp(-d * d * 6.0), 1.0); }
 `;

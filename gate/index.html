@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Olympus</title>
 <meta name="description" content="OLYMPUS home: your command center. Right now in plain words (bots on, drawdown left, today's money, Kalshi, the next trade window, your shift), then your hubs (Me: money, cards, health, home), then a search.">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -47,8 +47,8 @@
   try { if (window.top !== window) d.documentElement.className += ' framed'; } catch (e) { d.documentElement.className += ' framed'; }
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
-  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a10'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g22'; h.appendChild(l);
+  var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a11'; h.appendChild(k);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g25'; h.appendChild(l);
   var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s6'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
   var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);
   var nf = d.createElement('link'); nf.rel = 'stylesheet'; nf.setAttribute('blocking', 'render'); nf.href = b + 'hub/navfx.css?v=5'; h.appendChild(nf); d.documentElement.className += ' nfx';   /* NAV FX 2026-11-20: navy + cyan / blue / violet, no gold, from the first frame (no colour flash) */
@@ -60,7 +60,7 @@
     if (!again) localStorage.setItem('oly.homefx.day', dk);
   } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o10', 'pc_feed.js?v=n7', 'olympus/gate-catalog.js?v=nv10', 'olympus/hub-status.js?v=h4', 'age.js?v=1', 'business/payoutcoach.js?v=2', 'gate/gate.js?v=g20', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n7', 'olympus/gate-catalog.js?v=nv12', 'olympus/hub-status.js?v=h4', 'age.js?v=1', 'business/payoutcoach.js?v=2', 'gate/gate.js?v=g20', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -71,7 +71,7 @@
 <main id="gate" class="g-main">
   <header class="g-head">
     <h1 class="g-title">Olympus</h1>
-    <p class="g-sub">Your 6 arenas, then everything else. Or search.</p>
+    <p class="g-sub">Your 6 dashboards. The rest: More.</p>
   </header>
 
   <section class="g-find" aria-labelledby="findH">
@@ -86,18 +86,20 @@
   </section>
 
   <!-- olympus2 2026-11-20 (owner: "money first on the home page"): Right now = the daily cockpit, right under the search, before the doors -->
-    <!-- THE 6 ARENAS (owner 2026-11-20 17:00 ET: "organize the dashboard, I want like 6 arenas, that's it, then a separate area for the smaller stuff").
-       Plain links (they work without any script); gate/arenas.js writes one live line each from the data this page already reads. -->
+    <!-- THE 6 MAIN DASHBOARDS (owner 2026-11-22: "when I open Olympus it goes to More with all the other dashboards. I want 6 main dashboards").
+       In his order: NQ Bot, Jarvis, Websites, Data City + Research, Money, Kalshi. Each tile = its dashboard + at most 2 short links. Plain links
+       (they work without any script); gate/arenas.js writes one live line each. Everything else sits behind More (never the landing page). -->
   <section class="g-arenas" id="arenas" aria-labelledby="arenasH">
-    <h2 class="g-h2 g-vh" id="arenasH">Your 6 arenas</h2>
+    <h2 class="g-h2 g-vh" id="arenasH">Your 6 dashboards</h2>
     <nav class="g-agrid" aria-labelledby="arenasH">
-      <div class="g-arena" data-arena="cities" data-dfx="glass"><a class="g-amain" data-to="cities/index.html" href="cities/index.html"><i class="g-ic g-aic" style="--ac:#6366f1" aria-hidden="true">◈</i><b>Cities</b><small class="g-aline" id="arena-cities">The 3D world of all your apps</small></a></div>
-      <div class="g-arena" data-arena="kalshi" data-dfx="glass"><a class="g-amain" data-to="kalshi/index.html" href="kalshi/index.html"><i class="g-ic g-aic" style="--ac:#14b8a6" aria-hidden="true">K</i><b>Kalshi</b><small class="g-aline" id="arena-kalshi">The K8 clock bets</small></a></div>
-      <div class="g-arena" data-arena="nq" data-dfx="glass"><a class="g-amain" data-to="nq/index.html" href="nq/index.html"><i class="g-ic g-aic" style="--ac:#9d59ee" aria-hidden="true">Ν</i><b>NQ Bot</b><small class="g-aline" id="arena-nq">Zlarior + ATLAS right now</small></a></div>
-      <div class="g-arena" data-arena="jarvis" data-dfx="glass"><a class="g-amain" data-to="jarvis/index.html" href="jarvis/index.html"><i class="g-ic g-aic" style="--ac:#a855f7" aria-hidden="true">◉</i><b>Jarvis</b><small class="g-aline" id="arena-jarvis">Ask anything</small></a></div>
-      <div class="g-arena" data-arena="agency" data-dfx="glass"><a class="g-amain" data-to="agency/index.html" href="agency/index.html"><i class="g-ic g-aic" style="--ac:#d946ef" aria-hidden="true">Ε</i><b>Websites</b><small class="g-aline" id="arena-agency">Your website business HQ</small></a></div>
-      <div class="g-arena" data-arena="business" data-dfx="glass"><a class="g-amain" data-to="business/index.html" href="business/index.html"><i class="g-ic g-aic" style="--ac:#3b82f6" aria-hidden="true">B</i><b>Business</b><small class="g-aline" id="arena-business">Accounts, payouts, plan</small></a><a class="g-asub" data-to="planner/index.html" href="planner/index.html">Planner</a></div>
+      <div class="g-arena" data-arena="nq" data-dfx="glass"><a class="g-amain" data-to="nq/index.html" href="nq/index.html"><i class="g-ic g-aic" style="--ac:#9d59ee" aria-hidden="true">Ν</i><b>NQ Bot</b><small class="g-aline" id="arena-nq">ZEUS: accounts, trades, brain</small></a><span class="g-subs"><a class="g-sl" data-to="trading/index.html" href="trading/index.html">Trades</a><a class="g-sl" data-to="nq/brain.html" href="nq/brain.html">Brain</a></span></div>
+      <div class="g-arena" data-arena="jarvis" data-dfx="glass"><a class="g-amain" data-to="jarvis/index.html" href="jarvis/index.html"><i class="g-ic g-aic" style="--ac:#a855f7" aria-hidden="true">◉</i><b>Jarvis</b><small class="g-aline" id="arena-jarvis">Ask anything</small></a><span class="g-subs"><a class="g-sl" data-to="helios/index.html" href="helios/index.html">Brief</a><a class="g-sl" data-to="inbox/index.html" href="inbox/index.html">Inbox</a></span></div>
+      <div class="g-arena" data-arena="agency" data-dfx="glass"><a class="g-amain" data-to="agency/index.html" href="agency/index.html"><i class="g-ic g-aic" style="--ac:#d946ef" aria-hidden="true">Ε</i><b>Websites</b><small class="g-aline" id="arena-agency">Leads, sites, calls</small></a><span class="g-subs"><a class="g-sl" data-to="agency/leads/index.html" href="agency/leads/index.html">Leads</a><a class="g-sl" data-to="agency/portal/index.html" href="agency/portal/index.html">Portal</a></span></div>
+      <div class="g-arena" data-arena="data" data-dfx="glass"><a class="g-amain" data-to="cities/world/index.html" href="cities/world/index.html"><i class="g-ic g-aic" style="--ac:#6366f1" aria-hidden="true">◈</i><b>Data City</b><small class="g-aline" id="arena-data">+ the Research hub</small></a><span class="g-subs"><a class="g-sl" data-to="clio/index.html" href="clio/index.html">Research</a><a class="g-sl" data-to="archive/index.html" href="archive/index.html">Tests</a></span></div>
+      <div class="g-arena" data-arena="money" data-dfx="glass"><a class="g-amain" data-to="business/mffu.html" href="business/mffu.html"><i class="g-ic g-aic" style="--ac:#3b82f6" aria-hidden="true">$</i><b>Money</b><small class="g-aline" id="arena-money">My MFFU Accounts, payouts</small></a><span class="g-subs"><a class="g-sl" data-to="business/plan.html#decide" href="business/plan.html#decide">Decide</a><a class="g-sl" data-to="business/pipeline.html" href="business/pipeline.html">Pipeline</a></span></div>
+      <div class="g-arena" data-arena="kalshi" data-dfx="glass"><a class="g-amain" data-to="kalshi/index.html" href="kalshi/index.html"><i class="g-ic g-aic" style="--ac:#14b8a6" aria-hidden="true">K</i><b>Kalshi</b><small class="g-aline" id="arena-kalshi">The K8 clock bets</small></a><span class="g-subs"><a class="g-sl" data-to="dionysus/index.html" href="dionysus/index.html">Desk</a></span></div>
     </nav>
+    <button class="g-btn g-morebtn" id="moreBtn" type="button" aria-expanded="false" aria-controls="elseSec">More: every other app</button>
   </section>
 
   <!-- EVERYTHING ELSE: the 10 smaller apps he uses (lead 2026-11-20), then one button to the A to Z sheet (every live app) -->
@@ -106,6 +108,8 @@
     <nav class="g-elist" id="elseList" aria-labelledby="elseH">
       <a class="g-eapp" data-to="planner/index.html" href="planner/index.html" data-app="planner">Day and week plan</a><a class="g-eapp" data-to="trading/index.html" href="trading/index.html" data-app="trading">Every trade</a><a class="g-eapp" data-to="ledger/index.html" href="ledger/index.html" data-app="ledger">Your real money</a><a class="g-eapp" data-to="board/index.html" href="board/index.html" data-app="board">Live board</a><a class="g-eapp" data-to="hera/index.html" href="hera/index.html" data-app="hera">12-month money plan</a><a class="g-eapp" data-to="inbox/index.html" href="inbox/index.html" data-app="inbox">Inbox</a><a class="g-eapp" data-to="widget/index.html" href="widget/index.html" data-app="widget">iPhone widget</a><a class="g-eapp" data-to="dionysus/index.html" href="dionysus/index.html" data-app="dionysus">Kalshi desk</a><a class="g-eapp" data-to="helios/index.html" href="helios/index.html" data-app="helios">Morning briefing</a><a class="g-eapp" data-to="settings/index.html" href="settings/index.html" data-app="settings">Settings</a>
     </nav>
+    <!-- ORGANIZE 2026-11-21 (day-a11y): every app is 2 taps from Home: here > an arena's page (hub/arena.html, its apps grouped) > the app -->
+    <nav class="g-alinks" aria-label="Every app, by arena"><span>All apps in</span><a class="g-alink" data-to="hub/arena.html?a=nq" href="hub/arena.html?a=nq">NQ Bot</a><a class="g-alink" data-to="hub/arena.html?a=kalshi" href="hub/arena.html?a=kalshi">Kalshi</a><a class="g-alink" data-to="hub/arena.html?a=money" href="hub/arena.html?a=money">Money</a><a class="g-alink" data-to="hub/arena.html?a=agency" href="hub/arena.html?a=agency">Websites</a><a class="g-alink" data-to="hub/arena.html?a=jarvis" href="hub/arena.html?a=jarvis">Jarvis</a><a class="g-alink" data-to="hub/arena.html?a=data" href="hub/arena.html?a=data">Data City</a><a class="g-alink" data-to="hub/arena.html?a=else" href="hub/arena.html?a=else">Everything else</a></nav>
     <a class="g-btn g-elsemore" id="elseAll" data-to="gate/index.html#az" href="gate/index.html#az">See all apps (A to Z)</a>
   </section>
 
@@ -193,7 +197,7 @@
 <script>(function () { /* NAV FX (2026-11-20, owner: "3D, effects, no gold"): glass icons, aurora, tilt, roll-ups; loaded after the first paint */
   var b = window.GATE_BASE || '', d = document;
   var s = d.createElement('script'); s.src = b + 'hub/navfx.js?v=2'; s.defer = true; d.body.appendChild(s);
-  var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=3'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
+  var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=4'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
   var dl = d.createElement('link'); dl.rel = 'stylesheet'; dl.href = b + 'olympus/dashfx.css?v=d1'; d.head.appendChild(dl);
   var dx = d.createElement('script'); dx.src = b + 'olympus/dashfx.js?v=d1'; dx.defer = true; d.body.appendChild(dx);   /* DESIGN's glass on the arenas */
 })();</script>

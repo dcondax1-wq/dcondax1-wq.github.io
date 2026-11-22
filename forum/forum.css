@@ -122,9 +122,9 @@ html[data-fx="low"] .candle.lit .flame, html[data-fx="off"] .candle.lit .flame {
 .ck b { font: 600 40px/1 var(--ag-serif, Georgia, serif); color: #f3ece0; text-shadow: 0 1px 10px rgba(0,0,0,.6) !important; }
 .ck span { color: #cfc4b2; font-size: 13px; }
 .nx { font-size: 15px; color: #f3ece0; text-shadow: 0 1px 8px rgba(0,0,0,.7) !important; }
-.streak { background: rgba(20, 17, 14, .72); }
+.streak { background: rgba(var(--oly-th-n3-rgb, 20, 17, 14), .72); }
 .shrine { height: 20px; opacity: .85; }
-.card { background: #1d1914; border-color: #3a3228; padding: 18px 18px 16px; border-radius: 16px; max-height: calc(100dvh - var(--st) - 250px); }
+.card { background: var(--oly-th-n5, #1d1914); border-color: #3a3228; padding: 18px 18px 16px; border-radius: 16px; max-height: calc(100dvh - var(--st) - 250px); }
 .card h2 { font: 600 24px/1.15 var(--ag-serif, Georgia, serif); margin-bottom: 8px; }
 .card p { font-size: 15px; line-height: 1.45; color: #cfc4b2; }
 .go { min-height: 52px; border-radius: 12px; background: linear-gradient(180deg, #c8a24a, #c8a24a); border: 1px solid #e0b060; color: #1b1610; font-size: 17px; letter-spacing: 0; }
@@ -143,11 +143,11 @@ html[data-fx="low"] .candle.lit .flame, html[data-fx="off"] .candle.lit .flame {
 .mh .ag-money { color: var(--mt, #f3ece0); font-size: 34px; } .mh:first-child .ag-money { font-size: 44px; }
 .mcard .mdd { display: none; }
 .mcard .mbar { height: 8px; } .mcard .mbar i { background: linear-gradient(90deg, #9c6b3c, #c8a24a); }
-.mcard .mnews { background: #26211b; border-radius: 12px; }
+.mcard .mnews { background: var(--oly-th-n5, #26211b); border-radius: 12px; }
 .dbar .ds.go { background: #7f8a52; } .dbar .ds.warn { background: #c8a24a; } .dbar .ds.rest { background: #2b251d; }
-.pledge { border-radius: 12px; background: #26211b; font-size: 15px; min-height: 48px; }
+.pledge { border-radius: 12px; background: var(--oly-th-n5, #26211b); font-size: 15px; min-height: 48px; }
 
-.heroc { display: grid; gap: 4px; padding: 14px 16px; margin: 0 0 14px; border-radius: 14px; background: #26211b; border: 1px solid #3a3228; border-left: 4px solid #c8a24a; }
+.heroc { display: grid; gap: 4px; padding: 14px 16px; margin: 0 0 14px; border-radius: 14px; background: var(--oly-th-n5, #26211b); border: 1px solid #3a3228; border-left: 4px solid #c8a24a; }
 .heroc .ag-money { font-size: 44px; } .heroc .mbar { display: block; height: 8px; border-radius: 99px; background: #2b251d; overflow: hidden; margin: 4px 0; }
 .heroc .mbar i { display: block; height: 100%; background: linear-gradient(90deg, #9c6b3c, #c8a24a); }
 .heroc .heroline { margin: 6px 0 0 !important; font-size: 14px !important; color: #f3ece0 !important; }

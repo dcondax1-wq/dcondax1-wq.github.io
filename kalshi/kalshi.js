@@ -1583,12 +1583,15 @@
     if (r) r.addEventListener('click', () => { KGOM.m = {}; kgoSave({}); kgo(); });
     kgo();
   }
+  // day-kalshi QA 2026-11-21: the PC posts every 15 min; over 60 min without news an old LIVE must not look current
+  function k8Silent(j) { if (!j || !klOk(j) || !['live', 'paused', 'idle'].includes(j.st)) return ''; const a = rwAge({ updated: j.u }); return a.old ? '(last news ' + a.s + ')' : ''; }
   function k8Sub() {                                  // the header line: K8's state, never the old bot's
     const m = $('#k8sub-m');
     if (!m) return;
     const st = KLV.j && klOk(KLV.j) ? KLV.j.st : null;
-    const t = st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC not running it' : 'PAPER';
-    if (m.textContent !== t) { m.textContent = t; m.className = st === 'live' ? 'live' : st === 'stopped' || st === 'idle' ? 'bad' : ''; }
+    const sil = k8Silent(KLV.j);
+    const t = sil ? 'PC SILENT ' + sil : st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC not running it' : 'PAPER';
+    if (m.textContent !== t) { m.textContent = t; m.className = st === 'live' && !sil ? 'live' : sil || st === 'stopped' || st === 'idle' ? 'bad' : ''; }
   }
   // ---- K8 TODAY (Olympus 2): the one-glance card at the top. Text only through esc / textContent.
   const K8T = { key: '' };
@@ -1596,9 +1599,10 @@
     const ul = $('#k8top-legs');
     if (!ul) return;
     const k = K8D.k || {}, j = KLV.j && klOk(KLV.j) ? KLV.j : null, st = j ? j.st : null;
-    const m = $('#k8top-m'); if (m) { const t = st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC off' : 'PAPER'; if (m.textContent !== t) { m.textContent = t; m.className = 'k8t-m ' + (st === 'live' ? 'live' : st === 'stopped' || st === 'idle' ? 'bad' : ''); } }
+    const sil = k8Silent(j);
+    const m = $('#k8top-m'); if (m) { const t = sil ? 'PC SILENT' : st === 'live' ? 'LIVE' : st === 'paused' ? 'PAUSED' : st === 'stopped' ? 'STOPPED' : st === 'idle' ? 'ARMED, PC off' : 'PAPER'; if (m.textContent !== t) { m.textContent = t; m.className = 'k8t-m ' + (st === 'live' && !sil ? 'live' : sil || st === 'stopped' || st === 'idle' ? 'bad' : ''); } }
     const ag = $('#k8top-age');
-    if (ag) { const a = j ? rwAge({ updated: j.u }) : null, t = a ? `PC data ${a.s}` : 'no PC data yet'; if (ag.textContent !== t) { ag.textContent = t; ag.className = 'k8t-age' + (!a || a.old ? ' old' : ''); } }
+    if (ag) { const a = j ? rwAge({ updated: j.u }) : null, t = !a ? 'not published yet: no PC data' : sil ? `PC silent: last news ${a.s}` : st === 'stopped' && j.why ? `stopped: ${String(j.why).slice(0, 40)} · ${a.s}` : `PC data ${a.s}`; if (ag.textContent !== t) { ag.textContent = t; ag.className = 'k8t-age' + (!a || a.old || st === 'stopped' ? ' old' : ''); } }
     const W = k8NextLive(now), nx = $('#k8top-next');
     if (nx) {
       let t = 'Next: no live window this week';
@@ -1613,11 +1617,12 @@
       if (r.skip) { st2 = r.L.sk === 'uk' ? 'skipped (UK holiday)' : 'skipped (CME holiday)'; cl = 'sk'; }
       else if (b && b[5] === 'W') { st2 = `WON ${usd(num(b[4]), true)}`; cl = 'w'; }
       else if (b && b[5] === 'L') { st2 = `LOST ${usd(num(b[4]), true)}`; cl = 'l'; }
+      else if (b && b[5] === 'c') { st2 = `counted as in, result ${k8HM(r.t + 900000)}`; cl = 'o'; }
       else if (b) { st2 = `in: ${fmtN(num(b[2]) || 0)} at ${Math.round(num(b[3]) || 0)}¢, result ${k8HM(r.t + 900000)}`; cl = 'o'; }
       else st2 = k8Cd(r, now) === 'done' ? 'done, no bet seen' : k8Cd(r, now);
       return `<li class="${cl}" data-leg="${esc(r.L.c)}"><b>${esc(k8HM(r.t))}</b><span>${esc(r.L.n)}</span><em>${esc(st2)}</em></li>`;
     }).join('') : '';
-    const pn = arr(k.pn), led = k.m === 'L' ? 'Live' : 'Paper';
+    const pn = arr(k.pn), led = k.m === 'L' ? 'Live' : (st === 'live' || st === 'paused' ? 'No live bets yet · paper' : 'Paper');
     const pl = num(pn[0]) == null ? `${led} $: no settled bets yet` : `${led} $: today ${usd(num(pn[0]), true)} · this week ${usd(num(pn[1]), true)} · since the start ${usd(num(pn[2]), true)}`;
     K8T.pn = num(pn[0]) == null ? null : [num(pn[0]), num(pn[1]), num(pn[2])];
     K8T.legs = R ? R.rows.filter((r) => r.L.live).map((r) => { const b = R.today ? lg.filter((x) => x[0] === r.L.c && x[1] === day).pop() : null; return { c: r.L.c, n: r.L.n, s: r.skip ? 'sk' : b ? (b[5] === 'W' ? 'w' : b[5] === 'L' ? 'l' : 'o') : 'p', usd: b ? num(b[4]) : null, day }; }) : [];
@@ -1686,7 +1691,7 @@
       const from = FXK.pn;
       FXK.pn = pn;
       try { NQ.roll(p, { to: pn[2], from: from ? from[2] : 0, duration: 1.1 }); } catch (_) { /* the text stays right */ }
-      const fix = () => { const k = K8D.k || {}, led = k.m === 'L' ? 'Live' : 'Paper'; p.textContent = `${led} $: today ${usd(pn[0], true)} · this week ${usd(pn[1], true)} · since the start ${usd(pn[2], true)}`; };
+      const fix = () => { const k = K8D.k || {}, st = KLV.j && klOk(KLV.j) ? KLV.j.st : null, led = k.m === 'L' ? 'Live' : (st === 'live' || st === 'paused' ? 'No live bets yet · paper' : 'Paper'); p.textContent = `${led} $: today ${usd(pn[0], true)} · this week ${usd(pn[1], true)} · since the start ${usd(pn[2], true)}`; };
       setTimeout(fix, 1300);
     }
     if (!NQ || !K8T.legs) return;
@@ -1731,9 +1736,11 @@
     K8D.k = k;
     try { kgo(); k8Sub(); K8T.key = ''; k8Top(Date.now()); } catch (_) { /* never blocks the card */ }
     const live = j.st === 'live' || j.st === 'paused', led = k.m === 'L' ? 'live' : 'paper', td = arr(k.td), age = rwAge({ updated: j.u });
-    if (mm) { mm.textContent = live ? (j.st === 'paused' ? 'PAUSED' : 'LIVE') : j.st === 'stopped' ? 'STOPPED' : 'PAPER'; mm.className = 'k8s-m' + (j.st === 'live' ? ' live' : ''); }
+    const sil = k8Silent(j);
+    if (mm) { mm.textContent = sil ? 'PC SILENT' : live ? (j.st === 'paused' ? 'PAUSED' : 'LIVE') : j.st === 'stopped' ? 'STOPPED' : j.st === 'idle' ? 'ARMED, PC off' : 'PAPER'; mm.className = 'k8s-m' + (j.st === 'live' && !sil ? ' live' : ''); }
     const cell = (t, v, c, id) => `<div><dt>${t}</dt><dd class="${c || ''}"${id ? ' id="' + id + '"' : ''}>${v}</dd></div>`;
-    g.innerHTML = cell('Bankroll', esc(usd(k.b))) + cell('A bet', esc(usd(k.s)))
+    const pn2 = num(arr(k.pn)[2]), bnow = led === 'live' && num(k.b) != null && pn2 != null ? num(k.b) + pn2 : null;
+    g.innerHTML = cell('Bankroll', bnow != null ? `${esc(usd(bnow))} <small>(started ${esc(usd(k.b))})</small>` : esc(usd(k.b)), bnow != null ? cls(pn2) : '') + cell('A bet', esc(usd(k.s)))
       + cell(`Today (${led})`, num(td[0]) ? `${esc(fmtN(td[0]))} bet${td[0] === 1 ? '' : 's'}, ${esc(usd(td[2], true))}` : 'no bets yet', num(td[0]) ? cls(td[2]) : '')
       + cell('Next window', '…', '', 'k8s-cd');
     k8Tick();
@@ -1849,7 +1856,7 @@
         if (L) hm = k8HM(tzEpoch(y, +m[1] - 1, +m[2], L.o[0], L.o[1], L.tz));
       }
       const n = num(b[2]), c = num(b[3]), pnl = num(b[4]), r = b[5];
-      const res = r === 'W' ? `WON ${usd(pnl, true)}` : r === 'L' ? `LOST ${usd(pnl, true)}` : 'open';
+      const res = r === 'W' ? `WON ${usd(pnl, true)}` : r === 'L' ? `LOST ${usd(pnl, true)}` : r === 'c' ? "open (Kalshi's answer was lost: counted as placed)" : 'open';
       return `<li class="${r === 'W' ? 'w' : r === 'L' ? 'l' : 'o'}">${esc(`${wd} ${m ? b[1] : ''} ${L ? L.n + ' ' + hm : 'a K8 bet'}`.replace(/\s+/g, ' ').trim())}: `
         + `${esc(n != null && c != null ? `${fmtN(n)} at ${Math.round(c)}¢` : 'size not known')}, <b>${esc(res)}</b></li>`;
     });
@@ -1923,7 +1930,18 @@
     if (j.st === 'idle') {
       if (hd) hd.textContent = 'Kalshi: ARMED, not running';
       ln.textContent = `K8 (gold and silver) ARMED, but the PC is not running it right now: double-click KALSHI_LIVE.bat on the PC to start it again. ${today[0].toUpperCase() + today.slice(1)}. Updated ${age.s}.`;
-      if (risk) risk.textContent = 'No order rests for more than 20 minutes without it.';
+      if (risk) risk.textContent = isObj(j.k8) ? 'Open bets settle by themselves; no new bet until the PC runs it again.' : 'No order rests for more than 20 minutes without it.';
+      return;
+    }
+    if (isObj(j.k8)) {                               // day-kalshi QA 2026-11-21: K8's own numbers, never the retired maker's
+      const k = j.k8, td = arr(k.td), dy = arr(k.dy), wk = arr(k.wk), dd = arr(k.dd), L = k.m === 'L', sil = k8Silent(j);
+      const u = (a) => `${usd(num(a[0]) || 0)} of ${usd(num(a[1]) || 0)}`;
+      if (hd) hd.textContent = sil ? 'Kalshi K8: PC SILENT' : j.st === 'live' ? 'Kalshi K8: LIVE' : 'Kalshi K8: PAUSED';
+      ln.textContent = `K8 (gold and silver) ${j.st === 'live' ? 'LIVE' : 'PAUSED (no new bets until you resume on the PC page)'}: `
+        + (L ? `today ${fmtN(num(td[0]) || 0)} live bet${num(td[0]) === 1 ? '' : 's'}, ${usd(num(td[2]) || 0, true)}. ` : 'no live bets yet (the first one at the next window). ')
+        + `Stops used: ${u(dy)} today, ${u(wk)} this week, ${u(dd)} from the best point (then OFF). `
+        + (sil ? `The PC has been silent since ${age.s}: is it on?` : `Updated ${age.s}.`);
+      if (risk) risk.textContent = `At most ${usd(num(dy[1]) || 0)} can be lost today.`;
       return;
     }
     if (hd) hd.textContent = j.st === 'live' ? 'Kalshi: LIVE' : 'Kalshi: PAUSED from the phone';

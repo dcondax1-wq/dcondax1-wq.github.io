@@ -1,7 +1,7 @@
 {
  "v": 1,
  "kind": "agency-crm-data",
- "made": "2026-11-14T21:38:39",
+ "made": "2026-11-21T22:30:33",
  "demo": true,
  "sample": false,
  "note": "EXAMPLE leads, not real: invented businesses in an invented town. Run the website machine (RUN_AGENCY.bat) for your own city.",
@@ -26,97 +26,97 @@
  "packages": [
   {
    "id": "starter",
-   "name": "Starter",
-   "setup": 499,
-   "monthly": 49,
-   "pitch": "The site you saw, made yours: your photos and logo, your domain, the contact form, tap-to-call, hosting and small edits every month."
+   "name": "Starter site",
+   "setup": 1500,
+   "monthly": 79,
+   "pitch": "The easiest yes: a fast, clean site for the business with no site or a broken one, with the care plan always attached."
   },
   {
    "id": "growth",
-   "name": "Growth",
-   "setup": 999,
-   "monthly": 79,
-   "pitch": "Everything in Starter plus up to 5 pages (one per service), online booking or quote requests, and local Google basics."
+   "name": "Call engine",
+   "setup": 500,
+   "monthly": 299,
+   "pitch": "More calls from the map: site + Google profile + review requests + every review answered. It compounds: more reviews, more map calls, and it rarely cancels."
   },
   {
    "id": "pro",
-   "name": "Pro",
-   "setup": 1999,
-   "monthly": 129,
-   "pitch": "A full custom site: up to 10 pages, the words written for you, a photo or menu section, and priority edits."
+   "name": "3D Signature",
+   "setup": 2500,
+   "monthly": 79,
+   "pitch": "The site people remember: a phone-scan 3D tour of their space or a 3D product page you can spin with a finger (AR on phones), still fast."
   }
  ],
  "plan": {
   "goal": 5000.0,
-  "avg_setup": 799.0,
-  "avg_monthly": 66.0,
+  "avg_setup": 1400.0,
+  "avg_monthly": 101.0,
   "churn": 0.03,
   "rows": [
    {
     "new_per_month": 2,
-    "setup_income": 1598,
-    "care_after_6": 735,
-    "care_after_12": 1347,
-    "month_6": 2333,
-    "month_12": 2945,
-    "months_to_goal": 49
+    "setup_income": 2800,
+    "care_after_6": 1125,
+    "care_after_12": 2061,
+    "month_6": 3925,
+    "month_12": 4861,
+    "months_to_goal": 13
    },
    {
     "new_per_month": 3,
-    "setup_income": 2397,
-    "care_after_6": 1102,
-    "care_after_12": 2021,
-    "month_6": 3499,
-    "month_12": 4418,
-    "months_to_goal": 17
+    "setup_income": 4200,
+    "care_after_6": 1687,
+    "care_after_12": 3092,
+    "month_6": 5887,
+    "month_12": 7292,
+    "months_to_goal": 3
    },
    {
     "new_per_month": 4,
-    "setup_income": 3196,
-    "care_after_6": 1470,
-    "care_after_12": 2694,
-    "month_6": 4666,
-    "month_12": 5890,
-    "months_to_goal": 8
+    "setup_income": 5600,
+    "care_after_6": 2249,
+    "care_after_12": 4123,
+    "month_6": 7849,
+    "month_12": 9723,
+    "months_to_goal": 1
    },
    {
     "new_per_month": 5,
-    "setup_income": 3995,
-    "care_after_6": 1837,
-    "care_after_12": 3368,
-    "month_6": 5832,
-    "month_12": 7363,
-    "months_to_goal": 4
+    "setup_income": 7000,
+    "care_after_6": 2812,
+    "care_after_12": 5154,
+    "month_6": 9812,
+    "month_12": 12154,
+    "months_to_goal": 1
    },
    {
     "new_per_month": 6,
-    "setup_income": 4794,
-    "care_after_6": 2205,
-    "care_after_12": 4041,
-    "month_6": 6999,
-    "month_12": 8835,
+    "setup_income": 8400,
+    "care_after_6": 3374,
+    "care_after_12": 6184,
+    "month_6": 11774,
+    "month_12": 14584,
     "months_to_goal": 1
    },
    {
     "new_per_month": 8,
-    "setup_income": 6392,
-    "care_after_6": 2940,
-    "care_after_12": 5388,
-    "month_6": 9332,
-    "month_12": 11780,
+    "setup_income": 11200,
+    "care_after_6": 4499,
+    "care_after_12": 8246,
+    "month_6": 15699,
+    "month_12": 19446,
     "months_to_goal": 1
    }
   ],
   "pace": {
-   "new_per_month": 4,
-   "months_to_goal": 8,
-   "demo_views": 16,
-   "conversations": 32,
-   "dials": 128,
-   "dials_per_day": 6.4,
-   "hours_per_week": 6.2
+   "new_per_month": 3,
+   "months_to_goal": 3,
+   "demo_views": 12,
+   "conversations": 24,
+   "dials": 96,
+   "dials_per_day": 4.8,
+   "hours_per_week": 4.6
   },
-  "care_clients_for_goal_alone": 76
+  "care_clients_for_goal_alone": 50
  },
  "attribution": "Business data (c) OpenStreetMap contributors, ODbL 1.0 (openstreetmap.org/copyright)",
  "leads": [
@@ -145,13 +145,13 @@
    "hours": "Mon - Fri 7 AM - 5 PM",
    "demo_url": "https://example-1-demo.netlify.app",
    "demo_built": true,
-   "package": "growth",
-   "setup": 999.0,
+   "package": "starter",
+   "setup": 1500.0,
    "monthly": 79.0,
    "opener": "Hi, is this the owner of Maple Falls Plumbing? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website could bring you more calls, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Maple Falls Plumbing. You can see it at example-1-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Maple Falls Plumbing",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Maple Falls Plumbing\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Maple Falls Plumbing more calls with a few changes.\n\nSo I built Maple Falls Plumbing a free preview of a new website. It's live right now:\nhttps://example-1-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $999 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Maple Falls Plumbing\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Maple Falls Plumbing more calls with a few changes.\n\nSo I built Maple Falls Plumbing a free preview of a new website. It's live right now:\nhttps://example-1-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x2",
@@ -179,12 +179,12 @@
    "demo_url": "https://example-2-demo.netlify.app",
    "demo_built": false,
    "package": "starter",
-   "setup": 499.0,
-   "monthly": 49.0,
+   "setup": 1500.0,
+   "monthly": 79.0,
    "opener": "Hi, is this the owner of Oak Street Barbers? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website could bring you more calls, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Oak Street Barbers. You can see it at example-2-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Oak Street Barbers",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Oak Street Barbers\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Oak Street Barbers more calls with a few changes.\n\nSo I built Oak Street Barbers a free preview of a new website. It's live right now:\nhttps://example-2-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $499 to set it up with your own logo, photos and web address, then $49 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Oak Street Barbers\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Oak Street Barbers more calls with a few changes.\n\nSo I built Oak Street Barbers a free preview of a new website. It's live right now:\nhttps://example-2-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x3",
@@ -211,13 +211,13 @@
    "hours": "Mon - Thu 8 AM - 5 PM",
    "demo_url": "https://example-3-demo.netlify.app",
    "demo_built": true,
-   "package": "growth",
-   "setup": 999.0,
+   "package": "starter",
+   "setup": 1500.0,
    "monthly": 79.0,
    "opener": "Hi, is this the owner of Sunrise Family Dental? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website could bring you more calls, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Sunrise Family Dental. You can see it at example-3-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Sunrise Family Dental",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Sunrise Family Dental\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Sunrise Family Dental more calls with a few changes.\n\nSo I built Sunrise Family Dental a free preview of a new website. It's live right now:\nhttps://example-3-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $999 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Sunrise Family Dental\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Sunrise Family Dental more calls with a few changes.\n\nSo I built Sunrise Family Dental a free preview of a new website. It's live right now:\nhttps://example-3-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x4",
@@ -245,13 +245,13 @@
    "hours": "Mon - Fri 8 AM - 6 PM; Sat 9 AM - 1 PM",
    "demo_url": "https://example-4-demo.netlify.app",
    "demo_built": false,
-   "package": "growth",
-   "setup": 999.0,
+   "package": "starter",
+   "setup": 1500.0,
    "monthly": 79.0,
    "opener": "Hi, is this the owner of Corner Auto Care? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website is hard to use on a phone, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Corner Auto Care. You can see it at example-4-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Corner Auto Care",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Corner Auto Care\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. Your current website shows a shrunken desktop page on phones, where most people look for a auto repair.\n\nSo I built Corner Auto Care a free preview of a new website. It's live right now:\nhttps://example-4-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $999 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Corner Auto Care\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. Your current website shows a shrunken desktop page on phones, where most people look for a auto repair.\n\nSo I built Corner Auto Care a free preview of a new website. It's live right now:\nhttps://example-4-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x5",
@@ -279,12 +279,12 @@
    "demo_url": "https://example-5-demo.netlify.app",
    "demo_built": false,
    "package": "starter",
-   "setup": 499.0,
-   "monthly": 49.0,
+   "setup": 1500.0,
+   "monthly": 79.0,
    "opener": "Hi, is this the owner of Green Thumb Landscaping? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website could bring you more calls, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Green Thumb Landscaping. You can see it at example-5-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Green Thumb Landscaping",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Green Thumb Landscaping\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Green Thumb Landscaping more calls with a few changes.\n\nSo I built Green Thumb Landscaping a free preview of a new website. It's live right now:\nhttps://example-5-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $499 to set it up with your own logo, photos and web address, then $49 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Green Thumb Landscaping\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Green Thumb Landscaping more calls with a few changes.\n\nSo I built Green Thumb Landscaping a free preview of a new website. It's live right now:\nhttps://example-5-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x6",
@@ -312,12 +312,12 @@
    "demo_url": "https://example-6-demo.netlify.app",
    "demo_built": false,
    "package": "starter",
-   "setup": 499.0,
-   "monthly": 49.0,
+   "setup": 1500.0,
+   "monthly": 79.0,
    "opener": "Hi, is this the owner of La Mesa Kitchen? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website could bring you more calls, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for La Mesa Kitchen. You can see it at example-6-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for La Mesa Kitchen",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for La Mesa Kitchen\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring La Mesa Kitchen more calls with a few changes.\n\nSo I built La Mesa Kitchen a free preview of a new website. It's live right now:\nhttps://example-6-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $499 to set it up with your own logo, photos and web address, then $49 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for La Mesa Kitchen\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring La Mesa Kitchen more calls with a few changes.\n\nSo I built La Mesa Kitchen a free preview of a new website. It's live right now:\nhttps://example-6-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x7",
@@ -345,12 +345,12 @@
    "demo_url": "https://example-7-demo.netlify.app",
    "demo_built": false,
    "package": "starter",
-   "setup": 499.0,
-   "monthly": 49.0,
+   "setup": 1500.0,
+   "monthly": 79.0,
    "opener": "Hi, is this the owner of Bloom Nail Studio? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website could bring you more calls, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Bloom Nail Studio. You can see it at example-7-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Bloom Nail Studio",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Bloom Nail Studio\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Bloom Nail Studio more calls with a few changes.\n\nSo I built Bloom Nail Studio a free preview of a new website. It's live right now:\nhttps://example-7-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $499 to set it up with your own logo, photos and web address, then $49 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Bloom Nail Studio\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. I think your website could bring Bloom Nail Studio more calls with a few changes.\n\nSo I built Bloom Nail Studio a free preview of a new website. It's live right now:\nhttps://example-7-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   },
   {
    "id": "x8",
@@ -378,12 +378,12 @@
    "demo_url": "https://example-8-demo.netlify.app",
    "demo_built": false,
    "package": "starter",
-   "setup": 499.0,
-   "monthly": 49.0,
+   "setup": 1500.0,
+   "monthly": 79.0,
    "opener": "Hi, is this the owner of Peak Fitness Club? Great. My name is YOUR NAME, I make websites for local businesses here in Maple Falls. I noticed your website is hard to use on a phone, so I built you a free preview of a new website. It's already online, with your hours, tap-to-call and directions. Could I email or text you the link so you can take a look?",
    "voicemail": "Hi, this is YOUR NAME with YOUR AGENCY. I made a free preview of a new website for Peak Fitness Club. You can see it at example-8-demo.netlify.app. If you like it, call me back at (555) 555-0100. Thanks!",
    "subject": "A free website preview for Peak Fitness Club",
-   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Peak Fitness Club\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. Your current website shows a shrunken desktop page on phones, where most people look for a gym.\n\nSo I built Peak Fitness Club a free preview of a new website. It's live right now:\nhttps://example-8-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $499 to set it up with your own logo, photos and web address, then $49 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
+   "email_body": "NOT READY TO SEND: put your real name, agency, email and postal address in agency/config.json, then build the kit again.\n(US law, CAN-SPAM: a true sender, your postal address and an opt-out in every sales email.)\n\nTo: (find their email on their Facebook page or ask on the phone)\nFrom: YOUR NAME <you@example.com>\nSubject: A free website preview for Peak Fitness Club\n\nHi,\n\nI'm YOUR NAME with YOUR AGENCY, a small web studio here in Maple Falls. Your current website shows a shrunken desktop page on phones, where most people look for a gym.\n\nSo I built Peak Fitness Club a free preview of a new website. It's live right now:\nhttps://example-8-demo.netlify.app\n\nIt works on any phone: tap-to-call, your hours, directions and a contact form that sends messages straight to you.\n\nIf you'd like to keep it, it's $1,500 to set it up with your own logo, photos and web address, then $79 a month for hosting, security and small changes. Month to month: cancel any time. If not, no problem at all.\n\nWant me to switch it on for you? Just reply, or call me at (555) 555-0100.\n\nThanks,\nYOUR NAME\nYOUR AGENCY\n(555) 555-0100\n\n--\nThis is a one-time offer of web design services from YOUR AGENCY, YOUR STREET ADDRESS, YOUR CITY, ST 00000.\nNot interested? Reply \"no thanks\" and I won't email you again.\n"
   }
  ]
 }

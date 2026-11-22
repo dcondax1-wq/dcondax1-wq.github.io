@@ -41,7 +41,7 @@ body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none
 .periods button[aria-pressed="true"] { background: #f3ece0; color: #19140e; }
 
 /* ---------------------------------------------------------------- the stage and its cards */
-.stage { position: fixed; inset: 0; z-index: 3; touch-action: none; cursor: pointer; }
+.stage { position: fixed; inset: 0; z-index: 3; touch-action: none; cursor: pointer; overflow: hidden; }   /* the tilted card (3D) and the slide-in never widen the page (body scrollWidth 837 at 390: day-a11y 2026-11-22) */
 .card { position: absolute; inset: var(--top) calc(var(--sr) + var(--gut)) var(--bot) calc(var(--sl) + var(--gut));
   display: flex; flex-direction: column; justify-content: center; opacity: 0;
   transform: translate3d(calc(var(--dir, 1) * 36px), 0, 0) scale(.97); transition: opacity .45s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }

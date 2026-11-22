@@ -1,0 +1,16 @@
+/* the one-page proposal: clean, prints on one page (Letter), light + dark on screen */
+:root { --bg: #f6f7f9; --card: #fff; --ink: #111827; --muted: #4b5563; --line: #e5e7eb; --accent: #2563eb; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0b0f15; --card: #121821; --ink: #e5e7eb; --muted: #a3acb9; --line: #263041; --accent: #3b82f6; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+header, section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0 0 12px; }
+h1 { margin: 2px 0 4px; font-size: 1.6rem; overflow-wrap: anywhere; } h2 { margin: 0 0 6px; font-size: 1.05rem; color: var(--accent); }
+.eyebrow { margin: 0; font: 700 .78rem/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); } ul { margin: 0; padding-left: 20px; } li { margin: 3px 0; overflow-wrap: anywhere; }
+.bar { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--accent);
+  color: #fff; font: 600 1rem/1 system-ui, -apple-system, sans-serif; text-decoration: none; cursor: pointer; } .btn.ghost { background: transparent; color: var(--ink); }
+footer { font-size: .85rem; padding: 4px 2px 24px; }
+@media print { :root { --bg: #fff; --card: #fff; --ink: #000; --muted: #333; --line: #ccc; --accent: #1d4ed8; } .noprint { display: none !important; }
+  main { padding: 0; max-width: none; } header, section { border: 0; padding: 6px 0; margin: 0 0 6px; } body { font-size: 11.5pt; } }

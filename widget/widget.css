@@ -2,7 +2,7 @@
    the pages stay light (no 3D, no intro). Light + dark, motion only on transform / opacity, iPhone safe areas respected. */
 :root {
   color-scheme: light dark;
-  --bg: #14110e; --bg2: #0f0c09; --panel: #1d1914; --raise: #26211b; --line: #3a3228; --line-soft: rgba(243, 236, 224, .08);
+  --bg: var(--oly-th-n3, #000000); --bg2: var(--oly-th-n3, #020204); --panel: var(--oly-th-n5, #16131e); --raise: var(--oly-th-n6, #1c1726); --line: var(--oly-th-n8, #3e255e);   /* the look's ladder (OLYMPUS NIGHT: violet-black, QA 2026-11-21) */ --line-soft: rgba(243, 236, 224, .08);
   --ink: #f3ece0; --soft: #cfc4b2; --muted: #a89c88; --gold: #dcbd6e; --gold-fill: #c8a24a; --good: #b6c17d; --good-fill: #8d9a55;
   --bad: #e08a6b; --bad-fill: #c96a4a; --warn: #e0b25a; --track: #332b22;
   --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;

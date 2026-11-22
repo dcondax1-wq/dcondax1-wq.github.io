@@ -80,3 +80,19 @@ html[data-oly-lite="1"] .ag-card { box-shadow: none; }
 /* night-siteqa 2026-11-20: alone (not framed in Jarvis) the corner holds only the 44 px OLYMPUS seal: 96 px + the home bar clears it, the 176 px
    seat (Jarvis's orb) stays for the framed page; no empty band at the end (owner: the bottom looked "funky"; same rule as trading.css) */
 html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
+
+/* day-litedge 2026-11-21: the Research Hub (tabs, one-line rows with $, tap opens the write-up) + family / date filters */
+.hlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.hrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; width: 100%; min-height: 44px; padding: 10px 12px; text-align: left; border-radius: 12px; background: var(--ag-s1, #0a0810); border: 1px solid var(--ag-line); color: var(--ag-text); font-size: 14px; }
+.hrow .ht { font-weight: 650; overflow-wrap: anywhere; }
+.hrow .hm { font: 700 14px var(--ag-num, inherit); font-variant-numeric: tabular-nums; white-space: nowrap; align-self: start; }
+.hrow .hl { grid-column: 1 / -1; color: var(--ag-soft); font-size: 13px; overflow-wrap: anywhere; }
+.hrow .hd { grid-column: 1 / -1; color: var(--ag-muted); font-size: 12px; }
+.hrow .hm.pos { color: var(--nq-up-text, #77db89); } .hrow .hm.neg { color: var(--nq-dn-text, #f87171); }
+.selrow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.sel { appearance: auto; }
+.rd-src { margin: 8px 0 0; font-size: 12px; color: var(--ag-muted); }
+#hubTabs.htabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+#hubTabs.htabs .ag-chip { width: 100%; font-size: 14px; line-height: 1.2; padding: 6px 8px; }
+.hrow .hm.q { color: var(--ag-soft); font-weight: 600; }
+.city { justify-self: start; margin: 0 0 8px; text-decoration: none; border-color: var(--nq-cyan, #9d59ee); color: var(--nq-cyan-hi, #dacbf0); }

@@ -3,14 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>/* HOME FIRST (2026-11-22, owner: "when I open Olympus it goes to More... I want 6 main dashboards"): the Olympus icon on the phone keeps the
+   address it was saved with (this page), so a fresh launch of the installed app goes to Home (gate/: the 6 dashboards) once per launch.
+   Not in a browser tab, not when Home already opened this session (its Jarvis tile), not with a #app link or ?stay=1, never in a frame. */
+(function () { try {
+  var sa = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  if (!sa || window.top !== window || location.hash || /[?&]stay=1/.test(location.search)) return;
+  if (sessionStorage.getItem('olympus.home.v1')) return;
+  sessionStorage.setItem('olympus.home.v1', '1'); location.replace('../gate/');
+} catch (e) { /* stay on Jarvis */ } })();</script>
 <title>Jarvis</title>
 <meta name="description" content="J.A.R.V.I.S.: your assistant and the home screen for all your projects. Switch between Jarvis and Zenith in one tap, plus the Planner, Kalshi and the rest.">
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Olympus">
-<link rel="manifest" href="manifest.webmanifest?v=j7">
+<link rel="manifest" href="manifest.webmanifest?v=j8">
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=j5">
 <link rel="icon" href="icon-192.png?v=j5">
 <!-- dark from the first paint, even before (or without) the stylesheet: never a white screen -->
@@ -124,7 +133,7 @@ window.addEventListener('error', function (e) {
 <!-- the PC feed (night A sync): the bots' numbers straight from the PC (ntfy, tools/pc_report.py), the same feed the Gate, the hubs and Zenith use;
      data.js lays it over live.json when it is newer. Async: never waited on by the start (a slow network must not hold Jarvis); the next refresh uses it. -->
 <script src="../pc_feed.js?v=n7" id="pcFeedJs" async></script>
-<script src="../olympus/themes.js?v=o10" id="olyThemesJs" async></script>
+<script src="../olympus/themes.js?v=o11" id="olyThemesJs" async></script>
 <script src="../olympus/sfx.js?v=s4" id="olySfxJs" async></script>
 <script src="../olympus/a11y.js" async></script>
 <style>.booted #bootfx{display:none}
@@ -1456,7 +1465,7 @@ ready.vault = Promise.all([load('obsidian', './obsidian.js', (m) => typeof m.cre
     addTodos: (list) => { let n = 0; for (const t of list || []) if (assistant && assistant.addTodo) { assistant.addTodo(t); n++; } return n; },       // "pull my tasks from Obsidian" (memory.js; asks first)
     todos: () => (assistant ? assistant.todos() : []) }); } return vault; }).catch(() => null);
 // the business answers (biz.js, day-jarvis 2026-11-20): accounts, trades, room, payout, news, to-do, Kalshi from the real feeds, before the brain
-ready.biz = load('biz', './biz.js?v=b5', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
+ready.biz = load('biz', './biz.js?v=b6', (m) => typeof m.ask === 'function' && typeof m.match === 'function');
 ready.assist = load('assist', './assist-ui.js', (m) => typeof m.mountObsidianSheet === 'function').then((m) => { assist = m; return m; });
 // the voice (tts.js) and the personal assistant (assistant.js), 2026-11-03: each optional (absent = the old voice, the brain alone)
 let tts = null, assistant = null;
@@ -3330,13 +3339,31 @@ const fx = (() => {
       if (t - t0 > 2500) {
         probe = false;
         if (frames / ((t - t0) / 1000) < 18 && (level() === 'high' || level() === 'ultra') && !root.dataset.fxSet) {
-          root.dataset.fxAuto = '1'; setFx('low', false); toast('Effects lowered to keep Jarvis smooth on this phone. Change it under ⋯ → 3D.', '3D'); return;
+          root.dataset.fxAuto = '1'; setFx('low', false); toast('Effects lowered to keep Jarvis smooth on this phone. Change it under ⋯ → 3D.', '3D'); setTimeout(reprobe, 20000); return;
         }
       }
     }
     if (t - last >= 1000 / fps()) { last = t; drawStars(t); }
     if (level() === 'high' || level() === 'ultra') raf = requestAnimationFrame(frame);
   }
+  // the auto-low is never stored and never final (lead QA 2026-11-21: a slow first second, e.g. a busy phone, must not cost the 3D sky the
+  // whole launch): 20 s later, then every minute, 2 s of frames; 50 fps or more = this phone keeps up after all: back to High (unsaved), and
+  // the backdrop builds its sky then (backdrop.js watches data-fx). The owner's own pick (fxSet) always wins.
+  function reprobe() {
+    if (!root.dataset.fxAuto || root.dataset.fxSet || level() !== 'low') return;
+    if (document.hidden || active !== 'home') { setTimeout(reprobe, 60000); return; }
+    let n = 0, a0 = 0;
+    const f = (t) => {
+      if (!a0) a0 = t;
+      n++;
+      if (t - a0 < 2000) { requestAnimationFrame(f); return; }
+      const fps = n / ((t - a0) / 1000);
+      if (fps >= 50 && root.dataset.fxAuto && !root.dataset.fxSet) { delete root.dataset.fxAuto; setFx('high', false); restart(); }
+      else setTimeout(reprobe, 60000);
+    };
+    requestAnimationFrame(f);
+  }
+  window.__jarvisReprobe = reprobe;                          // tests
   function restart() {
     cancelAnimationFrame(raf); raf = 0;
     if (level() === 'off') { const g = starC.getContext('2d'); if (g) g.clearRect(0, 0, starC.width, starC.height); return; }

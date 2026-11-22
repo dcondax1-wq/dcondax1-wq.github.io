@@ -29,7 +29,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tags { display: flex; gap: 6px; flex: none; }
 .tag { font: 600 12px/1.2 -apple-system, system-ui, sans-serif; padding: 6px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--mut); background: var(--panel); }
 .tag.demo { color: var(--gold); border-color: rgba(var(--gold-rgb), .45); }
-.switch { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 3px; border-radius: 13px; background: #14110e; border: 1px solid var(--line); }
+.switch { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 3px; border-radius: 13px; background: var(--oly-th-n5, #14110e); border: 1px solid var(--line); }
 .switch button { position: relative; min-height: 46px; padding: 4px 6px; border: 0; border-radius: 10px; background: transparent; color: var(--mut);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background .25s, color .25s, box-shadow .25s; }
 .switch b { font: 600 16px/1.1 var(--serif); }
@@ -43,13 +43,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
     }
 .seg button { min-height: 44px; min-width: 44px; padding: 0 12px; border: 0; border-radius: 9px; background: transparent; color: var(--mut);
   font-weight: 700; font-size: 15px; transition: background .2s, color .2s; }
-.seg button[aria-selected="true"], .seg button.on { background: #2a2217; color: #e2c47a;
+.seg button[aria-selected="true"], .seg button.on { background: var(--oly-th-n6, #2a2217); color: #e2c47a;
   box-shadow: inset 0 0 0 1px rgba(var(--gold-rgb), .5); }
 .seg.small button { padding: 0 10px; }
 .seg.accts { padding: 0; border: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .seg-in { display: inline-flex; padding: 3px; gap: 2px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); }
 .seg-in button { min-height: 44px; min-width: 40px; padding: 0 8px; border: 0; border-radius: 9px; background: transparent; color: var(--mut); font-weight: 700; font-size: 15px; }
-.seg-in button.on { background: #2a2217; color: #e2c47a;
+.seg-in button.on { background: var(--oly-th-n6, #2a2217); color: #e2c47a;
   box-shadow: inset 0 0 0 1px rgba(var(--gold-rgb), .5); }
 .seg.tiny { padding: 2px; border-radius: 8px; }
 .seg.tiny button { min-height: 44px; min-width: 44px; font-size: 12px; padding: 0 6px; position: relative; }
@@ -110,7 +110,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ghost[aria-expanded="true"] { background: rgba(var(--vio-rgb), .38); }
 .spin:active, .ghost:active { transform: scale(.97); }
 .sheet { position: fixed; left: calc(var(--sl) + 12px); right: calc(var(--sr) + 96px); bottom: calc(var(--sb) + 72px); max-height: 38vh; max-height: 38dvh;   /* above the bottom bar: Spin / Next 10 stay tappable */
-  display: flex; flex-direction: column; border-radius: 18px; background: rgba(29, 25, 20, .97); border: 1px solid var(--line);
+  display: flex; flex-direction: column; border-radius: 18px; background: rgba(var(--oly-th-n5-rgb, 29, 25, 20), .97); border: 1px solid var(--line);
     box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
   animation: sheetup .26s cubic-bezier(.2, .8, .2, 1); }
 .sheet::before { content: ""; position: absolute; top: 5px; left: 50%; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: rgba(255, 255, 255, .18); }
@@ -154,7 +154,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .labtabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 6px 10px 2px; -webkit-overflow-scrolling: touch; flex: none; }
 .labtabs::-webkit-scrollbar { display: none; }
 .labtabs button { flex: none; min-height: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--mut); font-weight: 700; font-size: 13px; white-space: nowrap; }
-.labtabs button[aria-selected="true"] { background: #2a2217; color: #e2c47a; border-color: rgba(var(--vio-rgb), .6); }
+.labtabs button[aria-selected="true"] { background: var(--oly-th-n6, #2a2217); color: #e2c47a; border-color: rgba(var(--vio-rgb), .6); }
 .labbody { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 6px 12px 12px; display: flex; flex-direction: column; gap: 8px; }
 .labbody p { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--mut); overflow-wrap: anywhere; }
 .labbody p.strong { color: var(--txt); font-size: 14px; }
@@ -181,7 +181,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .labbody .big span { font-size: 12px; text-transform: none; color: var(--mut); } .labbody .big b { font: 700 22px/1.1 var(--num); color: var(--gold); }
 .labbody .seg.tiny { align-self: flex-start; } .labbody .seg.tiny button[aria-pressed="true"] { background: rgba(var(--vio-rgb), .38); color: var(--txt); } .labbody .seg.tiny button:disabled { opacity: .4; }
 
-.cap:not(:empty) { padding: 5px 8px; border-radius: 10px; background: rgba(20, 17, 14, .78);   }
+.cap:not(:empty) { padding: 5px 8px; border-radius: 10px; background: rgba(var(--oly-th-n3-rgb, 20, 17, 14), .78);   }
 
 /* ---- AGORA pass: one marble card for the numbers, one for the eval gauge; the money story; the p10-p90 range bar ---- */
 .hud { gap: 0; row-gap: 10px; padding: 12px 4px; border-radius: 16px; background: linear-gradient(180deg, var(--raise), var(--panel)); border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
@@ -208,7 +208,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* night-siteqa 2026-11-20: with the live gauge on (the PC's feed), a 390 x 844 iPhone had Spin again / Next 10 / Lab cut off under the home bar:
    the gauge replaces the story line on phones up to 900 px tall (and the caption too when the 2021-25 note is on) */
 @media (max-height: 900px) { #ui:has(#gauge:not([hidden])) .story { display: none; } #ui:has(#gauge:not([hidden])):has(#weak:not([hidden])) .cap { display: none; } }
-.live { padding: 8px 12px; border-radius: 12px; background: rgba(29, 25, 20, .92); border: 1px solid var(--line); }
+.live { padding: 8px 12px; border-radius: 12px; background: rgba(var(--oly-th-n5-rgb, 29, 25, 20), .92); border: 1px solid var(--line); }
 .live:empty { display: none; }
 
 /* phone-fit 2026-11-10 (clipped text on a 320 px screen: wrap instead of cutting) */

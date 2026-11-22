@@ -139,7 +139,7 @@ code { display: block; padding: 8px 10px; border-radius: 8px; background: rgba(0
 h1 { font: 600 28px/1.05 var(--ag-serif, Georgia, serif); color: #f3ece0; }
 h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 6px; background: linear-gradient(90deg, #c8a24a, transparent); }
 .sub { color: #cfc4b2; font-size: 14px; }
-.verdict { min-height: 60px; padding: 8px 16px; border-width: 1px; border-radius: 16px; background: #1d1914; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.verdict { min-height: 60px; padding: 8px 16px; border-width: 1px; border-radius: 16px; background: var(--oly-th-n5, #1d1914); box-shadow: 0 6px 18px rgba(0,0,0,.35); }
 .vk { font: 600 24px/1.1 var(--ag-serif, Georgia, serif); }
 .vs { font: 700 17px var(--ag-num, system-ui); color: #f3ece0; }
 .vline { font-size: 14px; color: #cfc4b2; }
@@ -155,7 +155,7 @@ h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 6
 
 .grp { text-transform: lowercase; } .grp::first-letter { text-transform: uppercase; }
 
-.heroc { display: grid; gap: 4px; padding: 16px 18px; margin: 0 0 12px; border-radius: 16px; background: #26211b; border: 1px solid #3a3228; border-left: 4px solid #8b7259; }
+.heroc { display: grid; gap: 4px; padding: 16px 18px; margin: 0 0 12px; border-radius: 16px; background: var(--oly-th-n5, #26211b); border: 1px solid #3a3228; border-left: 4px solid #8b7259; }
 .heroc.ok { border-left-color: #7f8a52; } .heroc.warn { border-left-color: #e0b060; } .heroc.bad { border-left-color: #c96a4a; }
 .heroc .ag-money { font-size: 46px; } .heroc .mbar { display: block; height: 8px; border-radius: 99px; background: #2b251d; overflow: hidden; margin: 4px 0; }
 .heroc .mbar i { display: block; height: 100%; background: linear-gradient(90deg, #9c6b3c, #c8a24a); }
@@ -169,7 +169,7 @@ h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 6
    status tags as badges with a dot, the sheet as one raised warm surface (no glass blur over the moving scene: it cost a repaint per frame),
    controls with one shape (13 px radius, a lit top edge, a press), the dock tabs as one segmented rail with a raised thumb, and no text under
    12 px. Layout, ids and the orb's corner are unchanged. Transform / opacity motion only; reduced motion turns it off. */
-.hud { background: linear-gradient(180deg, rgba(20, 17, 14, .95) 0%, rgba(20, 17, 14, .7) 66%, rgba(20, 17, 14, 0) 100%); padding-bottom: 20px; }
+.hud { background: linear-gradient(180deg, rgba(var(--oly-th-n3-rgb, 20, 17, 14), .95) 0%, rgba(20, 17, 14, .7) 66%, rgba(20, 17, 14, 0) 100%); padding-bottom: 20px; }
 .hud .title { gap: 10px; align-items: flex-start; }
 .hud h1 { font: 600 clamp(26px, 7.6vw, 30px)/1.05 var(--ag-serif, Georgia, serif); letter-spacing: 0; color: var(--ag-text, #f3ece0); }
 .hud h1::after { width: 40px; height: 2px; margin-top: 7px; border-radius: 2px; background: linear-gradient(90deg, var(--ag-gold, #c8a24a), rgba(var(--ag-gold-rgb, 200, 162, 74), 0)); }
@@ -189,7 +189,7 @@ button:not([class]):not([aria-pressed="true"]), .seg button:not([aria-pressed="t
 button[aria-pressed="true"] { background: linear-gradient(180deg, var(--oly-th-n7, #3a3020), var(--oly-th-n5, #2a2217)); border-color: rgba(var(--ag-gold-rgb, 200, 162, 74), .6); color: var(--ag-gold-hi, #dcbd6e); }
 .ghost { background: transparent; box-shadow: none; }
 input[type="text"], input:not([type]), input[inputmode], input[type="search"] { border-radius: 13px; background: var(--ag-s1, #1b1713); border: 1px solid rgba(var(--oly-th-n37-rgb, 243, 236, 224), .1); box-shadow: 0 1px 2px rgba(0, 0, 0, .3) inset; }
-.dock { background: linear-gradient(0deg, rgba(20, 17, 14, .98) 0%, rgba(20, 17, 14, .92) 74%, rgba(20, 17, 14, 0) 100%); }
+.dock { background: linear-gradient(0deg, rgba(var(--oly-th-n3-rgb, 20, 17, 14), .98) 0%, rgba(20, 17, 14, .92) 74%, rgba(20, 17, 14, 0) 100%); }
 .dock .tabs { gap: 2px; padding: 3px; border-radius: 15px; background: var(--ag-s1, #1b1713); border: 1px solid var(--ag-line, #3a3228); box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset; }
 .dock .tabs button { border: 0; border-radius: 12px; background: transparent; box-shadow: none; color: var(--ag-soft, #cfc4b2); font: 600 13px/1.1 var(--ag-sans, -apple-system, system-ui, sans-serif); min-height: 44px; }
 .dock .tabs button[aria-pressed="true"] { background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); color: var(--ag-gold-hi, #dcbd6e); box-shadow: var(--ag-e1); }

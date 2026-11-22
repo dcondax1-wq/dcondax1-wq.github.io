@@ -164,7 +164,7 @@ html[data-noscene] body { background: radial-gradient(ellipse at 50% 60%, #2c251
 .brand h1 { font: 600 26px/1.05 var(--ag-serif, Georgia, serif); color: #f3ece0; }
 .brand h1::after { content: ""; display: block; width: 56px; height: 2px; margin-top: 7px; background: linear-gradient(90deg, #c8a24a, transparent); }
 .brand .sub { font-size: 13px; color: #cfc4b2; }
-.verdict { padding: 14px 16px; background: rgba(29, 25, 20, .94); border-color: #3a3228; border-radius: 16px; }
+.verdict { padding: 14px 16px; background: rgba(var(--oly-th-n5-rgb, 29, 25, 20), .94); border-color: #3a3228; border-radius: 16px; }
 .verdict .v { font: 500 15px/1.4 var(--ag-sans, system-ui); color: #cfc4b2; margin-bottom: 10px; }
 .tiles { grid-template-columns: 1fr 1fr; gap: 10px 14px; }
 .tile.lost { grid-column: 1 / -1; order: -1; }
@@ -172,7 +172,7 @@ html[data-noscene] body { background: radial-gradient(ellipse at 50% 60%, #2c251
 .tile .k { font-size: 13px; color: #9a8f7d; }
 .verdict .avoid { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid #3a3228; font-size: 14px; line-height: 1.4; color: #f3ece0; }
 .verdict .avoid[hidden] { display: none; }
-.pills button { font: 600 15px var(--ag-sans, system-ui); background: rgba(29, 25, 20, .94); border-color: #3a3228; }
+.pills button { font: 600 15px var(--ag-sans, system-ui); background: rgba(var(--oly-th-n5-rgb, 29, 25, 20), .94); border-color: #3a3228; }
 .pills button[aria-pressed="true"] { background: #c8a24a; color: #1b1610; border-color: #c8a24a; }
 /* while a sheet is open the summary shrinks to the one big number */
 #ui:has(+ .sheet:not([hidden])) :is(.tile:not(.lost), .avoid, .live, .verdict .v) { display: none; }
@@ -190,13 +190,13 @@ html[data-noscene] body { background: radial-gradient(ellipse at 50% 60%, #2c251
    The underworld stays. The verdict, the week dock and the autopsy sheet become raised warm AGORA surfaces (no glass blur over the moving
    scene: a repaint per frame); the four views are one segmented rail with a raised gold thumb instead of floating pills; week arrows and
    All as quiet controls; the tag as a badge with a dot. Ids and the orb's corner are unchanged. */
-.tag { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 0 9px; font: 600 12px/1 var(--ag-sans, system-ui); background: rgba(20, 17, 14, .8); border-color: rgba(243, 236, 224, .1); color: var(--ag-muted, #a89c88); }
+.tag { display: inline-flex; align-items: center; gap: 5px; min-height: 24px; padding: 0 9px; font: 600 12px/1 var(--ag-sans, system-ui); background: rgba(var(--oly-th-n3-rgb, 20, 17, 14), .8); border-color: rgba(243, 236, 224, .1); color: var(--ag-muted, #a89c88); }
 .tag.demo { color: var(--ag-sun, #e0b060); background: rgba(224, 176, 96, .09); border-color: rgba(224, 176, 96, .36); }
 .tag.demo::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .verdict, .dock, .sheet { -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid rgba(243, 236, 224, .08); border-radius: 20px;
   background: linear-gradient(180deg, rgba(44, 37, 28, .97), rgba(30, 25, 20, .97)); box-shadow: var(--ag-e2, 0 6px 16px rgba(0, 0, 0, .3)); }
 .sheet { border-radius: 22px; box-shadow: var(--ag-e3, 0 12px 28px rgba(0, 0, 0, .34)); }
-.pills { gap: 2px; padding: 3px; border-radius: 16px; align-self: flex-start; background: rgba(27, 23, 19, .95); border: 1px solid rgba(243, 236, 224, .1); box-shadow: 0 6px 16px rgba(0, 0, 0, .35); }
+.pills { gap: 2px; padding: 3px; border-radius: 16px; align-self: flex-start; background: rgba(var(--oly-th-n5-rgb, 27, 23, 19), .95); border: 1px solid rgba(243, 236, 224, .1); box-shadow: 0 6px 16px rgba(0, 0, 0, .35); }
 .pills button { border: 0; border-radius: 13px; background: transparent; color: var(--ag-soft, #cfc4b2); padding: 0 14px; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .pills button[aria-pressed="true"] { background: linear-gradient(180deg, var(--oly-th-a9, #d9b764), #c8a24a); color: #1b1610; }
 .dock .wk button { border-radius: 13px; border-color: rgba(243, 236, 224, .1); background: linear-gradient(180deg, var(--ag-s4, #332b22), var(--ag-s3, #2b241d)); box-shadow: var(--ag-e1); font-size: 20px; }

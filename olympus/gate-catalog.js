@@ -364,7 +364,66 @@
     var sec = null; for (var i = 0; i < h.sections.length; i++) if (h.sections[i][0] === a.section) sec = h.sections[i];
     return { hub: h.id, hubName: h.name, section: a.section, sectionName: sec ? sec[1] : '', path: 'hub/index.html?h=' + h.id + '&t=' + a.section, app: a.label };
   }
-  var out = Object.freeze({ v: 3, apps: Object.freeze(apps), districts: HUBS, hubs: HUBS, start: ['nq', 'today', 'jarvis'], actions: Object.freeze(ACTIONS), quick: QUICK,
+  /* ORGANIZE (day-a11y 2026-11-21, owner: "more organized"; docs/OLYMPUS_MAP.md): the SIX ARENAS of the Home + Everything else are the ONE
+     top level. Each arena = its front page (the app the Home tile opens) + the hubs whose apps it holds (an app may be moved with apps:/not:).
+     The breadcrumb on every page is Home > arena > app (gate-nav.js), and hub/arena.html?a=<id> lists an arena's apps grouped by section.
+     RETIRED apps redirect to REPLACE[id] (gate-nav.js; ?stay=1 keeps the old page). FACTS = the one page that owns each fact; the pages that
+     also show it get a small "the one place: X" link (gate-nav.js). */
+  var ARENAS = [   // 2026-11-22 (owner: "6 main dashboards"): the Home's tiles in his order, then Everything else (= More)
+    { id: 'nq', name: 'NQ Bot', front: 'nq', line: 'ZEUS: the accounts, the trades, the brain', hubs: ['bots', 'today'], apps: ['today'], not: ['inbox', 'compass', 'stoa', 'hestia', 'helios', 'herald'] },
+    { id: 'jarvis', name: 'Jarvis', front: 'jarvis', line: 'Ask anything; today at a glance; your AI team', hubs: ['jarvis', 'me'], apps: ['inbox', 'compass', 'stoa', 'hestia', 'helios', 'herald'] },
+    { id: 'agency', name: 'Websites', front: 'agency', line: 'The website business: leads, the site factory, the caller portal', hubs: [], apps: ['agency'] },
+    { id: 'data', name: 'Data City', front: 'cities', frontPath: 'cities/world/index.html', line: 'Every idea tested as a city, and the Research hub', hubs: ['worlds', 'research'], not: ['kalshicity', 'tyche'] },
+    { id: 'money', name: 'Money', front: 'business', frontPath: 'business/mffu.html', line: 'My MFFU Accounts, payouts, decisions, taxes and the money plan', hubs: ['money', 'plan'], not: ['agency'] },
+    { id: 'kalshi', name: 'Kalshi', front: 'kalshi', line: 'The Kalshi bot, its bets and its edges', hubs: ['kalshi'], apps: ['kalshicity', 'tyche'] },
+    { id: 'else', name: 'Everything else', front: '', line: 'Settings, the PC, help and the workshop', hubs: ['settings'] }
+  ];
+  var AR = {}, ARN = {};
+  ARENAS.forEach(function (x) { ARN[x.id] = x; });
+  apps.forEach(function (a) {
+    for (var i = 0; i < ARENAS.length; i++) {
+      var x = ARENAS[i];
+      if ((x.apps || []).indexOf(a.id) >= 0) { AR[a.id] = x.id; return; }
+    }
+    for (var j = 0; j < ARENAS.length; j++) {
+      var y = ARENAS[j];
+      if (y.hubs.indexOf(a.hub) >= 0 && (y.not || []).indexOf(a.id) < 0) { AR[a.id] = y.id; return; }
+    }
+    AR[a.id] = 'else';
+  });
+  ARENAS.forEach(function (x) { x.count = apps.filter(function (a) { return AR[a.id] === x.id && !RET[a.id]; }).length; Object.freeze(x); });
+  /* each retired app opens the page that replaced it (its 'folded into' app when that one is live, else the named one) */
+  var REPLACE = { delphi: 'helios', stoa: 'compass', hestia: 'compass', plutus: 'hera', argo: 'hera', mint: 'business', harmonia: 'ledger', kairos: 'nq',
+    chronos: 'nq', lyceum: 'planner', polis: 'cities', atlascity: 'cities', gallery: 'settings', mintcity: 'cities', nike: 'planner', arena: 'planner',
+    mind: 'jarvis', symposium: 'jarvis', herald: 'helios', ergasterion: 'jarvis', observatory: 'archive', pheme: 'pythia', bridge: 'jarvis', arbiter: 'business',
+    hermes: 'ledger', hephaestus: 'archive', datacity: 'cities', kalshicity: 'dionysus' };
+  /* one place per fact (owner: "more organized"; lead 2026-11-21): fact -> [owner app, the anchor on it, the words, the apps that also show it] */
+  var FACTS = {   // all three live on My MFFU Accounts (business/mffu.html: every account the way MFFU shows it, the payout tracker, the 7-day clocks)
+    accounts: { app: 'business', path: 'business/mffu.html', name: 'My MFFU Accounts', label: 'Accounts', also: ['board', 'nq', 'aegis', 'demeter', 'widget', 'trading', 'today', 'ledger', 'hera', 'fates'] },
+    payout: { app: 'business', path: 'business/mffu.html', name: 'My MFFU Accounts', label: 'Payouts', also: ['board', 'nq', 'trading', 'hera', 'demeter', 'widget', 'ledger', 'chrysos'] },
+    clocks: { app: 'business', path: 'business/mffu.html', name: 'My MFFU Accounts', label: '7-day clocks', also: ['board', 'nq', 'aegis'] }
+  };
+  function arenaOf(id) { return ARN[AR[id]] || null; }
+  function arena(id) { return ARN[id] || null; }
+  function replacementOf(id) { var r = RET[id] ? REPLACE[id] : ''; return r && BY[r] && !RET[r] ? BY[r] : null; }
+  function factsOn(id) { var out = []; for (var k in FACTS) if (Object.prototype.hasOwnProperty.call(FACTS, k) && FACTS[k].also.indexOf(id) >= 0) out.push({ fact: k, label: FACTS[k].label, app: BY[FACTS[k].app], path: FACTS[k].path, name: FACTS[k].name }); return out; }
+  function arenaCrumb(id) {
+    var x = arenaOf(id), a = BY[id]; if (!x || !a) return null;
+    return { arena: x.id, arenaName: x.name, path: 'hub/arena.html?a=' + x.id, app: a.label, front: x.front === id };
+  }
+  function arenaLayout(xid) {   // [{hub, section, name, apps:[app]}] for one arena, live apps only, in the hubs' own order
+    var x = ARN[xid]; if (!x) return [];
+    var out = [], hubs = HUBS.filter(function (h) { return apps.some(function (a) { return AR[a.id] === xid && a.hub === h.id; }); });
+    hubs.forEach(function (h) {
+      (h.sections.length ? h.sections : [['', h.name, h.line]]).forEach(function (sec) {
+        var list = apps.filter(function (a) { return AR[a.id] === xid && a.hub === h.id && (!sec[0] || a.section === sec[0]) && !RET[a.id]; });
+        if (list.length) out.push({ hub: h.id, section: sec[0], name: sec[1], line: sec[2], apps: list });
+      });
+    });
+    return out;
+  }
+  var out = Object.freeze({ v: 3, arenas: ARENAS, arena: arena, arenaOf: arenaOf, arenaCrumb: arenaCrumb, arenaLayout: arenaLayout, REPLACE: REPLACE,
+    replacementOf: replacementOf, FACTS: FACTS, factsOn: factsOn, apps: Object.freeze(apps), districts: HUBS, hubs: HUBS, start: ['nq', 'today', 'jarvis'], actions: Object.freeze(ACTIONS), quick: QUICK,
     find: find, retired: retired, RETIRED: RETIRED, FIRST: FIRST, findHubs: findHubs, findActions: findActions, findTabs: findTabs, findAll: findAll, az: az, byId: byId, norm: norm, hub: hub, hubOf: hubOf, layout: layout, crumbOf: crumbOf, isBest: isBest, mixOf: function (id) { var h = hubOf(id); return h ? h.id : ''; } });
   g.OLYMPUS_GATE = out;
   if (typeof module !== 'undefined' && module.exports) module.exports = out;

@@ -32,18 +32,18 @@
       if (topic && /^https:\/\/[A-Za-z0-9.-]+(:\d+)?$/.test(base)) { var u = base + '/' + encodeURIComponent(topic) + '/json?poll=1&since=latest'; X[u] = get(u, 'text', 'no-store'); } } catch (e) { /* the chart asks itself */ }
     return t; }); })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
-<link rel="stylesheet" href="../olympus/agora.css?v=a10">
-<script src="../olympus/themes.js?v=o10"></script>
+<link rel="stylesheet" href="../olympus/agora.css?v=a11">
+<script src="../olympus/themes.js?v=o11"></script>
 <script src="../pc_feed.js?v=n7"></script><script src="../business/payoutcoach.js?v=2"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o22" data-app="nq"></script>
-<script src="../olympus/intro-app.js?v=i11" defer></script>
+<script src="../olympus/olympus.js?v=o24" data-app="nq"></script>
+<script src="../olympus/intro-app.js?v=i12" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=7" defer></script>
-<script src="../olympus/gate-nav.js?v=g9" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=9" defer></script>
+<script src="../olympus/gate-nav.js?v=g11" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#f1c14b'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
 <link rel="stylesheet" href="nq.css?v=a8">
 <link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
-<link rel="stylesheet" href="nqdesk.css?v=10">
+<link rel="stylesheet" href="nqdesk.css?v=11">
 <link rel="stylesheet" href="nqgoals.css?v=9">
 <link rel="stylesheet" href="nqtheme.css?v=9"><!-- owner 2026-11-20 15:15 ET: the NQ terminal look (navy, cyan / blue glows, violet), last so it wins -->
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
@@ -103,6 +103,13 @@
     <div class="row"><h2 id="acctH">Accounts</h2><span class="pill" id="acctPill">Loading</span></div>
     <div class="dk-strip" id="acctStrip" role="group" aria-label="Each MFFU account"></div>
     <p class="dk-legend" aria-hidden="true"><span><i class="dk-dot live"></i>live</span><span><i class="dk-dot stale"></i>over 20 min old</span><span><i class="dk-dot old"></i>over 1 h old</span><span><i class="dk-dot plan"></i>planned</span></p>
+  </section>
+
+  <!-- day-nqops 2026-11-21 (clock7.js): MFFU closes an account with no filled trade in 7 days: each account's clock -->
+  <section class="ag-card card" id="k7Card" aria-labelledby="k7H">
+    <div class="row"><h2 id="k7H">7-day clock</h2><span class="pill" id="k7Pill">Loading</span></div>
+    <ul class="k7" id="k7List" aria-label="Each account's MFFU 7-day clock"></ul>
+    <p class="note" id="k7Note">MFFU closes an eval or funded account with no filled trade in 7 calendar days, weekends included.</p>
   </section>
 
   <!-- v4: the numbers (today / this week per account, win rate and PF over the real fills, the last 10, the session clock, the VIX band) -->
@@ -209,7 +216,7 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r30"></script>
+<script type="module" src="nq.js?v=r32"></script>
 <script type="module" src="nqchart.js?v=c9"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6f" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>

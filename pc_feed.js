@@ -89,8 +89,20 @@
       return await S.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, unb64u(sp.sig), data);
     } catch (e) { return false; }
   }
-  /** the ndjson lines of an ntfy poll whose message is signed by vk (every other line dropped) */
+  /** can this phone check signatures at all? (WebCrypto ECDSA P-256 + the key imports) */
+  async function canVerify(vk) {
+    try {
+      const S = subtle();
+      if (!S || !VK_RX.test(String(vk || ''))) return false;
+      if (!KEYS.has(vk)) KEYS.set(vk, S.importKey('raw', unb64u(vk), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']));
+      await KEYS.get(vk);
+      return true;
+    } catch (e) { KEYS.delete(vk); return false; }
+  }
+  /** the ndjson lines of an ntfy poll whose message is signed by vk (every other line dropped). A phone that cannot check at
+   *  all (no WebCrypto, the key does not import) gets the text as it was: it works exactly as before the signing (day-security2). */
   async function keepSigned(text, vk) {
+    if (!(await canVerify(vk))) return String(text || '');
     const out = [];
     for (const line of String(text || '').split('\n')) {
       if (!line.trim()) continue;
@@ -495,7 +507,7 @@
   }
 
   const API = { FRESH_S, EXT_KIND, EXT_MAX_S, parseLatest, merge, feedUrls, fetchLatest, mergeBoard, boardOver, weekOf, cmeDay, toLive, overlayHome,
-    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, splitSig, SKEW_S, MFFU, mffuView };
+    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, canVerify, splitSig, SKEW_S, MFFU, mffuView };
   root.PC_FEED = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -393,6 +393,8 @@ html[data-oly-theme="night"] .ag-card.ag-hero, html[data-oly-theme="night"] .ag-
 html[data-oly-theme="night"] ::selection { background: rgba(157, 89, 238, .38); }
 html[data-oly-theme="night"] :is(a, button).ag-row:active { background: rgba(157, 89, 238, .1); }
 html[data-oly-theme="night"] .ag-chip[aria-pressed="true"], html[data-oly-theme="night"] .ag-chip.on { background: #1a1029; }
+/* QA 2026-11-21: sticky tab bars are violet glass, never a near-black slab */
+html[data-oly-theme="night"] main#app > [role="tablist"], html[data-oly-theme="night"] #app > #tabs.ag-tabs, html[data-oly-theme="night"] .ag-appbar { background: rgba(22, 13, 42, .84) !important; border-color: rgba(157, 89, 238, .32) !important; }
 
 /* ================================================================================================ style themes (olympus/themes.js 'style', 2026-11-14)
    Only under <html data-oly-style> (a style theme is on): the page background (a gradient or a pattern), the cards' surface, border, shadow and

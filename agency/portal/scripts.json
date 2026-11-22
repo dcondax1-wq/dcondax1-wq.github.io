@@ -1,0 +1,249 @@
+{
+ "v": 1,
+ "kind": "agency-trade-scripts",
+ "identify": "Hi, it's {me} with {agency}, a local web studio.",
+ "lanes": {
+  "no_site": "I couldn't find a website for {name}, so we built one, free to look at.",
+  "site_down": "Your website wouldn't open today, so we built {name} a new one, free.",
+  "redesign": "Your site is hard to use on phones, so we built {name} a new one, free."
+ },
+ "close_yes": "Great. I'm emailing you the link right now so you can look on your phone. If you like it, the Starter site is $1,500 once plus $79 a month, or $149 a month for 12 months with nothing upfront. To lock it in there's a $750 deposit link in that email, and you're live within 7 days of sending your photos. Or I can book you 10 minutes with {owner}: {day} at 10 or at 2?",
+ "close_not_now": "No problem. Can I just email you the link so you have it when you're ready?",
+ "voicemail": "Hi, this is {me} with {agency}, a small web studio in Maryland. I'm calling {name} because we built you a free website preview, {hook_vm}. I'll email it if I can find your address, or call me back at {my_number}. Thanks, have a good day.",
+ "trades": [
+  {
+   "id": "roofing",
+   "label": "Roofing",
+   "match": [
+    "roof",
+    "gutter",
+    "waterproof"
+   ],
+   "hook": "It shows your services, area and job photos.",
+   "hook_vm": "with your roofing services and a tap-to-call button",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "After a storm, how do most homeowners find you right now: referrals, Google, or the yard signs?",
+    "Do you show people photos of roofs you've done, or is that mostly word of mouth?",
+    "If a homeowner could send you a quote request with a photo of the damage from their phone, would that help you?"
+   ]
+  },
+  {
+   "id": "hvac",
+   "label": "HVAC",
+   "match": [
+    "hvac",
+    "heating",
+    "air condition",
+    "furnace",
+    "air duct",
+    "heat pump"
+   ],
+   "hook": "If their heat goes out, people tap once to call you.",
+   "hook_vm": "so people with no heat can tap to call you",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "When someone's system dies, are they finding you on Google or mostly calling who they already know?",
+    "Do you do maintenance plans, or mostly repairs and installs?",
+    "Which towns do you want more calls from?"
+   ]
+  },
+  {
+   "id": "plumbing",
+   "label": "Plumbing",
+   "match": [
+    "plumb",
+    "drain",
+    "septic",
+    "water heater"
+   ],
+   "hook": "It has your services, towns and a tap-to-call button.",
+   "hook_vm": "with your services and a tap-to-call button",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "When someone has a leak, how are they finding you today?",
+    "Is it mostly emergency calls, or more planned jobs like water heaters and remodels?",
+    "Which towns do you want more work in?"
+   ]
+  },
+  {
+   "id": "electrical",
+   "label": "Electrical",
+   "match": [
+    "electrician",
+    "electrical contractor",
+    "generator",
+    "lighting contractor",
+    "solar"
+   ],
+   "hook": "It lists your services and area, with a quote button.",
+   "hook_vm": "with your services and a quote button",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "How do new customers find you now: builders, referrals, or Google?",
+    "What jobs do you want more of: panels, EV chargers, generators, service calls?",
+    "Do people ask to see that you're licensed and insured before they call?"
+   ]
+  },
+  {
+   "id": "landscaping",
+   "label": "Landscaping",
+   "match": [
+    "landscap",
+    "lawn",
+    "garden",
+    "tree service",
+    "hardscap",
+    "snow removal"
+   ],
+   "hook": "It shows your services and photos, with a quote button.",
+   "hook_vm": "with your services and room for photos of your work",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "Where do most of your new customers come from in the spring?",
+    "Do you have photos of jobs you're proud of on your phone?",
+    "Would a quote form that tells you the address and the job before you drive out help?"
+   ]
+  },
+  {
+   "id": "remodeling",
+   "label": "Remodeling",
+   "match": [
+    "remodel",
+    "contractor",
+    "construction",
+    "carpent",
+    "kitchen and bath",
+    "bathroom",
+    "renovat",
+    "masonry",
+    "paving",
+    "foundation",
+    "handyman",
+    "deck"
+   ],
+   "hook": "It has a before-and-after gallery and a quote form.",
+   "hook_vm": "with a before-and-after gallery for your work",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "How do people usually find you for bigger jobs like kitchens and baths?",
+    "Do you have before-and-after photos you show people?",
+    "What kind of project do you want more of next year?"
+   ]
+  },
+  {
+   "id": "auto_repair",
+   "label": "Auto repair",
+   "match": [
+    "automotive",
+    "auto repair",
+    "auto body",
+    "body shop",
+    "auto glass",
+    "auto detail",
+    "auto restoration",
+    "auto customization",
+    "car repair",
+    "mechanic",
+    "tire",
+    "transmission",
+    "brake",
+    "muffler",
+    "truck repair",
+    "oil change",
+    "windshield"
+   ],
+   "hook": "It shows your hours, services and directions, with tap-to-call.",
+   "hook_vm": "with your hours, services and a tap-to-call button",
+   "ask": "Can I email you the link?",
+   "questions": [
+    "When someone's car breaks down nearby, how do they find you now?",
+    "Do people call to ask your hours or if you work on their make?",
+    "Is there a service you want more of, like brakes, tires or inspections?"
+   ]
+  },
+  {
+   "id": "restaurant",
+   "label": "Restaurants",
+   "match": [
+    "restaurant",
+    "caf",
+    "diner",
+    "pizza",
+    "grill",
+    "bakery",
+    "taco",
+    "sushi",
+    "deli",
+    "bistro",
+    "buffet",
+    "barbecue",
+    "ramen",
+    "quick food",
+    "soul food",
+    "seafood",
+    "kitchen"
+   ],
+   "hook": "It has your menu, hours and directions, with tap-to-call.",
+   "hook_vm": "with your menu, hours and directions",
+   "ask": "Can I email the link to the owner?",
+   "questions": [
+    "How do new customers find you now: walking by, Google Maps, or delivery apps?",
+    "Is your menu online anywhere right now, or do people call to ask?",
+    "Do you take catering or big orders? That's a page people look for."
+   ]
+  }
+ ],
+ "generic": {
+  "id": "other",
+  "label": "Any other business",
+  "hook": "It shows what you do, your hours and tap-to-call.",
+  "hook_vm": "with your services and a tap-to-call button",
+  "ask": "Can I email you the link?",
+  "questions": [
+   "How do new customers find you right now?",
+   "What do people usually call to ask you?",
+   "What would you want more of next year?"
+  ]
+ },
+ "cadence": [
+  {
+   "day": 0,
+   "what": "call",
+   "how": "Dial by hand. Opener, the 3 questions, then the close. No answer: leave the voicemail once, log Voicemail."
+  },
+  {
+   "day": 0,
+   "what": "email",
+   "how": "Only if they said yes, or a public business email is on their listing: 'Email them the link' in the portal (agency Gmail, honest subject, postal address, opt-out)."
+  },
+  {
+   "day": 0,
+   "what": "text",
+   "how": "ONLY if they said 'text it to me' on the call: send it by hand from your Google Voice number, log 'they said I can text'. Never a cold text."
+  },
+  {
+   "day": 2,
+   "what": "call",
+   "how": "The one follow-up call, only after Voicemail / no answer / 'call me back' (2+ business days later; the portal counts). Never a third call."
+  },
+  {
+   "day": 7,
+   "what": "email",
+   "how": "Follow-up email #2 (the email autopilot sends it from the portal log; the caller does nothing): 'Did you get a chance to look?'"
+  },
+  {
+   "day": 14,
+   "what": "email",
+   "how": "Last email (autopilot): 'I'll close your file; the link stays up for 30 days.' Then nothing, ever, unless they write back."
+  }
+ ],
+ "stop_words": "Any 'no', 'not interested', 'take me off', 'don't call' = log No / Do not call at once: no more calls, texts or emails, on any channel.",
+ "targets": {
+  "dials": 50,
+  "talks": 10,
+  "links": 2,
+  "booked": 1,
+  "hours": 4
+ }
+}

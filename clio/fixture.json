@@ -1,17 +1,190 @@
 {
+ "v": 1,
+ "demo": true,
+ "note": "EXAMPLE write-ups, not real: invented titles, summaries and dollars so the library is never empty before the site publishes its own index (writeups/index.json or data.json).",
+ "writeups": [
+  {
+   "slug": "demo-size-by-stop",
+   "title": "Example: size follows the stop",
+   "family": "risk",
+   "date": "2026-11-04",
+   "status": "adopt-candidate - bigger stop, fewer micros",
+   "summary": "Example study. Trading fewer micros when the stop is wide kept the same profit at a smaller worst drawdown: about $2,100 a month in the example, and the account stayed further from its limit.",
+   "runs": [
+    "a",
+    "b"
+   ],
+   "body": "# Example: size follows the stop\n\nThis is an example write-up, not real research.\n\n## What we asked\n\n- Does a wide stop deserve fewer contracts?\n\n## What we found\n\n| Stop | Micros | Result |\n|---|---|---|\n| Wide | 4 | +$310 |\n| Tight | 8 | +$290 |\n\nThe wide stop lost less when wrong. Same profit, smaller dips."
+  },
+  {
+   "slug": "demo-london-only",
+   "title": "Example: trade only the London morning",
+   "family": "timing",
+   "date": "2026-11-03",
+   "status": "promising - worth a paper test",
+   "summary": "Example study. Taking only entries before 08:00 ET made about $1,800 a month in the example, with fewer trades but a better win rate. Needs a longer test before any change.",
+   "runs": [
+    "a"
+   ]
+  },
+  {
+   "slug": "demo-friday-skip",
+   "title": "Example: skip every Friday",
+   "family": "timing",
+   "date": "2026-11-02",
+   "status": "rejected - costs money",
+   "summary": "Example study. Skipping Fridays lost about -$640 a month in the example and cut the trades below two a week. Do not redo without a new idea.",
+   "runs": []
+  },
+  {
+   "slug": "demo-news-filter",
+   "title": "Example: pause during big news",
+   "family": "filter",
+   "date": "2026-11-01",
+   "status": "rejected - no better",
+   "summary": "Example study. Pausing around news changed the result by only -$30 a month in the example. The bot already stays out of trouble.",
+   "runs": [
+    "a"
+   ]
+  },
+  {
+   "slug": "demo-scale-in",
+   "title": "Example: add a second entry",
+   "family": "entry",
+   "date": "2026-10-30",
+   "status": "promising - after the sim test",
+   "summary": "Example study. A scale-in added about $950 a month in the example but doubles the risk on a bad day, so it waits for a paper roundtrip.",
+   "runs": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  {
+   "slug": "demo-slippage",
+   "title": "Example: how much slippage the bots survive",
+   "family": "other",
+   "date": "2026-10-29",
+   "status": "info - no switch",
+   "summary": "Example reference. Each extra tick of slippage changes the result by -$15 a month in the example; the plan stays positive up to eight ticks.",
+   "runs": []
+  },
+  {
+   "slug": "demo-vix-target",
+   "title": "Example: a fixed 2R target instead of the VIX band",
+   "family": "exit",
+   "date": "2026-10-27",
+   "status": "rejected - worse than the band",
+   "summary": "Example study. A fixed 2R target made -$1,200 a month less than the VIX-band target in the example. Keep the band.",
+   "runs": [
+    "a"
+   ]
+  },
+  {
+   "slug": "demo-asia-slot",
+   "title": "Example: a second slot for the Asia session",
+   "family": "entry",
+   "date": "2026-10-25",
+   "status": "finding",
+   "summary": "Example finding. Asia trades were rare and small, about $120 a month in the example. Fun to watch, not worth the clutter.",
+   "runs": [
+    "a"
+   ]
+  },
+  {
+   "slug": "demo-eval-speed",
+   "title": "Example: pass the eval in two weeks",
+   "family": "risk",
+   "date": "2026-10-23",
+   "status": "adopt-candidate - raises the 2-week pass rate",
+   "summary": "Example study. A bigger first-week size passed the example eval inside two weeks 58% of the time instead of 54%, worth about $400 a month in saved fees and time.",
+   "runs": [
+    "a",
+    "b"
+   ]
+  },
+  {
+   "slug": "demo-mood-filter",
+   "title": "Example: sit out after two losses in a row",
+   "family": "filter",
+   "date": "2026-10-20",
+   "status": "rejected - lowers profit",
+   "summary": "Example study. Sitting out after two losses cost about -$310 a month in the example because the next trade was often the winner.",
+   "runs": [
+    "a"
+   ]
+  }
+ ],
+ "hub": {
   "v": 1,
   "demo": true,
-  "note": "EXAMPLE write-ups, not real: invented titles, summaries and dollars so the library is never empty before the site publishes its own index (writeups/index.json or data.json).",
-  "writeups": [
-    { "slug": "demo-size-by-stop", "title": "Example: size follows the stop", "family": "risk", "date": "2026-11-04", "status": "adopt-candidate - bigger stop, fewer micros", "summary": "Example study. Trading fewer micros when the stop is wide kept the same profit at a smaller worst drawdown: about $2,100 a month in the example, and the account stayed further from its limit.", "runs": ["a", "b"], "body": "# Example: size follows the stop\n\nThis is an example write-up, not real research.\n\n## What we asked\n\n- Does a wide stop deserve fewer contracts?\n\n## What we found\n\n| Stop | Micros | Result |\n|---|---|---|\n| Wide | 4 | +$310 |\n| Tight | 8 | +$290 |\n\nThe wide stop lost less when wrong. Same profit, smaller dips." },
-    { "slug": "demo-london-only", "title": "Example: trade only the London morning", "family": "timing", "date": "2026-11-03", "status": "promising - worth a paper test", "summary": "Example study. Taking only entries before 08:00 ET made about $1,800 a month in the example, with fewer trades but a better win rate. Needs a longer test before any change.", "runs": ["a"] },
-    { "slug": "demo-friday-skip", "title": "Example: skip every Friday", "family": "timing", "date": "2026-11-02", "status": "rejected - costs money", "summary": "Example study. Skipping Fridays lost about -$640 a month in the example and cut the trades below two a week. Do not redo without a new idea.", "runs": [] },
-    { "slug": "demo-news-filter", "title": "Example: pause during big news", "family": "filter", "date": "2026-11-01", "status": "rejected - no better", "summary": "Example study. Pausing around news changed the result by only -$30 a month in the example. The bot already stays out of trouble.", "runs": ["a"] },
-    { "slug": "demo-scale-in", "title": "Example: add a second entry", "family": "entry", "date": "2026-10-30", "status": "promising - after the sim test", "summary": "Example study. A scale-in added about $950 a month in the example but doubles the risk on a bad day, so it waits for a paper roundtrip.", "runs": ["a", "b", "c"] },
-    { "slug": "demo-slippage", "title": "Example: how much slippage the bots survive", "family": "other", "date": "2026-10-29", "status": "info - no switch", "summary": "Example reference. Each extra tick of slippage changes the result by -$15 a month in the example; the plan stays positive up to eight ticks.", "runs": [] },
-    { "slug": "demo-vix-target", "title": "Example: a fixed 2R target instead of the VIX band", "family": "exit", "date": "2026-10-27", "status": "rejected - worse than the band", "summary": "Example study. A fixed 2R target made -$1,200 a month less than the VIX-band target in the example. Keep the band.", "runs": ["a"] },
-    { "slug": "demo-asia-slot", "title": "Example: a second slot for the Asia session", "family": "entry", "date": "2026-10-25", "status": "finding", "summary": "Example finding. Asia trades were rare and small, about $120 a month in the example. Fun to watch, not worth the clutter.", "runs": ["a"] },
-    { "slug": "demo-eval-speed", "title": "Example: pass the eval in two weeks", "family": "risk", "date": "2026-10-23", "status": "adopt-candidate - raises the 2-week pass rate", "summary": "Example study. A bigger first-week size passed the example eval inside two weeks 58% of the time instead of 54%, worth about $400 a month in saved fees and time.", "runs": ["a", "b"] },
-    { "slug": "demo-mood-filter", "title": "Example: sit out after two losses in a row", "family": "filter", "date": "2026-10-20", "status": "rejected - lowers profit", "summary": "Example study. Sitting out after two losses cost about -$310 a month in the example because the next trade was often the winner.", "runs": ["a"] }
-  ]
+  "built": "2026-11-21",
+  "works": [
+   {
+    "title": "Example: strategy A",
+    "line": "Example. Backtest 2026: $2,000 a month (100 trades). Real so far: 3 trades, +$450.",
+    "usd_month": 2000,
+    "real_usd": 450,
+    "real_n": 3,
+    "since": "2026-11-01",
+    "slug": "",
+    "text": "Example row, not real.",
+    "src": "live"
+   }
+  ],
+  "rejected": [
+   {
+    "title": "Example: skip Fridays",
+    "date": "2026-11-02",
+    "line": "Example. Skipping Fridays lost money in both halves.",
+    "usd_month": -640,
+    "slug": "demo-friday",
+    "text": "Example.",
+    "src": "tested",
+    "family": "timing"
+   },
+   {
+    "title": "Example: wider target on news days",
+    "date": "2026-10-20",
+    "line": "Example. News-day runners pay; capping them cost money.",
+    "usd_month": -30,
+    "slug": "",
+    "text": "Example: the full entry text sits here when no write-up is linked.",
+    "src": "tested",
+    "family": "targets"
+   }
+  ],
+  "leads": [
+   {
+    "title": "Example: a paper lead to watch",
+    "date": "2026-11-10",
+    "line": "Example. Better in one half only; watched forward on paper.",
+    "usd_month": 120,
+    "slug": "",
+    "text": "Example lead.",
+    "src": "writeup",
+    "kind": "PAPER LEAD",
+    "family": "other"
+   }
+  ],
+  "decide": [
+   {
+    "title": "Example: add a second account?",
+    "line": "Example. More payouts a month, one more fee.",
+    "usd_month": 300,
+    "recommend": "yes",
+    "slug": "",
+    "text": "Example decision.",
+    "src": "decide"
+   }
+  ],
+  "lab": {
+   "files": 3,
+   "edge_light": {
+    "lit": "GREEN",
+    "atlas": "GREEN",
+    "day": "2026-11-19"
+   }
+  }
+ }
 }

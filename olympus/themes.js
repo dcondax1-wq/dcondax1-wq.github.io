@@ -529,12 +529,16 @@
   var VKEY = 'olympus.theme.v';
   // NIGHT = the unsaved default (Classic Jarvis stays on); a pick sets NIGHTKEY; NIGHTV undoes 35ce192b's saved 'night' once
   var NIGHTKEY = 'olympus.theme.night', NIGHTV = 'olympus.theme.night.v', PREFERRED = 'night';
+  // a page that follows the phone into light on its own: <meta color-scheme> 'light dark' (the widget page). Zenith's light mode is a choice
+  // ('le.theme'), not the phone's setting: a light phone without that choice gets night there too (QA 2026-11-21: it showed AGORA's brown)
+  function ownLight() { try { var m = d.querySelector('meta[name="color-scheme"]'); return (pageId() === 'today' && get('le.theme') === '"light"') || !!(m && /light/.test(m.getAttribute('content') || '')); } catch (e) { return false; } }
   function lightPhone() { try { return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches); } catch (e) { return false; } }
   function implicit() { var v = get(KEY); return get(NIGHTKEY) !== '1' && (!v || v === DEFAULT || (v === 'olympus' && get(VKEY) !== '2')); }
   function stored() {
     if (get(KEY) === PREFERRED && get(NIGHTKEY) === '1' && get(NIGHTV) !== '2') { del(KEY); del(NIGHTKEY); put(NIGHTV, '2'); }
-    // not on a light phone (light pages follow it) nor on Jarvis
-    if (implicit()) return pageId() === 'jarvis' || lightPhone() ? DEFAULT : PREFERRED;
+    // not on Jarvis, nor on a light phone on a page with its own light mode (ownLight). Every other app has no light mode: a light
+    // phone got AGORA's brown there (DESIGN QA 2026-11-21), so it gets OLYMPUS NIGHT like a dark one
+    if (implicit()) return pageId() === 'jarvis' || (lightPhone() && ownLight()) ? DEFAULT : PREFERRED;
     var v = get(KEY); if (v === 'olympus' && get(VKEY) !== '2') return DEFAULT; return by[v] ? v : DEFAULT;
   }
   /* MIX (2026-11-14, owner via the lead: "a combined type of thing where some dashboards have others"): besides one look for everything

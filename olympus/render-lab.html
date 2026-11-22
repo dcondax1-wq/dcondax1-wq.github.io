@@ -4,21 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>OLYMPUS render lab</title>
-<meta name="theme-color" content="#14110e">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <!-- The OLYMPUS render core's lab (docs/OLYMPUS_RENDER.md): every material of olympus/materials.js on the core's pipeline.
      ?q=ultra|high|low|off picks the tier (default: the kit's), ?flat=1 draws the same scene the old way (flat
      MeshStandard, no environment, no tone mapping, no post: the "Play-Doh" look) for before / after shots, ?still=1 one frame.
      tests/test_olympus_render.py drives it. -->
 <link rel="stylesheet" href="olympus.css?v=o7">
-<script src="themes.js?v=o10"></script>
-<script src="olympus.js?v=o22"></script>
+<script src="themes.js?v=o11"></script>
+<script src="olympus.js?v=o24"></script>
 <style>
   html, body { margin: 0; height: 100%; background: #04050c; overflow: hidden; }
   canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
   .tag { position: fixed; left: 12px; top: calc(10px + env(safe-area-inset-top)); font: 600 12px/1.3 var(--oly-ui, system-ui);
     letter-spacing: .05em; color: rgba(255, 255, 255, .72); pointer-events: none; }
 </style>
+<script src="gate-nav.js?v=g11" defer></script><!-- ORGANIZE 2026-11-21: back + Home + arena breadcrumb on every page -->
 </head>
 <body>
 <canvas id="lab"></canvas>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arena</title>
+<meta name="description" content="One arena of the Home: its front page first, then every app in it, grouped by job.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<!-- ARENA FRONT PAGE (day-a11y 2026-11-21, ORGANIZE; docs/OLYMPUS_MAP.md). hub/arena.html?a=<nq|kalshi|business|agency|jarvis|cities|else>.
+     The arenas are DATA in olympus/gate-catalog.js (ARENAS + arenaLayout): the Home tile's app first ("Open the front page"), then the arena's live apps
+     grouped by section, each with its plain name and one line; retired apps are not listed (their old links open the replacement). Breadcrumb
+     Home > arena from olympus/gate-nav.js. Reads nothing else, stores nothing. Text only through textContent. OLYMPUS NIGHT look. -->
+<link rel="stylesheet" href="arena.css?v=1">
+<script src="../olympus/gate-catalog.js?v=nv12"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/gate-nav.js?v=g11" data-app="arena-page" defer></script>
+<script src="arena.js?v=2" defer></script>
+</head>
+<body>
+<main id="app">
+  <header class="ar-top">
+    <h1 id="arName">Arena</h1>
+    <p id="arLine" class="ar-line"></p>
+  </header>
+  <a id="arFront" class="ar-front" href="../gate/index.html" hidden><b id="arFrontName"></b><small id="arFrontLine"></small><span aria-hidden="true">›</span></a>
+  <div id="arList"></div>
+  <nav class="ar-others" aria-labelledby="arOthersH">
+    <h2 id="arOthersH">The other arenas</h2>
+    <div id="arOthers" class="ar-chips"></div>
+  </nav>
+</main>
+</body>
+</html>

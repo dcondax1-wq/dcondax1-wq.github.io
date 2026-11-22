@@ -7,7 +7,8 @@ import * as C from './nqcore.js?v=d5';   // d1 (polish2 2026-11-19): the CME tra
 import * as T from '../olympus/truth.js';
 import * as D from './nqdesk.js?v=8';
 import { unpack as unpackBars } from './nqbars.js?v=b1';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
-import * as G from './nqgoals.js?v=10';                       // v4: the goals strip, the numbers card, the bursts
+import * as G from './nqgoals.js?v=10';
+import * as K7 from './clock7.js?v=2';                          // day-nqops: the MFFU 7-day clock card + window.NQ_K7 for Jarvis                       // v4: the goals strip, the numbers card, the bursts
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -225,9 +226,29 @@ function watchPast() {
   io.observe(card);
 }
 function deskHome() { return S.demo ? demoHome(S.fixture, Date.now(), S.silent) : S.home; }
+// day-nqops 2026-11-21: the MFFU 7-day clock per account (clock7.js: the PC's k7 block, else its mf rows); Jarvis reads window.NQ_K7
+function drawK7(nowS) {
+  const list = S.demo ? [] : K7.rows(S.lite, nowS), ul = $('k7List'), pill = $('k7Pill');
+  try { window.NQ_K7 = { t: Math.round(nowS), rows: K7.jarvis(list) }; } catch (_) { /* nothing */ }
+  if (!ul) return;
+  ul.textContent = '';
+  for (const r of list) {
+    const w = K7.words(r), li = document.createElement('li');
+    li.className = 'k7r ' + r.lvl;
+    const b = document.createElement('b'); b.textContent = r.nm; li.appendChild(b);
+    for (const [cls, txt] of [['k7l', w.last], ['k7h', w.hard], ['k7k', w.ka], ['k7a', w.act]]) { const sp = document.createElement('span'); sp.className = cls; sp.textContent = txt; li.appendChild(sp); }
+    ul.appendChild(li);
+  }
+  if (pill) {
+    const worst = list.find((r) => r.lvl === 'bad') || list.find((r) => r.lvl === 'warn');
+    pill.textContent = S.demo ? 'DEMO' : !list.length ? 'NO DATA' : worst ? `${worst.nm.split(' ')[0]}: ${worst.left <= 0 ? 'TODAY' : worst.left + 'd'}` : 'ALL OK';
+    pill.className = 'pill ' + (!list.length || S.demo ? 'warn' : worst ? worst.lvl : 'ok');
+  }
+}
 function renderDesk() {
   const nowS = Date.now() / 1000, home = deskHome(), file = S.demo ? (S.fixture && S.fixture.trades_file) || S.tfile : S.tfile;
   try {
+    try { drawK7(nowS); } catch (_) { /* the card keeps its note */ }
     const A = D.accounts(home, S.biz, nowS, deskChart()), box = $('acctStrip');
     if (box) D.draw.accounts(box, A);
     const nLive = A.filter((a) => a.dot === 'live').length, p = $('acctPill');

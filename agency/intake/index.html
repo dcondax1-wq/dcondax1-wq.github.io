@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Website Intake</title>
+<meta name="description" content="Tell us what goes on your new website: name, hours, services, words. Sends one email to the studio; nothing is stored here.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f141c" media="(prefers-color-scheme: dark)">
+<!-- CLIENT INTAKE (day-caller2 2026-11-21, close kit). Self-contained, static, no backend: "Send" opens the client's own email app (mailto)
+     with a readable summary + an edits.json block in exactly the fields tools/client_deliver.py reads. Photos and the logo are attached
+     to that same email by the client. Nothing is saved on a server; a draft is kept in this browser only (localStorage). -->
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#14181f;--muted:#5b6472;--line:#d9dee6;--accent:#2563eb;--ok:#0f7a3d;--bad:#b42318;color-scheme:light dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141c;--card:#171e29;--ink:#eef2f7;--muted:#a3adbb;--line:#2a3442;--accent:#6aa0ff;--ok:#4cc38a;--bad:#ff8a80}}
+:root[data-theme="dark"]{--bg:#0f141c;--card:#171e29;--ink:#eef2f7;--muted:#a3adbb;--line:#2a3442;--accent:#6aa0ff;--ok:#4cc38a;--bad:#ff8a80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px 16px calc(32px + env(safe-area-inset-bottom))}
+h1{font-size:1.5rem;margin:.5rem 0}
+h2{font-size:1.1rem;margin:0 0 .5rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+label{display:block;font-weight:600;margin:.75rem 0 .25rem}
+.hint{color:var(--muted);font-size:.9rem;font-weight:400}
+input,textarea,select{width:100%;font:inherit;color:inherit;background:transparent;border:1px solid var(--line);border-radius:10px;padding:.6rem .7rem;min-height:44px}
+textarea{min-height:90px}
+.day{display:grid;grid-template-columns:2.3rem 1fr 1fr 2.2rem;gap:4px;align-items:center;margin:4px 0}
+.day input[type=time]{min-width:0;padding:.5rem .35rem}
+.day input[type=checkbox]{width:22px;height:22px;min-height:0;justify-self:center}
+.dayh{color:var(--muted);font-size:.85rem}
+.svc{display:grid;gap:6px;margin:8px 0;padding-top:8px;border-top:1px dashed var(--line)}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:.8rem 1rem;min-height:48px;width:100%;background:var(--accent);color:#fff;margin-top:12px}
+button.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.msg{min-height:1.5em;margin:.5rem 0 0}
+.msg.bad{color:var(--bad)} .msg.ok{color:var(--ok)}
+.check{display:flex;gap:.5rem;align-items:flex-start;font-weight:400}
+.check input{width:auto;min-height:auto;margin-top:.3rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Your new website: what goes on it</h1>
+  <p class="hint">10 minutes. Anything you skip, we fill from your public listing, and you can change it later. When you tap <b>Send</b>,
+    your own email app opens with everything written out: attach your logo and photos to that email, then send it.</p>
+
+  <form id="intake" novalidate>
+    <section class="card">
+      <h2>1. Your business</h2>
+      <label for="name">Business name</label><input id="name" name="name" required maxlength="80" autocomplete="organization">
+      <label for="phone">Phone customers should call</label><input id="phone" name="phone" type="tel" maxlength="20" autocomplete="tel">
+      <label for="email">Email for the contact form <span class="hint">(where website messages go)</span></label>
+      <input id="email" name="email" type="email" maxlength="120" autocomplete="email">
+      <label for="address">Street address <span class="hint">(leave empty if you work from home or go to customers)</span></label>
+      <input id="address" name="address" maxlength="160" autocomplete="street-address">
+      <label for="town">Town</label><input id="town" name="town" maxlength="60" autocomplete="address-level2">
+    </section>
+
+    <section class="card">
+      <h2>2. Your domain</h2>
+      <label for="domain">Your web address <span class="hint">(like joesdiner.com)</span></label>
+      <input id="domain" name="domain" maxlength="80" inputmode="url" autocapitalize="off" placeholder="joesdiner.com">
+      <label class="check"><input type="checkbox" id="needdomain"> I don't have one yet: please register one in my name (about $10-15 a year, paid by me)</label>
+    </section>
+
+    <section class="card">
+      <h2>3. Opening hours</h2>
+      <div id="hours"></div>
+      <p class="hint">Tick "Closed" for the days you're closed.</p>
+    </section>
+
+    <section class="card">
+      <h2>4. What you do</h2>
+      <label for="tagline">One line about you <span class="hint">(shown at the top)</span></label>
+      <input id="tagline" name="tagline" maxlength="120" placeholder="Family plumbing in Frederick since 1998">
+      <label for="about">About you <span class="hint">(2-5 sentences: who you are, how long, what makes you different)</span></label>
+      <textarea id="about" name="about" maxlength="1200"></textarea>
+      <label>Your services <span class="hint">(up to 6: a name and one line each)</span></label>
+      <div id="services"></div>
+    </section>
+
+    <section class="card">
+      <h2>5. Logo and photos</h2>
+      <p class="hint">After you tap Send, <b>attach them to the email</b> that opens: your logo, and up to 12 photos of your work, team or
+        shop (under 2 MB each; phone photos are fine). Only photos you took or have the right to use. No stock photos of other businesses.</p>
+      <label class="check"><input type="checkbox" id="haslogo"> I'll attach a logo</label>
+      <label for="nphotos">How many photos you'll attach</label>
+      <select id="nphotos"><option>0</option><option>1-3</option><option>4-8</option><option>9-12</option></select>
+    </section>
+
+    <section class="card">
+      <label class="check"><input type="checkbox" id="true" required> Everything above is true about my business, and I own or may use the logo and photos I send. No made-up reviews or claims.</label>
+      <button type="submit">Send to the studio</button>
+      <button type="button" class="ghost" id="copy">Copy it instead (to paste in a text or email)</button>
+      <p id="msg" class="msg" role="status" aria-live="polite"></p>
+    </section>
+  </form>
+</main>
+<script>
+(function () {
+  "use strict";
+  var DAYS = [["Mo", "Mon"], ["Tu", "Tue"], ["We", "Wed"], ["Th", "Thu"], ["Fr", "Fri"], ["Sa", "Sat"], ["Su", "Sun"]];
+  var KEY = "agency.intake.v1";
+  var TO = "";                                   // the studio's address: from ../portal/portal.json "agency_email" (public), or ?to=
+  var q = new URLSearchParams(location.search);
+  var code = (q.get("code") || "").replace(/[^A-Za-z0-9-]/g, "").slice(0, 20);
+  var hours = document.getElementById("hours"), svc = document.getElementById("services"), f = document.getElementById("intake");
+  var msg = document.getElementById("msg");
+
+  hours.innerHTML = '<div class="day dayh"><span></span><span>Opens</span><span>Closes</span><span>Closed</span></div>';
+  DAYS.forEach(function (d, i) {
+    var row = document.createElement("div");
+    row.className = "day";
+    row.innerHTML = '<span>' + d[1] + '</span><input type="time" aria-label="' + d[1] + ' opens" id="o' + i + '" value="' + (i < 5 ? "09:00" : "") + '">' +
+      '<input type="time" aria-label="' + d[1] + ' closes" id="c' + i + '" value="' + (i < 5 ? "17:00" : "") + '">' +
+      '<input type="checkbox" aria-label="' + d[1] + ' closed" id="x' + i + '"' + (i > 4 ? " checked" : "") + '>';
+    hours.appendChild(row);
+  });
+  for (var s = 0; s < 6; s++) {
+    var b = document.createElement("div");
+    b.className = "svc";
+    b.innerHTML = '<input id="sn' + s + '" maxlength="60" aria-label="Service ' + (s + 1) + ' name" placeholder="Service ' + (s + 1) + ' (e.g. Drain cleaning)">' +
+      '<input id="sd' + s + '" maxlength="200" aria-label="Service ' + (s + 1) + ' description" placeholder="One line about it">';
+    svc.appendChild(b);
+  }
+
+  function val(id) { var e = document.getElementById(id); return e ? String(e.value || "").trim() : ""; }
+  function hoursString() {
+    var parts = [];
+    DAYS.forEach(function (d, i) {
+      if (document.getElementById("x" + i).checked) { parts.push(d[0] + " off"); return; }
+      var o = val("o" + i), c = val("c" + i);
+      if (o && c) parts.push(d[0] + " " + o + "-" + c);
+    });
+    // join equal neighbours: Mo 09:00-17:00 ... Fr 09:00-17:00 -> Mo-Fr 09:00-17:00
+    var out = [], i = 0;
+    while (i < parts.length) {
+      var j = i, t = parts[i].slice(3);
+      while (j + 1 < parts.length && parts[j + 1].slice(3) === t) j++;
+      out.push((j > i ? parts[i].slice(0, 2) + "-" + parts[j].slice(0, 2) : parts[i].slice(0, 2)) + " " + t);
+      i = j + 1;
+    }
+    return out.join("; ");
+  }
+  function cleanDomain(d) {
+    d = d.toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "").replace(/^www\./, "");
+    return /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$/.test(d) ? d : "";
+  }
+  function edits() {
+    var e = {};
+    var dom = cleanDomain(val("domain"));
+    if (dom) e.domain = dom;
+    ["name", "phone", "email", "address", "town", "tagline", "about"].forEach(function (k) { if (val(k)) e[k] = val(k); });
+    var h = hoursString(); if (h) e.hours = h;
+    var sv = [];
+    for (var s = 0; s < 6; s++) { if (val("sn" + s)) sv.push([val("sn" + s), val("sd" + s)]); }
+    if (sv.length) e.services = sv;
+    return e;
+  }
+  function body() {
+    var e = edits(), lines = ["New website intake" + (code ? " for " + code : ""), ""];
+    lines.push("Business: " + (e.name || "-"), "Phone: " + (e.phone || "-"), "Email for the form: " + (e.email || "-"),
+      "Address: " + (e.address || "-") + (e.town ? ", " + e.town : ""), "Domain: " + (e.domain || (document.getElementById("needdomain").checked ? "PLEASE REGISTER ONE IN MY NAME" : "-")),
+      "Hours: " + (e.hours || "-"), "Tagline: " + (e.tagline || "-"), "About: " + (e.about || "-"), "Services:");
+    (e.services || []).forEach(function (x) { lines.push("  - " + x[0] + (x[1] ? ": " + x[1] : "")); });
+    lines.push("Logo attached: " + (document.getElementById("haslogo").checked ? "yes" : "no"), "Photos attached: " + document.getElementById("nphotos").value,
+      "", "--- for the studio (edits.json) ---", JSON.stringify(Object.assign({ code: code || undefined, need_domain: document.getElementById("needdomain").checked || undefined }, e)));
+    return lines.join("\n");
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({ e: edits(), t: Date.now() })); } catch (x) { /* private mode: fine */ } }
+  function check() {
+    if (!val("name")) return "Please type your business name.";
+    if (!cleanDomain(val("domain")) && !document.getElementById("needdomain").checked) return "Please type your domain (like joesdiner.com), or tick 'register one'.";
+    if (val("email") && !/^[^\s@,;<>]+@[^\s@,;<>]+\.[a-z]{2,}$/i.test(val("email"))) return "That email does not look right.";
+    if (!document.getElementById("true").checked) return "Please tick the last box.";
+    return "";
+  }
+  f.addEventListener("input", save);
+  f.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var bad = check();
+    if (bad) { msg.textContent = bad; msg.className = "msg bad"; return; }
+    var subj = "Website intake: " + (val("name") || "my business") + (code ? " (" + code + ")" : "");
+    location.href = "mailto:" + encodeURIComponent(TO) + "?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(body());
+    msg.textContent = "Your email app is opening. Attach your logo and photos, then send."; msg.className = "msg ok";
+  });
+  document.getElementById("copy").addEventListener("click", function () {
+    var bad = check();
+    if (bad) { msg.textContent = bad; msg.className = "msg bad"; return; }
+    (navigator.clipboard ? navigator.clipboard.writeText(body()) : Promise.reject()).then(function () {
+      msg.textContent = "Copied. Paste it into an email to us and attach your photos."; msg.className = "msg ok";
+    }, function () { msg.textContent = "Could not copy: please use Send."; msg.className = "msg bad"; });
+  });
+  var qto = (q.get("to") || "").trim();
+  if (/^[^\s@,;<>]+@[^\s@,;<>]+\.[a-z]{2,}$/i.test(qto)) TO = qto;
+  else fetch("../portal/portal.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
+    if (j && /^[^\s@,;<>]+@[^\s@,;<>]+\.[a-z]{2,}$/i.test(String(j.agency_email || ""))) TO = String(j.agency_email);
+  }).catch(function () { /* the email app still opens; the client types the address */ });
+  window.__intake = { edits: edits, hoursString: hoursString, body: body };
+})();
+</script>
+</body>
+</html>

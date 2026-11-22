@@ -14,9 +14,9 @@ export const STAGES = [
 ];
 export const STAGE = Object.fromEntries(STAGES.map((s) => [s.id, s]));
 export const DEFAULT_PACKAGES = [
-  { id: 'starter', name: 'Starter', setup: 499, monthly: 49 },
-  { id: 'growth', name: 'Growth', setup: 999, monthly: 79 },
-  { id: 'pro', name: 'Pro', setup: 1999, monthly: 129 },
+  { id: 'starter', name: 'Starter site', setup: 1500, monthly: 79 },
+  { id: 'growth', name: 'Call engine', setup: 500, monthly: 299 },
+  { id: 'pro', name: '3D Signature', setup: 2500, monthly: 79 },
 ];
 const YMD = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[A-Za-z0-9_-]{1,40}$/;

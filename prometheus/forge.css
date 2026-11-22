@@ -18,7 +18,7 @@ body { background: radial-gradient(90% 45% at 50% 40%, #3a2a1c 0%, #261c14 45%, 
 
 /* ---------------- HUD */
 .hud { position: fixed; top: 0; left: 0; right: 0; padding: calc(10px + var(--st)) calc(16px + var(--sr)) 0 calc(16px + var(--sl));
-  pointer-events: none; background: linear-gradient(180deg, rgba(20, 17, 14, .94) 0%, rgba(20, 17, 14, .6) 70%, rgba(20, 17, 14, 0) 100%); }
+  pointer-events: none; background: linear-gradient(180deg, rgba(var(--oly-th-n3-rgb, 20, 17, 14), .94) 0%, rgba(20, 17, 14, .6) 70%, rgba(20, 17, 14, 0) 100%); }
 .title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 h1 { margin: 0; font: 600 21px/1.1 var(--serif); color: var(--gold);
    }
@@ -39,7 +39,7 @@ h1 { margin: 0; font: 600 21px/1.1 var(--serif); color: var(--gold);
 
 /* ---------------- dock (bottom-right 80 x 160 px kept free for Jarvis's orb) */
 .dock { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px calc(88px + var(--sr)) calc(12px + var(--sb)) calc(16px + var(--sl));
-  background: linear-gradient(0deg, rgba(20, 17, 14, .96) 0%, rgba(20, 17, 14, .75) 70%, rgba(20, 17, 14, 0) 100%); }
+  background: linear-gradient(0deg, rgba(var(--oly-th-n3-rgb, 20, 17, 14), .96) 0%, rgba(20, 17, 14, .75) 70%, rgba(20, 17, 14, 0) 100%); }
 .row { display: flex; align-items: center; gap: 10px; }
 button { font: 700 14px -apple-system, system-ui, sans-serif; color: var(--text); background: var(--panel); border: 1px solid var(--line);
   border-radius: 12px; min-height: 44px; min-width: 44px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -60,19 +60,19 @@ input[type=range]::-moz-range-thumb { width: 26px; height: 26px; border-radius: 
 /* ---------------- the verdict banner (top bar): the honest answer, always on screen */
 .banner { pointer-events: auto; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; margin-top: 7px;
   padding: 6px 10px 7px; text-align: left; border-radius: 12px; min-height: 44px;
-  background: #1d1914; border: 1px solid rgba(217, 201, 168, .45);
+  background: var(--oly-th-n5, #1d1914); border: 1px solid rgba(217, 201, 168, .45);
    }
 .banner b:first-child { font: 600 14px/1.15 var(--serif); color: var(--ice);  }
 .banner span { font: 500 13px/1.25 -apple-system, system-ui, sans-serif; color: var(--dim); }
 .banner span b { color: var(--text); }
-.banner.cand { background: #1d1914; border-color: rgba(127, 138, 82, .6); }
+.banner.cand { background: var(--oly-th-n5, #1d1914); border-color: rgba(127, 138, 82, .6); }
 .banner.cand b:first-child { color: var(--good); }
 
 /* ---------------- the one bottom sheet (a creature card, or Verdict / Lineage / Hall): between the bars, left of the orb */
 .card { position: fixed; left: calc(10px + var(--sl)); right: calc(88px + var(--sr)); bottom: calc(var(--dock-h, 120px) + 6px);
   max-height: calc(100% - var(--hud-b, 220px) - var(--dock-h, 120px) - 14px); overflow: auto; overscroll-behavior: contain;
   padding: 14px 14px 12px; border-radius: 16px; border: 1px solid #4a3f31;
-  background: rgba(29, 25, 20, .97); 
+  background: rgba(var(--oly-th-n5-rgb, 29, 25, 20), .97); 
   animation: rise .22s ease-out; }
 .card[hidden] { display: none; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
@@ -214,7 +214,7 @@ html[data-fx="low"] .flat-vault::before,html[data-fx="low"] .flat-vault::after,h
 
 /* ---- AGORA pass: two big money numbers, three small ones, a calm banner ---- */
 .stats { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
-.st { padding: 8px 10px; border-radius: 12px; background: #1d1914; }
+.st { padding: 8px 10px; border-radius: 12px; background: var(--oly-th-n5, #1d1914); }
 .st:nth-child(-n+2) { grid-column: span 3; }
 .st:nth-child(n+3) { grid-column: span 2; }
 .st .k { font: 600 12.5px/1.2 -apple-system, system-ui, sans-serif; color: #cfc4b2; }
@@ -222,7 +222,7 @@ html[data-fx="low"] .flat-vault::before,html[data-fx="low"] .flat-vault::after,h
 .st:nth-child(-n+2) b { font-size: 26px; }
 .st i { font-size: 12.5px; color: #9a8f7d; }
 .legend { font-size: 12.5px; }
-.banner { background: #1d1914; border: 1px solid #3a3228; border-left: 4px solid #d9c9a8; padding: 10px 12px; border-radius: 12px; }
+.banner { background: var(--oly-th-n5, #1d1914); border: 1px solid #3a3228; border-left: 4px solid #d9c9a8; padding: 10px 12px; border-radius: 12px; }
 .banner.cand { border-left-color: #7f8a52; }
 .banner b:first-child { font: 600 17px/1.2 var(--serif); color: #e8dcc4; }
 .banner.cand b:first-child { color: #9aa66a; }

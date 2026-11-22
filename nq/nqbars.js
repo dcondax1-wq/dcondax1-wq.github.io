@@ -50,19 +50,58 @@ export function feedUrls(feed) {
 function valid(j) {
   return isObj(j) && j.kind === KIND && int(j.n) > 0 && Array.isArray(j.b) && j.b.length === 4 * int(j.n) && num(j.t0) != null && num(j.p0) != null;
 }
-export function parse(text) {
+// INTEGRITY (day-security2 2026-11-20): anyone can post to the public chart topic. A post dated more than SKEW_S ahead is never
+// believed; with status_feed.json "vk" (tools/status_sign.py), parseVerified keeps only the PC's signed posts. A phone that cannot
+// check at all (no WebCrypto, the key does not import) reads the chart exactly as before.
+export const SKEW_S = 600;
+const SIG_FIELD = ',"sg":"', SIG_RX = /^[A-Za-z0-9_-]{86}$/, VK_RX = /^[A-Za-z0-9_-]{87}$/;
+const tooNew = (j, m, now) => [j.t, j.rt, j.t0, obj(m).time].some((x) => num(x) != null && num(x) > now + SKEW_S);
+export function parse(text, nowS) {
   let best = null, bestT = -1;
+  const now = num(nowS) != null ? num(nowS) : Date.now() / 1000;
   for (const line of String(text || '').split('\n')) {
     if (!line.trim()) continue;
     let m, j;
     try { m = JSON.parse(line); } catch (e) { continue; }
     if (!isObj(m) || (m.event && m.event !== 'message') || typeof m.message !== 'string') continue;
     try { j = JSON.parse(m.message); } catch (e) { continue; }
-    if (!valid(j)) continue;
+    if (!valid(j) || tooNew(j, m, now)) continue;
     const t = num(j.rt) || num(m.time) || num(j.t) || 0;
     if (t >= bestT) { best = j; bestT = t; }
   }
   return best;
+}
+
+const unb64u = (x) => { const t = String(x), b = atob(t.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((t.length + 3) % 4)); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
+const KEYS = new Map();
+async function importVk(vk) {
+  const S = (typeof crypto !== 'undefined' && crypto.subtle) || null;
+  if (!S || !VK_RX.test(String(vk || ''))) return null;
+  try {
+    if (!KEYS.has(vk)) KEYS.set(vk, S.importKey('raw', unb64u(vk), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']));
+    return { S, key: await KEYS.get(vk) };
+  } catch (e) { KEYS.delete(vk); return null; }
+}
+/** true when the message text carries the PC's signature under vk (the exact bytes before ,"sg":"...") */
+export async function verifyText(text, vk) {
+  const k = await importVk(vk), t = String(text || '');
+  if (!k || !t.endsWith('"}')) return false;
+  const i = t.lastIndexOf(SIG_FIELD), sig = i > 0 ? t.slice(i + SIG_FIELD.length, -2) : '';
+  if (!SIG_RX.test(sig)) return false;
+  try { return await k.S.verify({ name: 'ECDSA', hash: 'SHA-256' }, k.key, unb64u(sig), new TextEncoder().encode('le-status-v1\n' + t.slice(0, i) + '}')); } catch (e) { return false; }
+}
+/** parse() over the signed lines only, when the feed pins a vk; otherwise (or on a phone that cannot check) parse() as before */
+export async function parseVerified(text, feed, nowS) {
+  const vk = obj(feed).vk;
+  if (!vk || !(await importVk(vk))) return parse(text, nowS);
+  const keep = [];
+  for (const line of String(text || '').split('\n')) {
+    if (!line.trim()) continue;
+    let m;
+    try { m = JSON.parse(line); } catch (e) { continue; }
+    if (isObj(m) && typeof m.message === 'string' && await verifyText(m.message, vk)) keep.push(line);
+  }
+  return parse(keep.join('\n'), nowS);
 }
 
 export function unpack(post) {

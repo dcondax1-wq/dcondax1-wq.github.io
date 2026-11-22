@@ -100,3 +100,58 @@ export function jarvisCard(list, usingFixture) {
   return { v: 1, name: 'Clio', status: { level: 'off', label: usingFixture ? 'Demo library' : `${c.all} write-ups` }, kpis: [{ label: 'Write-ups', value: String(c.all) }, { label: 'Ready to adopt', value: String(c.adopt) }, { label: 'Rejected', value: String(c.rejected) }],
     lines: [top ? str(`Best idea: ${top.title} (${moneyS(top.pm)} a month).`, 118) : 'Search the research in plain words.'], t: 1793394000, theme: '#14110e' };
 }
+
+// ------------------------------------------------------------------------------------------------ the Research Hub (clio/hub.json, tools/research_hub.py)
+// Owner view: four tabs (what works now, tried and rejected, open leads, money decisions waiting), each item one plain line with its $,
+// a tap opens the write-up (slug) or the item's own text. Everything is cleaned and capped here too: the page never trusts the file.
+export const HUB_TABS = [['works', 'What works now'], ['rejected', 'Tried and rejected'], ['leads', 'Open leads'], ['decide', 'Money decisions']];
+export const FAMS = ['lit', 'atlas', 'kalshi', 'money', 'ops', 'baseline', 'risk', 'stops', 'targets', 'management', 'bias', 'filters', 'timing', 'sessions', 'data', 'other'];
+function hubRow(r, tab) {
+  if (!isObj(r)) return null;
+  const title = str(r.title, 140); if (!title) return null;
+  const slug = isSlug(r.slug) ? r.slug : '';
+  const id = typeof r.id === 'string' && /^[a-z0-9][a-z0-9-]{0,99}$/.test(r.id) ? r.id : '';
+  return { tab, id, title, line: str(r.line, 200), text: str(r.text, 1600) || str(r.line, 200), slug, date: /^\d{4}-\d{2}-\d{2}$/.test(String(r.date || r.since || '')) ? String(r.date || r.since) : '',
+    pm: num(r.usd_month), real: num(r.real_usd), realN: num(r.real_n), kind: str(r.kind || r.recommend, 30), family: FAMS.includes(String(r.family || '').toLowerCase()) ? String(r.family).toLowerCase() : 'other', src: str(r.src, 12) };
+}
+/** hub.json -> { works, rejected, leads, decide, writeups (normIndex), lab, built } or null */
+export function normHub(raw) {
+  if (!isObj(raw)) return null;
+  const out = { built: /^\d{4}-\d{2}-\d{2}$/.test(String(raw.built || '')) ? raw.built : '', demo: raw.demo === true };
+  let n = 0;
+  for (const [tab] of HUB_TABS) { out[tab] = (Array.isArray(raw[tab]) ? raw[tab] : []).slice(0, 600).map((r) => hubRow(r, tab)).filter(Boolean); n += out[tab].length; }
+  if (!n) return null;
+  out.writeups = normIndex({ writeups: Array.isArray(raw.writeups) ? raw.writeups : [] });
+  const L = isObj(raw.lab) ? raw.lab : {}, E = isObj(L.edge_light) ? L.edge_light : {};
+  out.lab = { files: num(L.files) || 0, lit: str(E.lit, 10), atlas: str(E.atlas, 10), day: str(E.day, 10) };
+  return out;
+}
+export function hubMatches(r, toks) {
+  if (!toks.length) return true;
+  const hay = `${r.title} ${r.line} ${r.text} ${r.kind} ${r.family} ${r.date}`.toLowerCase();
+  return toks.every((t) => hay.includes(t));
+}
+/** opts: { q, family: 'all' | fam, since: 'YYYY-MM-DD' | '' } -> the tab's rows, newest first (works / decide keep their own order) */
+export function hubView(hub, tab, opts) {
+  const o = opts || {}, toks = tokens(o.q), rows = (hub && Array.isArray(hub[tab])) ? hub[tab] : [];
+  return rows.filter((r) => hubMatches(r, toks) && (!o.family || o.family === 'all' || r.family === o.family) && (!o.since || !r.date || r.date >= o.since));
+}
+export function hubCounts(hub) { const c = {}; for (const [t] of HUB_TABS) c[t] = hub && Array.isArray(hub[t]) ? hub[t].length : 0; return c; }
+/** the $ word of a hub row: works -> backtest $ a month, others -> the $ a month they quote, else '' */
+export function hubMoney(r) { return r && r.pm != null ? `${moneyS(r.pm)} a month` : ''; }
+/** date filter: 'all' | '7' | '30' | '90' days back from today (YYYY-MM-DD) -> the first day kept, '' = all */
+export function sinceOf(range, today) {
+  const d = parseInt(range, 10); if (!Number.isFinite(d) || d <= 0) return '';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(today || ''); if (!m) return '';
+  const t = Date.UTC(+m[1], +m[2] - 1, +m[3]) - d * 86400000, x = new Date(t);
+  return `${x.getUTCFullYear()}-${String(x.getUTCMonth() + 1).padStart(2, '0')}-${String(x.getUTCDate()).padStart(2, '0')}`;
+}
+/** library view with the extra filters: family and since */
+export function viewX(list, opts) {
+  const o = opts || {};
+  return view(list, o).filter((r) => (!o.family || o.family === 'all' || r.family === o.family) && (!o.since || (r.date && r.date >= o.since)));
+}
+/** the city link of a hub row (../cities/?fly=<id>), or '' when the row has no safe id */
+export function cityHref(r) { return r && typeof r.id === 'string' && /^[a-z0-9][a-z0-9-]{0,99}$/.test(r.id) ? '../cities/?fly=' + encodeURIComponent(r.id) : ''; }
+/** a hub row by id (deep link ?item=<id>) */
+export function hubFind(hub, id) { if (!hub || typeof id !== 'string') return null; for (const [t] of HUB_TABS) { const r = (hub[t] || []).find((x) => x.id === id); if (r) return r; } return null; }
