@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-22 12:45 ET",
+ "built": "2026-11-22 14:24 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -127,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Home: one-time card on iPhone Safari tabs that explains how to hide the browser bars (Add to Home...",
    "Version bump + rebuilt Olympus map for the Trading Home landing",
    "Data City: Research Brain door (full-width bar under the four city tiles), rebuilt brain data,...",
    "Research Brain: giant 3D neuron brain of every finding (cities/brain.html), data builder, tests",
    "Trading Home: one TRADE_HOME.bat menu, add-account with real prices, phone Today checklist",
    "research: rank-and-rent vs pay-per-job priced for Maryland trades",
    "fleet-v2: LucidPro 50K accounts on the $300 fleet (75 fleets, paper only)",
-   "fleet-v2: pre-register design (Lucid accounts on the $300 fleet)",
-   "Rebuild Jarvis search index"
+   "fleet-v2: pre-register design (Lucid accounts on the $300 fleet)"
   ]
  },
  "next": {
