@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 247,
+  "count": 249,
   "latest": [
    {
     "date": "2026-11-22",
@@ -208,6 +208,13 @@
    },
    {
     "date": "2026-11-22",
+    "title": "Rank-and-rent and pay-per-booked-job for Maryland trades - priced honestly against the website retainer",
+    "status": "research",
+    "summary": "Rank-and-rent is weak for us - Google's own rules list lead-generation companies as ineligible for a Business Profile, so the Maps spot (where the calls are) is the part we cannot safely own; a new site takes months to…",
+    "file": "research/writeups/rank-rent-pay-per-job-2026-11-22.md"
+   },
+   {
+    "date": "2026-11-22",
     "title": "Plan ranking - every allowed eval plan for Zlarior (LIT) + ATLAS by real money; MFFU Rapid EOD 50K first (MFF…",
     "status": "ranking",
     "summary": "LIT + ATLAS on ONE account per plan, ATLAS at its measured real fills (10 ticks a side), LIT as stored; eval = the live two_week LIT sizing on each plan's numbers + ATLAS's $250 / $500 lane + the best-day guard where th…",
@@ -219,6 +226,13 @@
     "status": "done",
     "summary": "Without ATLAS's 5 best Jul-Oct days the Jul-Oct gain is +$114 (SE $136) = about $0.",
     "file": "research/writeups/one-account-book-2026-11-22.md"
+   },
+   {
+    "date": "2026-11-22",
+    "title": "Fleet v2 - adding LucidPro 50K accounts to the $300 fleet: more accounts only pay if the budget grows with th…",
+    "status": "done",
+    "summary": "Lucid does not lift the worst 10% much and it adds a real cluster risk (3+ Lucid accounts failed i…",
+    "file": "research/writeups/fleet-v2-2026-11-22.md"
    },
    {
     "date": "2026-11-22",
@@ -261,20 +275,6 @@
     "status": "finding",
     "summary": "As built, 56% / 44% of evals (Jan-Jun / Jul-Oct-like) go 5 trading days without a trade (MFFU closes an account after 7 days).",
     "file": "research/writeups/rapid25-pass-2026-11-21.md"
-   },
-   {
-    "date": "2026-11-21",
-    "title": "Rapid EOD funded refit - the Builder's winner cap does not belong on a Rapid; a bigger cap + keep more in the…",
-    "status": "finding",
-    "summary": "Pre-registered grid (cap x amount kept in x room share, 1,000 paths, ATLAS at real fills and sized on a 10-tick stop): on the 25K, cap $2,000 + keep $1,000 makes $2,283 / $1,083 a month vs $1,742 / $769 (Jan-Jun / Jul-O…",
-    "file": "research/writeups/rapid-funded-refit-2026-11-21.md"
-   },
-   {
-    "date": "2026-11-21",
-    "title": "Live vs model, every real trade so far - entries fill 3 (Zlarior) / 11 (ATLAS) ticks late, $37 in all over 4…",
-    "status": "info",
-    "summary": "Every real trade the cloud can see (4 - ATLAS Nov 6 / 17 / 18, Zlarior Nov 16) reconciled against its model.",
-    "file": "research/writeups/live-vs-model-2026-11-21.md"
    }
   ]
  },
@@ -385,6 +385,13 @@
   },
   {
    "d": "2026-11-22",
+   "who": "dev",
+   "text": "Rank-and-rent is weak for us - Google's own rules list lead-generation companies as ineligible for a Business Profile, so the Maps spot (where the calls are) is the part we cannot safely own; a new site takes months to…",
+   "src": "research/writeups/rank-rent-pay-per-job-2026-11-22.md",
+   "kind": "research"
+  },
+  {
+   "d": "2026-11-22",
    "who": "atlas",
    "text": "LIT + ATLAS on ONE account per plan, ATLAS at its measured real fills (10 ticks a side), LIT as stored; eval = the live two_week LIT sizing on each plan's numbers + ATLAS's $250 / $500 lane + the best-day guard where th…",
    "src": "research/writeups/plan-ranking-2026-11-22.md",
@@ -395,6 +402,13 @@
    "who": "atlas",
    "text": "Without ATLAS's 5 best Jul-Oct days the Jul-Oct gain is +$114 (SE $136) = about $0.",
    "src": "research/writeups/one-account-book-2026-11-22.md",
+   "kind": "done"
+  },
+  {
+   "d": "2026-11-22",
+   "who": "dev",
+   "text": "Lucid does not lift the worst 10% much and it adds a real cluster risk (3+ Lucid accounts failed i…",
+   "src": "research/writeups/fleet-v2-2026-11-22.md",
    "kind": "done"
   },
   {
@@ -844,20 +858,6 @@
    "text": "Stored LIT (live), ATLAS (live EMA + MACD + S/R, never opposite LIT) and BLITZ (account C, never opposite LIT / ATLAS) trades were merged onto one account.",
    "src": "research/writeups/stack-one-account-2026-11-16.md",
    "kind": "promising"
-  },
-  {
-   "d": "2026-11-16",
-   "who": "dev",
-   "text": "Not adopted on money (fails H1), a risk choice for the owner.",
-   "src": "research/writeups/rapid-levers-2026-11-16.md",
-   "kind": "mixed"
-  },
-  {
-   "d": "2026-11-16",
-   "who": "dev",
-   "text": "Same trades, costs, sizing and Monte Carlo paths as stack-one-account (LIT live two_week / UP50, ATLAS account-B need size + zombie rule, BLITZ account C; 1,000 paths of 126 sessions per half, 5-session blocks). 1) EVAL…",
-   "src": "research/writeups/builder-levers-2026-11-16.md",
-   "kind": "adopt-candidate"
   }
  ],
  "lessons": [
@@ -872,6 +872,21 @@
    "sources": [
     {
      "src": "research/writeups/one-account-book-2026-11-22.md",
+     "d": "2026-11-22"
+    }
+   ]
+  },
+  {
+   "text": "Lucid does not lift the worst 10% much and it adds a real cluster risk (3+ Lucid accounts failed i…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-22",
+   "kind": "done",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/fleet-v2-2026-11-22.md",
      "d": "2026-11-22"
     }
    ]
@@ -1789,21 +1804,6 @@
      "d": "2026-11-03"
     }
    ]
-  },
-  {
-   "text": "So the free 25K earns most as a Zlarior copy - better than BLITZ in all three spans.",
-   "cat": "money",
-   "who": "chrysos",
-   "d": "2026-11-03",
-   "kind": "adopt-candidate",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/2026-11-03-money-plan.md",
-     "d": "2026-11-03"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1926,6 +1926,14 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up (research): Rank-and-rent and pay-per-booked-job for Maryland trades - priced honestly against the website retainer",
+   "src": "research/writeups/rank-rent-pay-per-job-2026-11-22.md"
+  },
+  {
+   "t": 1795348800,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up (rejected): Regime guard round 3 - 0 of 22",
    "src": "research/writeups/regime-guard-2026-11-22.md"
   },
@@ -1944,6 +1952,14 @@
    "ok": true,
    "text": "Write-up (rejected): Edge hunt lane B (2026-11-22) - cross-asset NQ triggers (dealer gamma, vol term structure, ES/NQ relative str…",
    "src": "research/writeups/edge-b-cross-2026-11-22.md"
+  },
+  {
+   "t": 1795348800,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (done): Fleet v2 - adding LucidPro 50K accounts to the $300 fleet: more accounts only pay if the budget grows with th…",
+   "src": "research/writeups/fleet-v2-2026-11-22.md"
   },
   {
    "t": 1795348800,
@@ -3968,22 +3984,6 @@
    "ok": true,
    "text": "12 research runs stored (management): 1 adopted, 7 rejected, 4 open.",
    "src": "research/runs"
-  },
-  {
-   "t": 1792418340,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "32 research runs stored (other): 9 adopted, 18 rejected, 5 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792411200,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT more setups a week - ES/MES, 15m/30m/1h setups, missed fills, looser filters, higher-tier 2nd trades",
-   "src": "research/writeups/lit-more-setups.md"
   }
  ],
  "pipeline": {
@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795348620,
+   "t": 1795369500,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4386,6 +4386,54 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795369495,
+    "s": "Version bump + rebuilt Olympus map for the Trading Home landing"
+   },
+   {
+    "t": 1795369229,
+    "s": "Land day-tradehome: TRADE_HOME.bat menu, add-account prices, phone Today checklist"
+   },
+   {
+    "t": 1795367930,
+    "s": "Data City: Research Brain door (full-width bar under the four city tiles), rebuilt brain data, version bumps"
+   },
+   {
+    "t": 1795367287,
+    "s": "Land day-brain4: giant 3D research brain in Data City"
+   },
+   {
+    "t": 1795366714,
+    "s": "Research Brain: giant 3D neuron brain of every finding (cities/brain.html), data builder, tests"
+   },
+   {
+    "t": 1795365910,
+    "s": "Trading Home: one TRADE_HOME.bat menu, add-account with real prices, phone Today checklist"
+   },
+   {
+    "t": 1795364604,
+    "s": "Land huge-ideas: rank-and-rent vs pay-per-lead feasibility (MD)"
+   },
+   {
+    "t": 1795364523,
+    "s": "research: rank-and-rent vs pay-per-job priced for Maryland trades"
+   },
+   {
+    "t": 1795359579,
+    "s": "Version bumps for fleet-v2 landing"
+   },
+   {
+    "t": 1795359453,
+    "s": "Land fleet-v2: same bots on more firms (Lucid x N); more accounts help only with a bigger budget"
+   },
+   {
+    "t": 1795359420,
+    "s": "fleet-v2: LucidPro 50K accounts on the $300 fleet (75 fleets, paper only)"
+   },
+   {
+    "t": 1795356247,
+    "s": "fleet-v2: pre-register design (Lucid accounts on the $300 fleet)"
+   },
    {
     "t": 1795348506,
     "s": "Rebuild Jarvis search index"
@@ -4437,54 +4485,6 @@
    {
     "t": 1795331774,
     "s": "Land day-cities3: site-down proof per lead + for-sale/parked opener"
-   },
-   {
-    "t": 1795331692,
-    "s": "Land edge-d-meta: meta-label size + re-entry on LIT (rejected)"
-   },
-   {
-    "t": 1795331568,
-    "s": "fleet: engine + 24-month horizon for the Corvette date (before the scored run)"
-   },
-   {
-    "t": 1795331491,
-    "s": "fleet: pre-registered design (lane E follow-up)"
-   },
-   {
-    "t": 1795331431,
-    "s": "Merge remote-tracking branch 'origin/pc' into edge-e-book"
-   },
-   {
-    "t": 1795331423,
-    "s": "Site-down proof: 139 parked / for-sale domains (own opener), 9 false alarms reverted (tighter patterns), list…"
-   },
-   {
-    "t": 1795331313,
-    "s": "Board: stale-data note posted by board.py read (lane E session start)"
-   },
-   {
-    "t": 1795331301,
-    "s": "Land edge-e-book: one-account combined book (account type is the lever; no card)"
-   },
-   {
-    "t": 1795331266,
-    "s": "Lane E one-account book: 53 books at real fills, pick Rapid EOD 50K LIT+ATLAS (LIT x0.5 eval) beats today in…"
-   },
-   {
-    "t": 1795331158,
-    "s": "lucid red team: merge_into_start never gives the phrase to a Lucid row without the recorded written OK (close…"
-   },
-   {
-    "t": 1795330806,
-    "s": "Site-down proof data: reasons + check times on 2,363 broken sites (14 came back up, dropped), lists + caller…"
-   },
-   {
-    "t": 1795330799,
-    "s": "Site-down proof: parked / for-sale scan of 'working' sites, tests, opener wording aligned with the portal"
-   },
-   {
-    "t": 1795330718,
-    "s": "Red tests sweep: mind HD button back on screen at 390, gate.css colours through tokens, widget wiring doc, ag…"
    }
   ],
   "branches": [

@@ -640,6 +640,32 @@
    "recommend": "yes",
    "recommend_why": "Spreads the money across a second firm so an MFFU live move or account cap does not stop everything; small, capped risk ($450 at most).",
    "valued": "2026-11-22 research/plans/rebuy2.py (LIT + ATLAS on one account, ATLAS at 10 ticks a side, the plan's own eval + payout rules, at most 2 re-buys, 1,000 paths a market, 6 months; $ after the firm's split and every fee, before tax)"
+  },
+  {
+   "id": "lucid-3-at-500-budget",
+   "question": "LucidPro 50K: add up to 3 on top of the Rapid EOD 50K + FundedNext 50K plan, and raise the monthly eval budget from $300 to $500?",
+   "why": "Same bots (LIT) on more accounts at a third firm, outside MFFU's caps and live-move risk. Paper test (fleet v2, 75 fleets x 3 spans x 1,000 paths): beats the $300 plan in both 2026 halves, also if the Lucid price is $50 higher.",
+   "impact": "vs the $300 plan, 6 months: about +$1,786 a month (Jan-Jun-like) / +$2,215 a month (Jul-Oct-like); $70k about 1.5 months sooner in Jul-Oct-like (6.9 vs 8.4 months). About half is just the extra $200 a month of budget; the 3 Lucid accounts add +$5.9k / +$9.4k over 6 months on top of a $500 plan with none.",
+   "impact_usd": 2215,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/fleet-v2-2026-11-22.md",
+   "applies": "Only AFTER Lucid's written yes (docs/LUCID_SETUP.md step 1): buy 1 LucidPro 50K (DLL on), then up to 2 more as the budget allows; LIT only; budget $500 a month total. Claude adds them paper-checked first; the owner types the live phrase.",
+   "added": "2026-11-22",
+   "usd_month": 2215,
+   "usd_month_by": {
+    "jan_jun": 1786,
+    "jul_oct": 2215,
+    "y2021_25": -112
+   },
+   "risk": "UNVERIFIED: the Lucid price ($126 assumed), NinjaTrader support, and Lucid's OK for the same bot at other firms. 3+ Lucid accounts dying in the same 2 weeks: ~19% of runs in 2026-like markets (~29% in 2021-25-like), mostly copies bought the same week. In a 2021-25-like market the plan loses about $1,456 in 6 months (0.50x its fees; $672 more than the $300 plan, almost all of it the larger budget). Worst 10% of runs barely improves.",
+   "recommend": "later",
+   "recommend_why": "Do not buy before Lucid answers in writing and NinjaTrader support is confirmed; then yes. Stagger the buys one a week (not tested).",
+   "valued": "2026-11-22 research/fleet/fleet2.py (LIT only on Lucid, assumed $126 price, 1,000 paths a market, 6 months; $ after the firm's split and every fee, before tax; every account on the same market path)"
   }
  ]
 }

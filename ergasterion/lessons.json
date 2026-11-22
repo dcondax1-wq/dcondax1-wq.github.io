@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-22",
- "say": "This week we wrote down 47 lessons. The strongest (2 files agree): Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real Ni… What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
+ "say": "This week we wrote down 48 lessons. The strongest (2 files agree): Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real Ni… What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
  "week": [
   {
    "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
@@ -214,8 +214,8 @@
  "counts": {
   "NQ strategy": 43,
   "Kalshi": 2,
-  "money": 3,
-  "process": 12,
+  "money": 2,
+  "process": 13,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

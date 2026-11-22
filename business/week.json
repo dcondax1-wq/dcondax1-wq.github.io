@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-22 06:55 ET",
+ "built": "2026-11-22 12:45 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-16",
@@ -127,14 +127,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Rebuild Jarvis search index",
-   "Jarvis worker: offline copy holds nqbars/expertcore/dashfx (jarvis-v94), version bumps for the...",
-   "hermes: the stage clips its 3D-tilted card",
-   "Lane E fleet plan: 72 fleets + Risk-team sensitivity; $300/mo Rapid EOD 50K + FundedNext 50K...",
-   "lucid red team report + 5-day dry run (unchanged lanes, 85/85 both ways)",
-   "Bump versions for site-down proof",
-   "fleet: engine + 24-month horizon for the Corvette date (before the scored run)",
-   "fleet: pre-registered design (lane E follow-up)"
+   "Version bump + rebuilt Olympus map for the Trading Home landing",
+   "Data City: Research Brain door (full-width bar under the four city tiles), rebuilt brain data,...",
+   "Research Brain: giant 3D neuron brain of every finding (cities/brain.html), data builder, tests",
+   "Trading Home: one TRADE_HOME.bat menu, add-account with real prices, phone Today checklist",
+   "research: rank-and-rent vs pay-per-job priced for Maryland trades",
+   "fleet-v2: LucidPro 50K accounts on the $300 fleet (75 fleets, paper only)",
+   "fleet-v2: pre-register design (Lucid accounts on the $300 fleet)",
+   "Rebuild Jarvis search index"
   ]
  },
  "next": {
@@ -301,6 +301,12 @@
    "src": "Decide card"
   },
   {
+   "id": "lucid-3-at-500-budget",
+   "question": "LucidPro 50K: add up to 3 on top of the Rapid EOD 50K + FundedNext 50K plan, and raise the monthly eval budget from $300 to $500?",
+   "usd_month": 2215.0,
+   "src": "Decide card"
+  },
+  {
    "id": "plan-fundednext50k-max2-rebuys",
    "question": "FundedNext Rapid Daily 50K (~$150 with code RAPID): add one, with at most 2 re-buys (max $450 at risk)?",
    "usd_month": 1546.0,
@@ -316,12 +322,6 @@
    "id": "buy-rapid50-now",
    "question": "Buy the 5th funded slot (Rapid EOD 50K, $165 with CLUB) now from your pocket, instead of waiting for ATLAS's first payout (about Jan 13)?",
    "usd_month": 554.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "rapid-funded-refit",
-   "question": "Rapid funded: let a winner pay up to $2,000 on the 25K ($4,000 on a 50K) and keep $1,000 ($2,000) in the account?",
-   "usd_month": 314.0,
    "src": "Decide card"
   }
  ],

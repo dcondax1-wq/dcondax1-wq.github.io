@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-22",
  "number": 2,
- "built": "2026-11-22T11:57:58Z",
+ "built": "2026-11-22T17:45:34Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -673,7 +673,7 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 247 write-ups.",
+    "The research shelf now counts 249 write-ups.",
     "The newest lesson on file, dated 2026-11-22, reads: No pre-trade market signal separates the losing 2021-25 years from 2026; every guard costs 2026 money.",
     "It was filed under \"rejected\" and comes from research/writeups/regime-guard-2026-11-22.md."
    ],
@@ -707,10 +707,10 @@
      "quote": true
     },
     {
-     "t": "247",
+     "t": "249",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 247
+     "raw": 249
     },
     {
      "t": "2026-11-22",

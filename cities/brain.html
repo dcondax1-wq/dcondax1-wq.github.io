@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus Research Brain</title>
+<meta name="description" content="Every finding we ever tested as a neuron in one giant 3D brain: mint adopted, red-violet rejected, gold waiting on you.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="brain.css?v=b1">
+<script src="brain.js?v=b1" defer></script>
+</head>
+<body>
+<canvas id="c" tabindex="0" aria-label="The research brain: every tested idea is a neuron. Use the list button for a text view."></canvas>
+<div class="fallback" id="fallback"><div><b>3D is off on this device.</b><br>Open the list: every finding is there, with the same cards.</div></div>
+
+<header class="top">
+  <div class="row">
+    <a class="back" href="index.html" aria-label="Back to Data City">&#8592;</a>
+    <h1>Research Brain</h1>
+    <span class="badge live" id="live" hidden>LIVE TRADE</span>
+    <span class="badge" id="fresh" hidden>NEW</span>
+  </div>
+  <input class="search" id="q" type="search" placeholder="Search every finding" autocomplete="off" enterkeyhint="search" aria-label="Search every finding">
+  <div class="chips" id="modes" role="group" aria-label="Filter">
+    <button class="chip" data-m="all" aria-pressed="true">All</button>
+    <button class="chip a" data-m="a" aria-pressed="false">Adopted</button>
+    <button class="chip r" data-m="r" aria-pressed="false">Rejected</button>
+    <button class="chip o" data-m="o" aria-pressed="false">Open</button>
+    <button class="chip" id="famBtn" aria-pressed="false" aria-expanded="false">By family</button>
+  </div>
+  <div class="chips fams" id="fams" role="group" aria-label="Family"></div>
+</header>
+
+<div class="hint" id="hint">Drag to turn &middot; pinch to zoom &middot; tap a neuron</div>
+<div class="dock">
+  <div class="count" id="count" aria-live="polite">Loading...</div>
+  <button class="btn" id="listBtn" aria-haspopup="dialog">List</button>
+</div>
+
+<section class="sheet" id="card" role="dialog" aria-modal="false" aria-label="Finding" aria-hidden="true"></section>
+<section class="sheet" id="lst" role="dialog" aria-label="All findings" aria-hidden="true"></section>
+</body>
+</html>
