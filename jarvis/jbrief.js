@@ -101,7 +101,7 @@ function money({ S, now, J }) {
   L.push(deals.length ? `Deals: ${deals.slice(0, 2).map((d) => `${d.title} ends in ${hours(d.hours)}${d.usd ? ', about ' + both(d.usd) + ' (an estimate)' : ''}`).join('; ')}.` : 'Deals: no dated deal is running.');
   const sib = st.find((s) => s.id === 'sibyl'), picks = sib ? (Array.isArray(sib.items) ? sib.items : []).filter((i) => isObj(i) && i.picked).sort((a, b) => (J.num(b.score) || 0) - (J.num(a.score) || 0)) : [];
   L.push(!sib ? "Sibyl: I don't have her stream." : picks.length ? `Sibyl: ${picks.length} paper ${picks.length === 1 ? 'pick' : 'picks'}; the best is ${J.str(picks[0].title, 50)} (n=${J.num(picks[0].n) != null ? picks[0].n : '?'}), paper stake ${usd(J.num(picks[0].stake_usd))} = 1R${sib.status === 'sample' ? ' [sample numbers]' : ''}.` : 'Sibyl: no paper-worthy edge today. That is an honest answer.');
-  L.push(stale.length || sample.length ? `Needs a refresh: ${stale.concat(sample).map((s) => J.str(s.name || s.id, 16) + (s.status === 'sample' ? ' (sample)' : ' (stale)')).join(', ')}. RUN_MONEY.bat on the PC updates them.` : 'Freshness: every stream is up to date.');
+  L.push(stale.length || sample.length ? `Needs a refresh: ${stale.concat(sample).map((s) => J.str(s.name || s.id, 16) + (s.status === 'sample' ? ' (sample)' : ' (stale)')).join(', ')}. tools/bat/RUN_MONEY.bat on the PC updates them.` : 'Freshness: every stream is up to date.');
   L.push(deals.length && deals[0].hours <= 48 ? `Do first: look at "${deals[0].title}" on the firm's own page, and use it only if you were buying anyway.` : 'Do first: nothing needs you. These are estimates and suggestions; nothing here spends or trades.');
   return { lines: L, names: ['money'], say: [L[0], L[1], L[2], L[5]].join(' ') };
 }

@@ -172,7 +172,7 @@
     big.dataset.ageT = String(f.t || '');
     add(box, mk('div', 'bz-eb', f.stale ? 'Data is old' : 'Live'), big);
     if (f.stale) add(box, mk('p', 'small', f.t ? 'What you see below may be out of date: the bot has not checked in for over 20 minutes. ' +
-      'If the market is open, look at the PC (BOTS_BACK.bat brings the bots back).' : 'Nothing from the PC bot yet: start it on the PC.'));
+      'If the market is open, look at the PC (tools/bat/BOTS_BACK.bat brings the bots back).' : 'Nothing from the PC bot yet: start it on the PC.'));
     if (f.rep && f.rage != null) add(box, mk('p', 'small mut', `The PC's reporter looked ${agoT(f.rage)}` + (f.rep.server === false ? ' · bot server NOT answering' : '')));
     if (f.verdict && f.verdict.label) add(box, mk('p', 'small mut', `${f.verdict.label}${f.verdict.reason ? ': ' + f.verdict.reason : ''}`));
     return box;
@@ -259,6 +259,12 @@
     if (!g || !(g.bots || []).length) {
       const e = mk('div', 'card'); add(e, mk('h3', null, 'No bot brain yet'), mk('p', 'small mut', 'It appears once the PC bot has run with this version and sent its status.'));
       root.appendChild(e); return root;
+    }
+    if (g.rd && (g.rd.s === 'ok' || g.rd.s === 'warn' || g.rd.s === 'no')) {     // READY (mint) / NOT READY (gold): engine/readiness, day-ready 2026-11-22
+      const no = g.rd.s === 'no', ok = g.rd.s === 'ok';
+      const rb = mk('div', 'card', null); rb.setAttribute('data-ready', g.rd.s); rb.style.cssText = 'border:1px solid ' + (no ? '#f1c14b' : '#77db89') + ';color:' + (no ? '#f1c14b' : '#77db89') + ';font-weight:700';
+      add(rb, mk('span', null, ok ? 'READY' + (g.rd.w ? ' for ' + g.rd.w : '') : (no ? 'NOT READY' : 'READY, 1 to watch') + (g.rd.b ? ': ' + g.rd.b : '')));
+      root.appendChild(rb);
     }
     if (g.old) root.appendChild(mk('p', 'small mut', 'Older PC version: levels and setups for Zlarior only. They fill in fully after the PC updates.'));
     root.appendChild(sumCard(g.bots.filter((x) => x && !HIDE.has(x.id) && !(window.OLY_HIDDEN && window.OLY_HIDDEN.has && window.OLY_HIDDEN.has(x.id)))));

@@ -240,12 +240,12 @@ export function dataState(doc, nowMs) {
   const when = Number.isFinite(t) ? new Date(t).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'an unknown time';
   if (!doc || doc.sample) {
     return { kind: 'demo', asof: doc ? doc.asof : '', hours,
-      text: 'Example numbers (DEMO), not yours. Your own business file stays private on your PC, so this site shows an example: its to-do list and buy advice are hidden. To see yours: open this page from the PC (run AGENCY_DAY.bat there).' };
+      text: 'Example numbers (DEMO), not yours. Your own business file stays private on your PC, so this site shows an example: its to-do list and buy advice are hidden. To see yours: open this page from the PC (run tools/bat/AGENCY_DAY.bat there).' };
   }
   if (hours === null || hours > SNAP_H) {
     const age = hours === null ? 'age unknown' : hours < 48 ? `${Math.round(hours)} hours old` : `${Math.round(hours / 24)} days old`;
     return { kind: 'snapshot', asof: doc.asof, hours,
-      text: `Snapshot from ${when} (${age}): the PC has not sent a newer copy, so the to-dos, dates and buy advice may be out of date. Fresh copy: run AGENCY_DAY.bat on the PC.` };
+      text: `Snapshot from ${when} (${age}): the PC has not sent a newer copy, so the to-dos, dates and buy advice may be out of date. Fresh copy: run tools/bat/AGENCY_DAY.bat on the PC.` };
   }
   return { kind: 'fresh', asof: doc.asof, hours, text: `Updated ${String(doc.asof).replace('T', ' ').slice(0, 16)}.` };
 }

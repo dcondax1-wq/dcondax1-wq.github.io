@@ -91,7 +91,7 @@
     if (!D || D.kind !== 'le-launch') {
       c.setAttribute('data-level', 'none');
       badge.className = 'g-badge'; badge.textContent = 'Not available';
-      line.textContent = why === 'old' ? 'The bot server on the PC runs an older version: this card shows after its next restart (when flat: STOP_BOT.bat, then GO_LIVE_EVAL.bat).'
+      line.textContent = why === 'old' ? 'The bot server on the PC runs an older version: this card shows after its next restart (when flat: STOP_BOT.bat, then tools/bat/GO_LIVE_EVAL.bat).'
         : 'The bot server did not answer. Right now above still shows the last numbers.';
       clear(bots); flagList($('launchGlobal'), []); rep.textContent = ''; foot.textContent = '';
       return;

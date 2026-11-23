@@ -93,7 +93,7 @@ function feedsCard(m, nowMs) {
   if (isObj(m.kalshi)) { const a = ageH(m.kalshi, nowMs); if (a != null && a > OLD_FEED_H) bad.push(`Kalshi (${hoursText(a)} old)`); }
   if (!bad.length) return card('feeds', 'ok', 'All feeds are fresh', 'Nothing to do.', 'ok', false);
   const money_ = bad.some((b) => b.startsWith('money'));
-  return card('feeds', 'warn', `Old or missing: ${bad.join('; ')}`, (money_ ? 'Double-click RUN_MONEY.bat on the PC for the money data. ' : '') + (bad.some((b) => b.startsWith('account')) ? 'For the accounts, check the bot PC is on and online.' : '').trim(), 'bad:' + bad.length + ':' + bad.join('|').slice(0, 80), true);
+  return card('feeds', 'warn', `Old or missing: ${bad.join('; ')}`, (money_ ? 'Double-click tools/bat/RUN_MONEY.bat on the PC for the money data. ' : '') + (bad.some((b) => b.startsWith('account')) ? 'For the accounts, check the bot PC is on and online.' : '').trim(), 'bad:' + bad.length + ':' + bad.join('|').slice(0, 80), true);
 }
 function alertsCard(alerts) {
   const list = (isObj(alerts) && Array.isArray(alerts.alerts) ? alerts.alerts : Array.isArray(alerts) ? alerts : []).filter((a) => isObj(a) && str(a.text));

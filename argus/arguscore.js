@@ -218,7 +218,7 @@ function ruleEyes(B, now) {
 // ------------------------------------------------------------------------------------------------ the fix buttons
 // A light's one-line step is e.fix. Where there is something to run on the PC (the double-click files in the bot folder) or
 // something to ask Claude, e.cmd = { kind: 'pc' | 'chat', text } and the page offers a Copy button. Nothing is ever run from here.
-export const PC_FILES = { start: 'START_BOT.bat', health: 'HEALTH_CHECK.bat', update: 'UPDATE.bat', stop: 'STOP_BOT.bat', clean: 'CLEAN_PC.bat' };
+export const PC_FILES = { start: 'START_BOT.bat', health: 'HEALTH_CHECK.bat', update: 'UPDATE.bat', stop: 'STOP_BOT.bat', clean: 'tools/bat/CLEAN_PC.bat' };
 const pcCmd = (text) => ({ kind: 'pc', text });
 const chatCmd = (text) => ({ kind: 'chat', text });
 export function cmdFor(e) {

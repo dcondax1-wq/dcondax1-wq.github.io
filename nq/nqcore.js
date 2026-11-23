@@ -240,7 +240,11 @@ export function build(home, nowMs) {
   const headline = pc.code === 'none' ? (cloudCopy(h) ? "Waiting for your PC's status report: the cloud's copy has no account numbers." : 'No report from your PC yet.') : pc.code !== 'running' ? `Last report from your PC: ${pc.ageText}.`
     : rt != null ? (burning === n ? `All ${n} accounts reported ${pc.ageText} (your PC's status report).` : `${burning} of ${n} accounts reported in the last 30 minutes.`)
       : `${burning} of ${n} bots reported in the last 20 minutes.`;
-  return { nowS, pc, bots, trades, plan: planLine(h, lit.status), facts: facts(h), banner: banner(pc), headline, burning, tight,
+  // night-seedata 2026-11-23 (owner: "seeing my data is hard"): today's $ across the real accounts in the first line (paper bots left out);
+  // only while the PC's report is fresh (an old report's day is said on each card instead)
+  const real = bots.filter((b) => b.has && !b.paper), todaySum = real.reduce((s, b) => s + (num(b.today) || 0), 0);
+  const todayLine = pc.code === 'running' && real.length ? `Today ${moneyS(todaySum)} on the real accounts.` : '';
+  return { nowS, pc, bots, trades, plan: planLine(h, lit.status), facts: facts(h), banner: banner(pc), headline, todayLine, todaySum: real.length ? todaySum : null, burning, tight,
     columns: bots.map((b) => ({ key: b.key, label: b.name, lit: b.status.flame, level: b.status.level })) };
 }
 

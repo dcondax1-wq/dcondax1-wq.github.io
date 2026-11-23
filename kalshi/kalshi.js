@@ -1923,13 +1923,13 @@
     const today = num(j.net) != null ? `today ${usd(j.net, true)}` : 'today not known yet';
     if (j.st === 'stopped') {
       if (hd) hd.textContent = 'Kalshi: STOPPED';
-      ln.textContent = `K8 (gold and silver) STOPPED${j.why ? ' (' + String(j.why).slice(0, 40) + ')' : ''}: it is OFF now, ${today}. To restart, type the phrase on the PC (KALSHI_LIVE.bat). Updated ${age.s}.`;
+      ln.textContent = `K8 (gold and silver) STOPPED${j.why ? ' (' + String(j.why).slice(0, 40) + ')' : ''}: it is OFF now, ${today}. To restart, type the phrase on the PC (tools/bat/KALSHI_LIVE.bat). Updated ${age.s}.`;
       if (risk) risk.textContent = 'No new orders.';
       return;
     }
     if (j.st === 'idle') {
       if (hd) hd.textContent = 'Kalshi: ARMED, not running';
-      ln.textContent = `K8 (gold and silver) ARMED, but the PC is not running it right now: double-click KALSHI_LIVE.bat on the PC to start it again. ${today[0].toUpperCase() + today.slice(1)}. Updated ${age.s}.`;
+      ln.textContent = `K8 (gold and silver) ARMED, but the PC is not running it right now: double-click tools/bat/KALSHI_LIVE.bat on the PC to start it again. ${today[0].toUpperCase() + today.slice(1)}. Updated ${age.s}.`;
       if (risk) risk.textContent = isObj(j.k8) ? 'Open bets settle by themselves; no new bet until the PC runs it again.' : 'No order rests for more than 20 minutes without it.';
       return;
     }

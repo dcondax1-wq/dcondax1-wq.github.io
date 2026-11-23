@@ -106,7 +106,7 @@ export const RULES = [
       if (!c.haveMoney) bad.push('money data missing'); else { const old = c.streams.filter((s) => s.status === 'stale' || (num(s.age_min) != null && s.age_min > OLD_MIN && s.status !== 'sample')); if (old.length) bad.push('money: ' + old.map((s) => str(s.name || s.id, 16)).join(', ')); }
       if (c.haveOdeon) { const a = ageH(c.odeon, c.now); if (a != null && a > OLD_FEED_H * 2) bad.push(`trades ${hoursText(a)} old`); }
       if (!bad.length) return null;
-      return { title: 'Feeds are old: open the PC and run STATUS.bat', why: `Old or missing: ${bad.join('; ')}. STATUS.bat shows what is stuck; RUN_MONEY.bat refreshes the money data.`, usd: null, urgency: 66, tone: 'warn', sig: bad.join('|') };
+      return { title: 'Feeds are old: open the PC and run tools/bat/STATUS.bat', why: `Old or missing: ${bad.join('; ')}. tools/bat/STATUS.bat shows what is stuck; tools/bat/RUN_MONEY.bat refreshes the money data.`, usd: null, urgency: 66, tone: 'warn', sig: bad.join('|') };
     } },
   { id: 'deal_soon', name: 'A deal is ending', dir: 90, tag: 'usd', when: 'A deal in the money file ends within 48 hours.',
     run: (c) => {

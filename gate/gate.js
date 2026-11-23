@@ -257,7 +257,7 @@
     var done = false, fin = function () { if (done) return; done = true; cb(w.OLYMPUS_TRUTH || null); };
     w.addEventListener('gate-truth', fin);
     try {
-      var url = new w.URL(base + 'olympus/truth.js?v=r13', w.location.href).href, s = d.createElement('script');
+      var url = new w.URL(base + 'olympus/truth.js?v=r14', w.location.href).href, s = d.createElement('script');
       s.type = 'module';
       s.textContent = 'import * as T from ' + JSON.stringify(url) + '; window.OLYMPUS_TRUTH = T; window.dispatchEvent(new Event("gate-truth"));';
       d.head.appendChild(s);
@@ -319,8 +319,11 @@
     ['lit', 'atlas'].forEach(function (k) {
       var a = A[k]; if (!a || !a.has) return;
       var fd = obj(obj(board[k]).funded), funded = a.kind === 'funded' || obj(board[k]).stage === 'funded';
+      var pl = funded ? coachPlan(a, board[k], !!fd.first_at_min) : null;   // night-payfirst: the plan's line ($1,350 for ATLAS's first payout)
       cards.push({ key: k, name: a.name, size: a.size, kind: funded ? 'funded' : 'eval', balance: num(a.balance), room: num(a.room), mll: num(a.mll), toPass: funded ? null : num(a.toTarget),
-        toAsk: funded ? coachNeed(a, board[k]) : null, askAt: funded ? num(fd.ask_at_balance) : null, today: num(a.today) || 0 });
+        goal: pl ? pl.goal : null, toGoal: pl ? pl.toGoal : null,
+        toAsk: funded ? coachNeed(a, board[k]) : null, askAt: funded ? num(fd.ask_at_balance) : null, today: num(a.today) || 0,
+        armed: obj(board[k]).badge ? String(obj(board[k]).badge).toUpperCase() === 'LIVE' : null });   // night-seedata: badge LIVE = armed by the owner
     });
     if (T && T.extraOf) { try { T.extraOf(home).forEach(function (a) { cards.push({ key: a.key, name: a.name, size: a.size, kind: a.kind, balance: num(a.balance), room: num(a.room), mll: num(a.mll), toPass: num(a.toTarget), toAsk: null, askAt: null, today: num(a.today) || 0 }); today += num(a.today) || 0; }); } catch (e) { /* the two bots' rows stay */ } }
     var open = [];   // olympus2: the open trade(s) from the board cards (engine/live_board.py position: side, qty, entry, stop, target, unrealized_usd)
@@ -479,6 +482,15 @@
     try { var r = PC.coach({ balance: bal, cycle_start_balance: null, best_day: null, cycle_days: null, payouts_n: null, eligible_from: null, room: num(a.room) },
       /50K/i.test(String(c.plan || a.size || '')) || num(a.mll) >= 2000 ? 'builder50k' : 'builder25k', day);
       return r && r.ok && num(r.need_more) != null ? Math.max(0, r.need_more) : null; } catch (e) { return null; }
+  }
+  /* night-payfirst 2026-11-23: the payout PLAN's line in MFFU's $0 terms + what is left to it (the coach's plan_line: ATLAS's first payout at
+     MFFU's minimum = $1,350, then the full $1,000 at $2,100) -> { goal, toGoal } | null. The Money tile reads it. */
+  function coachPlan(a, card, firstAtMin) {
+    var PC = w.PAYOUT_COACH, c = obj(card), bal = num(a.balance);
+    if (!PC || typeof PC.coach !== 'function' || bal == null) return null;
+    try { var r = PC.coach({ balance: bal, cycle_start_balance: null, best_day: null, cycle_days: null, payouts_n: null, eligible_from: null, room: num(a.room), first_at_min: firstAtMin },
+      /50K/i.test(String(c.plan || a.size || '')) || num(a.mll) >= 2000 ? 'builder50k' : 'builder25k', '');
+      return r && r.ok && num(r.plan_line) != null && num(r.profit) != null ? { goal: r.plan_line, toGoal: Math.max(0, r.plan_line - r.profit) } : null; } catch (e) { return null; }
   }
   function acctName(a) { var n = String(a.name || ''); return a.size && n.indexOf(a.size) < 0 ? n + ' ' + a.size : n; }   // "Zlarior 25K #2" keeps its own size
   function HSok() { return !!(w.OLYMPUS_HUB_STATUS && w.OLYMPUS_HUB_STATUS.shortAge); }

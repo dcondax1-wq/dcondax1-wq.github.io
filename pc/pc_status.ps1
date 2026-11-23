@@ -1,5 +1,5 @@
 <#
-STATUS (double-click STATUS.bat). The owner, 2026-11-04: "a health card for my PCs". It only LOOKS: nothing is changed, closed,
+STATUS (double-click tools\bat\STATUS.bat). The owner, 2026-11-04: "a health card for my PCs". It only LOOKS: nothing is changed, closed,
 deleted or downloaded (except the one published file below), and no Administrator is needed. It prints a six line card and ONE
 sentence of what to do next:
 
@@ -15,7 +15,7 @@ retired Surface) only shows its own disk, memory and power plan and where the bo
 A line says [OK], [SKIP] (look at it), [FIX] (needs you) or [..] (nothing to judge, or not readable). It never throws: a line that
 cannot be read says so and the rest still show.
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_status.ps1        (STATUS.bat runs this)
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_status.ps1        (tools\bat\STATUS.bat runs this)
 Tests: LE_STATUS_HOME_FILE=<home.json> replaces the web read; LE_T_FREE_GB / LE_T_TOTAL_GB, LE_T_RAM=<free>,<total> (GB), LE_T_NT=1|0,
 LE_T_PLAN=<name>, LE_T_NOW=<unix seconds>, LE_T_ET=<yyyy-MM-dd HH:mm>, LE_T_HOST=<this PC's name>, LE_T_BOT_DIR=1|0, LE_T_BOOM=1.
 #>
@@ -85,7 +85,7 @@ try {
     $localHb = J2 (J2 (J2 (Split-Path -Parent $PSScriptRoot) 'logs') 'pc_hb') 'heartbeat.json'
     if ($env:LE_STATUS_HOME_FILE) { $raw = Get-Content -LiteralPath $env:LE_STATUS_HOME_FILE -Raw -ErrorAction Stop }
     elseif (Test-Path -LiteralPath $localHb) {
-        # GitHub-free bot (PUBLISH_NQ.bat): the bot writes its heartbeat to logs\pc_hb on this PC; no internet needed
+        # GitHub-free bot (tools\bat\PUBLISH_NQ.bat): the bot writes its heartbeat to logs\pc_hb on this PC; no internet needed
         $raw = '{"live":{"pc":' + (Get-Content -LiteralPath $localHb -Raw -ErrorAction Stop) + '}}'
     }
     else { $raw = (Invoke-WebRequest -Uri ($SiteHome + '?t=' + [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()) -UseBasicParsing -TimeoutSec 8 -ErrorAction Stop).Content }
@@ -118,8 +118,8 @@ try {
         $free = $di.AvailableFreeSpace / 1GB; $total = $di.TotalSize / 1GB
     }
     $t = ("{0:N0} GB free of {1:N0} GB" -f $free, $total)
-    if ($free -lt 10) { Line 'FIX' 'DISK' ($t + ': almost full'); $next += ,@('FIX', 'Disk is almost full: double-click CLEAN_STORAGE.bat.') }
-    elseif ($free -lt 25) { Line 'SKIP' 'DISK' ($t + ': getting low'); $next += ,@('SKIP', 'Disk is getting low: double-click CLEAN_STORAGE.bat.') }
+    if ($free -lt 10) { Line 'FIX' 'DISK' ($t + ': almost full'); $next += ,@('FIX', 'Disk is almost full: double-click tools\bat\CLEAN_STORAGE.bat.') }
+    elseif ($free -lt 25) { Line 'SKIP' 'DISK' ($t + ': getting low'); $next += ,@('SKIP', 'Disk is getting low: double-click tools\bat\CLEAN_STORAGE.bat.') }
     else { Line 'OK' 'DISK' $t }
 } catch { Line '..' 'DISK' 'not readable on this PC' }
 
@@ -194,11 +194,11 @@ try {
         $m = [regex]::Match("$o", '\(([^)]+)\)'); if ($m.Success) { $plan = $m.Groups[1].Value }
     }
     if (-not $plan) { Line '..' 'POWER' 'not readable on this PC' }
-    elseif ($main -and $plan -notmatch 'PC Care|High performance|Ultimate') { Line 'SKIP' 'POWER' ("plan: $plan (this PC may go to sleep)"); $next += ,@('SKIP', 'The power plan can let this PC sleep: double-click PC_CARE.bat.') }
+    elseif ($main -and $plan -notmatch 'PC Care|High performance|Ultimate') { Line 'SKIP' 'POWER' ("plan: $plan (this PC may go to sleep)"); $next += ,@('SKIP', 'The power plan can let this PC sleep: double-click tools\bat\PC_CARE.bat.') }
     else { Line 'OK' 'POWER' "plan: $plan" }
 } catch { Line '..' 'POWER' 'not readable on this PC' }
 
-# PUBLISH (extra, not one of the six): when the PC publisher has run (PUBLISH_NQ.bat), when it last sent the site out
+# PUBLISH (extra, not one of the six): when the PC publisher has run (tools\bat\PUBLISH_NQ.bat), when it last sent the site out
 try {
     $pubFile = J2 (J2 (J2 (Split-Path -Parent $PSScriptRoot) 'data') 'pc_publish') 'last.json'
     if (Test-Path -LiteralPath $pubFile) {
@@ -206,9 +206,9 @@ try {
         $pAge = (Get-Now) - [int64](P $pj 't')
         $pWhat = "last publish $(Age-Text $pAge) to $(P $pj 'provider')"
         if (P $pj 'ok') {
-            if ($pAge -gt 3600 -and $trading) { Line 'SKIP' 'PUBLISH' ($pWhat + ': older than an hour'); $next += ,@('SKIP', 'The site was not refreshed for an hour: double-click PUBLISH_NQ.bat.') }
+            if ($pAge -gt 3600 -and $trading) { Line 'SKIP' 'PUBLISH' ($pWhat + ': older than an hour'); $next += ,@('SKIP', 'The site was not refreshed for an hour: double-click tools\bat\PUBLISH_NQ.bat.') }
             else { Line 'OK' 'PUBLISH' $pWhat }
-        } else { Line 'SKIP' 'PUBLISH' ($pWhat + ' FAILED, the last good site stays up'); $next += ,@('SKIP', 'The last publish failed: double-click PUBLISH_NQ.bat and read its six lines.') }
+        } else { Line 'SKIP' 'PUBLISH' ($pWhat + ' FAILED, the last good site stays up'); $next += ,@('SKIP', 'The last publish failed: double-click tools\bat\PUBLISH_NQ.bat and read its six lines.') }
     }
 } catch { }
 

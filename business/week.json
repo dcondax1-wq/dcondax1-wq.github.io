@@ -1,16 +1,16 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-22 22:32 ET",
+ "built": "2026-11-23 16:56 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
-  "from": "2026-11-16",
-  "to": "2026-11-20",
-  "label": "Nov 16 - Nov 20",
-  "complete": true,
-  "sessions_done": 5
+  "from": "2026-11-23",
+  "to": "2026-11-27",
+  "label": "Nov 23 - Nov 27",
+  "complete": false,
+  "sessions_done": 1
  },
- "pc": "PC last reported Nov 22 22:29 ET",
+ "pc": "PC last reported Nov 23 16:45 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49213.9,
-   "src": "PC live, Nov 22 22:28 ET",
+   "src": "PC live, Nov 23 16:40 ET",
    "room": 1045.7,
    "to_pass": 3786.1,
    "trades": 0,
@@ -44,25 +44,22 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 22 22:28 ET",
+   "src": "PC live, Nov 23 16:40 ET",
    "room": 1000.0,
    "to_pass": null,
-   "trades": 2,
-   "win_pct": 50,
-   "usd_week": 401.38,
-   "best_day": {
-    "day": "2026-11-20",
-    "usd": 514.18
-   },
+   "trades": 0,
+   "win_pct": null,
+   "usd_week": 0,
+   "best_day": null,
    "strat": "ATLAS",
-   "start": 25000.0,
-   "wins": 1,
-   "losses": 1,
-   "r_week": 5.59,
-   "room_start": 598.62,
+   "start": 25401.38,
+   "wins": 0,
+   "losses": 0,
+   "r_week": null,
+   "room_start": 1000.0,
    "consistency": {
     "rule": "funded: best day at most 50% of the cycle profit",
-    "line": "best day 11-20 +$514 = 128% of the cycle profit (over 50%: payout waits for more days)."
+    "line": "No trading day this week."
    },
    "status_line": "Payout: Not yet: need $949 more."
   },
@@ -72,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 25000.0,
-   "src": "PC live, Nov 22 22:28 ET",
+   "src": "PC live, Nov 23 16:40 ET",
    "room": 1000.0,
    "to_pass": 1500.0,
    "trades": 0,
@@ -98,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25023.62,
-   "src": "PC live, Nov 22 22:28 ET",
+   "src": "PC live, Nov 23 16:40 ET",
    "room": 1000.0,
    "to_pass": 1476.38,
    "trades": 0,
@@ -136,18 +133,18 @@
     4.98
    ],
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
-   "exp_usd_week": 382.0,
+   "exp_usd_week": 76.0,
    "plan_usd_month": 1656.0,
-   "verdict": "behind",
-   "why": "0 trades (target 2-4)"
+   "verdict": "on track",
+   "why": "$0 vs about $76 expected"
   },
   {
    "name": "ATLAS",
-   "trades": 2,
+   "trades": 0,
    "target": "2-4 a week",
-   "pf": 4.56,
-   "usd": 401.38,
-   "win_pct": 50,
+   "pf": null,
+   "usd": 0,
+   "win_pct": null,
    "exp_tpw": [
     3.12,
     4.38
@@ -157,10 +154,10 @@
     2.75
    ],
    "exp_src": "edge_health.json (40-session medians, 2026)",
-   "exp_usd_week": 115.0,
+   "exp_usd_week": 23.0,
    "plan_usd_month": 500.0,
-   "verdict": "ahead",
-   "why": "+$401 vs about $115 expected"
+   "verdict": "on track",
+   "why": "$0 vs about $23 expected"
   }
  ],
  "light": {
@@ -168,37 +165,32 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 200,
+  "n": 65,
   "items": [
-   "Version bump for Research Hub v2",
-   "Research Hub v2: cities/hub.html, every study in one phone page (live now, waiting on you,...",
-   "Home: one-time card on iPhone Safari tabs that explains how to hide the browser bars (Add to Home...",
-   "Version bump + rebuilt Olympus map for the Trading Home landing",
-   "Data City: Research Brain door (full-width bar under the four city tiles), rebuilt brain data,...",
-   "Research Brain: giant 3D neuron brain of every finding (cities/brain.html), data builder, tests",
-   "Trading Home: one TRADE_HOME.bat menu, add-account with real prices, phone Today checklist",
-   "research: rank-and-rent vs pay-per-job priced for Maryland trades"
+   "Rebuild brain/hub/lab data after the orderflow merge",
+   "vault: rebuilt for this landing (tools/obsidian_brain.py)",
+   "Red team day-orderflow: keep real repeated prints (drop_duplicates erased same-ms trades:...",
+   "Order-flow program: 10 pro topics as testable rules, 6 pre-registered bar tests (0 pass), 3 tick...",
+   "Order-flow program: pre-register 6 bar-data tests (B1-B6) before the first run",
+   "goals_build with the live board (payplan dates)",
+   "Monday landing lead wires: sw v209 / shell v61, ship hub+lab checks, RUN_MONEY path, accents,...",
+   "Red team day-combo25: combo50k._write_switch renamed inside its open 'with' (Windows refuses: --on..."
   ]
  },
  "next": {
-  "from": "2026-11-23",
-  "to": "2026-11-27",
-  "news": [],
-  "holidays": [
+  "from": "2026-11-30",
+  "to": "2026-12-04",
+  "news": [
    {
-    "date": "2026-11-26",
-    "type": "early",
-    "what": "Early close 13:00 ET: the bot stops new trades 15 min before, flat 5 min before"
-   },
-   {
-    "date": "2026-11-27",
-    "type": "early",
-    "what": "Early close 13:15 ET: the bot stops new trades 15 min before, flat 5 min before"
+    "date": "2026-12-04",
+    "time": "08:30",
+    "what": "Non-Farm Payrolls (jobs report)"
    }
   ],
+  "holidays": [],
   "decisions": [
    "At the PC: STOP BOT, then START_BOT.bat, type I ACCEPT LIVE RISK; check 'Rapid EOD 25K ... armed'",
-   "At the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
+   "At the PC: make the GitHub repo olympus private, then double-click tools/bat/GITHUB_SIGNIN.bat",
    "Phone alerts from the phone: PC link + :8444/alerts/ - BotFather token - Paste - Connect - START (or ALERTS_SETUP.bat)",
    "Sunday before 6 PM: KEEPALIVE_ON.bat, type KEEP ALIVE ON (the 7-day rule on every MFFU account)",
    "Before ATLAS's first payout: free brokerage + Treasury fund for the tax pot; ask parents about HSA / dependent"
@@ -206,167 +198,68 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 1740.0,
-  "line": "On pace for $1,740 a month (estimate: this week's +$401 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
+  "usd_month": 0.0,
+  "line": "On pace for $0 a month (estimate: this week's $0 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
   "basis": "this week"
  },
  "twins": {
-  "to": "2026-11-19",
-  "days": [
-   "2026-11-16",
-   "2026-11-17",
-   "2026-11-18",
-   "2026-11-19"
-  ],
-  "bots": [
-   {
-    "name": "Zlarior",
-    "rows": [
-     {
-      "day": "2026-11-16",
-      "time": "06:16",
-      "side": "LONG",
-      "who": "LIT",
-      "twin_exit": "STOP",
-      "twin_r": -1.01,
-      "status": "missed",
-      "live_r": null,
-      "live_usd": null
-     }
-    ],
-    "n": {
-     "matched": 0,
-     "missed": 1,
-     "extra": 0,
-     "not live yet": 0
-    },
-    "twin_r": -1.01,
-    "live_r": 0,
-    "verdict": "differs from the twin",
-    "line": "twin 1 trades -1.01R, live 0 trades +0.00R; 1 missed."
-   },
-   {
-    "name": "ATLAS",
-    "rows": [
-     {
-      "day": "2026-11-17",
-      "time": "08:20",
-      "side": "SHORT",
-      "who": "EMA",
-      "twin_exit": "TARGET",
-      "twin_r": 6.87,
-      "status": "not live yet",
-      "live_r": null,
-      "live_usd": null
-     },
-     {
-      "day": "2026-11-17",
-      "time": "10:15",
-      "side": "LONG",
-      "who": "S/R",
-      "twin_exit": "STOP",
-      "twin_r": -1.02,
-      "status": "not live yet",
-      "live_r": null,
-      "live_usd": null
-     },
-     {
-      "day": "2026-11-18",
-      "time": "04:50",
-      "side": "SHORT",
-      "who": "MACD",
-      "twin_exit": "STOP",
-      "twin_r": -1.04,
-      "status": "matched",
-      "live_r": -1.04,
-      "live_usd": -112.8
-     }
-    ],
-    "n": {
-     "matched": 1,
-     "missed": 0,
-     "extra": 0,
-     "not live yet": 2
-    },
-    "twin_r": -1.04,
-    "live_r": -1.04,
-    "verdict": "same as the twin",
-    "line": "twin 3 trades -1.04R, live 1 trades -1.04R; 2 before the account was live."
-   }
-  ],
-  "note": "R only (the twin's $ is at the research size). Days after the cloud's last bars are not compared."
+  "to": "2026-11-20",
+  "bots": [],
+  "note": "no bars for this week yet"
  },
- "best": {
-  "acct": "atlas",
-  "bot": "ATLAS",
-  "day": "2026-11-20",
-  "time": "03:45",
-  "side": "SHORT",
-  "usd": 514.18,
-  "r": 6.63,
-  "exit": "TARGET",
-  "mfe_r": null,
-  "cause": "target",
-  "lesson": "Target hit: the plan did exactly what it should. Nothing to change."
- },
- "worst": {
-  "acct": "atlas",
-  "bot": "ATLAS",
-  "day": "2026-11-18",
-  "time": "04:50",
-  "side": "SHORT",
-  "usd": -112.8,
-  "r": -1.04,
-  "exit": "STOP",
-  "mfe_r": 0.99,
-  "cause": "wick",
-  "lesson": "Shaken out, then price went on to the target. The stop sits 1 tick past the sweep by rule; wider stops were tested and lose more. It happens; nothing to change."
- },
+ "best": null,
+ "worst": null,
  "kalshi": {
   "src": "PC status post (card)",
   "mode": "paper",
   "loss_used": 0.0,
   "loss_stop": 13.75,
-  "last": "LWW",
-  "bets_total": 3,
-  "won_pct": 67,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 3 bets LWW; 3 bets so far, 67% won."
+  "last": "LWWW",
+  "bets_total": 4,
+  "won_pct": 75,
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 4 bets LWWW; 4 bets so far, 75% won."
  },
  "calendar": [
   {
-   "date": "2026-11-23",
+   "date": "2026-11-30",
    "weekday": "Mon",
    "status": "open",
    "text": "normal day",
    "news": []
   },
   {
-   "date": "2026-11-24",
+   "date": "2026-12-01",
    "weekday": "Tue",
    "status": "open",
    "text": "normal day",
    "news": []
   },
   {
-   "date": "2026-11-25",
+   "date": "2026-12-02",
    "weekday": "Wed",
    "status": "open",
    "text": "normal day",
    "news": []
   },
   {
-   "date": "2026-11-26",
+   "date": "2026-12-03",
    "weekday": "Thu",
-   "status": "early",
-   "text": "Thanksgiving: the stock market is closed; NQ trades until 13:00 ET (early close): the bots stop new trades 15 min before, flat 5 min before",
+   "status": "open",
+   "text": "normal day",
    "news": []
   },
   {
-   "date": "2026-11-27",
+   "date": "2026-12-04",
    "weekday": "Fri",
-   "status": "early",
-   "text": "NQ trades until 13:15 ET (early close): the bots stop new trades 15 min before, flat 5 min before",
-   "news": []
+   "status": "open",
+   "text": "normal day",
+   "news": [
+    {
+     "time": "08:30",
+     "event": "Non-Farm Payrolls (jobs report)",
+     "tier": 1
+    }
+   ]
   }
  ],
  "weekend": [
@@ -377,27 +270,9 @@
    "src": "Decide card"
   },
   {
-   "id": "lucid-3-at-500-budget",
-   "question": "LucidPro 50K: add up to 3 on top of the Rapid EOD 50K + FundedNext 50K plan, and raise the monthly eval budget from $300 to $500?",
-   "usd_month": 2215.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "plan-fundednext50k-max2-rebuys",
-   "question": "FundedNext Rapid Daily 50K (~$150 with code RAPID): add one, with at most 2 re-buys (max $450 at risk)?",
-   "usd_month": 1546.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "copilot-test",
-   "question": "Big idea: run a free 30-day test of a 'Prop Slot Planner' page for other prop traders (faceless brand, no name), plus 1 short video a day?",
-   "usd_month": 600.0,
-   "src": "Decide card"
-  },
-  {
-   "id": "buy-rapid50-now",
-   "question": "Buy the 5th funded slot (Rapid EOD 50K, $165 with CLUB) now from your pocket, instead of waiting for ATLAS's first payout (about Jan 13)?",
-   "usd_month": 554.0,
+   "id": "fast-entry",
+   "question": "Fast entry: send Zlarior's and ATLAS's orders on the minute's first trade instead of waiting 2 seconds?",
+   "usd_month": 100.0,
    "src": "Decide card"
   }
  ],
@@ -405,6 +280,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 22 22:29 ET"
+  "board_pc": "Nov 23 16:45 ET"
  }
 }

@@ -215,6 +215,27 @@
   }
 
   // the top card: every account in one line each + open trades + the newest trades (which account)
+  // night-seedata 2026-11-23: the first screen says what a trader needs per account: $ to pass (an eval) / $ to the payout (funded)
+  function goalBit(a) {
+    if (a.target && a.target.left != null) return a.target.left > 0 ? ' · ' + usd(a.target.left) + ' to pass' : ' · target reached';
+    const c = a.payout && a.payout.coach;
+    if (c && c.request_today > 0) return ' · payout ready ' + usd(c.request_today);
+    if (c && c.need_more > 0) return ' · ' + usd(c.need_more) + ' to the payout';
+    return '';
+  }
+
+  // the next payout $ and date (business/payday.json: tools/money/payday_plan.py, 1,000 simulated runs, Jul-Oct-like market)
+  function nextPayout(pd) {
+    const acc = pd && pd.rows && pd.rows.H2 && pd.rows.H2.accounts;
+    if (!acc) return '';
+    const best = Object.values(acc).filter((x) => x && x.first_pay_med && x.first_pay_usd).sort((x, y) => String(x.first_pay_med).localeCompare(String(y.first_pay_med)))[0];
+    if (!best) return '';
+    const d = new Date(best.first_pay_med + 'T12:00:00');
+    const day = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return 'Next payout: ' + String(best.name || '').replace(/ \((eval|funded)\)/, '') + ' about ' + usd(best.first_pay_usd) + ' to you, most likely ' + day
+      + ' (an estimate from ' + (pd.date || 'the plan') + ', not a promise)';
+  }
+
   function nowCard(r, now) {
     const box = $('now'); box.textContent = '';
     box.appendChild(el('h2', null, 'Right now'));
@@ -227,12 +248,16 @@
       link.appendChild(el('span', 'mf-st ' + a.chip.cls, a.chip.text));
       const ln = (a.money.balance != null ? usd(a.money.balance, true) : 'no balance yet') + ' · today ' + sgn(a.money.today, true)
         + (a.position ? ' · ' + a.position.side + ' ' + a.position.qty + ' open' + (a.position.pnl_usd != null ? ' ' + sgn(a.position.pnl_usd, true) : '') : '')
+        + goalBit(a) + (a.money.room != null ? ' · room ' + usd(a.money.room) : '')
+        + (a.armed === true ? ' · armed' : a.armed === false ? ' · NOT armed' : '') + (a.running === false ? ' · bot OFF' : '')
         + ' · ' + watch(a.rules);
       link.appendChild(el('span', 'acct-line', ln));
       li.appendChild(link);
       ul.appendChild(li);
     }
     box.appendChild(ul);
+    const np = nextPayout(r.payday || (window.MFFU_PAGE && window.MFFU_PAGE.payday));
+    if (np) box.appendChild(el('p', 'mf-next', np));
     box.appendChild(el('p', 'mf-day', r.day.text));
     const known = r.feed.kind === 'live' || r.feed.kind === 'old';
     const h = el('h3', null, !known ? 'Open trades: unknown without the PC feed' : (r.open.length ? 'Open trades' : 'Open trades: none')

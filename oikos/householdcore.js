@@ -16,7 +16,7 @@ export function usd(v, sign) {
 }
 const EVERY = { week: 'a week', month: 'a month', quarter: 'a quarter', year: 'a year' };
 export const STALE_DAYS = 40;
-export const HOW = 'On the PC: put your bank\'s CSV / OFX export in the money inbox and run RUN_MONEY.bat (docs/CONNECT_MONEY.md). It reaches this phone only over your private link.';
+export const HOW = 'On the PC: put your bank\'s CSV / OFX export in the money inbox and run tools/bat/RUN_MONEY.bat (docs/CONNECT_MONEY.md). It reaches this phone only over your private link.';
 
 /** view(doc) -> { state: off | empty | stale | ok, pill, pillCls, lines, kpis: [{label, value, cls}], cats: [{name, usd, frac}], subs: [{name, usd, every, next}],
  *  leaks: [{title, usd_month, detail}], notes } */

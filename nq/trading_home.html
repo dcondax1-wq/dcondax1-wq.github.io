@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Trading Home</title>
-<meta name="description" content="Trading Home: today's 5-line checklist for the PC (bot, keep-alive, alerts, accounts armed, next step in dollars).">
+<meta name="description" content="Trading Home: today's 5-line checklist for the PC (bot, keep-alive, alerts, accounts armed, next step in dollars) and one line per account.">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,6 +31,15 @@ li.row.no{border-color:var(--line2);box-shadow:0 0 14px rgba(157,89,238,.30)}
 .no .say{color:#e9ddff}
 .menu{grid-column:2;color:var(--gold);font-weight:700;font-size:14px}
 button.tick{grid-column:2;justify-self:start;min-height:44px;border-radius:12px;border:1px solid var(--line2);background:#241a36;color:var(--fg);font-size:15px;font-weight:700;padding:0 16px;box-shadow:0 0 12px rgba(157,89,238,.35)}
+li.row.gold{border-color:#f1c14b;box-shadow:0 0 14px rgba(241,193,75,.35)}
+li.row.mint .t{color:#77db89}
+li.row.gold .t{color:#f1c14b}
+h2{font-size:16px;margin:18px 0 8px;color:var(--gold);letter-spacing:.3px}
+li.acct{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 8px;box-shadow:0 0 10px rgba(157,89,238,.18)}
+li.acct.ok{box-shadow:0 0 12px rgba(119,219,137,.15)}
+li.acct .an{font-weight:700;font-size:15px}
+li.acct .as{font-size:14px;color:var(--fg);overflow-wrap:anywhere}
+li.acct.no .an{color:var(--gold)}
 .foot{color:var(--mut);font-size:13px;margin-top:10px}
 a{color:var(--gold)}
 </style>
@@ -40,6 +49,8 @@ a{color:var(--gold)}
 <h1>Trading Home</h1>
 <p class="sub"><span class="pill" id="left">loading...</span> <span id="age"></span></p>
 <ul id="rows"></ul>
+<h2 id="acctsh" hidden>Accounts</h2>
+<ul id="accts"></ul>
 <p class="foot">Reads the PC's public report only. Nothing here arms or trades. On the PC, double-click <b>TRADE_HOME</b> and press the number shown.</p>
 <p class="foot"><a href="index.html">NQ bots</a> &middot; <a href="../add-account/">Add an account</a> (your private PC link)</p>
 </main>
@@ -54,7 +65,7 @@ a{color:var(--gold)}
     var res = window.TRADING_HOME.today(lite, { alertsOkAt: ls(true), mffuView: window.PC_FEED && window.PC_FEED.mffuView });
     var ul = document.getElementById('rows'); ul.textContent = '';
     res.lines.forEach(function (l) {
-      var li = document.createElement('li'); li.className = 'row ' + (l.ok === true ? 'ok' : 'no'); li.setAttribute('data-id', l.id);
+      var li = document.createElement('li'); li.className = 'row ' + (l.ok === true ? 'ok' : 'no') + (l.tone ? ' ' + l.tone : ''); li.setAttribute('data-id', l.id);
       var b = document.createElement('div'); b.className = 'box'; b.textContent = l.ok === true ? '✓' : '•'; b.setAttribute('aria-label', l.ok === true ? 'done' : 'to do');
       var t = document.createElement('div'); t.className = 't'; t.textContent = l.title;
       var s = document.createElement('div'); s.className = 'say'; s.textContent = l.say;
@@ -67,6 +78,14 @@ a{color:var(--gold)}
       }
       ul.appendChild(li);
     });
+    var ua = document.getElementById('accts'); ua.textContent = '';
+    (res.accounts || []).forEach(function (a) {   // one line per account: armed / running, room $, today $, next window
+      var li = document.createElement('li'); li.className = 'acct ' + (a.ok === true ? 'ok' : 'no'); li.setAttribute('data-id', a.id);
+      var n = document.createElement('div'); n.className = 'an'; n.textContent = a.title;
+      var t = document.createElement('div'); t.className = 'as'; t.textContent = a.say;
+      li.appendChild(n); li.appendChild(t); ua.appendChild(li);
+    });
+    document.getElementById('acctsh').hidden = !(res.accounts || []).length;
     document.getElementById('left').textContent = res.left ? res.left + ' to do' : 'All done';
     document.getElementById('age').textContent = res.age == null ? 'No PC report' : 'PC reported ' + window.TRADING_HOME.ageText(res.age) + ' ago';
   }

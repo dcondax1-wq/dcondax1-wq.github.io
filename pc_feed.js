@@ -466,7 +466,7 @@
       if (coach && typeof coach.coach === 'function') {
         const row = mf.find((r) => isObj(r) && r.id === id), f = row && isObj(row.f) ? row.f : null, n = (v) => (v != null && v !== '' && okN(+v) ? +v : null), bal = +card.balance;
         const st = { balance: bal, cycle_start_balance: f && n(f.cp) != null ? r2(bal - n(f.cp)) : null, best_day: f ? n(f.bd) : null, cycle_days: f ? n(f.cd) : null,
-          payouts_n: f ? n(f.pn) : null, eligible_from: f && f.ef ? f.ef : null, room: n(card.room) };
+          payouts_n: f ? n(f.pn) : null, eligible_from: f && f.ef ? f.ef : null, room: n(card.room), first_at_min: !!(f && f.fm) };   // night-payfirst
         try { c = coach.coach(st, /50K/i.test(String(card.plan || '')) || +card.mll >= 2000 ? 'builder50k' : 'builder25k', today || etParts(Date.now() / 1000).day); } catch (e) { c = null; }
       }
       const acc = (Array.isArray(accounts) ? accounts : []).find((a) => isObj(a) && a.id === id);

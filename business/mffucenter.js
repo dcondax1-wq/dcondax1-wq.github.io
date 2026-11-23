@@ -286,6 +286,10 @@
     out.start_date = base.start_date ? base.start_date.v : null;
     // ---- the payout (sim funded): the coach (payoutcoach.js = engine/payout_coach.py) + MFFU's checklist
     out.payout = funded && R && R.family === 'builder' ? payoutOf(base, R, f, out, ctx) : null;
+    // night-seedata 2026-11-23 (owner: "seeing my data is hard"): armed / running from the live row the PC posted (badge LIVE = armed
+    // with the owner's phrase; anything else = held); null = the phone cannot tell (no live row)
+    out.armed = l && l.badge ? String(l.badge).toUpperCase() === 'LIVE' : null;
+    out.running = l && l.running != null ? !!l.running : null;
     out.rules = rulesOf(out, R, ctx, feed, now);
     return out;
   }

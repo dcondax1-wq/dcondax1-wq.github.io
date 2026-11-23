@@ -2,7 +2,7 @@
   "_about": "Business -> More work (2026-11-17, owner: 'find more work'). Ways to make money next to the bots, ranked. The research and every source: research/writeups/more-work-2026-11-17.md. Dollar figures are beginner ESTIMATES from mostly vendor and review blogs, not promises. work.js draws this with textContent only.",
   "updated": "2026-11-17",
   "first": [
-    "Today, 10 min on the PC: put your agency name, phone, email, postal address and city in agency/config.json, then double-click AGENCY_DAY.bat. You get today's leads, demo sites and every script.",
+    "Today, 10 min on the PC: put your agency name, phone, email, postal address and city in agency/config.json, then double-click tools/bat/AGENCY_DAY.bat. You get today's leads, demo sites and every script.",
     "Tomorrow, 2-4 pm: 10 calls and 5 walk-ins with the short scripts below. Anyone who says 'we already have a website' gets the $149 Google profile fix offer.",
     "Only if you need cash in the next 2 weeks: sign up for DoorDash as a floor. Otherwise put those hours into the agency: it pays far more per hour once it sells."
   ],
@@ -14,7 +14,7 @@
       "claude": "Finds the leads, builds a demo site before you call, writes the pitch, the email and the final site.",
       "why": "17% of US small businesses still have no website. A one-page site from a freelancer costs $500-$1,500, so $1,500 is a fair price (and $149 a month with nothing upfront is an easy yes). Crowded online, far less in person in your own town. The call rates are guesses until you count your own.",
       "niche": "Tip: pick one trade for a month (roofers, HVAC, plumbers, dentists, auto repair). They earn more per job, so the Call engine ($500 + $299 a month) fits them, and one script fits all of them.",
-      "steps": ["Fill agency/config.json, run AGENCY_DAY.bat", "15 contacts a weekday: 10 calls, 5 walk-ins or DMs", "Follow up once after 2-3 days, then stop"]
+      "steps": ["Fill agency/config.json, run tools/bat/AGENCY_DAY.bat", "15 contacts a weekday: 10 calls, 5 walk-ins or DMs", "Follow up once after 2-3 days, then stop"]
     },
     {
       "rank": 2, "name": "Google Business Profile setup and fix", "verdict": "legit",

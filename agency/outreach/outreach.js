@@ -193,7 +193,7 @@ async function drawAuto() {
   let a = null;
   try { const lite = F && F.fetchLatest ? await F.fetchLatest({ feedUrl: '../../status_feed.json' }) : null; a = C.parseCard(lite && lite.am); } catch (_) { a = null; }
   const st = $('autoState');
-  if (!a) { st.textContent = 'Off, or the PC has not reported today. To turn it on: EMAIL_SETUP.bat on the PC (it stays off until you type SEND EMAILS).'; autoTiles(null); return; }
+  if (!a) { st.textContent = 'Off, or the PC has not reported today. To turn it on: tools/bat/EMAIL_SETUP.bat on the PC (it stays off until you type SEND EMAILS).'; autoTiles(null); return; }
   const ago = Math.max(0, Math.round((Date.now() / 1000 - a.t) / 60));
   st.textContent = (a.mode === 'live' ? 'ON: emailing businesses' : a.mode === 'dry' ? 'DRY RUN: test emails to you only' : 'OFF') + ` · ${ago < 90 ? ago + ' min' : Math.round(ago / 60) + ' h'} ago`;
   autoTiles(a); box.dataset.mode = a.mode;

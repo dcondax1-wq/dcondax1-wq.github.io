@@ -160,7 +160,7 @@ export function advice(m) {
   const crit = A.filter((a) => a.room != null && a.room / a.mll < 0.25);
   const done = A.filter((a) => a.stage === 'eval' && (a.progress >= 1 || a.toTarget === 0));
   if (m.connected === false || (m.ageMin != null && m.ageMin > 30)) {
-    return { level: 'warn', title: 'Check the PC', why: `The bot has not reported for ${m.ageMin != null ? Math.round(m.ageMin) + ' minutes' : 'a while'}. It may be off or offline. Orders already placed stay protected by their stops.`, doNow: 'Open the PC, look at STATUS.bat, and tell me if it is red.' };
+    return { level: 'warn', title: 'Check the PC', why: `The bot has not reported for ${m.ageMin != null ? Math.round(m.ageMin) + ' minutes' : 'a while'}. It may be off or offline. Orders already placed stay protected by their stops.`, doNow: 'Open the PC, look at tools/bat/STATUS.bat, and tell me if it is red.' };
   }
   if (crit.length) {
     const a = crit[0];

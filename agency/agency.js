@@ -167,13 +167,13 @@ async function boot() {
   const [fx, mine, sample] = await Promise.all([getJSON('./fixture.json'), forced || /github\.io$/.test(location.hostname) ? null : getJSON('./my_leads.json'), forced ? null : getJSON('./leads.json')]);
   let D = C.normData(mine) || C.normData(sample);
   if (D && !D.demo) S.demo = false; else { S.demo = true; D = C.normData(fx); }
-  if (!D) { say('No leads yet: run the website machine on the PC (RUN_AGENCY.bat).'); S.ready = true; return; }
+  if (!D) { say('No leads yet: run the website machine on the PC (tools/bat/RUN_AGENCY.bat).'); S.ready = true; return; }
   S.data = D;
   S.state = loadState();
   const want = q.get('lead'); S.pick = want && D.leads.some((l) => l.id === want) ? want : '';
   const sn = $('sampleNote'); sn.hidden = !(D.sample || S.demo);
   if (S.demo) sn.textContent = (fx && fx.note) || 'EXAMPLE leads, not real.';
-  else if (D.sample) sn.textContent = `These are real ${D.city} businesses from the demo run, not your city yet: put your city in agency/config.json and run RUN_AGENCY.bat.`;
+  else if (D.sample) sn.textContent = `These are real ${D.city} businesses from the demo run, not your city yet: put your city in agency/config.json and run tools/bat/RUN_AGENCY.bat.`;
   bind(); render();
 }
 window.AGENCY = { S, C, ready: () => S.ready, render };

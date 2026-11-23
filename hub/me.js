@@ -18,21 +18,21 @@
     ['car', 'Car', 'Oil change, registration, mileage'], ['streaks', 'Streaks', 'Days in a row, counted for you']];
   /* how to connect each part, in one line (the same words as tools/me_hub.py CONNECT; the test keeps them equal) */
   var CONNECT = {
-    money: 'On the PC: put a bank or card CSV in %USERPROFILE%\\.olympus\\money_inbox\\ and double-click RUN_MONEY.bat (docs/CONNECT_MONEY.md)',
+    money: 'On the PC: put a bank or card CSV in %USERPROFILE%\\.olympus\\money_inbox\\ and double-click tools/bat/RUN_MONEY.bat (docs/CONNECT_MONEY.md)',
     cards: 'On the PC: python tools\\me_cards.py --add (a nickname, the limit and the due day; never the card number)',
     health: "Make the iPhone Shortcut 'Health to PC' (docs/ME_HUB.md, 5 minutes, no app); it runs each evening",
-    home: 'Nothing to type: it runs with the PC report every 15 minutes once this PC has the update (BOTS_BACK.bat set that up)',
-    freedom: 'Import your bank exports (RUN_MONEY.bat) or type your pay on the PC: python tools\\me_life.py --paycheck 3200',
-    dates: 'On the PC: python tools\\me_life.py --date "Mom\'s birthday=03-14" (calendars connected with CONNECT_DAY.bat count too)',
+    home: 'Nothing to type: it runs with the PC report every 15 minutes once this PC has the update (tools/bat/BOTS_BACK.bat set that up)',
+    freedom: 'Import your bank exports (tools/bat/RUN_MONEY.bat) or type your pay on the PC: python tools\\me_life.py --paycheck 3200',
+    dates: 'On the PC: python tools\\me_life.py --date "Mom\'s birthday=03-14" (calendars connected with tools/bat/CONNECT_DAY.bat count too)',
     car: 'On the PC: python tools\\me_life.py --car-miles 48210 --car-date registration=2027-03-31',
     streaks: "Counted for you once the Apple Watch days arrive (the 'Health to PC' Shortcut)"
   };
   var TILES = [['money', 'Money left this month', 'Bank exports', 'money'], ['health', 'Health today', 'Apple Watch', 'health'], ['home', 'Home', 'PC checks', 'home'],
     ['date', 'Next important date', 'Your dates + calendars', 'dates']];
   /* an empty tile says how in a few words (a half-width tile); its area below holds the exact line (CONNECT), one tap away */
-  var SHORT = { money: 'A bank CSV + RUN_MONEY.bat on the PC', health: "The 'Health to PC' Shortcut, 5 minutes", home: 'Runs on the PC by itself',
+  var SHORT = { money: 'A bank CSV + tools/bat/RUN_MONEY.bat on the PC', health: "The 'Health to PC' Shortcut, 5 minutes", home: 'Runs on the PC by itself',
     dates: 'Type a date on the PC, or link a calendar' };
-  var LINK = 'Your numbers show only through your PC\'s own link: on the PC double-click LIVE_LINK.bat, then open Me from that link (docs/ME_HUB.md).';
+  var LINK = 'Your numbers show only through your PC\'s own link: on the PC double-click tools/bat/LIVE_LINK.bat, then open Me from that link (docs/ME_HUB.md).';
   var LV = { ok: 1, warn: 1, bad: 1 };
 
   function obj(x) { return x && typeof x === 'object' && !(x instanceof Array) ? x : {}; }

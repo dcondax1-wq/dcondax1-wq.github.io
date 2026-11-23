@@ -151,7 +151,7 @@ export function plan(bot, brief, news, nowS) {
   for (const w of wins) w.state = weekend ? 'closed' : mod >= w.fm && mod < w.tm ? 'open' : mod < w.fm ? 'later' : 'over';
   const nx = wins.filter((w) => w.state === 'later').sort((a, b) => a.fm - b.fm)[0];
   const today = p.day, ev = arr(isObj(news) ? news.events : null).filter((e) => isObj(e) && e.date === today);
-  const early = isObj(brief) && brief.early_close ? `Early close today: ${str(brief.early_close, 80)}` : '';
+  const early = isObj(brief) && brief.early_close ? `Half day: closes ${str(brief.early_close, 80)} ET` : '';
   return { windows: wins, open: wins.some((w) => w.state === 'open'), next: nx ? { who: nx.who, at: nx.from, inMin: nx.fm - mod } : null,
     countdown: weekend ? 'Weekend: the next window is Monday' : nx ? `${nx.who} opens at ${nx.from} ET (in ${nx.fm - mod >= 60 ? Math.floor((nx.fm - mod) / 60) + ' h ' : ''}${(nx.fm - mod) % 60} min)` : wins.some((w) => w.state === 'open') ? 'A window is open now' : 'Today\'s windows are over',
     news: ev.map((e) => ({ time: str(e.time, 5), title: str(e.title, 80), past: toM(e.time) !== null && toM(e.time) < mod })), early, clock: clock(nowS) };
@@ -185,11 +185,30 @@ export function thoughts(g, lite, bot) {
   return rows.slice(0, 8).map(([hm, t]) => ({ hm: str(hm, 5), text: str(t, 220) })).reverse();
 }
 
+// audit E3 (2026-11-22): the core post's "ar" = {glance bot id: [on 1/0, armed 1/0]} rides EVERY 15-minute post (the glance rides the ext,
+// up to 44 min old): preferred when present; without it (an older PC) the glance as before. Desk account keys -> PC ids (= nq.js EQ_IDS).
+const AR_IDS = { zlarior: ['lit', 'mffu50k_eval'], fresh25: ['b25k_2'], atlas: ['atlas', 'acct_b'], rapid1: ['rapid'] };
+export function arOf(lite, ids) {
+  const ar = isObj(lite) && isObj(lite.ar) ? lite.ar : null;
+  if (!ar) return null;
+  for (const id of arr(Array.isArray(ids) ? ids : [ids])) if (Array.isArray(ar[id]) && ar[id].length >= 2) return { on: !!ar[id][0], armed: !!ar[id][1] };
+  return null;
+}
+/** on / armed of a desk account: the core's "ar", else its glance row (b25k_2 / Rapid once the PC sends them), else null */
+export function accountArmed(lite, key) {
+  const ids = AR_IDS[key] || [key], a = arOf(lite, ids);
+  if (a) return a;
+  const pc = isObj(lite) && isObj(lite.pc) ? lite.pc : {};
+  const g = arr(isObj(pc.glance) ? pc.glance.bots : null).find((x) => isObj(x) && ids.includes(x.id));
+  return g ? { on: !!g.on, armed: !!g.armed } : null;
+}
+
 /** the whole brain of one bot. src = { lite, home, biz, goals, brief, news, edge, file } */
 export function brain(bot, src, nowS) {
   const S = isObj(src) ? src : {}, lite = isObj(S.lite) ? S.lite : null, pc = lite && isObj(lite.pc) ? lite.pc : {};
   const g = arr(isObj(pc.glance) ? pc.glance.bots : null).find((x) => isObj(x) && x.id === bot) || null;
   const pcStopped = pc.running === false || String(pc.adapter || '').toLowerCase() === 'paper';
+  const ar = arOf(lite, bot), isOn = ar ? ar.on : !!(g && g.on), isArmed = ar ? ar.armed : !!(g && g.armed);
   const home = S.home || {}, A = deskAccounts(home, S.biz, nowS, null);
   const mine = A.filter((a) => (bot === 'lit' ? ['zlarior', 'fresh25', 'rapid1'] : ['atlas', 'rapid1']).includes(a.key));
   const st = steps(bot, g, nowS, pcStopped), cur = st.find((x) => x.state === 'now') || null;
@@ -204,19 +223,21 @@ export function brain(bot, src, nowS) {
       why: s.state === 'now' ? str((g && g.why) || s.help, 300) : s.help, change: nextHelp ? `What moves it on: ${nextHelp}` : 'Tomorrow starts a new map at 18:00 ET.' };
   }
   return {
-    bot, name: g ? str(g.name, 30) : bot === 'lit' ? 'Zlarior' : 'ATLAS', what: g ? str(g.what, 80) : '', mode: g ? str(g.mode, 40) : '', on: !!(g && g.on), armed: !!(g && g.armed),
+    bot, name: g ? str(g.name, 30) : bot === 'lit' ? 'Zlarior' : 'ATLAS', what: g ? str(g.what, 80) : '', mode: g ? str(g.mode, 40) : '', on: isOn, armed: isArmed, nar: g && g.nar ? str(g.nar, 110) : '',
     has: !!g, stopped: pcStopped, steps: st, current: cur,
     regions: bot === 'lit' ? st.map((s) => ({ id: s.key, label: s.label, state: s.state })) : ATLAS_LOBES.map((L) => ({ id: L.id, label: L.name, state: lobeState(g, L).state, text: lobeState(g, L).text })),
     thoughts: thoughts(g, lite, bot),
     watch: watch(g, bot, last), memory: memory(bot, lite, S.file, S.edge, lite && lite.zl), grade: grade(g), plan: plan(bot, S.brief, S.news, nowS),
     risk: risk(bot, g, lite, mine[0] || null, nowS),
-    accounts: mine.map((a) => ({ key: a.key, name: a.name, stage: a.stage, balance: a.balance, room: a.room, dot: a.dot, ageText: a.ageText })),
+    accounts: mine.map((a) => { const x = accountArmed(lite, a.key);
+      return { key: a.key, name: a.name, stage: a.stage, balance: a.balance, room: a.room, dot: a.dot, ageText: a.ageText, ...(x ? { on: x.on, armed: x.armed } : {}) }; }),
     payout: pay ? { frac: pay.frac, big: pay.big, unit: pay.unit, goal: pay.goal, when: pay.when, lines: pay.lines } : null,
     health: [
       { k: 'pc', label: 'PC report', level: fa.report === null ? 'bad' : ageLevel(fa.report, 'pc'), value: fa.report === null ? 'no report' : updated(fa.report) },
       { k: 'brain', label: 'Brain glance', level: gAge === null ? 'warn' : ageLevel(gAge, 'pc'), value: gAge === null ? 'not sent' : updated(gAge) },
       { k: 'nt', label: 'NinjaTrader', level: pc.adapter === 'ninjatrader' ? 'ok' : pc.adapter ? 'warn' : 'unknown', value: pc.adapter ? str(pc.adapter, 20) : 'unknown' },
-      { k: 'run', label: 'Bot', level: pcStopped ? 'bad' : g && g.armed ? 'ok' : g && g.on ? 'warn' : 'unknown', value: pcStopped ? 'STOPPED (paper numbers)' : g ? (g.armed ? 'armed, live' : g.on ? 'on, not armed' : 'off') : 'no glance' },
+      { k: 'run', label: 'Bot', level: pcStopped ? 'bad' : (g || ar) && isArmed ? 'ok' : (g || ar) && isOn ? 'warn' : 'unknown',
+        value: pcStopped ? 'STOPPED (paper numbers)' : g || ar ? (isArmed ? 'armed, live' : isOn ? (g && g.nar ? str(g.nar, 110) : 'on, not armed') : 'off') : 'no glance' },
     ],
     replay: replay(bot, lite, st, nowS),
     cards,

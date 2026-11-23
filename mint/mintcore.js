@@ -74,7 +74,7 @@ const RISK_W = { low: 1, med: 0.75, high: 0.5 };
 export function todo(streams, max) {
   const cap = Math.min(3, max || 3), out = [];
   const stale = streams.filter((s) => s.status === 'stale');
-  if (stale.length) out.push({ kind: 'refresh', stream: stale[0].id, title: `Refresh ${stale.map((s) => s.name).join(' and ')}`, why: `Data is ${ageText(stale[0].age)}. Double-click RUN_MONEY.bat on the PC, then reopen this page.`, usd: null, risk: 'low' });
+  if (stale.length) out.push({ kind: 'refresh', stream: stale[0].id, title: `Refresh ${stale.map((s) => s.name).join(' and ')}`, why: `Data is ${ageText(stale[0].age)}. Double-click tools/bat/RUN_MONEY.bat on the PC, then reopen this page.`, usd: null, risk: 'low' });
   const pool = [];
   for (const s of streams) { for (const i of s.items) { const w = i.score * (RISK_W[i.risk] || 0.75) + Math.min(10, (i.usd || 0) / 10); if (i.score >= 40) pool.push({ w, kind: 'task', stream: s.id, title: i.title, why: i.detail, usd: i.usd, risk: i.risk, sample: s.status === 'sample' }); } }
   pool.sort((a, b) => b.w - a.w);

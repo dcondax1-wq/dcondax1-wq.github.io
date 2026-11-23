@@ -256,7 +256,7 @@
     if (R.done.length) {
       const d = el('details', 'dc-donebox'); d.appendChild(el('summary', null, 'Done (' + R.done.length + ')'));
       for (const r of R.done) {
-        const g = r.got, said = g ? 'You said ' + WORD[g.answer] + (g.t ? ' (' + ET(g.t) + ')' : '') : 'Closed: ' + String(r.item.status || 'done');
+        const g = r.got, said = g ? 'You said ' + WORD[g.answer] + (g.t ? ' (' + ET(g.t) + ')' : '') : ({ superseded: 'Merged / replaced', waiting: 'Waiting' }[r.item.status] || 'Closed: ' + String(r.item.status || 'done'));
         const p = el('p', 'dc-done'); p.appendChild(el('b', null, r.item.question)); p.appendChild(document.createTextNode(' ' + said + (r.item.closed_note ? '. ' + r.item.closed_note : '.')));
         d.appendChild(p);
       }

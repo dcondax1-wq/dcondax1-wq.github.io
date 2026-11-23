@@ -156,7 +156,7 @@ export function verdict(S, nowIn) {
   else {
     const ag = agesOf(h, now / 1000), pc = obj(obj(h.live).pc), b = boardOf(S);
     if (ag.pc.t == null) { v = worse(v, 'CAREFUL'); why.push('No report from the PC yet: I cannot tell whether the bot is running.'); }
-    else if (ag.stale) { v = worse(v, 'SIT OUT'); why.push(`The bot's last report is ${ag.pc.words} old: check the PC (STATUS.bat) before any trade.`); }
+    else if (ag.stale) { v = worse(v, 'SIT OUT'); why.push(`The bot's last report is ${ag.pc.words} old: check the PC (tools/bat/STATUS.bat) before any trade.`); }
     else if (ag.silent && wk && p.mod >= WIN_OPEN - 30 && p.mod < WIN_LAST) { v = worse(v, 'CAREFUL'); why.push(`The PC has been quiet for ${ag.pc.words} during trading hours: make sure the bot is running.`); }
     else why.push(`Bot reported ${ag.pc.words} ago${pc.running === false || b.running === false ? ', but it says it is stopped' : ''}.`);
     if ((pc.running === false || b.running === false) && !ag.stale) { v = worse(v, 'CAREFUL'); }

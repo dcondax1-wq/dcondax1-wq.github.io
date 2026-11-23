@@ -1,8 +1,8 @@
 {
  "v": 1,
  "name": "Ergasterion lessons",
- "asof": "2026-11-22",
- "say": "This week we wrote down 48 lessons. The strongest (2 files agree): Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real Ni… What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
+ "asof": "2026-11-23",
+ "say": "This week we wrote down 50 lessons. The strongest (2 files agree): Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real Ni… What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
  "week": [
   {
    "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
@@ -65,21 +65,21 @@
    ]
   },
   {
-   "text": "Without ATLAS's 5 best Jul-Oct days the Jul-Oct gain is +$114 (SE $136) = about $0.",
-   "cat": "NQ strategy",
-   "d": "2026-11-22",
+   "text": "Tested and rejected: Popular classic strategies (2026-11-23, popular-classic-2026-11-23.md, tools/popular_classic.py, research/lab/popular_classic.json):",
+   "cat": "process",
+   "d": "2026-11-23",
    "strength": 1,
    "sources": [
-    "research/writeups/one-account-book-2026-11-22.md"
+    "docs/TESTED_AND_REJECTED.md"
    ]
   },
   {
-   "text": "The gamma day-type switch (negative gamma = trend, positive gamma = fade) fails in both 2026 halves and 2021-24.",
+   "text": "On a 5m bar-shape proxy of delta, none of the three proxy-testable setups holds in all of 2021-25, 2026 H1 and 2026 H2, so nothing changes in the live strategy.",
    "cat": "process",
-   "d": "2026-11-22",
+   "d": "2026-11-23",
    "strength": 1,
    "sources": [
-    "research/writeups/edge-b-cross-2026-11-22.md"
+    "research/writeups/orderflow-2026-11-23.md"
    ]
   }
  ],
@@ -212,10 +212,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 43,
+  "NQ strategy": 41,
   "Kalshi": 2,
   "money": 2,
-  "process": 13,
+  "process": 15,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

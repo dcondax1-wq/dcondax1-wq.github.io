@@ -76,7 +76,14 @@
       }
       if (live.stage === 'funded') rows.push(['Payout', pay || 'Funded: the payout coach above has the numbers']);
       if (live.room != null) rows.push(['Room left', usd(live.room) + ' of ' + usd(mll) + ' (lose it all = account ends)']);
-      if (live.balance != null) rows.push(['Balance', usd(live.balance)]);
+      // audit E2 (2026-11-22): a sim-FUNDED account the way MFFU shows it: from $0, balance = profit (ATLAS $401, not $25,401) + the
+      // need to the max payout; without PC_FEED.mffuView the raw balance as before
+      const mv = live.stage === 'funded' && live.balance != null && window.PC_FEED && typeof window.PC_FEED.mffuView === 'function'
+        ? window.PC_FEED.mffuView({ kind: 'funded', plan: a.plan, name: a.name, balance: live.balance, room: live.room, floor: live.floor }) : null;
+      if (mv && mv.balance != null) {
+        rows.push(['Balance (MFFU, from $0)', usd(mv.balance)]);
+        if (mv.goal && mv.goal.need != null) rows.push(['To the max payout', mv.goal.ready ? 'ready: ask ' + usd(mv.goal.ask) : usd(mv.goal.need) + ' more, then ask ' + usd(mv.goal.ask)]);
+      } else if (live.balance != null) rows.push(['Balance', usd(live.balance)]);
       if (live.today != null) rows.push(['Today', usd(live.today)]);
       if (live.session != null) rows.push(['Trading day', '#' + String(live.session)]);
     }
@@ -119,5 +126,6 @@
     $('status').textContent = src === 'pc' ? 'Live numbers from your PC, ' + (age < 1 ? 'just now' : age + ' min ago') + '.'
       : src === 'site' ? 'Numbers from the last site update. Your PC has not reported here yet.' : 'Plan only. No live numbers yet.';
   }
+  if (typeof window !== 'undefined') window.ACCOUNTS_PAGE = { card };   // tests (tests/test_state_pulse.py: the $0 funded row)
   main();
 })();

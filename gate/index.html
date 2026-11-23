@@ -24,7 +24,7 @@
      A hub page (hub/?h=<id>) has one tab per job; each tab shows the best app for it first, the others below, duplicates folded under "Other views of the same".
      Every old app URL still works. Works at gate/ AND copied to the site root as olympus-live.html: the line below finds the site root (GATE_BASE).
      Read only: it reads home.json (through olympus/truth.js), kalshi.json, money/scoreboard.json, two status cards and the Planner's summary on this phone; it sends nothing.
-     Served from the PC (/site/, LIVE_LINK.bat) it also reads the bot's /api/site/live.json through ../pc_feed.js, every minute. -->
+     Served from the PC (/site/, tools/bat/LIVE_LINK.bat) it also reads the bot's /api/site/live.json through ../pc_feed.js, every minute. -->
 <style>html, body { background: var(--oly-th-n3, #14110e); color: var(--oly-th-n37, #f3ece0); margin: 0; }</style>
 <script>/* the OLYMPUS look from the first frame (olympus/themes.js FIRST PAINT: the look this page gets, from the engine's copy) */
 (function (P, W) { try {
@@ -60,11 +60,11 @@
     if (!again) localStorage.setItem('oly.homefx.day', dk);
   } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n7', 'olympus/gate-catalog.js?v=nv12', 'olympus/hub-status.js?v=h4', 'age.js?v=1', 'business/payoutcoach.js?v=2', 'gate/gate.js?v=g20', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n8', 'olympus/gate-catalog.js?v=nv12', 'olympus/hub-status.js?v=h5', 'age.js?v=1', 'business/payoutcoach.js?v=4', 'gate/gate.js?v=g22', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
-  var d = document, s = d.createElement('script'); s.src = (window.GATE_BASE || '') + 'gate/launch.js?v=l1'; s.async = false; (d.head || d.documentElement).appendChild(s);
+  var d = document, s = d.createElement('script'); s.src = (window.GATE_BASE || '') + 'gate/launch.js?v=l2'; s.async = false; (d.head || d.documentElement).appendChild(s);
 })();</script>
 </head>
 <body>
@@ -197,7 +197,7 @@
 <script>(function () { /* NAV FX (2026-11-20, owner: "3D, effects, no gold"): glass icons, aurora, tilt, roll-ups; loaded after the first paint */
   var b = window.GATE_BASE || '', d = document;
   var s = d.createElement('script'); s.src = b + 'hub/navfx.js?v=2'; s.defer = true; d.body.appendChild(s);
-  var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=4'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
+  var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=6'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
   var dl = d.createElement('link'); dl.rel = 'stylesheet'; dl.href = b + 'olympus/dashfx.css?v=d1'; d.head.appendChild(dl);
   var dx = d.createElement('script'); dx.src = b + 'olympus/dashfx.js?v=d1'; dx.defer = true; d.body.appendChild(dx);   /* DESIGN's glass on the arenas */
 })();</script>

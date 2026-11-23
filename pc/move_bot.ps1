@@ -2,21 +2,21 @@
 MOVE THE BOT to another PC (owner 2026-11-01: run the bots on the main PC instead of the Surface). Two PCs must never run
 the bot on the same accounts (double orders), so the old PC is retired in the same step that packs its state.
 
-OLD PC (the Surface), double-click MOVE_BOT.bat, choose 1 = "pack and retire this PC":
+OLD PC (the Surface), double-click tools\bat\MOVE_BOT.bat, choose 1 = "pack and retire this PC":
   - refuses on weekdays 01:15-16:05 ET (the bot may be trading); do it after the close
   - stops the bot (scripts\stop_bot.ps1: the server, the supervisor, auto-start cleared)
   - turns auto-resume off (python -m engine.ninjatrader --disable-auto-resume)
   - removes the start-at-logon tasks (LiquidityEngine, LiquidityEngineOps) and the LE START Startup shortcut
   - packs the bot's own state: data\ (accounts, eval anchor, ledgers, journal, bar archive, auto-resume record) and
     .env.local.ps1 (the live switch) into OneDrive\BOT_MOVE\le-bot-state-<date>.zip (Desktop when there is no OneDrive),
-    plus this script and MOVE_BOT.bat so the new PC has them (the repo is private)
+    plus this script and tools\bat\MOVE_BOT.bat so the new PC has them (the repo is private)
 NEW PC (the main PC), double-click MOVE_BOT.bat from OneDrive\BOT_MOVE, choose 2 = "set this PC up":
   - installs Git and Python 3.12 with winget when missing
   - clones the bot into %USERPROFILE%\nq-liquidity-engine (GitHub asks you to sign in once)
-  - restores the packed state into it, installs the Python packages and starts ONE_TIME_SETUP.bat (power, logon tasks,
+  - restores the packed state into it, installs the Python packages and starts tools\bat\ONE_TIME_SETUP.bat (power, logon tasks,
     icons, auto-update, the bot)
 Still by hand on the new PC: NinjaTrader 8 installed and logged in, the MFFU connection, AT Interface on, then
-NO_CHART_MODE.bat and F5 in NinjaTrader's NinjaScript Editor (the LE_Feed add-on feeds the bars with no chart:
+tools\bat\NO_CHART_MODE.bat and F5 in NinjaTrader's NinjaScript Editor (the LE_Feed add-on feeds the bars with no chart:
 ninjatrader\SETUP.md "No-chart mode").
 
 FRESH START (choice 3, owner 2026-11-04: the old PC is overheating, there is no state pack): -Fresh needs no zip.
@@ -24,7 +24,7 @@ FRESH START (choice 3, owner 2026-11-04: the old PC is overheating, there is no 
     and stops if a different host beat in the last 6 minutes (-Force overrides). Two PCs on the same accounts = double orders.
   - shows the plan and asks Y, installs Git / Python when missing, clones the bot, installs the packages, sets the eval
     anchors from the published board after a Y/N (python -m engine.eval_life --anchor-from-site), copies the NinjaTrader
-    add-ons (NO_CHART_MODE) and starts ONE_TIME_SETUP.bat (asks the eval account and the phrase; Enter = Sim101).
+    add-ons (NO_CHART_MODE) and starts tools\bat\ONE_TIME_SETUP.bat (asks the eval account and the phrase; Enter = Sim101).
   - writes nothing secret and never arms live trading: the mode is whatever ONE_TIME_SETUP sets (Sim / disarmed by default).
   - the one-line start on the new PC lives on the site: <site>/pc/FRESH_START.ps1 (tools/web_public/pc/).
   Tests: LE_HEARTBEAT_FILE=<json file> replaces the web read, LE_FAKE_HOST=<name> replaces this PC's name.
@@ -137,7 +137,7 @@ function Install-Tools {
         if ($DryRun) { Say '..' "Would install $($w[1]) with winget"; continue }
         & winget install -e --id $w[1] --accept-package-agreements --accept-source-agreements
         $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
-        if (Get-Command $w[0] -ErrorAction SilentlyContinue) { Say 'OK' "$($w[1]) installed" } else { Say 'FIX' "$($w[1]) not found after installing: close this window, open a new one and run MOVE_BOT.bat again" ; exit 1 }
+        if (Get-Command $w[0] -ErrorAction SilentlyContinue) { Say 'OK' "$($w[1]) installed" } else { Say 'FIX' "$($w[1]) not found after installing: close this window, open a new one and run tools\bat\MOVE_BOT.bat again" ; exit 1 }
     }
 }
 
@@ -167,7 +167,7 @@ if ($Pack) {
         Remove-Item -LiteralPath $stage -Recurse -Force -ErrorAction SilentlyContinue
         Say 'OK' "$($rel.Count) state files packed"
         Copy-Item -LiteralPath $PSCommandPath -Destination (Join-Path $dir 'move_bot.ps1') -Force
-        Copy-Item -LiteralPath (Join-Path $Bot 'MOVE_BOT.bat') -Destination (Join-Path $dir 'MOVE_BOT.bat') -Force
+        Copy-Item -LiteralPath (Join-Path $Bot 'tools\bat\MOVE_BOT.bat') -Destination (Join-Path $dir 'MOVE_BOT.bat') -Force
         Say 'OK' "Packed: $zipPath ($([math]::Round((Get-Item $zipPath).Length / 1MB, 1)) MB)"
     } else { $rel = Pack-Items $Bot; Say '..' ("Dry run: would stop the bot, turn auto-resume off, remove the logon tasks and pack $($rel.Count) state files: " + (($rel | Select-Object -First 12) -join ', ')) }
     Say 'OK' 'This PC no longer starts or resumes the bot. On the main PC: open the BOT_MOVE folder, double-click MOVE_BOT.bat, choose 2.'
@@ -220,7 +220,7 @@ if ($Fresh) {
         Say 'OK' "Bot cloned into $bot"
     }
     if ($DryRun) {
-        Say '..' "Would pip install -r requirements.txt, run python -m engine.eval_life --anchor-from-site, NO_CHART_MODE and start ONE_TIME_SETUP.bat in $bot"
+        Say '..' "Would pip install -r requirements.txt, run python -m engine.eval_life --anchor-from-site, NO_CHART_MODE and start tools\bat\ONE_TIME_SETUP.bat in $bot"
         Say '..' 'Dry run: nothing was installed, cloned or started.'
         exit 0
     }
@@ -233,9 +233,9 @@ if ($Fresh) {
     & $py -m engine.eval_life --anchor-from-site
     if ($LASTEXITCODE -ne 0) { Say 'SKIP' 'Eval numbers not set. You can set them later: python -m engine.eval_life --anchor-from-site' } else { Say 'OK' 'Eval numbers set' }
     Pop-Location
-    try { & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $bot 'scripts\no_chart_mode.ps1') } catch { Say 'SKIP' 'NinjaTrader add-ons not copied (is NinjaTrader installed and opened once?): run NO_CHART_MODE.bat later' }
+    try { & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $bot 'scripts\no_chart_mode.ps1') } catch { Say 'SKIP' 'NinjaTrader add-ons not copied (is NinjaTrader installed and opened once?): run tools\bat\NO_CHART_MODE.bat later' }
     Say '..' 'Starting ONE_TIME_SETUP: it asks your eval account name and phrase (just Enter = practice on Sim101). Live trading stays off.'
-    Start-Process -FilePath (Join-Path $bot 'ONE_TIME_SETUP.bat') -WorkingDirectory $bot
+    Start-Process -FilePath (Join-Path $bot 'tools\bat\ONE_TIME_SETUP.bat') -WorkingDirectory $bot
     Say 'OK' 'Last step, in NinjaTrader 8: Control Center > New > NinjaScript Editor > press F5. Then LE START > Start trading.'
     exit 0
 }
@@ -256,14 +256,14 @@ if ($NewPC) {
         if (-not (Is-BotFolder $bot)) { Say 'FIX' 'The clone did not work (sign-in?). Send Claude a photo of this window.'; exit 1 }
         Say 'OK' "Bot cloned into $bot"
     }
-    if ($DryRun) { Say '..' "Would restore $Zip into $bot, pip install, start ONE_TIME_SETUP.bat"; exit 0 }
+    if ($DryRun) { Say '..' "Would restore $Zip into $bot, pip install, start tools\bat\ONE_TIME_SETUP.bat"; exit 0 }
     Expand-Archive -LiteralPath $Zip -DestinationPath $bot -Force
     Say 'OK' 'State restored (data\ and the live switch)'
     $py = Find-Python $bot
-    if (-not $py) { Say 'FIX' 'Python not found: close this window, open a new one and run MOVE_BOT.bat again'; exit 1 }
+    if (-not $py) { Say 'FIX' 'Python not found: close this window, open a new one and run tools\bat\MOVE_BOT.bat again'; exit 1 }
     Push-Location $bot; & $py -m pip install -r requirements.txt; Pop-Location
     Say 'OK' 'Packages installed'
-    Say '..' 'Next: NinjaTrader on this PC must be logged in with the MFFU connection and AT Interface on. Then run NO_CHART_MODE.bat and press F5 in NinjaTrader (no chart needed). The setup starts the bot.'
-    Start-Process -FilePath (Join-Path $bot 'ONE_TIME_SETUP.bat') -WorkingDirectory $bot
+    Say '..' 'Next: NinjaTrader on this PC must be logged in with the MFFU connection and AT Interface on. Then run tools\bat\NO_CHART_MODE.bat and press F5 in NinjaTrader (no chart needed). The setup starts the bot.'
+    Start-Process -FilePath (Join-Path $bot 'tools\bat\ONE_TIME_SETUP.bat') -WorkingDirectory $bot
     exit 0
 }

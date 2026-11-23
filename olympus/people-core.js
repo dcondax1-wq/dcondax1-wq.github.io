@@ -389,7 +389,7 @@ function fScanner(p, I, now, f) {
   const id = tailOf(p), own = I['../money/' + id + '.json'], idx = I['../money/index.json'];
   const st = isObj(own) && own.id === id ? own : (isObj(idx) ? arr(idx.streams).find((x) => isObj(x) && x.id === id) : null);
   f.sources = [isObj(own) && own.id === id ? 'money/' + id + '.json' : 'money/index.json'];
-  if (!st) { f.missing = true; f.doing = 'No file from my machine yet.'; f.blocked = 'money/' + id + '.json is not published (run RUN_MONEY.bat on the PC).'; return; }
+  if (!st) { f.missing = true; f.doing = 'No file from my machine yet.'; f.blocked = 'money/' + id + '.json is not published (run tools/bat/RUN_MONEY.bat on the PC).'; return; }
   const last = toMs(st.asof) != null ? toMs(st.asof) : (num(st.age_min) != null ? now - st.age_min * 60000 : null), age = ageH(last, now), items = arr(st.items).filter(isObj);
   const head = isObj(st.headline) ? st.headline.text : st.headline, um = isObj(st.headline) && num(st.headline.usd_month) != null ? st.headline.usd_month : num(st.usd_month);
   f.asof = last; f.sample = st.status === 'sample';
@@ -404,7 +404,7 @@ function fScanner(p, I, now, f) {
   if (best) { f.numbers.push(N2('Top pick', clean(best.title, 70) + (num(best.usd) != null ? ', about ' + money(best.usd) + ' (an estimate)' : ''))); if (num(best.score) != null) { f.numbers.push(N2('Its score', best.score + ' of 100')); f.metrics.score = { label: 'best score', v: best.score, text: best.score + ' of 100' }; } }
   f.metrics.picks = { label: 'picks', v: items.length, text: String(items.length) };
   f.numbers.push(N2('Updated', agoText(last, now)));
-  if (f.status === 'stale') f.blocked = 'My file is old (' + agoText(last, now) + '). Run RUN_MONEY.bat on the PC.';
+  if (f.status === 'stale') f.blocked = 'My file is old (' + agoText(last, now) + '). Run tools/bat/RUN_MONEY.bat on the PC.';
   if (f.status === 'failed') f.blocked = 'My last scan failed.';
   f.risk = 'These are estimates from public data. Fees, rule changes and expiry dates can wipe out a pick.';
   f.mood = f.status === 'failed' ? 'sheepish' : f.status === 'stale' ? 'worried' : items.length && !f.sample ? 'proud' : items.length ? 'busy' : 'calm';

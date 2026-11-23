@@ -65,13 +65,13 @@ export function nudges(S, opts) {
   // feeds (night-fitperf 2026-11-19, owner's screenshot: the hero said "Some data is old or missing: odeon/trades.json (22 days old)"): ONLY
   // what the owner can act on, in plain words, never a file name. The site is built in the cloud, so its copies (the trade replay, the
   // calendar, the money estimates) are naturally days old and nothing he can do changes that; the live numbers come from his PC's status
-  // post. So: old or missing ACCOUNT numbers while the PC has not reported for 30 min (the one thing he can fix: start the PC / STATUS.bat).
+  // post. So: old or missing ACCOUNT numbers while the PC has not reported for 30 min (the one thing he can fix: start the PC / tools/bat/STATUS.bat).
   // A fresh PC report supersedes the cloud copies (account numbers and the trades both ride on it): nothing is said then.
   const home = feedHealth(S0, now).find((f) => f.name === 'home' && (f.missing || f.stale));
   const pcT = pcReportT(S0), pcFresh = pcT != null && now / 1000 - pcT <= PC_FRESH_S;
   if (home && !pcFresh) add({ id: 'feeds_stale', sig: 'home' + (home.missing ? '!' : ''), level: 'warn',
     text: home.missing ? 'I cannot read your account numbers right now.' : `Your account numbers are ${hoursText(home.ageH)} old: your PC has not reported since.`,
-    why: home.missing ? 'Check the connection. If it stays, open the PC and run STATUS.bat.' : 'On the PC, run STATUS.bat. Until it reports, my answers use the last numbers I have.',
+    why: home.missing ? 'Check the connection. If it stays, open the PC and run tools/bat/STATUS.bat.' : 'On the PC, run tools/bat/STATUS.bat. Until it reports, my answers use the last numbers I have.',
     ask: 'are my feeds stale', open: 'inbox', src: 'feeds', score: 66 });
 
   out.sort((a, b) => (RANK[a.level] - RANK[b.level]) || (b.score - a.score));

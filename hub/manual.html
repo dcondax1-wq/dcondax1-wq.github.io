@@ -51,7 +51,7 @@
     <div class="mn-sos">
       <details id="sos-1"><summary><span class="n">1</span><b>The PC is off or says PC SILENT</b><i aria-hidden="true">&#8250;</i></summary>
         <ol><li>A trade open? Its stop and target still work. To get out now: <b>Tradovate / MFFU app</b> on the phone &gt; the account &gt; <b>Flatten</b>.</li>
-          <li>At the PC: double-click <b>PC_DOCTOR.bat</b>. It only looks. Read MOST LIKELY CAUSE and run the line under NEXT STEP.</li>
+          <li>At the PC: double-click <b>tools/bat/PC_DOCTOR.bat</b>. It only looks. Read MOST LIKELY CAUSE and run the line under NEXT STEP.</li>
           <li>Still silent 20 min later: send Claude a photo of the PC_DOCTOR window. The bot never chases a missed entry.</li></ol></details>
 
       <details id="sos-2"><summary><span class="n">2</span><b>A trade is open and the bot looks stuck</b><i aria-hidden="true">&#8250;</i></summary>
@@ -107,9 +107,9 @@
         <p class="mn-calm">Kalshi is on paper today: no real money moves until you type the Kalshi phrase.</p>
         <ol><li>Live and you want it off: your PC link + <b>:8444/kalshi-live/</b> &gt; <b>STOP</b> (one tap).</li>
           <li>Or phone KILL (card 8): it stops Kalshi too.</li>
-          <li>At the PC: double-click <b>KALSHI_STOP.bat</b>, type Y. It cancels every resting Kalshi order and switches Kalshi OFF.</li></ol></details>
+          <li>At the PC: double-click <b>tools/bat/KALSHI_STOP.bat</b>, type Y. It cancels every resting Kalshi order and switches Kalshi OFF.</li></ol></details>
     </div>
-    <p class="mn-note">"Your PC link" = your PC's private Tailscale address (the one LIVE_LINK.bat showed). Never share it.</p>
+    <p class="mn-note">"Your PC link" = your PC's private Tailscale address (the one tools/bat/LIVE_LINK.bat showed). Never share it.</p>
   </section>
 
   <!-- ===================================================================== NEW (2026-11-21) -->
@@ -133,15 +133,15 @@
       <details id="new-3" style="border-left-color: var(--gold)"><summary><span class="n">3</span><b>Keep-alive: no account closed for 7 days without a trade</b><i aria-hidden="true">&#8250;</i></summary>
         <p class="mn-calm"><b>What:</b> MFFU can close an account with no trade for 7 days. With keep-alive ON, the bot places ONE 1-MNQ trade on that account on day 6 (15:33-15:48 ET, out about 2 min later). Cost about -$2.40, at most -$22.90. Your own trades reset the clock. It arrived OFF.<br><b>When:</b> Once: Sunday before 18:00 ET (you said yes on Nov 20).</p>
         <ol><li>At the PC: double-click <b>KEEPALIVE_ON.bat</b>.</li><li>Type <b>KEEP ALIVE ON</b>, then Enter.</li><li>See &quot;[OK] Keep-alive is ON.&quot; No restart needed.</li></ol>
-        <p class="mn-note"><b>You see:</b> pushes &quot;Keep-alive today on ...&quot;, the entry, then &quot;closed ... about -$2.40&quot;. &quot;Keep-alive ... did not go through&quot; = place 1 MNQ by hand on that account before 16:05 ET, in and out. Off: <b>KEEPALIVE_OFF.bat</b> (no phrase): &quot;[OK] Keep-alive is OFF on every account.&quot;</p>
+        <p class="mn-note"><b>You see:</b> pushes &quot;Keep-alive today on ...&quot;, the entry, then &quot;closed ... about -$2.40&quot;. &quot;Keep-alive ... did not go through&quot; = place 1 MNQ by hand on that account before 16:05 ET, in and out. Off: <b>tools/bat/KEEPALIVE_OFF.bat</b> (no phrase): &quot;[OK] Keep-alive is OFF on every account.&quot;</p>
         <div class="mn-copy"><code>python -X utf8 -m engine.keepalive --status</code><button type="button">Copy</button></div>
         <p class="mn-note">Check it any time at the PC: which accounts are on, the last result, the next planned day.</p></details>
 
       <details id="new-4" style="border-left-color: var(--gold)"><summary><span class="n">4</span><b>Phone alerts: set up Telegram, send a test</b><i aria-hidden="true">&#8250;</i></summary>
         <p class="mn-calm"><b>What:</b> Every alert goes to Telegram first, then Discord, ntfy and the Olympus app as backups. Entries, exits and &quot;bot stopped&quot; go to 2 of them.<br><b>When:</b> Set up once (2 minutes, from the phone). Test any time.</p>
         <ol><li>On the phone: your PC link + <b>:8444/alerts/</b> (at the PC: http://localhost:8766/alerts/).</li><li>Make your bot: Open BotFather, send /newbot, copy the token. Paste it, tap Connect.</li><li>Tap Open your bot and START within 3 minutes.</li></ol>
-        <p class="mn-note"><b>You see:</b> &quot;Connected: test delivered&quot;, and Telegram gets &quot;Olympus alerts are ON&quot;. Test later: that page&#39;s <b>Send a test alert</b>, or <b>TEST_ALERT.bat</b> at the PC: the phone gets &quot;TEST: Zlarior 50K LONG opened ...&quot; (no trade placed).</p>
-        <p class="mn-note">At the PC instead: <b>ALERTS_SETUP.bat</b> (1 = Telegram, 2 = Discord, 3 = both). Back to the old way: <b>ALERTS_OFF.bat</b> (<b>ALERTS_ON.bat</b> undoes it). 23:00-07:00 ET alerts come silent; &quot;bot stopped&quot; and hedge alarms still ring. No sound at all: iPhone Settings &gt; Notifications &gt; Telegram &gt; Allow + Sounds.</p></details>
+        <p class="mn-note"><b>You see:</b> &quot;Connected: test delivered&quot;, and Telegram gets &quot;Olympus alerts are ON&quot;. Test later: that page&#39;s <b>Send a test alert</b>, or <b>tools/bat/TEST_ALERT.bat</b> at the PC: the phone gets &quot;TEST: Zlarior 50K LONG opened ...&quot; (no trade placed).</p>
+        <p class="mn-note">At the PC instead: <b>ALERTS_SETUP.bat</b> (1 = Telegram, 2 = Discord, 3 = both). Back to the old way: <b>tools/bat/ALERTS_OFF.bat</b> (<b>tools/bat/ALERTS_ON.bat</b> undoes it). 23:00-07:00 ET alerts come silent; &quot;bot stopped&quot; and hedge alarms still ring. No sound at all: iPhone Settings &gt; Notifications &gt; Telegram &gt; Allow + Sounds.</p></details>
 
       <details id="new-5" style="border-left-color: var(--gold)"><summary><span class="n">5</span><b>Payout push: when to ask MFFU for money</b><i aria-hidden="true">&#8250;</i></summary>
         <p class="mn-calm"><b>What:</b> When a funded account reaches your plan line you get ONE push: &quot;PAYOUT READY: request $1,000&quot;. 25K: $1,000 at $2,100 profit. 50K: $2,000 at $4,100 profit (MFFU shows funded accounts from $0). It also needs 2+ traded days and no day over half the profit.<br><b>When:</b> The day the push comes, after the close.</p>

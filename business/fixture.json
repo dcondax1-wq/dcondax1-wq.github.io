@@ -308,7 +308,7 @@
    "where": "Netlify Drop (free)",
    "file": "agency/out/",
    "steps": [
-    "Double-click AGENCY_DAY.bat (fill agency/config.json the first time)",
+    "Double-click tools/bat/AGENCY_DAY.bat (fill agency/config.json the first time)",
     "Drop each site folder on app.netlify.com/drop, press Publish",
     "Call the owners on Call today, by hand, business hours"
    ]
@@ -524,7 +524,7 @@
   },
   {
    "id": "m-agency",
-   "what": "AGENCY_DAY.bat, then 10 calls by hand (one Starter sale = $1,500 + $79 a month).",
+   "what": "tools/bat/AGENCY_DAY.bat, then 10 calls by hand (one Starter sale = $1,500 + $79 a month).",
    "minutes": 75,
    "usd": [
     0,
@@ -617,7 +617,7 @@
    "why": "One Starter sale is $1,500 + $79 a month (agency/pricebook.json). Month 3 assumes 0-2 sales a month (the docs' plan of 4 a month needs 6 calls a working day).",
    "doc": "docs/AGENCY.md",
    "paused": false,
-   "next": "Double-click AGENCY_DAY.bat and fill in agency/config.json (name, phone, email, address, city).",
+   "next": "Double-click tools/bat/AGENCY_DAY.bat and fill in agency/config.json (name, phone, email, address, city).",
    "real_usd_month": 0.0
   },
   {
@@ -902,9 +902,9 @@
    "day": 1,
    "title": "Set up (about 1 hour)",
    "tasks": [
-    "Double-click AGENCY_DAY.bat: Notepad opens agency/config.json; put in your name, phone, email, postal address, city; save",
+    "Double-click tools/bat/AGENCY_DAY.bat: Notepad opens agency/config.json; put in your name, phone, email, postal address, city; save",
     "Make the free accounts: Netlify, Stripe, Payhip, Fiverr (real name, finish the ID check)",
-    "Double-click AGENCY_DAY.bat again: 3 demo sites, the call list and TODAY.txt"
+    "Double-click tools/bat/AGENCY_DAY.bat again: 3 demo sites, the call list and TODAY.txt"
    ]
   },
   {
@@ -929,7 +929,7 @@
    "day": 4,
    "title": "Calls + Instagram (1 hour)",
    "tasks": [
-    "AGENCY_DAY.bat, then 10 more calls",
+    "tools/bat/AGENCY_DAY.bat, then 10 more calls",
     "New Instagram (Professional); schedule the first week in Meta Business Suite",
     "Put the shop link in the bio"
    ]

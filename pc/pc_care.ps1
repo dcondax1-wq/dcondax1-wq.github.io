@@ -1,8 +1,8 @@
 <#
-PC_CARE (double-click PC_CARE.bat). The owner, 2026-11-04: both PCs cared for in one place. The Surface overheats and has a dark
+PC_CARE (double-click tools\bat\PC_CARE.bat). The owner, 2026-11-04: both PCs cared for in one place. The Surface overheats and has a dark
 screen and little memory; the main PC runs the bot and NinjaTrader 8 around the clock. One run shows a plain table (what it is
 now, what it will be), asks Y, changes only what is listed, and ends with ONE line: "BOT PC HEALTHY: YES" (or what needs you).
-Everything it changes is written to an undo file first (UNDO_PC_TUNE.bat puts it all back). Nothing is closed, downloaded or
+Everything it changes is written to an undo file first (tools\bat\UNDO_PC_TUNE.bat puts it all back). Nothing is closed, downloaded or
 deleted. NinjaTrader and the bot are never touched.
 
 Which PC is it (found by itself; -Role main|surface forces it):
@@ -26,10 +26,10 @@ By hand (a script cannot do these, the table says where): the Surface "content a
 The state of the last run is logs\pc_care.json (bot folder) or %LOCALAPPDATA%\LiquidityEngine\pc_care.json: the bot's PC health
 heartbeat shows it as the "PC care" line (display only).
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_care.ps1             (PC_CARE.bat runs this)
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_care.ps1             (tools\bat\PC_CARE.bat runs this)
   powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_care.ps1 -DryRun     (the table, changes nothing)
   powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_care.ps1 -CheckOnly  (only the health check)
-  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_care.ps1 -Undo       (UNDO_PC_TUNE.bat runs this too)
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\pc_care.ps1 -Undo       (tools\bat\UNDO_PC_TUNE.bat runs this too)
   ... -Yes  (no Y/N questions: every suggested change is made)
 #>
 param(
@@ -285,7 +285,7 @@ function Invoke-PowerPlan {
             if ($r.Code -eq 0) { $made = $true; Say 'OK' "Power plan '$PlanName' made from $(if ($b -eq $BaseBalanced) { 'Balanced' } else { 'High performance' })"; break }
         }
         if (-not $made) { Say 'SKIP' 'Power plan: Windows did not make a copy (nothing changed)'; $ok = $false }
-        else { [void](Run-Powercfg @('/changename', $PlanGuid, $PlanName, "PC Care: $KindText. Undo: UNDO_PC_TUNE.bat")) }
+        else { [void](Run-Powercfg @('/changename', $PlanGuid, $PlanName, "PC Care: $KindText. Undo: tools\bat\UNDO_PC_TUNE.bat")) }
     } else { Add-Change 'power|plan' 'power' @{ Target = $PlanGuid; Before = $active; Existed = $true } }
     if (-not $ok) { return }
     foreach ($s in $rows) {
@@ -314,7 +314,7 @@ function Invoke-IndexPause {
             $tr = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $days -At $t[1]
             $set = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 2)
             $pr = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
-            Register-ScheduledTask -TaskName $t[0] -InputObject (New-ScheduledTask -Action $act -Trigger $tr -Settings $set -Principal $pr -Description 'PC Care: search indexing pauses in market hours. Undo: UNDO_PC_TUNE.bat') -ErrorAction Stop | Out-Null
+            Register-ScheduledTask -TaskName $t[0] -InputObject (New-ScheduledTask -Action $act -Trigger $tr -Settings $set -Principal $pr -Description 'PC Care: search indexing pauses in market hours. Undo: tools\bat\UNDO_PC_TUNE.bat') -ErrorAction Stop | Out-Null
             Say 'OK' "Task $($t[0]): weekdays $($t[1])"
         } catch { Say 'SKIP' "Task $($t[0]) not added: $($_.Exception.Message)" }
     }
@@ -477,7 +477,7 @@ function Get-Health {
         $fr = [math]::Round(([double](New-Object System.IO.DriveInfo $sd).AvailableFreeSpace) / 1GB, 1)
         if ($env:LE_T_FREE_GB) { $fr = [double]$env:LE_T_FREE_GB }
         $lv = 'ok'; $nt = ''
-        if ($fr -lt 2) { $lv = 'bad'; $nt = 'run CLEAN_STORAGE.bat now' } elseif ($fr -lt 15) { $lv = 'warn'; $nt = 'run CLEAN_STORAGE.bat' }
+        if ($fr -lt 2) { $lv = 'bad'; $nt = 'run tools\bat\CLEAN_STORAGE.bat now' } elseif ($fr -lt 15) { $lv = 'warn'; $nt = 'run tools\bat\CLEAN_STORAGE.bat' }
         Add-H "Disk space free ($sd)" "$fr GB" $lv $nt
     } catch { Add-H 'Disk space free' 'not readable' 'info' '' }
     # temperature + speed (honest when not readable)
@@ -496,7 +496,7 @@ function Get-Health {
             $now = Get-PowerNow $act $SubSleep '29f6c1db-86da-48c5-9fdb-f2b67b1f44da'
             if ($null -eq $now.AC) { Add-H 'Sleep when plugged in' 'not readable' 'info' '' }
             elseif ([int64]$now.AC -eq 0) { Add-H 'Sleep when plugged in' 'never' 'ok' '' }
-            else { Add-H 'Sleep when plugged in' (Fmt-Power $now.AC 'min') 'warn' 'the PC can fall asleep and the bot stops: run PC_CARE.bat' }
+            else { Add-H 'Sleep when plugged in' (Fmt-Power $now.AC 'min') 'warn' 'the PC can fall asleep and the bot stops: run tools\bat\PC_CARE.bat' }
         }
     }
     # battery (Surface / laptop)
@@ -558,7 +558,7 @@ function Write-CareJson($H, [string]$Ran, [int]$Applied) {
 function Show-Plan {
     Head "PC CARE: $KindText, $($Facts.RamGB) GB$(if ($DryRun) { ' - DRY RUN: the table, nothing changed' })"
     if ($BotRoot) { Say '..' "This PC: $env:COMPUTERNAME. Bot folder found: $BotRoot" } else { Say '..' "This PC: $env:COMPUTERNAME. No bot folder here." }
-    Say '..' "Undo: UNDO_PC_TUNE.bat puts back everything below (undo files: $UserState and $SysState)"
+    Say '..' "Undo: tools\bat\UNDO_PC_TUNE.bat puts back everything below (undo files: $UserState and $SysState)"
     Head 'What changes (plugged in = AC, on battery = DC)'
     Row 'What' 'Now' 'After PC_CARE'
     $ra = Run-Powercfg @('/getactivescheme'); $act = Get-Guid $ra.Out
@@ -634,7 +634,7 @@ function Invoke-UndoPart {
         return 0
     }
     Save-State
-    Say 'FIX' "$($left.Count) change(s) could not be undone (above); they stay in $StateFile. Run UNDO_PC_TUNE.bat again, or send this window to Claude."
+    Say 'FIX' "$($left.Count) change(s) could not be undone (above); they stay in $StateFile. Run tools\bat\UNDO_PC_TUNE.bat again, or send this window to Claude."
     return 1
 }
 function Test-HasSystemState {
@@ -651,7 +651,7 @@ function Start-SystemPart([string[]]$Extra) {
         $p = Start-Process -FilePath 'powershell.exe' -ArgumentList $argList -Verb RunAs -PassThru -Wait
         if ($null -ne $p -and $p.ExitCode -eq 0) { Say 'OK' 'Windows part done (its lines are in the log)' } else { Say 'SKIP' 'Windows part ended early' }
         return $true
-    } catch { Say 'SKIP' 'Windows part not run (Administrator was declined). Double-click PC_CARE.bat again and click Yes to do the power plan.'; return $true }
+    } catch { Say 'SKIP' 'Windows part not run (Administrator was declined). Double-click tools\bat\PC_CARE.bat again and click Yes to do the power plan.'; return $true }
 }
 
 # ================================================================== the elevated Windows part
@@ -699,7 +699,7 @@ if (-not (Ask-YN 'Do this now (power plan first, then a few questions)? Type Y t
     Write-CareJson $h 'check' 0
     exit 0
 }
-try {      # a copy next to the undo file, so UNDO_PC_TUNE.bat can undo even when PC_CARE.bat was downloaded alone
+try {      # a copy next to the undo file, so tools\bat\UNDO_PC_TUNE.bat can undo even when tools\bat\PC_CARE.bat was downloaded alone
     $selfCopy = J2 (Split-Path -Parent $UserState) 'pc_care.ps1'
     if ($PSCommandPath -and ($PSCommandPath -ne $selfCopy)) {
         if (-not (Test-Path -LiteralPath (Split-Path -Parent $selfCopy))) { New-Item -ItemType Directory -Path (Split-Path -Parent $selfCopy) -Force | Out-Null }
@@ -730,5 +730,5 @@ Write-CareJson $h 'care' ($userChanges + $sysChanges)
 Head 'Result'
 Say 'OK' "PC Care done on $env:COMPUTERNAME ($Kind). $($h.Text)"
 if ($Kind -eq 'surface') { Say '..' 'Dark screen: do the two tick boxes above by hand once (a script cannot set them).' }
-Say '..' "To put everything back: UNDO_PC_TUNE.bat. Log: $Log"
+Say '..' "To put everything back: tools\bat\UNDO_PC_TUNE.bat. Log: $Log"
 exit 0

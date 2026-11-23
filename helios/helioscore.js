@@ -155,7 +155,7 @@ export function actions(inp, nowMs) {
   const bad = [];
   if (!haveHome) bad.push('account numbers missing'); else { const a = ageH(inp.home, nowMs); if (a != null && a > 36) bad.push(`account numbers ${hoursText(a)} old`); }
   if (!haveMoney) bad.push('money data missing'); else { const old = streams.filter((s) => s.status === 'stale' || (num(s.age_min) != null && s.age_min > 360 && s.status !== 'sample')); if (old.length) bad.push('money: ' + old.map((s) => str(s.name || s.id, 16)).join(', ')); }
-  if (bad.length) add('feeds_old', 'Feeds are old: open the PC and run STATUS.bat', `Old or missing: ${bad.join('; ')}. STATUS.bat shows what is stuck; RUN_MONEY.bat refreshes the money data.`, null, 66, 'warn');
+  if (bad.length) add('feeds_old', 'Feeds are old: open the PC and run tools/bat/STATUS.bat', `Old or missing: ${bad.join('; ')}. tools/bat/STATUS.bat shows what is stuck; tools/bat/RUN_MONEY.bat refreshes the money data.`, null, 66, 'warn');
   const deal = dealsEnding(inp.money, nowMs)[0];
   if (deal) add('deal_soon', `A deal ends in ${hoursText(deal.hours)}: ${deal.title}`, `Check it on the firm's own page and use it only if you were buying anyway${deal.usd ? ` (about ${money(deal.usd)}, an estimate)` : ''}.`, deal.usd, Math.round(62 + (48 - deal.hours) / 48 * 22), 'warn');
   const calm = accts.length && !off.length && !accts.some((a) => a.paused) && !(worst && worst.room / worst.mll < 0.5) && !dll.length;

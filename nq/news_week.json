@@ -1,14 +1,35 @@
 {
  "v": 1,
  "src": "data/news/events.csv (the bot's high-impact US calendar), copied by tools/nqdash_export.py",
- "built": "2026-11-22",
- "from": "2026-11-15",
- "to": "2026-12-20",
+ "built": "2026-11-23",
+ "from": "2026-11-16",
+ "to": "2026-12-21",
  "events": [
   {
    "date": "2026-11-18",
    "time": "14:00",
    "title": "FOMC minutes (Oct meeting)",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-11-24",
+   "time": "10:00",
+   "title": "CB Consumer Confidence (Nov)",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-11-25",
+   "time": "08:30",
+   "title": "GDP Q3 second estimate",
+   "impact": "high",
+   "country": "USD"
+  },
+  {
+   "date": "2026-11-25",
+   "time": "08:30",
+   "title": "Personal Income & Outlays / Core PCE (Oct)",
    "impact": "high",
    "country": "USD"
   },

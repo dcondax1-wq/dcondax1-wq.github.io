@@ -1,7 +1,7 @@
 // NQ BRAIN page (ES module): the 2D brain from braincore.js at once; DESIGN's brain (olympus/brain3d.js, window.Brain3D, mounted in brain.html's body) gets the live states.
 // lands, only on this page, after the first paint and never on LITE. Text only through textContent; no storage; GET only; nothing armed.
 // ?bot=atlas opens ATLAS. window.NQBRAIN is the test hook.
-import * as BC from './braincore.js?v=4';
+import * as BC from './braincore.js?v=7';
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);

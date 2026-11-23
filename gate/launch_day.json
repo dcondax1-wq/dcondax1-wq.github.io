@@ -3,7 +3,7 @@
  "kind": "le-launch-day",
  "day": "2026-11-16",
  "title": "Launch day: Monday Nov 16",
- "intro": "Zlarior (MFFU 50K eval, LIT) and ATLAS (25K eval) trade for real from 02:00 ET. You arm them yourself at the PC (GO_LIVE_EVAL.bat, you type the phrase); nothing on the phone can trade, start or stop a bot.",
+ "intro": "Zlarior (MFFU 50K eval, LIT) and ATLAS (25K eval) trade for real from 02:00 ET. You arm them yourself at the PC (tools/bat/GO_LIVE_EVAL.bat, you type the phrase); nothing on the phone can trade, start or stop a bot.",
  "steps": [
   "At 01:45 ET open the Olympus link on the iPhone. The Launch card must say Ready: Zlarior and ATLAS \"LIVE, armed\", feed fresh, no flags.",
   "In the ntfy app the \"Ready for 02:00 ET\" push is there (silent). A loud \"NOT ready\" names what is wrong and its fix.",
@@ -22,12 +22,12 @@
     [
      "Zlarior 50K",
      "LIVE, armed",
-     "PC: double-click GO_LIVE_EVAL.bat and type the phrase"
+     "PC: double-click tools/bat/GO_LIVE_EVAL.bat and type the phrase"
     ],
     [
      "ATLAS 25K",
      "LIVE, armed",
-     "PC: double-click GO_LIVE_EVAL.bat and type the phrase"
+     "PC: double-click tools/bat/GO_LIVE_EVAL.bat and type the phrase"
     ],
     [
      "Feed",
@@ -47,7 +47,7 @@
     [
      "Phone alerts",
      "\"Phone alerts on: last check ... min ago\"",
-     "PC: double-click BOTS_BACK.bat"
+     "PC: double-click tools/bat/BOTS_BACK.bat"
     ]
    ]
   },
@@ -93,12 +93,12 @@
     [
      "Bot down",
      "the bot server on the PC does not answer or report",
-     "PC: double-click GO_LIVE_EVAL.bat (it brings the bot back) and type the phrase"
+     "PC: double-click tools/bat/GO_LIVE_EVAL.bat (it brings the bot back) and type the phrase"
     ],
     [
      "Bot stopped",
      "the server runs but the bot is stopped in entry hours",
-     "PC: double-click GO_LIVE_EVAL.bat and type the phrase"
+     "PC: double-click tools/bat/GO_LIVE_EVAL.bat and type the phrase"
     ],
     [
      "NinjaTrader closed",

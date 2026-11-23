@@ -16,7 +16,7 @@
    "status": "live",
    "bots": "Zlarior only (eval). Once funded: Zlarior + ATLAS + BLITZ (if you say yes)",
    "next": "Balance $49,192.78 (owner, Nov 17): about $3,807 to pass, about $1,025 of room left (if the floor is still $48,168). Room under $1,200: a fresh Builder 50K next to it is the faster horse",
-   "payout": "funded ~Dec 24, 1st payout ~Feb 10 (~$1,600 to you; 8 in 10 runs between Dec 30 and May 18) - payday plan 2026-11-20, middle case",
+   "payout": "funded ~Dec 28, 1st payout ~Feb 16 (~$1,600 to you; 9 in 10 runs not before Dec 31, and more than 1 in 10 get none by mid-May) - payday plan 2026-11-23, middle case",
    "usd_month": "$1,200",
    "cost": "paid"
   },
@@ -33,7 +33,7 @@
    "status": "live",
    "bots": "ATLAS",
    "next": "Funded since Nov 17 night. Payout: ask the full $1,000 when the balance is $27,100 (payout coach)",
-   "payout": "1st payout ~Jan 4 (~$800 to you; 8 in 10 runs between Dec 8 and Feb 26) - payday plan 2026-11-20, middle case",
+   "payout": "1st payout ~Dec 17 (~$747 to you; 8 in 10 runs between Dec 1 and Feb 3) - payday plan 2026-11-23, middle case",
    "usd_month": "$500",
    "cost": "paid",
    "funded": {
@@ -59,7 +59,7 @@
    "status": "buying",
    "bots": "Zlarior + ATLAS on one account (never two trades at once; ATLAS <= $250 a trade)",
    "next": "Bought (DLL version: $500 daily loss = a pause for the day). Add it on the PC page /add-account/ (or ADD_ACCOUNT.bat option 5), then START BOT + the phrase. Pass: +$1,500 in 4+ days, no day over 30% ($450; the bot keeps a day under $427), $1,000 EOD floor",
-   "payout": "funded ~Dec 31, 1st payout ~Feb 10 (~$690 to you; 9 in 10 runs not before Jan 5, and more than 1 in 10 get none by mid-May) - payday plan 2026-11-20, middle case",
+   "payout": "funded ~Jan 4, 1st payout ~Feb 11 (~$690 to you; 9 in 10 runs not before Jan 6, and more than 1 in 10 get none by mid-May) - payday plan 2026-11-23, middle case",
    "usd_month": "~$1,000",
    "cost": "$97.20 (CLUB)"
   },
@@ -74,7 +74,7 @@
    "status": "live",
    "bots": "Zlarior (LIT) at 40% of room",
    "next": "Pass: $1,500 profit, $1,000 max loss. Started Nov 18",
-   "payout": "funded ~Dec 9, 1st payout ~Feb 9 (~$800 to you; 9 in 10 runs not before Dec 22, and more than 1 in 10 get none by mid-May) - payday plan 2026-11-20, middle case",
+   "payout": "funded ~Dec 10, 1st payout ~Feb 17 (~$800 to you; 9 in 10 runs not before Dec 28, and more than 1 in 10 get none by mid-May) - payday plan 2026-11-23, middle case",
    "usd_month": "$456",
    "cost": "paid",
    "match": "builder25k"
@@ -82,7 +82,7 @@
  ],
  "decisions": [
   "At the PC: STOP BOT, then START_BOT.bat, type I ACCEPT LIVE RISK; check 'Rapid EOD 25K ... armed'",
-  "At the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
+  "At the PC: make the GitHub repo olympus private, then double-click tools/bat/GITHUB_SIGNIN.bat",
   "Phone alerts from the phone: PC link + :8444/alerts/ -> BotFather token -> Paste -> Connect -> START (or ALERTS_SETUP.bat)",
   "Sunday before 6 PM: KEEPALIVE_ON.bat, type KEEP ALIVE ON (the 7-day rule on every MFFU account)",
   "Before ATLAS's first payout: free brokerage + Treasury fund for the tax pot; ask parents about HSA / dependent"

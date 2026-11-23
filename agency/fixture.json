@@ -4,7 +4,7 @@
  "made": "2026-11-21T22:30:33",
  "demo": true,
  "sample": false,
- "note": "EXAMPLE leads, not real: invented businesses in an invented town. Run the website machine (RUN_AGENCY.bat) for your own city.",
+ "note": "EXAMPLE leads, not real: invented businesses in an invented town. Run the website machine (tools/bat/RUN_AGENCY.bat) for your own city.",
  "meta": {
   "city": "Maple Falls, ST",
   "radius_km": 8,

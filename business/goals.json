@@ -1,18 +1,18 @@
 {
  "v": 1,
- "updated": "2026-11-20",
+ "updated": "2026-11-23",
  "built_by": "tools/money/goals_build.py",
  "market": "2026 Jul-Oct-like",
  "note": "Dates are ESTIMATES: the middle of 1,000 runs of a market like Jul-Oct 2026 (Jan-Jun was better, 2021-25 much worse). Real dates move with real trades; this page is rebuilt when they do.",
  "now": [
   [
    "Zlarior (Builder 50K)",
-   "$49,192.78, $3,807.22 to pass",
+   "$49,213.90, $3,786.10 to pass",
    "eval"
   ],
   [
    "Zlarior 25K #2 (Builder 25K)",
-   "$25,000, $1,500 to pass",
+   "$25,023.62, $1,476.38 to pass",
    "eval"
   ],
   [
@@ -63,7 +63,7 @@
    "when": "Nov 26",
    "what": "Thanksgiving Thu Nov 26 + early close Fri Nov 27 (13:15 ET): nothing to do",
    "why": "The bot stops new trades 15 min before and is flat 5 min before each early close (tested).",
-   "status": "later",
+   "status": "next",
    "auto": true
   }
  ],
@@ -87,44 +87,44 @@
   },
   {
    "id": "z25_pass",
-   "date": "2026-12-09",
+   "date": "2026-12-10",
    "what": "Zlarior 25K #2 passes",
-   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 9; 70 in 100 runs by Dec 31. Needs +$1,500 with at most $1,000 lost: 82 in 100 runs pass within 3 months (2 fail). Then it is funded: your 2nd funded 25K.",
-   "when": "~Dec 9",
-   "status": "later"
-  },
-  {
-   "id": "z50_pass",
-   "date": "2026-12-24",
-   "what": "Zlarior 50K passes",
-   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 24; 59 in 100 runs by Dec 31. Needs about $3,807 more with only ~$1,025 of room: 70 in 100 runs pass within 3 months, 26 fail (then a re-buy, $91.80).",
-   "when": "~Dec 24",
+   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 10; 69 in 100 runs by Dec 31. Needs +$1,500 with at most $1,000 lost: 82 in 100 runs pass within 3 months (2 fail). Then it is funded: your 2nd funded 25K.",
+   "when": "~Dec 10",
    "status": "later"
   },
   {
    "id": "pay1",
-   "date": "2026-12-24",
+   "date": "2026-12-16",
    "what": "First payout: most likely ATLAS's funded 25K",
-   "detail": "62 in 100 runs at least one account pays by Dec 31, 81 by Jan 15 (payday plan, from today's balances). ATLAS alone: middle Jan 4, 8 in 10 runs between Dec 8 and Feb 26. The bot pings you once $750 sits above the $1,100 buffer: ask then (MFFU pays up to $1,000 a request; the full $1,000 at a $27,100 balance). On $1,000 you get $800 (80%), $240 to the tax pot, $560 to keep.",
+   "detail": "77 in 100 runs at least one account pays by Dec 31, 90 by Jan 15 (payday plan, from today's balances). ATLAS alone: middle Dec 17, 8 in 10 runs between Dec 1 and Feb 3. The bot pings you once $750 sits above the $1,100 buffer: ask then (MFFU pays up to $1,000 a request; the full $1,000 at a $27,100 balance). On $1,000 you get $800 (80%), $240 to the tax pot, $560 to keep.",
    "usd": 560.0,
-   "when": "~Dec 24",
+   "when": "~Dec 16",
    "status": "later"
   },
   {
    "id": "buy_r50",
-   "date": "2026-12-28",
+   "date": "2026-12-24",
    "what": "Buy the Rapid EOD 50K ($165 with CLUB), paid from payouts",
    "detail": "Once the payouts you keep (after the tax pot) reach $165: 100 in 100 runs get there. It fills your 5th funded slot (about $1,969 a month); the bot runs one Rapid today, so it needs your yes.",
    "usd": -165.0,
+   "when": "~Dec 24",
+   "status": "later"
+  },
+  {
+   "id": "z50_pass",
+   "date": "2026-12-28",
+   "what": "Zlarior 50K passes",
+   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 28; 58 in 100 runs by Dec 31. Needs about $3,807 more with only ~$1,025 of room: 70 in 100 runs pass within 3 months, 26 fail (then a re-buy, $91.80).",
    "when": "~Dec 28",
    "status": "later"
   },
   {
    "id": "r25_pass",
-   "date": "2026-12-31",
+   "date": "2027-01-04",
    "what": "Rapid EOD 25K passes",
-   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Dec 31; 50 in 100 runs by Dec 31. About 25 trading days from tonight (90 in 100 runs within 3 months). Payouts then come daily (you keep 90%).",
-   "when": "~Dec 31",
+   "detail": "Middle case of the payday plan (the same runs as the payout dates): funded about Jan 4; 47 in 100 runs by Dec 31. About 25 trading days from tonight (90 in 100 runs within 3 months). Payouts then come daily (you keep 90%).",
+   "when": "~Jan 4",
    "status": "later"
   },
   {
@@ -144,27 +144,27 @@
    "status": "later"
   },
   {
-   "id": "n25_pay",
-   "date": "2027-02-09",
-   "what": "First payout: Zlarior's 25K #2",
-   "detail": "Middle case, 9 in 10 runs not before Dec 22, and more than 1 in 10 get none by mid-May; about $800 to you. 31 in 100 runs pay by Jan 15; 24 in 100 lose the account first (a re-buy).",
-   "when": "~Feb 9",
+   "id": "r25_pay",
+   "date": "2027-02-11",
+   "what": "First payout: Rapid EOD 25K",
+   "detail": "Middle case, 9 in 10 runs not before Jan 6, and more than 1 in 10 get none by mid-May; about $690 to you. 22 in 100 runs pay by Jan 15; 18 in 100 lose the account first (a re-buy).",
+   "when": "~Feb 11",
    "status": "later"
   },
   {
    "id": "z50_pay",
-   "date": "2027-02-10",
+   "date": "2027-02-16",
    "what": "First payout: Zlarior's funded 50K",
-   "detail": "Middle case, 8 in 10 runs between Dec 30 and May 18; about $1,600 to you. 27 in 100 runs pay by Jan 15; 31 in 100 lose the account first (a re-buy).",
-   "when": "~Feb 10",
+   "detail": "Middle case, 9 in 10 runs not before Dec 31, and more than 1 in 10 get none by mid-May; about $1,600 to you. 24 in 100 runs pay by Jan 15; 32 in 100 lose the account first (a re-buy).",
+   "when": "~Feb 16",
    "status": "later"
   },
   {
-   "id": "r25_pay",
-   "date": "2027-02-10",
-   "what": "First payout: Rapid EOD 25K",
-   "detail": "Middle case, 9 in 10 runs not before Jan 5, and more than 1 in 10 get none by mid-May; about $690 to you. 23 in 100 runs pay by Jan 15; 18 in 100 lose the account first (a re-buy).",
-   "when": "~Feb 10",
+   "id": "n25_pay",
+   "date": "2027-02-17",
+   "what": "First payout: Zlarior's 25K #2",
+   "detail": "Middle case, 9 in 10 runs not before Dec 28, and more than 1 in 10 get none by mid-May; about $800 to you. 27 in 100 runs pay by Jan 15; 24 in 100 lose the account first (a re-buy).",
+   "when": "~Feb 17",
    "status": "later"
   },
   {
@@ -198,13 +198,13 @@
  ],
  "decisions": [
   "At the PC: STOP BOT, then START_BOT.bat, type I ACCEPT LIVE RISK; check 'Rapid EOD 25K ... armed'",
-  "At the PC: make the GitHub repo olympus private, then double-click GITHUB_SIGNIN.bat",
+  "At the PC: make the GitHub repo olympus private, then double-click tools/bat/GITHUB_SIGNIN.bat",
   "Phone alerts from the phone: PC link + :8444/alerts/ -> BotFather token -> Paste -> Connect -> START (or ALERTS_SETUP.bat)",
   "Sunday before 6 PM: KEEPALIVE_ON.bat, type KEEP ALIVE ON (the 7-day rule on every MFFU account)",
   "Before ATLAS's first payout: free brokerage + Treasury fund for the tax pot; ask parents about HSA / dependent"
  ],
  "sources": [
-  "research/lab/money_plan.json (2026-11-18) + research/lab/payday_plan.json (2026-11-20)",
+  "research/lab/money_plan.json (2026-11-18) + research/lab/payday_plan.json (2026-11-23)",
   "research/lab/rapid25.json",
   "business/accounts.json (2026-11-20)",
   "tools/board.py gather"

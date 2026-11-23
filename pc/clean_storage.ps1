@@ -1,5 +1,5 @@
 <#
-CLEAN_STORAGE (double-click CLEAN_STORAGE.bat). The owner, 2026-11-04: "an easy way to clear storage through both of my
+CLEAN_STORAGE (double-click tools\bat\CLEAN_STORAGE.bat). The owner, 2026-11-04: "an easy way to clear storage through both of my
 computers". One run: it shows a plain table of what it would free, asks Y, then clears ONLY safe things, and ends with
 "Done: freed X GB. C: now Y GB free."
 
@@ -28,7 +28,7 @@ If the bot or NinjaTrader is RUNNING: everything that could touch them is skippe
 Windows.old, the archive move); only temp, caches and Windows are cleaned, and it says so.
 It ends with "Done: freed X GB. C: now Y GB free."
 
-  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\clean_storage.ps1             (CLEAN_STORAGE.bat runs this)
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\clean_storage.ps1             (tools\bat\CLEAN_STORAGE.bat runs this)
   powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\clean_storage.ps1 -DryRun     (the table only, deletes nothing)
   ... -Yes            (no Y question; the Recycle Bin and Windows.old still stay asked unless -Extras)
   ... -KeepDays 30    (bot logs / backups / corrupt files older than 30 days instead of 14)
@@ -814,7 +814,7 @@ if ($sysRows.Count -gt 0 -or $doWinOld) {
                 }
                 Remove-Item -LiteralPath $res -Force -ErrorAction SilentlyContinue
             }
-        } catch { Say 'SKIP' 'Windows part not run (Administrator was declined). Double-click CLEAN_STORAGE.bat again and click Yes to clear it.' }
+        } catch { Say 'SKIP' 'Windows part not run (Administrator was declined). Double-click tools\bat\CLEAN_STORAGE.bat again and click Yes to clear it.' }
     }
 }
 
@@ -828,7 +828,7 @@ Say 'OK' ("Done: freed " + $frTxt + ". C: now " + (Get-FreeText) + ".")
 if ($null -ne $freeBefore -and $null -ne $freeAfter) { Log-Only ("  (free space on C: before " + [math]::Round($freeBefore / 1GB, 1) + " GB, after " + [math]::Round($freeAfter / 1GB, 1) + " GB)") }
 if ($script:Locked -gt 0) { Say '..' "$($script:Locked) files were in use and were kept (they go next time)." }
 if ($script:Refused -gt 0) { Say 'SKIP' "$($script:Refused) paths were refused by the safety list (listed in the log)." }
-if ($Busy) { Say '..' 'The bot or NinjaTrader was running: their folders were not touched. For the full clean: when the bot is flat, STOP BOT, close NinjaTrader, then double-click CLEAN_STORAGE.bat again.' }
+if ($Busy) { Say '..' 'The bot or NinjaTrader was running: their folders were not touched. For the full clean: when the bot is flat, STOP BOT, close NinjaTrader, then double-click tools\bat\CLEAN_STORAGE.bat again.' }
 else { Say '..' "NinjaTrader and the bot were not touched (only NinjaTrader's old log and trace files and the bot's old logs, zips and caches)." }
 Say '..' "Log with every removed file: $Log"
 exit 0

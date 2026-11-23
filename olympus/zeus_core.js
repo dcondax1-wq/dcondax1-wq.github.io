@@ -101,7 +101,7 @@
   var d = document, me = d.currentScript && d.currentScript.src ? d.currentScript.src : null;
   function url(rel) { try { return new URL(rel, me || d.baseURI).href; } catch (e) { return rel; } }
   // the models this file needs, in the order the ZEUS page loads them (boardmodel after mffumodel)
-  var DEPS = [['PC_FEED', '../pc_feed.js?v=n7'], ['PAYOUT_COACH', '../business/payoutcoach.js?v=2'], ['MFFU_MODEL', '../business/mffumodel.js?v=4'],
+  var DEPS = [['PC_FEED', '../pc_feed.js?v=n8'], ['PAYOUT_COACH', '../business/payoutcoach.js?v=4'], ['MFFU_MODEL', '../business/mffumodel.js?v=7'],
               ['BOARD_MODEL', '../board/boardmodel.js?v=b9'], ['EDGE_CHIP', '../edge_chip.js?v=1']];
   var needP = null;
   function need() {

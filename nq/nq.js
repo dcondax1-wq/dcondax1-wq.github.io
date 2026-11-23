@@ -3,7 +3,7 @@
 // Reads ../home.json (the small first-paint file; never the 8 MB data.json), ./howto.json (docs/NQ_BOT_BACK.md, bundled by tools/nq_howto_build.py) and ./fixture.json (DEMO, never blank).
 // Read only: it sends nothing and keeps nothing. Text only through textContent / createElementNS. The 3D columns come from nqscene.js (optional). window.NQ is the test hook.
 // ?demo=1 the example; ?demo=1&silent=4d (or 90m, 5h) the example with a silent PC; ?flat=1 the 2D columns; ?howto=1 opens the sheet.
-import * as C from './nqcore.js?v=d5';   // d1 (polish2 2026-11-19): the CME trading day
+import * as C from './nqcore.js?v=d6';   // d6 (night-seedata): today's $ in the first line; d1 (polish2 2026-11-19): the CME trading day
 import * as T from '../olympus/truth.js';
 import * as D from './nqdesk.js?v=8';
 import { unpack as unpackBars } from './nqbars.js?v=b1';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
@@ -280,7 +280,7 @@ function render() {
   const v = S.view;
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
   renderBanner(); renderDesk(); renderScene(); renderPlan(); renderBots(); renderNews(); renderTrades(); renderFacts();
-  say(`${v.headline}${v.tight ? ` ${v.tight.name}: ${v.tight.ddLine}.` : ''}${S.demo ? ' Example numbers.' : ''}`);
+  say(`${v.headline}${v.todayLine ? ' ' + v.todayLine : ''}${v.tight ? ` ${v.tight.name}: ${v.tight.ddLine}.` : ''}${S.demo ? ' Example numbers.' : ''}`);
   { const el = $('src'); if (el) el.textContent = srcLine(); }
   S.ready = true;
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }

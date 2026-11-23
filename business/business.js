@@ -1,6 +1,6 @@
 // BUSINESS page (ES module): reads ./business.json (the PC's own, tools/biz_publish.py) else ./fixture.json (DEMO), and ../home.json (the
 // published evals) for the payout plan (businesscore.planPayouts = engine/payout_plan.py). Sends nothing. The ONE money place (2026-11-16).
-import * as C from './businesscore.js?v=5';
+import * as C from './businesscore.js?v=6';
 
 const $ = (id) => document.getElementById(id);
 const KEY = 'business.week.v1';

@@ -84,7 +84,7 @@ export function norm(j) {
 // ------------------------------------------------------------------------------------------------ today
 export function today(Din, nowIn) {
   const now = nowOf(nowIn), D = isObj(Din) && Din._n === 1 ? Din : norm(Din), et = etDay(now);
-  if (!D) return { state: 'missing', day: et.day, text: 'Connect your calendars once on the PC (CONNECT_DAY.bat): your shifts then show here.', notes: [], tone: 'info', work: [], free: [], checkAt: '', events: [], week: '', age: '', calendars: [] };
+  if (!D) return { state: 'missing', day: et.day, text: 'Connect your calendars once on the PC (tools/bat/CONNECT_DAY.bat): your shifts then show here.', notes: [], tone: 'info', work: [], free: [], checkAt: '', events: [], week: '', age: '', calendars: [] };
   const ageMin = D.t ? Math.max(0, (now - D.t * 1000) / 60000) : null;
   const d = D.days[et.day];
   const events = eventsOn(D, et.day);

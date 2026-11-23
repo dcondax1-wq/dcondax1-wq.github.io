@@ -158,7 +158,7 @@ const NEED = {
   'bot:kalshi': 'Nothing. I stay on paper. If my feed is old, check that the PC is publishing it.',
   'job:cronos': 'Leave the PC on at night so my jobs can run.',
   'job:queue': 'Tick off what is done, and tell the lead what matters most.',
-  scanner: 'Nothing urgent. For fresher numbers run RUN_MONEY.bat on the PC. Before acting on a pick, read its detail yourself.',
+  scanner: 'Nothing urgent. For fresher numbers run tools/bat/RUN_MONEY.bat on the PC. Before acting on a pick, read its detail yourself.',
   bot: 'Keep the PC and NinjaTrader on during the session. Going live is yours alone; I stay on paper.',
   mind: 'Read my notes when you have a minute and tell the lead which ones are worth a real test.',
   builder: 'A look at my work, and a merge by the lead when it is ready. If you want something different, leave me a request.',

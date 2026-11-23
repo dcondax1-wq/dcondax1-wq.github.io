@@ -260,7 +260,7 @@ function pcReply(F) {
   const probs = arr(rep.problems).map((p) => scrubIds(isObj(p) ? p.text || p.label : p)).filter(Boolean);
   const mode = str(rep.mode, 12).toUpperCase();
   if (age == null) return null;
-  if (age > MAYBE_S) return { text: 'No: the PC has been silent for ' + ago(age).replace(/ ago$/, '') + ' (it reports every 5 min). Check it is on, awake and online; if it is, double-click PC_DOCTOR.bat.', speak: 'Probably not. The PC has been silent for ' + sayAgo(age).replace(/ ago$/, '') + '. Check it is on and online.', intent: 'zeus_pc' };
+  if (age > MAYBE_S) return { text: 'No: the PC has been silent for ' + ago(age).replace(/ ago$/, '') + ' (it reports every 5 min). Check it is on, awake and online; if it is, double-click tools/bat/PC_DOCTOR.bat.', speak: 'Probably not. The PC has been silent for ' + sayAgo(age).replace(/ ago$/, '') + '. Check it is on and online.', intent: 'zeus_pc' };
   if (age > FRESH_S) return { text: 'Not sure: its last check-in was ' + ago(age) + ' (it reports every 5 min), so it may be asleep or offline. Check the PC.', speak: 'Not sure. Its last check-in was ' + sayAgo(age) + '.', intent: 'zeus_pc' };
   if (rep.server === false) return { text: 'The PC is on (checked in ' + ago(age) + ') but the bot server is not answering: on the PC, open LE START.', speak: 'The PC is on, but the bot server is not answering. Open LE START on the PC.', intent: 'zeus_pc' };
   const bits = [pc.running === false ? 'the bot is STOPPED' : 'ZEUS is running' + (mode ? ' (' + mode + ')' : ''),

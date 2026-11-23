@@ -737,8 +737,8 @@ function systemOf(f) {
       kl.net != null ? `today ${usd2(kl.net, true)}` : '', kl.fills != null ? `${kl.fills} fill${kl.fills === 1 ? '' : 's'}` : '', age != null ? agoS(age) : ''].filter(Boolean).join(' · ');
     kr.tone = kl.net > 0 ? 'up' : kl.net < 0 ? 'dn' : '';
     kr.level = kl.st === 'stopped' ? 'bad' : kl.st === 'idle' || (kl.st === 'live' && late) ? 'warn' : kl.st === 'live' ? 'ok' : '';
-    if (kl.st === 'stopped') { kr.short = 'Kalshi stopped'; kr.todo = 'Kalshi live is OFF (it stopped itself): to start it again, type the phrase on the PC (KALSHI_LIVE.bat)'; }
-    else if (kl.st === 'idle') { kr.short = 'Kalshi armed, not running'; kr.todo = 'Kalshi is armed but the PC is not running it: double-click KALSHI_LIVE.bat on the PC'; }
+    if (kl.st === 'stopped') { kr.short = 'Kalshi stopped'; kr.todo = 'Kalshi live is OFF (it stopped itself): to start it again, type the phrase on the PC (tools/bat/KALSHI_LIVE.bat)'; }
+    else if (kl.st === 'idle') { kr.short = 'Kalshi armed, not running'; kr.todo = 'Kalshi is armed but the PC is not running it: double-click tools/bat/KALSHI_LIVE.bat on the PC'; }
     else if (kl.st === 'live' && late) { kr.short = 'Kalshi not updating'; kr.todo = `Kalshi live card not updating${age != null ? ' since ' + agoS(age) : ''}: check the PC`; }
   } else if (kp) {                                // real money paused; the PC runs the PAPER tests (K1 rules, rewards) and posts them every 15 min
     kr.sub = 'paper tests on your PC'; kr.value = 'PAUSED';

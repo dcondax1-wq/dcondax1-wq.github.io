@@ -97,7 +97,7 @@ function learnedFrom(queue, id, extra) {
 function money1(id, inp, now, w) {
   const m = isObj(inp.money) ? inp.money : null, s = m && Array.isArray(m.streams) ? m.streams.find((x) => isObj(x) && x.id === id) : null;
   w.src = 'money/' + id + '.json';
-  if (!s) { w.missing = true; w.doing = 'No file from this machine yet.'; w.health = 'money/' + id + '.json is not published (run RUN_MONEY.bat on the PC).'; return; }
+  if (!s) { w.missing = true; w.doing = 'No file from this machine yet.'; w.health = 'money/' + id + '.json is not published (run tools/bat/RUN_MONEY.bat on the PC).'; return; }
   const last = toMs(s.asof) != null ? toMs(s.asof) : (num(s.age_min) != null ? now - s.age_min * 60000 : null), age = ageH(last, now), items = Array.isArray(s.items) ? s.items.filter(isObj) : [];
   w.last = last; w.items = items.length; w.n = items.length;
   w.status = s.status === 'sample' ? 'sample' : (s.status === 'error' || s.status === 'failed') ? 'failed' : s.status === 'stale' || (age != null && age > OLD_H) ? 'stale' : age != null && age <= 6 ? 'working' : 'idle';
@@ -319,9 +319,9 @@ export function suggestions(workers, queueBlock, now) {
   for (const w of workers) {
     const money = ['chrysos', 'mercury', 'sibyl', 'oikos', 'arbiter'].includes(w.id);
     if (w.status === 'failed') S.push({ w: 100, kind: 'failed', who: w.id, title: w.name + ' failed its last run', why: w.health || w.doing, ev: 'High: a broken worker finds nothing, and everything that reads its file goes stale with it. Cheap to fix.', next: w.id === 'kalshi' ? 'Check the Oracle VM and restart the bot there.' : 'Open its log, fix the cause, run it once by hand.' });
-    else if (w.missing) S.push({ w: 80, kind: 'gap', who: w.id, title: w.name + ' has no file here', why: w.health, ev: 'High: without its file this station is blind, so nothing it could find is seen.', next: money ? 'Run RUN_MONEY.bat on the PC, then publish the site.' : w.id === 'cronos' ? 'Run python -m tools.cronos once, or wait for the nightly job.' : 'Rebuild the site so its file is published.' });
-    else if (w.status === 'sample') S.push({ w: 70, kind: 'sample', who: w.id, title: w.name + ' is in demo mode', why: 'Its numbers are a sample, so nothing it shows is a real finding.', ev: 'Medium: real data turns a demo into findings; one run is enough.', next: money ? 'Run RUN_MONEY.bat so ' + w.name + ' reads real public data.' : 'Connect its real feed; until then treat everything as an example.' });
-    else if (w.status === 'stale') S.push({ w: 60, kind: 'stale', who: w.id, title: w.name + ' is stale', why: w.health, ev: 'Medium: old numbers can point the wrong way; a refresh costs minutes.', next: 'Refresh it (' + (money ? 'RUN_MONEY.bat' : w.id === 'mind' ? 'wait for the nightly research, or python -X utf8 tools/mind_build.py' : 'the next site build') + ') and look again.' });
+    else if (w.missing) S.push({ w: 80, kind: 'gap', who: w.id, title: w.name + ' has no file here', why: w.health, ev: 'High: without its file this station is blind, so nothing it could find is seen.', next: money ? 'Run tools/bat/RUN_MONEY.bat on the PC, then publish the site.' : w.id === 'cronos' ? 'Run python -m tools.cronos once, or wait for the nightly job.' : 'Rebuild the site so its file is published.' });
+    else if (w.status === 'sample') S.push({ w: 70, kind: 'sample', who: w.id, title: w.name + ' is in demo mode', why: 'Its numbers are a sample, so nothing it shows is a real finding.', ev: 'Medium: real data turns a demo into findings; one run is enough.', next: money ? 'Run tools/bat/RUN_MONEY.bat so ' + w.name + ' reads real public data.' : 'Connect its real feed; until then treat everything as an example.' });
+    else if (w.status === 'stale') S.push({ w: 60, kind: 'stale', who: w.id, title: w.name + ' is stale', why: w.health, ev: 'Medium: old numbers can point the wrong way; a refresh costs minutes.', next: 'Refresh it (' + (money ? 'tools/bat/RUN_MONEY.bat' : w.id === 'mind' ? 'wait for the nightly research, or python -X utf8 tools/mind_build.py' : 'the next site build') + ') and look again.' });
     if (w.n != null && w.n < 30 && ['kalshi'].includes(w.id) && w.status !== 'sample') S.push({ w: 50, kind: 'sample-size', who: w.id, title: w.name + ' has only ' + w.n + ' settled trades', why: 'Too few to call any edge real.', ev: 'High for its cost: waiting is free, and it stops us acting on luck.', next: 'Keep it running on paper; test nothing new until there are 30 or more.' });
   }
   const gaps = (Array.isArray(qb.gaps) ? qb.gaps : []).filter((g) => isObj(g) && g.name && g.last);
@@ -342,7 +342,7 @@ export function suggestions(workers, queueBlock, now) {
   if (miss.length > 2) {                      // many stations with no file is ONE finding (the site has no worker files), not eight rows
     const names = miss.map((x) => nameOf(x.who));
     for (const m of miss) S.splice(S.indexOf(m), 1);
-    S.push({ w: 80, kind: 'gap', who: miss[0].who, title: miss.length + ' workers have no file here', why: clean(names.join(', '), 150) + ': their files are not published on this site.', ev: 'High: without their files these stations are blind, so nothing they could find is seen.', next: 'Run RUN_MONEY.bat and the site build on the PC, then publish; the stations fill in by themselves.' });
+    S.push({ w: 80, kind: 'gap', who: miss[0].who, title: miss.length + ' workers have no file here', why: clean(names.join(', '), 150) + ': their files are not published on this site.', ev: 'High: without their files these stations are blind, so nothing they could find is seen.', next: 'Run tools/bat/RUN_MONEY.bat and the site build on the PC, then publish; the stations fill in by themselves.' });
   }
   S.sort((a, b) => b.w - a.w || (a.who < b.who ? -1 : 1));
   const top = S.slice(0, 8);

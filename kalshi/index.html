@@ -24,7 +24,7 @@
 <script>(function () { var d = document.documentElement; d.setAttribute('data-theme', 'kalshi');
   /* inside Jarvis (a frame under its bar) the notch is Jarvis's: no second top inset */
   try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<link rel="stylesheet" href="kalshi.css?v=k61">
+<link rel="stylesheet" href="kalshi.css?v=k62">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a3"><!-- with a11y.js: in the head so the text never jumps when it arrives (CLS) -->
 <!-- OLYMPUS theme (../olympus/themes.js, key 'olympus.theme', picked on the Gate's Look row or in Jarvis's Look sheet): every colour of
      kalshi.css reads a theme slot with its AGORA colour as the fallback (tools/theme_tokenize.py), on the full 'page' palette since
@@ -75,14 +75,14 @@
        kept from the first paint (CLS 0); it starts only after load + idle, after the K8 today card; reduced motion = one still frame. kalshi.js k8Fx -->
   <div class="k8fx" id="k8fx" role="img" aria-label="K8: today's three bets"><canvas id="k8fx-c" aria-hidden="true"></canvas></div>
   <!-- K8 live day (day-kalshi round 3): the big countdown to the next LIVE window, what the bot will do, $ left before each stop, and how
-       to switch K8 off (as coded: the PC page STOP, ZEUS Safety, KALSHI_STOP.bat, the Kalshi app). kalshi.js k8Live. -->
+       to switch K8 off (as coded: the PC page STOP, ZEUS Safety, tools/bat/KALSHI_STOP.bat, the Kalshi app). kalshi.js k8Live. -->
   <section class="note k8d" id="k8d" aria-label="K8 live day"><h2>K8 live day</h2>
     <div class="k8d-cd"><span class="k8d-lab" id="k8d-lab">Next live bet</span><b class="k8d-big" id="k8d-big">…</b><span class="k8d-at" id="k8d-at"></span></div>
     <div id="k8d-x"></div>
     <div class="k8d-help" id="k8d-help"><p class="k8w-h">If something looks wrong</p><ol>
       <li><b>Phone:</b> your home-computer link <b>:8444/kalshi-live/</b> &rarr; <b>STOP (off now)</b>. One tap; no new bets.</li>
       <li><b>Phone:</b> the ZEUS Safety page &rarr; <b>PAUSE</b> (no new Kalshi bets until 4 PM ET or RESUME) or <b>KILL</b> (off + the kill switch).</li>
-      <li><b>At the computer:</b> double-click <b>KALSHI_STOP.bat</b>, type Y: cancels anything waiting and switches Kalshi off.</li>
+      <li><b>At the computer:</b> double-click <b>tools/bat/KALSHI_STOP.bat</b>, type Y: cancels anything waiting and switches Kalshi off.</li>
       <li><b>Kalshi app:</b> Portfolio &rarr; cancel any open order (an unfilled K8 order dies by itself 40 s after the open).</li></ol>
       <p class="krw-f">A bet that already filled is held to its result and settles by itself within 15 minutes. To start again: type the phrase on :8444/kalshi-live/.</p></div></section>
   <section class="note k8s" id="k8s" aria-label="K8 status"><h2>K8 status <b class="k8s-m" id="k8s-m">PAPER</b></h2>
@@ -98,7 +98,7 @@
     <button type="button" class="kgo-r" id="kgo-reset">Untick mine</button></section>
   <h2 class="khist" id="khist">History and tests <span>(no money: paper tests and the old crypto bot)</span></h2>
   <!-- the Kalshi home (owner 2026-11-18, "can't find things"): status line -> the rewards card -> what we tested -> the other Kalshi apps -> the bar -->
-  <!-- the live line (night-klive 2026-11-19): engine/kalshi_live.py, OFF until the owner types the phrase at the PC (KALSHI_LIVE.bat); its <=200-byte
+  <!-- the live line (night-klive 2026-11-19): engine/kalshi_live.py, OFF until the owner types the phrase at the PC (tools/bat/KALSHI_LIVE.bat); its <=200-byte
        card (key kalshi_live, the PC's ntfy ext post) turns this into LIVE / PAUSED from the phone / STOPPED with today's $ (kalshi.js klShow) -->
   <div class="note" id="kpaused" role="note" style="border-color: rgba(var(--warn-rgb), .5)"><p><b style="color: var(--warn)" id="kpaused-h">Kalshi: PAUSED</b> for real money. Paper tests running: <span id="kpaused-rw">rewards (no numbers yet)</span>, <span id="kpaused-k1">K1 rules (not running yet)</span>. <span id="kpaused-risk">$0 at risk.</span></p>
     <p id="kpaused-live"><b>K8, the gold and silver clock bot · PAPER:</b> the PC records every window with no money. Live only when you type the phrase on the PC's private page (your PC link :8444/kalshi-live/). Small limits, checked before every order; it switches itself off after any stop.</p></div>
@@ -151,7 +151,7 @@
 <!-- defer (night-bugsweep 2026-11-19): the page's own scripts run after the document is parsed, in this order, before DOMContentLoaded; they no
      longer hold the first paint (the phone budget: 300 kB / 9 render-blocking files; kalshi.js alone is 190 kB) -->
 <script src="kfx.js?v=k26" defer></script>
-<script src="kalshi.js?v=k61" defer></script>
+<script src="kalshi.js?v=k62" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 </body>
 </html>
