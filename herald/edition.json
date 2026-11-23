@@ -1,13 +1,13 @@
 {
  "v": 1,
- "date": "2026-11-22",
+ "date": "2026-11-23",
  "number": 2,
- "built": "2026-11-22T19:24:40Z",
+ "built": "2026-11-23T03:32:33Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
   "motto": "Only what the files say",
-  "date_words": "Sunday, 22 November 2026"
+  "date_words": "Monday, 23 November 2026"
  },
  "label": "Some stories rest on sample data and say so.",
  "lead": {
@@ -149,9 +149,9 @@
    "standfirst": "Who is building what today, straight from the lead's roster.",
    "body": [
     "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
-    "On the bench today: Ergasterion: The agent factory: watch every worker and what it learned.",
-    "Next to it: Kalshi team C: Hunting for a real Kalshi edge in weather and index markets.",
-    "And a third: Theme finisher: One calm AGORA look in every app; a unique accent per app.",
+    "On the bench today: Jarvis home: A clean, beautiful Jarvis first screen with a golden-hour courtyard.",
+    "Next to it: Ergasterion: The agent factory: watch every worker and what it learned.",
+    "And a third: Kalshi team C: Hunting for a real Kalshi edge in weather and index markets.",
     "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
     "The roster was last updated at 2026-11-11T01:10:00Z."
    ],
@@ -161,6 +161,16 @@
      "src": "handoff/agents_now.json",
      "calc": "count of agents",
      "raw": 10
+    },
+    {
+     "t": "Jarvis home",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "A clean, beautiful Jarvis first screen with a golden-hour courtyard",
+     "src": "handoff/agents_now.json",
+     "quote": true
     },
     {
      "t": "Ergasterion",
@@ -179,16 +189,6 @@
     },
     {
      "t": "Hunting for a real Kalshi edge in weather and index markets",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Theme finisher",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "One calm AGORA look in every app; a unique accent per app",
      "src": "handoff/agents_now.json",
      "quote": true
     },
@@ -908,40 +908,40 @@
  },
  "quiz": [
   {
-   "id": "f2",
-   "topic": "flat",
-   "q": "What is the latest time for a new entry?",
+   "id": "z1",
+   "topic": "size",
+   "q": "The stop is wide today. How many micros?",
    "o": [
-    "15:30 New York",
-    "15:55",
-    "16:10"
+    "Fewer: size follows the stop",
+    "The same as always",
+    "More, to make the money back"
    ],
    "a": 0,
-   "why": "Entries run from 02:00 to 15:30 ET, so a trade has time to work before flat."
+   "why": "A wide stop means less risk per micro, so you carry fewer. The dollars risked stay inside the plan."
   },
   {
-   "id": "s4",
-   "topic": "stop",
-   "q": "Why is the stop at the protected low or high?",
-   "o": [
-    "If price takes it, the trade idea is wrong",
-    "It is always the tightest stop",
-    "It makes the target bigger"
-   ],
-   "a": 0,
-   "why": "That level is where the idea is proven wrong, so the loss is cut exactly there."
-  },
-  {
-   "id": "t2",
+   "id": "t3",
    "topic": "target",
-   "q": "Price reaches the target. You",
+   "q": "The target is based on",
    "o": [
-    "Bank it",
-    "Wait for a bit more",
-    "Move the target up"
+    "The 18:00 open plus or minus one VIX day move",
+    "Yesterday's high",
+    "A round number"
    ],
    "a": 0,
-   "why": "The target is the plan. Bank it and the trade is done."
+   "why": "The 18:00 New York open plus or minus one VIX day move, the same every day."
+  },
+  {
+   "id": "f1",
+   "topic": "flat",
+   "q": "What time is the bot flat by?",
+   "o": [
+    "15:55 New York time",
+    "16:10, the firm's limit",
+    "Whenever the trade ends"
+   ],
+   "a": 0,
+   "why": "Flat at 15:55 ET. MFFU requires flat by 16:10, so 15:55 leaves a margin."
   }
  ],
  "interviews": [
@@ -987,22 +987,22 @@
    ]
   },
   {
-   "id": "builder:a545b014",
-   "name": "NQ bot",
-   "title": "Build agent, trading",
+   "id": "builder:ab25b5ae",
+   "name": "Jarvis brain",
+   "title": "Build agent, jarvis",
    "src": "handoff/agents_now.json",
    "qa": [
     {
      "q": "What are you building?",
-     "a": "The NQ page and the kit that updates the PC's bot folder."
+     "a": "Search everything, follow-up questions, briefings, tours."
     },
     {
      "q": "Where does your work live?",
-     "a": "On my own branch, worktree-agent-a545b014870ea708c. The lead merges it when it is ready."
+     "a": "On my own branch, worktree-agent-ab25b5ae6ac17c255. The lead merges it when it is ready."
     },
     {
      "q": "Which part of OLYMPUS is yours?",
-     "a": "The trading area."
+     "a": "The jarvis area."
     }
    ]
   }

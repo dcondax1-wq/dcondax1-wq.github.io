@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795375440,
+   "t": 1795404720,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4386,6 +4386,18 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795404713,
+    "s": "Version bump for Research Hub v2"
+   },
+   {
+    "t": 1795404467,
+    "s": "Land night-hub2: Research Hub v2 (every study, $ result, live vs waiting, edge hunt)"
+   },
+   {
+    "t": 1795403788,
+    "s": "Research Hub v2: cities/hub.html, every study in one phone page (live now, waiting on you, tonight's edge hun…"
+   },
    {
     "t": 1795375434,
     "s": "Home: one-time card on iPhone Safari tabs that explains how to hide the browser bars (Add to Home Screen); te…"
@@ -4473,18 +4485,6 @@
    {
     "t": 1795332937,
     "s": "Lane E fleet plan: 72 fleets + Risk-team sensitivity; $300/mo Rapid EOD 50K + FundedNext 50K alternating, Bui…"
-   },
-   {
-    "t": 1795332876,
-    "s": "lucid red team report + 5-day dry run (unchanged lanes, 85/85 both ways)"
-   },
-   {
-    "t": 1795332296,
-    "s": "test_olympus_kit: its server also serves the site's root files (pc_feed.js, age.css) like the real site; orac…"
-   },
-   {
-    "t": 1795332157,
-    "s": "Bump versions for site-down proof"
    }
   ],
   "branches": [

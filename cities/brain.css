@@ -58,3 +58,4 @@ border-left:4px solid var(--line)}
 body.nogl .fallback{display:grid}
 @media (prefers-reduced-motion:reduce){.sheet{transition:none}.hint{transition:none}}
 @media (min-width:700px){.top{max-width:560px}.sheet{left:auto;right:12px;max-width:440px;border-radius:22px;bottom:12px;border-bottom:1px solid var(--line2)}}
+.hubl{flex:0 0 auto;min-width:44px;height:44px;padding:0 12px;display:grid;place-items:center;border-radius:12px;color:#f1c14b;text-decoration:none;font-weight:700;border:1px solid #4d2e76;box-shadow:0 0 10px rgba(157,89,238,.35)}

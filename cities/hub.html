@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olympus Research Hub</title>
+<meta name="description" content="Every piece of trading research in one place: what is live, what waits on you, every study with its verdict and $ result.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="hub.css?v=h1">
+<script src="hub.js?v=h1" defer></script>
+</head>
+<body>
+<!-- RESEARCH HUB v2 (night-hub2 2026-11-22): data = hub-data.json from tools/build_research_hub.py. Read only: no live control, sends nothing. -->
+<header class="top">
+  <a class="back" href="index.html" aria-label="Back to the Cities">&#8592;</a>
+  <h1>Research Hub</h1>
+  <span class="built" id="built"></span>
+</header>
+<main id="main">
+  <a class="brainbtn" id="brainBtn" href="brain.html"><b>Open the 3D Research Brain</b><small id="brainSub">every finding as a neuron</small><span aria-hidden="true">&#8250;</span></a>
+
+  <section class="sec" aria-labelledby="hLive">
+    <h2 id="hLive">Live now</h2>
+    <div class="live" id="live"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="hWait">
+    <h2 id="hWait">Waiting on you <span class="n" id="waitN"></span></h2>
+    <div id="wait"></div>
+    <a class="more go" href="../board/#decide">Open Decide &#8250;</a>
+  </section>
+
+  <section class="sec hunt" aria-labelledby="hHunt">
+    <h2 id="hHunt">Tonight's edge hunt <span class="n" id="huntD"></span></h2>
+    <p class="head" id="huntHead"></p>
+    <div id="hunt"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="hAll">
+    <h2 id="hAll">Every study <span class="n" id="allN"></span></h2>
+    <input class="search" id="q" type="search" placeholder="Search every study" autocomplete="off" enterkeyhint="search" aria-label="Search every study">
+    <div class="chips" id="fams" role="group" aria-label="Family"></div>
+    <div class="chips" id="verd" role="group" aria-label="Verdict">
+      <button class="chip" data-v="" aria-pressed="true">All</button>
+      <button class="chip a" data-v="a" aria-pressed="false">Adopted</button>
+      <button class="chip r" data-v="r" aria-pressed="false">Rejected</button>
+      <button class="chip o" data-v="o" aria-pressed="false">Open</button>
+    </div>
+    <div class="count" id="count" aria-live="polite">Loading...</div>
+    <div id="cards"></div>
+    <button class="more" id="more" hidden>Show more</button>
+  </section>
+  <p class="foot" id="foot"></p>
+</main>
+</body>
+</html>

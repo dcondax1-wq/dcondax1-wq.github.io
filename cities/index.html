@@ -107,6 +107,7 @@ body:not([data-mode=hub]) .world-fab,body[data-ready=false] .world-fab,.hellas-o
 html[data-oly-scheme=light] .city-places a{background:linear-gradient(180deg,rgba(255,252,244,.95),rgba(246,238,222,.93));color:#3a2c12;border-color:rgba(138,106,31,.38)}
 html[data-oly-scheme=light] .city-places small{color:#6b5d48} html[data-oly-scheme=light] .city-places b{color:#5a4210}
 .city-places a.brain{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:center;gap:8px;border-color:rgba(157,89,238,.55);box-shadow:0 0 14px rgba(157,89,238,.25)}
+.city-places a.brain.half{grid-column:span 2}
 @media (max-width:600px){.city-places small{display:none}}
 body:not([data-mode=hub]) .city-places,body[data-ready=false] .city-places,.hellas-open .city-places,.athens-open .city-places{display:none}
 .world-fab{bottom:calc(var(--sb) + 236px);min-height:52px;padding:5px 12px 5px 5px}.world-fab .wf-img{width:42px;height:42px}.world-fab i{left:43px;top:5px}
@@ -326,7 +327,8 @@ body[data-mode=city] .tab.on{background:linear-gradient(145deg,rgba(255,198,74,.
   <a href="../kalshicity/" style="--c:#7aa7ff"><b>Kalshi City</b><small>the Kalshi bets</small></a>
   <a href="../atlascity/" style="--c:#ffc65a"><b>Atlas City</b><small>ATLAS's trades</small></a>
   <a href="../mintcity/" style="--c:#5fe0a0"><b>Mint City</b><small>your money</small></a>
-  <a class="brain" href="brain.html" style="--c:#9d59ee"><b>Research Brain</b><small>every finding as a neuron</small></a>
+  <a class="brain half" href="brain.html" style="--c:#9d59ee"><b>Research Brain</b><small>every finding as a neuron</small></a>
+  <a class="brain half" href="hub.html" style="--c:#f1c14b"><b>Research Hub</b><small>every study in one list</small></a><!-- night-hub2 2026-11-22 -->
 </nav>
 <a class="world-fab" href="world/" aria-label="Olympus World: one giant city of everything, every app and every idea tested"><span class="wf-img" aria-hidden="true"></span><i></i><span class="wf-t"><b>Olympus World</b><small>The 3D city · every app, every idea tested</small></span><span class="wf-go" aria-hidden="true">›</span></a>
 <div class="maphint" id="maphint" aria-hidden="true"><b>Tap a city</b> to open it<small>Drag to look around, pinch to zoom</small></div>
