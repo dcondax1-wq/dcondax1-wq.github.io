@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-23 16:56 ET",
+ "built": "2026-11-23 17:02 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 1
  },
- "pc": "PC last reported Nov 23 16:45 ET",
+ "pc": "PC last reported Nov 23 17:01 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49213.9,
-   "src": "PC live, Nov 23 16:40 ET",
+   "src": "PC live, Nov 23 17:01 ET",
    "room": 1045.7,
    "to_pass": 3786.1,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 23 16:40 ET",
+   "src": "PC live, Nov 23 17:01 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 25000.0,
-   "src": "PC live, Nov 23 16:40 ET",
+   "src": "PC live, Nov 23 17:01 ET",
    "room": 1000.0,
    "to_pass": 1500.0,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25023.62,
-   "src": "PC live, Nov 23 16:40 ET",
+   "src": "PC live, Nov 23 17:01 ET",
    "room": 1000.0,
    "to_pass": 1476.38,
    "trades": 0,
@@ -165,16 +165,16 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 65,
+  "n": 78,
   "items": [
-   "Rebuild brain/hub/lab data after the orderflow merge",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Red team day-orderflow: keep real repeated prints (drop_duplicates erased same-ms trades:...",
-   "Order-flow program: 10 pro topics as testable rules, 6 pre-registered bar tests (0 pass), 3 tick...",
-   "Order-flow program: pre-register 6 bar-data tests (B1-B6) before the first run",
-   "goals_build with the live board (payplan dates)",
-   "Monday landing lead wires: sw v209 / shell v61, ship hub+lab checks, RUN_MONEY path, accents,...",
-   "Red team day-combo25: combo50k._write_switch renamed inside its open 'with' (Windows refuses: --on..."
+   "Land day-accounts: NQ Accounts screen + 7-day clock, cloud K7 de-dupe fixes; version bumps",
+   "Rebuild brain/hub/lab data after the tick backfill merge",
+   "run_area: accounts_screen above the __main__ block (it never ran from below)",
+   "Red team day-ofprogram d4d0c35: Bars.GetBid/GetAsk through reflection (a missing member can no...",
+   "Rebuild brain/hub/lab data after the orderflow merge",
+   "Tick import: detect NinjaTrader's filled-in quotes (Bid=Last) and fall back to the tick rule (else...",
+   "Round 3 writeup + tickrec status shows the recorder line"
   ]
  },
  "next": {
@@ -212,12 +212,12 @@
  "kalshi": {
   "src": "PC status post (card)",
   "mode": "paper",
-  "loss_used": 0.0,
+  "loss_used": 3.04,
   "loss_stop": 13.75,
   "last": "LWWW",
   "bets_total": 4,
   "won_pct": 75,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 4 bets LWWW; 4 bets so far, 75% won."
+  "line": "K8 (paper): $3.04 of the $13.75 weekly loss stop used; last 4 bets LWWW; 4 bets so far, 75% won."
  },
  "calendar": [
   {
@@ -280,6 +280,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 23 16:45 ET"
+  "board_pc": "Nov 23 17:01 ET"
  }
 }

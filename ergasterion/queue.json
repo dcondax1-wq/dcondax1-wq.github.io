@@ -4365,7 +4365,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795470960,
+   "t": 1795471320,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4387,6 +4387,42 @@
   "available": true,
   "commits": [
    {
+    "t": 1795471279,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795471275,
+    "s": "Land day-accounts: NQ Accounts screen + 7-day clock, cloud K7 de-dupe fixes; version bumps"
+   },
+   {
+    "t": 1795471243,
+    "s": "Merge remote-tracking branch 'olympus/day-accounts' into land-1123"
+   },
+   {
+    "t": 1795471226,
+    "s": "Rebuild brain/hub/lab data after the tick backfill merge"
+   },
+   {
+    "t": 1795471216,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795471139,
+    "s": "Merge remote-tracking branch 'olympus/day-ofprogram-rt' into land-1123"
+   },
+   {
+    "t": 1795471116,
+    "s": "run_area: accounts_screen above the __main__ block (it never ran from below)"
+   },
+   {
+    "t": 1795471072,
+    "s": "Supersede the earlier day-ofprogram-rt (e55a1028b + red team): its fixes are re-done on d4d0c35's ingest / au…"
+   },
+   {
+    "t": 1795471071,
+    "s": "Red team day-ofprogram d4d0c35: Bars.GetBid/GetAsk through reflection (a missing member can no longer block F…"
+   },
+   {
     "t": 1795470899,
     "s": "Version bumps for the landed pages (bump_versions --apply) + search index"
    },
@@ -4401,6 +4437,34 @@
    {
     "t": 1795470766,
     "s": "Merge remote-tracking branch 'olympus/day-ofprogram-rt' into land-1123"
+   },
+   {
+    "t": 1795470701,
+    "s": "Tick import: detect NinjaTrader's filled-in quotes (Bid=Last) and fall back to the tick rule (else every trad…"
+   },
+   {
+    "t": 1795470602,
+    "s": "Round 3 writeup + tickrec status shows the recorder line"
+   },
+   {
+    "t": 1795470575,
+    "s": "LE_TickRec backfill: zero-click historical ticks via BarsRequest (Tick 1), nightly 17:15 ET + on enable, neve…"
+   },
+   {
+    "t": 1795469593,
+    "s": "Order-flow round 2 writeup: test counts exact (34 new + B1 in Holm)"
+   },
+   {
+    "t": 1795469578,
+    "s": "Order-flow round 2 results: 0 of 35 pre-registered LVN / volume-at-price stand-alones and 0 of 3 LIT LVN/HVN…"
+   },
+   {
+    "t": 1795469515,
+    "s": "Order-flow round 2: pre-register the LVN family (27 variants + union lane), LIT LVN/HVN confluence (3 rules),…"
+   },
+   {
+    "t": 1795469383,
+    "s": "NQ Accounts screen + the new Rapid's 7-day keep-alive checked end to end"
    },
    {
     "t": 1795468916,
@@ -4421,70 +4485,6 @@
    {
     "t": 1795467820,
     "s": "goals_build with the live board (payplan dates)"
-   },
-   {
-    "t": 1795467794,
-    "s": "Monday landing lead wires: sw v209 / shell v61, ship hub+lab checks, RUN_MONEY path, accents, CLAUDE.md push…"
-   },
-   {
-    "t": 1795467783,
-    "s": "Merge remote-tracking branch 'olympus/day-mind' into land-1123"
-   },
-   {
-    "t": 1795467777,
-    "s": "Merge remote-tracking branch 'olympus/day-notify' into land-1123"
-   },
-   {
-    "t": 1795467777,
-    "s": "Merge remote-tracking branch 'olympus/day-combo25-rt' into land-1123"
-   },
-   {
-    "t": 1795459598,
-    "s": "Red team day-combo25: combo50k._write_switch renamed inside its open 'with' (Windows refuses: --on / --off ne…"
-   },
-   {
-    "t": 1795457764,
-    "s": "combo_50k_check: 56/56 on day-combo25"
-   },
-   {
-    "t": 1795457078,
-    "s": "Order flow: read-only tick recorder (OFF) + NT8 tick importer + proxy test of 4 setups"
-   },
-   {
-    "t": 1795456613,
-    "s": "combo_25k_check: Oct 2-7 parity 17/17"
-   },
-   {
-    "t": 1795456212,
-    "s": "test_combo_25k: a HEDGE market close may book 1 tick a micro off the simulator; Sep 2-10 parity result"
-   },
-   {
-    "t": 1795455749,
-    "s": "combo25: keep the harness 'combo' key on an account entry (the test lane did not start)"
-   },
-   {
-    "t": 1795455526,
-    "s": "day-combo25: ATLAS + Zlarior on the Builder 25K #2 (engine/combo25.py), OFF by default"
-   },
-   {
-    "t": 1795453179,
-    "s": "day-mind round 4: the popular ICT + classic results in the Strategy Lab (fixture off), honest best add-on"
-   },
-   {
-    "t": 1795452956,
-    "s": "Merge remote-tracking branch 'origin/day-pop-classic' into day-mind"
-   },
-   {
-    "t": 1795452950,
-    "s": "Merge remote-tracking branch 'origin/day-pop-ict' into day-mind"
-   },
-   {
-    "t": 1795452906,
-    "s": "Popular ICT/SMC strategies as taught: 0 of 10 pass (paper research, nothing live changed)"
-   },
-   {
-    "t": 1795452900,
-    "s": "day-mind round 3: Strategy Lab cluster in the Brain, Strategy Lab tab in the Research Hub, Today strip"
    }
   ],
   "branches": [

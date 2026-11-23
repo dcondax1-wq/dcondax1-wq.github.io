@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Accounts</title>
+<meta name="description" content="Every MFFU account on one screen: balance, today's $, room to max loss, $ to pass or to the first payout with its date, which bots trade it and whether they are armed, and the MFFU 7-day clock with the keep-alive.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- day-accounts 2026-11-23: ONE clean screen for the accounts (OLYMPUS NIGHT). Read only: ../home.json, ../business/accounts.json,
+     ../business/payday.json and the PC's public status post (../pc_feed.js). acctcore.js = the pure rules (node-tested), accounts.js = the page.
+     Text only through textContent. A new account added on the PC (TRADE_HOME 4) appears by itself from the PC's post. -->
+<link rel="stylesheet" href="accounts.css?v=1">
+<script src="../pc_feed.js?v=n7"></script>
+</head>
+<body>
+<main id="app">
+  <header class="ac-top">
+    <a class="ac-back" href="./" aria-label="Back to NQ">‹ NQ</a>
+    <h1>Accounts</h1>
+    <span class="ac-pc" id="pc" data-level="bad" role="status" aria-live="polite">Loading…</span>
+  </header>
+
+  <section class="ac-banner" id="banner" role="alert" hidden>
+    <p class="ac-bt" id="bannerTitle"></p>
+    <p class="ac-bx" id="bannerText"></p>
+  </section>
+
+  <p class="ac-sum" id="sum"></p>
+  <div id="cards" class="ac-cards" aria-label="Each account"></div>
+
+  <section class="ac-foot">
+    <p><b>New account?</b> On the PC: TRADE_HOME, choose 4 (Add an account), then START BOT and type your phrase. It shows up here by itself with its 7-day clock; the phrase turns its keep-alive on.</p>
+    <p>MFFU closes an eval or funded account with no filled trade in 7 calendar days, weekends included. The keep-alive places 1 MNQ in and out (about 2 minutes) on the last full session before that, only if nothing else traded.</p>
+    <p>Funded accounts show MFFU's way: profit from $0. Payout dates are estimates from 1,000 replays, not a promise. Read only: this page never places, arms or changes anything.</p>
+  </section>
+</main>
+<script type="module" src="accounts.js?v=1"></script>
+</body>
+</html>

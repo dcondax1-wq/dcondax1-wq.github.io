@@ -91,7 +91,7 @@
 // missioncore, goals, hub, more, extras, litkit, second, statuscore, procore, blitzcore, fleet, launch, hermes/cards).
 // v107 (2026-11-17, owner: "each tab way better in words"): plainer $-first words in moneycore, moneynowcore, secondcore,
 // second, liveview, live_panel, main.js subtitles. OTHER_APPS unchanged.
-const CACHE = 'le-public-v209';
+const CACHE = 'le-public-v210';
 const NAV_WAIT_MS = 3500;
 let SLOW_UNTIL = 0;       // the site was just slow (the page waited NAV_WAIT_MS): data.json / home.json then wait 0.4 s, not 3.5 s
 const COPY_CLIENTS = new Map();   // a page (client id) answered from the saved copy -> until when its data.json / home.json are too
