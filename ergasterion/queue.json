@@ -4373,7 +4373,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795521540,
+   "t": 1795522740,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4394,6 +4394,18 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795522644,
+    "s": "Land Four Pillars hero/3D (day-pillars2) + lead wires: gate catalog row, root sw v212, bump cascade, pillars…"
+   },
+   {
+    "t": 1795522400,
+    "s": "Merge remote-tracking branch 'olympus/day-pillars2' into land-1123"
+   },
+   {
+    "t": 1795522374,
+    "s": "day-pillars2: Four Pillars hero on Home, Zenith, NQ + 3D/effects pass + market lessons panel"
+   },
    {
     "t": 1795521458,
     "s": "Publish pillars/ (build_web_dashboard app list): the Four Pillars page was 404 on the live site"
@@ -4481,18 +4493,6 @@
    {
     "t": 1795485608,
     "s": "Red team day-rapidsize: BLITZ on the Rapid 25K eval OFF unless the owner typed the live phrase (python -m eng…"
-   },
-   {
-    "t": 1795478479,
-    "s": "day-notifyfix: remote answers go through every phone channel; receipt + control commit seen ride the public f…"
-   },
-   {
-    "t": 1795473730,
-    "s": "lit_live check rerun on day-rapidsize: 0 differences (timings only)"
-   },
-   {
-    "t": 1795472381,
-    "s": "TRADE_HOME: F = Finish setup tonight (runs tools/finish_tonight.py; owner types the phrase)"
    }
   ],
   "branches": [

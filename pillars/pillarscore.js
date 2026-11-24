@@ -127,6 +127,7 @@ export function pillar(p, ctx) {
     last: lastTrade(p, c.lite, c.file), edge: p.edge, spans: arr(p.spans), recent: p.recent || null, src: p.src,
     chain, today, todayEmpty, next: arr(p.next).length ? arr(p.next) : [str(p.next, 400)].filter(Boolean), risks: arr(p.risks), basis: str(p.basis, 300),
     accountsNote: arr(p.accounts_note), researchDate: str(p.research_date, 10), spansNote: str(p.spans_note, 500), readiness: isObj(p.readiness) ? p.readiness : null,
+    lessons: arr(p.lessons).filter(isObj).map((x) => ({ d: str(x.d, 10), text: str(x.text, 240), src: str(x.src, 120) })),
     tick, designs: arr(p.designs), tests: arr(p.tests),
     glanceAge: gAge, fresh: gAge !== null && gAge < FRESH_S,
   };
@@ -143,7 +144,8 @@ export const PILLAR_BASE = [
 export function build(data, ctx) {
   const ps = arr(isObj(data) ? data.pillars : null).filter(isObj);
   const order = ['lit', 'atlas', 'blitz', 'of'];
-  return order.map((id) => ps.find((p) => p.id === id)).filter(Boolean).map((p) => pillar(p, ctx));
+  const sample = !!(isObj(data) && data.lessons_sample), lsrc = isObj(data) ? str(data.lessons_src, 80) : '';
+  return order.map((id) => ps.find((p) => p.id === id)).filter(Boolean).map((p) => ({ ...pillar(p, ctx), lessonsSample: sample, lessonsSrc: lsrc }));
 }
 
 /** the 4 mini chips for Home / NQ: name, one status word, one short line */

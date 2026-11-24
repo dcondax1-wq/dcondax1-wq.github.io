@@ -50,6 +50,7 @@ export function isLowPower(w) {
   return (+n.hardwareConcurrency > 0 && +n.hardwareConcurrency <= 4) || (+n.deviceMemory > 0 && +n.deviceMemory <= 2) || !!(n.connection && n.connection.saveData);
 }
 
+const TILT = { x: 0, y: 0 };
 export async function create(canvas, lobes, cfg) {
   cfg = cfg || {};
   const THREE = await loadThree();
@@ -231,6 +232,8 @@ export async function create(canvas, lobes, cfg) {
   canvas.addEventListener('wheel', onWheel, { passive: false });
   canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); ST.lost = true; cfg.onLost && cfg.onLost(); });
   const onVis = () => { ST.hidden = document.hidden; if (!ST.hidden) wake(); };
+  const onTilt = (e) => { if (cfg.reduce || e.gamma == null) return; TILT.x = Math.max(-1, Math.min(1, e.gamma / 30)); TILT.y = Math.max(-1, Math.min(1, (e.beta - 45) / 40)); wake(); };
+  addEventListener('deviceorientation', onTilt);
   document.addEventListener('visibilitychange', onVis); addEventListener('resize', size);
 
   // ---- the frame ----
@@ -241,7 +244,8 @@ export async function create(canvas, lobes, cfg) {
     const tS = (now - ST.t0) / 1000;
     if (!ptr.size) { ST.vy *= .94; ST.vp *= .9; ST.yaw += ST.vy + (reduce || ST.sel ? 0 : .0018 * dt / 16); ST.pitch = Math.max(-.9, Math.min(.9, ST.pitch + ST.vp)); }
     ST.zoom += (ST.zoomT - ST.zoom) * .1; ST.focus += (ST.focusT - ST.focus) * .12;
-    rig.rotation.set(ST.pitch, ST.yaw, 0); camera.position.set(0, -.08, ST.zoom); camera.lookAt(0, -.08, 0);
+    ST.tx = (ST.tx || 0) + ((TILT.x || 0) * .12 - (ST.tx || 0)) * .05; ST.ty = (ST.ty || 0) + ((TILT.y || 0) * .08 - (ST.ty || 0)) * .05;
+    rig.rotation.set(ST.pitch + ST.ty, ST.yaw + ST.tx, 0); camera.position.set(0, -.08, ST.zoom); camera.lookAt(0, -.08, 0);   /* day-pillars2: the phone's tilt nudges the brain (parallax) */
     [ptsMat, haloMat].forEach((m) => { m.uniforms.uT.value = tS; m.uniforms.uFocus.value = ST.focus; m.uniforms.uZ.value = ST.zoom; }); cortexMat.uniforms.uZ.value = ST.zoom;
     placeCores(tS); placeNeurons(tS);
     for (let k = 0; k < NP; k++) { const q = pulse[k]; q.u += q.v * dt / 1000; if (q.u > 1) { q.u = 0; q.c = Math.floor(Math.random() * curves.length); } curves[q.c].getPoint(q.u, tmp); pp.set([tmp.x, tmp.y, tmp.z], k * 3); }

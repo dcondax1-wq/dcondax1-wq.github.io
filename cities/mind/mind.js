@@ -2,7 +2,7 @@
 // research findings), home.json and the PC's status post (pc_feed.js). Built with createElement / textContent and SVG nodes only
 // (no innerHTML of data). Read only: no arm / start / stop / order anywhere.
 import * as M from './mindcore.js?v=m5';
-import * as P from '../../pillars/pillarscore.js?v=p2';
+import * as P from '../../pillars/pillarscore.js?v=p3';
 
 const $ = (id) => document.getElementById(id);
 const SVGNS = 'http://www.w3.org/2000/svg';
@@ -29,7 +29,7 @@ function drawLobeBar() {
 }
 function pillarModel(id) {
   const p = S.pillars && (S.pillars.pillars || []).find((x) => x.id === id); if (!p) return null;
-  return P.pillar(p, { nowS: S.now(), glance: S.glance, lite: S.lite, file: S.file });   // no account cards here: the Pillars page has them
+  return { ...P.pillar(p, { nowS: S.now(), glance: S.glance, lite: S.lite, file: S.file }), lessonsSample: !!S.pillars.lessons_sample };   // no account cards here: the Pillars page has them
 }
 function pillarWord(id) { const m = pillarModel(id); if (!m) return 'pillar'; return id === 'of' ? (m.tick && m.tick.has ? `${m.tick.d}/${m.tick.of} tick days` : 'waiting for ticks') : m.statusWord.toLowerCase(); }
 function labWord() { const c = M.labCounts(S.lab); const n = c.live + c.paper + c.promising + c.rejected; return n ? `${n} tested · ${c.paper + c.promising} promising` : 'loading'; }
@@ -233,6 +233,9 @@ function pillarBody(body, L) {
   const ol = el('ol', { class: 'chain', id: 'chain' });
   m.chain.steps.forEach((x, i) => ol.append(el('li', { class: x.state, 'data-step': x.key }, el('span', { class: 'dot', text: x.state === 'done' ? '✓' : String(i + 1) }), el('b', { text: x.label }), el('p', { text: x.help }))));
   body.append(ol);
+  body.append(el('h3', { text: 'What the market taught us' }));
+  if (m.lessonsSample) body.append(el('div', { class: 'sample', text: 'SAMPLE: research/learn/insights.json has not landed yet; placeholders, not findings.' }));
+  if (m.lessons.length) m.lessons.forEach((x) => body.append(el('p', { class: 'muted', text: `${x.d ? x.d + ' · ' : ''}${x.text}` }))); else body.append(el('p', { class: 'muted', text: 'Nothing learned for this pillar yet.' }));
   if (m.risks.length) { body.append(el('h3', { text: 'Risks' })); m.risks.forEach((t) => body.append(el('p', { class: 'muted', text: '• ' + t }))); }
   body.append(el('h3', { text: "What's next" })); m.next.forEach((t, i) => body.append(el('p', { text: `${i + 1}. ${t}` })));
   body.append(el('p', { class: 'muted', text: `Source: ${m.src}` }), el('p', {}, el('a', { class: 'link', href: '../../pillars/#' + L.id, text: `Open the ${L.name} pillar ›` })));
@@ -308,7 +311,7 @@ async function startScene() {
   const q = location.search, flat = () => { $('flat').hidden = false; drawFlat(); document.documentElement.dataset.mode = '2d'; };
   if (/[?&]lite=2d/.test(q)) return flat();
   try {
-    const Sc = await import('./mind-scene.js?v=m2');
+    const Sc = await import('./mind-scene.js?v=m3');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, low = Sc.isLowPower(window);
     // the lobe names over the 3D, kept apart (M.placeLabels): selected first, then the strategies, then the research lobes
     const tips = M.LOBES.map((L) => { const d = el('div', { class: 'tip' + (L.pillar ? ' st pil' : L.kind === 'strategy' ? ' st' : ''), 'aria-hidden': 'true', 'data-tip': L.id, text: L.name }); document.body.append(d); return { L, d, w: 0, h: 0 }; });

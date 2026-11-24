@@ -38,8 +38,8 @@
 <script src="../olympus/olympus.js?v=o24" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i12" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=9" defer></script>
-<script src="../olympus/gate-nav.js?v=g11" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=10" defer></script>
+<script src="../olympus/gate-nav.js?v=g12" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
 <link rel="stylesheet" href="nq.css?v=a9">
 <link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
@@ -58,12 +58,16 @@
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <p id="src" class="note" data-truth="source"></p>
-  <section class="pstrip" id="pillarsStrip" aria-label="The four pillars: LIT, ATLAS, BLITZ, ORDER FLOW"></section><!-- day-pillars 2026-11-24: ../pillars/strip.js -->
 
   <section class="banner" id="banner" data-level="bad" aria-labelledby="bannerTitle" hidden>
     <p class="btitle" id="bannerTitle">Last report from your PC: unknown.</p>
     <p class="btext" id="bannerText">The bots may still be trading; this page just is not hearing from them.</p>
     <button type="button" class="btn primary" id="bannerBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
+  </section>
+  <section class="phero" id="pillarsStrip" data-auto="nq" data-toast="0" aria-label="The Four Pillars" hidden>
+    <div class="ph-head"><b>The Four Pillars</b><a class="ph-open" href="../pillars/">Open</a></div>
+    <div class="ph-stage" aria-hidden="true"></div>
+    <nav class="ph-chips"></nav>
   </section>
 
   <!-- v4 (owner 2026-11-20 15:00 ET: "goals on the NQ dashboard"): each account's next money goal, a glowing ring and the $ left (nqgoals.js); tap one for its rules and date -->
@@ -218,10 +222,10 @@
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
 <script type="module" src="nq.js?v=r33"></script>
-<script>addEventListener('load', function () { setTimeout(function () { import('../pillars/strip.js?v=p2').catch(function () {}); }, 400); });</script><!-- day-pillars: the Four Pillars strip, after the page (not in the eager JS budget) -->
 <script type="module" src="nqchart.js?v=c9"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6f" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=3" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
+<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=h1').catch(function(){})},400)})</script>
 </body>
 </html>

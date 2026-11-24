@@ -285,7 +285,7 @@
       try { if (window.top !== window) return; } catch (e) { return; }
       var path = location.pathname || '';
       if (/\/gate\/(index\.html)?$/.test(path) || /\/agency\/(demos|audit|showcase|factory|portal|f)\//.test(path)) return;
-      var s = document.createElement('script'); s.src = new URL('gate-nav.js?v=g11', navSrc).href; s.async = true;
+      var s = document.createElement('script'); s.src = new URL('gate-nav.js?v=g12', navSrc).href; s.async = true;
       (document.head || root).appendChild(s);
     } catch (e) { /* the page works without it */ }
   }

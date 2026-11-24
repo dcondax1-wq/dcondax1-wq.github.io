@@ -91,13 +91,29 @@ export async function create(canvas, cols, cfg) {
   pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('aC', new THREE.BufferAttribute(pc, 3)); pg.setAttribute('aS', new THREE.BufferAttribute(ps, 1)); pg.setAttribute('aA', new THREE.BufferAttribute(pa, 1));
   const pMat = new THREE.ShaderMaterial({ vertexShader: VS_P, fragmentShader: FS_P, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uPx: { value: 300 } } });
   scene.add(new THREE.Points(pg, pMat));
+  // ---- light shafts: a soft additive beam rising from each lit capital (a cheap bloom), one InstancedMesh ----
+  const shaftQ = new THREE.PlaneGeometry(R * 3.2, H * .9); shaftQ.translate(0, H * .45, 0);
+  const beamCol = new Float32Array(N * 3), beamA = new Float32Array(N);
+  cols.forEach((c, i) => { const k = new THREE.Color(c.color); beamCol.set([k.r, k.g, k.b], i * 3); beamA[i] = c.dim ? .12 : .42 * Math.max(.2, c.fill); });
+  shaftQ.setAttribute('aC', new THREE.InstancedBufferAttribute(beamCol, 3)); shaftQ.setAttribute('aA', new THREE.InstancedBufferAttribute(beamA, 1));
+  const beamMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uT: { value: 0 } },
+    vertexShader: `attribute vec3 aC; attribute float aA; varying vec3 vC; varying float vA; varying vec2 vU; void main(){ vC = aC; vA = aA; vU = uv; gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position,1.0); }`,
+    fragmentShader: `precision mediump float; uniform float uT; varying vec3 vC; varying float vA; varying vec2 vU; void main(){ float x = 1.0 - abs(vU.x - .5) * 2.0; float a = pow(x, 3.0) * pow(1.0 - vU.y, 1.6) * vA * (.85 + .15 * sin(uT * 1.7 + vU.y * 9.0)); gl_FragColor = vec4(vC * a, a); }` });
+  const beams = new THREE.InstancedMesh(shaftQ, beamMat, N);
+  cols.forEach((c, i) => { m4.makeTranslation(X[i], H / 2 + .16, 0); beams.setMatrixAt(i, m4); });
+  if (!low) scene.add(beams);
+  // ---- parallax: the phone's tilt and the finger / mouse nudge the camera a little (never with reduced motion) ----
+  let tiltX = 0, tiltY = 0;
+  const onTilt = (e) => { if (reduce || e.gamma == null) return; tiltX = Math.max(-1, Math.min(1, e.gamma / 30)); tiltY = Math.max(-1, Math.min(1, (e.beta - 45) / 40)); wake(); };
+  const onHover = (e) => { if (reduce || e.pointerType === 'touch') return; const r = canvas.getBoundingClientRect(); tiltX = ((e.clientX - r.left) / r.width - .5) * 1.4; tiltY = ((e.clientY - r.top) / r.height - .5) * 1.2; wake(); };
+  addEventListener('deviceorientation', onTilt); canvas.addEventListener('pointermove', onHover);
   const tmp = new THREE.Vector3();
 
   function size() {
     const w = canvas.clientWidth || 390, h = canvas.clientHeight || 300, dpr = Math.min(ST.low ? 1 : 2, devicePixelRatio || 1);
     renderer.setPixelRatio(dpr); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
     const span = (X[N - 1] - X[0]) / 2 + R * 2.2, tn = Math.tan(camera.fov * Math.PI / 360);
-    ST.zoom = Math.max(span / (.86 * tn * camera.aspect), (H / 2 + .95) / (.92 * tn));   // headroom for the names over the capitals
+    ST.zoom = Math.max(span / (.86 * tn * camera.aspect), (H / 2 + (cfg.compact ? .45 : .95)) / (.92 * tn));   // headroom for the names over the capitals (the hero has none)
     pMat.uniforms.uPx.value = h * dpr * .5; wake();
   }
   function project(i, y) {
@@ -129,7 +145,9 @@ export async function create(canvas, cols, cfg) {
     const tS = (now - ST.t0) / 1000;
     if (!down) { ST.vy *= .92; ST.yaw = Math.max(-.6, Math.min(.6, ST.yaw + ST.vy)); if (!reduce) ST.yaw += (Math.sin(tS * .25) * .18 - ST.yaw) * .01; }
     const target = ST.sel ? X[cols.findIndex((c) => c.id === ST.sel)] * .35 : 0; ST.selT += (target - ST.selT) * .08;
-    camera.position.set(Math.sin(ST.yaw) * ST.zoom + ST.selT, .35, Math.cos(ST.yaw) * ST.zoom); camera.lookAt(ST.selT, .12, 0);
+    ST.px = (ST.px || 0) + (tiltX * .22 - (ST.px || 0)) * .06; ST.py = (ST.py || 0) + (tiltY * .18 - (ST.py || 0)) * .06;
+    camera.position.set(Math.sin(ST.yaw + ST.px) * ST.zoom + ST.selT, .35 + ST.py, Math.cos(ST.yaw + ST.px) * ST.zoom); camera.lookAt(ST.selT, .12, 0);
+    beamMat.uniforms.uT.value = reduce ? 0 : tS;
     shaftMat.uniforms.uT.value = reduce ? 0 : tS;
     for (let j = 0; j < NM; j++) { const q = mote[j], c = cols[q.i]; q.y += q.v * dt / 1000 * (c.dim ? .3 : 1); if (q.y > Math.max(.05, c.fill)) q.y = 0;
       const a = q.a + tS * .6; pp.set([X[q.i] + Math.cos(a) * q.r, -H / 2 + q.y * H, Math.sin(a) * q.r], (NHALO + j) * 3); pa[NHALO + j] = (c.dim ? .25 : .8) * (1 - q.y / Math.max(.05, c.fill)); }
@@ -137,7 +155,7 @@ export async function create(canvas, cols, cfg) {
     pg.attributes.position.needsUpdate = true; pg.attributes.aS.needsUpdate = true; pg.attributes.aA.needsUpdate = true;
     renderer.render(scene, camera); ST.frames++;
     if (cfg.onFrame) cfg.onFrame((id) => { const i = cols.findIndex((c) => c.id === id); return i < 0 ? null : project(i); });
-    if (!reduce || down || Math.abs(ST.vy) > .0005 || Math.abs(target - ST.selT) > .002) schedule();
+    if (!reduce || down || Math.abs(ST.vy) > .0005 || Math.abs(target - ST.selT) > .002 || Math.abs(tiltX * .22 - ST.px) > .002) schedule();
   }
   function schedule() { if (ST.running) return; ST.running = true; if (ST.low) setTimeout(() => requestAnimationFrame(frame), 30); else requestAnimationFrame(frame); }
   function wake() { schedule(); }
@@ -148,8 +166,8 @@ export async function create(canvas, cols, cfg) {
       shaftGeo.attributes.aFill.needsUpdate = true; wake();
     },
     project(id) { const i = cols.findIndex((c) => c.id === id); return i < 0 ? null : project(i); },
-    stats() { return { frames: ST.frames, low: ST.low, calls: renderer.info.render.calls, cols: N, motes: NM, three: THREE.REVISION }; },
-    dispose() { document.removeEventListener('visibilitychange', onVis); removeEventListener('resize', size); renderer.dispose(); },
+    stats() { return { frames: ST.frames, low: ST.low, calls: renderer.info.render.calls, cols: N, motes: NM, beams: !low, ema: Math.round(ST.ema * 10) / 10, three: THREE.REVISION }; },
+    dispose() { document.removeEventListener('visibilitychange', onVis); removeEventListener('resize', size); removeEventListener('deviceorientation', onTilt); renderer.dispose(); },
   };
   size(); schedule();
   return api;

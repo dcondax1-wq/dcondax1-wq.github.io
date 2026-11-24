@@ -2,8 +2,8 @@
 // Reads pillars-data.json (tools/build_pillars.py), ../home.json, ../business/accounts.json, ../business/payday.json, ../odeon/trades.json
 // and the PC's public status post (../pc_feed.js). Text only through textContent / createElement. Sends nothing, stores nothing but the
 // last opened pillar (localStorage, per viewer). ?at=<ISO time> pins the clock (tests and screenshots only).
-import * as PF from './pillarsfeed.js?v=p2';
-import * as P from './pillarscore.js?v=p2';
+import * as PF from './pillarsfeed.js?v=p3';
+import * as P from './pillarscore.js?v=p3';
 
 const $ = (id) => document.getElementById(id);
 const S = { data: null, home: null, biz: null, payday: null, file: null, lite: null, sel: 'lit', model: [], scene: null };
@@ -46,6 +46,7 @@ function spansTable(m) {
 function drawPanel() {
   const m = S.model.find((x) => x.id === S.sel) || S.model[0]; if (!m) return;
   const box = $('panel'); box.replaceChildren(); box.style.setProperty('--c', m.color); box.dataset.p = m.id;
+  box.classList.remove('swap'); void box.offsetWidth; box.classList.add('swap');   // a soft fade-up between pillars
   box.append(el('div', { class: 'phead' }, el('h2', { text: m.name }), el('div', { class: 'alias', text: m.alias }),
     el('span', { class: 'badge ' + m.level, id: 'pStatus', text: m.statusWord }), el('p', { text: m.status })));
   // accounts
@@ -98,6 +99,13 @@ function drawPanel() {
   if (m.today.length) { const strip = el('div', { class: 'today' }); m.today.forEach((r) => strip.append(el('div', { class: 'tchip', style: `--c:${r.color}` }, el('span', { class: 'tt', text: r.hm }), el('b', { text: r.name }), el('span', { class: 'tx', text: r.text })))); td.append(strip); requestAnimationFrame(() => { strip.scrollLeft = strip.scrollWidth; }); }
   else td.append(el('div', { class: 'muted', text: m.todayEmpty }));
   box.append(td);
+  // what the market taught us (research/learn/insights.json; a SAMPLE fixture until it lands)
+  const lt = el('section', { class: 'sec lessons', id: 'pLessons' }, el('h3', { text: 'What the market taught us' }));
+  if (m.lessonsSample) lt.append(el('div', { class: 'sample', id: 'pLessonsSample', text: 'SAMPLE: the market-learning file (research/learn/insights.json) has not landed yet. These lines are placeholders, not findings.' }));
+  if (m.lessons.length) { const ul = el('ul', { class: 'list' }); m.lessons.forEach((x) => ul.append(el('li', {}, x.d ? el('span', { class: 'ld', text: x.d + ' · ' }) : null, document.createTextNode(x.text)))); lt.append(ul); }
+  else lt.append(el('div', { class: 'muted', text: 'Nothing learned for this pillar yet: the lessons come from the market-learning job.' }));
+  lt.append(el('p', { class: 'src', text: `Source: ${m.lessonsSrc || 'research/learn/insights.json'}` }));
+  box.append(lt);
   if (m.risks.length) { const r = el('section', { class: 'sec', id: 'pRisks' }, el('h3', { text: 'Risks' })); const ul = el('ul', { class: 'list' }); m.risks.forEach((t) => ul.append(el('li', { text: t }))); r.append(ul); box.append(r); }
   const nx = el('section', { class: 'sec', id: 'pNext' }, el('h3', { text: "What's next" })), ol2 = el('ol', { class: 'list next' }); m.next.forEach((t) => ol2.append(el('li', { text: t }))); nx.append(ol2); box.append(nx);
 }
@@ -129,7 +137,7 @@ async function startScene() {
   const flat = () => { $('flat').hidden = false; drawFlat(); document.documentElement.dataset.mode = '2d'; };
   if (/[?&]lite=2d/.test(location.search)) return flat();
   try {
-    const Sc = await import('./pillars-scene.js?v=p1');
+    const Sc = await import('./pillars-scene.js?v=p2');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, low = Sc.isLowPower(window), fl = fills();
     const cols = S.model.map((m) => ({ id: m.id, name: m.name, color: m.color, fill: fl[m.id], dim: m.state === 'off' }));
     const stage = $('stage');
@@ -154,6 +162,7 @@ async function boot() {
   $('srcs').textContent = 'Numbers: ' + Object.values(data.sources || {}).join(' · ') + '. Live: the PC\'s 15-minute post. Read only.';
   render();
   startScene();
+  setTimeout(() => { import('./nightfx.js?v=h1').then((m) => m.mount()).catch(() => {}); import('./livefx.js?v=h1').then((m) => m.watch(document.getElementById('panel'))).catch(() => {}); }, 300);
   try {
     const F = window.PC_FEED;
     if (F && F.fetchLatest) {

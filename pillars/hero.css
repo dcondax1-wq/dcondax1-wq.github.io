@@ -1,0 +1,55 @@
+/* THE FOUR PILLARS hero (day-pillars2 2026-11-24): the top of the Olympus Home (gate/), Zenith and the NQ page. OLYMPUS NIGHT only.
+   The static markup (4 chip links) works with no script; pillars/hero.js upgrades it (live words, the 3D colonnade, the once-only toast). */
+.phero { position: relative; margin: 10px 0 12px; padding: 12px 12px 10px; border-radius: 18px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(157,89,238,.28), rgba(22,19,30,.96) 58%), #16131e; border: 1px solid #4d2e76;
+  box-shadow: 0 0 0 1px rgba(157,89,238,.18), 0 10px 34px rgba(77,46,118,.45); color: #f3eefc; }
+.phero::after { content: ""; position: absolute; inset: -40% -10% auto; height: 70%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(241,193,75,.16), transparent); filter: blur(6px); }
+.phero .ph-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.phero .ph-head b { font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: #f1c14b; text-shadow: 0 0 14px rgba(241,193,75,.45); }
+.phero .ph-head small { display: block; font-size: 11px; color: #a99cc2; letter-spacing: 0; text-transform: none; font-weight: 500; }
+.phero .ph-open { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 12px; border-radius: 12px;
+  font-size: 13px; font-weight: 700; color: #000; background: #f1c14b; text-decoration: none; box-shadow: 0 0 16px rgba(241,193,75,.45); }
+.phero .ph-stage { position: relative; height: 150px; margin: 6px -12px 4px; }
+.phero .ph-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.phero .ph-cols { position: absolute; inset: 6px 16% 4px; display: flex; align-items: flex-end; justify-content: space-around; }
+.phero .ph-cols i { position: relative; width: 12%; height: 100%; border-radius: 6px 6px 2px 2px; background: linear-gradient(#1d1530, #120d1d); border: 1px solid #3e255e; overflow: hidden; }
+.phero .ph-cols i::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: var(--f, 100%); background: linear-gradient(0deg, var(--c), transparent 150%); box-shadow: 0 0 18px var(--c); }
+.phero .ph-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.phero .pc { display: block; min-width: 0; min-height: 44px; padding: 8px 4px; border-radius: 12px; text-align: center; text-decoration: none; color: #f3eefc;
+  background: rgba(0,0,0,.45); border: 1px solid #3e255e; box-shadow: inset 0 -3px 0 var(--c); transition: transform .2s ease, box-shadow .2s ease; }
+.phero .pc:active { transform: scale(.97); }
+.phero .pc b { display: flex; align-items: center; justify-content: center; min-height: 2.3em; font-size: 11px; line-height: 1.15; color: var(--c); letter-spacing: .3px; }
+.phero .pc span { display: block; font-size: 10px; font-weight: 800; margin-top: 2px; }
+.phero .pc small { display: block; font-size: 9.5px; color: #a99cc2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phero .pc i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 3px; vertical-align: 1px; background: #a99cc2; }
+.phero .pc i.ok { background: #77db89; box-shadow: 0 0 6px #77db89; } .phero .pc i.warn { background: #f1c14b; } .phero .pc i.off { background: #5b3f86; }
+.pnew { position: fixed; left: 12px; right: 12px; bottom: 34px;   /* clear of the home indicator without env(): inside Jarvis, Zenith's CSS must not read raw insets (test_zenith_mode e) */ z-index: 2147483000; display: flex; align-items: center; gap: 10px;
+  padding: 10px 10px 10px 14px; border-radius: 16px; background: #16131e; border: 1px solid #f1c14b; color: #f3eefc; box-shadow: 0 10px 40px rgba(0,0,0,.6), 0 0 24px rgba(241,193,75,.3);
+  font: 14px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transform: translateY(0); transition: transform .35s ease, opacity .35s ease; }
+.pnew.out { transform: translateY(140%); opacity: 0; }
+.pnew b { color: #f1c14b; } .pnew div { flex: 1; min-width: 0; }
+.pnew a, .pnew button { flex: 0 0 auto; min-width: 44px; min-height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.pnew a { padding: 0 12px; background: #f1c14b; color: #000; } .pnew button { background: transparent; border: 1px solid #4d2e76; color: #f3eefc; }
+@media (prefers-reduced-motion: reduce) { .pnew, .phero .pc { transition: none; } }
+/* slim (the Olympus Home: the 6 dashboards must stay on the first screen): the colonnade glows BEHIND the chips */
+.phero.slim { padding: 8px 10px 8px; margin: 6px 0 10px; }
+.phero.slim .ph-stage { position: absolute; inset: 44px 0 0; height: auto; margin: 0; opacity: .55; pointer-events: none; z-index: -1; }
+.phero.slim .ph-head small { display: none; }
+.phero.slim .ph-chips { gap: 5px; margin-top: 6px; }
+.phero.slim .pc { padding: 5px 3px; }
+.phero.slim .pc b { min-height: 0; font-size: 10.5px; }
+.phero.slim .pc small { display: none; }
+/* band (the Olympus Home header: the owner's 6 dashboards must stay on the first screen, search near the top): one row of 4 chips, the
+   colonnade glowing behind them, in place of the header's one-line subtitle */
+.phero.band { margin: 8px 0 0; padding: 0; border: 0; background: none; box-shadow: none; overflow: visible; }
+.phero.band::after { display: none; }
+.phero.band .ph-head { display: none; }
+.phero.band .ph-stage { position: absolute; inset: -6px 0 -6px; height: auto; margin: 0; opacity: .6; pointer-events: none; z-index: -1; }
+.phero.band .ph-chips { gap: 5px; }
+.phero.band .pc { padding: 4px 3px; min-height: 46px; background: rgba(10,8,16,.72); box-shadow: inset 0 -3px 0 var(--c), 0 0 14px color-mix(in srgb, var(--c) 30%, transparent); }
+.phero.band .pc b { min-height: 0; font-size: 10.5px; }
+.phero.band .pc small { display: none; }
+.g-head:has(> .phero.band) .g-sub { display: none; }
+.phero.slim .ph-chips { position: relative; }
+.phero.slim .pc { background: rgba(0,0,0,.55); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }

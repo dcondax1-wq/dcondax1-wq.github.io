@@ -90,3 +90,9 @@ details.tests summary { cursor: pointer; color: var(--mut); font-size: 12.5px; m
 .foot p { flex-basis: 100%; margin: 6px 0 0; color: var(--mut); font-size: 11px; }
 .flat[hidden] { display: none !important; }
 .list { margin: 0; padding-left: 18px; font-size: 13.5px; } .list li { margin-bottom: 6px; } #pRisks li::marker { color: var(--red); } #pNext li::marker { color: var(--gold); }
+@keyframes pswap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.panel.swap { animation: pswap .32s ease-out; }
+@media (prefers-reduced-motion: reduce) { .panel.swap { animation: none; } }
+.sample { margin: 0 0 8px; padding: 8px 10px; border-radius: 10px; border: 1px dashed var(--gold); color: var(--gold); font-size: 12px; background: rgba(241,193,75,.06); }
+.lessons .ld { color: var(--gold); font-variant-numeric: tabular-nums; }
+.lessons { background: linear-gradient(160deg, rgba(119,219,137,.07), var(--card) 55%); }

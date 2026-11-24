@@ -1184,13 +1184,19 @@ html[data-oly-scheme="light"] {
       <button class="iconbtn" id="refresh" type="button" title="Refresh data" aria-label="Refresh data"></button>
     </header>
     <div class="sub" id="sub"></div>
+    <section class="phero" id="pillarsHero" data-auto="home" aria-label="The Four Pillars: LIT, ATLAS, BLITZ, ORDER FLOW"><!-- day-pillars2 2026-11-24: the Four Pillars hero (pillars/hero.css + hero.js) -->
+      <div class="ph-head"><b>The Four Pillars<small>LIT · ATLAS · BLITZ · ORDER FLOW</small></b><a class="ph-open" href="pillars/">Open</a></div>
+      <div class="ph-stage" aria-hidden="true"></div>
+      <nav class="ph-chips" aria-label="The four pillars"><a class="pc" data-p="lit" href="pillars/#lit" style="--c:#f1c14b"><b>LIT</b><span><i class="ok"></i>LIVE</span><small>Zlarior</small></a><a class="pc" data-p="atlas" href="pillars/#atlas" style="--c:#77db89"><b>ATLAS</b><span><i class="ok"></i>LIVE</span><small>EMA · MACD · S/R</small></a><a class="pc" data-p="blitz" href="pillars/#blitz" style="--c:#9d59ee"><b>BLITZ</b><span><i class="off"></i>OFF</span><small>built · OFF</small></a><a class="pc" data-p="of" href="pillars/#of" style="--c:#5fd0c9"><b>ORDER FLOW</b><span><i class="warn"></i>NOT READY</span><small>ticks</small></a></nav>
+    </section>
     <section class="zn-nq" id="znNq" aria-label="NQ bots: reporting" data-level="ok"><div class="zn-nq-w"><b class="zn-nq-t">Zlarior and ATLAS on one page</b><span class="zn-nq-x">Status, drawdown left, today, the last trades.</span></div><a class="zn-nq-a" href="nq/" id="znNqLink" aria-label="Open the new NQ page">Open the new NQ page</a><script>/* day-arenas 2026-11-20 (DESIGN): the NQ strip is in the page from the first frame (the NQ note script fills it; it landed at 5.4 s above Home: a 0.06-0.08 layout shift) */if (/^#\/(?!today\b)[a-z]/.test(location.hash)) document.currentScript.parentNode.hidden = true;</script></section>
     <main class="page" id="page"><div class="skel"></div><div class="skel"></div><div class="skel"></div></main>
   </div>
   <nav class="tabs" id="tabs" aria-label="Main"></nav>
 </div>
 <div class="toast" id="toast"></div>
-<script src="main.js?v=w15" defer fetchpriority="high"></script><!-- the Zenith app itself (QA Round 7: was a 422 KB inline script; deferred so the skeleton paints first) -->
+<link rel="stylesheet" href="pillars/hero.css?v=h5" media="print" onload="this.media='all'"><script src="main.js?v=w15" defer fetchpriority="high"></script>
+<script>addEventListener('load', function () { setTimeout(function () { import('./pillars/hero.js?v=h1').catch(function () {}); }, 600); });</script><!-- day-pillars2: the Four Pillars hero, after the page (not in the eager-JS budget) --><!-- the Zenith app itself (QA Round 7: was a 422 KB inline script; deferred so the skeleton paints first) -->
 <script src="zenith_settle.js?v=6" defer></script><!-- day-arenas DESIGN: Home start-up changes happen behind a still copy of the last frame, shown in one step (no cascade of jumps) -->
 <script type="module">import * as T from "./olympus/truth.js?v=r14"; window.OLYMPUS_TRUTH = T;</script><!-- one source for drawdown / balance / data age (QA round 6) -->
 <script src="extras.js?v=3" defer fetchpriority="high"></script>
@@ -1233,7 +1239,7 @@ html[data-oly-scheme="light"] {
 <script src="zenith.js?v=2" defer></script>
 <script src="zenith_hero.js?v=6" defer></script>
 <script src="launcher.js?v=l25" defer></script>
-<script src="olympus/a11y.js?v=a4" defer></script><!-- A11Y K9 (day-arenas DESIGN): focus ring, auto names, text growth -->
+<script src="olympus/a11y.js?v=a5" defer></script><!-- A11Y K9 (day-arenas DESIGN): focus ring, auto names, text growth -->
 <script src="zenith_money.js?v=4" defer></script>
 <script src="moneynowcore.js?v=q11" defer></script>
 <script src="moneynow.js?v=1" defer></script>

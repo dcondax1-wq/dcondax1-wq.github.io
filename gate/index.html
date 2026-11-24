@@ -60,7 +60,7 @@
     if (!again) localStorage.setItem('oly.homefx.day', dk);
   } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n8', 'olympus/gate-catalog.js?v=nv12', 'olympus/hub-status.js?v=h5', 'age.js?v=1', 'business/payoutcoach.js?v=4', 'gate/gate.js?v=g22', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n8', 'olympus/gate-catalog.js?v=nv13', 'olympus/hub-status.js?v=h5', 'age.js?v=1', 'business/payoutcoach.js?v=4', 'gate/gate.js?v=g22', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -72,7 +72,13 @@
   <header class="g-head">
     <h1 class="g-title">Olympus</h1>
     <p class="g-sub">Your 6 dashboards. The rest: More.</p>
+      <section class="phero band" id="pillarsHero" data-auto="home" aria-label="The Four Pillars: LIT, ATLAS, BLITZ, ORDER FLOW"><!-- day-pillars2 2026-11-24: the Four Pillars hero (pillars/hero.css + hero.js) -->
+      <div class="ph-head"><b>The Four Pillars<small>LIT · ATLAS · BLITZ · ORDER FLOW</small></b><a class="ph-open" data-to="pillars/" href="../pillars/">Open</a></div>
+      <div class="ph-stage" aria-hidden="true"></div>
+      <nav class="ph-chips" aria-label="The four pillars"><a class="pc" data-p="lit" data-to="pillars/#lit" href="../pillars/#lit" style="--c:#f1c14b"><b>LIT</b><span><i class="ok"></i>LIVE</span><small>Zlarior</small></a><a class="pc" data-p="atlas" data-to="pillars/#atlas" href="../pillars/#atlas" style="--c:#77db89"><b>ATLAS</b><span><i class="ok"></i>LIVE</span><small>EMA · MACD · S/R</small></a><a class="pc" data-p="blitz" data-to="pillars/#blitz" href="../pillars/#blitz" style="--c:#9d59ee"><b>BLITZ</b><span><i class="off"></i>OFF</span><small>built · OFF</small></a><a class="pc" data-p="of" data-to="pillars/#of" href="../pillars/#of" style="--c:#5fd0c9"><b>ORDER FLOW</b><span><i class="warn"></i>NOT READY</span><small>ticks</small></a></nav>
+    </section>
   </header>
+
 
   <section class="g-find" aria-labelledby="findH">
     <h2 class="g-h2 g-vh" id="findH"><label for="q">Find anything</label></h2>
@@ -200,6 +206,10 @@
   var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=6'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
   var dl = d.createElement('link'); dl.rel = 'stylesheet'; dl.href = b + 'olympus/dashfx.css?v=d1'; d.head.appendChild(dl);
   var dx = d.createElement('script'); dx.src = b + 'olympus/dashfx.js?v=d1'; dx.defer = true; d.body.appendChild(dx);   /* DESIGN's glass on the arenas */
+})();</script>
+<script>(function () { /* day-pillars2: the Four Pillars hero's look + live module (after the page; GATE_BASE = the site root here or at olympus-live.html) */
+  var b = window.GATE_BASE || '', d = document, l = d.createElement('link'); l.rel = 'stylesheet'; l.href = b + 'pillars/hero.css?v=h5'; d.head.appendChild(l);
+  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=h1').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
 })();</script>
 <script src="install-hint.js?v=h1" defer></script>
 </body>

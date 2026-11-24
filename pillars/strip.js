@@ -3,8 +3,8 @@
 // from what the page already holds (window.NQ.S: home, biz, lite = the PC's post) + the bare pillar list (pillarscore.PILLAR_BASE),
 // and it redraws on the page's 'nq-refresh'. createElement / textContent only. Read only.
 // BLITZ (owner 2026-11-23: one of the 4 pillars) shows only as "built · OFF": no live BLITZ number while hidden_bots holds it.
-import * as P from './pillarscore.js?v=p2';
-import * as PF from './pillarsfeed.js?v=p2';
+import * as P from './pillarscore.js?v=p3';
+import * as PF from './pillarsfeed.js?v=p3';
 
 const BASE = new URL('./', import.meta.url);
 const CSS = `.pstrip{margin:10px 0 4px}.pstrip .ph{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 6px}
