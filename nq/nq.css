@@ -160,3 +160,5 @@ html:not(.framed) #app { padding-bottom: calc(96px + var(--sb)); }
    above the live chart, which must stay on the first 390 x 844 screen: the status / source lines and the chart's "As of" line. */
 main#app .ag-card .note { font-size: 0.9375rem; }
 main#app #chartCard > #chartAsOf.note { font-size: 13px; }
+/* day-pillars 2026-11-24: the header's tag row may wrap (Pillars, Accounts, Brain + the status tags) instead of widening the page */
+main#app > header.top > .tags { flex-wrap: wrap; justify-content: flex-end; min-width: 0; row-gap: 4px; }

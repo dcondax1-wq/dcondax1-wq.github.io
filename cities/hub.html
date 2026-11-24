@@ -10,9 +10,10 @@
 <meta name="robots" content="noindex">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="hub.css?v=h2">
-<script src="hub.js?v=h1" defer></script>
-<script src="hub-lab.js?v=l2" defer></script>
+<link rel="stylesheet" href="hub.css?v=h3">
+<script src="hub.js?v=h2" defer></script>
+<script src="hub-lab.js?v=l3" defer></script>
+<script type="module" src="hub-pillars.js?v=p1"></script>
 </head>
 <body>
 <!-- RESEARCH HUB v2 (night-hub2 2026-11-22): data = hub-data.json from tools/build_research_hub.py. Read only: no live control, sends nothing. -->
@@ -25,7 +26,7 @@
   <button type="button" role="tab" data-tab="research" aria-selected="true">Research</button>
   <button type="button" role="tab" data-tab="lab" aria-selected="false">Strategy Lab</button>
 </nav>
-<main id="lab" hidden><section class="sec" aria-labelledby="hLab"><h2 id="hLab">Strategy Lab</h2><div id="labBody"><p class="foot">Loading...</p></div></section></main>
+<main id="lab" hidden><section class="sec" aria-labelledby="hLab"><h2 id="hLab">Strategy Lab</h2><div class="chips" id="labPil" role="group" aria-label="Pillar"></div><div id="labBody"><p class="foot">Loading...</p></div></section></main>
 <main id="main">
   <a class="brainbtn" id="brainBtn" href="brain.html"><b>Open the 3D Research Brain</b><small id="brainSub">every finding as a neuron</small><span aria-hidden="true">&#8250;</span></a>
 
@@ -49,6 +50,7 @@
   <section class="sec" aria-labelledby="hAll">
     <h2 id="hAll">Every study <span class="n" id="allN"></span></h2>
     <input class="search" id="q" type="search" placeholder="Search every study" autocomplete="off" enterkeyhint="search" aria-label="Search every study">
+    <div class="chips" id="resPil" role="group" aria-label="Pillar"></div>
     <div class="chips" id="fams" role="group" aria-label="Family"></div>
     <div class="chips" id="verd" role="group" aria-label="Verdict">
       <button class="chip" data-v="" aria-pressed="true">All</button>

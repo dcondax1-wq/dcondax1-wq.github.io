@@ -8,6 +8,8 @@
 //   - research lobes = cities/brain-data.json (the Research Brain's findings per family; BLITZ is hidden, as everywhere).
 // Read only: nothing here arms, starts, stops or orders anything.
 import { LIT_STAGES, stageN, lobeState } from '../../nq/braincore.js?v=4';
+import { pillarOf } from '../../pillars/pillarof.js?v=p1';
+export { pillarOf };
 
 export const FRESH_S = 20 * 60;           // the PC posts every 15 minutes (pc_feed.js FRESH_S)
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
@@ -18,18 +20,22 @@ const str = (v, n) => String(v == null ? '' : v).replace(/[<>]/g, '').slice(0, n
 /* ---------------- the lobes ---------------- */
 // kind 'strategy' = a strategy we trade (live chain + trades); kind 'research' = the findings of a Research Brain family.
 // pos = where the lobe sits in the brain (x right, y up, z front), in the brain's own units (half sizes 1.15 / .9 / 1.5).
+// THE FOUR PILLARS (owner 2026-11-23 23:00 ET): LIT, ATLAS, BLITZ, ORDER FLOW are the 4 big lobes; ATLAS's three members sit beside it; the
+// research neurons orbit the pillar they belong to (pillarNeurons); the Strategy Lab (popular strategies) and the non-trading research stay small.
+export const PILLAR_IDS = ['lit', 'atlas', 'blitz', 'of'];
 export const LOBES = [
-  { id: 'lit', kind: 'strategy', name: 'LIT', sub: 'Zlarior · Builder 50K', bot: 'lit', color: '#f1c14b', pos: [0, .42, 1.02] },
-  { id: 'ema', kind: 'strategy', name: 'ATLAS EMA', sub: 'London trend pullback', bot: 'atlas', lobe: { id: 'ema', name: 'EMA' }, strat: 'EMA', color: '#77db89', pos: [.78, .3, .42] },
-  { id: 'macd', kind: 'strategy', name: 'ATLAS MACD', sub: 'Divergence at a sweep', bot: 'atlas', lobe: { id: 'macd', name: 'MACD' }, strat: 'MACD', color: '#5fd0c9', pos: [-.78, .3, .42] },
-  { id: 'sr', kind: 'strategy', name: 'ATLAS S/R', sub: 'Day level sweep + reclaim', bot: 'atlas', lobe: { id: 'sr', name: 'S/R' }, strat: 'S/R', color: '#b78cff', pos: [0, .8, -.05] },
-  { id: 'r_lit', kind: 'research', name: 'LIT research', fam: 0, color: '#f1c14b', pos: [.42, -.12, .95] },
-  { id: 'r_atlas', kind: 'research', name: 'ATLAS research', fam: 1, color: '#77db89', pos: [-.42, -.12, .95] },
-  { id: 'r_money', kind: 'research', name: 'Rapid + fleet money', fam: 3, color: '#f1c14b', pos: [.88, -.28, -.35] },
-  { id: 'r_kalshi', kind: 'research', name: 'Kalshi', fam: 4, color: '#9d59ee', pos: [.32, -.6, -.88] },
-  { id: 'r_web', kind: 'research', name: 'Websites + calls', fam: 5, color: '#9d59ee', pos: [-.88, -.28, -.35] },
-  { id: 'r_ops', kind: 'research', name: 'Ops', fam: 6, color: '#77db89', pos: [-.32, .38, -.98] },
-  { id: 'lab', kind: 'lab', name: 'Strategy Lab', color: '#f1c14b', pos: [0, -.3, .3] },   // one neuron per tested strategy around it (labNeurons)
+  { id: 'lit', kind: 'strategy', pillar: true, name: 'LIT', sub: 'Zlarior · pillar 1 of 4 · Builder 50K + 25K #2', bot: 'lit', color: '#f1c14b', pos: [-.55, .42, .45] },
+  { id: 'atlas', kind: 'pillar', pillar: true, name: 'ATLAS', sub: 'pillar 2 of 4 · EMA + MACD + S/R on the funded 25K', bot: 'atlas', color: '#77db89', pos: [.55, .42, .45] },
+  { id: 'blitz', kind: 'pillar', pillar: true, name: 'BLITZ', sub: 'pillar 3 of 4 · the scalper: built, switched OFF', bot: 'blitz', color: '#9d59ee', pos: [-.55, -.16, -.45] },
+  { id: 'of', kind: 'pillar', pillar: true, name: 'ORDER FLOW', sub: 'pillar 4 of 4 · collecting ticks', bot: null, color: '#5fd0c9', pos: [.55, -.16, -.45] },
+  { id: 'ema', kind: 'strategy', name: 'ATLAS EMA', sub: 'London trend pullback (ATLAS)', bot: 'atlas', lobe: { id: 'ema', name: 'EMA' }, strat: 'EMA', color: '#77db89', pos: [.95, .2, .12] },
+  { id: 'macd', kind: 'strategy', name: 'ATLAS MACD', sub: 'Divergence at a sweep (ATLAS)', bot: 'atlas', lobe: { id: 'macd', name: 'MACD' }, strat: 'MACD', color: '#a6f0b4', pos: [.6, .7, .02] },
+  { id: 'sr', kind: 'strategy', name: 'ATLAS S/R', sub: 'Day level sweep + reclaim (ATLAS)', bot: 'atlas', lobe: { id: 'sr', name: 'S/R' }, strat: 'S/R', color: '#4fbf9a', pos: [.28, .18, .92] },
+  { id: 'lab', kind: 'lab', name: 'Strategy Lab', color: '#f1c14b', pos: [0, -.3, .8] },   // the popular strategies tested (labNeurons)
+  { id: 'r_money', kind: 'research', name: 'Rapid + fleet money', fam: 3, color: '#f1c14b', pos: [.35, .55, -.95] },
+  { id: 'r_kalshi', kind: 'research', name: 'Kalshi', fam: 4, color: '#9d59ee', pos: [-.35, .55, -.95] },
+  { id: 'r_web', kind: 'research', name: 'Websites + calls', fam: 5, color: '#9d59ee', pos: [-.95, .25, -.05] },
+  { id: 'r_ops', kind: 'research', name: 'Ops', fam: 6, color: '#77db89', pos: [0, -.25, -1.15] },
 ];
 export const lobeById = (id) => LOBES.find((l) => l.id === id) || null;
 
@@ -213,6 +219,8 @@ export function research(lobeId, data, n = 6) {
 export function glow(lobeId, ctx) {
   const L = lobeById(lobeId); if (!L) return 0;
   if (L.kind === 'strategy') { const v = live(lobeId, ctx && ctx.glance, ctx && ctx.now); return v.word === 'live' ? 1 : v.word === 'done' ? .7 : v.has ? .6 : .5; }
+  if (L.kind === 'pillar') { if (lobeId === 'blitz') return .35; if (lobeId === 'of') return .55; const v = live('ema', ctx && ctx.glance, ctx && ctx.now); return v.word === 'live' ? 1 : .6; }
+  if (L.kind === 'lab') return .6;
   const r = research(lobeId, ctx && ctx.data, 0); return r ? Math.min(.9, .3 + r.total / 60) : .3;
 }
 
@@ -237,8 +245,8 @@ export function placeLabels(items, box, gap = 2) {
 }
 
 /* ---------------- the Strategy Lab cluster (cities/lab-data.json, tools/build_strategy_lab.py) ---------------- */
-export const VERDICT_COLOR = { live: '#f1c14b', paper: '#77db89', promising: '#77db89', rejected: '#8a6bbd' };   // dim violet: visible on the cortex, never brighter than a live / mint one
-export const VERDICT_WORD = { live: 'Live', paper: 'Paper', promising: 'Promising', rejected: 'Rejected' };
+export const VERDICT_COLOR = { adopted: '#f1c14b', open: '#77db89', live: '#f1c14b', paper: '#77db89', promising: '#77db89', rejected: '#8a6bbd' };   // dim violet: visible on the cortex, never brighter than a live / mint one
+export const VERDICT_WORD = { adopted: 'Adopted', open: 'Open', live: 'Live', paper: 'Paper', promising: 'Promising', rejected: 'Rejected' };
 const lastSpan = (r) => { const sp = arr(r && r.spans); return sp[sp.length - 1] || {}; };
 /** the lab rows, best first: live, then paper / promising, then rejected; inside each by the last span's $/month */
 export function labRows(lab) {
@@ -248,7 +256,8 @@ export function labRows(lab) {
 }
 /** one neuron per strategy on a small sphere around the Strategy Lab lobe (golden-angle spiral: even, stable order) */
 export function labNeurons(lab) {
-  const L = lobeById('lab'), rows = labRows(lab), n = rows.length, ga = Math.PI * (3 - Math.sqrt(5));
+  // the Strategy Lab cluster = the strategies that are not one of the pillars' own (LIT variants orbit LIT: pillarNeurons)
+  const L = lobeById('lab'), rows = labRows(lab).filter((r) => r.verdict !== 'live' && r.src !== 'LEADERBOARD.md'), n = rows.length, ga = Math.PI * (3 - Math.sqrt(5));
   return rows.map((r, i) => {
     const y = n > 1 ? 1 - (i / (n - 1)) * 2 : 0, rad = Math.sqrt(1 - y * y), th = ga * i, k = .3;
     return { id: 'lab:' + r.id, rid: r.id, color: VERDICT_COLOR[r.verdict] || VERDICT_COLOR.rejected, verdict: r.verdict,
@@ -278,4 +287,40 @@ export function today(glance, lite) {
   const seen = new Set();
   return out.filter((x) => { const k = x.bot + x.hm + x.text; if (seen.has(k)) return false; seen.add(k); return true; })
     .sort((a, b) => a.hm.localeCompare(b.hm) || a.bot.localeCompare(b.bot));
+}
+
+/* ---------------- the pillars' own research, orbiting them ---------------- */
+const FIND_VERDICT = { a: 'adopted', r: 'rejected', o: 'open' };
+/** every pillar's research as neurons on a shell around its lobe:
+ *  Research Brain findings (brain-data.json; families LIT / ATLAS / BLITZ, or words that name a pillar), the Strategy Lab's LIT variants
+ *  (LEADERBOARD.md) around LIT, the order-flow proxy tests (pillars-data.json) around ORDER FLOW.
+ *  -> [{ id: 'find:<i>' | 'lab:<rid>' | 'of:<id>', pillar, color, verdict, pos }] */
+export function pillarNeurons(brainData, lab, pillarsData) {
+  const by = { lit: [], atlas: [], blitz: [], of: [] };
+  arr(isObj(brainData) ? brainData.n : null).forEach((x, i) => {
+    if (!isObj(x)) return;
+    const fam = num(x.f), p = fam !== null && fam <= 2 ? pillarOf(`${x.t || ''} ${x.v || ''}`, fam) : pillarOf(`${x.t || ''}`, -1);
+    if (p && by[p]) by[p].push({ id: 'find:' + (num(x.i) ?? i), verdict: FIND_VERDICT[x.s] || 'open' });
+  });
+  for (const r of labRows(lab)) if (r.src === 'LEADERBOARD.md') by.lit.push({ id: 'lab:' + r.id, verdict: r.verdict });
+  const ofp = arr(isObj(pillarsData) ? pillarsData.pillars : null).find((p) => isObj(p) && p.id === 'of');
+  for (const t of arr(ofp && ofp.tests)) if (isObj(t) && t.id) by.of.push({ id: 'of:' + t.id, verdict: t.verdict === 'rejected' ? 'rejected' : 'open' });
+  const ga = Math.PI * (3 - Math.sqrt(5)), out = [];
+  for (const pid of PILLAR_IDS) {
+    const L = lobeById(pid), rows = by[pid], n = rows.length, k = Math.min(.34, .18 + n * .0016);
+    rows.forEach((q, i) => {
+      const y = n > 1 ? 1 - (i / (n - 1)) * 2 : 0, rad = Math.sqrt(1 - y * y), th = ga * i;
+      out.push({ ...q, pillar: pid, color: VERDICT_COLOR[q.verdict] || VERDICT_COLOR.rejected,
+        pos: [L.pos[0] + Math.cos(th) * rad * k * 1.15, L.pos[1] + y * k * .8, L.pos[2] + Math.sin(th) * rad * k] });
+    });
+  }
+  return out;
+}
+/** a Research Brain finding by its neuron id ('find:<i>') */
+export function finding(brainData, id) {
+  const i = +String(id || '').replace(/^find:/, '');
+  const x = arr(isObj(brainData) ? brainData.n : null).find((r, j) => isObj(r) && (num(r.i) ?? j) === i);
+  if (!x) return null;
+  const fam = arr(brainData.fam)[x.f];
+  return { title: str(x.t, 200), result: str(x.r, 200), verdict: FIND_VERDICT[x.s] || 'open', text: str(x.v, 240), date: str(x.d, 10), family: str(fam, 40) };
 }

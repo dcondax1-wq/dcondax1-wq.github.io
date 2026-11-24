@@ -72,6 +72,7 @@ export const GROUPS = Object.freeze([
 ]);
 const app = (id, name, group, accent, sub, more) => Object.freeze(Object.assign({ id, name, group, accent, sub, url: '../' + id + '/', live: true }, more));
 export const BUILT_INS = Object.freeze([
+  app('pillars', 'Four Pillars', 'trading', '#f1c14b', 'LIT, ATLAS, BLITZ, ORDER FLOW: status, accounts, edge, next', { glyph: '\u2161', live: false }),
   app('zenith', 'Zenith', 'trading', '#9c6b3c', 'NQ bots \u00b7 Zlarior \u00b7 ATLAS', { url: '../', icon: '../icons/icon-192.png?v=p111030', live: false }),
   app('oracle', 'Oracle', 'trading', '#7fb0a3', 'The market radar, live', { glyph: '\u0398' }),
   app('odeon', 'Odeon', 'trading', '#d77a7a', 'Every trade, replayed in 3D', { glyph: '\u039e' }),

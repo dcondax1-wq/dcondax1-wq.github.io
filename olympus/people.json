@@ -1367,6 +1367,27 @@
  ],
  "villagers": [
   {
+   "id": "villager:pillars",
+   "name": "Zenon",
+   "title": "Lives in Four Pillars",
+   "kind": "villager",
+   "area": "trading",
+   "app": "pillars",
+   "seed": 83407872,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.04,
+    "rate": 0.99
+   },
+   "sources": [],
+   "home": {
+    "scene": "athens",
+    "place": "pillars"
+   },
+   "bio": "LIT, ATLAS, BLITZ, ORDER FLOW: status, accounts, edge, next",
+   "appName": "Four Pillars"
+  },
+  {
    "id": "villager:zenith",
    "name": "Sotiris",
    "title": "Lives in Zenith",
@@ -2286,7 +2307,7 @@
   },
   {
    "id": "villager:stoa",
-   "name": "Zenon",
+   "name": "Kosmas",
    "title": "Lives in Stoa",
    "kind": "villager",
    "area": "trading",
@@ -2792,7 +2813,7 @@
   },
   {
    "id": "villager:herald",
-   "name": "Kosmas",
+   "name": "Hero",
    "title": "Lives in Herald",
    "kind": "villager",
    "area": "life",
@@ -2815,7 +2836,7 @@
   },
   {
    "id": "villager:polis",
-   "name": "Hero",
+   "name": "Nike",
    "title": "Lives in Polis",
    "kind": "villager",
    "area": "life",
@@ -2838,7 +2859,7 @@
   },
   {
    "id": "villager:agency",
-   "name": "Nike",
+   "name": "Ourania",
    "title": "Lives in Websites",
    "kind": "villager",
    "area": "web",
@@ -2861,7 +2882,7 @@
   },
   {
    "id": "villager:business",
-   "name": "Ourania",
+   "name": "Kalliope",
    "title": "Lives in Money",
    "kind": "villager",
    "area": "money",
@@ -2884,7 +2905,7 @@
   },
   {
    "id": "villager:trading",
-   "name": "Kalliope",
+   "name": "Lykos",
    "title": "Lives in Trading",
    "kind": "villager",
    "area": "trading",
@@ -2907,7 +2928,7 @@
   },
   {
    "id": "villager:board",
-   "name": "Lykos",
+   "name": "Xenia Α",
    "title": "Lives in Board",
    "kind": "villager",
    "area": "trading",

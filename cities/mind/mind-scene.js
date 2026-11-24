@@ -130,7 +130,7 @@ export async function create(canvas, lobes, cfg) {
   const glowV = lobes.map(() => .6);
   function placeCores(tS) {
     lobes.forEach((l, i) => {
-      const sel = ST.sel === l.id, s = (l.kind === 'strategy' ? .085 : .062) * (sel ? 1.45 : 1) * (1 + (reduce ? 0 : .08 * Math.sin(tS * 2 + i)));
+      const sel = ST.sel === l.id, s = (l.pillar ? .125 : l.kind === 'strategy' ? .07 : l.kind === 'research' ? .05 : .062) * (sel ? 1.45 : 1) * (1 + (reduce ? 0 : .08 * Math.sin(tS * 2 + i)));
       m4.makeScale(s, s, s).setPosition(P[i]); cores.setMatrixAt(i, m4);
       col.set(l.color).multiplyScalar(.55 + .6 * glowV[i]); cores.setColorAt(i, col);
     });

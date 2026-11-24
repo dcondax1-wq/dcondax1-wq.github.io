@@ -1,16 +1,16 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-23 17:02 ET",
+ "built": "2026-11-24 00:09 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
   "to": "2026-11-27",
   "label": "Nov 23 - Nov 27",
   "complete": false,
-  "sessions_done": 1
+  "sessions_done": 2
  },
- "pc": "PC last reported Nov 23 17:01 ET",
+ "pc": "PC last reported Nov 24 0:00 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49213.9,
-   "src": "PC live, Nov 23 17:01 ET",
+   "src": "PC live, Nov 24 0:00 ET",
    "room": 1045.7,
    "to_pass": 3786.1,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 23 17:01 ET",
+   "src": "PC live, Nov 24 0:00 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -68,26 +68,26 @@
    "name": "Rapid EOD 25K",
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
-   "end": 25000.0,
-   "src": "PC live, Nov 23 17:01 ET",
-   "room": 1000.0,
-   "to_pass": 1500.0,
+   "end": 24976.12,
+   "src": "PC live, Nov 24 0:00 ET",
+   "room": 976.12,
+   "to_pass": 1523.88,
    "trades": 0,
    "win_pct": null,
    "usd_week": 0,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 25000.0,
+   "start": 24976.12,
    "wins": 0,
    "losses": 0,
    "r_week": null,
-   "room_start": 1000.0,
-   "to_pass_start": 1500.0,
+   "room_start": 976.12,
+   "to_pass_start": 1523.88,
    "consistency": {
     "rule": "Rapid EOD eval: best day at most 30% of the profit",
     "line": "No trading day this week."
    },
-   "status_line": "$1,500 to pass, $1,000 of room above the floor"
+   "status_line": "$1,524 to pass, $976 of room above the floor"
   },
   {
    "key": "fresh25",
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25023.62,
-   "src": "PC live, Nov 23 17:01 ET",
+   "src": "PC live, Nov 24 0:00 ET",
    "room": 1000.0,
    "to_pass": 1476.38,
    "trades": 0,
@@ -133,10 +133,10 @@
     4.98
    ],
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
-   "exp_usd_week": 76.0,
+   "exp_usd_week": 153.0,
    "plan_usd_month": 1656.0,
    "verdict": "on track",
-   "why": "$0 vs about $76 expected"
+   "why": "$0 vs about $153 expected"
   },
   {
    "name": "ATLAS",
@@ -154,10 +154,10 @@
     2.75
    ],
    "exp_src": "edge_health.json (40-session medians, 2026)",
-   "exp_usd_week": 23.0,
+   "exp_usd_week": 46.0,
    "plan_usd_month": 500.0,
    "verdict": "on track",
-   "why": "$0 vs about $23 expected"
+   "why": "$0 vs about $46 expected"
   }
  ],
  "light": {
@@ -165,16 +165,16 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 78,
+  "n": 104,
   "items": [
+   "day-pillars-fix: test_nq_page 71/71 on the landed Four Pillars",
+   "Four Pillars landing: launcher/app-list versions in step, PC shell v63, zenith OTHER_APPS pin",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Land day-accounts: NQ Accounts screen + 7-day clock, cloud K7 de-dupe fixes; version bumps",
-   "Rebuild brain/hub/lab data after the tick backfill merge",
-   "run_area: accounts_screen above the __main__ block (it never ran from below)",
-   "Red team day-ofprogram d4d0c35: Bars.GetBid/GetAsk through reflection (a missing member can no...",
-   "Rebuild brain/hub/lab data after the orderflow merge",
-   "Tick import: detect NinjaTrader's filled-in quotes (Bid=Last) and fall back to the tick rule (else...",
-   "Round 3 writeup + tickrec status shows the recorder line"
+   "Land the Four Pillars: page + Brain regroup + NQ strip + hub filter; lead wires",
+   "day-pillars: research/lab/pillars.json (the lead's four-pillars research) is the data source",
+   "day-pillars: THE FOUR PILLARS (LIT, ATLAS, BLITZ, ORDER FLOW) as the organising idea of the...",
+   "Rebuild hub data after four-pillars research",
+   "Four pillars research (paper only): research/lab/pillars.json + four-pillars-2026-11-23.md; BLITZ..."
   ]
  },
  "next": {
@@ -212,12 +212,12 @@
  "kalshi": {
   "src": "PC status post (card)",
   "mode": "paper",
-  "loss_used": 3.04,
+  "loss_used": 0.0,
   "loss_stop": 13.75,
-  "last": "LWWW",
-  "bets_total": 4,
-  "won_pct": 75,
-  "line": "K8 (paper): $3.04 of the $13.75 weekly loss stop used; last 4 bets LWWW; 4 bets so far, 75% won."
+  "last": "LWWWWW",
+  "bets_total": 6,
+  "won_pct": 83,
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 6 bets LWWWWW; 6 bets so far, 83% won."
  },
  "calendar": [
   {
@@ -280,6 +280,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 23 17:01 ET"
+  "board_pc": "Nov 24 0:00 ET"
  }
 }

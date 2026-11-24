@@ -1,13 +1,13 @@
 {
  "v": 1,
- "date": "2026-11-23",
+ "date": "2026-11-24",
  "number": 2,
- "built": "2026-11-23T22:02:52Z",
+ "built": "2026-11-24T05:09:49Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
   "motto": "Only what the files say",
-  "date_words": "Monday, 23 November 2026"
+  "date_words": "Tuesday, 24 November 2026"
  },
  "label": "Some stories rest on sample data and say so.",
  "lead": {
@@ -149,9 +149,9 @@
    "standfirst": "Who is building what today, straight from the lead's roster.",
    "body": [
     "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
-    "On the bench today: Jarvis home: A clean, beautiful Jarvis first screen with a golden-hour courtyard.",
-    "Next to it: Ergasterion: The agent factory: watch every worker and what it learned.",
-    "And a third: Kalshi team C: Hunting for a real Kalshi edge in weather and index markets.",
+    "On the bench today: Colosseum: A 3D arena where two strategies duel on real numbers.",
+    "Next to it: Jarvis home: A clean, beautiful Jarvis first screen with a golden-hour courtyard.",
+    "And a third: Ergasterion: The agent factory: watch every worker and what it learned.",
     "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
     "The roster was last updated at 2026-11-11T01:10:00Z."
    ],
@@ -161,6 +161,16 @@
      "src": "handoff/agents_now.json",
      "calc": "count of agents",
      "raw": 10
+    },
+    {
+     "t": "Colosseum",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "A 3D arena where two strategies duel on real numbers",
+     "src": "handoff/agents_now.json",
+     "quote": true
     },
     {
      "t": "Jarvis home",
@@ -179,16 +189,6 @@
     },
     {
      "t": "The agent factory: watch every worker and what it learned",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Kalshi team C",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Hunting for a real Kalshi edge in weather and index markets",
      "src": "handoff/agents_now.json",
      "quote": true
     },
@@ -673,7 +673,7 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 254 write-ups.",
+    "The research shelf now counts 255 write-ups.",
     "The newest lesson on file, dated 2026-11-23, reads: None has an edge after a 10-way multiple-testing correction; 9 of 10 lose money in 2026 H1, the half LIT was picked on.",
     "It was filed under \"rejected\" and comes from research/writeups/popular-ict-2026-11-23.md."
    ],
@@ -707,10 +707,10 @@
      "quote": true
     },
     {
-     "t": "254",
+     "t": "255",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 254
+     "raw": 255
     },
     {
      "t": "2026-11-23",
@@ -789,6 +789,40 @@
    ],
    "sample": false,
    "by": "mind"
+  },
+  {
+   "id": "new-apps",
+   "kicker": "Openings",
+   "headline": "1 new app opens on the agora",
+   "standfirst": "What was added to the app bar since the last edition.",
+   "body": [
+    "1 new app has opened since the last edition: Four Pillars.",
+    "That brings the bar to 78 apps.",
+    "Each one reads only published files and falls back to labelled demo data, so none can be blank."
+   ],
+   "facts": [
+    {
+     "t": "1",
+     "src": "jarvis/apps.js",
+     "calc": "count of app ids not in the last edition's list",
+     "raw": 1
+    },
+    {
+     "t": "Four Pillars",
+     "src": "jarvis/apps.js",
+     "quote": true
+    },
+    {
+     "t": "78",
+     "src": "jarvis/apps.js",
+     "calc": "count of app ids in jarvis/apps.js",
+     "raw": 78
+    }
+   ],
+   "sources": [
+    "jarvis/apps.js"
+   ],
+   "sample": false
   }
  ],
  "numbers": [
@@ -908,40 +942,40 @@
  },
  "quiz": [
   {
-   "id": "z1",
-   "topic": "size",
-   "q": "The stop is wide today. How many micros?",
-   "o": [
-    "Fewer: size follows the stop",
-    "The same as always",
-    "More, to make the money back"
-   ],
-   "a": 0,
-   "why": "A wide stop means less risk per micro, so you carry fewer. The dollars risked stay inside the plan."
-  },
-  {
-   "id": "t3",
+   "id": "t4",
    "topic": "target",
-   "q": "The target is based on",
+   "q": "At 1R in profit the stop goes to",
    "o": [
-    "The 18:00 open plus or minus one VIX day move",
-    "Yesterday's high",
-    "A round number"
+    "Break-even, plus the costs (+1.25 points)",
+    "The target",
+    "Further away"
    ],
    "a": 0,
-   "why": "The 18:00 New York open plus or minus one VIX day move, the same every day."
+   "why": "At 1R the stop moves to break-even plus costs. That is the only stop move allowed."
   },
   {
-   "id": "f1",
+   "id": "f2",
    "topic": "flat",
-   "q": "What time is the bot flat by?",
+   "q": "What is the latest time for a new entry?",
    "o": [
-    "15:55 New York time",
-    "16:10, the firm's limit",
-    "Whenever the trade ends"
+    "15:30 New York",
+    "15:55",
+    "16:10"
    ],
    "a": 0,
-   "why": "Flat at 15:55 ET. MFFU requires flat by 16:10, so 15:55 leaves a margin."
+   "why": "Entries run from 02:00 to 15:30 ET, so a trade has time to work before flat."
+  },
+  {
+   "id": "s4",
+   "topic": "stop",
+   "q": "Why is the stop at the protected low or high?",
+   "o": [
+    "If price takes it, the trade idea is wrong",
+    "It is always the tightest stop",
+    "It makes the target bigger"
+   ],
+   "a": 0,
+   "why": "That level is where the idea is proven wrong, so the loss is cut exactly there."
   }
  ],
  "interviews": [
@@ -987,22 +1021,22 @@
    ]
   },
   {
-   "id": "builder:ab25b5ae",
-   "name": "Jarvis brain",
-   "title": "Build agent, jarvis",
+   "id": "builder:aa54c210",
+   "name": "Fixer",
+   "title": "Build agent, quality",
    "src": "handoff/agents_now.json",
    "qa": [
     {
      "q": "What are you building?",
-     "a": "Search everything, follow-up questions, briefings, tours."
+     "a": "Fixing the broken tests and phone-layout bugs in old apps."
     },
     {
      "q": "Where does your work live?",
-     "a": "On my own branch, worktree-agent-ab25b5ae6ac17c255. The lead merges it when it is ready."
+     "a": "On my own branch, worktree-agent-aa54c21090a103d33. The lead merges it when it is ready."
     },
     {
      "q": "Which part of OLYMPUS is yours?",
-     "a": "The jarvis area."
+     "a": "The quality area."
     }
    ]
   }
@@ -1025,12 +1059,7 @@
   ],
   "missing": []
  },
- "skipped": [
-  {
-   "article": "new-apps",
-   "why": "no app was added since the last edition"
-  }
- ],
+ "skipped": [],
  "apps": [
   "aegis",
   "agency",
@@ -1092,6 +1121,7 @@
   "oracle",
   "pantheon",
   "pheme",
+  "pillars",
   "pinakes",
   "planner",
   "plutus",

@@ -1,11 +1,12 @@
 // Strategy Brain page (cities/mind/index.html). Reads odeon/trades.json (the trade ledger + replays), cities/brain-data.json (the
 // research findings), home.json and the PC's status post (pc_feed.js). Built with createElement / textContent and SVG nodes only
 // (no innerHTML of data). Read only: no arm / start / stop / order anywhere.
-import * as M from './mindcore.js?v=m1';
+import * as M from './mindcore.js?v=m5';
+import * as P from '../../pillars/pillarscore.js?v=p2';
 
 const $ = (id) => document.getElementById(id);
 const SVGNS = 'http://www.w3.org/2000/svg';
-const S = { file: null, data: null, lab: null, home: null, lite: null, glance: null, sel: null, trade: null, showAll: false, scene: null, now: () => Date.now() / 1000 };
+const S = { file: null, data: null, lab: null, pillars: null, home: null, lite: null, glance: null, sel: null, trade: null, showAll: false, scene: null, now: () => Date.now() / 1000 };
 
 function el(tag, attrs, ...kids) {
   const e = document.createElement(tag);
@@ -22,10 +23,15 @@ function drawLobeBar() {
   for (const L of M.LOBES) {
     const v = L.kind === 'strategy' ? M.live(L.id, S.glance, S.now()) : null;
     const b = el('button', { type: 'button', class: 'lobe' + (L.kind === 'research' ? ' res' : ''), 'data-lobe': L.id, 'aria-pressed': String(S.sel === L.id || (L.id === 'lab' && String(S.sel || '').startsWith('lab:'))), style: `--c:${L.color}`, onclick: () => select(L.id === S.sel ? null : L.id) },
-      el('i'), el('span', { text: L.name }), el('small', { text: v ? lobeWord(L, v) : L.kind === 'lab' ? labWord() : 'research' }));
+      el('i'), el('span', { text: L.name }), el('small', { text: v ? lobeWord(L, v) : L.kind === 'lab' ? labWord() : L.kind === 'pillar' ? pillarWord(L.id) : 'research' }));
     bar.append(b);
   }
 }
+function pillarModel(id) {
+  const p = S.pillars && (S.pillars.pillars || []).find((x) => x.id === id); if (!p) return null;
+  return P.pillar(p, { nowS: S.now(), glance: S.glance, lite: S.lite, file: S.file });   // no account cards here: the Pillars page has them
+}
+function pillarWord(id) { const m = pillarModel(id); if (!m) return 'pillar'; return id === 'of' ? (m.tick && m.tick.has ? `${m.tick.d}/${m.tick.of} tick days` : 'waiting for ticks') : m.statusWord.toLowerCase(); }
 function labWord() { const c = M.labCounts(S.lab); const n = c.live + c.paper + c.promising + c.rejected; return n ? `${n} tested · ${c.paper + c.promising} promising` : 'loading'; }
 function lobeWord(L, v) {
   const ch = M.CHAINS[L.id] || [];
@@ -49,9 +55,13 @@ function select(id) {
 }
 function renderSheet() {
   if (String(S.sel || '').startsWith('lab:')) return neuronBody($('body'), S.sel.slice(4));
+  if (String(S.sel || '').startsWith('find:')) return findingBody($('body'), S.sel);
+  if (String(S.sel || '').startsWith('of:')) return ofTestBody($('body'), S.sel.slice(3));
   const L = M.lobeById(S.sel), body = $('body'); if (!L) return;
   if (L.kind === 'lab') return labBody(body);
+  if (L.kind === 'pillar') return pillarBody(body, L);
   body.replaceChildren(el('h2', { text: L.name }), el('div', { class: 'muted', text: L.kind === 'strategy' ? L.sub : 'Research lobe: everything we tested in this family.' }));
+  if (L.pillar) body.append(el('p', { class: 'muted' }, el('a', { class: 'link', href: '../../pillars/#' + L.id, text: `Open the ${L.name} pillar: accounts, edge, what's next ›` })));
   if (L.kind === 'strategy') strategyBody(L, body); else researchBody(L, body);
 }
 function strategyBody(L, body) {
@@ -200,6 +210,52 @@ function neuronBody(body, rid) {
   body.append(el('button', { type: 'button', class: 'more', text: '← All strategies', onclick: () => select('lab') }));
 }
 
+/* ---------------- the pillars (ATLAS, BLITZ, ORDER FLOW: LIT is its own strategy sheet) ---------------- */
+function pillarBody(body, L) {
+  const m = pillarModel(L.id);
+  body.replaceChildren(el('h2', { text: L.name }), el('div', { class: 'muted', text: L.sub }));
+  if (!m) { body.append(el('p', { class: 'muted', text: 'The pillars data did not load.' })); return; }
+  const dup = m.status.toLowerCase().startsWith(m.statusWord.split(' ')[0].toLowerCase());   // "NOT READY Not ready: ..." once only
+  body.append(el('div', { class: 'state', id: 'pillarState' }, dup ? null : el('b', { class: m.level === 'ok' ? 'live' : m.level === 'off' ? 'off' : 'stale', text: m.statusWord + ' ' }), document.createTextNode(m.status)));
+  if (L.id === 'of') body.append(el('div', { class: 'state', id: 'pillarTicks' }, el('b', { class: m.tick && m.tick.has ? 'live' : 'waiting', text: 'Ticks: ' }), document.createTextNode(m.tick ? m.tick.text : 'waiting')));
+  if (L.id === 'atlas') {
+    const row = el('div', { class: 'arrows' }); ['ema', 'macd', 'sr'].forEach((id) => { const x = M.lobeById(id); row.append(el('button', { type: 'button', class: 'more', style: 'width:auto;margin:0', text: x.name + ' ›', onclick: () => select(id) })); });
+    body.append(el('h3', { text: 'Its three lobes' }), row);
+  }
+  body.append(el('h3', { text: 'Edge' }), el('p', { text: m.edge }));
+  if (m.spans.length) {
+    const tb = el('table', { class: 'spans', id: 'pillarSpans' }), hr = el('tr'); ['Span', '/wk', 'Win', 'PF', '$/mo'].forEach((h) => hr.append(el('th', { text: h }))); tb.append(el('thead', {}, hr));
+    const tbody = el('tbody'); m.spans.forEach((sp) => { const tr = el('tr'); [sp.k, fmtN(sp.tpw, 1), sp.win == null ? '-' : fmtN(sp.win, 0) + '%', fmtN(sp.pf, 2), fmtUsd(sp.usd_mo)].forEach((x, i) => tr.append(el('td', { class: i === 4 ? ((sp.usd_mo || 0) > 0 ? 'win' : 'loss') : '', text: x }))); tbody.append(tr); });
+    tb.append(tbody); body.append(tb);
+  }
+  if (L.id === 'of') { body.append(el('h3', { text: 'Waiting for the ticks' })); m.designs.forEach((d) => body.append(el('div', { class: 'find' }, el('span', { class: 'tag o', text: d.id }), el('span', { text: d.text }), el('div', { class: 'v', text: d.gate })))); }
+  body.append(el('h3', { text: 'How it thinks' }));
+  const ol = el('ol', { class: 'chain', id: 'chain' });
+  m.chain.steps.forEach((x, i) => ol.append(el('li', { class: x.state, 'data-step': x.key }, el('span', { class: 'dot', text: x.state === 'done' ? '✓' : String(i + 1) }), el('b', { text: x.label }), el('p', { text: x.help }))));
+  body.append(ol);
+  if (m.risks.length) { body.append(el('h3', { text: 'Risks' })); m.risks.forEach((t) => body.append(el('p', { class: 'muted', text: '• ' + t }))); }
+  body.append(el('h3', { text: "What's next" })); m.next.forEach((t, i) => body.append(el('p', { text: `${i + 1}. ${t}` })));
+  body.append(el('p', { class: 'muted', text: `Source: ${m.src}` }), el('p', {}, el('a', { class: 'link', href: '../../pillars/#' + L.id, text: `Open the ${L.name} pillar ›` })));
+}
+function findingBody(body, id) {
+  const f = M.finding(S.data, id);
+  body.replaceChildren();
+  if (!f) { body.append(el('h2', { text: 'Research' }), el('p', { class: 'muted', text: 'This finding is not in the Research Brain file any more.' })); return; }
+  body.append(el('h2', { text: f.title }), el('div', { class: 'muted' }, el('span', { class: 'tag v-' + (f.verdict === 'adopted' ? 'live' : f.verdict === 'open' ? 'promising' : 'rejected'), text: M.VERDICT_WORD[f.verdict] || f.verdict }), document.createTextNode(` ${f.family} · ${f.date}`)));
+  if (f.result) body.append(el('div', { class: 'state' }, el('b', { class: 'waiting', text: 'At stake: ' }), document.createTextNode(f.result)));
+  body.append(el('p', { text: f.text }), el('p', {}, el('a', { class: 'link', href: '../brain.html', text: 'Open the Research Brain ›' })));
+}
+function ofTestBody(body, tid) {
+  const p = S.pillars && (S.pillars.pillars || []).find((x) => x.id === 'of'), t = p && (p.tests || []).find((x) => x.id === tid);
+  body.replaceChildren();
+  if (!t) { body.append(el('h2', { text: 'Order flow' }), el('p', { class: 'muted', text: 'This test is not in the pillars file any more.' })); return; }
+  body.append(el('h2', { text: t.name }), el('div', { class: 'muted' }, el('span', { class: 'tag v-' + t.verdict, text: M.VERDICT_WORD[t.verdict] || t.verdict }), document.createTextNode(` ORDER FLOW · ${t.stage}`)));
+  const tb = el('table', { class: 'spans', id: 'ofSpans' }), hr = el('tr'); ['Span', '/wk', 'Win', 'PF', '$/mo'].forEach((h) => hr.append(el('th', { text: h }))); tb.append(el('thead', {}, hr));
+  const tbody = el('tbody'); t.spans.forEach((sp) => { const tr = el('tr'); [sp.k, fmtN(sp.tpw, 1), sp.win == null ? '-' : fmtN(sp.win, 0) + '%', fmtN(sp.pf, 2), sp.usd_mo != null ? fmtUsd(sp.usd_mo) : sp.net_vs_lit != null ? fmtUsd(sp.net_vs_lit) + ' vs LIT' : '-'].forEach((x) => tr.append(el('td', { text: x }))); tbody.append(tr); });
+  tb.append(tbody); body.append(tb, el('p', { class: 'muted', text: `Placebo p ${t.placebo_p ?? '-'}${t.holm_p != null ? ' · Holm p ' + t.holm_p : ''}. Bar data stands in for ticks here: the real test (OF1-OF3) waits for 60 tick days.` }));
+  body.append(el('button', { type: 'button', class: 'more', text: '← ORDER FLOW', onclick: () => select('of') }));
+}
+
 /* ---------------- today: every bot's thinking in time order ---------------- */
 function drawToday() {
   const box = $('today'); if (!box) return;
@@ -233,8 +289,8 @@ async function boot() {
   drawLobeBar();
   $('close').addEventListener('click', () => select(null));
   addEventListener('keydown', (e) => { if (e.key === 'Escape') select(null); });
-  const [file, data, home, lab] = await Promise.all([getJSON('../../odeon/trades.json'), getJSON('../brain-data.json'), getJSON('../../home.json'), getJSON('../lab-data.json')]);
-  Object.assign(S, { file, data, home, lab }); S.glance = M.glanceOf(null, home);
+  const [file, data, home, lab, pillars] = await Promise.all([getJSON('../../odeon/trades.json'), getJSON('../brain-data.json'), getJSON('../../home.json'), getJSON('../lab-data.json'), getJSON('../../pillars/pillars-data.json')]);
+  Object.assign(S, { file, data, home, lab, pillars }); S.glance = M.glanceOf(null, home);
   drawLobeBar(); pcPill(); drawToday();
   startScene();
   try {
@@ -252,16 +308,16 @@ async function startScene() {
   const q = location.search, flat = () => { $('flat').hidden = false; drawFlat(); document.documentElement.dataset.mode = '2d'; };
   if (/[?&]lite=2d/.test(q)) return flat();
   try {
-    const Sc = await import('./mind-scene.js?v=m1');
+    const Sc = await import('./mind-scene.js?v=m2');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, low = Sc.isLowPower(window);
     // the lobe names over the 3D, kept apart (M.placeLabels): selected first, then the strategies, then the research lobes
-    const tips = M.LOBES.map((L) => { const d = el('div', { class: 'tip' + (L.kind === 'strategy' ? ' st' : ''), 'aria-hidden': 'true', 'data-tip': L.id, text: L.name }); document.body.append(d); return { L, d, w: 0, h: 0 }; });
+    const tips = M.LOBES.map((L) => { const d = el('div', { class: 'tip' + (L.pillar ? ' st pil' : L.kind === 'strategy' ? ' st' : ''), 'aria-hidden': 'true', 'data-tip': L.id, text: L.name }); document.body.append(d); return { L, d, w: 0, h: 0 }; });
     const onFrame = (proj) => {
       const r = $('c').getBoundingClientRect(), items = [];
       for (const t of tips) {
         if (!t.w) { t.w = t.d.offsetWidth || t.L.name.length * 6.5; t.h = t.d.offsetHeight || 14; }
         const p = proj(t.L.id);
-        if (p && p.z < 1) items.push({ id: t.L.id, x: p.x, y: p.y, z: p.z, w: t.w, h: t.h, pri: (S.sel === t.L.id ? 10 : 0) + (t.L.kind === 'strategy' ? 2 : 1) });
+        if (p && p.z < 1) items.push({ id: t.L.id, x: p.x, y: p.y, z: p.z, w: t.w, h: t.h, pri: (S.sel === t.L.id ? 10 : 0) + (t.L.pillar ? 3 : t.L.kind === 'strategy' ? 2 : 1) });
       }
       const pos = new Map(M.placeLabels(items, { w: r.width, h: r.height }).map((q) => [q.id, q]));
       for (const t of tips) {
@@ -270,7 +326,7 @@ async function startScene() {
         if (on) { t.d.style.left = (r.left + q.x) + 'px'; t.d.style.top = (r.top + q.y) + 'px'; t.d.style.opacity = !S.sel || S.sel === t.L.id ? '1' : '.35'; }
       }
     };
-    S.scene = await Sc.create($('c'), M.LOBES, { neurons: M.labNeurons(S.lab), reduce, low, onPick: (id) => select(id), onLost: flat, onFrame });
+    S.scene = await Sc.create($('c'), M.LOBES, { neurons: [...M.labNeurons(S.lab), ...M.pillarNeurons(S.data, S.lab, S.pillars)], reduce, low, onPick: (id) => select(id), onLost: flat, onFrame });
     if (!S.scene) return flat();
     document.documentElement.dataset.mode = low ? '3d-low' : '3d';
     window.__mind = { stats: () => S.scene.stats(), project: (id) => S.scene.project(id), select };

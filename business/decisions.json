@@ -325,7 +325,7 @@
     "no",
     "later"
    ],
-   "status": "later",
+   "status": "yes",
    "source": "research/writeups/one-account-combo-final-2026-11-19.md",
    "applies": "the lead builds research/lab/combo_50k.json on Zlarior's 50K: ATLAS added, one position (first in keeps it), ATLAS at 50% of its own size in the eval and 100% once funded; Sim test first; a yes replaces the funded-only card atlas-on-50k-funded",
    "added": "2026-11-19",
@@ -339,8 +339,10 @@
    "recommend": "yes",
    "recommend_why": "The pre-registered winner: beats Zlarior alone in Jan-Jun and Jul-Oct by more than the noise, about even in 2021-25, 2-week eval fails under 5%, still ahead with worse fills. Sim first; re-check on Nov-Dec days.",
    "valued": "2026-11-19 tools/money/combo_account.py final (12 pre-registered rule sets, 2,000 day- and week-block runs x 6 months, MFFU move to live after payout 5; $ a month to you after fees and MFFU's cut, before the 30% tax pot)",
-   "answered": "2026-11-20 ~08:00 ET in chat (\"Yes to whatever you think it should be ... make sure your choice is good\"): Claude's pick from the data",
-   "next": "later: turn it on the day the 50K passes (today $1,025 room; adding ATLAS mid-eval raises the early-blow odds)"
+   "answered": "2026-11-23",
+   "next": "later: turn it on the day the 50K passes (today $1,025 room; adding ATLAS mid-eval raises the early-blow odds)",
+   "answer": "yes",
+   "answered_note": "Owner in chat 2026-11-23: \"Yes do it\" (ATLAS alongside LIT on both Zlarior accounts), \"Decide it for yourself\", then \"Allow it\""
   },
   {
    "id": "atlas-funded-keep-trading",

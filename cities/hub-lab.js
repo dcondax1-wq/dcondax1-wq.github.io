@@ -3,7 +3,7 @@
 // "Best add-on to LIT" card. Rows tap open to the rules (3 lines) and every span. Built with createElement / textContent only. Read only.
 (function () {
   'use strict';
-  const S = { data: null, sort: 'usd_mo', dir: -1, on: 'worst', v: '', open: null };
+  const S = { data: null, sort: 'usd_mo', dir: -1, on: 'worst', v: '', pil: '', open: null };
   const $ = (id) => document.getElementById(id);
   const VW = { live: 'Live', paper: 'Paper', promising: 'Promising', rejected: 'Rejected' };
   function el(tag, attrs, ...kids) {
@@ -25,7 +25,8 @@
   }
   function rows() {
     const d = S.data; if (!d) return [];
-    return d.rows.filter((r) => !S.v || r.verdict === S.v || (S.v === 'promising' && r.verdict === 'paper'))
+    return d.rows.filter((r) => !S.pil || (window.HubPillar && window.HubPillar.ofLab(r) === S.pil))
+      .filter((r) => !S.v || r.verdict === S.v || (S.v === 'promising' && r.verdict === 'paper'))
       .map((r) => ({ r, s: pick(r) }))
       .sort((a, b) => ((n(a.s[S.sort]) ?? -1e12) - (n(b.s[S.sort]) ?? -1e12)) * S.dir || a.r.name.localeCompare(b.r.name));
   }

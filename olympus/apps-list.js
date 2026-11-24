@@ -6,6 +6,7 @@
 (function (g) {
   'use strict';
   var rows = [
+  {"id": "pillars", "name": "Four Pillars", "glyph": "\u2161", "colour": "#f1c14b", "group": "trading", "groupName": "Trading", "purpose": "LIT, ATLAS, BLITZ, ORDER FLOW: status, accounts, edge, next", "path": "pillars/", "live": false},
   {"id": "zenith", "name": "Zenith", "glyph": "Z", "colour": "#9c6b3c", "group": "trading", "groupName": "Trading", "purpose": "NQ bots \u00b7 Zlarior \u00b7 ATLAS", "path": "", "live": false},
   {"id": "oracle", "name": "Oracle", "glyph": "\u0398", "colour": "#7fb0a3", "group": "trading", "groupName": "Trading", "purpose": "The market radar, live", "path": "oracle/", "live": true},
   {"id": "odeon", "name": "Odeon", "glyph": "\u039e", "colour": "#d77a7a", "group": "trading", "groupName": "Trading", "purpose": "Every trade, replayed in 3D", "path": "odeon/", "live": true},

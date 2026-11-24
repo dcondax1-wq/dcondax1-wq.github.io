@@ -75,3 +75,5 @@ main{max-width:640px;margin:0 auto;padding:10px calc(12px + var(--sr)) calc(24px
 .lspan{width:100%;border-collapse:collapse;font-size:.78rem}.lspan th,.lspan td{padding:3px;text-align:right;border-bottom:1px solid #221b30}.lspan th:first-child,.lspan td:first-child{text-align:left}
 .lgo{display:inline-block;margin-top:8px;color:var(--glow)}
 .lwatch{margin:4px 0;color:var(--mint);font-size:.8rem}.lwhy{margin:4px 0;color:var(--dim);font-size:.8rem}
+.chip.pil[aria-pressed="true"].p-lit{border-color:#f1c14b;color:#f1c14b}.chip.pil[aria-pressed="true"].p-atlas{border-color:#77db89;color:#77db89}.chip.pil[aria-pressed="true"].p-blitz{border-color:#9d59ee;color:#c9a6ff}.chip.pil[aria-pressed="true"].p-of{border-color:#5fd0c9;color:#5fd0c9}
+#labPil{margin-bottom:6px}

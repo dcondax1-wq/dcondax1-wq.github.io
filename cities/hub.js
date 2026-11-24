@@ -5,7 +5,7 @@
   const KEY = 'olyResearchHub2';
   const PAGE = 30;
   const VWORD = { a: 'Adopted', r: 'Rejected', o: 'Open' };
-  const S = { data: null, q: '', fam: -1, v: '', shown: PAGE, offline: false };
+  const S = { data: null, q: '', fam: -1, v: '', pil: '', shown: PAGE, offline: false };
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const slugOk = (s) => typeof s === 'string' && /^[a-z0-9-]{1,80}$/.test(s);
@@ -17,6 +17,7 @@
     return d.cards.filter((c) => {
       if (S.fam >= 0 && c.f !== S.fam) return false;
       if (S.v && c.v !== S.v) return false;
+      if (S.pil && (!window.HubPillar || window.HubPillar.ofCard(c) !== S.pil)) return false;   // day-pillars: the Pillars filter (hub-pillars.js)
       if (!words.length) return true;
       const hay = (c.t + ' ' + c.m + ' ' + c.x + ' ' + (d.fam[c.f] || '') + ' ' + c.d + ' ' + VWORD[c.v]).toLowerCase();
       return words.every((w) => hay.includes(w));

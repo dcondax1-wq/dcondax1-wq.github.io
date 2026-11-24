@@ -2,8 +2,19 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-23",
- "say": "This week we wrote down 50 lessons. The strongest (2 files agree): Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real Ni… What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
+ "say": "This week we wrote down 50 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
  "week": [
+  {
+   "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
+   "cat": "NQ strategy",
+   "d": "2026-11-23",
+   "strength": 3,
+   "sources": [
+    "research/writeups/four-pillars-2026-11-23.md",
+    "research/writeups/edge-health-2026-11-17.md",
+    "research/writeups/atlas-chatgpt-breakouts.md"
+   ]
+  },
   {
    "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
    "cat": "NQ strategy",
@@ -72,18 +83,20 @@
    "sources": [
     "docs/TESTED_AND_REJECTED.md"
    ]
-  },
-  {
-   "text": "On a 5m bar-shape proxy of delta, none of the three proxy-testable setups holds in all of 2021-25, 2026 H1 and 2026 H2, so nothing changes in the live strategy.",
-   "cat": "process",
-   "d": "2026-11-23",
-   "strength": 1,
-   "sources": [
-    "research/writeups/orderflow-2026-11-23.md"
-   ]
   }
  ],
  "top": [
+  {
+   "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
+   "cat": "NQ strategy",
+   "d": "2026-11-23",
+   "strength": 3,
+   "sources": [
+    "research/writeups/four-pillars-2026-11-23.md",
+    "research/writeups/edge-health-2026-11-17.md",
+    "research/writeups/atlas-chatgpt-breakouts.md"
+   ]
+  },
   {
    "text": "No edge found. None of them beat the noise bar on the training data, so none was carried forward.",
    "cat": "Kalshi",
@@ -154,16 +167,6 @@
    "sources": [
     "research/writeups/drift-switch-2026-11-17.md",
     "research/writeups/eval-game.md"
-   ]
-  },
-  {
-   "text": "Bigger room shares (45-60%) pass 1-3 sessions sooner but 60-session fails jump to 7-21%. $ caps $150-$400 are all slower.",
-   "cat": "NQ strategy",
-   "d": "2026-11-17",
-   "strength": 2,
-   "sources": [
-    "research/writeups/rapid25-lit-lane-2026-11-18.md",
-    "research/writeups/builder25k-eval-sizing-2026-11-17.md"
    ]
   }
  ],
