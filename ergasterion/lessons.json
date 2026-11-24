@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-23",
- "say": "This week we wrote down 50 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
+ "say": "This week we wrote down 49 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: This matches the earlier finding that SMT does not mark better LIT trades.",
  "week": [
   {
    "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
@@ -215,10 +215,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 41,
+  "NQ strategy": 42,
   "Kalshi": 2,
   "money": 2,
-  "process": 15,
+  "process": 14,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

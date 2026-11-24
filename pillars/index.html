@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Four Pillars</title>
+<meta name="description" content="LIT, ATLAS, BLITZ and ORDER FLOW: the four pillars of the Olympus trading side, each with its status, accounts, edge, thinking and what's next.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="pillars.css?v=p2">
+<!-- THE FOUR PILLARS (day-pillars 2026-11-24). Read only: it reads the PC's status post (ntfy, pc_feed.js) and the site's JSON, sends nothing, places nothing. -->
+<script src="../pc_feed.js?v=n7"></script>
+<script type="module" src="pillars.js?v=p2"></script>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../nq/" aria-label="Back to the NQ page">&#8592;</a>
+  <div class="ttl"><h1>The Four Pillars</h1><p class="said" id="said"></p></div>
+  <span class="pill" id="pcPill">PC: checking</span>
+</header>
+
+<section class="stage" id="stage" aria-label="The four pillars in 3D: tap a column">
+  <canvas id="c" tabindex="0" aria-hidden="true"></canvas>
+  <div class="flat" id="flat" hidden></div>
+</section>
+
+<nav class="ptabs" id="ptabs" role="tablist" aria-label="Pillars"></nav>
+<main id="panel" class="panel" aria-live="polite"></main>
+<footer class="foot">
+  <a href="../cities/mind/">Strategy Brain &#8250;</a>
+  <a href="../cities/hub.html">Research Hub &#8250;</a>
+  <a href="../nq/accounts.html">Accounts &#8250;</a>
+  <p id="srcs"></p>
+</footer>
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-24 00:09 ET",
+ "built": "2026-11-24 06:59 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 2
  },
- "pc": "PC last reported Nov 24 0:00 ET",
+ "pc": "PC last reported Nov 24 6:45 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49213.9,
-   "src": "PC live, Nov 24 0:00 ET",
+   "src": "PC live, Nov 24 6:45 ET",
    "room": 1045.7,
    "to_pass": 3786.1,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 24 0:00 ET",
+   "src": "PC live, Nov 24 6:45 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24976.12,
-   "src": "PC live, Nov 24 0:00 ET",
+   "src": "PC live, Nov 24 6:45 ET",
    "room": 976.12,
    "to_pass": 1523.88,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25023.62,
-   "src": "PC live, Nov 24 0:00 ET",
+   "src": "PC live, Nov 24 6:45 ET",
    "room": 1000.0,
    "to_pass": 1476.38,
    "trades": 0,
@@ -165,16 +165,16 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 104,
+  "n": 108,
   "items": [
+   "Publish pillars/ (build_web_dashboard app list): the Four Pillars page was 404 on the live site",
+   "vault: rebuilt for this landing (tools/obsidian_brain.py)",
+   "Rebuild hub data after market-learn landing",
+   "day-marketlearn: shared Market Learn for the 4 pillars",
    "day-pillars-fix: test_nq_page 71/71 on the landed Four Pillars",
    "Four Pillars landing: launcher/app-list versions in step, PC shell v63, zenith OTHER_APPS pin",
-   "vault: rebuilt for this landing (tools/obsidian_brain.py)",
    "Land the Four Pillars: page + Brain regroup + NQ strip + hub filter; lead wires",
-   "day-pillars: research/lab/pillars.json (the lead's four-pillars research) is the data source",
-   "day-pillars: THE FOUR PILLARS (LIT, ATLAS, BLITZ, ORDER FLOW) as the organising idea of the...",
-   "Rebuild hub data after four-pillars research",
-   "Four pillars research (paper only): research/lab/pillars.json + four-pillars-2026-11-23.md; BLITZ..."
+   "day-pillars: research/lab/pillars.json (the lead's four-pillars research) is the data source"
   ]
  },
  "next": {
@@ -214,10 +214,10 @@
   "mode": "paper",
   "loss_used": 0.0,
   "loss_stop": 13.75,
-  "last": "LWWWWW",
-  "bets_total": 6,
-  "won_pct": 83,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 6 bets LWWWWW; 6 bets so far, 83% won."
+  "last": "LWWWWWW",
+  "bets_total": 7,
+  "won_pct": 86,
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 7 bets LWWWWWW; 7 bets so far, 86% won."
  },
  "calendar": [
   {
@@ -280,6 +280,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 24 0:00 ET"
+  "board_pc": "Nov 24 6:45 ET"
  }
 }
