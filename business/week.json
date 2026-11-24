@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-24 07:26 ET",
+ "built": "2026-11-24 07:28 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -165,7 +165,7 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 113,
+  "n": 114,
   "items": [
    "Root sw v213 (pillars3 home-screen kits)",
    "day-pillars3: real market lessons in the pillars panel + Home Screen kit fixes",
