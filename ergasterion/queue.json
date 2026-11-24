@@ -4373,7 +4373,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795522980,
+   "t": 1795523220,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4394,6 +4394,18 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795523137,
+    "s": "Root sw v213 (pillars3 home-screen kits)"
+   },
+   {
+    "t": 1795523027,
+    "s": "Merge remote-tracking branch 'olympus/day-pillars3' into land-1123"
+   },
+   {
+    "t": 1795522940,
+    "s": "day-pillars3: real market lessons in the pillars panel + Home Screen kit fixes (homescreen 6/6)"
+   },
    {
     "t": 1795522891,
     "s": "Merge remote-tracking branch 'olympus/day-pillars2' into land-1123"
@@ -4481,18 +4493,6 @@
    {
     "t": 1795493760,
     "s": "pillars: BLITZ Rapid test pre-registered design (before any scored run)"
-   },
-   {
-    "t": 1795492648,
-    "s": "day-updfix: self-heal state was never saved on Windows (rename inside open), so 'update held back' alerted ev…"
-   },
-   {
-    "t": 1795490188,
-    "s": "lit_live rerun on the merged head (OK)"
-   },
-   {
-    "t": 1795488547,
-    "s": "combo_25k check rerun on the merged head (23/23)"
    }
   ],
   "branches": [

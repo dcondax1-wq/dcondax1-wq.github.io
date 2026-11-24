@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-24 07:23 ET",
+ "built": "2026-11-24 07:26 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -165,16 +165,16 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 111,
+  "n": 113,
   "items": [
+   "Root sw v213 (pillars3 home-screen kits)",
+   "day-pillars3: real market lessons in the pillars panel + Home Screen kit fixes",
    "Land Four Pillars hero/3D (day-pillars2) + lead wires: gate catalog row, root sw v212, bump...",
    "day-pillars2: real market lessons from research/learn/insights.json; empty pillar says Waiting",
    "day-pillars2: Four Pillars hero on Home, Zenith, NQ + 3D/effects pass + market lessons panel",
    "Publish pillars/ (build_web_dashboard app list): the Four Pillars page was 404 on the live site",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Rebuild hub data after market-learn landing",
-   "day-marketlearn: shared Market Learn for the 4 pillars",
-   "day-pillars-fix: test_nq_page 71/71 on the landed Four Pillars"
+   "Rebuild hub data after market-learn landing"
   ]
  },
  "next": {
