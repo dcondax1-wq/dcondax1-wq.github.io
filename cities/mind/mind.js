@@ -235,7 +235,7 @@ function pillarBody(body, L) {
   body.append(ol);
   body.append(el('h3', { text: 'What the market taught us' }));
   if (m.lessonsSample) body.append(el('div', { class: 'sample', text: 'SAMPLE: research/learn/insights.json has not landed yet; placeholders, not findings.' }));
-  if (m.lessons.length) m.lessons.forEach((x) => body.append(el('p', { class: 'muted', text: `${x.d ? x.d + ' · ' : ''}${x.text}` }))); else body.append(el('p', { class: 'muted', text: 'Nothing learned for this pillar yet.' }));
+  if (m.lessons.length) m.lessons.forEach((x) => body.append(el('p', { class: 'muted', text: `${x.d ? x.d + ' · ' : ''}${x.text}` }))); else body.append(el('p', { class: 'muted', text: 'Waiting: no lesson for this pillar yet.' }));
   if (m.risks.length) { body.append(el('h3', { text: 'Risks' })); m.risks.forEach((t) => body.append(el('p', { class: 'muted', text: '• ' + t }))); }
   body.append(el('h3', { text: "What's next" })); m.next.forEach((t, i) => body.append(el('p', { text: `${i + 1}. ${t}` })));
   body.append(el('p', { class: 'muted', text: `Source: ${m.src}` }), el('p', {}, el('a', { class: 'link', href: '../../pillars/#' + L.id, text: `Open the ${L.name} pillar ›` })));

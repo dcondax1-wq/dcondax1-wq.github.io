@@ -4373,7 +4373,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795522740,
+   "t": 1795522980,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4395,8 +4395,20 @@
   "available": true,
   "commits": [
    {
+    "t": 1795522891,
+    "s": "Merge remote-tracking branch 'olympus/day-pillars2' into land-1123"
+   },
+   {
     "t": 1795522644,
     "s": "Land Four Pillars hero/3D (day-pillars2) + lead wires: gate catalog row, root sw v212, bump cascade, pillars…"
+   },
+   {
+    "t": 1795522610,
+    "s": "day-pillars2: real market lessons from research/learn/insights.json; empty pillar says Waiting"
+   },
+   {
+    "t": 1795522407,
+    "s": "Merge remote-tracking branch 'origin/pc' into day-pillars2"
    },
    {
     "t": 1795522400,
@@ -4481,18 +4493,6 @@
    {
     "t": 1795488547,
     "s": "combo_25k check rerun on the merged head (23/23)"
-   },
-   {
-    "t": 1795485917,
-    "s": "test_rapid_blitz_rt 12/12: ComboAtlas.lit_opposite blocks on BLITZ (account C / Rapid / Rapid #2) holding or…"
-   },
-   {
-    "t": 1795485860,
-    "s": "Merge origin/pc (day-combo25-rt) into day-rapidsize-rt: keep both features; ComboAtlas.lit_opposite reads BLI…"
-   },
-   {
-    "t": 1795485608,
-    "s": "Red team day-rapidsize: BLITZ on the Rapid 25K eval OFF unless the owner typed the live phrase (python -m eng…"
    }
   ],
   "branches": [

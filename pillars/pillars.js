@@ -103,7 +103,7 @@ function drawPanel() {
   const lt = el('section', { class: 'sec lessons', id: 'pLessons' }, el('h3', { text: 'What the market taught us' }));
   if (m.lessonsSample) lt.append(el('div', { class: 'sample', id: 'pLessonsSample', text: 'SAMPLE: the market-learning file (research/learn/insights.json) has not landed yet. These lines are placeholders, not findings.' }));
   if (m.lessons.length) { const ul = el('ul', { class: 'list' }); m.lessons.forEach((x) => ul.append(el('li', {}, x.d ? el('span', { class: 'ld', text: x.d + ' · ' }) : null, document.createTextNode(x.text)))); lt.append(ul); }
-  else lt.append(el('div', { class: 'muted', text: 'Nothing learned for this pillar yet: the lessons come from the market-learning job.' }));
+  else lt.append(el('div', { class: 'muted', text: 'Waiting: the market-learning job has no lesson for this pillar yet.' }));
   lt.append(el('p', { class: 'src', text: `Source: ${m.lessonsSrc || 'research/learn/insights.json'}` }));
   box.append(lt);
   if (m.risks.length) { const r = el('section', { class: 'sec', id: 'pRisks' }, el('h3', { text: 'Risks' })); const ul = el('ul', { class: 'list' }); m.risks.forEach((t) => ul.append(el('li', { text: t }))); r.append(ul); box.append(r); }
