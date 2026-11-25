@@ -14,15 +14,15 @@
 <meta name="apple-mobile-web-app-title" content="Brain">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="brain.css?v=b2">
+<link rel="stylesheet" href="brain.css?v=b5">
 <!-- THE BRAIN (day-brain-app 2026-11-24). Read only: it reads the PC's public status post (pc_feed.js), its chart post and the site's JSON; sends nothing, places nothing. -->
 <script src="../pc_feed.js?v=n7"></script>
-<script type="module" src="brain.js?v=b2"></script>
+<script type="module" src="brain.js?v=b5"></script>
 </head>
 <body>
 <header class="top">
-  <a class="back" href="../pillars/" aria-label="Back to the Four Pillars">&#8592;</a>
-  <div class="ttl"><h1>The Brain</h1><p id="sub">every bot, thinking</p></div>
+  <a class="back" id="back" href="../pillars/" aria-label="Back to the Four Pillars">&#8592;</a>
+  <div class="ttl"><h1>The Brain</h1><nav class="crumbs" aria-label="Where you are"><a href="../gate/">Home</a> › <a href="../pillars/" id="crP">Pillars</a> › <span id="crN">Brain</span></nav><p id="sub">every bot, thinking</p></div>
   <span class="pill" id="pcPill" data-level="none">PC: checking</span>
 </header>
 <p class="sample" id="sample" hidden></p>

@@ -1,8 +1,8 @@
 {
  "v": 1,
  "name": "Ergasterion lessons",
- "asof": "2026-11-24",
- "say": "This week we wrote down 50 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
+ "asof": "2026-11-25",
+ "say": "This week we wrote down 48 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
  "week": [
   {
    "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
@@ -36,50 +36,48 @@
    ]
   },
   {
-   "text": "Ten genuinely untested Zlarior ideas (time stop, NY-open exit / breakeven, news exit / breakeven, stall exit, breakeven on a close, NR7 size-up, London build-up size-up, 18:00 gap against size-down), one pre-declared ve…",
+   "text": "Tested and rejected: More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…",
    "cat": "NQ strategy",
-   "d": "2026-11-18",
-   "strength": 2,
-   "sources": [
-    "research/writeups/zeus-lab-lit-ideas-2026-11-18.md",
-    "research/writeups/second-sr.md"
-   ]
-  },
-  {
-   "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
-   "cat": "NQ strategy",
-   "d": "2026-11-18",
-   "strength": 2,
-   "sources": [
-    "research/writeups/rapid25-lit-lane-2026-11-18.md",
-    "research/writeups/builder25k-eval-sizing-2026-11-17.md"
-   ]
-  },
-  {
-   "text": "Tighter stops from the 1m CISD candle, the 1m entry swing and the 3m FVG cut the stop from ~44-52 pts to 7-22 pts, but at the same dollars at risk every one loses money in Jul-Oct ($8.3k-$14.0k less than live): 40-58% o…",
-   "cat": "NQ strategy",
-   "d": "2026-11-24",
-   "strength": 1,
-   "sources": [
-    "research/writeups/stops-targets-time-2026-11-24.md"
-   ]
-  },
-  {
-   "text": "The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026. - ATLAS S/R after 11:00 is the only one pointing the right wa…",
-   "cat": "NQ strategy",
-   "d": "2026-11-24",
-   "strength": 1,
-   "sources": [
-    "research/writeups/dead-hours-2026-11-24.md"
-   ]
-  },
-  {
-   "text": "Tested and rejected: Walk-forward portfolio of every stored run + 24-hour coverage (2026-11-24, portfolio-2026-11-24.md, research/portfolio/, pre-registered DESIGN.md): 1,983 runs, 508 pass the PICK rule (2021-…",
-   "cat": "process",
-   "d": "2026-11-24",
+   "d": "2026-11-25",
    "strength": 1,
    "sources": [
     "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: Idea mill v3, family-first (2026-11-25, ideamill-v3-2026-11-25.md, research/ideamill/DESIGN_v3.md): 56,160 ideas (26 triggers incl. prior-month, Asia / London breaks, opening drive, 3-bar r…",
+   "cat": "process",
+   "d": "2026-11-25",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: Idea mill v2, 38,880 grammar ideas (2026-11-25, ideamill-2026-11-25.md, research/ideamill/, pre-registered DESIGN.md): 18 triggers x with/fade x 5 windows x 9 filters x 2 stops x 4 exits x…",
+   "cat": "process",
+   "d": "2026-11-25",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "Closest families (discovery only): ATR-band momentum (close beyond EMA20 +- 2 ATR) Simes p 0.058; VWAP +-2 sd momentum 0.108; RSI fade 0.377.",
+   "cat": "process",
+   "d": "2026-11-25",
+   "strength": 1,
+   "sources": [
+    "research/writeups/ideamill-v3-2026-11-25.md"
+   ]
+  },
+  {
+   "text": "As their own strategy, 11 of the 12 ICT concepts lose money in at least 2 of the 5 years (PO3 is green 4 of 5 but trades 0.16 a week for +$370 in 5 years), and 16 of the 23 standalone rules lose money in 2026 as well.",
+   "cat": "process",
+   "d": "2026-11-25",
+   "strength": 1,
+   "sources": [
+    "research/writeups/ict-lab-2026-11-25.md"
    ]
   }
  ],
@@ -156,13 +154,12 @@
    ]
   },
   {
-   "text": "No single fact has a bin that loses in both halves; 425 two-fact loser cells picked on Jan-Jun keep losing in Jul-Oct 88 times against 95 expected by chance.",
+   "text": "Tested and rejected: More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…",
    "cat": "NQ strategy",
-   "d": "2026-11-15",
-   "strength": 2,
+   "d": "2026-11-25",
+   "strength": 1,
    "sources": [
-    "research/writeups/2026-11-15-lit-deep.md",
-    "research/writeups/lit-retail-entries.md"
+    "docs/TESTED_AND_REJECTED.md"
    ]
   }
  ],
@@ -211,10 +208,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 43,
+  "NQ strategy": 40,
   "Kalshi": 0,
   "money": 1,
-  "process": 16,
+  "process": 19,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

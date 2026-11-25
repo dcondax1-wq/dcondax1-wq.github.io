@@ -1,6 +1,6 @@
 {
  "v": 2,
- "asof": "2026-11-24",
+ "asof": "2026-11-25",
  "note": "Built from handoff/QUEUE.md, research/writeups, research/runs, the Archive index, the Mind's proposals and git (when present) by tools/ergasterion_build.py. Plain text only; nothing here is a trade.",
  "queue": {
   "total": 67,
@@ -190,8 +190,43 @@
   ]
  },
  "writeups": {
-  "count": 266,
+  "count": 271,
   "latest": [
+   {
+    "date": "2026-11-25",
+    "title": "More trades: can Zlarior / ATLAS trade more without losing the edge? (2026-11-25)",
+    "status": "finding",
+    "summary": "0 of 19 LIT variants and 0 of 7 ATLAS variants meet the pre-registered rule (= +25% trades, 2-week eval pass = today in BOTH 2026 halves, 2021-25 not worse, walk-forward = half the windows).",
+    "file": "research/writeups/more-trades-2026-11-25.md"
+   },
+   {
+    "date": "2026-11-25",
+    "title": "IDEA MILL v3: family-first testing, 56,160 ideas (2026-11-25)",
+    "status": "finding",
+    "summary": "Closest families (discovery only): ATR-band momentum (close beyond EMA20 +- 2 ATR) Simes p 0.058; VWAP +-2 sd momentum 0.108; RSI fade 0.377.",
+    "file": "research/writeups/ideamill-v3-2026-11-25.md"
+   },
+   {
+    "date": "2026-11-25",
+    "title": "IDEA MILL: thousands of ideas under one honest protocol (2026-11-25)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/ideamill-2026-11-25.md"
+   },
+   {
+    "date": "2026-11-25",
+    "title": "ICT lab proof 2026-11-25: the eval-safe forms, real engine",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/ict-lab-proof-2026-11-25.md"
+   },
+   {
+    "date": "2026-11-25",
+    "title": "ICT lab 2026-11-25: every popular ICT / time-price concept, tested the other ways",
+    "status": "finding",
+    "summary": "As their own strategy, 11 of the 12 ICT concepts lose money in at least 2 of the 5 years (PO3 is green 4 of 5 but trades 0.16 a week for +$370 in 5 years), and 16 of the 23 standalone rules lose money in 2026 as well.",
+    "file": "research/writeups/ict-lab-2026-11-25.md"
+   },
    {
     "date": "2026-11-24",
     "title": "Market structure: expansion and retracement base rates + 8 pre-registered ideas (2026-11-24)",
@@ -240,41 +275,6 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/livegap-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "LIT in high-VIX falling markets: bad luck or a losing regime? (2026-11-24)",
-    "status": "finding",
-    "summary": "- The premise was off: the losers did NOT come at VIX 25+.",
-    "file": "research/writeups/lit-vix-downtrend-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "Dead hours per pillar: are 05:00-06:30 and 11:00 really bad? (2026-11-24)",
-    "status": "finding",
-    "summary": "The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026. - ATLAS S/R after 11:00 is the only one pointing the right wa…",
-    "file": "research/writeups/dead-hours-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "The BAD case: what to buy and what to do if the market turns 2025-like (2026-11-24)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/badcase-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "ATLAS funded 25K at ~$150 a trade, on the LIVE sizing code (2026-11-24)",
-    "status": "finding",
-    "summary": "It only helps in the bad markets (2025: +$17 / +$90 in 6 months). - Accounts are never \"lost\" on the live code (0% in every case: skip_breach stops a trade that could hit the floor).",
-    "file": "research/writeups/atlas-funded-150-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-23",
-    "title": "Popular ICT / SMC strategies on CME NQ, run exactly as taught (Silver Bullet, Judas, Asia sweep, London break…",
-    "status": "rejected",
-    "summary": "None has an edge after a 10-way multiple-testing correction; 9 of 10 lose money in 2026 H1, the half LIT was picked on.",
-    "file": "research/writeups/popular-ict-2026-11-23.md"
    }
   ]
  },
@@ -353,6 +353,8 @@
   }
  ],
  "rejected_ref": [
+  "Idea mill v3, family-first (2026-11-25, ideamill-v3-2026-11-25.md, research/ideamill/DESIGN_v3.md): 56,160 ideas (26 triggers incl. prior-month, Asia / London breaks, opening drive, 3-bar r…",
+  "Idea mill v2, 38,880 grammar ideas (2026-11-25, ideamill-2026-11-25.md, research/ideamill/, pre-registered DESIGN.md): 18 triggers x with/fade x 5 windows x 9 filters x 2 stops x 4 exits x…",
   "Personal futures account vs MFFU (2026-11-24, ownacct-2026-11-24.md, research/ownacct/, pre-registered DESIGN.md): LIT + ATLAS, fixed-fractional, $1.24 RT, whole micros. $25k at 0.5%: +$49…",
   "ATLAS funded 25K at ~$150 a trade, live sizing path (2026-11-24, atlas-funded-150-2026-11-24.md, research/atlasfund/): cap $150 / funded_room_pct 0.15 vs today's preset on engine/account_b.…",
   "Bad-case plan (2026-11-24, badcase-2026-11-24.md, research/badcase/, pre-registered DESIGN.md, rank.py engine + a 2025 market): in a 2025-like / 2021-25 market every MFFU plan loses ($-236…",
@@ -364,11 +366,30 @@
   "Stops x targets x TIME (2026-11-24, stops-targets-time-2026-11-24.md, tools/stops_targets_time.py, Lab research/lab/stops_targets.json): 19 pre-registered variants on the live LIT trades, r…",
   "Market Learn weekly trial #1 (2026-11-24, engine/market_learn.py, research/learn/trials.json): BLITZ half size when the",
   "Pro / institutional edges (2026-11-24, proedge-2026-11-24.md, code research/proedge/, design pre-registered 64639bf64): 17 variants, 0 pass. EOD rebalancing flow (LETF / Baltussen, 15:30-15…",
-  "Edge hunt lane B, cross-asset triggers (2026-11-22, edge-b-cross-2026-11-22.md, code research/edge_hunt/b/): 128 variants on NQ 5m. Dealer-gamma day-type switch (GEX median: opening-range t…",
-  "Edge hunt lane D: small meta-labeled SIZE + re-entry on LIT (2026-11-22, edge-d-meta-2026-11-22.md, code research/edge_hunt/d/):",
-  "Edge hunt C, calendar / money-flow timing (2026-11-22, edge-c-calendar-2026-11-22.md, research/edge_hunt/c/edge_c.py): 174 variants on NQ 5m, structural 1-tick stop, LIT size, costs in, per…"
+  "More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…"
  ],
  "learnings": [
+  {
+   "d": "2026-11-25",
+   "who": "atlas",
+   "text": "0 of 19 LIT variants and 0 of 7 ATLAS variants meet the pre-registered rule (= +25% trades, 2-week eval pass = today in BOTH 2026 halves, 2021-25 not worse, walk-forward = half the windows).",
+   "src": "research/writeups/more-trades-2026-11-25.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-25",
+   "who": "dev",
+   "text": "Closest families (discovery only): ATR-band momentum (close beyond EMA20 +- 2 ATR) Simes p 0.058; VWAP +-2 sd momentum 0.108; RSI fade 0.377.",
+   "src": "research/writeups/ideamill-v3-2026-11-25.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-25",
+   "who": "dev",
+   "text": "As their own strategy, 11 of the 12 ICT concepts lose money in at least 2 of the 5 years (PO3 is green 4 of 5 but trades 0.16 a week for +$370 in 5 years), and 16 of the 23 standalone rules lose money in 2026 as well.",
+   "src": "research/writeups/ict-lab-2026-11-25.md",
+   "kind": "finding"
+  },
   {
    "d": "2026-11-24",
    "who": "dev",
@@ -837,30 +858,99 @@
    "text": "Same tooling as rapid-levers-2026-11-16.md (tools/money/rapid_levers.py), new driver tools/money/rapid25.py, results research/lab/rapid25.json, 1,000 6-month paths per half. 50K live preset (keep $1,000) - $6,002 / $2,8…",
    "src": "research/writeups/rapid-25k-vs-50k-2026-11-17.md",
    "kind": "done"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "dev",
-   "text": "The four that look best on paper (pre-FOMC, RSI(2), 12-month trend, overnight drift) all hold positions overnight, which MFFU does not allow (flat by 16:10 ET), and every one of them lost money in 2026 H2 or in 2021-25.",
-   "src": "research/writeups/public-strategies-2026-11-17.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "atlas",
-   "text": "ATLAS's 25K eval passed; the funded 25K comes this week. 8 request policies on the SAME 600 Monte Carlo paths of 126 sessions (tools/money/funded25.py tooling, builder_levers seeds, costs in, the live one-account rule),…",
-   "src": "research/writeups/payout-policy-funded25-2026-11-17.md",
-   "kind": "adopt-candidate"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "dev",
-   "text": "Four new families on CME NQ1! 5m RTH (costs in, stops 1 tick beyond structure, $500 a trade, one trade a day), 354 cells counted, hypotheses fixed before the run - LSQ lunch-range squeeze - PM break (with / against / an…",
-   "src": "research/writeups/new-strategy-hunt-2026-11-17.md",
-   "kind": "rejected"
   }
  ],
  "lessons": [
+  {
+   "text": "0 of 19 LIT variants and 0 of 7 ATLAS variants meet the pre-registered rule (= +25% trades, 2-week eval pass = today in BOTH 2026 halves, 2021-25 not worse, walk-forward = half the windows).",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-25",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/more-trades-2026-11-25.md",
+     "d": "2026-11-25"
+    }
+   ]
+  },
+  {
+   "text": "Closest families (discovery only): ATR-band momentum (close beyond EMA20 +- 2 ATR) Simes p 0.058; VWAP +-2 sd momentum 0.108; RSI fade 0.377.",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-25",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/ideamill-v3-2026-11-25.md",
+     "d": "2026-11-25"
+    }
+   ]
+  },
+  {
+   "text": "As their own strategy, 11 of the 12 ICT concepts lose money in at least 2 of the 5 years (PO3 is green 4 of 5 but trades 0.16 a week for +$370 in 5 years), and 16 of the 23 standalone rules lose money in 2026 as well.",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-25",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/ict-lab-2026-11-25.md",
+     "d": "2026-11-25"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-25",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-25"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Idea mill v3, family-first (2026-11-25, ideamill-v3-2026-11-25.md, research/ideamill/DESIGN_v3.md): 56,160 ideas (26 triggers incl. prior-month, Asia / London breaks, opening drive, 3-bar r…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-25",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-25"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Idea mill v2, 38,880 grammar ideas (2026-11-25, ideamill-2026-11-25.md, research/ideamill/, pre-registered DESIGN.md): 18 triggers x with/fade x 5 windows x 9 filters x 2 stops x 4 exits x…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-25",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-25"
+    }
+   ]
+  },
   {
    "text": "Tighter stops from the 1m CISD candle, the 1m entry swing and the 3m FVG cut the stop from ~44-52 pts to 7-22 pts, but at the same dollars at risk every one loses money in Jul-Oct ($8.3k-$14.0k less than live): 40-58% o…",
    "cat": "NQ strategy",
@@ -1225,51 +1315,6 @@
    "sources": [
     {
      "src": "research/writeups/edge-b-cross-2026-11-22.md",
-     "d": "2026-11-22"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Edge hunt lane D: small meta-labeled SIZE + re-entry on LIT (2026-11-22, edge-d-meta-2026-11-22.md, code research/edge_hunt/d/):",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-22",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-22"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Edge hunt lane B, cross-asset triggers (2026-11-22, edge-b-cross-2026-11-22.md, code research/edge_hunt/b/): 128 variants on NQ 5m. Dealer-gamma day-type switch (GEX median: opening-range t…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-22",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-22"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Edge hunt C, calendar / money-flow timing (2026-11-22, edge-c-calendar-2026-11-22.md, research/edge_hunt/c/edge_c.py): 174 variants on NQ 5m, structural 1-tick stop, LIT size, costs in, per…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-22",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-22"
     }
    ]
@@ -1747,55 +1792,6 @@
      "d": "2026-11-17"
     }
    ]
-  },
-  {
-   "text": "Not adopted on money (fails H1), a risk choice for the owner.",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-11-16",
-   "kind": "mixed",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/rapid-levers-2026-11-16.md",
-     "d": "2026-11-16"
-    }
-   ]
-  },
-  {
-   "text": "No single fact has a bin that loses in both halves; 425 two-fact loser cells picked on Jan-Jun keep losing in Jul-Oct 88 times against 95 expected by chance.",
-   "cat": "NQ strategy",
-   "who": "lit",
-   "d": "2026-11-15",
-   "kind": "rejected",
-   "strength": 2,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/2026-11-15-lit-deep.md",
-     "d": "2026-11-15"
-    },
-    {
-     "src": "research/writeups/lit-retail-entries.md",
-     "d": "2026-10-21"
-    }
-   ]
-  },
-  {
-   "text": "Six ideas that systematic NQ / prop bots use and that Tested and rejected plus the LIT idea rounds 1-3 had not covered, 28 versions on the exact live LIT trades (re-walk == run lit_live), CME NQ futures, true 1m bars in…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-15",
-   "kind": "adopt-candidate",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/2026-11-15-s2-edge.md",
-     "d": "2026-11-15"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1897,6 +1893,46 @@
   }
  ],
  "events": [
+  {
+   "t": 1795608000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: IDEA MILL: thousands of ideas under one honest protocol (2026-11-25)",
+   "src": "research/writeups/ideamill-2026-11-25.md"
+  },
+  {
+   "t": 1795608000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: ICT lab proof 2026-11-25: the eval-safe forms, real engine",
+   "src": "research/writeups/ict-lab-proof-2026-11-25.md"
+  },
+  {
+   "t": 1795608000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): IDEA MILL v3: family-first testing, 56,160 ideas (2026-11-25)",
+   "src": "research/writeups/ideamill-v3-2026-11-25.md"
+  },
+  {
+   "t": 1795608000,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): ICT lab 2026-11-25: every popular ICT / time-price concept, tested the other ways",
+   "src": "research/writeups/ict-lab-2026-11-25.md"
+  },
+  {
+   "t": 1795608000,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): More trades: can Zlarior / ATLAS trade more without losing the edge? (2026-11-25)",
+   "src": "research/writeups/more-trades-2026-11-25.md"
+  },
   {
    "t": 1795521600,
    "who": "lit",
@@ -3936,46 +3972,6 @@
    "ok": true,
    "text": "52 research runs stored (other): 42 rejected, 10 open.",
    "src": "research/runs"
-  },
-  {
-   "t": 1792630740,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "21 research runs stored (other): 20 rejected, 1 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792621920,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "281 research runs stored (filters): 279 rejected, 2 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792594740,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "8 research runs stored (other): 8 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792584000,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT retail entries - support/resistance, supply/demand, break-and-retest, EMA pullbacks and MACD divergence a…",
-   "src": "research/writeups/lit-retail-entries.md"
-  },
-  {
-   "t": 1792584000,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT + retail tools as confluence and size - EMAs, MACD, support / resistance, supply / demand",
-   "src": "research/writeups/lit-retail-confluence.md"
   }
  ],
  "pipeline": {
@@ -4234,49 +4230,49 @@
   {
    "name": "CBOE_vol_1d.csv",
    "last": "2026-09-17",
-   "days": 68,
+   "days": 69,
    "file": "data/CBOE_vol_1d.csv"
   },
   {
    "name": "ES_15m.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/ES_15m.csv"
   },
   {
    "name": "ES_1d.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/ES_1d.csv"
   },
   {
    "name": "ES_1h.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/ES_1h.csv"
   },
   {
    "name": "ES_5m.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/ES_5m.csv"
   },
   {
    "name": "GEX_1d.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/GEX_1d.csv"
   },
   {
    "name": "NQ_1d.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/NQ_1d.csv"
   },
   {
    "name": "tv_mnq_5m_2026-10-16.csv",
    "last": "2026-10-16",
-   "days": 39,
+   "days": 40,
    "file": "data/tv_mnq_5m_2026-10-16.csv"
   }
  ],
@@ -4357,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795565220,
+   "t": 1795632000,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,104 +4375,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795563446,
-    "s": "live.unrouted_exit_skip: any open leg of ours (or has_open_bracket) blocks the skip (red team #4 one-liner);…"
+    "t": 1795631912,
+    "s": "Land Pillars + Brain v4 (data pages, Today strip, 3D quality, brain feed first); sw v218"
    },
    {
-    "t": 1795561231,
-    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt' into land-1123"
+    "t": 1795631692,
+    "s": "Merge remote-tracking branch 'olympus/day-pillars4' into land-1123"
    },
    {
-    "t": 1795561187,
-    "s": "Red team day-zeroerr (ledgerfix): the pre-eval_start skip in multi_account._process only when the account doe…"
+    "t": 1795631661,
+    "s": "day-pillars4: Brain 3D quality pass (bloom, region glow, tracts, dust, settle, DOF), ticker half-line fix, 44…"
    },
    {
-    "t": 1795561130,
+    "t": 1795630791,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795561123,
-    "s": "STATE: PC update blocker root cause + the one line"
+    "t": 1795630786,
+    "s": "Rebuild hub data"
    },
    {
-    "t": 1795559946,
-    "s": "generated_files: research/orderflow/results.json is bot-made (tickrec autopilot); it held the PC update back…"
+    "t": 1795630785,
+    "s": "Decide card: ATLAS half size outside Silver Bullet hours on the Builder evals (ICT lab proof B2)"
    },
    {
-    "t": 1795558565,
-    "s": "FAILURE_MAP: the two ledger bugs (rows 30b, 30c) and the armed record"
+    "t": 1795630761,
+    "s": "Merge remote-tracking branch 'olympus/day-ictlab' into land-1123"
    },
    {
-    "t": 1795557902,
-    "s": "day-unstick round 2: old-code route audit (no remote reset path), scheduled tasks/boot, pre-emptive chain can…"
+    "t": 1795630734,
+    "s": "ICT lab proof: eval-safe forms on the real engine (rank/onebook) + funded ATLAS replay, config diffs (not app…"
    },
    {
-    "t": 1795557796,
-    "s": "day-unstick: merge the pre-emptive version-cycle chain (84 commits on pc 1ea04f047, net tree change none) for…"
+    "t": 1795630589,
+    "s": "day-pillars4: ORDER FLOW data page leads with its tick progress (no empty money card); refreshed test shots"
    },
    {
-    "t": 1795557768,
-    "s": "day-unstick: put the current pc version back (end of the version cycle; tree == origin/pc): the PC's old auto…"
+    "t": 1795630551,
+    "s": "day-pillars4: real-$ sparkline on the data page, Brain crumbs + back to the pillar + data link, one-line Pill…"
    },
    {
-    "t": 1795557768,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 36/36 (zero-touch update match for the PC's old…"
+    "t": 1795630285,
+    "s": "day-pillars4: pillar DATA pages, Brain reads the brain feed first (with its age), Home Today strip, richer 3D…"
    },
    {
-    "t": 1795557768,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 35/36 (zero-touch update match for the PC's old…"
+    "t": 1795630245,
+    "s": "Land ICT lab (2 real findings: LIT x True Day Open, ATLAS x Silver Bullet hours); rebuild hub data"
    },
    {
-    "t": 1795557768,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 34/36 (zero-touch update match for the PC's old…"
+    "t": 1795630244,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795557768,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 33/36 (zero-touch update match for the PC's old…"
+    "t": 1795630238,
+    "s": "Land ICT lab (2 real findings: LIT x True Day Open, ATLAS x Silver Bullet hours); rebuild hub data"
    },
    {
-    "t": 1795557768,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 32/36 (zero-touch update match for the PC's old…"
+    "t": 1795630237,
+    "s": "Merge remote-tracking branch 'olympus/day-ictlab' into land-1123"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 31/36 (zero-touch update match for the PC's old…"
+    "t": 1795630193,
+    "s": "ICT lab: 133 pre-registered ICT/time-price variants, every test view side by side"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 30/36 (zero-touch update match for the PC's old…"
+    "t": 1795629614,
+    "s": "Land more-trades study (0/26 loosenings pass); rebuild hub data"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 29/36 (zero-touch update match for the PC's old…"
+    "t": 1795629612,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 28/36 (zero-touch update match for the PC's old…"
+    "t": 1795629606,
+    "s": "Land more-trades study (0/26 loosenings pass); rebuild hub data"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 27/36 (zero-touch update match for the PC's old…"
+    "t": 1795629605,
+    "s": "Merge remote-tracking branch 'olympus/day-moretrades' into land-1123"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 26/36 (zero-touch update match for the PC's old…"
+    "t": 1795629580,
+    "s": "more-trades: ES export note"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 25/36 (zero-touch update match for the PC's old…"
+    "t": 1795629572,
+    "s": "More trades study: 19 LIT + 7 ATLAS loosenings + ES, 0 pass; frontier write-up"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 24/36 (zero-touch update match for the PC's old…"
+    "t": 1795629383,
+    "s": "ICT lab: pre-registered design (concepts as taught, rules, filters, combos, test views)"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 23/36 (zero-touch update match for the PC's old…"
+    "t": 1795629320,
+    "s": "More-trades study: pre-registered grid (before any run)"
    },
    {
-    "t": 1795557767,
-    "s": "day-unstick: tools/web_public/business/decisions.json version 22/36 (zero-touch update match for the PC's old…"
+    "t": 1795629241,
+    "s": "docs: plan to Sunday (6 tracks, helpers, owner steps)"
    }
   ],
   "branches": [

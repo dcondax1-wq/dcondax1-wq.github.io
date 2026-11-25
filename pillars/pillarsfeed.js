@@ -3,7 +3,7 @@
 import * as D from '../nq/nqdesk.js?v=8';
 import * as K7 from '../nq/clock7.js?v=2';
 import * as A from '../nq/acctcore.js?v=1';
-import * as P from './pillarscore.js?v=p3';
+import * as P from './pillarscore.js?v=p4';
 
 export function etNow(t) {
   try {
@@ -13,7 +13,8 @@ export function etNow(t) {
   } catch (_) { return { date: null, min: null }; }
 }
 /** src = { data, home, biz, payday, file, lite, nowS, feed (window.PC_FEED), coach } -> the four pillars */
-export function modelFrom(src) {
+/** the Accounts screen's cards (nq/acctcore.build) + the home the PC post was laid over: {cards, home} */
+export function cardsFrom(src) {
   const s = src || {}, t = +s.nowS || Date.now() / 1000, home = s.home || {}, F = s.feed;
   const h = s.lite && F && F.homeOver ? F.homeOver(home, s.lite, t, s.coach || null) : home;
   let cards = [];
@@ -21,6 +22,10 @@ export function modelFrom(src) {
     const accts = D.accounts(h, s.biz, t), k7 = K7.rows(s.lite, t), et = etNow(t);
     cards = A.build(accts, k7, { lite: s.lite, biz: s.biz, payday: s.payday, nowS: t, today: K7.tradingDay(t), minuteET: et.min, etDate: et.date }).cards;
   } catch (_) { cards = []; }
+  return { cards, home: h };
+}
+export function modelFrom(src) {
+  const s = src || {}, t = +s.nowS || Date.now() / 1000, { cards, home: h } = cardsFrom(s);
   return P.build(s.data, { nowS: t, glance: P.glanceOf(s.lite, h), lite: s.lite, cards, file: s.file });
 }
 export const ago = A.ago, PC_FRESH_S = A.PC_FRESH_S;

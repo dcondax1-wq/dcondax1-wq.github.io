@@ -24,6 +24,286 @@
  "line": "Market Learn: 1 fix tested, 0 passed. Nothing to decide; lessons updated.",
  "journal": [
   {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 226.0,
+   "usd": 13770.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 226.0,
+   "usd": 13770.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 226.0,
+   "usd": 13770.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does worse when: entries 50-80% into the day's range. avg R 0.884 / 0.606 / -0.105 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 376.0,
+   "usd": -13641.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does worse when: entries 50-80% into the day's range. avg R 0.884 / 0.606 / -0.105 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 376.0,
+   "usd": -13641.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does worse when: entries 50-80% into the day's range. avg R 0.884 / 0.606 / -0.105 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 376.0,
+   "usd": -13641.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20. avg R 1.128 / 0.868 / 0.142 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 563.0,
+   "usd": 16207.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20. avg R 1.128 / 0.868 / 0.142 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 563.0,
+   "usd": 16207.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20. avg R 1.128 / 0.868 / 0.142 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 563.0,
+   "usd": 16207.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20 + London 02-05. avg R 1.698 / 0.95 / 0.439 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 266.0,
+   "usd": 29694.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20 + London 02-05. avg R 1.698 / 0.95 / 0.439 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 266.0,
+   "usd": 29694.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20 + London 02-05. avg R 1.698 / 0.95 / 0.439 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 266.0,
+   "usd": 29694.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: Tuesdays. avg R 0.059 / 0.016 / -0.042 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 413.0,
+   "usd": -3809.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: Tuesdays. avg R 0.059 / 0.016 / -0.042 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 413.0,
+   "usd": -3809.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: Tuesdays. avg R 0.059 / 0.016 / -0.042 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 413.0,
+   "usd": -3809.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: after a big day + Tuesdays. avg R -0.017 / -0.238 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 123.0,
+   "usd": -2449.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: after a big day + Tuesdays. avg R -0.017 / -0.238 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 123.0,
+   "usd": -2449.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: after a big day + Tuesdays. avg R -0.017 / -0.238 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 123.0,
+   "usd": -2449.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: trending weeks + NY AM 09:30-11:30. avg R -0.082 / -0.271 / -0.095 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 159.0,
+   "usd": -4611.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: trending weeks + NY AM 09:30-11:30. avg R -0.082 / -0.271 / -0.095 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 159.0,
+   "usd": -4611.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: trending weeks + NY AM 09:30-11:30. avg R -0.082 / -0.271 / -0.095 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 159.0,
+   "usd": -4611.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does better when: a displacement our way in the 30 min before (late). avg R 0.544 / 0.81 / 0.04 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 167.0,
+   "usd": 3203.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does better when: a displacement our way in the 30 min before (late). avg R 0.544 / 0.81 / 0.04 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 167.0,
+   "usd": 3203.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does better when: a displacement our way in the 30 min before (late). avg R 0.544 / 0.81 / 0.04 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 167.0,
+   "usd": 3203.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: fading the last swing, retrace past 1.0, swing broken + the day half used (0.5-0.8 ATR). avg R 0.009 / 0.046 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 281.0,
+   "usd": -4709.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: fading the last swing, retrace past 1.0, swing broken + the day half used (0.5-0.8 ATR). avg R 0.009 / 0.046 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 281.0,
+   "usd": -4709.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: fading the last swing, retrace past 1.0, swing broken + the day half used (0.5-0.8 ATR). avg R 0.009 / 0.046 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 281.0,
+   "usd": -4709.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: the day half used (0.5-0.8 ATR). avg R 0.106 / -0.117 / -0.035 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 480.0,
+   "usd": -4742.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: the day half used (0.5-0.8 ATR). avg R 0.106 / -0.117 / -0.035 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 480.0,
+   "usd": -4742.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: the day half used (0.5-0.8 ATR). avg R 0.106 / -0.117 / -0.035 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 480.0,
+   "usd": -4742.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "lit",
+   "text": "LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 143.0,
+   "usd": -11183.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "lit",
+   "text": "LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 143.0,
+   "usd": -11183.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "lit",
+   "text": "LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-25) vs its own average - FADED: no longer the same in all 3 spans",
+   "n": 143.0,
+   "usd": -11183.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "learn",
+   "text": "the 1h VWAP +-2sd momentum NY-afternoon family (the v2 discovery lead), confirmed on the 3 hold-outs: FAILED",
+   "n": null,
+   "usd": null,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-25",
+   "pillar": "learn",
+   "text": "idea mill: 56160 ideas tested so far; 0 passed discovery (FDR), 0 the many-tests haircut, 0 all 3 hold-outs; a random-sign placebo gives 0 / 0 / 0; family-first (v3): 0 of 52 families passed, 0 variants survived the hold-outs",
+   "n": 56160.0,
+   "usd": null,
+   "status": "watching"
+  },
+  {
    "date": "2026-11-24",
    "pillar": "atlas",
    "text": "ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
@@ -276,7 +556,7 @@
   "lit": {
    "confidence": 0.7,
    "lessons": 0,
-   "last_learned": "tested the idea 'F3 LIT x1.5 at the day's extreme': failed (H2 placebo p 0.653 (bar 0.0063))",
+   "last_learned": "LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-2",
    "testing_next": [
     "watching: LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-25) vs its own average"
    ],
@@ -285,7 +565,7 @@
   "atlas": {
    "confidence": 0.85,
    "lessons": 1,
-   "last_learned": "tested the idea 'F4 ATLAS skip middle of the range': failed (H1 net $19,550 vs $25,737; H1 PF 3.0 vs 3.02)",
+   "last_learned": "ATLAS does better when: VIX 15-20 + London 02-05. avg R 1.698 / 0.95 / 0.439 (Jan-Jun / Jul-Oct / 2021-25) vs its own av",
    "testing_next": [
     "watching: ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average"
    ],
@@ -294,7 +574,7 @@
   "blitz": {
    "confidence": 0.64,
    "lessons": 3,
-   "last_learned": "tested the idea 'F5 BLITZ skip half-used day': failed (H1 net $4,513 vs $5,513; placebo p 0.0295 (bar 0.0063))",
+   "last_learned": "BLITZ does worse when: the day half used (0.5-0.8 ATR). avg R 0.106 / -0.117 / -0.035 (Jan-Jun / Jul-Oct / 2021-25) vs i",
    "testing_next": [
     "next fix to test (pre-registered on the weekly run): skip trades in fading the last swing, retrace past 1.0, swing broken + the day half used (0.5-0.8 ATR)"
    ],
@@ -310,9 +590,9 @@
    "market_read": "trend regime, VIX 25+; shallow pullback of the down leg (0.20); price 19% up today's range, 1.62 ATR used"
   },
   "learn": {
-   "confidence": 0.64,
+   "confidence": 0.6,
    "lessons": 9,
-   "last_learned": "tested the idea 'S3 expansion follows expansion (first 5m displacement)': failed (H1: PF 0.99 net $-142; H2: PF 1.01 net",
+   "last_learned": "idea mill: 38880 ideas tested so far; 0 passed discovery (FDR), 0 the many-tests haircut, 0 all 3 hold-outs; a random-si",
    "testing_next": [
     "watching: the day after an inside day: an expansion day (1.5+ ATR) 15.0%, 21.4%, 0.0% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - mixed"
    ],

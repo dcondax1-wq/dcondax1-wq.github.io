@@ -4,8 +4,8 @@
 // the pillar, and a "What's new: The Four Pillars" toast ONCE per phone (localStorage oly.new.pillars).
 // Data: what the page already holds (window.NQ.S on the NQ page: no fetch there), else the site's own home.json (one small read, the
 // same file the page reads). It never polls the PC feed. createElement / textContent only. Read only.
-import * as P from './pillarscore.js?v=p3';
-import * as PF from './pillarsfeed.js?v=p3';
+import * as P from './pillarscore.js?v=p4';
+import * as PF from './pillarsfeed.js?v=p4';
 
 const BASE = new URL('./', import.meta.url);
 const NEW_KEY = 'oly.new.pillars';
@@ -32,7 +32,7 @@ const fillOf = (m) => (m.id === 'of' ? Math.max(.06, (m.tick && m.tick.frac) || 
 
 async function stage3d(stage, model) {
   try {
-    const Sc = await import('./pillars-scene.js?v=c1');
+    const Sc = await import('./pillars-scene.js?v=c2');
     const c = el('canvas'); c.setAttribute('aria-hidden', 'true'); stage.replaceChildren(c);
     const band = !!stage.closest('.band');                                   // the Home header: a jewel-sized temple over the page (clear backdrop)
     const api = await Sc.create(c, model.map((m) => ({ id: m.id, name: m.name, color: m.color, fill: fillOf(m), dim: m.state === 'off' })),

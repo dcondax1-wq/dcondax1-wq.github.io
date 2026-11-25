@@ -11,13 +11,13 @@
 //   build(src, nowS) -> { mode, pc, price, headline, sample, regions[], pulse }
 import * as W from '../warroom/warcore.js?v=w2';
 import * as NB from '../nq/nqbars.js?v=b1';
-import * as PF from '../pillars/pillarsfeed.js?v=p3';
+import * as PF from '../pillars/pillarsfeed.js?v=p4';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);
 const num = (v) => (v === null || v === undefined || v === '' || typeof v === 'boolean' || !Number.isFinite(+v) ? null : +v);
 const str = (v, n) => String(v == null ? '' : v).replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n || 240);
-export const px = W.px, usd = W.usd, pts = W.pts;
+export const px = W.px, usd = W.usd, pts = W.pts, ago = W.ago;
 
 export const REGIONS = [
   { id: 'lit', name: 'LIT', alias: 'Zlarior', color: '#f1c14b', glyph: 'Λ', blurb: 'The liquidity sweep brain: levels, sweep, CISD, entry' },
@@ -35,7 +35,24 @@ function glanceBot(lite, id) {
   const G = arr(isObj(lite) && isObj(lite.pc) && isObj(lite.pc.glance) ? lite.pc.glance.bots : null);
   return G.find((x) => isObj(x) && x.id === id) || null;
 }
+/** the PC's brain feed (engine/brain_feed.py, ext block "bf", laid at the top of the merged post: lite.bf): read FIRST (day-pillars4) */
+export function bfBot(lite, id) {
+  const b = isObj(lite) && isObj(lite.bf) && isObj(lite.bf.bots) && isObj(lite.bf.bots[id]) ? lite.bf.bots[id] : null;
+  return b && !b.err ? b : null;
+}
+export const BF_FRESH_S = 20 * 60, BF_OLD_S = 45 * 60;     // the ext post (and bf in it) comes every 2nd 15-min run: 30 min is normal, 45+ is late
+/** how old the brain feed is: {has, t, age, text, level ok|warn|bad}; else the glance's age (what the derived steps come from) */
+export function feedAge(lite, nowS) {
+  const t = num(isObj(lite) && isObj(lite.bf) ? lite.bf.t : null), gt = num(isObj(lite) && isObj(lite.pc) && isObj(lite.pc.glance) ? lite.pc.glance.t : null);
+  const at = t ?? gt, age = at === null ? null : Math.max(0, num(nowS) - at);
+  const level = age === null ? 'none' : age <= BF_FRESH_S ? 'ok' : age <= BF_OLD_S ? 'warn' : 'bad';
+  const what = t !== null ? 'brain feed' : 'step report';
+  return { has: t !== null, t: at, age, level, what, hm: at === null ? '' : ((NB.et(at) || {}).hm || ''),
+    text: age === null ? 'no brain feed from the PC yet' : `${what} ${W.ago(age)}${at !== null && (NB.et(at) || {}).hm ? ` (${(NB.et(at) || {}).hm} ET)` : ''}` };
+}
 function extra(lite, id, key) {
+  const f = bfBot(lite, id);
+  if (f && f[key] != null && !(Array.isArray(f[key]) && !f[key].length) && !(isObj(f[key]) && !Object.keys(f[key]).length)) return f[key];
   const g = glanceBot(lite, id);
   if (g && g[key] != null) return g[key];
   const b = isObj(lite) && isObj(lite.brain) && isObj(lite.brain[id]) ? lite.brain[id] : null;
@@ -44,7 +61,7 @@ function extra(lite, id, key) {
 /** think lines: ["text"] or [["hm", "text"]] or [{t|hm, text}] -> [{hm, text}] newest first (as sent: the PC sends newest first) */
 export function thinkLines(raw) {
   return arr(raw).map((r) => {
-    if (typeof r === 'string') return { hm: '', text: str(r, 220) };
+    if (typeof r === 'string') { const m = /^(\d{1,2}:\d\d)\s+(.+)$/.exec(r.trim()); return m ? { hm: m[1].padStart(5, '0'), text: str(m[2], 220) } : { hm: '', text: str(r, 220) }; }   // the brain feed's "HH:MM words"
     if (Array.isArray(r)) return { hm: str(r[0], 5), text: str(r[1], 220) };
     if (isObj(r)) return { hm: str(r.hm || (num(r.t) !== null ? (NB.et(num(r.t)) || {}).hm : ''), 5), text: typeof r.text === 'string' ? str(r.text, 220) : '' };
     return null;
@@ -76,8 +93,11 @@ function nextTrade(id, bot, lite, warLevels, price, pos) {
   const N = extra(lite, id, 'next'), n = isObj(N) ? N : null;
   const byKind = (k) => { const l = warLevels.find((x) => x.who === id && x.kind === k); return l ? l.price : null; };
   const p = arr(pos).find((x) => x.bot === id) || null;
-  const steps = n && arr(n.steps).length ? arr(n.steps).map((s) => (isObj(s) ? { label: str(s.label || s.k, 40), state: ['done', 'now', 'wait'].includes(s.state) ? s.state : s.done ? 'done' : 'wait' }
+  let steps = n && arr(n.steps).length ? arr(n.steps).map((s) => (isObj(s) ? { label: str(s.label || s.name || s.k, 40), state: ['done', 'now', 'wait'].includes(s.state) ? s.state : s.done ? 'done' : 'wait', fromDone: !s.state && 'done' in s }
     : { label: str(s, 40), state: 'done' })).slice(0, 10) : null;
+  if (steps && steps.some((x) => x.fromDone)) { const i = steps.findIndex((x) => x.state !== 'done'); if (i >= 0) steps[i].state = 'now'; }   // the feed's [{name, done}]: the first open step is "now"
+  if (steps) steps = steps.map(({ label, state }) => ({ label, state }));
+  const stepsText = n && typeof n.steps === 'string' && /^\d+\/\d+$/.test(n.steps) ? n.steps : '';      // a tight feed sends "6/10"
   const limit = num(n && n.limit) ?? (p ? p.entry : byKind('entry')), stop = num(n && n.stop) ?? (p ? p.stop : byKind('stop')), target = num(n && n.target) ?? (p ? p.target : byKind('target'));
   let dist = num(n && n.dist_pts), distFrom = dist !== null ? 'from the PC' : '';
   if (dist === null && price !== null) {
@@ -93,7 +113,7 @@ function nextTrade(id, bot, lite, warLevels, price, pos) {
     setup: str(n && n.setup, 120) || (bot && bot.now ? `${bot.now.label}${bot.stepText && bot.stepText !== '-' ? ` (${bot.stepText})` : ''}` : ''),
     waiting: str(n && n.waiting_for, 240) || (bot && bot.next ? bot.next.text : ''),
     window: str(n && n.window, 80) || (bot && bot.window ? bot.window.text : ''),
-    steps, limit, stop, target, rr, dist, distFrom, from: n ? 'pc' : 'derived',
+    steps, stepsText, limit, stop, target, rr, dist, distFrom, from: n ? (bfBot(lite, id) && isObj(bfBot(lite, id).next) && Object.keys(bfBot(lite, id).next).length ? 'bf' : 'pc') : 'derived',
     pct: bot && bot.meter ? bot.meter.pct : 0, word: bot && bot.meter ? bot.meter.word : 'No data', inTrade: !!p, pos: p,
   };
 }
@@ -202,6 +222,9 @@ export function build(src, nowS) {
   // the pulse: one number per region for the 3D brain (how lit its neurons are, 0..1)
   const pulse = Object.fromEntries(regions.map((r) => [r.id, Math.max(0.12, Math.min(1, r.id === 'lit' || r.id === 'atlas' ? (r.next.pct || 0) / 100 * 0.85 + (r.think.length ? 0.15 : 0)
     : r.id === 'of' ? 0.2 + (r.next.pct || 0) / 200 : r.id === 'blitz' ? 0.12 : r.id === 'learn' ? (r.learn.week.length ? 0.6 : 0.3) : r.level === 'bad' ? 0.9 : 0.4))]));
-  return { t: nowS, mode: S.sample ? 'sample' : lite ? 'live' : 'none', sample: !!S.sample, pc: war.pc, price, headline: war.headline, next: war.next, regions, pulse, positions: war.positions };
+  const feed = feedAge(lite, nowS), mk = isObj(lite) && isObj(lite.bf) && isObj(lite.bf.market) ? lite.bf.market : null;
+  for (const r of regions) if (r.next) r.next.feed = feed;
+  const market = mk ? { phase: str(mk.phase, 12), range: num(mk.today_range_pts), where: num(mk.where_in_range_pct), regime: str(mk.regime, 40), rangeVsMove: num(mk.range_vs_move_pct) } : null;
+  return { t: nowS, feed, market, mode: S.sample ? 'sample' : lite ? 'live' : 'none', sample: !!S.sample, pc: war.pc, price, headline: war.headline, next: war.next, regions, pulse, positions: war.positions };
 }
 export const region = (M, id) => arr(M && M.regions).find((r) => r.id === id) || null;

@@ -10,7 +10,7 @@ a { color: var(--lav); }
 
 /* top bar */
 .top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 10px; padding: calc(8px + env(safe-area-inset-top)) 14px 8px;
-  background: linear-gradient(#000 60%, rgba(0,0,0,0)); }
+  background: rgba(0,0,0,.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(77,46,118,.55); box-shadow: 0 8px 24px rgba(0,0,0,.6); }
 .back { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 14px; border: 1px solid var(--ln2); background: var(--card); color: var(--tx); text-decoration: none; font-size: 20px; }
 .ttl { flex: 1; min-width: 0; }
 .ttl h1 { margin: 0; font-size: 19px; letter-spacing: .12em; text-transform: uppercase; background: linear-gradient(90deg, var(--gold), #fff 45%, var(--glow)); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -139,3 +139,16 @@ a { color: var(--lav); }
 .foot p { flex-basis: 100%; margin: 0; font-size: 11px; color: #7d6f98; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+/* day-pillars4: how old the PC's brain feed is, on top of Next trade (green fresh, gold late, red old) */
+.fage { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 8px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid var(--ln2); color: var(--mut); background: rgba(0,0,0,.35); }
+.fage i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.fage.ok { color: var(--mint); border-color: rgba(119,219,137,.5); box-shadow: 0 0 12px rgba(119,219,137,.18); }
+.fage.warn { color: var(--gold); border-color: rgba(241,193,75,.55); }
+.fage.bad { color: #ff8a8a; border-color: rgba(239,68,68,.6); background: rgba(239,68,68,.08); }
+.fage.ok i { animation: fbeat 2.4s ease-in-out infinite; }
+@keyframes fbeat { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .fage.ok i { animation: none; } }
+.crumbs { font-size: 11.5px; color: var(--mut); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumbs a { color: var(--mut); text-decoration: none; display: inline-block; min-width: 44px; text-align: center; padding: 14px 2px; margin: -14px -6px; line-height: 16px; } .crumbs span { color: var(--gold); font-weight: 700; }
+.dlink { display: flex; align-items: center; min-height: 44px; margin: 0 0 10px; padding: 0 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13.5px;
+  color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 55%, #3e255e); background: color-mix(in srgb, var(--c) 9%, #16131e); }

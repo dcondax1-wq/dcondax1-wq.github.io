@@ -66,7 +66,7 @@ const box = (THREE, w, h, d, x, y, z, f) => { const g = new THREE.BoxGeometry(w,
 
 /** a Doric shaft: 20 concave flutes with arrises, entasis, baked AO; per vertex aGroove (0 arris .. 1 deepest), aH (0 foot .. 1 neck), aFlute */
 function shaftGeometry(THREE, low) {
-  const per = low ? 4 : 8, cols = FLUTES * per, rings = low ? 24 : 56;
+  const per = low ? 4 : 12, cols = FLUTES * per, rings = low ? 24 : 96;
   const P = [], UV = [], G = [], Hh = [], F = [], C = [], I = [];
   for (let j = 0; j <= rings; j++) {
     const v = j / rings, y = v * HS, r = R0 + (R1 - R0) * v + .012 * Math.sin(Math.PI * Math.min(1, v * 1.25));
@@ -84,14 +84,20 @@ function shaftGeometry(THREE, low) {
   g.setAttribute('aFlute', new THREE.Float32BufferAttribute(F, 1)); g.setAttribute('color', new THREE.Float32BufferAttribute(C, 3));
   g.setIndex(I); g.computeVertexNormals(); g.computeBoundingSphere(); return g;
 }
-/** the gold capital: necking ring, echinus (a lathe cushion), abacus slab */
+/** the gold capital: three annulets + a fillet at the necking, an echinus (an ovolo cushion, lathe), a bead ring, the abacus slab + a thin top plate */
 function capitalGeometry(THREE, low) {
-  const s = low ? 20 : 40, pts = [];
-  for (let k = 0; k <= 10; k++) { const t = k / 10; pts.push(new THREE.Vector2(R1 * 1.02 + (.29 - R1 * 1.02) * Math.sin(t * Math.PI / 2) ** .8, .03 + t * .11)); }
-  const ech = new THREE.LatheGeometry(pts, s); const neck = new THREE.TorusGeometry(R1 * 1.03, .014, 6, s); neck.rotateX(Math.PI / 2); neck.translate(0, .012, 0);
-  const neck2 = neck.clone(); neck2.translate(0, .03, 0);
-  const abacus = new THREE.BoxGeometry(.64, .075, .64); abacus.translate(0, .14 + .0375, 0);
-  return merge(THREE, [ech, neck, neck2, abacus]);
+  const s = low ? 20 : 64, pts = [], k = low ? 10 : 22;
+  for (let j = 0; j <= k; j++) { const t = j / k, sw = Math.sin(t * Math.PI / 2) ** .8, bulge = low ? 0 : .012 * Math.sin(t * Math.PI);   // the echinus: a gentle ovolo
+    pts.push(new THREE.Vector2(R1 * 1.02 + (.29 - R1 * 1.02) * sw + bulge, .03 + t * .11)); }
+  const ech = new THREE.LatheGeometry(pts, s);
+  const ring = (r, tube, y) => { const g = new THREE.TorusGeometry(r, tube, low ? 6 : 10, s); g.rotateX(Math.PI / 2); g.translate(0, y, 0); return g; };
+  const list = [ech, ring(R1 * 1.03, .014, .012), ring(R1 * 1.03, .014, .03)];
+  if (!low) { list.push(ring(R1 * 1.035, .007, .046), ring(R1 * .99 + .02, .008, -.045));   // a third annulet + the hypotrachelion groove line below
+    const fil = new THREE.CylinderGeometry(R1 * 1.0, R1 * 1.0, .02, s, 1, true); fil.translate(0, .056, 0); list.push(fil);
+    list.push(ring(.288, .009, .137)); }                                                       // a bead ring under the abacus
+  const abacus = new THREE.BoxGeometry(.64, .065, .64); abacus.translate(0, .14 + .0325, 0); list.push(abacus);
+  if (!low) { const top = new THREE.BoxGeometry(.6, .016, .6); top.translate(0, .14 + .065 + .008, 0); list.push(top); }   // a crisp plate on top (a second gold edge)
+  return merge(THREE, list);
 }
 /** the Attic base: plinth, lower torus, scotia, upper torus */
 function baseGeometry(THREE, low) {
@@ -211,6 +217,32 @@ const PT_FS = `precision highp float; varying vec3 vC; varying float vAl; void m
  #include <colorspace_fragment>
 }`;
 
+// a volumetric light shaft per column: an open cone of light from the entablature down to the step, soft at its silhouette (view angle),
+// fading down, with slow noise drifting through it; per instance colour + strength (1 draw call for all four)
+const SHAFT_VS = `attribute vec3 aC; attribute float aK; varying vec3 vC; varying float vK; varying float vY; varying vec3 vN; varying vec3 vV; varying vec2 vU;
+void main(){ vC = aC; vK = aK; vU = uv; vY = position.y; vec4 w = modelMatrix * instanceMatrix * vec4(position, 1.);
+ vN = normalize(mat3(modelMatrix) * mat3(instanceMatrix) * normal); vV = normalize(cameraPosition - w.xyz); gl_Position = projectionMatrix * viewMatrix * w; }`;
+const SHAFT_FS = `precision highp float; uniform float uT; varying vec3 vC; varying float vK; varying float vY; varying vec3 vN; varying vec3 vV; varying vec2 vU;
+${GLSL_NOISE}
+void main(){ float edge = pow(clamp(abs(dot(normalize(vN), normalize(vV))), 0., 1.), 1.6);                 // thick through the middle, soft at the rim
+ float y = clamp(vY + .5, 0., 1.);                                                                             // 0 floor .. 1 top
+ float fall = smoothstep(0., .18, y) * mix(.45, 1., y) * smoothstep(1., .9, y);
+ float n = .55 + .45 * vnoise(vec2(vU.x * 9., y * 3. + uT * .35)) * vnoise(vec2(vU.x * 4. + 3.1, y * 6. + uT * .2));
+ float a = edge * fall * n * vK; gl_FragColor = vec4(vC * a, a);
+ #include <colorspace_fragment>
+}`;
+// dust in the shafts: the GPU moves every mote (no CPU), each one belongs to a column (aI) and glows with that column's shaft
+const DUST_VS = `attribute vec4 aD; uniform float uT; uniform float uPx; uniform vec3 uC[4]; uniform float uK[4]; uniform vec2 uX[4]; uniform float uY0; uniform float uH; varying vec3 vC; varying float vAl;
+void main(){ int i = int(aD.w); float k = 0.; vec3 c = vec3(0.); vec2 x0 = vec2(0.);
+ for (int j = 0; j < 4; j++) { if (j == i) { k = uK[j]; c = uC[j]; x0 = uX[j]; } }
+ float y = fract(aD.y - uT * (.012 + aD.z * .02));                                                         // dust sinks slowly through the light
+ float r = (.12 + .5 * aD.x) * mix(1., .55, y), a = aD.z * 40. + uT * (.05 + aD.x * .08) + y * 3.;
+ vec3 p = vec3(x0.x + cos(a) * r, uY0 + y * uH, x0.y + sin(a) * r * .8);
+ vec4 mv = modelViewMatrix * vec4(p, 1.); gl_Position = projectionMatrix * mv;
+ float tw = .6 + .4 * sin(uT * (1.3 + aD.z * 2.) + aD.x * 30.);
+ vC = mix(c, vec3(1., .95, .86), .35); vAl = k * tw * smoothstep(0., .1, y) * smoothstep(1., .8, y);
+ gl_PointSize = clamp((.018 + aD.z * .02) * uPx / max(.1, -mv.z), 1., 12.); }`;
+
 // post: a fullscreen triangle
 const POST_VS = `varying vec2 vU; void main(){ vU = position.xy * .5 + .5; gl_Position = vec4(position.xy, 0., 1.); }`;
 const BRIGHT_FS = `precision highp float; uniform sampler2D tIn; uniform float uThr; uniform float uKnee; uniform vec2 uTx; varying vec2 vU;
@@ -224,12 +256,17 @@ void main(){ vec3 c = texture2D(tIn, vU).rgb * .2270270270;
  c += (texture2D(tIn, vU + uDir * 3.2307692308).rgb + texture2D(tIn, vU - uDir * 3.2307692308).rgb) * .0702702703; gl_FragColor = vec4(c, 1.); }`;
 const COMP_FS = `precision highp float; uniform sampler2D tScene; uniform sampler2D tB0; uniform sampler2D tB1; uniform sampler2D tB2; uniform sampler2D tB3;
 uniform float uBloom; uniform float uExp; uniform float uT; uniform float uAlpha; uniform vec2 uRes; uniform float uVig; varying vec2 vU;
+uniform sampler2D tDof; uniform sampler2D tDepth; uniform float uDof; uniform float uFocus; uniform float uRange; uniform float uNear; uniform float uFar;
 vec3 oRRT(vec3 v){ vec3 a = v * (v + .0245786) - .000090537; vec3 b = v * (.983729 * v + .4329510) + .238081; return a / b; }
 vec3 oAces(vec3 c){ const mat3 I = mat3(vec3(.59719, .07600, .02840), vec3(.35458, .90834, .13383), vec3(.04823, .01566, .83777));
  const mat3 O = mat3(vec3(1.60475, -.10208, -.00327), vec3(-.53108, 1.10813, -.07276), vec3(-.07367, -.00605, 1.07602)); c = I * (c / .6); c = oRRT(c); return clamp(O * c, 0., 1.); }
 vec3 oSrgb(vec3 c){ return mix(c * 12.92, 1.055 * pow(c, vec3(1. / 2.4)) - .055, step(.0031308, c)); }
 float oH(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
 void main(){ vec4 s = texture2D(tScene, vU);
+ if (uDof > .001) {                                                                                       // depth of field on the selected column
+   float z = texture2D(tDepth, vU).r; float vz = uNear * uFar / (uFar - z * (uFar - uNear));               // the view distance of this pixel
+   float coc = clamp(abs(vz - uFocus) / uRange - .12, 0., 1.); coc = coc * coc * (3. - 2. * coc) * uDof;
+   s.rgb = mix(s.rgb, texture2D(tDof, vU).rgb, coc); }
  vec3 b = texture2D(tB0, vU).rgb * .55 + texture2D(tB1, vU).rgb * .75 + texture2D(tB2, vU).rgb * .9 + texture2D(tB3, vU).rgb * 1.1;
  vec3 c = (s.rgb + b * uBloom) * uExp;
  vec2 q = (vU - .5) * vec2(uRes.x / uRes.y, 1.); float vig = smoothstep(1.25, .25, length(q * vec2(.85, 1.))); c *= mix(1., vig, uVig);
@@ -250,7 +287,7 @@ export async function create(canvas, cols, cfg) {
   let soft = false;   // no real GPU (a software rasteriser): start in the low tier
   try { const g = renderer.getContext(), ext = g.getExtension('WEBGL_debug_renderer_info'); soft = /swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(ext ? g.getParameter(ext.UNMASKED_RENDERER_WEBGL) : '')); } catch (_) { soft = false; }
   const ST = { q: cfg.low || (soft && !pinHQ) ? 3 : 0, t0: performance.now(), last: 0, ema: 16, slowN: 0, frames: 0, hidden: false, off: false, lost: false, running: false,
-    sel: null, focus: false, yaw: 0, vy: 0, intro: reduce ? 1 : 0, calls: 0, dprCap: 2 };
+    sel: null, focus: false, focusT: 0, settle: 0, yaw: 0, vy: 0, intro: reduce ? 1 : 0, calls: 0, dprCap: 2 };
   // quality steps: 0 hq, 1 hq at a lower DPR, 2 no bloom, 3 low (no shadows / mirror / point lights, fewer motes, 30 fps)
   const lowGeo = ST.q >= 3;
   renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1;
@@ -277,7 +314,7 @@ export async function create(canvas, cols, cfg) {
   // ---- materials: physical (hq) or Lambert (low: a cheap phone or a slow GPU; the same liquid light in the flutes) ----
   const marbleMap = marbleTexture(THREE, lowGeo ? 128 : 256);
   const U = { uT: { value: 0 }, uSelAny: { value: 0 } };
-  const hookShaft = (sh) => {
+  const hookShaft = (cheap) => (sh) => {
     Object.assign(sh.uniforms, U);
     sh.vertexShader = sh.vertexShader.replace('#include <common>', `#include <common>
 attribute float aGroove; attribute float aH; attribute float aFlute; attribute float iFill; attribute vec3 iCol; attribute float iDim; attribute float iSel;
@@ -287,6 +324,15 @@ vGroove = aGroove; vH = aH; vFlute = aFlute; vFill = iFill; vCol = iCol; vDim = 
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
 uniform float uT; uniform float uSelAny; varying float vGroove; varying float vH; varying float vFlute; varying float vFill; varying vec3 vCol; varying float vDim; varying float vSel;
 ${GLSL_NOISE}`)
+      .replace('#include <map_fragment>', `#include <map_fragment>
+${cheap ? '' : `{ vec2 mu = vMapUv; float w = vnoise(mu * vec2(2.2, 1.1)) * 1.6 + vnoise(mu * 6.3) * .5;          // procedural veins on top of the marble map
+  float vein = pow(1. - abs(sin((mu.x * 1.3 + mu.y * .55 + w) * 3.14159)), 26.), fine = pow(1. - abs(sin((mu.x * 3.7 - mu.y * .9 + w * 1.8) * 3.14159)), 48.);
+  diffuseColor.rgb *= (1. - vein * .38 - fine * .16) * (.93 + .14 * vnoise(mu * vec2(40., 14.)));
+  diffuseColor.rgb += vec3(.16, .11, .02) * pow(1. - abs(sin((mu.x * .8 - mu.y * .4 + w * 2.3 + 1.7) * 3.14159)), 90.); }`}`)
+      .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
+${cheap ? '' : `{ vec2 mu = vMapUv * vec2(60., 22.); float h0 = vnoise(mu), hx = vnoise(mu + vec2(.35, 0.)), hy = vnoise(mu + vec2(0., .35));   // chisel grain: a tiny normal tilt
+  float arris = smoothstep(.25, 0., vGroove);                                                                  // the sharp ridges between flutes catch a highlight
+  normal = normalize(normal + vec3(h0 - hx, h0 - hy, 0.) * (.22 - arris * .1)); }`}`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
 { float live = 1. - vDim; float below = 1. - smoothstep(vFill - .012, vFill + .004, vH);
   float g = pow(vGroove, 1.6);
@@ -313,7 +359,7 @@ ${GLSL_NOISE}`)
       M.gold = new THREE.MeshPhysicalMaterial({ color: GOLD, metalness: 1, roughness: .26, clearcoat: .5, clearcoatRoughness: .2, envMapIntensity: 1.1, emissive: GOLD, emissiveIntensity: .015, vertexColors: true });
       M.shaft = new THREE.MeshPhysicalMaterial({ map: marbleMap, color: 0x9a93ad, roughness: .36, metalness: 0, clearcoat: .45, clearcoatRoughness: .25, envMapIntensity: .36, vertexColors: true });
     }
-    M.shaft.onBeforeCompile = hookShaft; M.shaft.customProgramCacheKey = () => 'olympus-shaft-' + (cheap ? 'l' : 'p');
+    M.shaft.onBeforeCompile = hookShaft(cheap); M.shaft.customProgramCacheKey = () => 'olympus-shaft-' + (cheap ? 'l' : 'p');
     return M;
   }
   let MAT = buildMats(lowGeo);
@@ -396,7 +442,7 @@ ${GLSL_NOISE}`)
   fog.frustumCulled = false; fog.renderOrder = 6; scene.add(fog);
 
   // ---- motes: a halo at every level + a stream rising off each live capital + sparks up the flutes ----
-  const per = lowGeo ? 10 : compact ? 22 : 46, NM = reduce ? 0 : per * N, NP = N + NM;
+  const per = lowGeo ? 10 : compact ? 22 : 60, NM = reduce ? 0 : per * N, NP = N + NM;
   const pp = new Float32Array(NP * 3), pc = new Float32Array(NP * 3), ps = new Float32Array(NP), pa = new Float32Array(NP), motes = [];
   for (let j = 0; j < NM; j++) { const i = j % N, k = new THREE.Color(cols[i].color).multiplyScalar(2.2); pc.set([k.r, k.g, k.b], (N + j) * 3);
     motes.push({ i, up: Math.random() < .55, a: Math.random() * 6.283, r: Math.random(), y: Math.random(), v: .18 + Math.random() * .35, s: .06 + Math.random() * .08 }); }
@@ -404,6 +450,25 @@ ${GLSL_NOISE}`)
   pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('aC', new THREE.BufferAttribute(pc, 3)); pg.setAttribute('aS', new THREE.BufferAttribute(ps, 1)); pg.setAttribute('aA', new THREE.BufferAttribute(pa, 1));
   const pMat = new THREE.ShaderMaterial({ premultipliedAlpha: true, vertexShader: PT_VS, fragmentShader: PT_FS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uPx: { value: 300 } } });
   const points = new THREE.Points(pg, pMat); points.frustumCulled = false; points.renderOrder = 7; scene.add(points);
+
+  // ---- volumetric light: a soft shaft of the pillar's own colour around every column (brighter when LIVE / selected) + dust drifting in it ----
+  const SH_H = TOP - TOPY + .1, shG = new THREE.CylinderGeometry(.34, .66, 1, lowGeo ? 16 : 40, 1, true);
+  const shC = new Float32Array(N * 3), shK = new Float32Array(N), shKt = new Float32Array(N);
+  shG.setAttribute('aC', new THREE.InstancedBufferAttribute(shC, 3)); shG.setAttribute('aK', attr(shK, 1));
+  const shMat = new THREE.ShaderMaterial({ premultipliedAlpha: true, vertexShader: SHAFT_VS, fragmentShader: SHAFT_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    blending: THREE.AdditiveBlending, uniforms: { uT: U.uT } });
+  const beams = new THREE.InstancedMesh(shG, shMat, N);
+  cols.forEach((c, i) => { const k = new THREE.Color(c.color).lerp(new THREE.Color(.85, .8, 1), .25); shC.set([k.r, k.g, k.b], i * 3);
+    m4.makeScale(1, SH_H, 1).setPosition(X[i], TOPY + SH_H / 2, COL_Z); beams.setMatrixAt(i, m4); });
+  beams.frustumCulled = false; beams.renderOrder = 4; scene.add(beams);
+  const ND = reduce ? 0 : lowGeo ? 0 : (compact ? 24 : 72) * N, dG = new THREE.BufferGeometry(), aD = new Float32Array(ND * 4);
+  for (let j = 0; j < ND; j++) aD.set([Math.random(), Math.random(), Math.random(), j % N], j * 4);
+  dG.setAttribute('position', new THREE.BufferAttribute(new Float32Array(ND * 3), 3)); dG.setAttribute('aD', new THREE.BufferAttribute(aD, 4));
+  const dustMat = new THREE.ShaderMaterial({ premultipliedAlpha: true, vertexShader: DUST_VS, fragmentShader: PT_FS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: { uT: U.uT, uPx: { value: 300 }, uC: { value: cols.map((c) => new THREE.Color(c.color).multiplyScalar(1.6)) }, uK: { value: Array.from({ length: 4 }, () => 0) },
+      uX: { value: X.map((x) => new THREE.Vector2(x, COL_Z + .05)) }, uY0: { value: TOPY + .05 }, uH: { value: SH_H } } });
+  while (dustMat.uniforms.uC.value.length < 4) { dustMat.uniforms.uC.value.push(new THREE.Color(0)); dustMat.uniforms.uX.value.push(new THREE.Vector2(99, 99)); }
+  const dust = new THREE.Points(dG, dustMat); dust.frustumCulled = false; dust.renderOrder = 8; if (ND) scene.add(dust);
 
   // ---- post: HDR target + bloom chain ----
   const quad = new THREE.Mesh(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3)), null);
@@ -413,12 +478,18 @@ ${GLSL_NOISE}`)
   const downM = mk(DOWN_FS, { tIn: { value: null }, uTx: { value: new THREE.Vector2() } });
   const blurM = mk(BLUR_FS, { tIn: { value: null }, uDir: { value: new THREE.Vector2() } });
   const compM = mk(COMP_FS, { tScene: { value: null }, tB0: { value: null }, tB1: { value: null }, tB2: { value: null }, tB3: { value: null }, uBloom: { value: compact ? .55 : .62 }, uExp: { value: 1 },
-    uT: { value: 0 }, uAlpha: { value: clear ? 1 : 0 }, uRes: { value: new THREE.Vector2(1, 1) }, uVig: { value: compact ? .35 : .6 } });
-  let rtScene = null, L = [], T = [];
+    uT: { value: 0 }, uAlpha: { value: clear ? 1 : 0 }, uRes: { value: new THREE.Vector2(1, 1) }, uVig: { value: compact ? .35 : .6 },
+    tDof: { value: null }, tDepth: { value: null }, uDof: { value: 0 }, uFocus: { value: 9 }, uRange: { value: 1.1 }, uNear: { value: .1 }, uFar: { value: 120 } });
+  let rtScene = null, L = [], T = [], DF = [];
+  const dofOK = !compact && gl2 && !lowGeo;     // depth of field: the Pillars page in hq on WebGL2 (a depth texture of the scene pass)
+  const dofM = mk(BLUR_FS, { tIn: { value: null }, uDir: { value: new THREE.Vector2() } });
+  const DOF = { k: 0, focus: 9 };
   const rtOpt = { type: THREE.HalfFloatType, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, depthBuffer: false };
   function buildTargets(w, h) {
-    for (const r of [rtScene, ...L, ...T]) r && r.dispose();
+    for (const r of [rtScene, ...L, ...T, ...DF]) r && r.dispose();
     rtScene = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: gl2 ? 4 : 0, depthBuffer: true });
+    if (dofOK) { rtScene.depthTexture = new THREE.DepthTexture(w, h); rtScene.depthTexture.type = THREE.UnsignedIntType;
+      const hw = Math.max(2, Math.round(w / 2)), hh = Math.max(2, Math.round(h / 2)); DF = [new THREE.WebGLRenderTarget(hw, hh, rtOpt), new THREE.WebGLRenderTarget(hw, hh, rtOpt)]; }
     L = []; T = []; let bw = w, bh = h;
     for (let i = 0; i < 4; i++) { bw = Math.max(2, Math.round(bw / 2)); bh = Math.max(2, Math.round(bh / 2)); L.push(new THREE.WebGLRenderTarget(bw, bh, rtOpt)); T.push(new THREE.WebGLRenderTarget(bw, bh, rtOpt)); }
   }
@@ -430,6 +501,17 @@ ${GLSL_NOISE}`)
       if (i) { downM.uniforms.tIn.value = L[i - 1].texture; downM.uniforms.uTx.value.set(.5 / L[i - 1].width, .5 / L[i - 1].height); pass(downM, L[i]); }
       blurM.uniforms.tIn.value = L[i].texture; blurM.uniforms.uDir.value.set(1 / L[i].width, 0); pass(blurM, T[i]);
       blurM.uniforms.tIn.value = T[i].texture; blurM.uniforms.uDir.value.set(0, 1 / L[i].height); pass(blurM, L[i]);
+    }
+    const dofOn = dofOK && DF.length && ST.q < 2 && DOF.k > .01;
+    compM.uniforms.uDof.value = dofOn ? DOF.k : 0;
+    if (dofOn) {                                                     // the scene at half size, blurred twice (a wide soft bokeh) for the out-of-focus parts
+      downM.uniforms.tIn.value = rtScene.texture; downM.uniforms.uTx.value.set(.5 / rtScene.width, .5 / rtScene.height); pass(downM, DF[0]);
+      for (const sc of [1.6, 3.2]) {
+        dofM.uniforms.tIn.value = DF[0].texture; dofM.uniforms.uDir.value.set(sc / DF[0].width, 0); pass(dofM, DF[1]);
+        dofM.uniforms.tIn.value = DF[1].texture; dofM.uniforms.uDir.value.set(0, sc / DF[0].height); pass(dofM, DF[0]);
+      }
+      compM.uniforms.tDof.value = DF[0].texture; compM.uniforms.tDepth.value = rtScene.depthTexture;
+      compM.uniforms.uFocus.value = DOF.focus; compM.uniforms.uNear.value = camera.near; compM.uniforms.uFar.value = camera.far;
     }
     compM.uniforms.tScene.value = rtScene.texture; ['tB0', 'tB1', 'tB2', 'tB3'].forEach((k, i) => { compM.uniforms[k].value = L[i].texture; });
     pass(compM, null);
@@ -449,7 +531,7 @@ ${GLSL_NOISE}`)
     const w = canvas.clientWidth || 390, h = canvas.clientHeight || 300;
     const dpr = Math.min(ST.q >= 3 ? 1 : ST.q >= 1 ? 1.25 : ST.dprCap, devicePixelRatio || 1);
     renderer.setPixelRatio(dpr); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); frameFit();
-    pMat.uniforms.uPx.value = h * dpr * .9; compM.uniforms.uRes.value.set(w * dpr, h * dpr);
+    pMat.uniforms.uPx.value = h * dpr * .9; dustMat.uniforms.uPx.value = h * dpr * .9; compM.uniforms.uRes.value.set(w * dpr, h * dpr);
     if (ST.q < 2) buildTargets(Math.round(w * dpr), Math.round(h * dpr));
     wake();
   }
@@ -462,8 +544,10 @@ ${GLSL_NOISE}`)
     CAM.fd = ST.focus && i >= 0 ? .7 : 1; CAM.fy = ST.focus && i >= 0 ? -.35 : 0;
     CAM.curX += (CAM.fx - CAM.curX) * k; CAM.curD += (CAM.fd - CAM.curD) * k; CAM.curY += (CAM.fy - CAM.curY) * k;
     const it = reduce ? 1 : easeIO(Math.min(1, ST.intro)), sway = reduce ? 0 : Math.sin(tS * .21) * .1 * it + Math.sin(tS * .13) * .03 * it;
-    const yaw = ST.yaw + sway + (1 - it) * .55 + (ST.focus && i >= 0 ? -X[i] * .07 : 0);
-    const d = CAM.dist * CAM.curD * (1 + (1 - ease(ST.intro)) * .95);
+    // a tap: the camera glides to the column, then settles with a small orbit and a slow push-in (ease-out)
+    const st = ST.focus && i >= 0 && !reduce ? Math.exp(-(performance.now() - ST.focusT) / 1000 * 1.5) : 0; ST.settle = st;
+    const yaw = ST.yaw + sway + (1 - it) * .55 + (ST.focus && i >= 0 ? -X[i] * .07 + (X[i] >= 0 ? 1 : -1) * .16 * st : 0);
+    const d = CAM.dist * CAM.curD * (1 + (1 - ease(ST.intro)) * .95) * (1 + .1 * st);
     const camY = (compact ? CAM.ty - .55 : 1.05) + (1 - it) * -.8 + (reduce ? 0 : Math.sin(tS * .17) * .04 * it);
     const ty = CAM.ty + CAM.curY + (1 - it) * -.55;
     camera.position.set(CAM.curX + Math.sin(yaw) * d, Math.max(.18, camY + CAM.curY * .6), Math.cos(yaw) * d + COL_Z);
@@ -513,7 +597,7 @@ ${GLSL_NOISE}`)
     if (ST.q >= 3) { renderer.shadowMap.enabled = false; scene.remove(mirror); floorMat.uniforms.uMirror.value = 0; pls.forEach((l) => { l.intensity = 0; }); hemi.intensity = .6;
       if (!lowGeo) { const old = MAT; MAT = buildMats(true); building.material = bases.material = MAT.marble; caps.material = trim.material = MAT.gold; shafts.material = MAT.shaft;
         for (const k of ['marble', 'gold', 'shaft']) old[k].dispose(); }
-      const keep = Math.min(NM, 10 * N); pg.setDrawRange(0, N + keep); }
+      const keep = Math.min(NM, 10 * N); pg.setDrawRange(0, N + keep); scene.remove(dust); }
     size();
   }
   function frame(now) {
@@ -551,18 +635,31 @@ ${GLSL_NOISE}`)
       }
     }
     pg.attributes.position.needsUpdate = true; pg.attributes.aS.needsUpdate = true; pg.attributes.aA.needsUpdate = true;
+    // light shafts + dust: LIVE columns glow, the selected one most; eased so a tap fades them, never pops
+    const kk = 1 - Math.exp(-dt / 1000 * 4);
+    for (let i = 0; i < N; i++) {
+      const c = cols[i], s = ST.sel === cols[i].id;
+      shKt[i] = (c.dim ? .045 : .1 + .14 * c.fill) * (s && ST.focus ? 1.7 : s ? 1.2 : anySel ? .6 : 1) * (ST.q >= 3 ? .7 : 1) * (reduce ? 1 : .92 + .08 * Math.sin(tS * .9 + i * 1.7));
+      shK[i] += (shKt[i] - shK[i]) * (ST.frames ? kk : 1); dustMat.uniforms.uK.value[i] = Math.min(1, shK[i] * 3.2);
+    }
+    shG.attributes.aK.needsUpdate = true;
+    // depth of field: on while the camera sits on a tapped column (hq only); the focus = that column's distance from the camera
+    { const i = ST.focus && ST.sel ? cols.findIndex((c) => c.id === ST.sel) : -1;
+      DOF.k += ((i >= 0 && dofOK && ST.q < 2 ? .85 : 0) - DOF.k) * kk;
+      if (i >= 0) { tmp.set(X[i], SY + HS * .55, COL_Z).applyMatrix4(camera.matrixWorldInverse); DOF.focus = -tmp.z; } }
     for (let i = 0; i < (ST.q >= 3 ? 0 : pls.length); i++) { const c = cols[i]; pls[i].intensity = (c.dim ? .35 : 1.6 + 2.2 * c.fill) * (reduce ? 1 : .9 + .1 * Math.sin(tS * 1.4 + i)) * (anySel && ST.sel !== c.id ? .6 : 1); pls[i].position.y = TOPY + .2 + .25 * (c.dim ? 0 : c.fill); }
     if (ST.q < 2) bloomRender(); else { renderer.setRenderTarget(null); renderer.render(scene, camera); ST.calls = renderer.info.render.calls; }
     ST.frames++;
     if (cfg.onFrame) cfg.onFrame((id, where) => { const i = cols.findIndex((c) => c.id === id); return i < 0 ? null : project(i, where); });
-    const moving = down || Math.abs(ST.vy) > .0004 || Math.abs(CAM.fx - CAM.curX) > .002 || Math.abs(CAM.fd - CAM.curD) > .001;
+    const moving = down || (ST.settle || 0) > .004 || DOF.k > .01 && Math.abs(DOF.k - .85) > .01 || Math.abs(ST.vy) > .0004 || Math.abs(CAM.fx - CAM.curX) > .002 || Math.abs(CAM.fd - CAM.curD) > .001;
     if (!reduce || moving) schedule();
   }
   function schedule() { if (ST.running) return; ST.running = true; if (ST.q >= 3) setTimeout(() => requestAnimationFrame(frame), 28); else requestAnimationFrame(frame); }
   function wake() { schedule(); }
   const api = {
     select(id, focus) {
-      ST.sel = id || null; ST.focus = !!(id && focus);
+      const was = ST.focus && ST.sel; ST.sel = id || null; ST.focus = !!(id && focus);
+      if (ST.focus && was !== ST.sel) ST.focusT = performance.now();
       const k = cols.findIndex((c) => c.id === ST.sel); for (let i = 0; i < N; i++) iSel[i] = i === k ? 1 : 0;
       U.uSelAny.value = ST.sel ? 1 : 0; shaftGeo.attributes.iSel.needsUpdate = true; wake();
     },
@@ -572,8 +669,8 @@ ${GLSL_NOISE}`)
     },
     project(id, where) { const i = cols.findIndex((c) => c.id === id); return i < 0 ? null : project(i, where); },
     stats() { return { soft, frames: ST.frames, low: ST.q >= 3, quality: ['hq', 'hq-dpr', 'nobloom', 'low'][ST.q], bloom: ST.q < 2, calls: ST.calls, cols: N, motes: NM, mirror: ST.q < 3 && !lowGeo,
-      shadows: renderer.shadowMap.enabled, intro: Math.round(ST.intro * 100) / 100, focus: ST.focus, ema: Math.round(ST.ema * 10) / 10, three: THREE.REVISION, dpr: renderer.getPixelRatio() }; },
-    dispose() { document.removeEventListener('visibilitychange', onVis); removeEventListener('resize', size); io && io.disconnect(); for (const r of [rtScene, ...L, ...T]) r && r.dispose(); envRT.dispose(); renderer.dispose(); },
+      shadows: renderer.shadowMap.enabled, intro: Math.round(ST.intro * 100) / 100, focus: ST.focus, ema: Math.round(ST.ema * 10) / 10, three: THREE.REVISION, dpr: renderer.getPixelRatio(), dof: Math.round(DOF.k * 100) / 100, dust: ND, shafts: N }; },
+    dispose() { document.removeEventListener('visibilitychange', onVis); removeEventListener('resize', size); io && io.disconnect(); for (const r of [rtScene, ...L, ...T, ...DF]) r && r.dispose(); envRT.dispose(); renderer.dispose(); },
   };
   if (ST.q >= 3) { renderer.shadowMap.enabled = false; hemi.intensity = .6; }
   size();

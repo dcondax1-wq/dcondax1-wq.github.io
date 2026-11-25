@@ -1,7 +1,7 @@
 // Strategy Brain page (cities/mind/index.html). Reads odeon/trades.json (the trade ledger + replays), cities/brain-data.json (the
 // research findings), home.json and the PC's status post (pc_feed.js). Built with createElement / textContent and SVG nodes only
 // (no innerHTML of data). Read only: no arm / start / stop / order anywhere.
-import * as M from './mindcore.js?v=m5';
+import * as M from './mindcore.js?v=m6';
 import * as P from '../../pillars/pillarscore.js?v=p3';
 
 const $ = (id) => document.getElementById(id);

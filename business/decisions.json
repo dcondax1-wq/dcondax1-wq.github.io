@@ -1,7 +1,7 @@
 {
  "v": 1,
  "kind": "olympus-decisions",
- "updated": "2026-11-23",
+ "updated": "2026-11-25",
  "note": "The Decide card (business/decide.js on the Board + ZEUS pages). Claude keeps this list. A tap only posts an owner note (POST /inbox/board on the PC link); Claude applies it next session by the CLAUDE.md rules, then sets status to yes / no / later / done. Nothing here changes a live setting.",
  "items": [
   {
@@ -700,6 +700,29 @@
    "waiting_on": "Lucid's written OK for an automated NinjaTrader bot (docs/LUCID_SETUP.md step 1) and the Lucid red team; the price ($126) is unverified too.",
    "closed_note": "Waiting on Lucid's written OK for an automated NinjaTrader bot (docs/LUCID_SETUP.md step 1) and the Lucid red team; the price ($126) is unverified too.",
    "triage": "2026-11-23"
+  },
+  {
+   "id": "atlas-sb-half",
+   "question": "ATLAS on the Builder evals (Zlarior 50K + 25K #2): trade HALF size outside the Silver Bullet hours (3-4, 10-11, 14-15 ET), normal size inside?",
+   "why": "Your ICT idea tested on the real engine (MFFU rules, real fills): ATLAS's trades outside Silver Bullet hours are the weak ones. Halving them cuts eval blow-ups a lot; money stays about the same in 2026.",
+   "impact": "50K eval fail rate 12% -> 1% (Jan-Jun 2026) and 10% -> 2% (Jul-Oct); 25K pass 81 -> 92% / 60 -> 67%. 2026 $ about flat (-$601 / -$97 over each half); 2021-25 +$20.9k better with the biggest drop -$37.1k -> -$17.9k. Passes are a few days slower. NOT for the Rapid 25K (pass 51% -> 36%).",
+   "impact_usd": 0,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/ict-lab-proof-2026-11-25.md (B2)",
+   "applies": "ATLAS on Zlarior 50K + Zlarior 25K #2 (Builder evals); not Rapid, not the funded 25K",
+   "added": "2026-11-25",
+   "usd_month": 0,
+   "usd_month_by": {},
+   "risk": "lower",
+   "recommend": "yes",
+   "recommend_why": "Same money in 2026, far fewer failed evals; better in every older year.",
+   "valued": "2026-11-25",
+   "answered": null
   }
  ],
  "triage_note": "2026-11-23 triage (research/handoff/2026-11-23/DECISIONS.md): 2 live decisions; 5 merged / retired (status superseded, superseded_by points to the card or study that replaced them), 3 waiting on an outside answer or an account stage, 2 later. Nothing deleted, nothing live changed."

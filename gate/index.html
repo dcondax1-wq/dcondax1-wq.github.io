@@ -76,8 +76,9 @@
       <section class="phero band" id="pillarsHero" data-auto="home" aria-label="The Four Pillars: LIT, ATLAS, BLITZ, ORDER FLOW"><!-- day-pillars2 2026-11-24: the Four Pillars hero (pillars/hero.css + hero.js) -->
       <div class="ph-head"><b>The Four Pillars<small>LIT · ATLAS · BLITZ · ORDER FLOW</small></b><span class="ph-acts"><a class="ph-open ph-brain" data-to="brain/" href="../brain/" aria-label="Open the Brain: every bot thinking, in 3D">Brain</a><a class="ph-open" data-to="pillars/" href="../pillars/">Open</a></span></div>
       <div class="ph-stage" aria-hidden="true"></div>
-      <nav class="ph-chips" aria-label="The four pillars"><a class="pc" data-p="lit" data-to="pillars/#lit" href="../pillars/#lit" style="--c:#f1c14b"><b>LIT</b><span><i class="ok"></i>LIVE</span><small>Zlarior</small></a><a class="pc" data-p="atlas" data-to="pillars/#atlas" href="../pillars/#atlas" style="--c:#77db89"><b>ATLAS</b><span><i class="ok"></i>LIVE</span><small>EMA · MACD · S/R</small></a><a class="pc" data-p="blitz" data-to="pillars/#blitz" href="../pillars/#blitz" style="--c:#9d59ee"><b>BLITZ</b><span><i class="off"></i>OFF</span><small>built · OFF</small></a><a class="pc" data-p="of" data-to="pillars/#of" href="../pillars/#of" style="--c:#5fd0c9"><b>ORDER FLOW</b><span><i class="warn"></i>NOT READY</span><small>ticks</small></a></nav>
+      <nav class="ph-chips" aria-label="The four pillars"><a class="pc" data-p="lit" data-to="pillars/#lit" href="../pillars/#lit" style="--c:#f1c14b"><b>LIT</b><span><i class="ok"></i>LIVE</span><small>Zlarior</small></a><a class="pc" data-p="atlas" data-to="pillars/#atlas" href="../pillars/#atlas" style="--c:#77db89"><b>ATLAS</b><span><i class="ok"></i>LIVE</span><small>EMA · MACD · S/R</small></a><a class="pc" data-p="blitz" data-to="pillars/#blitz" href="../pillars/#blitz" style="--c:#9d59ee"><b>BLITZ</b><span><i class="off"></i>OFF</span><small>built · OFF</small></a><a class="pc" data-p="of" data-to="pillars/#of" href="../pillars/#of" style="--c:#c9a7ff"><b>ORDER FLOW</b><span><i class="warn"></i>NOT READY</span><small>ticks</small></a></nav>
     </section>
+      <nav class="g-today" id="todayStrip" aria-label="Today: $ today, the accounts, the open trade, the next setup" style="height:24px;margin:0 0 -26px"></nav><!-- day-pillars4: the Today strip (pillars/today.js); no height of its own -->
   </header>
 
 
@@ -210,7 +211,7 @@
 })();</script>
 <script>(function () { /* day-pillars2: the Four Pillars hero's look + live module (after the page; GATE_BASE = the site root here or at olympus-live.html) */
   var b = window.GATE_BASE || '', d = document, l = d.createElement('link'); l.rel = 'stylesheet'; l.href = b + 'pillars/hero.css?v=c2'; d.head.appendChild(l);
-  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=c2').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
+  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=c3').catch(function () {}); import(b + 'pillars/today.js?v=t1').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
 })();</script>
 <script src="install-hint.js?v=h1" defer></script>
 </body>

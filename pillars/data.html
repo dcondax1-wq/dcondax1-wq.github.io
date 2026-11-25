@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pillar Data</title>
+<meta name="description" content="One pillar's numbers: live status from the PC, the last 10 trades with $, this week / month $, win rate, PF, the next setup and its steps, what it learned and every research verdict.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="pillars.css?v=c4">
+<link rel="stylesheet" href="data.css?v=d3">
+<link rel="preload" href="fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- ONE PILLAR'S DATA (day-pillars4 2026-11-25). Read only: GETs the site's JSON + the PC's public status post; sends nothing, places nothing. -->
+<script src="../pc_feed.js?v=n8"></script>
+<script type="module" src="data.js?v=d3"></script>
+</head>
+<body>
+<header class="top">
+  <a class="back" id="back" href="./" aria-label="Back to the Four Pillars">&#8592;</a>
+  <div class="ttl"><h1 id="ttl">Pillar data</h1><nav class="crumbs" aria-label="Where you are"><a href="../gate/">Home</a> › <a href="./" id="crP">Pillars</a> › <span id="crN">…</span></nav></div>
+  <span class="pill" id="pcPill">PC: checking</span>
+</header>
+<nav class="ptabs dtabs" id="dtabs" role="tablist" aria-label="Pillars"></nav>
+<p class="sample" id="sample" hidden></p>
+<main id="data" class="dmain" aria-live="polite"><p class="muted" style="padding:16px">Loading the numbers…</p></main>
+<footer class="foot" id="dfoot"></footer>
+</body>
+</html>

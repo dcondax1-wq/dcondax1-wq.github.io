@@ -2,8 +2,8 @@
 // Reads pillars-data.json (tools/build_pillars.py), ../home.json, ../business/accounts.json, ../business/payday.json, ../odeon/trades.json
 // and the PC's public status post (../pc_feed.js). Text only through textContent / createElement. Sends nothing, stores nothing but the
 // last opened pillar (localStorage, per viewer). ?at=<ISO time> pins the clock (tests and screenshots only).
-import * as PF from './pillarsfeed.js?v=p3';
-import * as P from './pillarscore.js?v=p3';
+import * as PF from './pillarsfeed.js?v=p4';
+import * as P from './pillarscore.js?v=p4';
 
 const $ = (id) => document.getElementById(id);
 const S = { data: null, home: null, biz: null, payday: null, file: null, lite: null, sel: 'lit', model: [], scene: null };
@@ -49,6 +49,12 @@ function drawPanel() {
   box.classList.remove('swap'); void box.offsetWidth; box.classList.add('swap');   // a soft fade-up between pillars
   box.append(el('div', { class: 'phead' }, el('h2', { text: m.name }), el('div', { class: 'alias', text: m.alias }),
     el('span', { class: 'badge ' + m.level, id: 'pStatus', text: m.statusWord }), el('p', { text: m.status })));
+  // day-pillars4 (owner: "more data, more organized"): one clear way into this pillar's numbers, its Brain room, its trades / research
+  box.append(el('nav', { class: 'pgo', id: 'pGo', 'aria-label': `${m.name}: go deeper` },
+    el('a', { class: 'big', href: `data.html#${m.id}`, id: 'pData' }, el('b', { text: `${m.name} data` }), el('small', { text: m.id === 'of' ? 'tick days, looks, designs, every verdict' : 'trades $, week / month, win rate, PF, next setup, verdicts' })),
+    el('a', { href: `../brain/#${m.id}` }, el('b', { text: 'Brain room' }), el('small', { text: 'chart + thinking' })),
+    el('a', { href: m.id === 'of' ? '../cities/hub.html' : '../trading/' }, el('b', { text: m.id === 'of' ? 'Research' : 'Trades' }), el('small', { text: m.id === 'of' ? 'every test' : 'every trade' }))));
+  const fd = document.getElementById('footData'); if (fd) fd.href = `data.html#${m.id}`;
   // accounts
   const acc = el('section', { class: 'sec', id: 'pAccounts' }, el('h3', { text: 'Accounts' }), el('div', { class: 'muted', text: m.accountsText }));
   for (const a of m.accounts) {
@@ -138,7 +144,7 @@ async function startScene() {
   const flat = () => { $('flat').hidden = false; drawFlat(); document.documentElement.dataset.mode = '2d'; };
   if (/[?&]lite=2d/.test(location.search)) return flat();
   try {
-    const Sc = await import('./pillars-scene.js?v=c1');
+    const Sc = await import('./pillars-scene.js?v=c2');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, low = Sc.isLowPower(window), fl = fills();
     const cols = S.model.map((m) => ({ id: m.id, name: m.name, color: m.color, fill: fl[m.id], dim: m.state === 'off' }));
     const stage = $('stage');

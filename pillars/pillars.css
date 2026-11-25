@@ -125,3 +125,29 @@ details.tests summary { cursor: pointer; color: var(--mut); font-size: 12.5px; m
 .brl { display: flex; align-items: center; gap: 8px; min-height: 44px; margin: 6px 16px 4px; padding: 0 14px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 13px;
   color: #f4effb; border: 1px solid #9d59ee; background: linear-gradient(90deg, rgba(157,89,238,.22), #16131e); box-shadow: 0 0 16px rgba(157,89,238,.35); }
 .brl i { width: 7px; height: 7px; border-radius: 50%; background: #f1c14b; box-shadow: 0 0 8px #f1c14b; }
+/* day-pillars4: Home › Pillars crumbs, a 44 px back, the "go deeper" row under each pillar's name (data page, Brain room, trades / research) */
+.back { width: 44px; height: 44px; font-size: 19px; }
+.crumbs { margin-top: 1px; font-size: 11.5px; color: var(--mut); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumbs a { color: var(--mut); text-decoration: none; display: inline-block; min-width: 44px; text-align: center; padding: 14px 2px; margin: -14px -6px; line-height: 16px; } .crumbs span { color: var(--gold); font-weight: 700; }
+.pgo { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 6px; margin-top: 10px; }
+.pgo a { display: flex; flex-direction: column; justify-content: center; min-height: 54px; padding: 8px 10px; border-radius: 14px; text-decoration: none; min-width: 0;
+  background: var(--card); border: 1px solid var(--line); }
+.pgo a b { font-size: 13px; color: var(--ink); } .pgo a small { font-size: 10.5px; color: var(--mut); line-height: 1.25; }
+.pgo a.big { border-color: var(--c); background: linear-gradient(150deg, color-mix(in srgb, var(--c) 22%, #16131e), #120e19); box-shadow: 0 0 18px color-mix(in srgb, var(--c) 28%, transparent); }
+.pgo a.big b { color: var(--c); font: 700 14px/1.15 var(--serif); letter-spacing: .8px; }
+/* day-pillars4: one-line header at 390 px (back · title + crumbs · War Room · PC pill); the owner's quote shows on wider screens */
+.top h1 { white-space: nowrap; font-size: 17px; letter-spacing: 1px; }
+.top .said { display: none; }
+@media (min-width: 520px) { .top .said { display: block; } }
+.top .wrl { order: 2; padding: 0 9px; font-size: 12px; gap: 5px; }
+.top .pill { order: 3; }
+.top .ttl { order: 1; }
+.ptabs { top: calc(62px + env(safe-area-inset-top, 0px)); }
+@media (max-width: 459px) {
+  .top { gap: 8px; }
+  .top h1 { font-size: 15px; letter-spacing: .5px; }
+  .top .wrl { width: 44px; padding: 0; justify-content: center; font-size: 0; position: relative; }   /* War Room: a 44 px gold square (its label stays for screen readers) */
+  .top .wrl::after { content: "⚔"; font-size: 19px; color: #1a1300; }
+  .top .wrl i { position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; }
+  .top .pill { padding: 4px 8px; font-size: 11px; }
+}

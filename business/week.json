@@ -1,16 +1,16 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-24 19:07 ET",
+ "built": "2026-11-25 13:40 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
   "to": "2026-11-27",
   "label": "Nov 23 - Nov 27",
   "complete": false,
-  "sessions_done": 2
+  "sessions_done": 3
  },
- "pc": "PC last reported Nov 24 19:00 ET",
+ "pc": "PC last reported Nov 25 12:45 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,20 +18,15 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49213.9,
-   "src": "PC live, Nov 24 19:00 ET",
+   "src": "PC live, Nov 25 12:45 ET",
    "room": 1045.7,
    "to_pass": 3786.1,
-   "trades": 0,
+   "trades": null,
    "win_pct": null,
-   "usd_week": 0,
+   "usd_week": null,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 49213.9,
-   "wins": 0,
-   "losses": 0,
-   "r_week": null,
-   "room_start": 1045.7,
-   "to_pass_start": 3786.1,
+   "start": null,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "No trading day this week."
@@ -44,19 +39,15 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 24 19:00 ET",
+   "src": "PC live, Nov 25 12:45 ET",
    "room": 1000.0,
    "to_pass": null,
-   "trades": 0,
+   "trades": null,
    "win_pct": null,
-   "usd_week": 0,
+   "usd_week": -1544.72,
    "best_day": null,
    "strat": "ATLAS",
-   "start": 25401.38,
-   "wins": 0,
-   "losses": 0,
-   "r_week": null,
-   "room_start": 1000.0,
+   "start": 26946.1,
    "consistency": {
     "rule": "funded: best day at most 50% of the cycle profit",
     "line": "No trading day this week."
@@ -69,20 +60,15 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24976.12,
-   "src": "PC live, Nov 24 19:00 ET",
+   "src": "PC live, Nov 25 12:45 ET",
    "room": 976.12,
    "to_pass": 1523.88,
-   "trades": 0,
+   "trades": null,
    "win_pct": null,
-   "usd_week": 0,
+   "usd_week": null,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 24976.12,
-   "wins": 0,
-   "losses": 0,
-   "r_week": null,
-   "room_start": 976.12,
-   "to_pass_start": 1523.88,
+   "start": null,
    "consistency": {
     "rule": "Rapid EOD eval: best day at most 30% of the profit",
     "line": "No trading day this week."
@@ -95,20 +81,15 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25023.62,
-   "src": "PC live, Nov 24 19:00 ET",
+   "src": "PC live, Nov 25 12:45 ET",
    "room": 1000.0,
    "to_pass": 1476.38,
-   "trades": 0,
+   "trades": null,
    "win_pct": null,
-   "usd_week": 0,
+   "usd_week": null,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 25023.62,
-   "wins": 0,
-   "losses": 0,
-   "r_week": null,
-   "room_start": 1000.0,
-   "to_pass_start": 1476.38,
+   "start": null,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "No trading day this week."
@@ -119,10 +100,10 @@
  "strategies": [
   {
    "name": "Zlarior",
-   "trades": 0,
+   "trades": null,
    "target": "2-4 a week",
    "pf": null,
-   "usd": 0,
+   "usd": null,
    "win_pct": null,
    "exp_tpw": [
     2.56,
@@ -133,17 +114,17 @@
     4.98
    ],
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
-   "exp_usd_week": 153.0,
+   "exp_usd_week": 229.0,
    "plan_usd_month": 1656.0,
-   "verdict": "on track",
-   "why": "$0 vs about $153 expected"
+   "verdict": "unknown",
+   "why": "No trade list this week (see what is missing)."
   },
   {
    "name": "ATLAS",
-   "trades": 0,
+   "trades": null,
    "target": "2-4 a week",
    "pf": null,
-   "usd": 0,
+   "usd": null,
    "win_pct": null,
    "exp_tpw": [
     3.12,
@@ -154,10 +135,10 @@
     2.75
    ],
    "exp_src": "edge_health.json (40-session medians, 2026)",
-   "exp_usd_week": 46.0,
+   "exp_usd_week": 69.0,
    "plan_usd_month": 500.0,
-   "verdict": "on track",
-   "why": "$0 vs about $46 expected"
+   "verdict": "unknown",
+   "why": "No trade list this week (see what is missing)."
   }
  ],
  "light": {
@@ -167,14 +148,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "live.unrouted_exit_skip: any open leg of ours (or has_open_bracket) blocks the skip (red team #4...",
-   "Red team day-zeroerr (ledgerfix): the pre-eval_start skip in multi_account._process only when the...",
+   "Land Pillars + Brain v4 (data pages, Today strip, 3D quality, brain feed first); sw v218",
+   "day-pillars4: Brain 3D quality pass (bloom, region glow, tracts, dust, settle, DOF), ticker...",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "generated_files: research/orderflow/results.json is bot-made (tickrec autopilot); it held the PC...",
-   "FAILURE_MAP: the two ledger bugs (rows 30b, 30c) and the armed record",
-   "day-unstick round 2: old-code route audit (no remote reset path), scheduled tasks/boot,...",
-   "day-unstick: put the current pc version back (end of the version cycle; tree == origin/pc): the...",
-   "day-unstick: tools/web_public/business/decisions.json version 36/36"
+   "Rebuild hub data",
+   "Decide card: ATLAS half size outside Silver Bullet hours on the Builder evals",
+   "ICT lab proof: eval-safe forms on the real engine (rank/onebook) + funded ATLAS replay, config diffs",
+   "day-pillars4: ORDER FLOW data page leads with its tick progress (no empty money card); refreshed...",
+   "day-pillars4: real-$ sparkline on the data page, Brain crumbs + back to the pillar + data link,..."
   ]
  },
  "next": {
@@ -198,9 +179,9 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 0.0,
-  "line": "On pace for $0 a month (estimate: this week's $0 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
-  "basis": "this week"
+  "usd_month": -11150.0,
+  "basis": "balances",
+  "line": "On pace for -$11,150 a month (estimate from balance changes only; no trade list). The plan says about $2,156."
  },
  "twins": {
   "to": "2026-11-20",
@@ -209,16 +190,7 @@
  },
  "best": null,
  "worst": null,
- "kalshi": {
-  "src": "PC status post (card)",
-  "mode": "paper",
-  "loss_used": 0.0,
-  "loss_stop": 13.75,
-  "last": "LWWWWWWWW",
-  "bets_total": 9,
-  "won_pct": 89,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 9 bets LWWWWWWWW; 9 bets so far, 89% won."
- },
+ "kalshi": null,
  "calendar": [
   {
    "date": "2026-11-30",
@@ -274,12 +246,21 @@
    "question": "Fast entry: send Zlarior's and ATLAS's orders on the minute's first trade instead of waiting 2 seconds?",
    "usd_month": 100.0,
    "src": "Decide card"
+  },
+  {
+   "id": "atlas-sb-half",
+   "question": "ATLAS on the Builder evals (Zlarior 50K + 25K #2): trade HALF size outside the Silver Bullet hours (3-4, 10-11, 14-15 ET), normal size inside?",
+   "usd_month": 0.0,
+   "src": "Decide card"
   }
  ],
- "missing": [],
+ "missing": [
+  "PC live numbers: last report Nov 25 12:45 ET (55 min ago)",
+  "trade list: no PC ledger here and no data pipe days yet (on the PC this fills itself; in the cloud run python tools/data_pull.py once the PC's data branch exists)"
+ ],
  "sources": {
-  "trades": "PC status post",
+  "trades": "none",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 24 19:00 ET"
+  "board_pc": "Nov 25 12:45 ET"
  }
 }
