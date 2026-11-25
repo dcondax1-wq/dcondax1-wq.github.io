@@ -1,13 +1,13 @@
 {
  "v": 1,
- "date": "2026-11-24",
+ "date": "2026-11-25",
  "number": 2,
- "built": "2026-11-24T12:29:00Z",
+ "built": "2026-11-25T00:07:35Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
   "motto": "Only what the files say",
-  "date_words": "Tuesday, 24 November 2026"
+  "date_words": "Wednesday, 25 November 2026"
  },
  "label": "Some stories rest on sample data and say so.",
  "lead": {
@@ -149,9 +149,9 @@
    "standfirst": "Who is building what today, straight from the lead's roster.",
    "body": [
     "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
-    "On the bench today: Colosseum: A 3D arena where two strategies duel on real numbers.",
-    "Next to it: Jarvis home: A clean, beautiful Jarvis first screen with a golden-hour courtyard.",
-    "And a third: Ergasterion: The agent factory: watch every worker and what it learned.",
+    "On the bench today: NQ bot: The NQ page and the kit that updates the PC's bot folder.",
+    "Next to it: Colosseum: A 3D arena where two strategies duel on real numbers.",
+    "And a third: Jarvis home: A clean, beautiful Jarvis first screen with a golden-hour courtyard.",
     "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
     "The roster was last updated at 2026-11-11T01:10:00Z."
    ],
@@ -161,6 +161,16 @@
      "src": "handoff/agents_now.json",
      "calc": "count of agents",
      "raw": 10
+    },
+    {
+     "t": "NQ bot",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "The NQ page and the kit that updates the PC's bot folder",
+     "src": "handoff/agents_now.json",
+     "quote": true
     },
     {
      "t": "Colosseum",
@@ -179,16 +189,6 @@
     },
     {
      "t": "A clean, beautiful Jarvis first screen with a golden-hour courtyard",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Ergasterion",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "The agent factory: watch every worker and what it learned",
      "src": "handoff/agents_now.json",
      "quote": true
     },
@@ -673,9 +673,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 255 write-ups.",
-    "The newest lesson on file, dated 2026-11-23, reads: None has an edge after a 10-way multiple-testing correction; 9 of 10 lose money in 2026 H1, the half LIT was picked on.",
-    "It was filed under \"rejected\" and comes from research/writeups/popular-ict-2026-11-23.md."
+    "The research shelf now counts 266 write-ups.",
+    "The newest lesson on file, dated 2026-11-24, reads: 0 of 8 ideas pass. The base rates are kept: they now feed the Brain (journal + market read).",
+    "It was filed under \"finding\" and comes from research/writeups/structure-2026-11-24.md."
    ],
    "facts": [
     {
@@ -707,28 +707,28 @@
      "quote": true
     },
     {
-     "t": "255",
+     "t": "266",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 255
+     "raw": 266
     },
     {
-     "t": "2026-11-23",
+     "t": "2026-11-24",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "None has an edge after a 10-way multiple-testing correction; 9 of 10 lose money in 2026 H1, the half LIT was picked on.",
+     "t": "0 of 8 ideas pass. The base rates are kept: they now feed the Brain (journal + market read).",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "rejected",
+     "t": "finding",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "research/writeups/popular-ict-2026-11-23.md",
+     "t": "research/writeups/structure-2026-11-24.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }
@@ -793,19 +793,24 @@
   {
    "id": "new-apps",
    "kicker": "Openings",
-   "headline": "1 new app opens on the agora",
+   "headline": "3 new apps open on the agora",
    "standfirst": "What was added to the app bar since the last edition.",
    "body": [
-    "1 new app has opened since the last edition: Four Pillars.",
-    "That brings the bar to 78 apps.",
+    "3 new apps have opened since the last edition: The Brain, Four Pillars, War Room.",
+    "That brings the bar to 80 apps.",
     "Each one reads only published files and falls back to labelled demo data, so none can be blank."
    ],
    "facts": [
     {
-     "t": "1",
+     "t": "3",
      "src": "jarvis/apps.js",
      "calc": "count of app ids not in the last edition's list",
-     "raw": 1
+     "raw": 3
+    },
+    {
+     "t": "The Brain",
+     "src": "jarvis/apps.js",
+     "quote": true
     },
     {
      "t": "Four Pillars",
@@ -813,10 +818,15 @@
      "quote": true
     },
     {
-     "t": "78",
+     "t": "War Room",
+     "src": "jarvis/apps.js",
+     "quote": true
+    },
+    {
+     "t": "80",
      "src": "jarvis/apps.js",
      "calc": "count of app ids in jarvis/apps.js",
-     "raw": 78
+     "raw": 80
     }
    ],
    "sources": [
@@ -937,45 +947,51 @@
   "level": "calm",
   "text": "Calm: nothing rated medium or high is on today's calendar.",
   "src": "pythia/events.json",
-  "events": [],
+  "events": [
+   {
+    "time": "08:30",
+    "title": "Jobless claims (moved to Wednesday for the holiday)",
+    "impact": "low"
+   }
+  ],
   "note": "From the saved calendar. It is not a forecast of price."
  },
  "quiz": [
   {
-   "id": "t4",
-   "topic": "target",
-   "q": "At 1R in profit the stop goes to",
-   "o": [
-    "Break-even, plus the costs (+1.25 points)",
-    "The target",
-    "Further away"
-   ],
-   "a": 0,
-   "why": "At 1R the stop moves to break-even plus costs. That is the only stop move allowed."
-  },
-  {
-   "id": "f2",
+   "id": "f3",
    "topic": "flat",
-   "q": "What is the latest time for a new entry?",
+   "q": "A trade is open at 15:50 and looks great. You",
    "o": [
-    "15:30 New York",
-    "15:55",
-    "16:10"
+    "Let it close at 15:55",
+    "Hold it overnight",
+    "Add to it"
    ],
    "a": 0,
-   "why": "Entries run from 02:00 to 15:30 ET, so a trade has time to work before flat."
+   "why": "Flat at 15:55, every day. Overnight is not part of the plan."
   },
   {
-   "id": "s4",
-   "topic": "stop",
-   "q": "Why is the stop at the protected low or high?",
+   "id": "z1",
+   "topic": "size",
+   "q": "The stop is wide today. How many micros?",
    "o": [
-    "If price takes it, the trade idea is wrong",
-    "It is always the tightest stop",
-    "It makes the target bigger"
+    "Fewer: size follows the stop",
+    "The same as always",
+    "More, to make the money back"
    ],
    "a": 0,
-   "why": "That level is where the idea is proven wrong, so the loss is cut exactly there."
+   "why": "A wide stop means less risk per micro, so you carry fewer. The dollars risked stay inside the plan."
+  },
+  {
+   "id": "t3",
+   "topic": "target",
+   "q": "The target is based on",
+   "o": [
+    "The 18:00 open plus or minus one VIX day move",
+    "Yesterday's high",
+    "A round number"
+   ],
+   "a": 0,
+   "why": "The 18:00 New York open plus or minus one VIX day move, the same every day."
   }
  ],
  "interviews": [
@@ -1021,22 +1037,22 @@
    ]
   },
   {
-   "id": "builder:aa54c210",
-   "name": "Fixer",
-   "title": "Build agent, quality",
+   "id": "builder:afc68d30",
+   "name": "Pinakes",
+   "title": "Build agent, data",
    "src": "handoff/agents_now.json",
    "qa": [
     {
      "q": "What are you building?",
-     "a": "Fixing the broken tests and phone-layout bugs in old apps."
+     "a": "A browser for every table of data OLYMPUS has."
     },
     {
      "q": "Where does your work live?",
-     "a": "On my own branch, worktree-agent-aa54c21090a103d33. The lead merges it when it is ready."
+     "a": "On my own branch, worktree-agent-afc68d30fdf5b4f1b. The lead merges it when it is ready."
     },
     {
      "q": "Which part of OLYMPUS is yours?",
-     "a": "The quality area."
+     "a": "The data area."
     }
    ]
   }
@@ -1073,6 +1089,7 @@
   "athena",
   "atlas",
   "board",
+  "brain",
   "bridge",
   "business",
   "chronos",
@@ -1136,6 +1153,7 @@
   "trading",
   "tree",
   "tyche",
+  "warroom",
   "why",
   "widget",
   "zenith"

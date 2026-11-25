@@ -32,8 +32,10 @@
     // ---- Bots & Evals: each account, its drawdown, trades and pass odds
     ['nq', 'nq/', 'NQ', 'Bots right now', 'Is each bot on, drawdown left, the last trades', 'bots', 'bots', 'bots bot status zlarior atlas blitz lit running pc drawdown trades nq ninjatrader', ''],
     ['pillars', 'pillars/', 'Four Pillars', 'The four pillars', 'LIT, ATLAS, BLITZ, ORDER FLOW: status, edge, next', 'bots', 'bots', 'four pillars lit zlarior atlas blitz order flow orderflow ticks edge strategy what is next', 'nq'],
+    ['brain', 'brain/', 'The Brain', 'Bot brain, live 3D', 'Next trade, live chart, thinking and what it learned', 'bots', 'bots', 'brain 3d neurons thinking learning next trade live chart lit atlas blitz order flow', 'nq'],
+    ['warroom', 'warroom/', 'War Room', 'Every bot, every step, live', 'Each bot: its steps, what it waits for, how close a trade', 'bots', 'bots', 'war room live steps ladder brain thinking entry setup now trade countdown narration', 'nq'],
     ['today', '', 'Dashboard', 'Full NQ dashboard', 'The full NQ dashboard: today, trades, results', 'bots', 'bots', 'dashboard zenith home main board results today nq bot', ''],
-    ['argus', 'argus/', 'Argus', 'What to fix', 'The hundred eyes: problems worth fixing', 'bots', 'bots', 'fix problems issues bugs health lights', ''],
+    ['argus', 'argus/', 'Argus', 'What to fix', 'The hundred eyes: problems worth fixing', 'bots', 'review', 'fix problems issues bugs health lights', ''],
     ['board', 'board/', 'Board', 'Live board', 'What the bot, you and Claude know: accounts and notes', 'bots', 'bots', 'board notes accounts events claude what the bot knows', ''],
     ['aegis', 'aegis/', 'Aegis', 'Risk guard', 'Drawdown left, and when to stop for the day', 'bots', 'risk', 'drawdown risk stop loss max loss limit safe danger shield guard dll mll', ''],
     ['pnyx', 'pnyx/', 'Pnyx', 'Rules and risk calculator', 'Prop-firm rules, and stop to micros', 'bots', 'risk', 'rules calculator micros size contracts stop prop firm', ''],

@@ -77,6 +77,8 @@
   {"id": "board", "name": "Board", "glyph": "\u25a4", "colour": "#c8a24a", "group": "trading", "groupName": "Trading", "purpose": "What the bot, you and Claude know: accounts, events, notes", "path": "board/", "live": true},
   {"id": "why", "name": "Why", "glyph": "?", "colour": "#c8a24a", "group": "trading", "groupName": "Trading", "purpose": "Why our trades win and lose, per bot, in plain $", "path": "why/", "live": true},
   {"id": "widget", "name": "Widget", "glyph": "\u25a3", "colour": "#c8a24a", "group": "money", "groupName": "Money", "purpose": "Your accounts as an iPhone widget + the big Glance page", "path": "widget/", "live": true},
+  {"id": "warroom", "name": "War Room", "glyph": "\u2694", "colour": "#f1c14b", "group": "trading", "groupName": "Trading", "purpose": "Every NQ bot, every step, live: what it waits for and how close a trade is", "path": "warroom/", "live": false},
+  {"id": "brain", "name": "The Brain", "glyph": "\u03a8", "colour": "#9d59ee", "group": "trading", "groupName": "Trading", "purpose": "Every bot as one 3D brain: next trade, chart, thinking", "path": "brain/", "live": false},
   {"id": "clio", "name": "Clio", "glyph": "\u039a", "colour": "#d8c9a8", "group": "data", "groupName": "Data", "purpose": "The research library: every study in plain words", "path": "clio/", "live": true},
   {"id": "atlas", "name": "Atlas", "glyph": "\u25c8", "colour": "#efc979", "group": "life", "groupName": "Jarvis", "purpose": "A fast map of every Olympus dashboard", "path": "atlas/", "live": true},
   {"id": "athena", "name": "Athena", "glyph": "\ud83e\udd89", "colour": "#7f8a52", "group": "data", "groupName": "Data", "purpose": "The library: strategy, rules, quiz", "path": "athena/", "live": true},

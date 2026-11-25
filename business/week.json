@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-24 07:28 ET",
+ "built": "2026-11-24 19:07 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 2
  },
- "pc": "PC last reported Nov 24 7:15 ET",
+ "pc": "PC last reported Nov 24 19:00 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49213.9,
-   "src": "PC live, Nov 24 7:15 ET",
+   "src": "PC live, Nov 24 19:00 ET",
    "room": 1045.7,
    "to_pass": 3786.1,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 24 7:15 ET",
+   "src": "PC live, Nov 24 19:00 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24976.12,
-   "src": "PC live, Nov 24 7:15 ET",
+   "src": "PC live, Nov 24 19:00 ET",
    "room": 976.12,
    "to_pass": 1523.88,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25023.62,
-   "src": "PC live, Nov 24 7:15 ET",
+   "src": "PC live, Nov 24 19:00 ET",
    "room": 1000.0,
    "to_pass": 1476.38,
    "trades": 0,
@@ -165,16 +165,16 @@
   "line": "Edge health: GREEN · last 40 sessions PF 4.62 vs 2026 H1 3.91 · data to Nov 19"
  },
  "changes": {
-  "n": 114,
+  "n": 200,
   "items": [
-   "Root sw v213 (pillars3 home-screen kits)",
-   "day-pillars3: real market lessons in the pillars panel + Home Screen kit fixes",
-   "Land Four Pillars hero/3D (day-pillars2) + lead wires: gate catalog row, root sw v212, bump...",
-   "day-pillars2: real market lessons from research/learn/insights.json; empty pillar says Waiting",
-   "day-pillars2: Four Pillars hero on Home, Zenith, NQ + 3D/effects pass + market lessons panel",
-   "Publish pillars/ (build_web_dashboard app list): the Four Pillars page was 404 on the live site",
+   "live.unrouted_exit_skip: any open leg of ours (or has_open_bracket) blocks the skip (red team #4...",
+   "Red team day-zeroerr (ledgerfix): the pre-eval_start skip in multi_account._process only when the...",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Rebuild hub data after market-learn landing"
+   "generated_files: research/orderflow/results.json is bot-made (tickrec autopilot); it held the PC...",
+   "FAILURE_MAP: the two ledger bugs (rows 30b, 30c) and the armed record",
+   "day-unstick round 2: old-code route audit (no remote reset path), scheduled tasks/boot,...",
+   "day-unstick: put the current pc version back (end of the version cycle; tree == origin/pc): the...",
+   "day-unstick: tools/web_public/business/decisions.json version 36/36"
   ]
  },
  "next": {
@@ -214,10 +214,10 @@
   "mode": "paper",
   "loss_used": 0.0,
   "loss_stop": 13.75,
-  "last": "LWWWWWW",
-  "bets_total": 7,
-  "won_pct": 86,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 7 bets LWWWWWW; 7 bets so far, 86% won."
+  "last": "LWWWWWWWW",
+  "bets_total": 9,
+  "won_pct": 89,
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 9 bets LWWWWWWWW; 9 bets so far, 89% won."
  },
  "calendar": [
   {
@@ -280,6 +280,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 24 7:15 ET"
+  "board_pc": "Nov 24 19:00 ET"
  }
 }

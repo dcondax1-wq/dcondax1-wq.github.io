@@ -130,3 +130,8 @@ body.sheet-open .today { display: none; }
 .tip.pil { font-size: 13px; font-weight: 800; letter-spacing: .5px; }
 .plink { flex: 0 0 auto; font-size: 12px; padding: 5px 10px; border-radius: 99px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; background: var(--card); pointer-events: auto; }
 .flat[hidden] { display: none !important; }
+/* the War Room link (day-warroom 2026-11-24): first in the top bar */
+.wrl { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 11px; border-radius: 14px; text-decoration: none; pointer-events: auto;
+  font-size: 11.5px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: #1a1300; background: linear-gradient(135deg, #f8d77a, #f1c14b 60%, #c99a2e);
+  box-shadow: 0 0 16px rgba(241,193,75,.4); }
+.wrl i { width: 7px; height: 7px; border-radius: 50%; background: #ff6b8a; box-shadow: 0 0 6px #ff6b8a; }

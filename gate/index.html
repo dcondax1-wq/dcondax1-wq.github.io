@@ -48,7 +48,7 @@
   /* perf v2: blocking=render keeps the first paint for the two sheets (a script-inserted sheet does not block it in Chromium: the page painted
      unstyled and then jumped, CLS 0.27 on the phone) */
   var k = d.createElement('link'); k.rel = 'stylesheet'; k.setAttribute('blocking', 'render'); k.href = b + 'olympus/agora.css?v=a11'; h.appendChild(k);
-  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g25'; h.appendChild(l);
+  var l = d.createElement('link'); l.rel = 'stylesheet'; l.setAttribute('blocking', 'render'); l.href = b + 'gate/gate.css?v=g26'; h.appendChild(l);
   var o = d.createElement('link'); o.rel = 'stylesheet'; o.setAttribute('blocking', 'render'); o.href = b + 'olympus/shell.css?v=s6'; h.appendChild(o);   /* night-revamp-main: the one design layer, last */
   var x = d.createElement('link'); x.rel = 'stylesheet'; x.setAttribute('blocking', 'render'); x.href = b + 'olympus/home-fx.css?v=x2'; h.appendChild(x);
   var nf = d.createElement('link'); nf.rel = 'stylesheet'; nf.setAttribute('blocking', 'render'); nf.href = b + 'hub/navfx.css?v=5'; h.appendChild(nf); d.documentElement.className += ' nfx';   /* NAV FX 2026-11-20: navy + cyan / blue / violet, no gold, from the first frame (no colour flash) */
@@ -60,7 +60,7 @@
     if (!again) localStorage.setItem('oly.homefx.day', dk);
   } } catch (e) { /* private mode: plain */ }
   var i = d.createElement('link'); i.rel = 'icon'; i.href = b + 'gate/icon.svg'; h.appendChild(i);
-  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n8', 'olympus/gate-catalog.js?v=nv13', 'olympus/hub-status.js?v=h5', 'age.js?v=1', 'business/payoutcoach.js?v=4', 'gate/gate.js?v=g22', 'olympus/home-fx.js?v=x2', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
+  ['olympus/themes.js?v=o11', 'pc_feed.js?v=n8', 'olympus/gate-catalog.js?v=nv15', 'olympus/hub-status.js?v=h5', 'age.js?v=1', 'business/payoutcoach.js?v=4', 'gate/gate.js?v=g22', 'olympus/home-fx.js?v=x3', 'olympus/a11y.js'].forEach(function (src) { var s = d.createElement('script'); s.src = b + src; s.async = false; h.appendChild(s); });
 })();</script>
 <script>(function () {   /* the Launch card + first-day checklist (gate/launch.js, docs/LAUNCH_DAY.md): only when the PC serves the site (/site/) */
   if (!/^\/site\//.test(location.pathname || '')) return;
@@ -71,9 +71,10 @@
 <main id="gate" class="g-main">
   <header class="g-head">
     <h1 class="g-title">Olympus</h1>
+    <a class="g-wr" data-to="warroom/" href="../warroom/" aria-label="Open the War Room: every bot, every step, live"><i></i>War Room</a>
     <p class="g-sub">Your 6 dashboards. The rest: More.</p>
       <section class="phero band" id="pillarsHero" data-auto="home" aria-label="The Four Pillars: LIT, ATLAS, BLITZ, ORDER FLOW"><!-- day-pillars2 2026-11-24: the Four Pillars hero (pillars/hero.css + hero.js) -->
-      <div class="ph-head"><b>The Four Pillars<small>LIT · ATLAS · BLITZ · ORDER FLOW</small></b><a class="ph-open" data-to="pillars/" href="../pillars/">Open</a></div>
+      <div class="ph-head"><b>The Four Pillars<small>LIT · ATLAS · BLITZ · ORDER FLOW</small></b><span class="ph-acts"><a class="ph-open ph-brain" data-to="brain/" href="../brain/" aria-label="Open the Brain: every bot thinking, in 3D">Brain</a><a class="ph-open" data-to="pillars/" href="../pillars/">Open</a></span></div>
       <div class="ph-stage" aria-hidden="true"></div>
       <nav class="ph-chips" aria-label="The four pillars"><a class="pc" data-p="lit" data-to="pillars/#lit" href="../pillars/#lit" style="--c:#f1c14b"><b>LIT</b><span><i class="ok"></i>LIVE</span><small>Zlarior</small></a><a class="pc" data-p="atlas" data-to="pillars/#atlas" href="../pillars/#atlas" style="--c:#77db89"><b>ATLAS</b><span><i class="ok"></i>LIVE</span><small>EMA · MACD · S/R</small></a><a class="pc" data-p="blitz" data-to="pillars/#blitz" href="../pillars/#blitz" style="--c:#9d59ee"><b>BLITZ</b><span><i class="off"></i>OFF</span><small>built · OFF</small></a><a class="pc" data-p="of" data-to="pillars/#of" href="../pillars/#of" style="--c:#5fd0c9"><b>ORDER FLOW</b><span><i class="warn"></i>NOT READY</span><small>ticks</small></a></nav>
     </section>
@@ -208,8 +209,8 @@
   var dx = d.createElement('script'); dx.src = b + 'olympus/dashfx.js?v=d1'; dx.defer = true; d.body.appendChild(dx);   /* DESIGN's glass on the arenas */
 })();</script>
 <script>(function () { /* day-pillars2: the Four Pillars hero's look + live module (after the page; GATE_BASE = the site root here or at olympus-live.html) */
-  var b = window.GATE_BASE || '', d = document, l = d.createElement('link'); l.rel = 'stylesheet'; l.href = b + 'pillars/hero.css?v=h5'; d.head.appendChild(l);
-  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=h1').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
+  var b = window.GATE_BASE || '', d = document, l = d.createElement('link'); l.rel = 'stylesheet'; l.href = b + 'pillars/hero.css?v=c2'; d.head.appendChild(l);
+  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=c2').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
 })();</script>
 <script src="install-hint.js?v=h1" defer></script>
 </body>

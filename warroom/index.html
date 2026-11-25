@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-theme="agora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>War Room</title>
+<meta name="description" content="The Olympus War Room: every NQ bot side by side, step by step, live. What each one waits for, how close a trade is, the story of the day, the levels on the chart and every open trade.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="War Room">
+<link rel="apple-touch-icon" href="../jarvis/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="warroom.css?v=w2">
+<!-- THE WAR ROOM (day-warroom 2026-11-24). Read only: the PC's status post + chart post (ntfy, pc_feed.js / nq/nqbars.js) and the site's JSON;
+     it sends nothing and places nothing. -->
+<script src="../pc_feed.js?v=n8"></script>
+<script type="module" src="warroom.js?v=w2"></script>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../gate/" aria-label="Back to the Olympus Home">&#8592;</a>
+  <div class="ttl"><h1>War Room</h1><p class="sub">Every bot, every step, live</p></div>
+  <div class="pcbox"><span class="pc" id="pcPill" data-level="none"><i></i><b id="pcText">PC: checking</b></span><span class="px num" id="px">-</span></div>
+</header>
+
+<div class="stale" id="stale" role="status" hidden></div>
+
+<section class="glass hero" aria-live="polite">
+  <a class="brl" href="../brain/" aria-label="Open the Brain: every bot thinking, in 3D">3D Brain &#8250;</a>
+  <p class="eyebrow">Right now</p>
+  <p class="headline" id="headline">Reading your PC's report...</p>
+  <p class="nextwin" id="nextWin"></p>
+</section>
+
+<section class="trades" id="trades" aria-label="Open trades" hidden></section>
+
+<section class="over" id="over" aria-label="How close each bot is to a trade"></section>
+
+<section class="ladders" id="ladders" aria-label="Every bot's steps"></section>
+
+<section class="glass card" id="chartCard" aria-labelledby="chartH">
+  <div class="row"><h2 id="chartH">The last 2 hours</h2><span class="tag" id="chartAge">-</span></div>
+  <div class="chartbox"><canvas id="chart" role="img" aria-label="NQ 5-minute chart"></canvas><p class="empty" id="chartEmpty" hidden></p></div>
+  <div class="legend" id="chartLegend"></div>
+  <p class="muted small" id="chartOff"></p>
+  <p class="muted small" id="chartText"></p>
+</section>
+
+<section class="glass card" id="feedCard" aria-labelledby="feedH">
+  <div class="row"><h2 id="feedH">The story of the day</h2><span class="tag live"><i></i>live</span></div>
+  <ol class="feed" id="feed" aria-live="polite"></ol>
+</section>
+
+<section class="glass card" id="pushCard" aria-labelledby="pushH">
+  <div class="row"><h2 id="pushH">Milestone alerts</h2><button type="button" class="tog" id="pushBtn" aria-pressed="false">Off</button></div>
+  <p class="muted small" id="pushText">Off by default. On: this phone shows an alert at milestones ("LIT 8/10: entry likely within minutes", a lobe armed, a trade opened) while the War Room is open. Alerts with the page closed come from your PC (being wired).</p>
+</section>
+
+<footer class="foot">
+  <a href="../pillars/">The Four Pillars &#8250;</a>
+  <a href="../nq/">NQ &#8250;</a>
+  <a href="../cities/mind/">Strategy Brain &#8250;</a>
+  <p id="srcs">Sources: your PC's 15-minute status post (each bot's step, what it waits for, its levels and log), its chart post (5-minute bars and open trades), nq/brief.json (the windows), pillars/pillars-data.json (BLITZ and ORDER FLOW). Read only: nothing here can arm, trade or close.</p>
+</footer>
+</body>
+</html>

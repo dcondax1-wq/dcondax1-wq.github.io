@@ -14,11 +14,7 @@
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<!-- NQ (OLYMPUS, AGORA look, 2026-11-11): "the NQ bots, right now", one page built for trust. Per bot (Zlarior / LIT 50K, ATLAS 25K, BLITZ 25K): running / waiting for the PC / stale with the exact age,
-     "Drawdown left $X of $max loss", the day's P&L in $ with R, the eval progress; the last 10 trades with the rule that closed each; the plan in one sentence; the backtest facts with their dates
-     ("backtest, not a promise"); a big honest banner when the PC is silent and the five steps that bring reporting back (howto.json = docs/NQ_BOT_BACK.md, bundled by tools/nq_howto_build.py).
-     Read only, paper only: it reads ../home.json, howto.json and fixture.json (DEMO, never blank) and sends nothing. Text only through textContent / createElementNS.
-     nqcore.js = the pure rules (node-tested); nq.js = the page; nqscene.js = the optional 3D columns (a separate module, so a device without WebGL keeps the 2D columns). -->
+<!-- NQ (OLYMPUS, 2026-11-11): "the NQ bots, right now", one page built for trust. Full notes: docs/OLYMPUS_MAP.md (nq). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <!-- perf 2026-11-20 (largest paint 6.9 s = the chart's line, at the end of page -> nqchart.js -> status_feed.json -> the PC's chart post):
      the page's data files and the chart post start here at once; nq.js / nqchart.js take them (window.NQ_EARLY, each used once) -->
@@ -35,11 +31,11 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a11">
 <script src="../olympus/themes.js?v=o11"></script>
 <script src="../pc_feed.js?v=n8"></script><script src="../business/payoutcoach.js?v=4"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o24" data-app="nq"></script>
-<script src="../olympus/intro-app.js?v=i12" defer></script>
+<script src="../olympus/olympus.js?v=o26" data-app="nq"></script>
+<script src="../olympus/intro-app.js?v=i14" defer></script>
 <script src="../olympus/a11y.js" defer></script>
-<script src="../olympus/agora-ui.js?v=10" defer></script>
-<script src="../olympus/gate-nav.js?v=g12" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
+<script src="../olympus/agora-ui.js?v=12" defer></script>
+<script src="../olympus/gate-nav.js?v=g14" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
 <link rel="stylesheet" href="nq.css?v=a9">
 <link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
@@ -54,7 +50,7 @@
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ</h1><p class="sub">Are the bots on, and how much $ each account can still lose before it fails.</p></div></div>
-    <div class="tags"><a class="btn brainlink" href="../pillars/" aria-label="Open the four pillars: LIT, ATLAS, BLITZ, ORDER FLOW">Pillars</a><a class="btn brainlink" href="accounts.html" aria-label="Open every account on one screen">Accounts</a><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+    <div class="tags"><a class="btn primary brainlink" href="../warroom/" aria-label="Open the War Room: every bot, every step, live">War Room</a><a class="btn brainlink" href="../brain/" aria-label="Open the Brain: one living 3D brain of every bot">3D Brain</a><a class="btn brainlink" href="../pillars/" aria-label="Open the four pillars: LIT, ATLAS, BLITZ, ORDER FLOW">Pillars</a><a class="btn brainlink" href="accounts.html" aria-label="Open every account on one screen">Accounts</a><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <p id="src" class="note" data-truth="source"></p>
@@ -65,7 +61,7 @@
     <button type="button" class="btn primary" id="bannerBtn" data-howto aria-haspopup="dialog" aria-expanded="false">Bring the bots back (3 steps)</button>
   </section>
   <section class="phero" id="pillarsStrip" data-auto="nq" data-toast="0" aria-label="The Four Pillars" hidden>
-    <div class="ph-head"><b>The Four Pillars</b><a class="ph-open" href="../pillars/">Open</a></div>
+    <div class="ph-head"><b>The Four Pillars</b><span class="ph-acts"><a class="ph-open ph-brain" href="../brain/" aria-label="Open the Brain: every bot thinking, in 3D">Brain</a><a class="ph-open" href="../pillars/">Open</a></span></div>
     <div class="ph-stage" aria-hidden="true"></div>
     <nav class="ph-chips"></nav>
   </section>
@@ -226,6 +222,6 @@
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6f" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=3" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
-<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=h1').catch(function(){})},400)})</script>
+<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c2').catch(function(){})},400)})</script>
 </body>
 </html>

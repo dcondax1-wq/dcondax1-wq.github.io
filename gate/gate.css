@@ -472,3 +472,11 @@ html.hfx #doors4 .g-dr .hfx-glyph, html.hfx #doors4 .g-dr .hfx-lit, html.hfx #do
 .g-sl:focus-visible, .g-morebtn:focus-visible { outline: 2px solid var(--ag-gold); outline-offset: 2px; }
 .g-morebtn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; margin: 12px 0 0; border-radius: 16px; font-size: 1rem; }
 html:not(.g-more-open) #elseSec, html:not(.g-more-open) #now, html:not(.g-more-open) #pinSec, html:not(.g-more-open) #recentSec, html:not(.g-more-open) #lookSec { display: none !important; }
+/* THE WAR ROOM (day-warroom 2026-11-24): the first thing on Home, in the title row (no height added: the 6 dashboards stay on the first screen) */
+.g-main .g-head { position: relative; }
+.g-wr { position: absolute; right: 0; top: 0; display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 14px; border-radius: 22px;
+  font: 800 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; letter-spacing: 1.2px; text-transform: uppercase; text-decoration: none;
+  color: #1a1300; background: linear-gradient(135deg, #f8d77a, #f1c14b 55%, #c99a2e); box-shadow: 0 0 0 1px rgba(241,193,75,.6), 0 0 22px rgba(241,193,75,.45); }
+.g-wr i { width: 8px; height: 8px; border-radius: 50%; background: #ff6b8a; box-shadow: 0 0 8px #ff6b8a; animation: gwr 1.6s ease-in-out infinite; }
+@keyframes gwr { 50% { opacity: .35; transform: scale(.75); } }
+@media (prefers-reduced-motion: reduce) { .g-wr i { animation: none; } }

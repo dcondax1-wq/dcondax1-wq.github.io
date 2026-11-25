@@ -31,7 +31,7 @@ export function model() {
 const fmtN = (v, d) => (v == null || !Number.isFinite(+v) ? '-' : (+v).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }));
 function drawTabs() {
   const box = $('ptabs'); box.replaceChildren();
-  for (const m of S.model) box.append(el('button', { type: 'button', role: 'tab', class: 'ptab', 'data-p': m.id, style: `--c:${m.color}`, 'aria-selected': String(S.sel === m.id), onclick: () => select(m.id) },
+  for (const m of S.model) box.append(el('button', { type: 'button', role: 'tab', class: 'ptab', 'data-p': m.id, style: `--c:${m.color}`, 'aria-selected': String(S.sel === m.id), onclick: () => select(m.id, 'tab') },
     el('b', { text: m.name }), el('small', {}, el('span', { class: 'lvl ' + m.level }), document.createTextNode(m.statusWord))));
 }
 function spansTable(m) {
@@ -114,13 +114,14 @@ function pcPill() {
   if (age === null) { p.textContent = 'PC: waiting'; p.className = 'pill'; return; }
   p.textContent = `PC ${PF.ago(age)}`; p.className = 'pill ' + (age < PF.PC_FRESH_S ? 'ok' : 'warn'); void F;
 }
-function select(id) {
+function select(id, how) {
   if (!IDS.includes(id)) return;
-  S.sel = id; drawTabs(); drawPanel(); if (S.scene) S.scene.select(id);
+  S.sel = id; drawTabs(); drawPanel(); if (S.scene) S.scene.select(id, how === 'scene');   // a tap on a column: the camera glides to it (a tab only lights it)
+  if (how === 'scene') { const b = $('panel'); b.classList.remove('rise'); void b.offsetWidth; b.classList.add('rise'); }   // ... and its panel slides up
   try { history.replaceState(null, '', '#' + id); localStorage.setItem('olyPillar', id); } catch (_) { /* fine */ }
 }
 function fills() {
-  const o = {}; for (const m of S.model) o[m.id] = m.id === 'of' ? Math.max(.06, (m.tick && m.tick.frac) || 0) : m.state === 'off' ? .32 : m.level === 'ok' ? 1 : .86; return o;
+  const o = {}; for (const m of S.model) o[m.id] = m.id === 'of' ? Math.max(.06, (m.tick && m.tick.frac) || 0) : m.state === 'off' ? .32 : 1; return o;
 }
 function render() {
   S.model = model(); drawTabs(); drawPanel(); pcPill();
@@ -137,15 +138,16 @@ async function startScene() {
   const flat = () => { $('flat').hidden = false; drawFlat(); document.documentElement.dataset.mode = '2d'; };
   if (/[?&]lite=2d/.test(location.search)) return flat();
   try {
-    const Sc = await import('./pillars-scene.js?v=p2');
+    const Sc = await import('./pillars-scene.js?v=c1');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, low = Sc.isLowPower(window), fl = fills();
     const cols = S.model.map((m) => ({ id: m.id, name: m.name, color: m.color, fill: fl[m.id], dim: m.state === 'off' }));
     const stage = $('stage');
-    const tips = cols.map((c) => { const m = S.model.find((x) => x.id === c.id); const d = el('div', { class: 'tip', style: `--c:${c.color}`, 'data-tip': c.id }); c.name.split(' ').forEach((w, i) => { if (i) d.append(el('br')); d.append(document.createTextNode(w)); }); void m; stage.append(d); return [c.id, d]; });
-    const onFrame = (proj) => { for (const [id, d] of tips) { const p = proj(id); if (!p) continue; d.style.left = p.x + 'px'; d.style.top = p.y + 'px'; d.style.opacity = S.sel === id ? '1' : '.7'; } };
-    S.scene = await Sc.create($('c'), cols, { reduce, low, onPick: (id) => id && select(id), onLost: flat, onFrame });
+    // the names: glass plates on the steps under each column (status word under the name)
+    const tips = cols.map((c) => { const m = S.model.find((x) => x.id === c.id); const d = el('div', { class: 'tip', style: `--c:${c.color}`, 'data-tip': c.id }, el('b', { text: c.name }), el('small', { text: m ? m.statusWord.split(' · ')[0] : '' })); stage.append(d); return [c.id, d]; });
+    const onFrame = (proj) => { for (const [id, d] of tips) { const p = proj(id, 'label'); if (!p) continue; d.hidden = p.y > stage.clientHeight - 14 || p.x < 0 || p.x > stage.clientWidth; d.style.transform = `translate(${Math.round(p.x)}px, ${Math.round(p.y)}px) translate(-50%, -50%)`; d.classList.toggle('on', S.sel === id); } };
+    S.scene = await Sc.create($('c'), cols, { reduce, low, onPick: (id) => id && select(id, 'scene'), onLost: flat, onFrame });
     if (!S.scene) return flat();
-    S.scene.select(S.sel);
+    S.scene.select(S.sel, false);
     document.documentElement.dataset.mode = low ? '3d-low' : '3d';
     window.__pillars = { stats: () => S.scene.stats(), project: (id) => S.scene.project(id), select, model: () => S.model };
   } catch (_) { flat(); }

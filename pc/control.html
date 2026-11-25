@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PC Control</title>
+<meta name="description" content="The PC bot from the phone: a live checklist and five safe buttons. Arming real money stays at the PC.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PC">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="control.webmanifest">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="pc.css?v=1">
+<!-- PC CONTROL (day-zerotouch2 2026-11-24). Reads the PC's status post (pc_feed.js); a button opens GitHub's new-file page with the
+     command filled in (control/inbox/<id>.json, branch control: engine/remote_ctl.read_inbox). No token here, nothing sent by this page. -->
+<script src="../pc_feed.js?v=n7"></script>
+<script src="pccore.js?v=1"></script>
+<script src="pc.js?v=1" defer></script>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../nq/" aria-label="Back to the NQ page">&#8592;</a>
+  <div class="ttl"><h1>PC Control</h1><p class="sub" id="sub">checking the PC&hellip;</p></div>
+  <span class="pill" id="pill">PC: checking</span>
+</header>
+<main>
+  <section class="card need" id="need" aria-live="polite"><h2>Needs you at the PC</h2><p id="needText">checking&hellip;</p></section>
+  <section class="card"><h2>The four pillars</h2><div class="pillars" id="pillars"></div></section>
+  <section class="card"><h2>Live checklist</h2><ul class="list" id="rows"></ul><p class="note" id="last"></p></section>
+  <section class="card"><h2>Buttons</h2>
+    <div class="btns" id="btns"></div>
+    <p class="note">Tap a button: GitHub opens with the command filled in. Tap <b>Commit changes</b> (twice if GitHub asks). The PC acts within about a minute and your phone gets the result. Update and Restart run only when the bot is flat, never 01:50-16:00 ET on a weekday. Arming real money stays at the PC with the typed phrase.</p>
+    <div class="repo" id="repoBox"></div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+</body>
+</html>

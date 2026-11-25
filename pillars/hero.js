@@ -10,7 +10,8 @@ import * as PF from './pillarsfeed.js?v=p3';
 const BASE = new URL('./', import.meta.url);
 const NEW_KEY = 'oly.new.pillars';
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = String(text); return e; };
-const low = () => { try { if (/[?&]fx=3d/.test(location.search)) return false; return matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]lite=1/.test(location.search) || (+navigator.hardwareConcurrency > 0 && +navigator.hardwareConcurrency <= 4) || !!(navigator.connection && navigator.connection.saveData); } catch (_) { return true; } };
+// 2D only when the phone asks for less (reduced motion, Save-Data, ?lite=1, <= 2 cores / 2 GB); the temple steps itself down on slow frames
+const low = () => { try { if (/[?&]fx=(3d|hq)/.test(location.search)) return false; return matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]lite=1/.test(location.search) || (+navigator.hardwareConcurrency > 0 && +navigator.hardwareConcurrency <= 2) || (+navigator.deviceMemory > 0 && +navigator.deviceMemory <= 2) || !!(navigator.connection && navigator.connection.saveData); } catch (_) { return true; } };
 const FILL = { lit: 1, atlas: 1, blitz: .32, of: .06 };
 
 export function chipsInto(box, chips) {
@@ -27,16 +28,18 @@ function flatCols(stage, model) {
   for (const m of model) { const i = el('i'); i.style.setProperty('--c', m.color); i.style.setProperty('--f', Math.round(fillOf(m) * 100) + '%'); cols.append(i); }
   stage.replaceChildren(cols); stage.dataset.mode = '2d';
 }
-const fillOf = (m) => (m.id === 'of' ? Math.max(.06, (m.tick && m.tick.frac) || 0) : m.state === 'off' ? .32 : m.level === 'ok' ? 1 : .86);
+const fillOf = (m) => (m.id === 'of' ? Math.max(.06, (m.tick && m.tick.frac) || 0) : m.state === 'off' ? .32 : 1);
 
 async function stage3d(stage, model) {
   try {
-    const Sc = await import('./pillars-scene.js?v=p2');
+    const Sc = await import('./pillars-scene.js?v=c1');
     const c = el('canvas'); c.setAttribute('aria-hidden', 'true'); stage.replaceChildren(c);
+    const band = !!stage.closest('.band');                                   // the Home header: a jewel-sized temple over the page (clear backdrop)
     const api = await Sc.create(c, model.map((m) => ({ id: m.id, name: m.name, color: m.color, fill: fillOf(m), dim: m.state === 'off' })),
-      { compact: true, low: false, reduce: false, onPick: (id) => { location.href = new URL('./#' + (id || 'lit'), BASE).href; } });
+      { compact: true, localFirst: true, alpha: band, inset: band ? 0 : .24, pad: band ? 1.2 : 1, low: Sc.isLowPower(window), reduce: false, onPick: (id) => { location.href = new URL('./#' + (id || 'lit'), BASE).href; } });
     if (!api) { flatCols(stage, model); return null; }
-    stage.dataset.mode = '3d'; return api;
+    stage.dataset.mode = '3d'; if (band) document.documentElement.setAttribute('data-temple3d', '1');   // the Home's line-drawn temple steps aside (olympus/home-fx.js)
+    return api;
   } catch (_) { flatCols(stage, model); return null; }
 }
 
@@ -58,7 +61,7 @@ export async function mount(box, opts) {
   box.dataset.live = '1';
   // its look: a page that does not link hero.css (NQ: its HTML is at its first-paint budget) gets it here, and a hidden frame shows once styled
   if (![...document.styleSheets].some((x) => /pillars\/hero\.css/.test(x.href || '')) && !document.getElementById('pheroCss')) {
-    await new Promise((ok) => { const l = document.createElement('link'); l.id = 'pheroCss'; l.rel = 'stylesheet'; l.href = new URL('./hero.css?v=h5', BASE).href; l.onload = l.onerror = ok; document.head.append(l); setTimeout(ok, 3000); });
+    await new Promise((ok) => { const l = document.createElement('link'); l.id = 'pheroCss'; l.rel = 'stylesheet'; l.href = new URL('./hero.css?v=c2', BASE).href; l.onload = l.onerror = ok; document.head.append(l); setTimeout(ok, 3000); });
   }
   if (box.dataset.auto === 'nq') box.hidden = false;
   // Zenith (the site root) keeps its shell across routes: the hero belongs on Today only

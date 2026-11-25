@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-mode="boot">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Brain</title>
+<meta name="description" content="One living 3D brain of the Olympus trading side: LIT, ATLAS, BLITZ, ORDER FLOW, MARKET LEARN and RISK, each with its next trade, live chart, thinking and what it learned.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Brain">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="brain.css?v=b2">
+<!-- THE BRAIN (day-brain-app 2026-11-24). Read only: it reads the PC's public status post (pc_feed.js), its chart post and the site's JSON; sends nothing, places nothing. -->
+<script src="../pc_feed.js?v=n7"></script>
+<script type="module" src="brain.js?v=b2"></script>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../pillars/" aria-label="Back to the Four Pillars">&#8592;</a>
+  <div class="ttl"><h1>The Brain</h1><p id="sub">every bot, thinking</p></div>
+  <span class="pill" id="pcPill" data-level="none">PC: checking</span>
+</header>
+<p class="sample" id="sample" hidden></p>
+
+<section class="stage" id="stage" aria-label="The brain in 3D: tap a region to fly in">
+  <canvas id="c" aria-hidden="true"></canvas>
+  <div class="tags" id="tags"></div>
+  <div class="flat" id="flat" hidden></div>
+  <p class="head" id="headline" aria-live="polite"></p>
+</section>
+
+<nav class="dock" id="dock" aria-label="Brain regions"></nav>
+
+<main id="room" class="room" aria-live="polite"></main>
+
+<footer class="foot">
+  <a href="../warroom/">War Room &#8250;</a>
+  <a href="../pillars/">Four Pillars &#8250;</a>
+  <a href="../nq/">NQ &#8250;</a>
+  <a href="../cities/mind/">Strategy Brain &#8250;</a>
+  <p id="srcs"></p>
+</footer>
+</body>
+</html>

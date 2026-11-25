@@ -1,0 +1,322 @@
+{
+ "v": 1,
+ "kind": "brain-learn",
+ "built_from": "2026-11-24 11:49 UTC",
+ "sources": [
+  "research/learn/journal.json",
+  "research/learn/brain_state.json",
+  "research/learn/insights.json"
+ ],
+ "journal_landed": true,
+ "state_landed": true,
+ "paper_only": true,
+ "note": "What each brain learned. Research only: nothing here changes a live rule.",
+ "current": {
+  "for": "2026-11-21",
+  "data_to": "2026-11-20",
+  "regime": "trend",
+  "er5": 0.962,
+  "prior_day": "big",
+  "vix": 35.89,
+  "vix_day": "2026-11-20",
+  "vix_band": "VIX 25+"
+ },
+ "line": "Market Learn: 1 fix tested, 0 passed. Nothing to decide; lessons updated.",
+ "journal": [
+  {
+   "date": "2026-11-24",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 226.0,
+   "usd": 13770.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "atlas",
+   "text": "ATLAS does worse when: entries 50-80% into the day's range. avg R 0.884 / 0.606 / -0.105 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 376.0,
+   "usd": -13641.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20. avg R 1.128 / 0.868 / 0.142 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 563.0,
+   "usd": 16207.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "atlas",
+   "text": "ATLAS does better when: VIX 15-20 + London 02-05. avg R 1.698 / 0.95 / 0.439 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 266.0,
+   "usd": 29694.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "atlas",
+   "text": "tested the idea 'F4 ATLAS skip middle of the range': failed (H1 net $19,550 vs $25,737; H1 PF 3.0 vs 3.02)",
+   "n": 36.0,
+   "usd": 5956.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: Tuesdays. avg R 0.059 / 0.016 / -0.042 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 413.0,
+   "usd": -3809.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: after a big day + Tuesdays. avg R -0.017 / -0.238 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 123.0,
+   "usd": -2449.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: trending weeks + NY AM 09:30-11:30. avg R -0.082 / -0.271 / -0.095 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 159.0,
+   "usd": -4611.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "BLITZ does better when: a displacement our way in the 30 min before (late). avg R 0.544 / 0.81 / 0.04 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 167.0,
+   "usd": 3203.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: fading the last swing, retrace past 1.0, swing broken + the day half used (0.5-0.8 ATR). avg R 0.009 / 0.046 / -0.115 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 281.0,
+   "usd": -4709.0,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "BLITZ does worse when: the day half used (0.5-0.8 ATR). avg R 0.106 / -0.117 / -0.035 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 480.0,
+   "usd": -4742.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "tried: half BLITZ trades in the prior-day level 4R+ ahead → hold-out weeks -$633; 2021-25 net -$1,112; 2021-25 PF 1.06 → 1.05",
+   "n": 1218.0,
+   "usd": -633.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "blitz",
+   "text": "tested the idea 'F5 BLITZ skip half-used day': failed (H1 net $4,513 vs $5,513; placebo p 0.0295 (bar 0.0063))",
+   "n": 131.0,
+   "usd": 4172.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "lit",
+   "text": "LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-25) vs its own average",
+   "n": 143.0,
+   "usd": -11183.0,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "lit",
+   "text": "tested the idea 'F1 LIT skip late chase': failed (H1 net $32,460 vs live $33,901; H1 50K eval path $29,737 vs $33,663)",
+   "n": 36.0,
+   "usd": 9373.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "lit",
+   "text": "tested the idea 'F2 LIT skip mid-retrace fade': failed (H2 net $9,919 vs live $9,919; H2 50K eval path $11,735 vs $11,735)",
+   "n": 40.0,
+   "usd": 9919.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "lit",
+   "text": "tested the idea 'F3 LIT x1.5 at the day's extreme': failed (H2 placebo p 0.653 (bar 0.0063))",
+   "n": 40.0,
+   "usd": 10438.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "the day after a big day (1.5+ ATR): an expansion day (1.5+ ATR) 18.0%, 27.3%, 25.0% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - MORE expansion",
+   "n": 173.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "a big overnight range (0.6+ ATR): an expansion day (1.5+ ATR) 25.8%, 27.1%, 21.4% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - MORE expansion",
+   "n": 482.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "the day after an inside day: an expansion day (1.5+ ATR) 15.0%, 21.4%, 0.0% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - mixed",
+   "n": 154.0,
+   "usd": null,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "the day after an NR7: an expansion day (1.5+ ATR) 8.0%, 18.2%, 5.6% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - mixed",
+   "n": 192.0,
+   "usd": null,
+   "status": "watching"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "the day after a quiet day: an expansion day (1.5+ ATR) 5.4%, 6.2%, 4.8% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - LESS expansion",
+   "n": 298.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "a small overnight range ( 0.35 ATR): an expansion day (1.5+ ATR) 3.1%, 0.0%, 0.0% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - LESS expansion",
+   "n": 247.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "when the first RTH hour drives 0.5+ ATR from the 09:30 open, price comes back to the open only 30.1%, 14.8%, 25.0% of the time",
+   "n": 253.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "a limit at the 0.618 of an expansion leg, stop beyond its start, target the extreme averages 0.01, -0.101, -0.011 R before costs: fib levels alone are not an edge",
+   "n": 1009.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "a 5m displacement's FVG gets filled the same session 83.3%, 81.4%, 80.1% of the time",
+   "n": 11842.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "a full measured move (next leg = the expansion leg) is rare: 11.9%, 8.2%, 11.8% of legs",
+   "n": 1448.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "after an expansion leg, a 0.382-0.5 pullback led to a new extreme 57.1%, 75.0%, 59.3% of the time; a 0.79-1.0 pullback only 20.2%, 30.8%, 20.0% (2021-25 / Jan-Jun / Jul-now)",
+   "n": 1448.0,
+   "usd": null,
+   "status": "confirmed"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "tested the idea 'S1 expansion pullback 0.5 → extreme': failed (H1: PF 0.68 net $-2,459; 2021-25: PF 0.88 net $-5,799)",
+   "n": 31.0,
+   "usd": 531.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "tested the idea 'S2 deep pullback 0.79 → 1.272': failed (H1: PF 0.75 net $-1,162; H1: 0.59 trades/week)",
+   "n": 10.0,
+   "usd": 1441.0,
+   "status": "rejected"
+  },
+  {
+   "date": "2026-11-24",
+   "pillar": "learn",
+   "text": "tested the idea 'S3 expansion follows expansion (first 5m displacement)': failed (H1: PF 0.99 net $-142; H2: PF 1.01 net $156)",
+   "n": 55.0,
+   "usd": 156.0,
+   "status": "rejected"
+  }
+ ],
+ "state": {
+  "lit": {
+   "confidence": 0.7,
+   "lessons": 0,
+   "last_learned": "tested the idea 'F3 LIT x1.5 at the day's extreme': failed (H2 placebo p 0.653 (bar 0.0063))",
+   "testing_next": [
+    "watching: LIT (Zlarior) does worse when: the day half used (0.5-0.8 ATR). avg R 0.576 / 0.455 / -0.141 (Jan-Jun / Jul-Oct / 2021-25) vs its own average"
+   ],
+   "market_read": "in trending weeks + VIX 25+ it has 25 past trades, avg R 0.495 vs 0.166 overall"
+  },
+  "atlas": {
+   "confidence": 0.85,
+   "lessons": 1,
+   "last_learned": "tested the idea 'F4 ATLAS skip middle of the range': failed (H1 net $19,550 vs $25,737; H1 PF 3.0 vs 3.02)",
+   "testing_next": [
+    "watching: ATLAS does better when: mixed weeks + London 02-05. avg R 0.999 / 1.156 / 0.303 (Jan-Jun / Jul-Oct / 2021-25) vs its own average"
+   ],
+   "market_read": "in trending weeks + VIX 25+ it has 52 past trades, avg R 0.085 vs 0.153 overall"
+  },
+  "blitz": {
+   "confidence": 0.64,
+   "lessons": 3,
+   "last_learned": "tested the idea 'F5 BLITZ skip half-used day': failed (H1 net $4,513 vs $5,513; placebo p 0.0295 (bar 0.0063))",
+   "testing_next": [
+    "next fix to test (pre-registered on the weekly run): skip trades in fading the last swing, retrace past 1.0, swing broken + the day half used (0.5-0.8 ATR)"
+   ],
+   "market_read": "in trending weeks + VIX 25+ it has 185 past trades, avg R 0.153 vs 0.037 overall"
+  },
+  "of": {
+   "confidence": 0.0,
+   "lessons": 0,
+   "last_learned": null,
+   "testing_next": [
+    "waiting for its first trades (no data to learn from yet)"
+   ],
+   "market_read": "trend regime, VIX 25+; shallow pullback of the down leg (0.20); price 19% up today's range, 1.62 ATR used"
+  },
+  "learn": {
+   "confidence": 0.64,
+   "lessons": 9,
+   "last_learned": "tested the idea 'S3 expansion follows expansion (first 5m displacement)': failed (H1: PF 0.99 net $-142; H2: PF 1.01 net",
+   "testing_next": [
+    "watching: the day after an inside day: an expansion day (1.5+ ATR) 15.0%, 21.4%, 0.0% of the time (2021-25 / Jan-Jun / Jul-now) vs 13.0%, 17.2%, 12.6% normally - mixed"
+   ],
+   "market_read": "trend regime, VIX 25+; shallow pullback of the down leg (0.20); price 19% up today's range, 1.62 ATR used"
+  }
+ }
+}

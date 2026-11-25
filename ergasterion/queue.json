@@ -1,6 +1,6 @@
 {
  "v": 2,
- "asof": "2026-11-23",
+ "asof": "2026-11-24",
  "note": "Built from handoff/QUEUE.md, research/writeups, research/runs, the Archive index, the Mind's proposals and git (when present) by tools/ergasterion_build.py. Plain text only; nothing here is a trade.",
  "queue": {
   "total": 67,
@@ -190,95 +190,101 @@
   ]
  },
  "writeups": {
-  "count": 255,
+  "count": 266,
   "latest": [
+   {
+    "date": "2026-11-24",
+    "title": "Market structure: expansion and retracement base rates + 8 pre-registered ideas (2026-11-24)",
+    "status": "finding",
+    "summary": "0 of 8 ideas pass. The base rates are kept: they now feed the Brain (journal + market read).",
+    "file": "research/writeups/structure-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "\"Stops x targets x TIME: smaller stops and take-profits from other timeframes, and TIME x PRICE\"",
+    "status": "rejected",
+    "summary": "Tighter stops from the 1m CISD candle, the 1m entry swing and the 3m FVG cut the stop from ~44-52 pts to 7-22 pts, but at the same dollars at risk every one loses money in Jul-Oct ($8.3k-$14.0k less than live): 40-58% o…",
+    "file": "research/writeups/stops-targets-time-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "Pro / institutional edges (EOD rebalancing flow, gamma-sign momentum, overnight-vs-intraday, a causal LIT exp…",
+    "status": "research",
+    "summary": "",
+    "file": "research/writeups/proedge-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "24-hour coverage + a walk-forward portfolio of everything built (2026-11-24)",
+    "status": "finding",
+    "summary": "No portfolio beats today (LIT + ATLAS) on both hold-outs.",
+    "file": "research/writeups/portfolio-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "A personal futures account vs the MFFU prop path (2026-11-24)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/ownacct-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "Do the time windows add money? (2026-11-24)",
+    "status": "finding",
+    "summary": "The windows are not \"tuning to a time\". They are where these setups work (London open, New York open).",
+    "file": "research/writeups/notime-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "Live vs backtest: where the money went (2026-11-24)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/livegap-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "LIT in high-VIX falling markets: bad luck or a losing regime? (2026-11-24)",
+    "status": "finding",
+    "summary": "- The premise was off: the losers did NOT come at VIX 25+.",
+    "file": "research/writeups/lit-vix-downtrend-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "Dead hours per pillar: are 05:00-06:30 and 11:00 really bad? (2026-11-24)",
+    "status": "finding",
+    "summary": "The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026. - ATLAS S/R after 11:00 is the only one pointing the right wa…",
+    "file": "research/writeups/dead-hours-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "The BAD case: what to buy and what to do if the market turns 2025-like (2026-11-24)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/badcase-2026-11-24.md"
+   },
+   {
+    "date": "2026-11-24",
+    "title": "ATLAS funded 25K at ~$150 a trade, on the LIVE sizing code (2026-11-24)",
+    "status": "finding",
+    "summary": "It only helps in the bad markets (2025: +$17 / +$90 in 6 months). - Accounts are never \"lost\" on the live code (0% in every case: skip_breach stops a trade that could hit the floor).",
+    "file": "research/writeups/atlas-funded-150-2026-11-24.md"
+   },
    {
     "date": "2026-11-23",
     "title": "Popular ICT / SMC strategies on CME NQ, run exactly as taught (Silver Bullet, Judas, Asia sweep, London break…",
     "status": "rejected",
     "summary": "None has an edge after a 10-way multiple-testing correction; 9 of 10 lose money in 2026 H1, the half LIT was picked on.",
     "file": "research/writeups/popular-ict-2026-11-23.md"
-   },
-   {
-    "date": "2026-11-23",
-    "title": "Popular classic NQ / ES strategies, as the textbook states them (2026-11-23)",
-    "status": "finding",
-    "summary": "All 16 are rejected. Added to docs/TESTED_AND_REJECTED.md.",
-    "file": "research/writeups/popular-classic-2026-11-23.md"
-   },
-   {
-    "date": "2026-11-23",
-    "title": "Payday check (night-payday 2026-11-23): payout math + dates against docs/ACCOUNT_RULES.md",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/payday-check-2026-11-23.md"
-   },
-   {
-    "date": "2026-11-23",
-    "title": "Order-flow program - what pros use, what our bars can test, and 3 tick designs ready to run",
-    "status": "",
-    "summary": "The best near miss is a stand-alone LVN rejection (PF 1.26 / 1.10 / 4.56, placebo p 0.004, uncorrelated with LIT, but only 0.5-0.7 trades a week).",
-    "file": "research/writeups/orderflow-program-2026-11-23.md"
-   },
-   {
-    "date": "2026-11-23",
-    "title": "Order flow - what we have, what we need, first (proxy) results",
-    "status": "plan",
-    "summary": "On a 5m bar-shape proxy of delta, none of the three proxy-testable setups holds in all of 2021-25, 2026 H1 and 2026 H2, so nothing changes in the live strategy.",
-    "file": "research/writeups/orderflow-2026-11-23.md"
-   },
-   {
-    "date": "2026-11-23",
-    "title": "The four pillars (LIT, ATLAS, BLITZ, ORDER FLOW) - each case at its honest strongest; BLITZ on the Rapid 25K…",
-    "status": "research",
-    "summary": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
-    "file": "research/writeups/four-pillars-2026-11-23.md"
-   },
-   {
-    "date": "2026-11-22",
-    "title": "Regime guard round 3 - 0 of 22",
-    "status": "rejected",
-    "summary": "No pre-trade market signal separates the losing 2021-25 years from 2026; every guard costs 2026 money.",
-    "file": "research/writeups/regime-guard-2026-11-22.md"
-   },
-   {
-    "date": "2026-11-22",
-    "title": "Rapid 25K slot - best legal use of the slot where Zlarior's LIT lane sits out 58-64% of signals; today's LIT…",
-    "status": "rejected",
-    "summary": "Three of the four candidates were already tested and were not re-invented - (a) ATLAS only and (b) 1 micro banking at the day's room (rapid25-lit-lane-2026-11-18; real fills rapid25_launch R4 +$24 / +$101 a month but ev…",
-    "file": "research/writeups/rapid25-slot-2026-11-22.md"
-   },
-   {
-    "date": "2026-11-22",
-    "title": "Rank-and-rent and pay-per-booked-job for Maryland trades - priced honestly against the website retainer",
-    "status": "research",
-    "summary": "Rank-and-rent is weak for us - Google's own rules list lead-generation companies as ineligible for a Business Profile, so the Maps spot (where the calls are) is the part we cannot safely own; a new site takes months to…",
-    "file": "research/writeups/rank-rent-pay-per-job-2026-11-22.md"
-   },
-   {
-    "date": "2026-11-22",
-    "title": "Plan ranking - every allowed eval plan for Zlarior (LIT) + ATLAS by real money; MFFU Rapid EOD 50K first (MFF…",
-    "status": "ranking",
-    "summary": "LIT + ATLAS on ONE account per plan, ATLAS at its measured real fills (10 ticks a side), LIT as stored; eval = the live two_week LIT sizing on each plan's numbers + ATLAS's $250 / $500 lane + the best-day guard where th…",
-    "file": "research/writeups/plan-ranking-2026-11-22.md"
-   },
-   {
-    "date": "2026-11-22",
-    "title": "One account, combined book - every mix of Zlarior (LIT) + ATLAS (+ BLITZ) on ONE MFFU account at real fills;…",
-    "status": "done",
-    "summary": "Without ATLAS's 5 best Jul-Oct days the Jul-Oct gain is +$114 (SE $136) = about $0.",
-    "file": "research/writeups/one-account-book-2026-11-22.md"
-   },
-   {
-    "date": "2026-11-22",
-    "title": "Fleet v2 - adding LucidPro 50K accounts to the $300 fleet: more accounts only pay if the budget grows with th…",
-    "status": "done",
-    "summary": "Lucid does not lift the worst 10% much and it adds a real cluster risk (3+ Lucid accounts failed i…",
-    "file": "research/writeups/fleet-v2-2026-11-22.md"
    }
   ]
  },
  "rejected": [
+  {
+   "date": "2026-11-24",
+   "title": "\"Stops x targets x TIME: smaller stops and take-profits from other timeframes, and TIME x PRICE\"",
+   "file": "research/writeups/stops-targets-time-2026-11-24.md",
+   "summary": "Tighter stops from the 1m CISD candle, the 1m entry swing and the 3m FVG cut the stop from ~44-52 pts to 7-22 pts, but at the same dollars at risk every one loses money in Jul-Oct ($8.3k-$14.0k less than live): 40-58% o…"
+  },
   {
    "date": "2026-11-23",
    "title": "Popular ICT / SMC strategies on CME NQ, run exactly as taught (Silver Bullet, Judas, Asia sweep, London break…",
@@ -344,31 +350,74 @@
    "title": "Zlarior eval rescue (2026-11-20) - from today's hole, keep the live sizing, smaller room share, pause on the…",
    "file": "research/writeups/lit-eval-rescue-2026-11-20.md",
    "summary": "Room 0.3 cuts the 50K blow to 11% / 10% and passes slightly more often (78% / 74%) but 5-7 sessions later and $49 / $77 a month less; room 0.2 less again."
-  },
-  {
-   "date": "2026-11-20",
-   "title": "Zlarior (LIT) edge 2026-11-20 - 5 new pre-registered ideas (limit 2 ticks better, stale-sweep skip, news-day…",
-   "file": "research/writeups/lit-edge-2026-11-20.md",
-   "summary": "Five genuinely new single versions were written down and committed before any run (research/lit/litedge_design_2026-11-20.md), scored exactly like the 2026-11-19 batch - the live LIT trades, costs in, LIT size, the live…"
   }
  ],
  "rejected_ref": [
+  "Personal futures account vs MFFU (2026-11-24, ownacct-2026-11-24.md, research/ownacct/, pre-registered DESIGN.md): LIT + ATLAS, fixed-fractional, $1.24 RT, whole micros. $25k at 0.5%: +$49…",
+  "ATLAS funded 25K at ~$150 a trade, live sizing path (2026-11-24, atlas-funded-150-2026-11-24.md, research/atlasfund/): cap $150 / funded_room_pct 0.15 vs today's preset on engine/account_b.…",
+  "Bad-case plan (2026-11-24, badcase-2026-11-24.md, research/badcase/, pre-registered DESIGN.md, rank.py engine + a 2025 market): in a 2025-like / 2021-25 market every MFFU plan loses ($-236…",
+  "Time windows removed (2026-11-24, notime-2026-11-24.md, research/notime/, pre-registered DESIGN.md): LIT entries 18:00-15:30 (whole day) vs 02:00-15:30: -$10,511 / +$27,310 / +$9,644 vs +$1…",
+  "Dead hours per pillar (2026-11-24, dead-hours-2026-11-24.md, research/hours/, pre-registered DESIGN.md): worst 1-3 half-hour window per book picked on 2021-24 only (PF 0.8, 20+ trades), tes…",
+  "LIT high-VIX downtrend (2026-11-24, lit-vix-downtrend-2026-11-24.md, research/litvix/, pre-registered DESIGN.md): after 0 real winners in 7 live-window twin trades (NQ 31k - 25k). V1 longs…",
+  "Walk-forward portfolio of every stored run + 24-hour coverage (2026-11-24, portfolio-2026-11-24.md, research/portfolio/, pre-registered DESIGN.md): 1,983 runs, 508 pass the PICK rule (2021-…",
+  "Market structure: expansion / retracement (2026-11-24, structure-2026-11-24.md, research/structure/, pre-registered DESIGN.md): 8 variants, costs in. Standalone (NQ 5m, $500 risk, stop 1 ti…",
+  "Stops x targets x TIME (2026-11-24, stops-targets-time-2026-11-24.md, tools/stops_targets_time.py, Lab research/lab/stops_targets.json): 19 pre-registered variants on the live LIT trades, r…",
   "Market Learn weekly trial #1 (2026-11-24, engine/market_learn.py, research/learn/trials.json): BLITZ half size when the",
+  "Pro / institutional edges (2026-11-24, proedge-2026-11-24.md, code research/proedge/, design pre-registered 64639bf64): 17 variants, 0 pass. EOD rebalancing flow (LETF / Baltussen, 15:30-15…",
   "Edge hunt lane B, cross-asset triggers (2026-11-22, edge-b-cross-2026-11-22.md, code research/edge_hunt/b/): 128 variants on NQ 5m. Dealer-gamma day-type switch (GEX median: opening-range t…",
   "Edge hunt lane D: small meta-labeled SIZE + re-entry on LIT (2026-11-22, edge-d-meta-2026-11-22.md, code research/edge_hunt/d/):",
-  "Edge hunt C, calendar / money-flow timing (2026-11-22, edge-c-calendar-2026-11-22.md, research/edge_hunt/c/edge_c.py): 174 variants on NQ 5m, structural 1-tick stop, LIT size, costs in, per…",
-  "Edge hunt lane A, NQ RTH session structure (2026-11-22, edge-a-session-2026-11-22.md, research/edge_hunt/a/session_edges.py): 14 variants",
-  "2026-11-22 Regime guard round 3 (research/regime/guard3.py, regime-guard3-2026-11-22.md): shadow-setup hit rate R1, intraday variance ratio R2, trend-day share R3, thin volume R4, NQ-VIX co…",
-  "Zlarior edge, 5 pre-registered ideas (2026-11-20, lit-edge-2026-11-20.md, tools/research/litedge.py,",
-  "ATLAS edge at real fills (2026-11-20, atlas-edge-2026-11-20.md, tools/atlas_edge.py, research/second/atlas_edge.json,",
-  "ATLAS real-fill fixes (2026-11-20, atlas-fills-2026-11-20.md, tools/atlas_fills.py, research/second/atlas_fills.json,",
-  "Payday levers + cross-bot loss cuts (2026-11-20, payday-plan-2026-11-20.md, tools/money/payday_plan.py,",
-  "Popular classic strategies (2026-11-23, popular-classic-2026-11-23.md, tools/popular_classic.py, research/lab/popular_classic.json):",
-  "Zlarior more money, 2 pre-registered batches (2026-11-19, lit-more-money-2026-11-19.md, tools/lit_more_money.py,",
-  "ATLAS more money (2026-11-19, atlas-more-money-2026-11-19.md, tools/atlas_more.py, research/second/atlas_more.json, Lab",
-  "BLITZ review (2026-11-18, blitz-review-2026-11-18.md, tools/blitz_review.py, research/scalp/blitz_review.json, Lab kind"
+  "Edge hunt C, calendar / money-flow timing (2026-11-22, edge-c-calendar-2026-11-22.md, research/edge_hunt/c/edge_c.py): 174 variants on NQ 5m, structural 1-tick stop, LIT size, costs in, per…"
  ],
  "learnings": [
+  {
+   "d": "2026-11-24",
+   "who": "dev",
+   "text": "0 of 8 ideas pass. The base rates are kept: they now feed the Brain (journal + market read).",
+   "src": "research/writeups/structure-2026-11-24.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-24",
+   "who": "dev",
+   "text": "Tighter stops from the 1m CISD candle, the 1m entry swing and the 3m FVG cut the stop from ~44-52 pts to 7-22 pts, but at the same dollars at risk every one loses money in Jul-Oct ($8.3k-$14.0k less than live): 40-58% o…",
+   "src": "research/writeups/stops-targets-time-2026-11-24.md",
+   "kind": "rejected"
+  },
+  {
+   "d": "2026-11-24",
+   "who": "dev",
+   "text": "No portfolio beats today (LIT + ATLAS) on both hold-outs.",
+   "src": "research/writeups/portfolio-2026-11-24.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-24",
+   "who": "dev",
+   "text": "The windows are not \"tuning to a time\". They are where these setups work (London open, New York open).",
+   "src": "research/writeups/notime-2026-11-24.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-24",
+   "who": "lit",
+   "text": "- The premise was off: the losers did NOT come at VIX 25+.",
+   "src": "research/writeups/lit-vix-downtrend-2026-11-24.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-24",
+   "who": "dev",
+   "text": "The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026. - ATLAS S/R after 11:00 is the only one pointing the right wa…",
+   "src": "research/writeups/dead-hours-2026-11-24.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-24",
+   "who": "atlas",
+   "text": "It only helps in the bad markets (2025: +$17 / +$90 in 6 months). - Accounts are never \"lost\" on the live code (0% in every case: skip_breach stops a trade that could hit the floor).",
+   "src": "research/writeups/atlas-funded-150-2026-11-24.md",
+   "kind": "finding"
+  },
   {
    "d": "2026-11-23",
    "who": "dev",
@@ -809,62 +858,223 @@
    "text": "Four new families on CME NQ1! 5m RTH (costs in, stops 1 tick beyond structure, $500 a trade, one trade a day), 354 cells counted, hypotheses fixed before the run - LSQ lunch-range squeeze - PM break (with / against / an…",
    "src": "research/writeups/new-strategy-hunt-2026-11-17.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "dev",
-   "text": "78 MFFU help-center articles and the plan pages checked against what the bots do (values in research/lit/mffu_rules.json).",
-   "src": "research/writeups/mffu-rules-audit-2026-11-17.md",
-   "kind": "finding"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "lit",
-   "text": "LIT was tuned on 2026 Jan-Jun and makes about $0 in 2021-25.",
-   "src": "research/writeups/lit-walkforward-2026-11-17.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "lit",
-   "text": "None is better in both halves.",
-   "src": "research/writeups/lit-smart-entries-2026-11-17.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "lit",
-   "text": "Night helper 2026-11-17 (night-gex).",
-   "src": "research/writeups/lit-regime-sizing-2026-11-17.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "atlas",
-   "text": "Funded 25K (MFFU Builder 25K funded rules = engine/funded_life builder25k - $1,000 EOD trailing, payouts above the $1,100 buffer, $250 min / $1,000 max, 80%, 50% consistency, 2 days a cycle, 5 payouts), a fresh funded s…",
-   "src": "research/writeups/funded25-lit-atlas-2026-11-17.md",
-   "kind": "candidate"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "dev",
-   "text": "Re-buy = the research slot logic (a failed eval is bought again at once, a lost funded starts a fresh eval). 6-month cash after fees, splits and 30% tax pot (mean, 5 accounts) $28,568 Jul-Oct-like / $54,349 Jan-Jun-like…",
-   "src": "research/writeups/fleet-plan-2026-11-17.md",
-   "kind": "plan"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "dev",
-   "text": "tools/edge_health.py - research/lab/edge_health.json: a GREEN / AMBER / RED light from LIT's last 40 sessions against the 2026 Jan-Jun and 2021-25 spreads.",
-   "src": "research/writeups/edge-health-2026-11-17.md",
-   "kind": "finding"
   }
  ],
  "lessons": [
   {
+   "text": "Tighter stops from the 1m CISD candle, the 1m entry swing and the 3m FVG cut the stop from ~44-52 pts to 7-22 pts, but at the same dollars at risk every one loses money in Jul-Oct ($8.3k-$14.0k less than live): 40-58% o…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/stops-targets-time-2026-11-24.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "No portfolio beats today (LIT + ATLAS) on both hold-outs.",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/portfolio-2026-11-24.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "- The premise was off: the losers did NOT come at VIX 25+.",
+   "cat": "NQ strategy",
+   "who": "lit",
+   "d": "2026-11-24",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/lit-vix-downtrend-2026-11-24.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026. - ATLAS S/R after 11:00 is the only one pointing the right wa…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/dead-hours-2026-11-24.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Walk-forward portfolio of every stored run + 24-hour coverage (2026-11-24, portfolio-2026-11-24.md, research/portfolio/, pre-registered DESIGN.md): 1,983 runs, 508 pass the PICK rule (2021-…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Time windows removed (2026-11-24, notime-2026-11-24.md, research/notime/, pre-registered DESIGN.md): LIT entries 18:00-15:30 (whole day) vs 02:00-15:30: -$10,511 / +$27,310 / +$9,644 vs +$1…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Stops x targets x TIME (2026-11-24, stops-targets-time-2026-11-24.md, tools/stops_targets_time.py, Lab research/lab/stops_targets.json): 19 pre-registered variants on the live LIT trades, r…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Pro / institutional edges (2026-11-24, proedge-2026-11-24.md, code research/proedge/, design pre-registered 64639bf64): 17 variants, 0 pass. EOD rebalancing flow (LETF / Baltussen, 15:30-15…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Personal futures account vs MFFU (2026-11-24, ownacct-2026-11-24.md, research/ownacct/, pre-registered DESIGN.md): LIT + ATLAS, fixed-fractional, $1.24 RT, whole micros. $25k at 0.5%: +$49…",
+   "cat": "NQ strategy",
+   "who": "atlas",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Market structure: expansion / retracement (2026-11-24, structure-2026-11-24.md, research/structure/, pre-registered DESIGN.md): 8 variants, costs in. Standalone (NQ 5m, $500 risk, stop 1 ti…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
    "text": "Tested and rejected: Market Learn weekly trial #1 (2026-11-24, engine/market_learn.py, research/learn/trials.json): BLITZ half size when the",
    "cat": "NQ strategy",
    "who": "blitz",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: LIT high-VIX downtrend (2026-11-24, lit-vix-downtrend-2026-11-24.md, research/litvix/, pre-registered DESIGN.md): after 0 real winners in 7 live-window twin trades (NQ 31k - 25k). V1 longs…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Dead hours per pillar (2026-11-24, dead-hours-2026-11-24.md, research/hours/, pre-registered DESIGN.md): worst 1-3 half-hour window per book picked on 2021-24 only (PF 0.8, 20+ trades), tes…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Bad-case plan (2026-11-24, badcase-2026-11-24.md, research/badcase/, pre-registered DESIGN.md, rank.py engine + a 2025 market): in a 2025-like / 2021-25 market every MFFU plan loses ($-236…",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-24",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-24"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: ATLAS funded 25K at ~$150 a trade, live sizing path (2026-11-24, atlas-funded-150-2026-11-24.md, research/atlasfund/): cap $150 / funded_room_pct 0.15 vs today's preset on engine/account_b.…",
+   "cat": "NQ strategy",
+   "who": "atlas",
    "d": "2026-11-24",
    "kind": "rejected",
    "strength": 1,
@@ -940,21 +1150,6 @@
    "sources": [
     {
      "src": "research/writeups/orderflow-2026-11-23.md",
-     "d": "2026-11-23"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Popular classic strategies (2026-11-23, popular-classic-2026-11-23.md, tools/popular_classic.py, research/lab/popular_classic.json):",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-11-23",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-23"
     }
    ]
@@ -1056,21 +1251,6 @@
    "d": "2026-11-22",
    "kind": "rejected",
    "strength": 1,
-   "merged": 2,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-22"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Edge hunt C, calendar / money-flow timing (2026-11-22, edge-c-calendar-2026-11-22.md, research/edge_hunt/c/edge_c.py): 174 variants on NQ 5m, structural 1-tick stop, LIT size, costs in, per…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-22",
-   "kind": "rejected",
-   "strength": 1,
    "merged": 1,
    "sources": [
     {
@@ -1080,7 +1260,7 @@
    ]
   },
   {
-   "text": "Tested and rejected: 2026-11-22 Regime guard round 3 (research/regime/guard3.py, regime-guard3-2026-11-22.md): shadow-setup hit rate R1, intraday variance ratio R2, trend-day share R3, thin volume R4, NQ-VIX co…",
+   "text": "Tested and rejected: Edge hunt C, calendar / money-flow timing (2026-11-22, edge-c-calendar-2026-11-22.md, research/edge_hunt/c/edge_c.py): 174 variants on NQ 5m, structural 1-tick stop, LIT size, costs in, per…",
    "cat": "NQ strategy",
    "who": "dev",
    "d": "2026-11-22",
@@ -1309,51 +1489,6 @@
    ]
   },
   {
-   "text": "Tested and rejected: Zlarior edge, 5 pre-registered ideas (2026-11-20, lit-edge-2026-11-20.md, tools/research/litedge.py,",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-20",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-20"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Payday levers + cross-bot loss cuts (2026-11-20, payday-plan-2026-11-20.md, tools/money/payday_plan.py,",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-11-20",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-20"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: ATLAS real-fill fixes (2026-11-20, atlas-fills-2026-11-20.md, tools/atlas_fills.py, research/second/atlas_fills.json,",
-   "cat": "NQ strategy",
-   "who": "atlas",
-   "d": "2026-11-20",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 3,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-20"
-    }
-   ]
-  },
-  {
    "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
    "cat": "money",
    "who": "chrysos",
@@ -1413,21 +1548,6 @@
    "sources": [
     {
      "src": "research/writeups/one-account-combo-final-2026-11-19.md",
-     "d": "2026-11-19"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Zlarior more money, 2 pre-registered batches (2026-11-19, lit-more-money-2026-11-19.md, tools/lit_more_money.py,",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-19",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-19"
     }
    ]
@@ -1511,21 +1631,6 @@
    "sources": [
     {
      "src": "research/writeups/atlas-health-2026-11-18.md",
-     "d": "2026-11-18"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: BLITZ review (2026-11-18, blitz-review-2026-11-18.md, tools/blitz_review.py, research/scalp/blitz_review.json, Lab kind",
-   "cat": "NQ strategy",
-   "who": "blitz",
-   "d": "2026-11-18",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-18"
     }
    ]
@@ -1691,130 +1796,17 @@
      "d": "2026-11-15"
     }
    ]
-  },
-  {
-   "text": "Each hypothesis was written before the run, with a new angle against the rejected list.",
-   "cat": "NQ strategy",
-   "who": "blitz",
-   "d": "2026-11-13",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/nq-new-strategies-2026-11-13.md",
-     "d": "2026-11-13"
-    }
-   ]
-  },
-  {
-   "text": "Two-week 80% from here passes Zlarior in 2 weeks 35/40% of the time but fails it 41/42% of the time and is worth $2,617 / $2,697 per eval.",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-13",
-   "kind": "proposal",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/eval-guard-2026-11-13.md",
-     "d": "2026-11-13"
-    }
-   ]
-  },
-  {
-   "text": "No edge found. None of them beat the noise bar on the training data, so none was carried forward.",
-   "cat": "Kalshi",
-   "who": "kalshi",
-   "d": "2026-11-11",
-   "kind": "rejected",
-   "strength": 3,
-   "merged": 2,
-   "sources": [
-    {
-     "src": "research/writeups/kalshi_edge_C.md",
-     "d": "2026-11-11"
-    },
-    {
-     "src": "research/writeups/kalshi_edge_B.md",
-     "d": "2026-11-10"
-    },
-    {
-     "src": "research/writeups/kalshi_edge_A.md",
-     "d": "2026-11-10"
-    }
-   ]
-  },
-  {
-   "text": "None gives an edge that survives fees, a held-out block and a second asset.",
-   "cat": "Kalshi",
-   "who": "kalshi",
-   "d": "2026-11-10",
-   "kind": "rejected",
-   "strength": 3,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/kalshi_edge_C.md",
-     "d": "2026-11-11"
-    },
-    {
-     "src": "research/writeups/kalshi_edge_B.md",
-     "d": "2026-11-10"
-    },
-    {
-     "src": "research/writeups/kalshi_edge_A.md",
-     "d": "2026-11-10"
-    }
-   ]
-  },
-  {
-   "text": "ATLAS (EMA + MACD + S/R) and BLITZ (noise-area scalp) re-tested for the 25K accounts with 43 BLITZ and 29 ATLAS versions (stop multiple, entry window, daily loss cap, trades a day, hold time, breakeven, trail, day filte…",
-   "cat": "NQ strategy",
-   "who": "atlas",
-   "d": "2026-11-04",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/2026-11-04_second_strategies_night.md",
-     "d": "2026-11-04"
-    }
-   ]
-  },
-  {
-   "text": "Run all three accounts at once (LIT 50K, ATLAS 25K, BLITZ 25K): buying all three on day 1 beats every staggered order, and the fees are only $198. - Then: LIT on the 50K second: the biggest total ($6,549 in 12 months) b…",
-   "cat": "money",
-   "who": "chrysos",
-   "d": "2026-11-04",
-   "kind": "finding",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/2026-11-04_money_roadmap.md",
-     "d": "2026-11-04"
-    }
-   ]
-  },
-  {
-   "text": "Part A closes the open items from the Plutus fix - lit_funded_firms.py rerun with today's live trades and the live presets (eval room 0.8, funded 60% / = $1,500 / winner = $2,000), the Builder 25K row refreshed, BLITZ g…",
-   "cat": "NQ strategy",
-   "who": "lit",
-   "d": "2026-11-04",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/2026-11-04_lit_ideas_round3.md",
-     "d": "2026-11-04"
-    }
-   ]
   }
  ],
  "changed": [
+  {
+   "text": "The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
+   "was": "",
+   "d": "2026-11-24",
+   "who": "dev",
+   "cat": "NQ strategy",
+   "src": "research/writeups/dead-hours-2026-11-24.md"
+  },
   {
    "text": "This matches the earlier finding that SMT does not mark better LIT trades.",
    "was": "",
@@ -1902,17 +1894,97 @@
    "who": "dev",
    "cat": "NQ strategy",
    "src": "research/writeups/second-md.md"
-  },
-  {
-   "text": "NY-only windows in general did not hold in H2.",
-   "was": "",
-   "d": "2026-10-22",
-   "who": "dev",
-   "cat": "NQ strategy",
-   "src": "research/writeups/second-ema.md"
   }
  ],
  "events": [
+  {
+   "t": 1795521600,
+   "who": "lit",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): LIT in high-VIX falling markets: bad luck or a losing regime? (2026-11-24)",
+   "src": "research/writeups/lit-vix-downtrend-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: The BAD case: what to buy and what to do if the market turns 2025-like (2026-11-24)",
+   "src": "research/writeups/badcase-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Live vs backtest: where the money went (2026-11-24)",
+   "src": "research/writeups/livegap-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: A personal futures account vs the MFFU prop path (2026-11-24)",
+   "src": "research/writeups/ownacct-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (research): Pro / institutional edges (EOD rebalancing flow, gamma-sign momentum, overnight-vs-intraday, a causal LIT exp…",
+   "src": "research/writeups/proedge-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (rejected): \"Stops x targets x TIME: smaller stops and take-profits from other timeframes, and TIME x PRICE\"",
+   "src": "research/writeups/stops-targets-time-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Market structure: expansion and retracement base rates + 8 pre-registered ideas (2026-11-24)",
+   "src": "research/writeups/structure-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Do the time windows add money? (2026-11-24)",
+   "src": "research/writeups/notime-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Dead hours per pillar: are 05:00-06:30 and 11:00 really bad? (2026-11-24)",
+   "src": "research/writeups/dead-hours-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): 24-hour coverage + a walk-forward portfolio of everything built (2026-11-24)",
+   "src": "research/writeups/portfolio-2026-11-24.md"
+  },
+  {
+   "t": 1795521600,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): ATLAS funded 25K at ~$150 a trade, on the LIVE sizing code (2026-11-24)",
+   "src": "research/writeups/atlas-funded-150-2026-11-24.md"
+  },
   {
    "t": 1795435200,
    "who": "dev",
@@ -3904,94 +3976,6 @@
    "ok": true,
    "text": "Write-up (rejected): LIT + retail tools as confluence and size - EMAs, MACD, support / resistance, supply / demand",
    "src": "research/writeups/lit-retail-confluence.md"
-  },
-  {
-   "t": 1792584000,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (info): LIT performance checks - is live inside the expected range, how robust is the live config, exit efficiency, a…",
-   "src": "research/writeups/lit-robust.md"
-  },
-  {
-   "t": 1792584000,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (descriptive): LIT trade intelligence - every trade with ~60 facts, and what winners and losers have in common",
-   "src": "research/writeups/lit-trade-intel.md"
-  },
-  {
-   "t": 1792584000,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (research): What other trading bots and trader tools do better than ours - 40 features compared, the 15 worth building, a…",
-   "src": "research/writeups/competitor-features.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT with bias and discretion - 12 daily-bias methods, an A+ checklist and meta-labeling as size, target or fi…",
-   "src": "research/writeups/lit-bias-discretion.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT market context - dealer gamma, vanna, the VIX term structure, the options calendar and the 0DTE move as s…",
-   "src": "research/writeups/lit-market-context.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT gap audit - every LIT idea tested so far, what was still untested, and the top 10 untested ideas run on l…",
-   "src": "research/writeups/lit-gap-audit.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT batch 3b - ES confirmation, NQ/ES strength, structure breakeven, 10:00 day type, Asia / London range, new…",
-   "src": "research/writeups/lit-batch3b.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT batch 3a - ICT macros, volume, delta, sweep rejection, speed, level age / touches, equal highs-lows, roun…",
-   "src": "research/writeups/lit-batch3a.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): LIT funded accounts on the new live LIT (t_check + scale-in + BE+1.25) - what to buy, in what order, and what…",
-   "src": "research/writeups/lit-funded-combo.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (info): Prop-firm discount codes, October 2026 - MFFU, Lucid Trading (LucidPro), FundedNext Futures",
-   "src": "research/writeups/prop-codes-2026-10.md"
-  },
-  {
-   "t": 1792497600,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (info): Prop firm hub - every bot-friendly plan's rules, prices, codes, payouts and live-account rules, with LIT's nu…",
-   "src": "research/writeups/prop-firms-hub.md"
   }
  ],
  "pipeline": {
@@ -4250,49 +4234,49 @@
   {
    "name": "CBOE_vol_1d.csv",
    "last": "2026-09-17",
-   "days": 67,
+   "days": 68,
    "file": "data/CBOE_vol_1d.csv"
   },
   {
    "name": "ES_15m.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/ES_15m.csv"
   },
   {
    "name": "ES_1d.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/ES_1d.csv"
   },
   {
    "name": "ES_1h.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/ES_1h.csv"
   },
   {
    "name": "ES_5m.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/ES_5m.csv"
   },
   {
    "name": "GEX_1d.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/GEX_1d.csv"
   },
   {
    "name": "NQ_1d.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/NQ_1d.csv"
   },
   {
    "name": "tv_mnq_5m_2026-10-16.csv",
    "last": "2026-10-16",
-   "days": 38,
+   "days": 39,
    "file": "data/tv_mnq_5m_2026-10-16.csv"
   }
  ],
@@ -4373,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795523340,
+   "t": 1795565220,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4395,104 +4379,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795523257,
-    "s": "Version bumps for pillars3 pages"
+    "t": 1795563446,
+    "s": "live.unrouted_exit_skip: any open leg of ours (or has_open_bracket) blocks the skip (red team #4 one-liner);…"
    },
    {
-    "t": 1795523137,
-    "s": "Root sw v213 (pillars3 home-screen kits)"
+    "t": 1795561231,
+    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt' into land-1123"
    },
    {
-    "t": 1795523027,
-    "s": "Merge remote-tracking branch 'olympus/day-pillars3' into land-1123"
+    "t": 1795561187,
+    "s": "Red team day-zeroerr (ledgerfix): the pre-eval_start skip in multi_account._process only when the account doe…"
    },
    {
-    "t": 1795522940,
-    "s": "day-pillars3: real market lessons in the pillars panel + Home Screen kit fixes (homescreen 6/6)"
-   },
-   {
-    "t": 1795522891,
-    "s": "Merge remote-tracking branch 'olympus/day-pillars2' into land-1123"
-   },
-   {
-    "t": 1795522644,
-    "s": "Land Four Pillars hero/3D (day-pillars2) + lead wires: gate catalog row, root sw v212, bump cascade, pillars…"
-   },
-   {
-    "t": 1795522610,
-    "s": "day-pillars2: real market lessons from research/learn/insights.json; empty pillar says Waiting"
-   },
-   {
-    "t": 1795522407,
-    "s": "Merge remote-tracking branch 'origin/pc' into day-pillars2"
-   },
-   {
-    "t": 1795522400,
-    "s": "Merge remote-tracking branch 'olympus/day-pillars2' into land-1123"
-   },
-   {
-    "t": 1795522374,
-    "s": "day-pillars2: Four Pillars hero on Home, Zenith, NQ + 3D/effects pass + market lessons panel"
-   },
-   {
-    "t": 1795521458,
-    "s": "Publish pillars/ (build_web_dashboard app list): the Four Pillars page was 404 on the live site"
-   },
-   {
-    "t": 1795521291,
+    "t": 1795561130,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795521213,
-    "s": "Rebuild hub data after market-learn landing"
+    "t": 1795561123,
+    "s": "STATE: PC update blocker root cause + the one line"
    },
    {
-    "t": 1795521073,
-    "s": "day-marketlearn: shared Market Learn for the 4 pillars (seed from the 3 backtests, lessons vs chance, weekly…"
+    "t": 1795559946,
+    "s": "generated_files: research/orderflow/results.json is bot-made (tickrec autopilot); it held the PC update back…"
    },
    {
-    "t": 1795496867,
-    "s": "day-pillars-fix: test_nq_page 71/71 on the landed Four Pillars (44 px taps, no extra data read, the BLITZ rul…"
+    "t": 1795558565,
+    "s": "FAILURE_MAP: the two ledger bugs (rows 30b, 30c) and the armed record"
    },
    {
-    "t": 1795496564,
-    "s": "Four Pillars landing: launcher/app-list versions in step, PC shell v63, zenith OTHER_APPS pin"
+    "t": 1795557902,
+    "s": "day-unstick round 2: old-code route audit (no remote reset path), scheduled tasks/boot, pre-emptive chain can…"
    },
    {
-    "t": 1795495999,
-    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+    "t": 1795557796,
+    "s": "day-unstick: merge the pre-emptive version-cycle chain (84 commits on pc 1ea04f047, net tree change none) for…"
    },
    {
-    "t": 1795495986,
-    "s": "Land the Four Pillars: page + Brain regroup + NQ strip + hub filter; lead wires (apps row, sw OTHER_APPS, shi…"
+    "t": 1795557768,
+    "s": "day-unstick: put the current pc version back (end of the version cycle; tree == origin/pc): the PC's old auto…"
    },
    {
-    "t": 1795495761,
-    "s": "Merge the earlier day-pillars push (99070769a, before the rebase onto 42f4cf537); tree = the rebased branch"
+    "t": 1795557768,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 36/36 (zero-touch update match for the PC's old…"
    },
    {
-    "t": 1795495755,
-    "s": "day-pillars: research/lab/pillars.json (the lead's four-pillars research) is the data source"
+    "t": 1795557768,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 35/36 (zero-touch update match for the PC's old…"
    },
    {
-    "t": 1795495467,
-    "s": "day-pillars: THE FOUR PILLARS (LIT, ATLAS, BLITZ, ORDER FLOW) as the organising idea of the trading side"
+    "t": 1795557768,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 34/36 (zero-touch update match for the PC's old…"
    },
    {
-    "t": 1795495422,
-    "s": "day-pillars: THE FOUR PILLARS (LIT, ATLAS, BLITZ, ORDER FLOW) as the organising idea of the trading side"
+    "t": 1795557768,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 33/36 (zero-touch update match for the PC's old…"
    },
    {
-    "t": 1795494091,
-    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+    "t": 1795557768,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 32/36 (zero-touch update match for the PC's old…"
    },
    {
-    "t": 1795494085,
-    "s": "Rebuild hub data after four-pillars research"
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 31/36 (zero-touch update match for the PC's old…"
    },
    {
-    "t": 1795494062,
-    "s": "Four pillars research (paper only): research/lab/pillars.json + four-pillars-2026-11-23.md; BLITZ Rapid 25K e…"
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 30/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 29/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 28/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 27/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 26/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 25/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 24/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 23/36 (zero-touch update match for the PC's old…"
+   },
+   {
+    "t": 1795557767,
+    "s": "day-unstick: tools/web_public/business/decisions.json version 22/36 (zero-touch update match for the PC's old…"
    }
   ],
   "branches": [

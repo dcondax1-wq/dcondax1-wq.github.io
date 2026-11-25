@@ -128,7 +128,7 @@
         g.globalAlpha = (0.5 + 0.3 * Math.sin(t * 0.0005 + i)) * it; g.drawImage(beam, 0, -(20 + i * 10), h * 0.95, 40 + i * 20); g.restore();
       }
       g.globalCompositeOperation = 'source-over';
-      if (T.c) {                              // the temple rises from its steps, then sits a little farther away than the page (parallax)
+      if (T.c && !d.documentElement.hasAttribute('data-temple3d')) {   // the temple rises from its steps (not when the Four Pillars' 3D temple stands there: pillars/hero.js), then sits a little farther away than the page (parallax)
         var tw = T.w, th = T.h, x0 = w - tw * 0.94 - px * 7, y0 = h * 0.035 + s * 0.42 - py * 4, rh = th * tt;
         if (rh > 1) { g.globalAlpha = (L ? 0.4 : 0.34) * (0.4 + 0.6 * tt); g.drawImage(T.c, 0, (th - rh) * dpr, tw * dpr, rh * dpr, x0, y0 + th - rh, tw, rh); }
       }

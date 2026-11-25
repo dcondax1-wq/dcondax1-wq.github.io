@@ -48,7 +48,7 @@ const RING_MAX = 4;
 // olympus/doors.js (the source) and atlas/atlas.js zones (tests.test_apps_list + tests.test_jarvis_home_agora keep them equal). An app in no list: its
 // group (trading = ZEUS, money = Money), else More. (jarvis/districts.js keeps the five old districts for the home courtyard's doorways only.)
 const DIST = [
-  { id: 'zeus', title: 'ZEUS Trading', colour: '#c8a24a', ids: ['pillars', 'zenith', 'nq', 'board', 'why', 'trading', 'aegis', 'pnyx', 'demeter', 'labyrinth', 'fates', 'moirai', 'odeon', 'nemesis', 'kronos', 'apollo', 'journal', 'kratos', 'epilogue', 'ares', 'argus', 'oracle', 'pantheon', 'pythia', 'pheme', 'kairos', 'chronos', 'forum', 'delphi'] },
+  { id: 'zeus', title: 'ZEUS Trading', colour: '#c8a24a', ids: ['brain', 'warroom', 'pillars', 'zenith', 'nq', 'board', 'why', 'trading', 'aegis', 'pnyx', 'demeter', 'labyrinth', 'fates', 'moirai', 'odeon', 'nemesis', 'kronos', 'apollo', 'journal', 'kratos', 'epilogue', 'ares', 'argus', 'oracle', 'pantheon', 'pythia', 'pheme', 'kairos', 'chronos', 'forum', 'delphi'] },
   { id: 'money', title: 'Money', colour: '#7f8a52', ids: ['business', 'widget', 'ledger', 'hera', 'plutus', 'chrysos', 'oikos', 'agency', 'mercury', 'mint', 'mintcity', 'harmonia', 'hermes', 'argo', 'arbiter'] },
   { id: 'kalshi', title: 'Kalshi', colour: '#b5a642', ids: ['kalshi', 'dionysus', 'kalshicity', 'sibyl', 'tyche'] },
   { id: 'more', title: 'More', colour: '#9c6b3c', ids: ['compass', 'helios', 'herald', 'stoa', 'hestia', 'inbox', 'planner', 'mind', 'arena', 'athena', 'lyceum', 'nike', 'gallery', 'polis', 'symposium', 'ergasterion', 'settings', 'bridge', 'atlas', 'cities', 'datacity', 'observatory', 'tree', 'prometheus', 'hephaestus', 'clio', 'archive', 'pinakes', 'colosseum'] },

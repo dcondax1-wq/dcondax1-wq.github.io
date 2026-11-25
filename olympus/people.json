@@ -2996,6 +2996,48 @@
    "appName": "Widget"
   },
   {
+   "id": "villager:warroom",
+   "name": "Evander Δ",
+   "title": "Lives in War Room",
+   "kind": "villager",
+   "area": "trading",
+   "app": "warroom",
+   "seed": 2029242720,
+   "temperament": "calm",
+   "voice": {
+    "pitch": 1.28,
+    "rate": 0.95
+   },
+   "sources": [],
+   "home": {
+    "scene": "athens",
+    "place": "warroom"
+   },
+   "bio": "Every NQ bot, every step, live: what it waits for and how close a trade is",
+   "appName": "War Room"
+  },
+  {
+   "id": "villager:brain",
+   "name": "Kosmas Ζ",
+   "title": "Lives in The Brain",
+   "kind": "villager",
+   "area": "trading",
+   "app": "brain",
+   "seed": 2890642081,
+   "temperament": "blunt",
+   "voice": {
+    "pitch": 1.05,
+    "rate": 0.92
+   },
+   "sources": [],
+   "home": {
+    "scene": "athens",
+    "place": "brain"
+   },
+   "bio": "Every bot as one 3D brain: next trade, chart, thinking",
+   "appName": "The Brain"
+  },
+  {
    "id": "villager:clio",
    "name": "Galene Γ",
    "title": "Lives in Clio",
