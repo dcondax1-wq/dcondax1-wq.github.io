@@ -74,11 +74,31 @@
     if (b.until) o.until = b.until;
     return o;
   }
+  // day-zerotouch2 #5/#6: add an account (held, never armed) and queue a switch for the next START's phrase
+  const PLANS = [['builder50k', 'MFFU Builder 50K'], ['builder25k', 'MFFU Builder 25K'], ['rapideod', 'MFFU Rapid EOD 50K'],
+    ['rapideod25', 'MFFU Rapid EOD 25K'], ['lucidpro50k', 'LucidPro 50K']];
+  const SWITCHES = [['combo_on', "ATLAS on Zlarior's 50K (the combo)"], ['blitz_on', 'BLITZ armed on its own 25K']];
+  const NAME_OK = /^[A-Za-z0-9][A-Za-z0-9 ._-]{2,59}$/;   // = engine/remote_ctl.ADD_NAME_RE
+  function stamp(cmd, nowS, rnd) {
+    const ts = Math.floor(num(nowS) || Date.now() / 1000), r = String(rnd || Math.random().toString(36).slice(2, 6)).replace(/[^a-z0-9]/gi, '').slice(0, 6) || 'x';
+    return { id: `${cmd}-${ts}-${r}`, ts, cmd };
+  }
+  /** -> the command, or {error} (checked here AND again on the PC) */
+  function buildAdd(plan, name, funded, nowS, rnd) {
+    const n = String(name || '').trim();
+    if (!PLANS.some((p) => p[0] === plan)) return { error: 'Pick the plan' };
+    if (!NAME_OK.test(n)) return { error: 'Type the account Name exactly as NinjaTrader shows it' };
+    return { ...stamp('add_account', nowS, rnd), plan, name: n, funded: !!funded };
+  }
+  function buildSwitch(key, nowS, rnd) {
+    if (!/^(combo_on|blitz_on|lane:[a-z][a-z0-9_]{1,30})$/.test(String(key || ''))) return { error: 'Unknown switch' };
+    return { ...stamp('switch', nowS, rnd), key };
+  }
   /** GitHub's new-file page with the file name and the command filled in: the owner taps Commit (one tap) */
   function newFileUrl(repo, cmd) {
     if (!repoOk(repo) || !cmd) return '';
     const json = JSON.stringify(cmd, null, 1);
     return `https://github.com/${String(repo).trim()}/new/control?filename=${encodeURIComponent('control/inbox/' + cmd.id + '.json')}&value=${encodeURIComponent(json)}`;
   }
-  return { PC_FRESH_S, BUTTONS, model, build, newFileUrl, repoOk, pcState, postT };
+  return { PC_FRESH_S, BUTTONS, PLANS, SWITCHES, model, build, buildAdd, buildSwitch, newFileUrl, repoOk, pcState, postT };
 }));

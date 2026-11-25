@@ -49,6 +49,21 @@
     if (ed) ed.onclick = () => { setRepo(''); renderButtons(); };
   }
 
+  function send(cmd) {
+    if (!cmd || cmd.error) { toast((cmd && cmd.error) || 'Not sent', 3500); return; }
+    const repo = getRepo();
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(JSON.stringify(cmd, null, 1)).catch(() => null);
+    if (!repo) { toast('First type your backup repo above (account/olympus), then tap again', 4500); return; }
+    window.open(C.newFileUrl(repo, cmd), '_blank', 'noopener');
+    toast('GitHub opens: tap Commit changes. The PC answers on your phone within about a minute.', 4000);
+  }
+  function renderExtra() {
+    $('addPlan').innerHTML = C.PLANS.map((p) => `<option value="${esc(p[0])}">${esc(p[1])}</option>`).join('');
+    $('addGo').onclick = () => send(C.buildAdd($('addPlan').value, $('addName').value, $('addFunded').checked, Date.now() / 1000));
+    $('sws').innerHTML = C.SWITCHES.map((x) => `<button type="button" class="btn" data-sw="${esc(x[0])}"><b>${esc(x[1])}</b><span>Turns on at your next START</span></button>`).join('');
+    $('sws').onclick = (e) => { const b = e.target.closest('[data-sw]'); if (b) send(C.buildSwitch(b.dataset.sw, Date.now() / 1000)); };
+  }
+
   async function load() {
     try {
       const F = window.PC_FEED;
@@ -61,6 +76,7 @@
     document.documentElement.dataset.ready = '1';
   }
   renderButtons();
+  renderExtra();
   render();
   load();
   setInterval(load, 60000);

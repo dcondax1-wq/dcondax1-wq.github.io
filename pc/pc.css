@@ -37,3 +37,5 @@ h2 { margin: 0 0 10px; font-size: 15px; color: var(--gold); text-transform: uppe
   padding: 10px 16px; border-radius: 12px; opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100% - 32px); }
 .toast.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .card, .btn { transition: none; transform: none; } }
+.in { width: 100%; min-height: 44px; border-radius: 12px; border: 1px solid var(--ln2); background: #0c0a12; color: var(--tx); padding: 8px 12px; font: inherit; margin: 4px 0 8px; }
+#addGo { margin-top: 10px; }

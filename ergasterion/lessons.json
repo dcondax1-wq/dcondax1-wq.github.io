@@ -2,7 +2,7 @@
  "v": 1,
  "name": "Ergasterion lessons",
  "asof": "2026-11-25",
- "say": "This week we wrote down 48 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
+ "say": "This week we wrote down 49 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
  "week": [
   {
    "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
@@ -33,6 +33,15 @@
    "sources": [
     "research/writeups/lit-more-money-2026-11-19.md",
     "research/writeups/atlas-more-money-2026-11-19.md"
+   ]
+  },
+  {
+   "text": "p 0.05: 26 real vs 20.0 by chance = noise level.",
+   "cat": "process",
+   "d": "2026-11-25",
+   "strength": 1,
+   "sources": [
+    "research/writeups/ict-lab2-2026-11-25.md"
    ]
   },
   {
@@ -69,15 +78,6 @@
    "strength": 1,
    "sources": [
     "research/writeups/ideamill-v3-2026-11-25.md"
-   ]
-  },
-  {
-   "text": "As their own strategy, 11 of the 12 ICT concepts lose money in at least 2 of the 5 years (PO3 is green 4 of 5 but trades 0.16 a week for +$370 in 5 years), and 16 of the 23 standalone rules lose money in 2026 as well.",
-   "cat": "process",
-   "d": "2026-11-25",
-   "strength": 1,
-   "sources": [
-    "research/writeups/ict-lab-2026-11-25.md"
    ]
   }
  ],
@@ -154,12 +154,12 @@
    ]
   },
   {
-   "text": "Tested and rejected: More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…",
-   "cat": "NQ strategy",
+   "text": "p 0.05: 26 real vs 20.0 by chance = noise level.",
+   "cat": "process",
    "d": "2026-11-25",
    "strength": 1,
    "sources": [
-    "docs/TESTED_AND_REJECTED.md"
+    "research/writeups/ict-lab2-2026-11-25.md"
    ]
   }
  ],
@@ -208,10 +208,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 40,
+  "NQ strategy": 39,
   "Kalshi": 0,
   "money": 1,
-  "process": 19,
+  "process": 20,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

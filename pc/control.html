@@ -15,12 +15,12 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="control.webmanifest">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="pc.css?v=1">
+<link rel="stylesheet" href="pc.css?v=2">
 <!-- PC CONTROL (day-zerotouch2 2026-11-24). Reads the PC's status post (pc_feed.js); a button opens GitHub's new-file page with the
      command filled in (control/inbox/<id>.json, branch control: engine/remote_ctl.read_inbox). No token here, nothing sent by this page. -->
 <script src="../pc_feed.js?v=n7"></script>
-<script src="pccore.js?v=1"></script>
-<script src="pc.js?v=1" defer></script>
+<script src="pccore.js?v=2"></script>
+<script src="pc.js?v=2" defer></script>
 </head>
 <body>
 <header class="top">
@@ -35,7 +35,19 @@
   <section class="card"><h2>Buttons</h2>
     <div class="btns" id="btns"></div>
     <p class="note">Tap a button: GitHub opens with the command filled in. Tap <b>Commit changes</b> (twice if GitHub asks). The PC acts within about a minute and your phone gets the result. Update and Restart run only when the bot is flat, never 01:50-16:00 ET on a weekday. Arming real money stays at the PC with the typed phrase.</p>
+    <p class="note" id="tgHint">Faster: reply to your Olympus alert bot on Telegram with <b>/status</b>, <b>/update</b>, <b>/restart</b>, <b>/pause</b> or <b>/resume</b> (your chat only; the answer comes back in ~15 s). Trading, arming, stop and flatten are never done from Telegram.</p>
     <div class="repo" id="repoBox"></div>
+  </section>
+  <section class="card"><h2>Add an account</h2>
+    <label class="note" for="addPlan">Plan</label><select id="addPlan" class="in"></select>
+    <label class="note" for="addName">NinjaTrader account Name (exactly as its Accounts tab shows it)</label>
+    <input id="addName" class="in" type="text" autocapitalize="off" autocomplete="off" spellcheck="false">
+    <label class="note"><input id="addFunded" type="checkbox"> already funded</label>
+    <button type="button" class="btn" id="addGo"><b>Add it (held)</b><span>The PC adds it NOT armed; it joins your next START + phrase</span></button>
+  </section>
+  <section class="card"><h2>Switch on at my next START</h2>
+    <div class="btns" id="sws"></div>
+    <p class="note">Only queued: nothing changes now. Your next START shows it first and the ONE phrase you type turns it on.</p>
   </section>
 </main>
 <div class="toast" id="toast" role="status"></div>
