@@ -557,7 +557,8 @@
     getJSON(base + 'business/decisions.json').then(function (j) { got.dec = j; one(); });   // olympus2: the next thing to decide (the top open Decide card)
     getJSON(base + 'kalshi/k8.json').then(function (j) { got.k8 = j; one(); });             // olympus2: Kalshi K8 today (the live legs' results and the next window)
     getJSON(base + 'kalshi.json').then(function (j) { got.k = j; one(); });
-    getJSON(base + 'me/me.json').then(function (j) { got.me = j; one(); });   // the Me hub's tiles: only the PC's own link serves it (a 404 elsewhere)
+    if (ON_PC) getJSON(base + 'me/me.json').then(function (j) { got.me = j; one(); });   // the Me hub's tiles: only the PC's own link serves it
+    else one();                                                                         // day-site5: the public site never has it (it was a 404 on every Home open)
     getJSON(base + 'money/scoreboard.json').then(function (j) { got.sb = j; one(); });
     getJSON(base + 'hephaestus/jarvis.json').then(function (j) { got.cards.hephaestus = j; one(); });
     getJSON(base + 'plutus/jarvis.json').then(function (j) { got.cards.plutus = j; one(); });

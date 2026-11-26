@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-26 11:30 ET",
+ "built": "2026-11-26 11:49 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 26 11:30 ET",
+ "pc": "PC last reported Nov 26 11:45 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49177.52,
-   "src": "PC live, Nov 26 11:30 ET",
+   "src": "PC live, Nov 26 11:45 ET",
    "room": 1009.32,
    "to_pass": 3822.48,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 26 11:30 ET",
+   "src": "PC live, Nov 26 11:45 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24995.24,
-   "src": "PC live, Nov 26 11:30 ET",
+   "src": "PC live, Nov 26 11:45 ET",
    "room": 995.24,
    "to_pass": 1504.76,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 26 11:30 ET",
+   "src": "PC live, Nov 26 11:45 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Rebuild hub data",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Land NQ Live screen (live trade, accounts, setups, today's trades); sw v219",
-   "NQ Live screen (day-livedash): live trades + where we're at on one phone screen",
-   "Land BLITZ v2 study (retire recommendation); rebuild hub data",
-   "BLITZ v2: 8 pre-registered rebuilds, combined-path + evals; verdict retire as a pillar",
-   "Tax / P&L ledger: tools/tax_ledger.py (payouts + eval fees per account per month - private CSV +...",
-   "BLITZ v2: anatomy on the diagnosis spans + pre-registered variants (before the check runs)",
-   "Land batch5 (ATLAS fills, forecaster, health bands, BLITZ paper); rebuild hub data"
+   "Land site5 (money view, strategy health on the real bands, archive door, faster Home, 44 px Today...",
+   "Eval sizer: mixed-market sensitivity (25%/50% 2026): room 0.3 earns less than today's 0.4, fails...",
+   "Allocation optimizer: 4 accounts x 13 books from today's balances (real engine, joint paths):...",
+   "LIT fragility audit: parameter surface, cost stress, trade-order MC, deflated Sharpe, eval sizing...",
+   "LIT fragility audit: plan before the runs",
+   "Home Today strip: 44 px tap targets (pill inside a 44 px link) with search 152 / dashboards 228 /..."
   ]
  },
  "next": {
@@ -286,6 +286,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 26 11:30 ET"
+  "board_pc": "Nov 26 11:45 ET"
  }
 }

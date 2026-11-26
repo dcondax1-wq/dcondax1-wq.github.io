@@ -83,6 +83,21 @@
   main#app a.back, .mf-links a { color: var(--ag-gold-hi, #dcbd6e); text-decoration: none; font-weight: 600; }
   main#app a.back:active, .mf-links a:active { opacity: .7; }
   html:not(.framed) main#app { padding-bottom: calc(40px + var(--sb, env(safe-area-inset-bottom, 0px))); }
+  /* MONEY VIEW (day-site5): the gauge to pass / to payout, the next payout request, the risk distance (red under $300) */
+  .mv { display: grid; gap: 8px; margin: 0 0 10px; }
+  .mv-g, .mv-f { border-radius: 12px; padding: 9px 11px; background: linear-gradient(160deg, rgba(157,89,238,.10), rgba(255,255,255,.03)); border: 1px solid rgba(157,89,238,.35); }
+  .mv-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .mv-l { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; opacity: .75; }
+  .mv-t { font-size: 1.02rem; font-variant-numeric: tabular-nums; text-align: right; overflow-wrap: anywhere; }
+  .mv-bar { height: 10px; border-radius: 6px; background: rgba(255,255,255,.08); overflow: hidden; margin: 6px 0 3px; }
+  .mv-bar > i { display: block; height: 100%; border-radius: 6px; background: linear-gradient(90deg, #9d59ee, #f1c14b); box-shadow: 0 0 10px rgba(241,193,75,.45); }
+  .mv-g.payout .mv-bar > i { background: linear-gradient(90deg, #9d59ee, #77db89); box-shadow: 0 0 10px rgba(119,219,137,.45); }
+  .mv-s { display: block; font-size: .74rem; opacity: .7; overflow-wrap: anywhere; }
+  .mv-next { margin: 6px 0 0; font-size: .86rem; font-weight: 600; color: #e0c46a; } .mv-next.pos { color: #77db89; }
+  .mv-fc { margin: 6px 0 0; font-size: .84rem; } .mv-fc b { display: block; font-weight: 600; } .mv-fc small { display: block; font-size: .72rem; opacity: .6; }
+  .mv-f.ok .mv-bar > i { background: #77db89; box-shadow: 0 0 8px rgba(119,219,137,.4); } .mv-f.gold .mv-bar > i { background: #f1c14b; }
+  .mv-f.red, .mv-f.gone { border-color: rgba(239,68,68,.7); background: rgba(239,68,68,.08); } .mv-f.red .mv-t, .mv-f.gone .mv-t { color: #ff8a8a; }
+  .mv-f.red .mv-bar > i, .mv-f.gone .mv-bar > i { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,.6); }
 </style>
 <link rel="stylesheet" href="../nqdeep.css?v=2">
 <link rel="stylesheet" href="../nq/nqtheme.css?v=9"><!-- owner 2026-11-20: the navy trading-terminal look, no gold (loaded last) -->
@@ -112,7 +127,8 @@
 <script src="mffucenter.js?v=3"></script>
 <script src="../edge_chip.js?v=1"></script>
 <script src="../nqdeep.js?v=1"></script>
-<script src="mffu.js?v=6"></script>
+<script src="moneyview.js?v=1"></script>
+<script src="mffu.js?v=7"></script>
 <script src="../olympus/nqfx.js?v=n5" defer></script>
 <script src="../trading/panelfx.js?v=2" data-look="night" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
 </body>

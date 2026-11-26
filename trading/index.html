@@ -36,7 +36,7 @@
 <script src="../olympus/gate-nav.js?v=g14" defer></script>
 <link rel="prefetch" href="../olympus/sfx.js?v=s4" as="script"><!-- the sound engine (32 KB gzipped) is not in the deferred chain the page waits on: olympus.js loads it after the page has loaded (its sound bed) or on the first cue -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '200, 162, 74'); })();</script>
-<link rel="stylesheet" href="trading.css?v=6">
+<link rel="stylesheet" href="trading.css?v=7">
 <link rel="stylesheet" href="../nqdeep.css?v=2">
 <link rel="stylesheet" href="../nq/nqdesk.css?v=11">
 <link rel="stylesheet" href="../nq/payready.css?v=2">
@@ -78,6 +78,14 @@
     <div class="row"><h2 id="payReadyH">Payout readiness</h2><span class="pill" id="payReadyPill"></span></div>
     <div id="payReady" class="pr-list"></div>
     <p class="note" id="payReadySrc"></p>
+  </section>
+
+  <!-- STRATEGY HEALTH (day-site5): each bot's live results vs its backtest band, in plain words (trading/health.js + healthcore.js) -->
+  <section class="ag-card card" id="healthCard" aria-labelledby="healthH">
+    <div class="row"><h2 id="healthH">Strategy health</h2></div>
+    <p class="note">Is each bot trading like its backtest? Its last 10 real trades against every 10-trade stretch of the backtest.</p>
+    <div id="healthList" class="hlist"><p class="note">Loading...</p></div>
+    <p class="note hsrc" id="healthSrc"></p>
   </section>
 
   <section class="ag-card card filters" id="filterCard" aria-label="What to show">
@@ -195,6 +203,8 @@
 <script src="../business/payoutcoach.js?v=4"></script>
 <script src="../nqdeep.js?v=1" defer></script>
 <script type="module" src="trading.js?v=20" async></script><!-- async: runs as soon as it and its data are in, not after every deferred kit script (perf) -->
+<script src="healthcore.js?v=1" defer></script>
+<script src="health.js?v=1" defer></script>
 <script src="panelfx.js?v=2" data-look="night" data-burst="1" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
 </body>
 </html>

@@ -7,6 +7,7 @@
   function href(a) { var p = a.path || ''; return '../' + (p === '' ? 'index.html' : /\/$/.test(p) ? p + 'index.html' : p); }
   if (!C || !C.arena) { $('arList').appendChild(el('p', 'ar-empty', 'The list of apps did not load. Go back Home and try again.')); return; }
   var m = /[?&]a=([a-z]+)/.exec(w.location.search || ''), A = C.arena(m ? m[1] : '') || C.arena('nq');
+  if (A.door) d.documentElement.setAttribute('data-door', A.id);
   d.title = A.name + ' · Olympus';
   $('arName').textContent = A.name; $('arLine').textContent = A.line + ' · ' + A.count + ' app' + (A.count === 1 ? '' : 's');
   var F = A.front ? C.byId(A.front) : null;
@@ -17,8 +18,10 @@
     var s = el('section', 'ar-sec'); var h = el('h2', '', sec.name); s.appendChild(h); if (sec.line) s.appendChild(el('p', '', sec.line));
     var ul = el('div', 'ar-list');
     list.forEach(function (a) {
-      var it = el('a', 'ar-item'); it.href = href(a); it.setAttribute('data-app', a.id);
-      var t = el('span'); t.appendChild(el('b', '', a.label)); t.appendChild(el('small', '', a.line)); it.appendChild(t);
+      var it = el('a', 'ar-item'); it.href = href(a) + (a.stay ? '?stay=1' : ''); it.setAttribute('data-app', a.id);   // a retired app: ?stay=1 opens the old page itself
+      var t = el('span'); t.appendChild(el('b', '', a.label)); t.appendChild(el('small', '', a.line));
+      if (a.instead) t.appendChild(el('small', 'ar-now', 'Now on: ' + a.instead.label));   // the Archive door: where its content lives now
+      it.appendChild(t);
       if (a.name && a.name !== a.label) it.appendChild(el('i', '', a.name));
       ul.appendChild(it);
     });
@@ -26,4 +29,5 @@
   });
   if (!box.firstChild && !F) box.appendChild(el('p', 'ar-empty', 'Nothing here yet.'));
   C.arenas.forEach(function (x) { if (x.id === A.id) return; var a = el('a', '', x.name); a.href = 'arena.html?a=' + x.id; $('arOthers').appendChild(a); });
+  if (C.ARCHIVE_DOOR && A.id !== 'archive') { var z = el('a', 'ar-arch', C.ARCHIVE_DOOR.name); z.href = 'arena.html?a=archive'; z.setAttribute('aria-label', 'Archive: old, duplicate and retired apps'); $('arOthers').appendChild(z); }   // day-site5
 }());

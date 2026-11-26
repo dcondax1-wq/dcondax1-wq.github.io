@@ -19,3 +19,7 @@ h2 { margin: 22px 0 8px; font: 600 1.05rem/1.2 "Iowan Old Style", Palatino, Geor
 .ar-chips a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card2); color: var(--text); text-decoration: none; font-weight: 600; }
 a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 .ar-empty { color: var(--muted); }
+/* day-site5: the Archive door (hub/arena.html?a=archive): where each archived / retired app's content lives now; its chip under "The other arenas" */
+.ar-item small.ar-now { color: var(--gold, #f1c14b); font-weight: 600; margin-top: 2px; }
+.ar-chips a.ar-arch { border-style: dashed; color: var(--muted); }
+.ar-front[hidden] { display: none; }   /* day-site5: an arena with no front page (Everything else, the Archive door) drew an empty card */

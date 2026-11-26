@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-26",
  "number": 2,
- "built": "2026-11-26T16:30:20Z",
+ "built": "2026-11-26T16:49:16Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -673,9 +673,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 275 write-ups.",
-    "The newest lesson on file, dated 2026-11-26, reads: E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
-    "It was filed under \"finding\" and comes from research/writeups/entry-fine-2026-11-26.md."
+    "The research shelf now counts 281 write-ups.",
+    "The newest lesson on file, dated 2026-11-26, reads: In that market today's 40% room size fails about half the evals.",
+    "It was filed under \"finding\" and comes from research/writeups/lit-fragility-2026-11-26.md."
    ],
    "facts": [
     {
@@ -707,10 +707,10 @@
      "quote": true
     },
     {
-     "t": "275",
+     "t": "281",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 275
+     "raw": 281
     },
     {
      "t": "2026-11-26",
@@ -718,7 +718,7 @@
      "quote": true
     },
     {
-     "t": "E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
+     "t": "In that market today's 40% room size fails about half the evals.",
      "src": "ergasterion/queue.json",
      "quote": true
     },
@@ -728,7 +728,7 @@
      "quote": true
     },
     {
-     "t": "research/writeups/entry-fine-2026-11-26.md",
+     "t": "research/writeups/lit-fragility-2026-11-26.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }

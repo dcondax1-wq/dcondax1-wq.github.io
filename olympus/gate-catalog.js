@@ -180,6 +180,16 @@
     'hephaestus', 'datacity', 'kalshicity'];
   var RET = {}; RETIRED.forEach(function (id) { RET[id] = 1; });
   function retired(id) { return !!RET[id]; }
+  /* ARCHIVED (day-site5 2026-11-26, lead: "list the ones nobody opens and move them to an Archive door, no deletions"; evidence:
+     research/handoff/2026-11-26/site5/ARCHIVE_LIST.md). Unlike RETIRED they do NOT redirect: the page they were folded into still links
+     them and every old URL opens as before. They leave search, A to Z and the arena lists; the Archive door (hub/arena.html?a=archive)
+     lists them with where their content lives now. ARCHIVE_INTO = that page. */
+  var ARCHIVE_INTO = { forum: 'helios', epilogue: 'journal', apollo: 'journal', kratos: 'journal', nemesis: 'journal', labyrinth: 'pnyx', why: 'trading',
+    sibyl: 'dionysus', demeter: 'aegis', athena: 'archive', colosseum: 'archive' };
+  var ARCHIVED = Object.keys(ARCHIVE_INTO);
+  var ARCH = {}; ARCHIVED.forEach(function (id) { ARCH[id] = 1; });
+  function archived(id) { return !!ARCH[id]; }
+  function hidden(id) { return !!RET[id] || !!ARCH[id]; }
   function norm(s) { return String(s || '').toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9&$]+/g, ' ').replace(/^\s+|\s+$/g, ''); }
   function wordStarts(text, t) { var w = text.split(' '); for (var i = 0; i < w.length; i++) if (w[i].indexOf(t) === 0) return true; return false; }
   function isBest(a) { return !!a && BEST[a.hub + '/' + a.section] === a.id; }
@@ -188,8 +198,10 @@
     var toks = toksOf(q);
     if (!toks.length) return [];
     var hits = [];
-    apps.forEach(function (a) {
-      if (RET[a.id]) return;
+    apps.forEach(function (a0) {
+      if (RET[a0.id]) return;
+      var a = a0, host = ARCH[a0.id] ? BY[ARCHIVE_INTO[a0.id]] : null;   // an archived app's words still find the page that holds its content now
+      if (ARCH[a0.id] && (!host || hidden(host.id))) return;
       var label = norm(a.label), name = norm(a.name), line = norm(a.line), words = norm(a.words + ' ' + a.id), score = 0;
       for (var i = 0; i < toks.length; i++) {
         var t = toks[i], s = 0;
@@ -205,8 +217,11 @@
       score += FIRST[a.id] || 0;
       if (a.fold) score -= 3;
       if (a.section === 'workshop') score -= 12;
+      if (host) { a = host; score -= 6; }
       hits.push({ a: a, s: score });
     });
+    var best = {};                  // one row per app (an archived app and its host land on the same page)
+    hits = hits.filter(function (h) { var b = best[h.a.id]; if (b && b.s >= h.s) return false; if (b) b.s = -1e9; best[h.a.id] = h; return true; }).filter(function (h) { return h.s > -1e8; });
     hits.sort(function (x, y) { return y.s - x.s || x.a.rank - y.a.rank; });
     return hits.slice(0, n || 8).map(function (h) { return h.a; });
   }
@@ -342,7 +357,7 @@
   }
   /** every app A to Z by its plain label (the Workshop labs at the end) */
   function az() {
-    return apps.filter(function (a) { return !RET[a.id]; }).sort(function (x, y) {
+    return apps.filter(function (a) { return !hidden(a.id); }).sort(function (x, y) {
       var wx = x.section === 'workshop' ? 1 : 0, wy = y.section === 'workshop' ? 1 : 0;
       return wx - wy || (norm(x.label) < norm(y.label) ? -1 : norm(x.label) > norm(y.label) ? 1 : 0);
     });
@@ -394,7 +409,10 @@
     }
     AR[a.id] = 'else';
   });
-  ARENAS.forEach(function (x) { x.count = apps.filter(function (a) { return AR[a.id] === x.id && !RET[a.id]; }).length; Object.freeze(x); });
+  ARENAS.forEach(function (x) { x.count = apps.filter(function (a) { return AR[a.id] === x.id && !hidden(a.id); }).length; Object.freeze(x); });
+  /* the ARCHIVE door: not one of the Home's arenas (C.arenas stays the 6 + Everything else); C.arena('archive') draws it on hub/arena.html */
+  var ARCHIVE_DOOR = Object.freeze({ id: 'archive', name: 'Archive', front: '', door: true, hubs: [],
+    line: 'Old, duplicate and retired apps: every page still opens, nothing is deleted', count: ARCHIVED.length + RETIRED.length });
   /* each retired app opens the page that replaced it (its 'folded into' app when that one is live, else the named one) */
   var REPLACE = { delphi: 'helios', stoa: 'compass', hestia: 'compass', plutus: 'hera', argo: 'hera', mint: 'business', harmonia: 'ledger', kairos: 'nq',
     chronos: 'nq', lyceum: 'planner', polis: 'cities', atlascity: 'cities', gallery: 'settings', mintcity: 'cities', nike: 'planner', arena: 'planner',
@@ -407,25 +425,36 @@
     clocks: { app: 'business', path: 'business/mffu.html', name: 'My MFFU Accounts', label: '7-day clocks', also: ['board', 'nq', 'aegis'] }
   };
   function arenaOf(id) { return ARN[AR[id]] || null; }
-  function arena(id) { return ARN[id] || null; }
+  function arena(id) { return id === 'archive' ? ARCHIVE_DOOR : ARN[id] || null; }
   function replacementOf(id) { var r = RET[id] ? REPLACE[id] : ''; return r && BY[r] && !RET[r] ? BY[r] : null; }
   function factsOn(id) { var out = []; for (var k in FACTS) if (Object.prototype.hasOwnProperty.call(FACTS, k) && FACTS[k].also.indexOf(id) >= 0) out.push({ fact: k, label: FACTS[k].label, app: BY[FACTS[k].app], path: FACTS[k].path, name: FACTS[k].name }); return out; }
   function arenaCrumb(id) {
     var x = arenaOf(id), a = BY[id]; if (!x || !a) return null;
     return { arena: x.id, arenaName: x.name, path: 'hub/arena.html?a=' + x.id, app: a.label, front: x.front === id };
   }
+  function archiveLayout() {      // the Archive door: folded-in duplicates, apps nobody opens, then the retired ones (each with where it lives now)
+    var into = function (a, to, stay) { var t = BY[to]; return Object.freeze({ id: a.id, path: a.path, name: a.name, label: a.label, line: a.line, hub: a.hub, section: a.section,
+      words: a.words, fold: a.fold, rank: a.rank, stay: !!stay, instead: t ? { id: t.id, path: t.path, label: t.label } : null }); };
+    var dup = ARCHIVED.filter(function (id) { return BY[id] && ARCHIVE_INTO[id] !== 'archive'; }).map(function (id) { return into(BY[id], ARCHIVE_INTO[id]); });
+    var unused = ARCHIVED.filter(function (id) { return BY[id] && ARCHIVE_INTO[id] === 'archive'; }).map(function (id) { return into(BY[id], ARCHIVE_INTO[id]); });
+    var ret = RETIRED.filter(function (id) { return BY[id]; }).map(function (id) { var r = replacementOf(id); return into(BY[id], r ? r.id : '', true); });
+    return [{ hub: 'archive', section: 'folded', name: 'Folded into another page', line: 'Their content lives on the page named under each; the old page still opens', apps: dup },
+      { hub: 'archive', section: 'unused', name: 'Nobody opens these', line: 'No live page links them; the research they show is in Everything we tested', apps: unused },
+      { hub: 'archive', section: 'retired', name: 'Retired', line: 'An old link opens the replacement; these open the old page itself', apps: ret }].filter(function (x) { return x.apps.length; });
+  }
   function arenaLayout(xid) {   // [{hub, section, name, apps:[app]}] for one arena, live apps only, in the hubs' own order
+    if (xid === 'archive') return archiveLayout();
     var x = ARN[xid]; if (!x) return [];
     var out = [], hubs = HUBS.filter(function (h) { return apps.some(function (a) { return AR[a.id] === xid && a.hub === h.id; }); });
     hubs.forEach(function (h) {
       (h.sections.length ? h.sections : [['', h.name, h.line]]).forEach(function (sec) {
-        var list = apps.filter(function (a) { return AR[a.id] === xid && a.hub === h.id && (!sec[0] || a.section === sec[0]) && !RET[a.id]; });
+        var list = apps.filter(function (a) { return AR[a.id] === xid && a.hub === h.id && (!sec[0] || a.section === sec[0]) && !hidden(a.id); });
         if (list.length) out.push({ hub: h.id, section: sec[0], name: sec[1], line: sec[2], apps: list });
       });
     });
     return out;
   }
-  var out = Object.freeze({ v: 3, arenas: ARENAS, arena: arena, arenaOf: arenaOf, arenaCrumb: arenaCrumb, arenaLayout: arenaLayout, REPLACE: REPLACE,
+  var out = Object.freeze({ v: 3, arenas: ARENAS, arena: arena, ARCHIVE_DOOR: ARCHIVE_DOOR, ARCHIVED: ARCHIVED, ARCHIVE_INTO: ARCHIVE_INTO, archived: archived, hidden: hidden, arenaOf: arenaOf, arenaCrumb: arenaCrumb, arenaLayout: arenaLayout, REPLACE: REPLACE,
     replacementOf: replacementOf, FACTS: FACTS, factsOn: factsOn, apps: Object.freeze(apps), districts: HUBS, hubs: HUBS, start: ['nq', 'today', 'jarvis'], actions: Object.freeze(ACTIONS), quick: QUICK,
     find: find, retired: retired, RETIRED: RETIRED, FIRST: FIRST, findHubs: findHubs, findActions: findActions, findTabs: findTabs, findAll: findAll, az: az, byId: byId, norm: norm, hub: hub, hubOf: hubOf, layout: layout, crumbOf: crumbOf, isBest: isBest, mixOf: function (id) { var h = hubOf(id); return h ? h.id : ''; } });
   g.OLYMPUS_GATE = out;

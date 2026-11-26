@@ -480,3 +480,10 @@ html:not(.g-more-open) #elseSec, html:not(.g-more-open) #now, html:not(.g-more-o
 .g-wr i { width: 8px; height: 8px; border-radius: 50%; background: #ff6b8a; box-shadow: 0 0 8px #ff6b8a; animation: gwr 1.6s ease-in-out infinite; }
 @keyframes gwr { 50% { opacity: .35; transform: scale(.75); } }
 @media (prefers-reduced-motion: reduce) { .g-wr i { animation: none; } }
+
+/* day-site5: Home Today strip (pillars/today.js) with 44 px links: the header gives it 18 px it was not using, so search 152 / the 6 dashboards 228 stay put */
+
+.g-main .g-head:has(#todayStrip) .g-title::after{margin-top:2px}
+.g-main .g-head:has(#todayStrip) .phero.band{margin-top:-2px}
+.g-main .g-head:has(#todayStrip) .phero.band .pc{min-height:44px}
+.g-main .g-head:has(#todayStrip) .phero.band .ph-stage{top:-68px}

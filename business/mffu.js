@@ -128,6 +128,7 @@
     tile(a.funded ? 'Profit since funded' : 'P&L since start', sgn(m.pnl, true), m.pnl > 0 ? 'pos' : m.pnl < 0 ? 'neg' : '');
     tile('Left to max loss', usd(m.room_now != null ? m.room_now : m.room, true), m.room != null && m.mll && m.room < m.mll * 0.25 ? 'neg' : '', m.floor != null ? 'floor ' + usd(m.floor, true) : '');
     box.appendChild(big);
+    const mv = moneyView(a, now); if (mv) box.appendChild(mv);
     if (a.position) box.appendChild(positionBox(a.position, now));
     // to pass (evaluation) or the payout (sim funded)
     if (a.target) {
@@ -236,6 +237,30 @@
       + ' (an estimate from ' + (pd.date || 'the plan') + ', not a promise)';
   }
 
+  // MONEY VIEW (day-site5): the 'to pass / to payout' gauge + its forecast, when the account can next ask for a payout, $ from the floor (red under $300)
+  function moneyView(a, now) {
+    const V = window.MONEY_VIEW; if (!V) return null;
+    const P = window.MFFU_PAGE || {}, g = V.gauge(a, { today: todayET(now), forecast: P.forecast, payday: P.payday }), f = V.floor(a);
+    const box = el('div', 'mv'); box.dataset.key = a.key;
+    if (g) {
+      const w = el('div', 'mv-g ' + g.kind); w.dataset.kind = g.kind;
+      const h = el('div', 'mv-h'); h.appendChild(el('span', 'mv-l', g.label)); h.appendChild(el('b', 'mv-t' + (g.eligible ? ' pos' : ''), g.text)); w.appendChild(h);
+      const b = el('div', 'mv-bar'); const i = el('i'); i.style.width = Math.round(g.frac * 100) + '%'; b.appendChild(i); b.setAttribute('role', 'img');
+      b.setAttribute('aria-label', g.label + ': ' + Math.round(g.frac * 100) + '%'); w.appendChild(b);
+      if (g.sub) w.appendChild(el('small', 'mv-s', g.sub));
+      if (g.next) { const n = el('p', 'mv-next' + (g.next.today ? ' pos' : '')); n.textContent = g.next.text; w.appendChild(n); }
+      if (g.forecast) { const fc = el('p', 'mv-fc'); fc.appendChild(el('b', null, g.forecast.line)); fc.appendChild(el('small', null, (g.forecast.sample ? 'SAMPLE · ' : '') + g.forecast.src + ' · an estimate, not a promise')); w.appendChild(fc); }
+      else w.appendChild(el('p', 'mv-fc', 'No forecast for this account yet.'));
+      box.appendChild(w);
+    }
+    const r = el('div', 'mv-f ' + f.level); r.dataset.level = f.level;
+    const h = el('div', 'mv-h'); h.appendChild(el('span', 'mv-l', 'Risk distance')); h.appendChild(el('b', 'mv-t', f.text)); r.appendChild(h);
+    const b = el('div', 'mv-bar'); const i = el('i'); i.style.width = Math.round((f.frac || 0) * 100) + '%'; b.appendChild(i); r.appendChild(b);
+    if (f.sub) r.appendChild(el('small', 'mv-s', f.sub.replace(/^ · /, '')));
+    box.appendChild(r);
+    return box;
+  }
+
   function nowCard(r, now) {
     const box = $('now'); box.textContent = '';
     box.appendChild(el('h2', null, 'Right now'));
@@ -275,8 +300,8 @@
   }
 
   async function load() {
-    const [plan, board, home, payday] = await Promise.all([getJSON('accounts.json'), getJSON('../board/board.json'), getJSON('../home.json'), getJSON('payday.json')]);
-    window.MFFU_PAGE.payday = payday;
+    const [plan, board, home, payday, forecast] = await Promise.all([getJSON('accounts.json'), getJSON('../board/board.json'), getJSON('../home.json'), getJSON('payday.json'), getJSON('forecast.json')]);
+    window.MFFU_PAGE.payday = payday; window.MFFU_PAGE.forecast = forecast;
     let lite = null;
     try { if (window.PC_FEED) lite = await window.PC_FEED.fetchLatest({ feedUrl: '../status_feed.json' }); } catch (e) { /* none */ }   // the site root's feed (no 404 for business/status_feed.json)
     try { if (window.EDGE_CHIP) window.EDGE_CHIP.update(lite); } catch (e) { /* never the page */ }
@@ -302,7 +327,7 @@
     window.MFFU_PAGE.ready = true;
   }
 
-  window.MFFU_PAGE = { load, last: null, ready: false, payday: null };
+  window.MFFU_PAGE = { load, last: null, ready: false, payday: null, forecast: null };
   document.addEventListener('DOMContentLoaded', () => {
     $('refresh').addEventListener('click', load);
     load();

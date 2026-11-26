@@ -159,3 +159,20 @@ html[data-oly-lite="1"] .sheet { animation: none; }
 
 /* a11y 2026-11-20: card notes are sentences the owner reads: 15 px (the kit's .ag-card .note is 13 px) */
 main#app .ag-card .note { font-size: 0.9375rem; }
+/* STRATEGY HEALTH (day-site5): one row per bot, a plain word, the backtest band with the live average */
+.hlist { display: grid; gap: 10px; margin: 6px 0; }
+.hb { padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(157,89,238,.35); background: linear-gradient(160deg, rgba(157,89,238,.09), rgba(255,255,255,.02)); }
+.hb.ok { border-color: rgba(119,219,137,.5); } .hb.warn { border-color: rgba(241,193,75,.55); } .hb.bad { border-color: rgba(239,68,68,.65); background: rgba(239,68,68,.06); } .hb.hot { border-color: rgba(241,193,75,.7); }
+.hb-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.hb-w { font-size: .72rem; font-weight: 800; letter-spacing: .06em; padding: 3px 9px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; color: #a99cc2; }
+.hb-w.ok { color: #77db89; } .hb-w.warn, .hb-w.hot { color: #f1c14b; } .hb-w.bad { color: #ff8a8a; background: rgba(239,68,68,.12); }
+.hb-line { margin: 6px 0 4px; font-size: .9rem; font-variant-numeric: tabular-nums; } .hb-why { margin: 6px 0 0; font-size: .82rem; opacity: .8; }
+.hb-bar { position: relative; height: 16px; border-radius: 8px; background: rgba(255,255,255,.05); margin: 8px 0 2px; }
+.hb-bar.none { opacity: .4; }
+.hb-bar i { position: absolute; top: 0; bottom: 0; display: block; }
+.hb-bar i.full { background: rgba(157,89,238,.28); border-radius: 8px; } .hb-bar i.mid { background: rgba(157,89,238,.55); border-radius: 4px; top: 3px; bottom: 3px; }
+.hb-bar i.zero { width: 1px; background: rgba(255,255,255,.35); }
+.hb-bar i.live { width: 4px; margin-left: -2px; top: -3px; bottom: -3px; border-radius: 2px; background: #f1c14b; box-shadow: 0 0 10px rgba(241,193,75,.8); }
+.hb-bar i.live.ok { background: #77db89; box-shadow: 0 0 10px rgba(119,219,137,.8); } .hb-bar i.live.bad { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,.8); }
+.hb-sc { display: flex; justify-content: space-between; font-size: .7rem; opacity: .65; font-variant-numeric: tabular-nums; }
+.hsrc { font-size: .74rem; opacity: .7; }

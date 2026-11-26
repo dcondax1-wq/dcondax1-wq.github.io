@@ -13,6 +13,19 @@ const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls)
 // 2D only when the phone asks for less (reduced motion, Save-Data, ?lite=1, <= 2 cores / 2 GB); the temple steps itself down on slow frames
 const low = () => { try { if (/[?&]fx=(3d|hq)/.test(location.search)) return false; return matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]lite=1/.test(location.search) || (+navigator.hardwareConcurrency > 0 && +navigator.hardwareConcurrency <= 2) || (+navigator.deviceMemory > 0 && +navigator.deviceMemory <= 2) || !!(navigator.connection && navigator.connection.saveData); } catch (_) { return true; } };
 const FILL = { lit: 1, atlas: 1, blitz: .32, of: .06 };
+// day-site5 (speed): the 3D temple costs ~720 KB of script (three.js + the scene; ~230 KB gzipped). It waits until the page is idle, and on a
+// slow or metered connection (Save-Data, 2G / 3G, or under 5 Mbps when the phone says) it stays the 2D columns until the first touch on it.
+export function slowNet(nav) {
+  const c = nav && nav.connection; if (!c) return false;                            // iPhone Safari does not say: treat as fine
+  return !!c.saveData || /(^|-)(2g|3g)$/.test(String(c.effectiveType || '')) || (+c.downlink > 0 && +c.downlink < 5);
+}
+function when3d(stage, go) {
+  if (/[?&]fx=(3d|hq)/.test(location.search)) { go(); return; }                    // tests and screenshots: now
+  let done = false; const once = () => { if (done) return; done = true; go(); };
+  if (slowNet(navigator)) { const box = stage.closest('.phero') || stage; ['pointerdown', 'touchstart'].forEach((t) => box.addEventListener(t, once, { once: true, passive: true })); stage.dataset.wait = 'touch'; return; }
+  const idle = window.requestIdleCallback ? (f) => window.requestIdleCallback(f, { timeout: 3000 }) : (f) => setTimeout(f, 1200);
+  idle(once);
+}
 
 export function chipsInto(box, chips) {
   box.replaceChildren();
@@ -82,7 +95,7 @@ export async function mount(box, opts) {
     if (low() || !('IntersectionObserver' in window)) flatCols(stage, model);
     else {
       flatCols(stage, model);                                            // instant 2D columns, the 3D replaces them once on screen
-      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); stage3d(stage, model); } }, { rootMargin: '80px' });
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); when3d(stage, () => stage3d(stage, model)); } }, { rootMargin: '80px' });
       io.observe(stage);
     }
   }
