@@ -65,3 +65,4 @@
 .src { margin: 8px 0 0; font-size: 11px; color: #7d6f98; }
 @media (prefers-reduced-motion: no-preference) { .lv .card, .tile { animation: lvup .45s cubic-bezier(.2,.8,.2,1) both; } }
 @keyframes lvup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+.warn { padding: 8px 10px; border-radius: 10px; border: 1px dashed var(--gold); color: var(--gold); background: rgba(241,193,75,.06); font-size: 12.5px; }

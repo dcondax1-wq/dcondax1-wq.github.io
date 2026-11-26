@@ -779,6 +779,60 @@
    "recommend_why": "Your call. It was picked after the planned test (post-hoc), so it is less proven: it only pays big if 2026-like markets continue; in the cautious '25% of 2026' case it adds about $0. Uses all 5 funded slots and costs $97.20.",
    "valued": "2026-11-26",
    "answered": null
+  },
+  {
+   "id": "alloc-lit-funded25",
+   "question": "Card 2: LIT also trades your funded ATLAS 25K (same 40% risk, never 2 positions at once) - your phrase needed",
+   "why": "ATLAS's funded 25K only trades ATLAS today. Adding LIT fills the days ATLAS has no setup, so payouts come more often.",
+   "impact": "6 months, all 4 accounts on the same market paths: +$1,099 (Jan-Jun 2026-like) / +$2,097 (Jul-Oct-like) / -$36 (2021-25-like). Chance of no payout in 6 months 8.2% -> 0.6%.",
+   "impact_usd": 350,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/alloc-2026-11-26.md (Card 2)",
+   "applies": "ATLAS funded 25K: ATLAS's account B off, then the combo lane on with LIT (python -X utf8 -m engine.lit25 --on + your I ACCEPT LIVE RISK; NinjaTrader self-test must pass). Built and tested, OFF until you say yes.",
+   "added": "2026-11-26",
+   "usd_month": 350,
+   "usd_month_by": {
+    "jan_jun": 183,
+    "jul_oct": 350,
+    "y2021_25": -6
+   },
+   "risk": "bigger swings on a $1,000 floor: the funded account can be lost more often (the Nov 17 version of this idea, with no one-position rule, lost it 26% of the time vs 10%); a 2021-25-like market costs about $6 a month",
+   "recommend": "later",
+   "recommend_why": "Your call. Good money in both 2026 halves, but it puts your only funded account at more risk; you said no to the older version on Nov 17.",
+   "valued": "2026-11-26",
+   "answered": null
+  },
+  {
+   "id": "alloc-atlas-from-930",
+   "question": "Card 3: ATLAS on the 50K + 25K #2 only from 9:30 AM ET",
+   "why": "Instead of half-size ATLAS on the Zlarior evals: full size, but no ATLAS entry before the 9:30 AM ET open.",
+   "impact": "Zlarior 50K, 6 months vs the half-size combo you already said yes to: Jan-Jun-like +$3,032 vs +$3,118; Jul-Oct-like +$1,274 vs +$2,612; 2021-25-like -$67 vs -$185. Eval lost at least once 19% -> 3.4% (Jan-Jun-like), same ~15% (Jul-Oct-like).",
+   "impact_usd": -223,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "open",
+   "source": "research/writeups/alloc-2026-11-26.md (Card 3)",
+   "applies": "research/lab/combo_50k.json guards.atlas_from_et = 09:30 (built and tested, OFF); only the combo lanes on the Zlarior 50K + 25K #2",
+   "added": "2026-11-26",
+   "usd_month": -223,
+   "usd_month_by": {
+    "jan_jun": -14,
+    "jul_oct": -223,
+    "y2021_25": 20
+   },
+   "risk": "lower: far fewer failed evals in a Jan-Jun-like market; but about $1,300 less over 6 months in a Jul-Oct-like market",
+   "recommend": "later",
+   "recommend_why": "Your call: safer evals and a smaller bad-market loss, but it earns less in the more recent (Jul-Oct) market than the half-size combo you already have.",
+   "valued": "2026-11-26",
+   "answered": null
   }
  ],
  "triage_note": "2026-11-23 triage (research/handoff/2026-11-23/DECISIONS.md): 2 live decisions; 5 merged / retired (status superseded, superseded_by points to the card or study that replaced them), 3 waiting on an outside answer or an account stage, 2 later. Nothing deleted, nothing live changed."

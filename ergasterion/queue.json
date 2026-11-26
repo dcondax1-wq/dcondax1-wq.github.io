@@ -190,8 +190,22 @@
   ]
  },
  "writeups": {
-  "count": 288,
+  "count": 293,
   "latest": [
+   {
+    "date": "2026-11-26",
+    "title": "Is there a trustworthy \"market is 2026-like\" switch? (big-regime2026, 2026-11-26)",
+    "status": "finding",
+    "summary": "The joint test fails. No rule keeps ≥ 80% of 2026 Jan-Jun money for BOTH streams (ATLAS and the Asia trades) while helping the old years.",
+    "file": "research/writeups/regime2026-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
+    "title": "Payout engine + 12-month request policy - ask for the full max each time; when you ask moves $25 a year, the…",
+    "status": "research",
+    "summary": "",
+    "file": "research/writeups/payout-year-2026-11-26.md"
+   },
    {
     "date": "2026-11-26",
     "title": "News-day playbook: is there money in CPI / NFP / PPI / FOMC days? (2026-11-26)",
@@ -236,6 +250,13 @@
    },
    {
     "date": "2026-11-26",
+    "title": "Exit + backtest realism: are our $ numbers too rosy on the exits? (big-exitreal, 2026-11-26)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/exitreal-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
     "title": "A sturdier execution path for the MFFU accounts (big-execution, 2026-11-26)",
     "status": "",
     "summary": "",
@@ -254,27 +275,6 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/evalsizer-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "LIT entry refinement on 1m bars (2026-11-26)",
-    "status": "finding",
-    "summary": "E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
-    "file": "research/writeups/entry-fine-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "Day-type classifier + playbook routing (2026-11-26, big-regime)",
-    "status": "finding",
-    "summary": "Only BLITZ would gain from a perfect call, and by 13:30 the model still can't tell its range days from its trend days well enough to earn money.",
-    "file": "research/writeups/day-type-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "Business planner: what to buy, when to stop, what cash to expect (2026-11-26)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/business-planner-2026-11-26.md"
    }
   ]
  },
@@ -353,6 +353,7 @@
   }
  ],
  "rejected_ref": [
+  "Exit realism / touch-not-fill (2026-11-26, exitreal-2026-11-26.md, research/exitreal/, pre-registered): of 298 stored target exits (LIT 75, ATLAS 223) 0 were touch-only (all but 6 traded 3+…",
   "LIT fragility audit (2026-11-26, lit-fragility-2026-11-26.md, research/fragility/, info, not a rule test): 16 knobs at +-10/20%: mostly a plateau; sensitive in Jul-Oct = displacement 0.8 (+…",
   "News-day playbook (2026-11-26, news-playbook-2026-11-26.md, research/news/, pre-registered): NQ 5m 2021-11..2026-11, 130 Tier-1 08:30 days (CPI / NFP / PPI; CPI / PPI only from 2023-24) + 4…",
   "LIT gate tweaks via the setup-learning loop (2026-11-26, lit-learns-live-2026-11-26.md, tools/lit_setups_learn.py, pre-registered VARIANTS): 13 versions vs live through the automatic bar (b…",
@@ -365,10 +366,16 @@
   "ATLAS funded 25K at ~$150 a trade, live sizing path (2026-11-24, atlas-funded-150-2026-11-24.md, research/atlasfund/): cap $150 / funded_room_pct 0.15 vs today's preset on engine/account_b.…",
   "Bad-case plan (2026-11-24, badcase-2026-11-24.md, research/badcase/, pre-registered DESIGN.md, rank.py engine + a 2025 market): in a 2025-like / 2021-25 market every MFFU plan loses ($-236…",
   "Time windows removed (2026-11-24, notime-2026-11-24.md, research/notime/, pre-registered DESIGN.md): LIT entries 18:00-15:30 (whole day) vs 02:00-15:30: -$10,511 / +$27,310 / +$9,644 vs +$1…",
-  "Dead hours per pillar (2026-11-24, dead-hours-2026-11-24.md, research/hours/, pre-registered DESIGN.md): worst 1-3 half-hour window per book picked on 2021-24 only (PF 0.8, 20+ trades), tes…",
-  "LIT high-VIX downtrend (2026-11-24, lit-vix-downtrend-2026-11-24.md, research/litvix/, pre-registered DESIGN.md): after 0 real winners in 7 live-window twin trades (NQ 31k - 25k). V1 longs…"
+  "Dead hours per pillar (2026-11-24, dead-hours-2026-11-24.md, research/hours/, pre-registered DESIGN.md): worst 1-3 half-hour window per book picked on 2021-24 only (PF 0.8, 20+ trades), tes…"
  ],
  "learnings": [
+  {
+   "d": "2026-11-26",
+   "who": "dev",
+   "text": "The joint test fails. No rule keeps ≥ 80% of 2026 Jan-Jun money for BOTH streams (ATLAS and the Asia trades) while helping the old years.",
+   "src": "research/writeups/regime2026-2026-11-26.md",
+   "kind": "finding"
+  },
   {
    "d": "2026-11-26",
    "who": "dev",
@@ -851,13 +858,6 @@
    "text": "I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - with MAE / MFE in R an…",
    "src": "research/writeups/win-loss-anatomy-2026-11-18.md",
    "kind": "finding"
-  },
-  {
-   "d": "2026-11-18",
-   "who": "atlas",
-   "text": "Owner - \"More accurate with our trades, don't trade like a bot, trade how a person would, without emotion.\" Built the checklist a calm discretionary NQ trader asks before each signal, from what is on the chart at that m…",
-   "src": "research/writeups/setup-grade-2026-11-18.md",
-   "kind": "rejected"
   }
  ],
  "lessons": [
@@ -877,6 +877,21 @@
     {
      "src": "research/writeups/2026-11-04_second_strategies_night.md",
      "d": "2026-11-04"
+    }
+   ]
+  },
+  {
+   "text": "The joint test fails. No rule keeps ≥ 80% of 2026 Jan-Jun money for BOTH streams (ATLAS and the Asia trades) while helping the old years.",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-26",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/regime2026-2026-11-26.md",
+     "d": "2026-11-26"
     }
    ]
   },
@@ -989,6 +1004,21 @@
    "text": "Tested and rejected: LIT entry refinement on 1m (2026-11-26, entry-fine-2026-11-26.md, research/entryfine/, pre-registered): 5 versions vs today (limit at the 5m CISD level, then the 1m CISD; H1 / H2 / 2021-25…",
    "cat": "NQ strategy",
    "who": "dev",
+   "d": "2026-11-26",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: Exit realism / touch-not-fill (2026-11-26, exitreal-2026-11-26.md, research/exitreal/, pre-registered): of 298 stored target exits (LIT 75, ATLAS 223) 0 were touch-only (all but 6 traded 3+…",
+   "cat": "NQ strategy",
+   "who": "atlas",
    "d": "2026-11-26",
    "kind": "rejected",
    "strength": 1,
@@ -1184,21 +1214,6 @@
    "text": "Tested and rejected: Personal futures account vs MFFU (2026-11-24, ownacct-2026-11-24.md, research/ownacct/, pre-registered DESIGN.md): LIT + ATLAS, fixed-fractional, $1.24 RT, whole micros. $25k at 0.5%: +$49…",
    "cat": "NQ strategy",
    "who": "atlas",
-   "d": "2026-11-24",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-24"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: LIT high-VIX downtrend (2026-11-24, lit-vix-downtrend-2026-11-24.md, research/litvix/, pre-registered DESIGN.md): after 0 real winners in 7 live-window twin trades (NQ 31k - 25k). V1 longs…",
-   "cat": "NQ strategy",
-   "who": "dev",
    "d": "2026-11-24",
    "kind": "rejected",
    "strength": 1,
@@ -1777,25 +1792,6 @@
      "d": "2026-11-17"
     }
    ]
-  },
-  {
-   "text": "In 2021-25 they halve the failed Builder evals (55% - 28% within 60 sessions) and cut fees ($212 - $166 per 6 months), but the payouts fall by the same amount: the Builder still makes -$7 instead of -$9 a m…",
-   "cat": "NQ strategy",
-   "who": "atlas",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 2,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/drift-switch-2026-11-17.md",
-     "d": "2026-11-17"
-    },
-    {
-     "src": "research/writeups/eval-game.md",
-     "d": "2026-10-17"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1926,6 +1922,14 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up: Research-engine fix: a Builder pass never blocked by a missing best-day rule (2026-11-26)",
+   "src": "research/writeups/consfix-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up: Order latency: where the seconds go from the bar close to the order (big-execution, 2026-11-26)",
    "src": "research/writeups/latency-2026-11-26.md"
   },
@@ -1958,6 +1962,14 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up: Exit + backtest realism: are our $ numbers too rosy on the exits? (big-exitreal, 2026-11-26)",
+   "src": "research/writeups/exitreal-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up: Business planner: what to buy, when to stop, what cash to expect (2026-11-26)",
    "src": "research/writeups/business-planner-2026-11-26.md"
   },
@@ -1974,6 +1986,14 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up (research): Payout engine + 12-month request policy - ask for the full max each time; when you ask moves $25 a year, the…",
+   "src": "research/writeups/payout-year-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up (finding): LIT's Asia slot at real Asia costs (big-litasia, 2026-11-26)",
    "src": "research/writeups/litasia-2026-11-26.md"
   },
@@ -1984,6 +2004,14 @@
    "ok": true,
    "text": "Write-up (finding): LIT entry refinement on 1m bars (2026-11-26)",
    "src": "research/writeups/entry-fine-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Is there a trustworthy \"market is 2026-like\" switch? (big-regime2026, 2026-11-26)",
+   "src": "research/writeups/regime2026-2026-11-26.md"
   },
   {
    "t": 1795694400,
@@ -2008,6 +2036,14 @@
    "ok": true,
    "text": "Write-up: Batch 5: ATLAS fills, eval forecaster, health bands, BLITZ paper (2026-11-26)",
    "src": "research/writeups/batch5-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: ATLAS fill forensics + the cheapest entry (big-atlasfill, 2026-11-26)",
+   "src": "research/writeups/atlasfill-2026-11-26.md"
   },
   {
    "t": 1795694400,
@@ -3936,46 +3972,6 @@
    "ok": true,
    "text": "Write-up (rejected): HQ bias - top-down draw on liquidity (the HTF draw picks the direction and the target, LIT's chain enters)",
    "src": "research/writeups/hq-bias.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): STOP-HUNT family - retail stop pools, the hunt, a resweep or inducement, then a strong candle toward the draw",
-   "src": "research/writeups/stophunt.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (info): Official data only - roll gaps, ES files, daily bars and VIX rebuilt from official sources",
-   "src": "research/writeups/data-official.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (finding): STOP-HUNT audit - trying to break the Asia resweep hunt and the trend inducement hunt",
-   "src": "research/writeups/stophunt-audit.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "atlas",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): ATLAS (account B) - confluences, risk changes and entry fixes under the live account-B rules (none adopted)",
-   "src": "research/writeups/atlas-confluences.md"
-  },
-  {
-   "t": 1792717560,
-   "who": "atlas",
-   "kind": "run",
-   "ok": true,
-   "text": "8 research runs stored (filters): 4 rejected, 4 open.",
-   "src": "research/runs"
   }
  ],
  "pipeline": {
@@ -4357,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795718220,
+   "t": 1795727280,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,104 +4375,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795718201,
-    "s": "Jarvis search index rebuilt, jarvis-v101"
+    "t": 1795727294,
+    "s": "Rebuild brain hub data"
    },
    {
-    "t": 1795718060,
-    "s": "Rebuild research hub data"
+    "t": 1795727282,
+    "s": "LEDGER: 15:30 ET finder round skipped; vault"
    },
    {
-    "t": 1795718053,
+    "t": 1795724344,
+    "s": "handsfree READ_ONLY: buy gate seed + setup-score pool (cloud-built, read on the PC); STATE names the .bat fil…"
+   },
+   {
+    "t": 1795722945,
+    "s": "bump: jarvis search index"
+   },
+   {
+    "t": 1795722936,
+    "s": "Land day-zeroerr-rt25 (fill log, exit-real costs, forecast re-run); hubs, vault"
+   },
+   {
+    "t": 1795722915,
+    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt25' into land-1126"
+   },
+   {
+    "t": 1795722888,
+    "s": "red team #25: research/batch5 counts ATLAS ENTRY fills only (fills.jsonl.gz carries stop / target / close row…"
+   },
+   {
+    "t": 1795722687,
+    "s": "Third 11-26 landing: alloc cards 2+3 (OFF) + Decide cards, zeroerr2 hang guard; hubs, vault, bumps"
+   },
+   {
+    "t": 1795722620,
+    "s": "Merge remote-tracking branch 'olympus/big-zeroerr2-rt5' into land-1126"
+   },
+   {
+    "t": 1795722619,
+    "s": "Merge remote-tracking branch 'olympus/day-alloc' into land-1126"
+   },
+   {
+    "t": 1795722601,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795718048,
-    "s": "of_paper writes its state with fsutil.replace (selfheal); STATE: the rest of the 11-26 landing"
+    "t": 1795722596,
+    "s": "STATE: second 11-26 landing"
    },
    {
-    "t": 1795714493,
-    "s": "Rebuild hubs + vault after the last landings"
+    "t": 1795722550,
+    "s": "Landing fixes: of_paper export + shadow_eval write via fsutil.replace (selfheal); first_screen.mjs serves sta…"
    },
    {
-    "t": 1795714472,
-    "s": "Merge remote-tracking branch 'olympus/big-execution-rt' into land-1126"
+    "t": 1795722100,
+    "s": "day-alloc: lit_live check result (OK)"
    },
    {
-    "t": 1795714471,
-    "s": "Merge remote-tracking branch 'olympus/big-litasia' into land-1126"
+    "t": 1795720896,
+    "s": "red team #23 follow-up: accounts_flat_reason skips a state file untouched for 24 h (a removed account's lefto…"
    },
    {
-    "t": 1795714471,
-    "s": "Merge remote-tracking branch 'olympus/day-oflearn-rt16' into land-1126"
+    "t": 1795720610,
+    "s": "red team #23: 30 h of the same 'not flat' = ONE 'Bot update stuck' line naming the state file (a leftover ope…"
    },
    {
-    "t": 1795714452,
-    "s": "brain_learned: the helper-only forbidden-files guard skips a checkout without origin/pc; LEDGER: ATLAS v2, LI…"
+    "t": 1795719566,
+    "s": "test_fill_log 21/21: big-exitreal's per-entry exit columns across lanes, from the stop / target rows"
    },
    {
-    "t": 1795714398,
-    "s": "red team #17: make_adapter gives the socket transport to a Sim account only, whatever PAPER_ONLY says; an acc…"
+    "t": 1795719535,
+    "s": "Merge big-exitreal: its per-entry exit columns folded into the ONE fill schema"
    },
    {
-    "t": 1795714247,
-    "s": "LIT Asia slot at real Asia costs: 2026 gain ~0 in H1 at +2 ticks, -$21.7k in 2021-25 - no card"
+    "t": 1795718789,
+    "s": "hang_guard: resolve the merge left in all_flat_reason (keep the one shared helper: autoupdate.files_flat_reas…"
    },
    {
-    "t": 1795714236,
-    "s": "red team #16: the OF paper child runs BELOW_NORMAL on Windows (09:25-16:10 ET, beside the live bot)"
+    "t": 1795718589,
+    "s": "Merge origin/big-zeroerr2-rt2 (red team #22 base) into the follow-ups; run_area: one ops2 entry"
    },
    {
-    "t": 1795714203,
-    "s": "latency: write-up (chain measured, before/after estimate, fast entry recommendation; update_gate SAME, lit_li…"
+    "t": 1795718565,
+    "s": "big-zeroerr2-rt2: one flat check for every account (autoupdate.files_flat_reason + accounts_flat_reason), gua…"
    },
    {
-    "t": 1795714159,
-    "s": "LIT Asia slot at real Asia costs: pre-registration (before any run)"
+    "t": 1795718447,
+    "s": "run_area: one zeroerr2 entry (a duplicate from the cherry-pick merge)"
    },
    {
-    "t": 1795714037,
-    "s": "Doc: the weekly backup holds ~/.olympus encrypted; keep the recovery code private"
+    "t": 1795718399,
+    "s": "red team #22: hang guard - flat on EVERY account (each data/ninjatrader_state_.json, unreadable = not flat),…"
    },
    {
-    "t": 1795714013,
-    "s": "Merge remote-tracking branch 'olympus/day-ops2-rt' into land-1126"
+    "t": 1795718388,
+    "s": "Second 11-26 landing: regime2026 (ATLAS S1 forward flag, atlas_exec unwired), setup score, consfix, payout en…"
    },
    {
-    "t": 1795714008,
-    "s": "Merge remote-tracking branch 'olympus/day-proedge-rt14' into land-1126"
-   },
-   {
-    "t": 1795713997,
-    "s": "Landing fixes: pc_identity uses fsutil.replace (selfheal), browser kit serves status_feed unpinned (accounts_…"
-   },
-   {
-    "t": 1795713746,
-    "s": "red team #15: LE_FeedHub silences a chart only while LE_Feed's heartbeat is fresh (a stalled add-on can no lo…"
-   },
-   {
-    "t": 1795713284,
-    "s": "red team #14: of_send_now re-checks the daily cap before each range (a 2nd range took a 7th answer, one of th…"
-   },
-   {
-    "t": 1795713280,
-    "s": "latency: per-entry latency log (send/ack/fill_seen/model px - fills.jsonl.gz) + opt-in socket transport (OFF,…"
-   },
-   {
-    "t": 1795713154,
-    "s": "Merge remote-tracking branch 'olympus/day-atlas2' into land-1126"
-   },
-   {
-    "t": 1795712914,
-    "s": "OF paper bot: tests 25/25 (planted sweeps), tickrec allowlist, STATE, run_area pc area"
-   },
-   {
-    "t": 1795712877,
-    "s": "Land 11-26 batch: guard2-rt (noleak #9 + guard2 #12), oflearn, batch7, learning view, business planner + 2 De…"
-   },
-   {
-    "t": 1795712798,
-    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt13' into land-1126"
+    "t": 1795718364,
+    "s": "Merge remote-tracking branch 'olympus/big-ofpipe' into land-1126"
    }
   ],
   "branches": [

@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-26 13:37 ET",
+ "built": "2026-11-26 16:08 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 26 13:30 ET",
+ "pc": "PC last reported Nov 26 14:15 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49177.52,
-   "src": "PC live, Nov 26 13:30 ET",
+   "src": "PC live, Nov 26 14:15 ET",
    "room": 1009.32,
    "to_pass": 3822.48,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 26 13:30 ET",
+   "src": "PC live, Nov 26 14:15 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24995.24,
-   "src": "PC live, Nov 26 13:30 ET",
+   "src": "PC live, Nov 26 14:15 ET",
    "room": 995.24,
    "to_pass": 1504.76,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 26 13:30 ET",
+   "src": "PC live, Nov 26 14:15 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Jarvis search index rebuilt, jarvis-v101",
-   "Rebuild research hub data",
-   "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "of_paper writes its state with fsutil.replace (selfheal); STATE: the rest of the 11-26 landing",
-   "Rebuild hubs + vault after the last landings",
-   "brain_learned: the helper-only forbidden-files guard skips a checkout without origin/pc; LEDGER:...",
-   "red team #17: make_adapter gives the socket transport to a Sim account only, whatever PAPER_ONLY...",
-   "LIT Asia slot at real Asia costs: 2026 gain ~0 in H1 at +2 ticks, -$21.7k in 2021-25 - no card"
+   "Rebuild brain hub data",
+   "LEDGER: 15:30 ET finder round skipped; vault",
+   "handsfree READ_ONLY: buy gate seed + setup-score pool (cloud-built, read on the PC); STATE names...",
+   "bump: jarvis search index",
+   "Land day-zeroerr-rt25 (fill log, exit-real costs, forecast re-run); hubs, vault",
+   "red team #25: research/batch5 counts ATLAS ENTRY fills only",
+   "Third 11-26 landing: alloc cards 2+3 (OFF) + Decide cards, zeroerr2 hang guard; hubs, vault, bumps",
+   "vault: rebuilt for this landing (tools/obsidian_brain.py)"
   ]
  },
  "next": {
@@ -270,6 +270,12 @@
    "src": "Decide card"
   },
   {
+   "id": "alloc-lit-funded25",
+   "question": "Card 2: LIT also trades your funded ATLAS 25K (same 40% risk, never 2 positions at once) - your phrase needed",
+   "usd_month": 350.0,
+   "src": "Decide card"
+  },
+  {
    "id": "rapid25-second-with-stop",
    "question": "Buy a 2nd Rapid EOD 25K eval ($97.20, LIT + ATLAS) now, AND stop all new eval buys whenever the business (payouts minus fees since today) is $300 under its best, restarting when a ",
    "usd_month": 238.0,
@@ -286,18 +292,14 @@
    "question": "Stop buying NEW evals when LIT's last 40 trades add up to less than 0R, and start again when a free Sim eval (the same bot on NinjaTrader Sim, Builder 50K rules) passes?",
    "usd_month": 31.0,
    "src": "Decide card"
-  },
-  {
-   "id": "atlas-sb-half",
-   "question": "ATLAS on the Builder evals (Zlarior 50K + 25K #2): trade HALF size outside the Silver Bullet hours (3-4, 10-11, 14-15 ET), normal size inside?",
-   "usd_month": 0.0,
-   "src": "Decide card"
   }
  ],
- "missing": [],
+ "missing": [
+  "PC live numbers: last report Nov 26 14:15 ET (1 h ago)"
+ ],
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 26 13:30 ET"
+  "board_pc": "Nov 26 14:15 ET"
  }
 }

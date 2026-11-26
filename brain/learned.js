@@ -43,7 +43,7 @@ function hero(d) {
       : { b: int(F.sessions || 0), s: 'new trading days scored so far' },
   ];
   $('hero').replaceChildren(...tiles.map((t) => el('div', { class: 'tile' + (t.c ? ' ' + t.c : '') }, el('b', { text: t.b }), el('span', { text: t.s }))));
-  const J2 = [['sGrad', 'On trial'], ['sTime', 'Lessons'], ['sNext', 'Next'], ['sLit', 'LIT funnel'], ['sMill', 'Idea mill'], ['sGap', 'Live vs twin'], ['sHealth', 'Health'], ['sOf', 'Order flow']];
+  const J2 = [['sGrad', 'On trial'], ['sScore', 'Setup scores'], ['sTime', 'Lessons'], ['sNext', 'Next'], ['sLit', 'LIT funnel'], ['sMill', 'Idea mill'], ['sGap', 'Live vs twin'], ['sHealth', 'Health'], ['sOf', 'Order flow']];
   $('jump').replaceChildren(...J2.map(([id, t]) => el('a', { href: `#${id}`, text: t })));
 }
 function grad(L) {
@@ -57,6 +57,20 @@ function grad(L) {
       el('div', { class: 'bar', role: 'img', 'aria-label': `${r.n} of ${r.need} new trades` }, el('i', { style: `width:${Math.round(100 * r.progress)}%` })),
       el('p', { class: 'w', text: `${r.n} of ${r.need} new trades · ${r.word}` }),
       el('p', { text: `New days: ${r.n ? R(r.fwd_r) + ' a trade' : 'none yet'} · its backtest: ${R(r.band_r)} a trade over ${int(r.band_n)}${r.bot && r.bot !== '-' ? ` · ${r.bot}` : ''} · ${r.kind}` })));
+  }
+  box.replaceChildren(...kids);
+}
+function scores(L) {
+  const S2 = L.setup_scores, box = $('score');
+  if (!S2 || !(S2.rows || []).length) { box.replaceChildren(el('p', { class: 'muted', text: 'No setup scores yet (research/setupscore/pool.json and the LIT setup review are needed).' })); return; }
+  const h = S2.holdout;
+  const kids = [el('p', { class: 'muted', text: 'Each setup is compared with the 50 most similar LIT setups since 2021 (same side; time of day, sweep depth, displacement, inducements, VIX). Display only: it never changes which trades are taken.' })];
+  if (S2.verdict !== 'separates') kids.push(el('p', { class: 'w warn', text: `History only, not a predictor: on Jul-Oct 2026 (days it never saw) the best-scored third made ${R(h && h.top_third_r)} a setup and the worst third ${R(h && h.bottom_third_r)}. The score did not pick winners.` }));
+  for (const r of S2.rows) {
+    kids.push(el('div', { class: 'idea' }, el('div', { class: 't' }, el('b', { text: `${md(r.day)} ${r.at} ${r.side}` }),
+      el('span', { class: 'badge' + (r.step === 8 ? ' promote' : ''), text: r.step === 8 ? 'taken' : r.why })),
+      el('p', { class: 'w', text: r.n ? `Similar setups: ${r.n}, won ${Math.round(100 * r.win)}%, avg ${R(r.avg_r)}` : 'No similar setups yet' }),
+      r.r !== null && r.r !== undefined ? el('p', { text: `${r.step === 8 ? 'It made' : 'It would have made'} ${R(r.r)}` }) : null));
   }
   box.replaceChildren(...kids);
 }
@@ -146,7 +160,7 @@ function of(L) {
 function render(d) {
   S.d = d;
   const L = d.learning || {};
-  hero(d); grad(L); timeline(d); nextList(L); funnel(L); mill(L); gap(L); health(L); of(L);
+  hero(d); grad(L); scores(L); timeline(d); nextList(L); funnel(L); mill(L); gap(L); health(L); of(L);
   const last = (d.journal || [])[0];
   const p = $('fresh'); p.textContent = last ? `latest ${md(last.date)}` : 'no lessons yet'; p.dataset.level = last ? 'ok' : 'warn';
   $('srcs').textContent = `Reads brain/learn.json, built from ${[...(d.sources || []), ...(L.sources || [])].join(', ') || 'nothing yet'}. Research only: nothing here changes a live rule.`;
