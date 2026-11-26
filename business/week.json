@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-26 16:08 ET",
+ "built": "2026-11-26 16:10 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "Keep the exit-real forecast.json (the publish rebuild had dropped account names); pillars data",
+   "Rebuild research hub data",
    "Rebuild brain hub data",
    "LEDGER: 15:30 ET finder round skipped; vault",
    "handsfree READ_ONLY: buy gate seed + setup-score pool (cloud-built, read on the PC); STATE names...",
    "bump: jarvis search index",
    "Land day-zeroerr-rt25 (fill log, exit-real costs, forecast re-run); hubs, vault",
-   "red team #25: research/batch5 counts ATLAS ENTRY fills only",
-   "Third 11-26 landing: alloc cards 2+3 (OFF) + Decide cards, zeroerr2 hang guard; hubs, vault, bumps",
-   "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   "red team #25: research/batch5 counts ATLAS ENTRY fills only"
   ]
  },
  "next": {

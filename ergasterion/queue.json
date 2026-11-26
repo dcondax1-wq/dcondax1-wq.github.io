@@ -4353,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795727280,
+   "t": 1795727400,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4374,6 +4374,14 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795727386,
+    "s": "Keep the exit-real forecast.json (the publish rebuild had dropped account names); pillars data"
+   },
+   {
+    "t": 1795727358,
+    "s": "Rebuild research hub data"
+   },
    {
     "t": 1795727294,
     "s": "Rebuild brain hub data"
@@ -4465,14 +4473,6 @@
    {
     "t": 1795718399,
     "s": "red team #22: hang guard - flat on EVERY account (each data/ninjatrader_state_.json, unreadable = not flat),…"
-   },
-   {
-    "t": 1795718388,
-    "s": "Second 11-26 landing: regime2026 (ATLAS S1 forward flag, atlas_exec unwired), setup score, consfix, payout en…"
-   },
-   {
-    "t": 1795718364,
-    "s": "Merge remote-tracking branch 'olympus/big-ofpipe' into land-1126"
    }
   ],
   "branches": [
