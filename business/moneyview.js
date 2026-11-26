@@ -26,15 +26,34 @@
 
   /** the forecast row of one account: forecast.json {accounts: {key|name: {...}}} first, else payday.json rows[market].accounts */
   function forecastFor(a, fc, pd, market) {
-    const name = norm(a && a.name), key = String(a && a.key || '');
-    const pick = (rows) => {
+    const name = norm(a && a.name), key = String(a && a.key || ''), me = `${a && a.name || ''} ${a && a.plan || ''}`.toLowerCase();
+    const size = (t) => { const m = /(\d+)\s*k\b/.exec(t); return m ? m[1] : null; }, rapid = (t) => /rapid/.test(t);
+    const pick = (rows) => {                                 // best match: the key, the exact name, else the longest name prefix of the same size / kind
       if (!isObj(rows)) return null;
       if (key && isObj(rows[key])) return rows[key];
-      for (const r of Object.values(rows)) if (isObj(r) && norm(r.name) && (norm(r.name) === name || name.startsWith(norm(r.name)) || norm(r.name).startsWith(name))) return r;
-      return null;
+      let best = null, bs = 0;
+      for (const r of Object.values(rows)) {
+        if (!isObj(r)) continue;
+        const rn = norm(r.name), them = `${r.name || ''} ${r.plan || ''}`.toLowerCase().replace(/_/g, ' ');
+        if (!rn) continue;
+        if (size(me) && size(them) && size(me) !== size(them)) continue;
+        if (rapid(me) !== rapid(them)) continue;
+        if (r.stage && a && typeof a.funded === 'boolean' && (r.stage === 'funded') !== a.funded) continue;
+        const sc = rn === name ? 1000 : name.startsWith(rn) || rn.startsWith(name) ? 100 + rn.length : 0;
+        if (sc > bs) { bs = sc; best = r; }
+      }
+      return best;
     };
     const f = isObj(fc) ? pick(fc.accounts) : null;
     if (f) {
+      const mk = Object.keys(isObj(fc.markets) ? fc.markets : {}), main = isObj(f['2026-like']) ? '2026-like' : mk.find((k) => isObj(f[k])) || null;
+      if (main) {                                            // research/forecast/forecast.json (day-batch5): per market {pass_pct, fail_pct, pass_med_sessions, ...}
+        const M = f[main], refK = mk.find((k) => k !== main && isObj(f[k])) || null, R = refK ? f[refK] : null, pc = (v) => (num(v) === null ? null : num(v) / 100);
+        return { src: 'forecast', sample: !!fc.sample, market: main, ref: refK, made: String(fc.made || '').slice(0, 10), runs: num(fc.n_paths) || num(fc.runs),
+          p_pass: pc(M.pass_pct), p_fail: pc(M.fail_pct), days_med: num(M.pass_med_sessions), pass_med: null,
+          p_payout: pc(M.first_payout_pct), payout_sessions: num(M.first_payout_med_sessions), p_payout60: pc(M.first_payout_60_pct), p_lost: pc(M.lost_pct), payout_med: null, payout_usd: null,
+          ref_pass: R ? pc(R.pass_pct) : null, ref_payout: R ? pc(R.first_payout_pct) : null };
+      }
       return { src: 'forecast', sample: !!fc.sample, market: String(fc.market || ''), made: String(fc.made || '').slice(0, 10), runs: num(fc.runs) || num(f.runs),
         p_pass: num(f.p_pass), p_fail: num(f.p_fail), pass_med: f.pass_by || f.pass_med || null, days_med: num(f.days_med), days_p25: num(f.days_p25), days_p75: num(f.days_p75),
         p_payout: num(f.p_payout), payout_med: f.payout_by || f.payout_med || null, payout_usd: num(f.payout_usd) };
@@ -85,9 +104,9 @@
       const t = a.target, left = num(t.left), v = num(t.v), frac = num(t.progress);
       const f = F ? {
         line: F.src === 'forecast'
-          ? `Pass ${F.p_pass !== null ? Math.round(F.p_pass * 100) + '%' : '?'}${F.p_fail !== null ? ' · fail ' + Math.round(F.p_fail * 100) + '%' : ''}${F.days_med !== null ? ' · about ' + F.days_med + ' trading days' : ''}${F.pass_med ? ' · most likely ' + dayText(F.pass_med) : ''}`
+          ? `Pass ${F.p_pass !== null ? Math.round(F.p_pass * 100) + '%' : '?'}${F.p_fail !== null ? ' · fail ' + Math.round(F.p_fail * 100) + '%' : ''}${F.days_med !== null ? ' · about ' + Math.round(F.days_med) + ' trading days' : ''}${F.pass_med ? ' · most likely ' + dayText(F.pass_med) : ''}${F.ref && F.ref_pass !== null ? ` (${F.ref} market: pass ${Math.round(F.ref_pass * 100)}%)` : ''}`
           : `Pass by Dec 31: ${F.p_pass !== null ? Math.round(F.p_pass * 100) + '%' : '?'}${F.pass_med ? ' · most likely ' + dayText(F.pass_med) : ''}${F.p_fail !== null ? ' · lost first ' + Math.round(F.p_fail * 100) + '%' : ''}`,
-        src: F.src === 'forecast' ? `Pass forecaster${F.runs ? ', ' + F.runs.toLocaleString('en-US') + ' runs' : ''}${F.market ? ', ' + F.market : ''}${F.made ? ', ' + F.made : ''}` : `Payday plan (${F.runs || 1000} simulated runs, ${F.market}, ${F.made}); the pass forecaster has not landed`,
+        src: F.src === 'forecast' ? `Pass forecaster${F.runs ? ', ' + F.runs.toLocaleString('en-US') + ' runs' : ''}${F.market ? ', ' + F.market + (/like$/.test(F.market) ? ' market' : '') : ''}${F.made ? ', ' + F.made : ''}` : `Payday plan (${F.runs || 1000} simulated runs, ${F.market}, ${F.made}); the pass forecaster has not landed`,
         sample: F.sample, p: F.p_pass } : null;
       return { kind: 'pass', label: 'To pass', goal: v, left, frac: frac === null ? 0 : Math.max(0, Math.min(1, frac)), have: num(t.pnl),
         text: left === null ? 'Needs the PC\'s balance' : left <= 0 ? 'Target reached' : `${usd(left)} to pass`, sub: v !== null ? `target ${usd(v)} · P&L ${usd(t.pnl, true)}` : '', forecast: f, next: null };
@@ -98,7 +117,10 @@
       const prof = isObj(a.money) ? num(a.money.balance) : null;
       const left = plan !== null && prof !== null ? r2(Math.max(0, plan - prof)) : null;
       const ask = co && co.first_at_min ? min : max;
-      const f = F && F.payout_med ? { line: `First payout most likely ${dayText(F.payout_med)}${F.payout_usd !== null ? ' · about ' + usd(F.payout_usd) + ' to you' : ''}${F.p_payout !== null ? ' · ' + Math.round(F.p_payout * 100) + '% by Dec 31' : ''}`,
+      const f = F && F.src === 'forecast' && F.payout_sessions !== null && F.payout_sessions !== undefined
+        ? { line: `First payout ${F.p_payout !== null ? Math.round(F.p_payout * 100) + '%' : '?'} · about ${Math.round(F.payout_sessions)} trading days${F.p_lost !== null ? ' · lost first ' + Math.round(F.p_lost * 100) + '%' : ''}${F.ref && F.ref_payout !== null ? ` (${F.ref} market: ${Math.round(F.ref_payout * 100)}%)` : ''}`,
+          src: `Pass forecaster${F.runs ? ', ' + F.runs.toLocaleString('en-US') + ' runs' : ''}, ${F.market} market${F.made ? ', ' + F.made : ''}`, sample: F.sample, p: F.p_payout }
+        : F && F.payout_med ? { line: `First payout most likely ${dayText(F.payout_med)}${F.payout_usd !== null ? ' · about ' + usd(F.payout_usd) + ' to you' : ''}${F.p_payout !== null ? ' · ' + Math.round(F.p_payout * 100) + '% by Dec 31' : ''}`,
         src: F.src === 'forecast' ? 'Pass forecaster' : `Payday plan (${F.runs || 1000} simulated runs, ${F.market}, ${F.made})`, sample: F.sample, p: F.p_payout } : null;
       return { kind: 'payout', label: 'To payout', goal: plan, left, frac: plan && prof !== null ? Math.max(0, Math.min(1, prof / plan)) : 0, have: prof,
         text: prof === null ? 'Needs the PC\'s balance' : num(p.request_today) > 0 ? `Payout ready: ${usd(p.request_today)}` : `${usd(left)} to the ${usd(ask)} payout`,

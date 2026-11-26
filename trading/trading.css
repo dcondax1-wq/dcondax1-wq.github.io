@@ -176,3 +176,5 @@ main#app .ag-card .note { font-size: 0.9375rem; }
 .hb-bar i.live.ok { background: #77db89; box-shadow: 0 0 10px rgba(119,219,137,.8); } .hb-bar i.live.bad { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,.8); }
 .hb-sc { display: flex; justify-content: space-between; font-size: .7rem; opacity: .65; font-variant-numeric: tabular-nums; }
 .hsrc { font-size: .74rem; opacity: .7; }
+.hb-bar i.med { width: 2px; margin-left: -1px; top: 2px; bottom: 2px; background: rgba(218,203,240,.85); }
+.hb-ref { margin: 4px 0 0; font-size: .76rem; opacity: .6; }

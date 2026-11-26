@@ -45,6 +45,15 @@
    ]
   },
   {
+   "text": "Tested and rejected: LIT gate tweaks via the setup-learning loop (2026-11-26, lit-learns-live-2026-11-26.md, tools/lit_setups_learn.py, pre-registered VARIANTS): 13 versions vs live through the automatic bar (b…",
+   "cat": "NQ strategy",
+   "d": "2026-11-26",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
    "text": "Tested and rejected: LIT fragility audit (2026-11-26, lit-fragility-2026-11-26.md, research/fragility/, info, not a rule test): 16 knobs at +-10/20%: mostly a plateau; sensitive in Jul-Oct = displacement 0.8 (+…",
    "cat": "NQ strategy",
    "d": "2026-11-26",
@@ -69,15 +78,6 @@
    "strength": 1,
    "sources": [
     "docs/TESTED_AND_REJECTED.md"
-   ]
-  },
-  {
-   "text": "Only BLITZ would gain from a perfect call, and by 13:30 the model still can't tell its range days from its trend days well enough to earn money.",
-   "cat": "NQ strategy",
-   "d": "2026-11-26",
-   "strength": 1,
-   "sources": [
-    "research/writeups/day-type-2026-11-26.md"
    ]
   }
  ],
@@ -209,10 +209,10 @@
   }
  ],
  "counts": {
-  "NQ strategy": 39,
+  "NQ strategy": 40,
   "Kalshi": 0,
   "money": 1,
-  "process": 20,
+  "process": 19,
   "app": 0
  },
  "note": "Every lesson is a sentence lifted from a file in the repo; strength = how many independent files agree. Research notes, never a trade signal."

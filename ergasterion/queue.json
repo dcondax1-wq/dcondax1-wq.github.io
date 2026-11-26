@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 281,
+  "count": 284,
   "latest": [
    {
     "date": "2026-11-26",
@@ -201,6 +201,13 @@
    },
    {
     "date": "2026-11-26",
+    "title": "LIT learns from live (day-litlearn 2026-11-26)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/lit-learns-live-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
     "title": "How fragile is LIT (Zlarior)? Robustness & fragility audit (2026-11-26)",
     "status": "finding",
     "summary": "In that market today's 40% room size fails about half the evals.",
@@ -208,10 +215,24 @@
    },
    {
     "date": "2026-11-26",
+    "title": "Forward-paper harness (2026-11-26, big-forward)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/forward-paper-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
     "title": "A sturdier execution path for the MFFU accounts (big-execution, 2026-11-26)",
     "status": "",
     "summary": "",
     "file": "research/writeups/execution-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
+    "title": "Entry execution policy for LIT and ATLAS: market vs limit vs pullback (big-execution, 2026-11-26)",
+    "status": "finding",
+    "summary": "Card: no order change for either bot. Instead, ONE logging change makes the ATLAS question answerable with real ticks within ~20 ATLAS signals (below).",
+    "file": "research/writeups/execpol-2026-11-26.md"
    },
    {
     "date": "2026-11-26",
@@ -254,27 +275,6 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/alloc-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-25",
-    "title": "More trades: can Zlarior / ATLAS trade more without losing the edge? (2026-11-25)",
-    "status": "finding",
-    "summary": "0 of 19 LIT variants and 0 of 7 ATLAS variants meet the pre-registered rule (= +25% trades, 2-week eval pass = today in BOTH 2026 halves, 2021-25 not worse, walk-forward = half the windows).",
-    "file": "research/writeups/more-trades-2026-11-25.md"
-   },
-   {
-    "date": "2026-11-25",
-    "title": "IDEA MILL v3: family-first testing, 56,160 ideas (2026-11-25)",
-    "status": "finding",
-    "summary": "Closest families (discovery only): ATR-band momentum (close beyond EMA20 +- 2 ATR) Simes p 0.058; VWAP +-2 sd momentum 0.108; RSI fade 0.377.",
-    "file": "research/writeups/ideamill-v3-2026-11-25.md"
-   },
-   {
-    "date": "2026-11-25",
-    "title": "IDEA MILL: thousands of ideas under one honest protocol (2026-11-25)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/ideamill-2026-11-25.md"
    }
   ]
  },
@@ -355,6 +355,7 @@
  "rejected_ref": [
   "LIT fragility audit (2026-11-26, lit-fragility-2026-11-26.md, research/fragility/, info, not a rule test): 16 knobs at +-10/20%: mostly a plateau; sensitive in Jul-Oct = displacement 0.8 (+…",
   "News-day playbook (2026-11-26, news-playbook-2026-11-26.md, research/news/, pre-registered): NQ 5m 2021-11..2026-11, 130 Tier-1 08:30 days (CPI / NFP / PPI; CPI / PPI only from 2023-24) + 4…",
+  "LIT gate tweaks via the setup-learning loop (2026-11-26, lit-learns-live-2026-11-26.md, tools/lit_setups_learn.py, pre-registered VARIANTS): 13 versions vs live through the automatic bar (b…",
   "BLITZ v2 rebuild (2026-11-26, blitz-v2-2026-11-26.md, research/blitzv2/, pre-registered after an anatomy on 2021-24 + Jan-Jun 2026): 8 structural versions (noise-area band/VWAP exit, no tim…",
   "Day-type classifier + playbook routing (2026-11-26, day-type-2026-11-26.md, code research/dayclass/): 5 RTH day types (range / trend up / trend down / reversal / news expansion), walk-forwa…",
   "LIT entry refinement on 1m (2026-11-26, entry-fine-2026-11-26.md, research/entryfine/, pre-registered): 5 versions vs today (limit at the 5m CISD level, then the 1m CISD; H1 / H2 / 2021-25…",
@@ -365,8 +366,7 @@
   "Bad-case plan (2026-11-24, badcase-2026-11-24.md, research/badcase/, pre-registered DESIGN.md, rank.py engine + a 2025 market): in a 2025-like / 2021-25 market every MFFU plan loses ($-236…",
   "Time windows removed (2026-11-24, notime-2026-11-24.md, research/notime/, pre-registered DESIGN.md): LIT entries 18:00-15:30 (whole day) vs 02:00-15:30: -$10,511 / +$27,310 / +$9,644 vs +$1…",
   "Dead hours per pillar (2026-11-24, dead-hours-2026-11-24.md, research/hours/, pre-registered DESIGN.md): worst 1-3 half-hour window per book picked on 2021-24 only (PF 0.8, 20+ trades), tes…",
-  "LIT high-VIX downtrend (2026-11-24, lit-vix-downtrend-2026-11-24.md, research/litvix/, pre-registered DESIGN.md): after 0 real winners in 7 live-window twin trades (NQ 31k - 25k). V1 longs…",
-  "Walk-forward portfolio of every stored run + 24-hour coverage (2026-11-24, portfolio-2026-11-24.md, research/portfolio/, pre-registered DESIGN.md): 1,983 runs, 508 pass the PICK rule (2021-…"
+  "LIT high-VIX downtrend (2026-11-24, lit-vix-downtrend-2026-11-24.md, research/litvix/, pre-registered DESIGN.md): after 0 real winners in 7 live-window twin trades (NQ 31k - 25k). V1 longs…"
  ],
  "learnings": [
   {
@@ -374,6 +374,13 @@
    "who": "lit",
    "text": "In that market today's 40% room size fails about half the evals.",
    "src": "research/writeups/lit-fragility-2026-11-26.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-26",
+   "who": "atlas",
+   "text": "Card: no order change for either bot. Instead, ONE logging change makes the ATLAS question answerable with real ticks within ~20 ATLAS signals (below).",
+   "src": "research/writeups/execpol-2026-11-26.md",
    "kind": "finding"
   },
   {
@@ -851,13 +858,6 @@
    "text": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…",
    "src": "research/writeups/lit-ideas-2026-11-18b.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-11-18",
-   "who": "kalshi",
-   "text": "Do not put money in. Kalshi really pays a daily pot to resting orders, but nothing shows a small account keeps more than the fills take away:",
-   "src": "research/writeups/kalshi-best-shot-rewards-2026-11-18.md",
-   "kind": "rejected"
   }
  ],
  "lessons": [
@@ -927,6 +927,21 @@
   },
   {
    "text": "Tested and rejected: News-day playbook (2026-11-26, news-playbook-2026-11-26.md, research/news/, pre-registered): NQ 5m 2021-11..2026-11, 130 Tier-1 08:30 days (CPI / NFP / PPI; CPI / PPI only from 2023-24) + 4…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-26",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: LIT gate tweaks via the setup-learning loop (2026-11-26, lit-learns-live-2026-11-26.md, tools/lit_setups_learn.py, pre-registered VARIANTS): 13 versions vs live through the automatic bar (b…",
    "cat": "NQ strategy",
    "who": "dev",
    "d": "2026-11-26",
@@ -1131,21 +1146,6 @@
    "sources": [
     {
      "src": "research/writeups/dead-hours-2026-11-24.md",
-     "d": "2026-11-24"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Walk-forward portfolio of every stored run + 24-hour coverage (2026-11-24, portfolio-2026-11-24.md, research/portfolio/, pre-registered DESIGN.md): 1,983 runs, 508 pass the PICK rule (2021-…",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-11-24",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-24"
     }
    ]
@@ -1902,6 +1902,14 @@
    "who": "lit",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up: LIT learns from live (day-litlearn 2026-11-26)",
+   "src": "research/writeups/lit-learns-live-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "lit",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up (finding): How fragile is LIT (Zlarior)? Robustness & fragility audit (2026-11-26)",
    "src": "research/writeups/lit-fragility-2026-11-26.md"
   },
@@ -1928,6 +1936,14 @@
    "ok": true,
    "text": "Write-up: News-day playbook: is there money in CPI / NFP / PPI / FOMC days? (2026-11-26)",
    "src": "research/writeups/news-playbook-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Forward-paper harness (2026-11-26, big-forward)",
+   "src": "research/writeups/forward-paper-2026-11-26.md"
   },
   {
    "t": 1795694400,
@@ -1968,6 +1984,14 @@
    "ok": true,
    "text": "Write-up: Batch 5: ATLAS fills, eval forecaster, health bands, BLITZ paper (2026-11-26)",
    "src": "research/writeups/batch5-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Entry execution policy for LIT and ATLAS: market vs limit vs pullback (big-execution, 2026-11-26)",
+   "src": "research/writeups/execpol-2026-11-26.md"
   },
   {
    "t": 1795608000,
@@ -3952,30 +3976,6 @@
    "ok": true,
    "text": "Write-up (promising): Second strategy next to LIT - the London EMA trend pullback (sweep + 5m CISD, VIX-band target)",
    "src": "research/writeups/second-ema.md"
-  },
-  {
-   "t": 1792670400,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): Second strategy next to LIT - MACD divergence at a liquidity sweep (works, thin) and supply/demand zone retes…",
-   "src": "research/writeups/second-md.md"
-  },
-  {
-   "t": 1792670400,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): LIT + the second strategies - one eval or two accounts? (EMA, MACD, S/R, Asia slot; sizes, eval odds, funded…",
-   "src": "research/writeups/second-mix.md"
-  },
-  {
-   "t": 1792670400,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): A second strategy next to LIT - support/resistance (sweep-and-reclaim of the day's levels in NY hours)",
-   "src": "research/writeups/second-sr.md"
   }
  ],
  "pipeline": {
@@ -4357,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795711740,
+   "t": 1795712160,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,6 +4379,46 @@
   "available": true,
   "commits": [
    {
+    "t": 1795711988,
+    "s": "Rebuild hub data"
+   },
+   {
+    "t": 1795711986,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795711982,
+    "s": "Rebuild hub data"
+   },
+   {
+    "t": 1795711981,
+    "s": "Land site5 v2 (real forecast + bands), LIT learns from live, forward-paper harness, execution study, sizing a…"
+   },
+   {
+    "t": 1795711831,
+    "s": "Merge remote-tracking branch 'olympus/day-pillars4' into land-1123"
+   },
+   {
+    "t": 1795711826,
+    "s": "Merge remote-tracking branch 'olympus/day-moretrades' into land-1123"
+   },
+   {
+    "t": 1795711826,
+    "s": "Merge remote-tracking branch 'olympus/big-execution' into land-1123"
+   },
+   {
+    "t": 1795711826,
+    "s": "Merge remote-tracking branch 'olympus/big-regime' into land-1123"
+   },
+   {
+    "t": 1795711825,
+    "s": "Merge remote-tracking branch 'olympus/day-livedash' into land-1123"
+   },
+   {
+    "t": 1795711796,
+    "s": "site5 on the real data: Strategy health reads research/health/bands.json (20-trade 2026 band p5/p50/p95 + the…"
+   },
+   {
     "t": 1795711655,
     "s": "Rebuild hub data"
    },
@@ -4389,6 +4429,22 @@
    {
     "t": 1795711650,
     "s": "Land site5 (money view, strategy health on the real bands, archive door, faster Home, 44 px Today strip) + ev…"
+   },
+   {
+    "t": 1795711485,
+    "s": "execpol: entry execution study for LIT + ATLAS (pre-registered); verdict no order change, shadow-limit measur…"
+   },
+   {
+    "t": 1795711360,
+    "s": "Forward-paper harness: 7 watched leads + idea mill adapter scored nightly on new sessions vs their own band (…"
+   },
+   {
+    "t": 1795711337,
+    "s": "execpol: amendment 1 (entry-bar fill rule for marketable limits; grid adds 1 and 6)"
+   },
+   {
+    "t": 1795711293,
+    "s": "LIT fragility: correct the sizing note (real engine says keep room_f 0.4)"
    },
    {
     "t": 1795711293,
@@ -4407,76 +4463,20 @@
     "s": "Merge remote-tracking branch 'olympus/big-evalsizer' into land-1123"
    },
    {
+    "t": 1795711272,
+    "s": "Merge remote-tracking branch 'origin/pc' into day-pillars4"
+   },
+   {
+    "t": 1795711259,
+    "s": "LIT learns from live (day-litlearn): setup funnel, gate ledger, setups-like-today, gated suggestions"
+   },
+   {
     "t": 1795711255,
     "s": "Eval sizer: mixed-market sensitivity (25%/50% 2026): room 0.3 earns less than today's 0.4, fails about the sa…"
    },
    {
     "t": 1795711185,
     "s": "Allocation optimizer: 4 accounts x 13 books from today's balances (real engine, joint paths): switches-only +…"
-   },
-   {
-    "t": 1795711165,
-    "s": "LIT fragility audit: parameter surface, cost stress, trade-order MC, deflated Sharpe, eval sizing under the h…"
-   },
-   {
-    "t": 1795710931,
-    "s": "LIT fragility audit: plan before the runs"
-   },
-   {
-    "t": 1795710908,
-    "s": "Home Today strip: 44 px tap targets (pill inside a 44 px link) with search 152 / dashboards 228 / More 844 un…"
-   },
-   {
-    "t": 1795710766,
-    "s": "Land news playbook / day-type / execution studies; rebuild data"
-   },
-   {
-    "t": 1795710765,
-    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
-   },
-   {
-    "t": 1795710760,
-    "s": "Land news playbook / day-type / execution studies; rebuild data"
-   },
-   {
-    "t": 1795710725,
-    "s": "Merge remote-tracking branch 'olympus/big-execution' into land-1123"
-   },
-   {
-    "t": 1795710725,
-    "s": "Merge remote-tracking branch 'olympus/big-regime' into land-1123"
-   },
-   {
-    "t": 1795710725,
-    "s": "Merge remote-tracking branch 'olympus/day-moretrades' into land-1123"
-   },
-   {
-    "t": 1795710692,
-    "s": "Eval sizing policy: 54 variants (DP, Kelly, fixed-fraction, bold, protect) vs today on 3 plans x 4 markets: n…"
-   },
-   {
-    "t": 1795710520,
-    "s": "big-execution: MFFU execution-path research + socket order bridge prototype (paper only)"
-   },
-   {
-    "t": 1795710510,
-    "s": "Day-type classifier + playbook routing: 0/19 pass (no checkpoint beats 'always range'; perfect call fails LIT…"
-   },
-   {
-    "t": 1795710505,
-    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
-   },
-   {
-    "t": 1795710500,
-    "s": "Land NQ Live screen (live trade, accounts, setups, today's trades); sw v219"
-   },
-   {
-    "t": 1795710398,
-    "s": "News-day playbook: release anatomy + 8 pre-registered playbooks/filters, 0 pass (ATLAS skip-news = paper lead)"
-   },
-   {
-    "t": 1795710359,
-    "s": "Allocation optimizer: pre-registered design (4 accounts from today's balances x 13 books, same paths, pick ru…"
    }
   ],
   "branches": [
