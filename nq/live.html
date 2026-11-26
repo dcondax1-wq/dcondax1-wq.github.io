@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Live</title>
+<meta name="description" content="Live trades and where we're at: each account (armed, today's $, balance, room, to pass / payout), the open trade with live $ and R on a mini chart, each bot's setup step, today's trades and this week / month.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- day-livedash 2026-11-26 (owner: "I want to see live trades on the dashboard, where we're at"): ONE live screen, phone first, OLYMPUS NIGHT.
+     Read only: ../home.json, ../business/accounts.json, ../business/payday.json, the PC's public status post (../pc_feed.js) and its chart post
+     (nqbars.js), polled every 20 s while on screen. livecore.js = the pure rules (node-tested), live.js = the page. Text only through textContent. -->
+<link rel="stylesheet" href="live.css?v=1">
+<script src="../pc_feed.js?v=n8"></script>
+</head>
+<body>
+<main id="app" data-trade="0">
+  <header class="lv-top">
+    <a class="lv-back" href="./" aria-label="Back to NQ">‹ NQ</a>
+    <h1><span class="lv-dot" aria-hidden="true"></span>Live</h1>
+    <span class="lv-pc" id="pc" data-level="bad" role="status" aria-live="polite">Loading…</span>
+  </header>
+
+  <section class="lv-health" id="health" data-level="warn" aria-label="PC and bots">
+    <p class="lv-ht" id="healthTitle">Looking for your PC's report…</p>
+    <ul class="lv-hbots" id="healthBots"></ul>
+    <ul class="lv-hlines" id="healthLines"></ul>
+  </section>
+
+  <section class="lv-trade" id="trade" aria-labelledby="tradeH" hidden>
+    <div class="lv-trow"><h2 id="tradeH"><span class="lv-live" aria-hidden="true"></span>IN A TRADE</h2><span class="lv-chip" id="tradeAge"></span></div>
+    <div class="lv-tmain">
+      <div><p class="lv-side" id="tradeSide"></p><p class="lv-sub" id="tradeWho"></p></div>
+      <div class="lv-pnl"><b id="tradeUsd">-</b><span id="tradeR"></span></div>
+    </div>
+    <dl class="lv-grid" id="tradeGrid"></dl>
+    <div class="lv-chart" id="chart" role="img" aria-label="NQ 5-minute candles with the trade's entry, stop and target"></div>
+    <p class="lv-note" id="chartNote"></p>
+  </section>
+
+  <section class="lv-card" id="flat" aria-labelledby="flatH">
+    <div class="lv-trow"><h2 id="flatH">No open trade</h2><span class="lv-chip" id="flatAge"></span></div>
+    <p class="lv-note" id="flatText">Waiting for the PC's report.</p>
+  </section>
+
+  <section aria-labelledby="acctH">
+    <h2 class="lv-h2" id="acctH">Accounts <small id="acctSum"></small></h2>
+    <div class="lv-accts" id="accts"></div>
+  </section>
+
+  <section class="lv-card" aria-labelledby="setupH">
+    <div class="lv-trow"><h2 id="setupH">Setup progress</h2><span class="lv-chip" id="setupSrc"></span></div>
+    <div id="setups"></div>
+  </section>
+
+  <section class="lv-card" aria-labelledby="todayH">
+    <div class="lv-trow"><h2 id="todayH">Today's trades</h2><b class="lv-tsum" id="todaySum"></b></div>
+    <ol class="lv-list" id="today"></ol>
+    <h3 class="lv-h3">This week / month</h3>
+    <table class="lv-per" id="per"><thead><tr><th scope="col">Account</th><th scope="col">Week</th><th scope="col">Month</th></tr></thead><tbody></tbody></table>
+    <p class="lv-note" id="perNote"></p>
+  </section>
+
+  <footer class="lv-foot">
+    <p>Asks your PC's public report every 22 seconds while this screen is open; the PC posts every 15 minutes, so each block shows its own age. Live $ and R use the newest NQ price in the report (MNQ: $2 a point a micro). Read only: this screen never places, arms or changes anything.</p>
+    <p><a href="accounts.html">Every account in detail</a> · <a href="brain.html">The bots' brains</a> · <a href="./">NQ dashboard</a></p>
+  </footer>
+</main>
+<script type="module" src="live.js?v=1"></script>
+</body>
+</html>

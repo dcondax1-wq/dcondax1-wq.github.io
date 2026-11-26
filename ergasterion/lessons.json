@@ -1,8 +1,8 @@
 {
  "v": 1,
  "name": "Ergasterion lessons",
- "asof": "2026-11-25",
- "say": "This week we wrote down 49 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
+ "asof": "2026-11-26",
+ "say": "This week we wrote down 46 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
  "week": [
   {
    "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
@@ -16,6 +16,16 @@
    ]
   },
   {
+   "text": "Tested and rejected: BLITZ v2 rebuild (2026-11-26, blitz-v2-2026-11-26.md, research/blitzv2/, pre-registered after an anatomy on 2021-24 + Jan-Jun 2026): 8 structural versions (noise-area band/VWAP exit, no tim…",
+   "cat": "NQ strategy",
+   "d": "2026-11-26",
+   "strength": 2,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md",
+    "research/writeups/2026-11-04_second_strategies_night.md"
+   ]
+  },
+  {
    "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
    "cat": "NQ strategy",
    "d": "2026-11-20",
@@ -26,13 +36,21 @@
    ]
   },
   {
-   "text": "Owner - \"improve all of our strategies, there's things we can do to make more\".",
-   "cat": "money",
-   "d": "2026-11-19",
-   "strength": 2,
+   "text": "Tested and rejected: LIT entry refinement on 1m (2026-11-26, entry-fine-2026-11-26.md, research/entryfine/, pre-registered): 5 versions vs today (limit at the 5m CISD level, then the 1m CISD; H1 / H2 / 2021-25…",
+   "cat": "NQ strategy",
+   "d": "2026-11-26",
+   "strength": 1,
    "sources": [
-    "research/writeups/lit-more-money-2026-11-19.md",
-    "research/writeups/atlas-more-money-2026-11-19.md"
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
+   "cat": "process",
+   "d": "2026-11-26",
+   "strength": 1,
+   "sources": [
+    "research/writeups/entry-fine-2026-11-26.md"
    ]
   },
   {
@@ -42,15 +60,6 @@
    "strength": 1,
    "sources": [
     "research/writeups/ict-lab2-2026-11-25.md"
-   ]
-  },
-  {
-   "text": "Tested and rejected: More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…",
-   "cat": "NQ strategy",
-   "d": "2026-11-25",
-   "strength": 1,
-   "sources": [
-    "docs/TESTED_AND_REJECTED.md"
    ]
   },
   {
@@ -70,15 +79,6 @@
    "sources": [
     "docs/TESTED_AND_REJECTED.md"
    ]
-  },
-  {
-   "text": "Closest families (discovery only): ATR-band momentum (close beyond EMA20 +- 2 ATR) Simes p 0.058; VWAP +-2 sd momentum 0.108; RSI fade 0.377.",
-   "cat": "process",
-   "d": "2026-11-25",
-   "strength": 1,
-   "sources": [
-    "research/writeups/ideamill-v3-2026-11-25.md"
-   ]
   }
  ],
  "top": [
@@ -91,6 +91,16 @@
     "research/writeups/four-pillars-2026-11-23.md",
     "research/writeups/edge-health-2026-11-17.md",
     "research/writeups/atlas-chatgpt-breakouts.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: BLITZ v2 rebuild (2026-11-26, blitz-v2-2026-11-26.md, research/blitzv2/, pre-registered after an anatomy on 2021-24 + Jan-Jun 2026): 8 structural versions (noise-area band/VWAP exit, no tim…",
+   "cat": "NQ strategy",
+   "d": "2026-11-26",
+   "strength": 2,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md",
+    "research/writeups/2026-11-04_second_strategies_night.md"
    ]
   },
   {
@@ -151,15 +161,6 @@
    "sources": [
     "research/writeups/rapid25-lit-lane-2026-11-18.md",
     "research/writeups/builder25k-eval-sizing-2026-11-17.md"
-   ]
-  },
-  {
-   "text": "p 0.05: 26 real vs 20.0 by chance = noise level.",
-   "cat": "process",
-   "d": "2026-11-25",
-   "strength": 1,
-   "sources": [
-    "research/writeups/ict-lab2-2026-11-25.md"
    ]
   }
  ],

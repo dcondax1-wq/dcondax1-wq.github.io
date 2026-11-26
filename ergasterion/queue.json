@@ -1,6 +1,6 @@
 {
  "v": 2,
- "asof": "2026-11-25",
+ "asof": "2026-11-26",
  "note": "Built from handoff/QUEUE.md, research/writeups, research/runs, the Archive index, the Mind's proposals and git (when present) by tools/ergasterion_build.py. Plain text only; nothing here is a trade.",
  "queue": {
   "total": 67,
@@ -190,8 +190,29 @@
   ]
  },
  "writeups": {
-  "count": 272,
+  "count": 275,
   "latest": [
+   {
+    "date": "2026-11-26",
+    "title": "LIT entry refinement on 1m bars (2026-11-26)",
+    "status": "finding",
+    "summary": "E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
+    "file": "research/writeups/entry-fine-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
+    "title": "BLITZ v2: worth real money, or retire it? (2026-11-26)",
+    "status": "finding",
+    "summary": "In Jan-Jun 2026 almost every bucket (check time, VIX, band distance, weekday, 1st / later trade) is positive.",
+    "file": "research/writeups/blitz-v2-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
+    "title": "Batch 5: ATLAS fills, eval forecaster, health bands, BLITZ paper (2026-11-26)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/batch5-2026-11-26.md"
+   },
    {
     "date": "2026-11-25",
     "title": "More trades: can Zlarior / ATLAS trade more without losing the edge? (2026-11-25)",
@@ -254,27 +275,6 @@
     "status": "research",
     "summary": "",
     "file": "research/writeups/proedge-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "24-hour coverage + a walk-forward portfolio of everything built (2026-11-24)",
-    "status": "finding",
-    "summary": "No portfolio beats today (LIT + ATLAS) on both hold-outs.",
-    "file": "research/writeups/portfolio-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "A personal futures account vs the MFFU prop path (2026-11-24)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/ownacct-2026-11-24.md"
-   },
-   {
-    "date": "2026-11-24",
-    "title": "Do the time windows add money? (2026-11-24)",
-    "status": "finding",
-    "summary": "The windows are not \"tuning to a time\". They are where these setups work (London open, New York open).",
-    "file": "research/writeups/notime-2026-11-24.md"
    }
   ]
  },
@@ -353,6 +353,8 @@
   }
  ],
  "rejected_ref": [
+  "BLITZ v2 rebuild (2026-11-26, blitz-v2-2026-11-26.md, research/blitzv2/, pre-registered after an anatomy on 2021-24 + Jan-Jun 2026): 8 structural versions (noise-area band/VWAP exit, no tim…",
+  "LIT entry refinement on 1m (2026-11-26, entry-fine-2026-11-26.md, research/entryfine/, pre-registered): 5 versions vs today (limit at the 5m CISD level, then the 1m CISD; H1 / H2 / 2021-25…",
   "Idea mill v3, family-first (2026-11-25, ideamill-v3-2026-11-25.md, research/ideamill/DESIGN_v3.md): 56,160 ideas (26 triggers incl. prior-month, Asia / London breaks, opening drive, 3-bar r…",
   "Idea mill v2, 38,880 grammar ideas (2026-11-25, ideamill-2026-11-25.md, research/ideamill/, pre-registered DESIGN.md): 18 triggers x with/fade x 5 windows x 9 filters x 2 stops x 4 exits x…",
   "Personal futures account vs MFFU (2026-11-24, ownacct-2026-11-24.md, research/ownacct/, pre-registered DESIGN.md): LIT + ATLAS, fixed-fractional, $1.24 RT, whole micros. $25k at 0.5%: +$49…",
@@ -364,11 +366,23 @@
   "Walk-forward portfolio of every stored run + 24-hour coverage (2026-11-24, portfolio-2026-11-24.md, research/portfolio/, pre-registered DESIGN.md): 1,983 runs, 508 pass the PICK rule (2021-…",
   "Market structure: expansion / retracement (2026-11-24, structure-2026-11-24.md, research/structure/, pre-registered DESIGN.md): 8 variants, costs in. Standalone (NQ 5m, $500 risk, stop 1 ti…",
   "Stops x targets x TIME (2026-11-24, stops-targets-time-2026-11-24.md, tools/stops_targets_time.py, Lab research/lab/stops_targets.json): 19 pre-registered variants on the live LIT trades, r…",
-  "Market Learn weekly trial #1 (2026-11-24, engine/market_learn.py, research/learn/trials.json): BLITZ half size when the",
-  "Pro / institutional edges (2026-11-24, proedge-2026-11-24.md, code research/proedge/, design pre-registered 64639bf64): 17 variants, 0 pass. EOD rebalancing flow (LETF / Baltussen, 15:30-15…",
-  "More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…"
+  "Market Learn weekly trial #1 (2026-11-24, engine/market_learn.py, research/learn/trials.json): BLITZ half size when the"
  ],
  "learnings": [
+  {
+   "d": "2026-11-26",
+   "who": "dev",
+   "text": "E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
+   "src": "research/writeups/entry-fine-2026-11-26.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-26",
+   "who": "blitz",
+   "text": "In Jan-Jun 2026 almost every bucket (check time, VIX, band distance, weekday, 1st / later trade) is positive.",
+   "src": "research/writeups/blitz-v2-2026-11-26.md",
+   "kind": "finding"
+  },
   {
    "d": "2026-11-25",
    "who": "atlas",
@@ -844,23 +858,58 @@
    "text": "Owner - \"I want our strategies to keep getting stronger.\" ATLAS now trades his FUNDED Builder 25K, where payouts need many small winning days (50% consistency). 29 pre-declared versions in 5 families (VWAP pullback with…",
    "src": "research/writeups/atlas-members-2026-11-18.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-11-18",
-   "who": "atlas",
-   "text": "At a fixed size those 40 sessions were still +8.0R (PF 1.89, 3 trades a week) and the equity was only 1R under its high - ATLAS made less, it did not lose.",
-   "src": "research/writeups/atlas-health-2026-11-18.md",
-   "kind": "rejected"
-  },
-  {
-   "d": "2026-11-17",
-   "who": "dev",
-   "text": "MFFU pays on winning days (Rapid EOD eval best day = 30%, funded daily above $2,100; Builder funded best day = 50%, $2,600 above start).",
-   "src": "research/writeups/rule-native-2026-11-17.md",
-   "kind": "mostly"
   }
  ],
  "lessons": [
+  {
+   "text": "Tested and rejected: BLITZ v2 rebuild (2026-11-26, blitz-v2-2026-11-26.md, research/blitzv2/, pre-registered after an anatomy on 2021-24 + Jan-Jun 2026): 8 structural versions (noise-area band/VWAP exit, no tim…",
+   "cat": "NQ strategy",
+   "who": "blitz",
+   "d": "2026-11-26",
+   "kind": "rejected",
+   "strength": 2,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-26"
+    },
+    {
+     "src": "research/writeups/2026-11-04_second_strategies_night.md",
+     "d": "2026-11-04"
+    }
+   ]
+  },
+  {
+   "text": "E4's 2021-25 +$1,397 a month comes from 5m-only fills there; it loses Jan-Jun and the fresh weeks (-$5.6k).",
+   "cat": "process",
+   "who": "dev",
+   "d": "2026-11-26",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/entry-fine-2026-11-26.md",
+     "d": "2026-11-26"
+    }
+   ]
+  },
+  {
+   "text": "Tested and rejected: LIT entry refinement on 1m (2026-11-26, entry-fine-2026-11-26.md, research/entryfine/, pre-registered): 5 versions vs today (limit at the 5m CISD level, then the 1m CISD; H1 / H2 / 2021-25…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-26",
+   "kind": "rejected",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "docs/TESTED_AND_REJECTED.md",
+     "d": "2026-11-26"
+    }
+   ]
+  },
   {
    "text": "0 of 19 LIT variants and 0 of 7 ATLAS variants meet the pre-registered rule (= +25% trades, 2-week eval pass = today in BOTH 2026 halves, 2021-25 not worse, walk-forward = half the windows).",
    "cat": "NQ strategy",
@@ -917,21 +966,6 @@
    "sources": [
     {
      "src": "research/writeups/ict-lab-2026-11-25.md",
-     "d": "2026-11-25"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: More trades: frequency vs edge (2026-11-25, more-trades-2026-11-25.md, research/moretrades/, pre-registered DESIGN.md): 19 LIT versions (depth 0.4/0.3, no inducement, disp 0.7/0.6, limit 45…",
-   "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-25",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
      "d": "2026-11-25"
     }
    ]
@@ -1059,21 +1093,6 @@
   {
    "text": "Tested and rejected: Stops x targets x TIME (2026-11-24, stops-targets-time-2026-11-24.md, tools/stops_targets_time.py, Lab research/lab/stops_targets.json): 19 pre-registered variants on the live LIT trades, r…",
    "cat": "NQ strategy",
-   "who": "dev",
-   "d": "2026-11-24",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "docs/TESTED_AND_REJECTED.md",
-     "d": "2026-11-24"
-    }
-   ]
-  },
-  {
-   "text": "Tested and rejected: Pro / institutional edges (2026-11-24, proedge-2026-11-24.md, code research/proedge/, design pre-registered 64639bf64): 17 variants, 0 pass. EOD rebalancing flow (LETF / Baltussen, 15:30-15…",
-   "cat": "process",
    "who": "dev",
    "d": "2026-11-24",
    "kind": "rejected",
@@ -1777,21 +1796,6 @@
      "d": "2026-11-17"
     }
    ]
-  },
-  {
-   "text": "None is better in both halves.",
-   "cat": "NQ strategy",
-   "who": "lit",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/lit-smart-entries-2026-11-17.md",
-     "d": "2026-11-17"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1893,6 +1897,30 @@
   }
  ],
  "events": [
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): LIT entry refinement on 1m bars (2026-11-26)",
+   "src": "research/writeups/entry-fine-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "blitz",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): BLITZ v2: worth real money, or retire it? (2026-11-26)",
+   "src": "research/writeups/blitz-v2-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Batch 5: ATLAS fills, eval forecaster, health bands, BLITZ paper (2026-11-26)",
+   "src": "research/writeups/batch5-2026-11-26.md"
+  },
   {
    "t": 1795608000,
    "who": "dev",
@@ -3948,30 +3976,6 @@
    "ok": true,
    "text": "Write-up (adopt-candidate): The scaling plan - from 2 accounts (LIT 50K + ATLAS 25K) to 10, when to add each one, what it pays and what a…",
    "src": "research/writeups/scale-plan.md"
-  },
-  {
-   "t": 1792670400,
-   "who": "atlas",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (adopt-candidate): ATLAS - account B (EMA + MACD + S/R) tuned as a whole for the Builder 25K (nothing beats today; kept as is)",
-   "src": "research/writeups/atlas.md"
-  },
-  {
-   "t": 1792640220,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "6 research runs stored (other): 2 rejected, 4 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792634760,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "15 research runs stored (other): 10 rejected, 5 open.",
-   "src": "research/runs"
   }
  ],
  "pipeline": {
@@ -4230,49 +4234,49 @@
   {
    "name": "CBOE_vol_1d.csv",
    "last": "2026-09-17",
-   "days": 69,
+   "days": 70,
    "file": "data/CBOE_vol_1d.csv"
   },
   {
    "name": "ES_15m.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/ES_15m.csv"
   },
   {
    "name": "ES_1d.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/ES_1d.csv"
   },
   {
    "name": "ES_1h.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/ES_1h.csv"
   },
   {
    "name": "ES_5m.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/ES_5m.csv"
   },
   {
    "name": "GEX_1d.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/GEX_1d.csv"
   },
   {
    "name": "NQ_1d.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/NQ_1d.csv"
   },
   {
    "name": "tv_mnq_5m_2026-10-16.csv",
    "last": "2026-10-16",
-   "days": 40,
+   "days": 41,
    "file": "data/tv_mnq_5m_2026-10-16.csv"
   }
  ],
@@ -4353,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795650360,
+   "t": 1795710600,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4375,104 +4379,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795650338,
-    "s": "PLAN_SUNDAY: status 18:45 ET"
-   },
-   {
-    "t": 1795649496,
-    "s": "Ledger: 18:31 round"
-   },
-   {
-    "t": 1795642852,
-    "s": "Rebuild hub data"
-   },
-   {
-    "t": 1795642850,
+    "t": 1795710505,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795642829,
-    "s": "Rebuild hub data"
+    "t": 1795710500,
+    "s": "Land NQ Live screen (live trade, accounts, setups, today's trades); sw v219"
    },
    {
-    "t": 1795642827,
-    "s": "STATE: 11-25 after-hours landings"
+    "t": 1795710211,
+    "s": "Merge remote-tracking branch 'olympus/day-livedash' into land-1123"
    },
    {
-    "t": 1795642827,
-    "s": "Merge remote-tracking branch 'olympus/day-ictlab2' into land-1123"
+    "t": 1795710108,
+    "s": "NQ Live screen (day-livedash): live trades + where we're at on one phone screen"
    },
    {
-    "t": 1795642196,
-    "s": "ICT lab round 2: 400 pre-registered variants (22 concepts, 16 confluences, 120 pairs, gates) + TDO funded re-…"
+    "t": 1795710102,
+    "s": "Land BLITZ v2 study (retire recommendation); rebuild hub data"
    },
    {
-    "t": 1795641857,
-    "s": "ICT lab round 2: pre-registered design (22 concepts, 16 confluences, all pairs, gates, TDO funded re-test)"
-   },
-   {
-    "t": 1795640874,
-    "s": "Keep the base versions of regenerated check files (red team #8 note 4)"
-   },
-   {
-    "t": 1795640866,
-    "s": "Merge remote-tracking branch 'olympus/day-sbhalf' into land-1123"
-   },
-   {
-    "t": 1795640865,
-    "s": "Merge remote-tracking branch 'olympus/day-handsfree-rt' into land-1123"
-   },
-   {
-    "t": 1795640864,
-    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt' into land-1123"
-   },
-   {
-    "t": 1795634004,
-    "s": "red team #7 asks on day-handsfree: START asks Y per queued phone switch (default NO); update_source.json neve…"
-   },
-   {
-    "t": 1795633705,
-    "s": "red team #7: a forwarded Telegram message is never a command; the /update force receipt names parked files an…"
-   },
-   {
-    "t": 1795633025,
-    "s": "day-sbhalf: test results (combo 50K/25K parity seg 2026-09-02 40/40 + 17/17, lit_live OK 0 diffs)"
-   },
-   {
-    "t": 1795631912,
-    "s": "Land Pillars + Brain v4 (data pages, Today strip, 3D quality, brain feed first); sw v218"
-   },
-   {
-    "t": 1795631692,
-    "s": "Merge remote-tracking branch 'olympus/day-pillars4' into land-1123"
-   },
-   {
-    "t": 1795631661,
-    "s": "day-pillars4: Brain 3D quality pass (bloom, region glow, tracts, dust, settle, DOF), ticker half-line fix, 44…"
-   },
-   {
-    "t": 1795631090,
-    "s": "ATLAS time_size (OFF by default): x0.5 outside the Silver Bullet hours on the Builder EVAL combo lanes"
-   },
-   {
-    "t": 1795630791,
+    "t": 1795710100,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795630786,
-    "s": "Rebuild hub data"
+    "t": 1795710095,
+    "s": "Land BLITZ v2 study (retire recommendation); rebuild hub data"
    },
    {
-    "t": 1795630785,
-    "s": "Decide card: ATLAS half size outside Silver Bullet hours on the Builder evals (ICT lab proof B2)"
+    "t": 1795710094,
+    "s": "Merge remote-tracking branch 'olympus/day-moretrades' into land-1123"
    },
    {
-    "t": 1795630761,
-    "s": "Merge remote-tracking branch 'olympus/day-ictlab' into land-1123"
+    "t": 1795710063,
+    "s": "BLITZ v2: 8 pre-registered rebuilds, combined-path + evals; verdict retire as a pillar (V1 noise-area exit =…"
    },
    {
-    "t": 1795630734,
-    "s": "ICT lab proof: eval-safe forms on the real engine (rank/onebook) + funded ATLAS replay, config diffs (not app…"
+    "t": 1795709943,
+    "s": "Merge remote-tracking branch 'olympus/day-batch7' into land-1123"
+   },
+   {
+    "t": 1795709908,
+    "s": "Tax / P&L ledger: tools/tax_ledger.py (payouts + eval fees per account per month - private CSV + yearly Sched…"
+   },
+   {
+    "t": 1795709905,
+    "s": "BLITZ v2: anatomy on the diagnosis spans + pre-registered variants (before the check runs)"
+   },
+   {
+    "t": 1795709776,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795709771,
+    "s": "Land batch5 (ATLAS fills, forecaster, health bands, BLITZ paper); rebuild hub data"
+   },
+   {
+    "t": 1795709770,
+    "s": "Merge remote-tracking branch 'olympus/day-batch5' into land-1123"
+   },
+   {
+    "t": 1795709738,
+    "s": "Auto trade journal: tools/journal_build.py (ledger - entries.json + PNG charts + weekly 'what we learned'), s…"
+   },
+   {
+    "t": 1795709737,
+    "s": "PLAN_SUNDAY: big NQ-bot queue"
+   },
+   {
+    "t": 1795709648,
+    "s": "Batch 5: ATLAS fill grid (long-run edge fails at real fills), eval forecaster, health bands, BLITZ paper repl…"
+   },
+   {
+    "t": 1795709529,
+    "s": "Land LIT 1m entry study (0/5) + nightly live-vs-twin audit; rebuild hub data"
+   },
+   {
+    "t": 1795709527,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795709520,
+    "s": "Land LIT 1m entry study (0/5) + nightly live-vs-twin audit; rebuild hub data"
+   },
+   {
+    "t": 1795709483,
+    "s": "Batch6: LIT 1m entry refinement (5 pre-registered, 0 pass) + nightly live-vs-twin audit (tools/livegap_daily.…"
+   },
+   {
+    "t": 1795709481,
+    "s": "MFFU rules re-check 2026-11-26: 46/46 watched rules unchanged, 5 notes (Builder net-since-last-payout gap = c…"
+   },
+   {
+    "t": 1795709441,
+    "s": "Batch 5 pre-registration: fills, forecaster, health bands, BLITZ paper (before any run)"
+   },
+   {
+    "t": 1795709323,
+    "s": "Entry refinement: pre-registered design (before any run)"
    }
   ],
   "branches": [

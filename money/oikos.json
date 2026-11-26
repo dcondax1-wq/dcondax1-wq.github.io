@@ -1,7 +1,7 @@
 {
  "v": 1,
  "id": "oikos",
- "asof": "2026-11-25T23:46:42Z",
+ "asof": "2026-11-26T16:30:20Z",
  "mode": "paper",
  "status": "sample",
  "headline": {
@@ -92,7 +92,7 @@
     "id": "s01",
     "kind": "fee",
     "amount": 91.8,
-    "date": "2026-07-28",
+    "date": "2026-07-29",
     "cat": "Eval fees",
     "acct": "demo50k",
     "note": "Example eval fee"
@@ -101,7 +101,7 @@
     "id": "s02",
     "kind": "fee",
     "amount": 43.0,
-    "date": "2026-08-07",
+    "date": "2026-08-08",
     "cat": "Eval fees",
     "acct": "demo25k",
     "note": "Example eval fee"
@@ -110,7 +110,7 @@
     "id": "s03",
     "kind": "expense",
     "amount": 12.0,
-    "date": "2026-08-17",
+    "date": "2026-08-18",
     "cat": "VPS / Azure",
     "acct": "general",
     "note": "Example VPS",
@@ -123,7 +123,7 @@
     "id": "s04",
     "kind": "expense",
     "amount": 29.0,
-    "date": "2026-08-17",
+    "date": "2026-08-18",
     "cat": "Data feeds",
     "acct": "general",
     "note": "Example data feed",
@@ -136,7 +136,7 @@
     "id": "s05",
     "kind": "expense",
     "amount": 15.0,
-    "date": "2026-08-17",
+    "date": "2026-08-18",
     "cat": "Voice keys",
     "acct": "general",
     "note": "Example voice key",
@@ -149,7 +149,7 @@
     "id": "s06",
     "kind": "expense",
     "amount": 24.0,
-    "date": "2026-08-22",
+    "date": "2026-08-23",
     "cat": "Subscriptions",
     "acct": "general",
     "note": "Example charting plan",
@@ -162,7 +162,7 @@
     "id": "s07",
     "kind": "fee",
     "amount": 91.8,
-    "date": "2026-09-06",
+    "date": "2026-09-07",
     "cat": "Eval fees",
     "acct": "demoB",
     "note": "Example eval fee"
@@ -171,7 +171,7 @@
     "id": "s08",
     "kind": "reset",
     "amount": 55.0,
-    "date": "2026-09-16",
+    "date": "2026-09-17",
     "cat": "Resets",
     "acct": "demoB",
     "note": "Example reset"
@@ -180,7 +180,7 @@
     "id": "s09",
     "kind": "reset",
     "amount": 55.0,
-    "date": "2026-10-01",
+    "date": "2026-10-02",
     "cat": "Resets",
     "acct": "demoB",
     "note": "Example reset"
@@ -189,7 +189,7 @@
     "id": "s10",
     "kind": "payout_in",
     "amount": 800.0,
-    "date": "2026-09-26",
+    "date": "2026-09-27",
     "cat": "Payouts",
     "acct": "demo50k",
     "note": "Example payout (80%)"
@@ -198,7 +198,7 @@
     "id": "s11",
     "kind": "payout_in",
     "amount": 480.0,
-    "date": "2026-10-11",
+    "date": "2026-10-12",
     "cat": "Payouts",
     "acct": "demo25k",
     "note": "Example payout (80%)"
@@ -207,7 +207,7 @@
     "id": "s12",
     "kind": "fee",
     "amount": 43.0,
-    "date": "2026-10-20",
+    "date": "2026-10-21",
     "cat": "Eval fees",
     "acct": "demoC",
     "note": "Example eval fee"
@@ -216,7 +216,7 @@
     "id": "s13",
     "kind": "payout_in",
     "amount": 650.0,
-    "date": "2026-10-26",
+    "date": "2026-10-27",
     "cat": "Payouts",
     "acct": "demo50k",
     "note": "Example payout (80%)"
@@ -225,7 +225,7 @@
     "id": "s14",
     "kind": "payout_in",
     "amount": 320.0,
-    "date": "2026-11-05",
+    "date": "2026-11-06",
     "cat": "Payouts",
     "acct": "demo25k",
     "note": "Example payout (80%)"
@@ -234,7 +234,7 @@
     "id": "s15",
     "kind": "payout_in",
     "amount": 900.0,
-    "date": "2026-11-13",
+    "date": "2026-11-14",
     "cat": "Payouts",
     "acct": "demo50k",
     "note": "Example payout (80%)"
@@ -243,7 +243,7 @@
     "id": "s16",
     "kind": "tax",
     "amount": 150.0,
-    "date": "2026-10-16",
+    "date": "2026-10-17",
     "cat": "Tax",
     "acct": "general",
     "note": "Example set-aside moved"
@@ -252,7 +252,7 @@
     "id": "s17",
     "kind": "expense",
     "amount": 380.0,
-    "date": "2026-09-21",
+    "date": "2026-09-22",
     "cat": "Mini PC / hardware",
     "acct": "general",
     "note": "Example mini PC"
@@ -287,7 +287,7 @@
   "note": "EXAMPLE numbers, not real: a made-up household ledger so OIKOS is never empty. Days are offsets from today."
  },
  "analysis": {
-  "today": "2026-11-25",
+  "today": "2026-11-26",
   "opts": {
    "tax": 0.3,
    "emergency": 0.25,
@@ -325,7 +325,7 @@
     "cost": 91.8,
     "received": 2350.0,
     "net": 2258.2,
-    "first": "2026-07-28",
+    "first": "2026-07-29",
     "age": 120,
     "resets": 0,
     "reset_cost": 0.0,
@@ -338,7 +338,7 @@
     "cost": 43.0,
     "received": 800.0,
     "net": 757.0,
-    "first": "2026-08-07",
+    "first": "2026-08-08",
     "age": 110,
     "resets": 0,
     "reset_cost": 0.0,
@@ -351,7 +351,7 @@
     "cost": 201.8,
     "received": 0.0,
     "net": -201.8,
-    "first": "2026-09-06",
+    "first": "2026-09-07",
     "age": 80,
     "resets": 2,
     "reset_cost": 110.0,
@@ -364,7 +364,7 @@
     "cost": 43.0,
     "received": 0.0,
     "net": -43.0,
-    "first": "2026-10-20",
+    "first": "2026-10-21",
     "age": 36,
     "resets": 0,
     "reset_cost": 0.0,

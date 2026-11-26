@@ -1,42 +1,42 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-25 18:46 ET",
+ "built": "2026-11-26 11:30 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
   "to": "2026-11-27",
   "label": "Nov 23 - Nov 27",
   "complete": false,
-  "sessions_done": 3
+  "sessions_done": 4
  },
- "pc": "PC last reported Nov 25 17:15 ET",
+ "pc": "PC last reported Nov 26 11:30 ET",
  "accounts": [
   {
    "key": "zlarior",
    "name": "Zlarior",
    "plan": "MFFU Builder 50K",
    "stage": "eval",
-   "end": 49213.9,
-   "src": "PC live, Nov 25 17:15 ET",
-   "room": 1045.7,
-   "to_pass": 3786.1,
+   "end": 49177.52,
+   "src": "PC live, Nov 26 11:30 ET",
+   "room": 1009.32,
+   "to_pass": 3822.48,
    "trades": 0,
    "win_pct": null,
    "usd_week": 0,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 49213.9,
+   "start": 49177.52,
    "wins": 0,
    "losses": 0,
    "r_week": null,
-   "room_start": 1045.7,
-   "to_pass_start": 3786.1,
+   "room_start": 1009.32,
+   "to_pass_start": 3822.48,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "No trading day this week."
    },
-   "status_line": "$3,786 to pass, $1,046 of room above the floor"
+   "status_line": "$3,822 to pass, $1,009 of room above the floor"
   },
   {
    "key": "atlas",
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 25 17:15 ET",
+   "src": "PC live, Nov 26 11:30 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -68,52 +68,52 @@
    "name": "Rapid EOD 25K",
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
-   "end": 24976.12,
-   "src": "PC live, Nov 25 17:15 ET",
-   "room": 976.12,
-   "to_pass": 1523.88,
+   "end": 24995.24,
+   "src": "PC live, Nov 26 11:30 ET",
+   "room": 995.24,
+   "to_pass": 1504.76,
    "trades": 0,
    "win_pct": null,
    "usd_week": 0,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 24976.12,
+   "start": 24995.24,
    "wins": 0,
    "losses": 0,
    "r_week": null,
-   "room_start": 976.12,
-   "to_pass_start": 1523.88,
+   "room_start": 995.24,
+   "to_pass_start": 1504.76,
    "consistency": {
     "rule": "Rapid EOD eval: best day at most 30% of the profit",
     "line": "No trading day this week."
    },
-   "status_line": "$1,524 to pass, $976 of room above the floor"
+   "status_line": "$1,505 to pass, $995 of room above the floor"
   },
   {
    "key": "fresh25",
    "name": "Zlarior 25K #2",
    "plan": "MFFU Builder 25K",
    "stage": "eval",
-   "end": 25023.62,
-   "src": "PC live, Nov 25 17:15 ET",
-   "room": 1000.0,
-   "to_pass": 1476.38,
+   "end": 25019.24,
+   "src": "PC live, Nov 26 11:30 ET",
+   "room": 995.62,
+   "to_pass": 1480.76,
    "trades": 0,
    "win_pct": null,
    "usd_week": 0,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 25023.62,
+   "start": 25019.24,
    "wins": 0,
    "losses": 0,
    "r_week": null,
-   "room_start": 1000.0,
-   "to_pass_start": 1476.38,
+   "room_start": 995.62,
+   "to_pass_start": 1480.76,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "No trading day this week."
    },
-   "status_line": "$1,476 to pass, $1,000 of room above the floor"
+   "status_line": "$1,481 to pass, $996 of room above the floor"
   }
  ],
  "strategies": [
@@ -133,10 +133,10 @@
     4.98
    ],
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
-   "exp_usd_week": 229.0,
+   "exp_usd_week": 306.0,
    "plan_usd_month": 1656.0,
    "verdict": "on track",
-   "why": "$0 vs about $229 expected"
+   "why": "$0 vs about $306 expected"
   },
   {
    "name": "ATLAS",
@@ -154,10 +154,10 @@
     2.75
    ],
    "exp_src": "edge_health.json (40-session medians, 2026)",
-   "exp_usd_week": 69.0,
+   "exp_usd_week": 92.0,
    "plan_usd_month": 500.0,
    "verdict": "on track",
-   "why": "$0 vs about $69 expected"
+   "why": "$0 vs about $92 expected"
   }
  ],
  "light": {
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "PLAN_SUNDAY: status 18:45 ET",
-   "Ledger: 18:31 round",
-   "Rebuild hub data",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "ICT lab round 2: 400 pre-registered variants (22 concepts, 16 confluences, 120 pairs, gates) + TDO...",
-   "ICT lab round 2: pre-registered design",
-   "Keep the base versions of regenerated check files (red team #8 note 4)",
-   "red team #7 asks on day-handsfree: START asks Y per queued phone switch (default NO);..."
+   "Land NQ Live screen (live trade, accounts, setups, today's trades); sw v219",
+   "NQ Live screen (day-livedash): live trades + where we're at on one phone screen",
+   "Land BLITZ v2 study (retire recommendation); rebuild hub data",
+   "BLITZ v2: 8 pre-registered rebuilds, combined-path + evals; verdict retire as a pillar",
+   "Tax / P&L ledger: tools/tax_ledger.py (payouts + eval fees per account per month - private CSV +...",
+   "BLITZ v2: anatomy on the diagnosis spans + pre-registered variants (before the check runs)",
+   "Land batch5 (ATLAS fills, forecaster, health bands, BLITZ paper); rebuild hub data"
   ]
  },
  "next": {
@@ -215,9 +215,9 @@
   "loss_used": 0.0,
   "loss_stop": 13.75,
   "last": "WWWWWWWWWW",
-  "bets_total": 12,
+  "bets_total": 13,
   "won_pct": 92,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 10 bets WWWWWWWWWW; 12 bets so far, 92% won."
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 10 bets WWWWWWWWWW; 13 bets so far, 92% won."
  },
  "calendar": [
   {
@@ -282,12 +282,10 @@
    "src": "Decide card"
   }
  ],
- "missing": [
-  "PC live numbers: last report Nov 25 17:15 ET (1 h ago)"
- ],
+ "missing": [],
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 25 17:15 ET"
+  "board_pc": "Nov 26 11:30 ET"
  }
 }
