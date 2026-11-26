@@ -62,9 +62,8 @@
     return out;
   }
 
-  // INTEGRITY (day-security 2026-11-20): anyone can post to the public topic. A post dated more than SKEW_S in the future is never
-  // believed (one forged post with t = 2099 used to win for 12 h on every page). Once status_feed.json has "vk" (the PC's public
-  // ECDSA P-256 verify key, tools/status_sign.py), fetchLatest keeps only posts whose ,"sg":"..."} signs the exact text before it.
+  // INTEGRITY (day-security 2026-11-20): anyone can post to the topic. Never a post dated > SKEW_S ahead; with status_feed.json "vk"
+  // (tools/status_sign.py) only posts whose ,"sg":"..."} signs the exact text before it.
   const SKEW_S = 600, SIG_FIELD = ',"sg":"', SIG_RX = /^[A-Za-z0-9_-]{86}$/, VK_RX = /^[A-Za-z0-9_-]{87}$/;
   const tooNew = (j, m, now) => [j.t, j.rt, isObj(j.reporter) ? j.reporter.t : 0, isObj(j.brd) ? j.brd.t : 0, isObj(m) ? m.time : 0]
     .some((x) => okN(+x) && +x > now + SKEW_S);
@@ -79,36 +78,38 @@
   const unb64u = (s) => { const b = atob(String(s).replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((String(s).length + 3) % 4)); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
   const subtle = () => (typeof crypto !== 'undefined' && crypto.subtle) || null;
   const KEYS = new Map();
+  const keyOf = (vk) => { if (!KEYS.has(vk)) KEYS.set(vk, subtle().importKey('raw', unb64u(vk), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify'])); return KEYS.get(vk); };
   async function verifyText(text, vk) {
     try {
-      const S = subtle(), sp = splitSig(text);
-      if (!S || !sp || !VK_RX.test(String(vk || ''))) return false;
-      if (!KEYS.has(vk)) KEYS.set(vk, S.importKey('raw', unb64u(vk), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']));
-      const key = await KEYS.get(vk);
-      const data = new TextEncoder().encode('le-status-v1\n' + sp.orig);
-      return await S.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, unb64u(sp.sig), data);
+      const sp = splitSig(text);
+      if (!subtle() || !sp || !VK_RX.test(String(vk || ''))) return false;
+      return await subtle().verify({ name: 'ECDSA', hash: 'SHA-256' }, await keyOf(vk), unb64u(sp.sig), new TextEncoder().encode('le-status-v1\n' + sp.orig));
     } catch (e) { return false; }
   }
   /** can this phone check signatures at all? (WebCrypto ECDSA P-256 + the key imports) */
   async function canVerify(vk) {
-    try {
-      const S = subtle();
-      if (!S || !VK_RX.test(String(vk || ''))) return false;
-      if (!KEYS.has(vk)) KEYS.set(vk, S.importKey('raw', unb64u(vk), { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']));
-      await KEYS.get(vk);
-      return true;
-    } catch (e) { KEYS.delete(vk); return false; }
+    try { if (!subtle() || !VK_RX.test(String(vk || ''))) return false; await keyOf(vk); return true; } catch (e) { KEYS.delete(vk); return false; }
   }
-  /** the ndjson lines of an ntfy poll whose message is signed by vk (every other line dropped). A phone that cannot check at
-   *  all (no WebCrypto, the key does not import) gets the text as it was: it works exactly as before the signing (day-security2). */
+  // day-guard2: keys = vk + vks + this phone's trusted ones; a rotation post / 3 h with no trusted post -> pc_key_trust.js (lazy)
+  const okVk = (k) => VK_RX.test(String(k || ''));
+  const feedKeys = (f) => { let l = []; try { l = JSON.parse(localStorage.getItem('olympus.pc_vks') || '[]'); } catch (e) { /* none */ } return [...new Set([f && f.vk, ...((f && f.vks) || []), ...(f && f.vk && Array.isArray(l) ? l : [])].filter(okVk))]; };
+  const ME = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : '';
+  let CAND = null;
+  const keyCandidate = () => CAND;
   async function keepSigned(text, vk) {
-    if (!(await canVerify(vk))) return String(text || '');
-    const out = [];
-    for (const line of String(text || '').split('\n')) {
-      if (!line.trim()) continue;
-      let m;
-      try { m = JSON.parse(line); } catch (e) { continue; }
-      if (isObj(m) && typeof m.message === 'string' && await verifyText(m.message, vk)) out.push(line);
+    let keys = (Array.isArray(vk) ? vk : [vk]).filter(okVk), last = 0;
+    const t = String(text || ''), out = [];
+    if (!keys.length || !(await canVerify(keys[0]))) return t;
+    {
+      const need = async () => typeof module !== 'undefined' && module.exports ? require('./pc_key_trust.js') : window.PC_KEY_TRUST || new Promise((ok) => {
+        const e = document.createElement('script'); e.src = new URL('pc_key_trust.js', ME || document.baseURI).href; e.onload = e.onerror = () => ok(window.PC_KEY_TRUST); document.head.appendChild(e); });
+      if (t.includes('le-key-rotate')) try { keys = await (await need()).chain(t, keys, verifyText); } catch (e) { /* the pinned keys */ }
+      for (const line of t.split('\n')) {
+        let m; try { m = JSON.parse(line); } catch (e) { continue; }
+        if (isObj(m) && typeof m.message === 'string') for (const k of keys) if (await verifyText(m.message, k)) { out.push(line); last = Math.max(last, +m.time || 0); break; }
+      }
+      CAND = null;
+      if (Date.now() / 1000 - last >= 10800) try { CAND = await (await need()).scan(t, keys, verifyText); } catch (e) { /* never breaks a page */ }
     }
     return out.join('\n');
   }
@@ -136,14 +137,11 @@
     const base = String(feed.ntfy || 'https://ntfy.sh').replace(/\/+$/, '');
     if (!/^https:\/\//.test(base)) return [];
     const t = encodeURIComponent(feed.topic);
-    // day-archive 2026-11-20: + the last 3 hours, then 12 hours (all ntfy keeps; about 0.8 MB, only when the PC was quiet over 3 h). When the PC has been quiet for over 70 minutes, 'latest' is often only an
-    // ext part (no account numbers), so every page fell back to its DEMO copy; now it gets the PC's last real post and shows its age.
+    // day-archive 2026-11-20: then 3 h, then 12 h (a quiet PC's 'latest' is often only an ext part: its last real post, with its age)
     return [`${base}/${t}/json?poll=1&since=70m`, `${base}/${t}/json?poll=1&since=latest`, `${base}/${t}/json?poll=1&since=3h`, `${base}/${t}/json?poll=1&since=12h`];
   }
 
-  // ONE answer per page (night-feedsA 2026-11-18): a page asks the feed from 3-4 modules at load (Jarvis: data.js, truth.js, zeus_core.js);
-  // on a busy phone each status_feed.json + ntfy round trip took up to 4 s and a module that gave up after 3 s showed the CLOUD copy as if
-  // it were the account. In a browser every caller now shares one in-flight answer for SHARE_MS (each gets its own copy); a miss is never kept.
+  // ONE answer per page (night-feedsA 2026-11-18): 3-4 modules ask at load; they share one in-flight answer for SHARE_MS (own copies; a miss is never kept).
   const SHARE_MS = 20000, SHARED = typeof window !== 'undefined' && typeof document !== 'undefined' ? new Map() : null;
   function shared(key, make) {
     if (!SHARED) return make();
@@ -168,7 +166,7 @@
     }
     for (const u of feedUrls(feed)) {
       try {
-        const j = await shared('poll ' + u, async () => { const r = await f(u, { cache: 'no-store' }); if (!r || !r.ok) return null; const t = await r.text(); return parseLatest(feed.vk ? await keepSigned(t, feed.vk) : t); });
+        const j = await shared('poll ' + u, async () => { const r = await f(u, { cache: 'no-store' }); if (!r || !r.ok) return null; const t = await r.text(); const ks = feedKeys(feed); return parseLatest(ks.length ? await keepSigned(t, ks) : t); });
         if (j) return SHARED ? copy(j) : j;
       } catch (e) { /* next */ }
     }
@@ -507,7 +505,7 @@
   }
 
   const API = { FRESH_S, EXT_KIND, EXT_MAX_S, parseLatest, merge, feedUrls, fetchLatest, mergeBoard, boardOver, weekOf, cmeDay, toLive, overlayHome,
-    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, canVerify, splitSig, SKEW_S, MFFU, mffuView };
+    atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, canVerify, splitSig, feedKeys, keyCandidate, SKEW_S, MFFU, mffuView };
   root.PC_FEED = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof window !== 'undefined' ? window : globalThis);

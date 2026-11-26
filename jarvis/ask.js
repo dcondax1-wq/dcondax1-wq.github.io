@@ -48,7 +48,7 @@
 
   // ---------------------------------------------------------------------------------------------- the data: biz.js + the PC report
   let bizP = null, liteP = null, liteAt = 0;
-  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b6', BASE).href).catch(() => { bizP = null; return null; }));
+  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b7', BASE).href).catch(() => { bizP = null; return null; }));
   function script(src, global) {
     if (window[global]) return Promise.resolve(window[global]);
     return new Promise((ok) => { const s = document.createElement('script'); s.src = new URL(src, SITE).href; s.async = true; s.onload = () => ok(window[global] || null); s.onerror = () => ok(null); document.head.appendChild(s); });
@@ -59,7 +59,7 @@
     if (liteP && Date.now() - liteAt < 60e3) return liteP;
     liteAt = Date.now();
     liteP = (async () => {
-      const F = await script('pc_feed.js?v=n7', 'PC_FEED');
+      const F = await script('pc_feed.js?v=n9', 'PC_FEED');
       let j = null;
       if (F && typeof F.fetchLatest === 'function') {
         try { j = await Promise.race([F.fetchLatest({ feedUrl: new URL('status_feed.json', SITE).href }), new Promise((r) => setTimeout(() => r(null), 6000))]); } catch (_) { j = null; }

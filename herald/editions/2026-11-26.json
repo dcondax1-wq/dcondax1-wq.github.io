@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-26",
  "number": 2,
- "built": "2026-11-26T16:56:07Z",
+ "built": "2026-11-26T18:37:10Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -673,9 +673,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 284 write-ups.",
-    "The newest lesson on file, dated 2026-11-26, reads: In that market today's 40% room size fails about half the evals.",
-    "It was filed under \"finding\" and comes from research/writeups/lit-fragility-2026-11-26.md."
+    "The research shelf now counts 288 write-ups.",
+    "The newest lesson on file, dated 2026-11-26, reads: At Zlarior's own size, the 2026 Jan-Jun gain is gone at 2 ticks (+$87) and negative at 4. - On the eval path it passes 2-week evals more often in both halves, with no extra fails: one extra winner pe…",
+    "It was filed under \"finding\" and comes from research/writeups/litasia-2026-11-26.md."
    ],
    "facts": [
     {
@@ -707,10 +707,10 @@
      "quote": true
     },
     {
-     "t": "284",
+     "t": "288",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 284
+     "raw": 288
     },
     {
      "t": "2026-11-26",
@@ -718,7 +718,7 @@
      "quote": true
     },
     {
-     "t": "In that market today's 40% room size fails about half the evals.",
+     "t": "At Zlarior's own size, the 2026 Jan-Jun gain is gone at 2 ticks (+$87) and negative at 4. - On the eval path it passes 2-week evals more often in both halves, with no extra fails: one extra winner pe…",
      "src": "ergasterion/queue.json",
      "quote": true
     },
@@ -728,7 +728,7 @@
      "quote": true
     },
     {
-     "t": "research/writeups/lit-fragility-2026-11-26.md",
+     "t": "research/writeups/litasia-2026-11-26.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }

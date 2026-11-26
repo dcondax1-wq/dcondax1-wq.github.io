@@ -201,7 +201,8 @@ function learnCard(r) {
   const tn = el('ul', { class: 'lrn', id: 'rTesting' });
   if (!L.testing.length) tn.append(el('li', { class: 'muted', text: 'Nothing registered to test yet.' }));
   for (const t of L.testing) tn.append(el('li', {}, el('em', { text: 'next' }), document.createTextNode(t)));
-  box.append(tn, el('p', { class: 'src', text: `Source: ${L.src}${L.journalLanded ? '' : ' (the learning journal has not landed: weekly lessons only)'} · research only, nothing changes a live rule` }));
+  box.append(tn, el('a', { class: 'more', id: 'rLearnedLink', href: `learned.html#${r.id}`, text: 'Everything the bots learned, and how close each idea is to graduating \u203a' }));
+  box.append(el('p', { class: 'src', text: `Source: ${L.src}${L.journalLanded ? '' : ' (the learning journal has not landed: weekly lessons only)'} · research only, nothing changes a live rule` }));
   return box;
 }
 function moneyCard(r, M) {

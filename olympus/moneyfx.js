@@ -3,7 +3,7 @@
 //   <section class="ag-card card mfx-card" data-moneyfx="payout">          <- the funded payout goal: 3D vault + an "earliest" ring
 //     <div class="mfx-vault" data-mfx-vault></div><div class="mfx-ring" data-mfx-ring><b data-mfx-pct>0%</b></div>
 //     <p class="note" data-mfx-note>...</p></section>
-//   <script type="module" src="../olympus/moneyfx.js?v=5"></script>
+//   <script type="module" src="../olympus/moneyfx.js?v=6"></script>
 // and may call window.MONEYFX.roll(el) on a number it just wrote (the number rolls up to its own text).
 // Numbers: the PC's last post over home.json (olympus/truth.js), each funded account in MFFU's own terms (pc_feed.js mffuView:
 // balance = profit; goal = the full request at buffer + max; earliest = buffer + min). Effects: DESIGN's kit (olympus/nqfx.js: navy /
@@ -12,7 +12,7 @@
 // day-archive 2026-11-21 (QA: Board LCP / CLS / KB up): NO static imports. The numbers (truth.js, pc_feed.js) load after load + idle,
 // the effects kit (nqfx.js + three.js) only when the card scrolls into view; the card keeps a fixed size from the first paint.
 let T = null;
-const libs = () => Promise.all([import('./truth.js'), import('../pc_feed.js?v=n8')]).then(([t]) => { T = t; return t; });
+const libs = () => Promise.all([import('./truth.js'), import('../pc_feed.js?v=n9')]).then(([t]) => { T = t; return t; });
 
 const later = (fn) => { const run = () => { try { fn(); } catch (_) { /* the page still works */ } }; if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 1500 }); else setTimeout(run, 80); };
 const afterLoad = () => new Promise((ok) => { if (document.readyState === 'complete') later(ok); else addEventListener('load', () => later(ok), { once: true }); });

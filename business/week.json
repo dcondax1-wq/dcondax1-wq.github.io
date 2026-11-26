@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-26 11:56 ET",
+ "built": "2026-11-26 13:37 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 26 11:45 ET",
+ "pc": "PC last reported Nov 26 13:30 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49177.52,
-   "src": "PC live, Nov 26 11:45 ET",
+   "src": "PC live, Nov 26 13:30 ET",
    "room": 1009.32,
    "to_pass": 3822.48,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 26 11:45 ET",
+   "src": "PC live, Nov 26 13:30 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24995.24,
-   "src": "PC live, Nov 26 11:45 ET",
+   "src": "PC live, Nov 26 13:30 ET",
    "room": 995.24,
    "to_pass": 1504.76,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 26 11:45 ET",
+   "src": "PC live, Nov 26 13:30 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Rebuild hub data",
+   "Jarvis search index rebuilt, jarvis-v101",
+   "Rebuild research hub data",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Land site5 v2 (real forecast + bands), LIT learns from live, forward-paper harness, execution...",
-   "site5 on the real data: Strategy health reads research/health/bands.json (20-trade 2026 band...",
-   "Land site5 (money view, strategy health on the real bands, archive door, faster Home, 44 px Today...",
-   "execpol: entry execution study for LIT + ATLAS (pre-registered); verdict no order change,...",
-   "Forward-paper harness: 7 watched leads + idea mill adapter scored nightly on new sessions vs their...",
-   "execpol: amendment 1 (entry-bar fill rule for marketable limits; grid adds 1 and 6)"
+   "of_paper writes its state with fsutil.replace (selfheal); STATE: the rest of the 11-26 landing",
+   "Rebuild hubs + vault after the last landings",
+   "brain_learned: the helper-only forbidden-files guard skips a checkout without origin/pc; LEDGER:...",
+   "red team #17: make_adapter gives the socket transport to a Sim account only, whatever PAPER_ONLY...",
+   "LIT Asia slot at real Asia costs: 2026 gain ~0 in H1 at +2 ticks, -$21.7k in 2021-25 - no card"
   ]
  },
  "next": {
@@ -270,9 +270,21 @@
    "src": "Decide card"
   },
   {
+   "id": "rapid25-second-with-stop",
+   "question": "Buy a 2nd Rapid EOD 25K eval ($97.20, LIT + ATLAS) now, AND stop all new eval buys whenever the business (payouts minus fees since today) is $300 under its best, restarting when a ",
+   "usd_month": 238.0,
+   "src": "Decide card"
+  },
+  {
    "id": "fast-entry",
    "question": "Fast entry: send Zlarior's and ATLAS's orders on the minute's first trade instead of waiting 2 seconds?",
    "usd_month": 100.0,
+   "src": "Decide card"
+  },
+  {
+   "id": "stop-buying-tripwire",
+   "question": "Stop buying NEW evals when LIT's last 40 trades add up to less than 0R, and start again when a free Sim eval (the same bot on NinjaTrader Sim, Builder 50K rules) passes?",
+   "usd_month": 31.0,
    "src": "Decide card"
   },
   {
@@ -286,6 +298,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 26 11:45 ET"
+  "board_pc": "Nov 26 13:30 ET"
  }
 }

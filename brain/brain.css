@@ -152,3 +152,4 @@ a { color: var(--lav); }
 .crumbs a { color: var(--mut); text-decoration: none; display: inline-block; min-width: 44px; text-align: center; padding: 14px 2px; margin: -14px -6px; line-height: 16px; } .crumbs span { color: var(--gold); font-weight: 700; }
 .dlink { display: flex; align-items: center; min-height: 44px; margin: 0 0 10px; padding: 0 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 13.5px;
   color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 55%, #3e255e); background: color-mix(in srgb, var(--c) 9%, #16131e); }
+.more { display: flex; align-items: center; min-height: 44px; margin-top: 10px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ln2); background: rgba(157,89,238,.08); color: var(--gold); text-decoration: none; font-size: 13px; }

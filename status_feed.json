@@ -1,1 +1,6 @@
-{"ntfy": "https://ntfy.sh", "topic": "olympus-nq-status-dec434bd8a54f135", "note": "Public status channel of the PC bots: tools/pc_report.py posts a small live.json every 15 minutes, pc_feed.js reads it. Not a secret (the same numbers the site shows). Phone alerts use a private topic kept only on the PC."}
+{
+ "ntfy": "https://ntfy.sh",
+ "topic": "olympus-nq-status-dec434bd8a54f135",
+ "note": "Public status channel of the PC bots: tools/pc_report.py posts a small live.json every 15 minutes, pc_feed.js reads it. Not a secret (the same numbers the site shows). Phone alerts use a private topic kept only on the PC.",
+ "vk": "BARkFWc9zQourk5dtZYF5F6FMLnfrWe3wVI2HisIfq476Jm1uziCMVi6uej6tmOKwQJwiNOu8KQ_wEUs7GFMnrU"
+}

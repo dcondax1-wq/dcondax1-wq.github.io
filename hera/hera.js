@@ -3,7 +3,7 @@
 // Text only through textContent / createElementNS. window.HERA is the test hook.
 import * as C from './heracore.js';
 import * as T from '../olympus/truth.js';
-import '../pc_feed.js?v=n8';      // PC_FEED.mffuView: MFFU's own view of an account (day-archive 2026-11-20)
+import '../pc_feed.js?v=n9';      // PC_FEED.mffuView: MFFU's own view of an account (day-archive 2026-11-20)
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);

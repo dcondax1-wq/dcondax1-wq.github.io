@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 284,
+  "count": 288,
   "latest": [
    {
     "date": "2026-11-26",
@@ -198,6 +198,13 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/news-playbook-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
+    "title": "LIT's Asia slot at real Asia costs (big-litasia, 2026-11-26)",
+    "status": "finding",
+    "summary": "At Zlarior's own size, the 2026 Jan-Jun gain is gone at 2 ticks (+$87) and negative at 4. - On the eval path it passes 2-week evals more often in both halves, with no extra fails: one extra winner per week helps \"one wi…",
+    "file": "research/writeups/litasia-2026-11-26.md"
    },
    {
     "date": "2026-11-26",
@@ -212,6 +219,13 @@
     "status": "finding",
     "summary": "In that market today's 40% room size fails about half the evals.",
     "file": "research/writeups/lit-fragility-2026-11-26.md"
+   },
+   {
+    "date": "2026-11-26",
+    "title": "Order latency: where the seconds go from the bar close to the order (big-execution, 2026-11-26)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/latency-2026-11-26.md"
    },
    {
     "date": "2026-11-26",
@@ -257,24 +271,10 @@
    },
    {
     "date": "2026-11-26",
-    "title": "BLITZ v2: worth real money, or retire it? (2026-11-26)",
-    "status": "finding",
-    "summary": "In Jan-Jun 2026 almost every bucket (check time, VIX, band distance, weekday, 1st / later trade) is positive.",
-    "file": "research/writeups/blitz-v2-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "Batch 5: ATLAS fills, eval forecaster, health bands, BLITZ paper (2026-11-26)",
+    "title": "Business planner: what to buy, when to stop, what cash to expect (2026-11-26)",
     "status": "",
     "summary": "",
-    "file": "research/writeups/batch5-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "Which signals go to which account: the 4-account allocation optimizer (2026-11-26)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/alloc-2026-11-26.md"
+    "file": "research/writeups/business-planner-2026-11-26.md"
    }
   ]
  },
@@ -371,6 +371,13 @@
  "learnings": [
   {
    "d": "2026-11-26",
+   "who": "dev",
+   "text": "At Zlarior's own size, the 2026 Jan-Jun gain is gone at 2 ticks (+$87) and negative at 4. - On the eval path it passes 2-week evals more often in both halves, with no extra fails: one extra winner per week helps \"one wi…",
+   "src": "research/writeups/litasia-2026-11-26.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-26",
    "who": "lit",
    "text": "In that market today's 40% room size fails about half the evals.",
    "src": "research/writeups/lit-fragility-2026-11-26.md",
@@ -402,6 +409,13 @@
    "who": "blitz",
    "text": "In Jan-Jun 2026 almost every bucket (check time, VIX, band distance, weekday, 1st / later trade) is positive.",
    "src": "research/writeups/blitz-v2-2026-11-26.md",
+   "kind": "finding"
+  },
+  {
+   "d": "2026-11-26",
+   "who": "atlas",
+   "text": "No ATLAS v2 card. ATLAS stays as it is, and it is a 2026-like-market bot only.",
+   "src": "research/writeups/atlas2-2026-11-26.md",
    "kind": "finding"
   },
   {
@@ -844,20 +858,6 @@
    "text": "Owner - \"More accurate with our trades, don't trade like a bot, trade how a person would, without emotion.\" Built the checklist a calm discretionary NQ trader asks before each signal, from what is on the chart at that m…",
    "src": "research/writeups/setup-grade-2026-11-18.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-11-18",
-   "who": "lit",
-   "text": "(b) taking those at 1 micro with the exit limit at the room passes in 28 / 20 sessions vs 31 / 25, first payout 45 / 44 vs 48 / 50 sessions from buying, $2,317 / $1,038 vs $2,312 / $972 a month; costs 60-session fails 1…",
-   "src": "research/writeups/rapid25-lit-lane-2026-11-18.md",
-   "kind": "done"
-  },
-  {
-   "d": "2026-11-18",
-   "who": "lit",
-   "text": "Two pre-declared ideas, one version each - (1) ATLAS's approved zombie-eval rule ported to Zlarior (1-micro last bullet at 80% of the room + give up under $200) - seats +$57 / +$51 a month for the pair, but both evals d…",
-   "src": "research/writeups/lit-ideas-2026-11-18b.md",
-   "kind": "rejected"
   }
  ],
  "lessons": [
@@ -877,6 +877,21 @@
     {
      "src": "research/writeups/2026-11-04_second_strategies_night.md",
      "d": "2026-11-04"
+    }
+   ]
+  },
+  {
+   "text": "At Zlarior's own size, the 2026 Jan-Jun gain is gone at 2 ticks (+$87) and negative at 4. - On the eval path it passes 2-week evals more often in both halves, with no extra fails: one extra winner per week helps \"one wi…",
+   "cat": "NQ strategy",
+   "who": "dev",
+   "d": "2026-11-26",
+   "kind": "finding",
+   "strength": 1,
+   "merged": 1,
+   "sources": [
+    {
+     "src": "research/writeups/litasia-2026-11-26.md",
+     "d": "2026-11-26"
     }
    ]
   },
@@ -1781,21 +1796,6 @@
      "d": "2026-10-17"
     }
    ]
-  },
-  {
-   "text": "The four that look best on paper (pre-FOMC, RSI(2), 12-month trend, overnight drift) all hold positions overnight, which MFFU does not allow (flat by 16:10 ET), and every one of them lost money in 2026 H2 or in 2021-25.",
-   "cat": "process",
-   "who": "dev",
-   "d": "2026-11-17",
-   "kind": "rejected",
-   "strength": 1,
-   "merged": 1,
-   "sources": [
-    {
-     "src": "research/writeups/public-strategies-2026-11-17.md",
-     "d": "2026-11-17"
-    }
-   ]
   }
  ],
  "changed": [
@@ -1926,6 +1926,14 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up: Order latency: where the seconds go from the bar close to the order (big-execution, 2026-11-26)",
+   "src": "research/writeups/latency-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up: Optimal eval sizing policy: today's rule is already the best (2026-11-26)",
    "src": "research/writeups/evalsizer-2026-11-26.md"
   },
@@ -1950,8 +1958,24 @@
    "who": "dev",
    "kind": "writeup",
    "ok": true,
+   "text": "Write-up: Business planner: what to buy, when to stop, what cash to expect (2026-11-26)",
+   "src": "research/writeups/business-planner-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
    "text": "Write-up: A sturdier execution path for the MFFU accounts (big-execution, 2026-11-26)",
    "src": "research/writeups/execution-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): LIT's Asia slot at real Asia costs (big-litasia, 2026-11-26)",
+   "src": "research/writeups/litasia-2026-11-26.md"
   },
   {
    "t": 1795694400,
@@ -1992,6 +2016,14 @@
    "ok": true,
    "text": "Write-up (finding): Entry execution policy for LIT and ATLAS: market vs limit vs pullback (big-execution, 2026-11-26)",
    "src": "research/writeups/execpol-2026-11-26.md"
+  },
+  {
+   "t": 1795694400,
+   "who": "atlas",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): ATLAS v2: can ATLAS survive real fills? (day-atlas2, 2026-11-26)",
+   "src": "research/writeups/atlas2-2026-11-26.md"
   },
   {
    "t": 1795608000,
@@ -3944,38 +3976,6 @@
    "ok": true,
    "text": "8 research runs stored (filters): 4 rejected, 4 open.",
    "src": "research/runs"
-  },
-  {
-   "t": 1792713660,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "4 research runs stored (other): 1 adopted, 3 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792708920,
-   "who": "dev",
-   "kind": "run",
-   "ok": true,
-   "text": "14 research runs stored (other): 14 open.",
-   "src": "research/runs"
-  },
-  {
-   "t": 1792670400,
-   "who": "lit",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): LIT more entries - all hours, 2-3 trades a day, re-arming, sizes, looser rules at night (with t_check and be_…",
-   "src": "research/writeups/lit-more-entries.md"
-  },
-  {
-   "t": 1792670400,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (promising): Second strategy next to LIT - the London EMA trend pullback (sweep + 5m CISD, VIX-band target)",
-   "src": "research/writeups/second-ema.md"
   }
  ],
  "pipeline": {
@@ -4357,7 +4357,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795712160,
+   "t": 1795718220,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4379,104 +4379,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795711988,
-    "s": "Rebuild hub data"
+    "t": 1795718201,
+    "s": "Jarvis search index rebuilt, jarvis-v101"
    },
    {
-    "t": 1795711986,
+    "t": 1795718060,
+    "s": "Rebuild research hub data"
+   },
+   {
+    "t": 1795718053,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795711982,
-    "s": "Rebuild hub data"
+    "t": 1795718048,
+    "s": "of_paper writes its state with fsutil.replace (selfheal); STATE: the rest of the 11-26 landing"
    },
    {
-    "t": 1795711981,
-    "s": "Land site5 v2 (real forecast + bands), LIT learns from live, forward-paper harness, execution study, sizing a…"
+    "t": 1795714493,
+    "s": "Rebuild hubs + vault after the last landings"
    },
    {
-    "t": 1795711831,
-    "s": "Merge remote-tracking branch 'olympus/day-pillars4' into land-1123"
+    "t": 1795714472,
+    "s": "Merge remote-tracking branch 'olympus/big-execution-rt' into land-1126"
    },
    {
-    "t": 1795711826,
-    "s": "Merge remote-tracking branch 'olympus/day-moretrades' into land-1123"
+    "t": 1795714471,
+    "s": "Merge remote-tracking branch 'olympus/big-litasia' into land-1126"
    },
    {
-    "t": 1795711826,
-    "s": "Merge remote-tracking branch 'olympus/big-execution' into land-1123"
+    "t": 1795714471,
+    "s": "Merge remote-tracking branch 'olympus/day-oflearn-rt16' into land-1126"
    },
    {
-    "t": 1795711826,
-    "s": "Merge remote-tracking branch 'olympus/big-regime' into land-1123"
+    "t": 1795714452,
+    "s": "brain_learned: the helper-only forbidden-files guard skips a checkout without origin/pc; LEDGER: ATLAS v2, LI…"
    },
    {
-    "t": 1795711825,
-    "s": "Merge remote-tracking branch 'olympus/day-livedash' into land-1123"
+    "t": 1795714398,
+    "s": "red team #17: make_adapter gives the socket transport to a Sim account only, whatever PAPER_ONLY says; an acc…"
    },
    {
-    "t": 1795711796,
-    "s": "site5 on the real data: Strategy health reads research/health/bands.json (20-trade 2026 band p5/p50/p95 + the…"
+    "t": 1795714247,
+    "s": "LIT Asia slot at real Asia costs: 2026 gain ~0 in H1 at +2 ticks, -$21.7k in 2021-25 - no card"
    },
    {
-    "t": 1795711655,
-    "s": "Rebuild hub data"
+    "t": 1795714236,
+    "s": "red team #16: the OF paper child runs BELOW_NORMAL on Windows (09:25-16:10 ET, beside the live bot)"
    },
    {
-    "t": 1795711654,
-    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+    "t": 1795714203,
+    "s": "latency: write-up (chain measured, before/after estimate, fast entry recommendation; update_gate SAME, lit_li…"
    },
    {
-    "t": 1795711650,
-    "s": "Land site5 (money view, strategy health on the real bands, archive door, faster Home, 44 px Today strip) + ev…"
+    "t": 1795714159,
+    "s": "LIT Asia slot at real Asia costs: pre-registration (before any run)"
    },
    {
-    "t": 1795711485,
-    "s": "execpol: entry execution study for LIT + ATLAS (pre-registered); verdict no order change, shadow-limit measur…"
+    "t": 1795714037,
+    "s": "Doc: the weekly backup holds ~/.olympus encrypted; keep the recovery code private"
    },
    {
-    "t": 1795711360,
-    "s": "Forward-paper harness: 7 watched leads + idea mill adapter scored nightly on new sessions vs their own band (…"
+    "t": 1795714013,
+    "s": "Merge remote-tracking branch 'olympus/day-ops2-rt' into land-1126"
    },
    {
-    "t": 1795711337,
-    "s": "execpol: amendment 1 (entry-bar fill rule for marketable limits; grid adds 1 and 6)"
+    "t": 1795714008,
+    "s": "Merge remote-tracking branch 'olympus/day-proedge-rt14' into land-1126"
    },
    {
-    "t": 1795711293,
-    "s": "LIT fragility: correct the sizing note (real engine says keep room_f 0.4)"
+    "t": 1795713997,
+    "s": "Landing fixes: pc_identity uses fsutil.replace (selfheal), browser kit serves status_feed unpinned (accounts_…"
    },
    {
-    "t": 1795711293,
-    "s": "Merge remote-tracking branch 'olympus/day-pillars4' into land-1123"
+    "t": 1795713746,
+    "s": "red team #15: LE_FeedHub silences a chart only while LE_Feed's heartbeat is fresh (a stalled add-on can no lo…"
    },
    {
-    "t": 1795711286,
-    "s": "Merge remote-tracking branch 'olympus/day-alloc' into land-1123"
+    "t": 1795713284,
+    "s": "red team #14: of_send_now re-checks the daily cap before each range (a 2nd range took a 7th answer, one of th…"
    },
    {
-    "t": 1795711286,
-    "s": "Merge remote-tracking branch 'olympus/day-moretrades' into land-1123"
+    "t": 1795713280,
+    "s": "latency: per-entry latency log (send/ack/fill_seen/model px - fills.jsonl.gz) + opt-in socket transport (OFF,…"
    },
    {
-    "t": 1795711286,
-    "s": "Merge remote-tracking branch 'olympus/big-evalsizer' into land-1123"
+    "t": 1795713154,
+    "s": "Merge remote-tracking branch 'olympus/day-atlas2' into land-1126"
    },
    {
-    "t": 1795711272,
-    "s": "Merge remote-tracking branch 'origin/pc' into day-pillars4"
+    "t": 1795712914,
+    "s": "OF paper bot: tests 25/25 (planted sweeps), tickrec allowlist, STATE, run_area pc area"
    },
    {
-    "t": 1795711259,
-    "s": "LIT learns from live (day-litlearn): setup funnel, gate ledger, setups-like-today, gated suggestions"
+    "t": 1795712877,
+    "s": "Land 11-26 batch: guard2-rt (noleak #9 + guard2 #12), oflearn, batch7, learning view, business planner + 2 De…"
    },
    {
-    "t": 1795711255,
-    "s": "Eval sizer: mixed-market sensitivity (25%/50% 2026): room 0.3 earns less than today's 0.4, fails about the sa…"
-   },
-   {
-    "t": 1795711185,
-    "s": "Allocation optimizer: 4 accounts x 13 books from today's balances (real engine, joint paths): switches-only +…"
+    "t": 1795712798,
+    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt13' into land-1126"
    }
   ],
   "branches": [

@@ -36,7 +36,7 @@ const nowS = () => Math.floor(Date.now() / 1000);
 let feedLib = null;
 function loadFeedLib() {
   if (window.PC_FEED) return Promise.resolve(window.PC_FEED);
-  if (!feedLib) feedLib = new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n8'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
+  if (!feedLib) feedLib = new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n9'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
   return feedLib;
 }
 async function withFeed(home) {
@@ -86,7 +86,7 @@ function zeusRows() {                       // olympus/zeus_core.js (the ZEUS ca
   zeusP = new Promise((res) => {
     const go = () => { try { window.ZEUS_CORE.fetchAll().then((d) => res(window.ZEUS_CORE.summary(d).rows || []), () => res([])); } catch (_) { res([]); } };
     if (window.ZEUS_CORE) { go(); return; }
-    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=10'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
+    try { const sc = document.createElement('script'); sc.src = '../olympus/zeus_core.js?v=11'; sc.async = true; sc.onload = () => (window.ZEUS_CORE ? go() : res([])); sc.onerror = () => res([]); document.head.appendChild(sc); } catch (_) { res([]); }
   });
   return zeusP;
 }

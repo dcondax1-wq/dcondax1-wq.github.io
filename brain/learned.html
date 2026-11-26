@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-mode="boot">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What the Bots Learned</title>
+<meta name="description" content="Every lesson the Olympus bots learned, by date; what is being tested next; and how close each watched idea is to graduating on new days.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="brain.css?v=b6">
+<link rel="stylesheet" href="learned.css?v=l1">
+<!-- WHAT THE BOTS LEARNED (big-learnview 2026-11-26). Read only: one GET of brain/learn.json (tools/build_brain_learn.py). Sends nothing, changes nothing. -->
+<script type="module" src="learned.js?v=l1"></script>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="./" aria-label="Back to the Brain">&#8592;</a>
+  <div class="ttl"><h1>Learned</h1><nav class="crumbs" aria-label="Where you are"><a href="../gate/">Home</a> › <a href="./">Brain</a> › <span>Learned</span></nav><p id="sub">lessons, tests, what's next</p></div>
+  <span class="pill" id="fresh" data-level="none">checking</span>
+</header>
+
+<main class="room lv" id="main">
+  <section class="hero" id="hero" aria-label="This week in numbers"></section>
+  <nav class="jump" id="jump" aria-label="Jump to"></nav>
+  <section class="card" id="sGrad" style="--c:#f1c14b"><h3>Ideas on trial (new days only)</h3><div id="grad"></div></section>
+  <section class="card" id="sTime" style="--c:#9d59ee"><h3>Lessons, by date</h3><div class="filters" id="filt" role="group" aria-label="Show lessons from"></div><ol class="tl" id="tl"></ol><button type="button" class="more btn" id="tlMore" hidden>Show older lessons</button></section>
+  <section class="card" id="sNext" style="--c:#77db89"><h3>Testing next</h3><ul class="lrn" id="next"></ul></section>
+  <section class="card" id="sLit" style="--c:#f1c14b"><h3>LIT: why setups were not taken</h3><div id="funnel"></div></section>
+  <section class="card" id="sMill" style="--c:#e9d58a"><h3>Idea mill</h3><div id="mill"></div></section>
+  <section class="card" id="sGap" style="--c:#c58cff"><h3>Live vs its twin</h3><div id="gap"></div></section>
+  <section class="card" id="sHealth" style="--c:#b6f0c2"><h3>Is each bot inside its normal range?</h3><div id="health"></div></section>
+  <section class="card" id="sOf" style="--c:#9d59ee"><h3>Order flow learner</h3><div id="of"></div></section>
+</main>
+
+<footer class="foot">
+  <a href="./">The Brain &#8250;</a>
+  <a href="../pillars/">Four Pillars &#8250;</a>
+  <a href="../cities/mind/">Strategy Brain &#8250;</a>
+  <p id="srcs"></p>
+</footer>
+</body>
+</html>

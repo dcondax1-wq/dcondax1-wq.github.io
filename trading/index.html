@@ -21,7 +21,7 @@
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
 <!-- perf 2026-11-20 (largest paint 5.6 s on a phone: page -> trading.js -> its imports -> the data, one after the other): the module files and
      the data start at once; trading.js takes the early data (window.TR_EARLY) instead of asking again -->
-<link rel="modulepreload" href="trading.js?v=20">
+<link rel="modulepreload" href="trading.js?v=21">
 <script>(function () { var E = window.TR_EARLY = {}; if (/[?&]demo=1\b/.test(location.search) || typeof fetch !== 'function') return;
   ['./trades.json', '../home.json', '../ledger/rules.json', '../business/accounts.json', './fixture.json', '../why/why.json'].forEach(function (u) {
     E[u] = fetch(u, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }); })();</script>
@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="../olympus/agora.css?v=a11">
 <link rel="stylesheet" href="../olympus/a11y.css?v=a3">
 <script src="../olympus/themes.js?v=o11"></script>
-<script src="../olympus/olympus.js?v=o26" data-app="trading"></script>
+<script src="../olympus/olympus.js?v=o27" data-app="trading"></script>
 <script src="../olympus/intro-app.js?v=i14" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/agora-ui.js?v=12" defer></script>
@@ -202,7 +202,7 @@
 <script src="../edge_chip.js?v=2"></script>
 <script src="../business/payoutcoach.js?v=4"></script>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="trading.js?v=20" async></script><!-- async: runs as soon as it and its data are in, not after every deferred kit script (perf) -->
+<script type="module" src="trading.js?v=21" async></script><!-- async: runs as soon as it and its data are in, not after every deferred kit script (perf) -->
 <script src="healthcore.js?v=2" defer></script>
 <script src="health.js?v=3" defer></script>
 <script src="panelfx.js?v=2" data-look="night" data-burst="1" defer></script><!-- owner 2026-11-20: 3D + effects, after the content -->
