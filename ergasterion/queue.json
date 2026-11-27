@@ -4353,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795779420,
+   "t": 1795780260,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4374,6 +4374,10 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795780176,
+    "s": "NQ page: the Four Pillars chips at 12 px (were 9.5-10.5 px; found in the live check), nqhero.css v11, sw le-p…"
+   },
    {
     "t": 1795779356,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
@@ -4469,10 +4473,6 @@
    {
     "t": 1795769498,
     "s": "Rebuild Jarvis search index for landing #1"
-   },
-   {
-    "t": 1795769469,
-    "s": "Rebuild generated hub data for landing #1"
    }
   ],
   "branches": [

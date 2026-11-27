@@ -156,3 +156,5 @@ main#app{--ag-fs-cap:12px}
 .hx-ti.sun{width:12px;height:12px;border:2px solid var(--ag-gold);border-radius:50%;background:none}
 .hx-brief{margin:0;padding:10px 12px;border-radius:14px;border:1px solid var(--hx-line2);background:rgba(6,4,11,.8);font-size:14px;line-height:1.45;color:var(--ag-soft)}
 .hx-brief span.on{color:var(--ag-gold)}
+/* landing #2 (QA: no text under 12 px on NQ pages): the Four Pillars chips on the NQ page only (Olympus Home keeps its compact band) */
+#pillarsStrip.phero .pc b, #pillarsStrip.phero .pc span, #pillarsStrip.phero .pc small { font-size: 12px; }
