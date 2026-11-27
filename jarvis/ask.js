@@ -48,7 +48,7 @@
 
   // ---------------------------------------------------------------------------------------------- the data: biz.js + the PC report
   let bizP = null, liteP = null, liteAt = 0;
-  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b7', BASE).href).catch(() => { bizP = null; return null; }));
+  const biz = () => bizP || (bizP = import(new URL('biz.js?v=b8', BASE).href).catch(() => { bizP = null; return null; }));
   function script(src, global) {
     if (window[global]) return Promise.resolve(window[global]);
     return new Promise((ok) => { const s = document.createElement('script'); s.src = new URL(src, SITE).href; s.async = true; s.onload = () => ok(window[global] || null); s.onerror = () => ok(null); document.head.appendChild(s); });

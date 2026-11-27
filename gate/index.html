@@ -208,14 +208,14 @@
 })();</script>
 <script>(function () { /* NAV FX (2026-11-20, owner: "3D, effects, no gold"): glass icons, aurora, tilt, roll-ups; loaded after the first paint */
   var b = window.GATE_BASE || '', d = document;
-  var s = d.createElement('script'); s.src = b + 'hub/navfx.js?v=2'; s.defer = true; d.body.appendChild(s);
+  var s = d.createElement('script'); s.src = b + 'hub/navfx.js?v=3'; s.defer = true; d.body.appendChild(s);
   var ar = d.createElement('script'); ar.src = b + 'gate/arenas.js?v=6'; ar.defer = true; d.body.appendChild(ar);   /* the 6 arenas' live lines + Everything else */
   var dl = d.createElement('link'); dl.rel = 'stylesheet'; dl.href = b + 'olympus/dashfx.css?v=d1'; d.head.appendChild(dl);
   var dx = d.createElement('script'); dx.src = b + 'olympus/dashfx.js?v=d1'; dx.defer = true; d.body.appendChild(dx);   /* DESIGN's glass on the arenas */
 })();</script>
 <script>(function () { /* day-pillars2: the Four Pillars hero's look + live module (after the page; GATE_BASE = the site root here or at olympus-live.html) */
   var b = window.GATE_BASE || '', d = document, l = d.createElement('link'); l.rel = 'stylesheet'; l.href = b + 'pillars/hero.css?v=c2'; d.head.appendChild(l);
-  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=c4').catch(function () {}); import(b + 'pillars/today.js?v=t2').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
+  addEventListener('load', function () { setTimeout(function () { import(b + 'pillars/hero.js?v=c5').catch(function () {}); import(b + 'pillars/today.js?v=t3').catch(function () {}); import(b + 'pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 200); });
 })();</script>
 <script src="install-hint.js?v=h1" defer></script>
 </body>

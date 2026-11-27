@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-26 16:10 ET",
+ "built": "2026-11-27 03:52 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 26 14:15 ET",
+ "pc": "PC last reported Nov 27 3:45 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49177.52,
-   "src": "PC live, Nov 26 14:15 ET",
+   "src": "PC live, Nov 27 3:44 ET",
    "room": 1009.32,
    "to_pass": 3822.48,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 26 14:15 ET",
+   "src": "PC live, Nov 27 3:44 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24995.24,
-   "src": "PC live, Nov 26 14:15 ET",
+   "src": "PC live, Nov 27 3:44 ET",
    "room": 995.24,
    "to_pass": 1504.76,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 26 14:15 ET",
+   "src": "PC live, Nov 27 3:44 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Keep the exit-real forecast.json (the publish rebuild had dropped account names); pillars data",
-   "Rebuild research hub data",
-   "Rebuild brain hub data",
-   "LEDGER: 15:30 ET finder round skipped; vault",
-   "handsfree READ_ONLY: buy gate seed + setup-score pool (cloud-built, read on the PC); STATE names...",
-   "bump: jarvis search index",
-   "Land day-zeroerr-rt25 (fill log, exit-real costs, forecast re-run); hubs, vault",
-   "red team #25: research/batch5 counts ATLAS ENTRY fills only"
+   "Rebuild Jarvis search index for landing #1",
+   "Rebuild generated hub data for landing #1",
+   "Rebuild brain hub data for landing #1",
+   "vault: rebuilt for this landing (tools/obsidian_brain.py)",
+   "Landing #1 integration fixes: PC pill 44 px tap target on every NQ page, no HEAD probe (sprint...",
+   "Night sprint landing: test pins from bump_versions; nq eager-JS budget 600 - 640 KB",
+   "bump_versions for the night sprint landing (nqscene q9 by hand)",
+   "Night sprint lead wires: NQ nav links (Order Flow, Replay, PC health), payready.css v3, nqgoals..."
   ]
  },
  "next": {
@@ -203,9 +203,44 @@
   "basis": "this week"
  },
  "twins": {
-  "to": "2026-11-20",
-  "bots": [],
-  "note": "no bars for this week yet"
+  "to": "2026-11-26",
+  "days": [
+   "2026-11-23",
+   "2026-11-24",
+   "2026-11-25",
+   "2026-11-26"
+  ],
+  "bots": [
+   {
+    "name": "Zlarior",
+    "rows": [],
+    "n": {
+     "matched": 0,
+     "missed": 0,
+     "extra": 0,
+     "not live yet": 0
+    },
+    "twin_r": 0,
+    "live_r": 0,
+    "verdict": "same as the twin",
+    "line": "twin 0 trades +0.00R, live 0 trades +0.00R."
+   },
+   {
+    "name": "ATLAS",
+    "rows": [],
+    "n": {
+     "matched": 0,
+     "missed": 0,
+     "extra": 0,
+     "not live yet": 0
+    },
+    "twin_r": 0,
+    "live_r": 0,
+    "verdict": "same as the twin",
+    "line": "twin 0 trades +0.00R, live 0 trades +0.00R."
+   }
+  ],
+  "note": "R only (the twin's $ is at the research size). Days after the cloud's last bars are not compared."
  },
  "best": null,
  "worst": null,
@@ -294,12 +329,10 @@
    "src": "Decide card"
   }
  ],
- "missing": [
-  "PC live numbers: last report Nov 26 14:15 ET (1 h ago)"
- ],
+ "missing": [],
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 26 14:15 ET"
+  "board_pc": "Nov 27 3:45 ET"
  }
 }

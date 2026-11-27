@@ -5,10 +5,11 @@
 // ?demo=1 the example; ?demo=1&silent=4d (or 90m, 5h) the example with a silent PC; ?flat=1 the 2D columns; ?howto=1 opens the sheet.
 import * as C from './nqcore.js?v=d6';   // d6 (night-seedata): today's $ in the first line; d1 (polish2 2026-11-19): the CME trading day
 import * as T from '../olympus/truth.js';
-import * as D from './nqdesk.js?v=8';
-import { unpack as unpackBars } from './nqbars.js?v=b1';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
+import * as D from './nqdesk.js?v=14';
+import * as GM from './goals_model.js?v=1';             // night-nq-main: ONE goals model (QA #4)
+import { unpack as unpackBars } from './nqbars.js?v=b2';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
 import * as G from './nqgoals.js?v=10';
-import * as K7 from './clock7.js?v=2';                          // day-nqops: the MFFU 7-day clock card + window.NQ_K7 for Jarvis                       // v4: the goals strip, the numbers card, the bursts
+import * as K7 from './clock7.js?v=3';                          // day-nqops: the MFFU 7-day clock card + window.NQ_K7 for Jarvis                       // v4: the goals strip, the numbers card, the bursts
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -149,8 +150,76 @@ function renderNews() {
 }
 
 // ------------------------------------------------------------------------------------------------ plan, trades, facts
+// QA #8: the PC's own entry window (board.lit.window.text, e.g. "next entry window Fri 02:00-13:00 ET") on a short CME day: the window ends
+// before 15:30, so "flat by 15:55" would be wrong that day (engine/cme_calendar: entries stop 15 min and the bot is flat 5 min before a halt)
+export function shortDay(text) {
+  const m = /(?:\b(Mon|Tue|Wed|Thu|Fri|Sun|Sat)\w*\s+)?(\d\d):(\d\d)\s*[-\u2013]\s*(\d\d):(\d\d)/.exec(String(text || ''));
+  if (!m) return null;
+  const end = +m[4] * 60 + +m[5];
+  return end < 930 ? { day: m[1] || '', end: `${m[4]}:${m[5]}` } : null;
+}
+// weight pass: plan.js (the battle plan + alert history) is code-split: added when its card nears the screen or the browser is idle,
+// never in the first paint's way (it reads window.NQ_HOME at start, then the 'nq-home' events)
+function loadPlan() {
+  if (S.planAsked) return; S.planAsked = true;
+  const go = () => { if (S.planIn) return; S.planIn = true; const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./plan.js?v=3', import.meta.url).href; document.head.appendChild(t); };
+  const card = $('battle');
+  if (card && 'IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' }); io.observe(card); }
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(go, { timeout: 4000 });
+}
+// the December card (december.js + decore.js): code-split like plan.js, added near its card or when idle
+function loadDec() {
+  if (S.decAsked) return; S.decAsked = true;
+  const go = () => { if (S.decIn) return; S.decIn = true; const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./december.js?v=1', import.meta.url).href; document.head.appendChild(t); };
+  const card = $('decCard');
+  if (card && 'IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' }); io.observe(card); }
+  (window.requestIdleCallback || ((f) => setTimeout(f, 2000)))(go, { timeout: 5000 });
+}
+// BRIEF ME (briefme.js + briefcore.js, lazy: idle or the first tap) and SUNLIGHT MODE (sun.css, html.sun; the head script applies it before paint)
+function loadBrief() {
+  if (S.briefIn) return; S.briefIn = true;
+  const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./briefme.js?v=1', import.meta.url).href; document.head.appendChild(t);
+}
+function briefTap() {
+  if (window.NQ_BRIEF) { window.NQ_BRIEF.toggle(); return; }
+  try { if ('speechSynthesis' in window) window.speechSynthesis.speak(new SpeechSynthesisUtterance('')); } catch (_) { /* iOS: unlock speech inside the tap */ }
+  window.NQ_BRIEF_ASK = true; loadBrief();
+}
+function sunSet(onOff, store) {
+  const d = document.documentElement, l = document.getElementById('sunCss');
+  d.classList.toggle('sun', !!onOff);
+  if (l && onOff) l.media = 'all';
+  if (store) { try { localStorage.setItem('nq.sun', onOff ? '1' : '0'); } catch (_) { /* private mode: this visit only */ } }
+  const b = $('hxSun'); if (b) { b.setAttribute('aria-pressed', onOff ? 'true' : 'false'); const t = b.querySelector('.hx-tl'); if (t) t.textContent = onOff ? 'Sunlight on' : 'Sunlight'; }
+}
+// HOW TO READ THIS PAGE (tour.js): first visit only (localStorage 'nq.tour' unset) or ?tour=1; added when the browser is idle
+function loadTour() {
+  let seen = false; try { seen = !!localStorage.getItem('nq.tour'); } catch (_) { seen = false; }
+  const force = /[?&]tour=1\b/.test(location.search);
+  if ((seen || navigator.webdriver) && !force) return;   // an automated browser (the test suites) is not the owner: ?tour=1 only
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => { const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./tour.js?v=1', import.meta.url).href; document.head.appendChild(t); }, { timeout: 4000 });
+}
+function toolsInit() {
+  const b = $('hxBrief'), s = $('hxSun');
+  if (b) {
+    b.addEventListener('click', briefTap);
+    if (!('speechSynthesis' in window)) { const t = b.querySelector('.hx-tl'); if (t) t.textContent = 'Show brief'; b.title = 'This browser has no voice: the brief shows as text'; }
+    (window.requestIdleCallback || ((f) => setTimeout(f, 2500)))(loadBrief, { timeout: 6000 });
+  }
+  loadTour();
+  if (s) { sunSet(document.documentElement.classList.contains('sun'), false); s.addEventListener('click', () => sunSet(!document.documentElement.classList.contains('sun'), true)); }
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', toolsInit); else toolsInit();
+// QA #5: a jump-bar link (or any #hash) into a folded section opens the fold first
+function openFoldFor(hash) {
+  try { const t = hash && document.getElementById(hash.slice(1)); const f = t && (t.matches('details') ? t : t.closest('details')); if (f && !f.open) f.open = true; } catch (_) { /* nothing */ }
+}
+addEventListener('click', (e) => { const a = e.target && e.target.closest && e.target.closest('a[href^="#"]'); if (a) openFoldFor(a.getAttribute('href')); });
+addEventListener('hashchange', () => openFoldFor(location.hash));
 function renderPlan() {
-  const p = S.view.plan; $('planRule').textContent = p.rule; $('planNow').textContent = p.now; $('planNow').hidden = !p.now; $('planNote').textContent = p.note; $('planNote').hidden = !p.note;
+  const p = S.view.plan, w = (() => { try { const h0 = deskHome(); return h0 && h0.board && h0.board.lit && h0.board.lit.window ? h0.board.lit.window.text : ''; } catch (_) { return ''; } })();
+  const sd = shortDay(w);
+  $('planRule').textContent = sd ? `${sd.day ? sd.day + ' is' : 'Today is'} a short CME day: LIT's window ends at ${sd.end} ET and it is flat before the early halt (5 minutes before it). Other days: one trade between 02:00 and 15:30 ET, flat by 15:55 ET.` : p.rule; $('planNow').textContent = p.now; $('planNow').hidden = !p.now; $('planNote').textContent = p.note; $('planNote').hidden = !p.note;
 }
 function renderTrades() {
   const ol = $('trades'); clear(ol); const rows = S.view.trades;
@@ -225,6 +294,19 @@ function watchPast() {
   const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' });
   io.observe(card);
 }
+// the hero scene's ribbon: today's (the CME day's, from 18:00 ET) 5-minute closes in the PC's chart post; the DEMO's fixture chart; else none
+function heroBars() {
+  try {
+    const post = S.demo ? (S.fixture && S.fixture.chart ? demoHome({ home: S.fixture.chart }, Date.now(), S.silent) : null) : (window.NQCHART && window.NQCHART.S ? window.NQCHART.S.post : null);
+    if (!post) return null;
+    if (S.heroKey === post) return S.heroB;
+    const b = unpackBars(post); if (!b.length) return null;
+    const last = b[b.length - 1][0], p = D.etParts(last), m = +p.hm.slice(0, 2) * 60 + +p.hm.slice(3);
+    const t0 = last - ((m - 1080 + 1440) % 1440) * 60;                  // 18:00 ET before the last bar
+    S.heroKey = post; S.heroB = b.filter((x) => x[0] >= t0);
+    return S.heroB.length > 3 ? S.heroB : b.slice(-120);
+  } catch (_) { return null; }
+}
 function deskHome() { return S.demo ? demoHome(S.fixture, Date.now(), S.silent) : S.home; }
 // day-nqops 2026-11-21: the MFFU 7-day clock per account (clock7.js: the PC's k7 block, else its mf rows); Jarvis reads window.NQ_K7
 function drawK7(nowS) {
@@ -280,9 +362,14 @@ function render() {
   const v = S.view;
   $('demo').hidden = !S.demo; try { $('lite').hidden = !(O && O.lite && O.lite()); } catch (_) { $('lite').hidden = true; }
   renderBanner(); renderDesk(); renderScene(); renderPlan(); renderBots(); renderNews(); renderTrades(); renderFacts();
-  say(`${v.headline}${v.todayLine ? ' ' + v.todayLine : ''}${v.tight ? ` ${v.tight.name}: ${v.tight.ddLine}.` : ''}${S.demo ? ' Example numbers.' : ''}`);
-  { const el = $('src'); if (el) el.textContent = srcLine(); }
+  say(`${v.headline}${v.tight ? ` ${v.tight.name}: ${v.tight.ddLine}.` : ''}${S.demo ? ' Example numbers.' : ''}`);
+  { const el = $('src'); if (el) el.textContent = srcLine(); }   // (the hero shows today's $: v.todayLine stays in the model for Jarvis / tests)
   S.ready = true;
+  try {                                  // night-nq-main: the battle plan + alert history (plan.js) read the SAME merged PC state, never a 2nd feed read
+    window.NQ_HOME = { home: deskHome(), lite: S.lite || null, demo: S.demo };
+    dispatchEvent(new CustomEvent('nq-home', { detail: window.NQ_HOME }));
+    loadPlan(); loadDec();
+  } catch (_) { /* the plan keeps its last draw */ }
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
   tryScene(); tryLand();
 }
@@ -301,7 +388,7 @@ function renderV4(home, file, nowS) {
     else if (!V4.payP) {
       V4.payP = true;
       window.addEventListener('nq-payready', () => { V4.pay = window.NQ_PAYREADY || null; if (S.ready) renderDesk(); }, { once: true });
-      const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./payready_late.js?v=1', import.meta.url).href; document.head.appendChild(t);
+      const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./payready_late.js?v=2', import.meta.url).href; document.head.appendChild(t);
     }
   }
   const rows = (S.lite && S.lite.mf && Array.isArray(S.lite.mf.a)) ? S.lite.mf.a : [], eq = {};
@@ -311,6 +398,13 @@ function renderV4(home, file, nowS) {
   if (box) G.drawGoals(box, list, $('goalDetail'), { open: V4.open, onOpen: (k) => { V4.open = k; } });
   const fa = D.feedAge(home, nowS), age = $('goalAge');
   if (age) { age.textContent = S.demo ? 'DEMO' : fa.fromPc ? D.updated(fa.report) : 'plan + cloud copy'; age.className = 'pill ' + (S.demo ? 'warn' : fa.fromPc ? D.ageLevel(fa.report, 'pc') : 'warn'); }
+  try {                                   // night-nq-main: the hero (today's $, every account's way to pass + room, LIT / ATLAS in one word)
+    const B = D.thinking(home, S.news, file, nowS, chart, S.brief);
+    const H = D.hero(A, list, B, home, nowS, S.demo); window.NQ_HERO = H;   // BRIEF ME reads the hero's own model
+    D.draw.hero($('hero'), H);
+    if (!S.scene3 && $('heroScene')) S.scene3 = D.heroScene($('heroScene'), heroBars) || true;
+    else if (S.scene3 && S.scene3.redraw) S.scene3.redraw();
+  } catch (_) { /* the rest of the page still draws */ }
   const real = G.realRows(file, chart, G.fundedSince(S.lite));   // ATLAS's passed-eval trades are not the funded account's
   // below the first screen: the numbers card and the landscape draw when the main thread is free (perf: one long task less at load)
   later(() => {
@@ -343,7 +437,7 @@ function drawVault(g) {
   $('vaultCard').hidden = false;
   const label = `${G.usd(g.balance)} of ${G.usd(g.goalAt)}`;
   if (pill) { pill.textContent = g.left <= 0 ? 'READY' : `${Math.round(g.frac * 100)}%`; pill.className = 'pill ' + (g.left <= 0 ? 'ok' : 'warn'); }
-  if (note) note.textContent = `MFFU shows ${G.usd(g.balance)} of profit. Goal: ask $1,000 at ${G.usd(g.goalAt)} ($800 to you), ${G.usd(g.left)} to go. ${g.when}.`;
+  if (note) note.textContent = GM.goal({ name: g.name, key: g.key, stage: 'Funded', balance: g.balance }).line;   // QA #4: the one goals model; no hard-coded date
   V4.vaultArgs = [g.frac, label];
   if (V4.vault) { try { V4.vault.call('set', g.frac, label); } catch (_) { /* the note says it */ } return; }
   // perf (sweep 2026-11-20: the kit's 3D vault pulled three.js in on load: a 1.7 s long task at 4x CPU): the kit and its vault only when the card
@@ -366,7 +460,7 @@ function fxKit() {
   fxP = new Promise((res) => {
     if (window.OLYMPUS_NQFX) { res(window.OLYMPUS_NQFX); return; }
     later(() => {
-      const t = document.createElement('script'); t.src = '../olympus/nqfx.js?v=n5'; t.async = true;
+      const t = document.createElement('script'); t.src = '../olympus/nqfx.js?v=n6'; t.async = true;
       t.onload = () => { const F = window.OLYMPUS_NQFX; if (!F || !F.ready) { res(null); return; } F.ready().then(() => res(F), () => res(null)); };
       t.onerror = () => res(null);
       document.head.appendChild(t);
@@ -426,6 +520,8 @@ window.addEventListener('nq3d', tryScene);
 window.addEventListener('nq-bars', () => { if (S.ready) renderDesk(); });
 window.addEventListener('nq-bars', () => { if (S.ready) try { tryLand(); } catch (_) { /* nothing */ } });   // a new chart post (the live chart module): the open trade's stop and $ now
 
+// night-nq-speed's shared feed (nqfeed.js, when the page has it): every newer post re-draws at once (its fetchLatest wrap answers from the kept post)
+window.addEventListener('nq-feed', () => { if (S.ready) refresh(); });
 async function refresh() {
   if (S.forced || document.hidden) return;
   const home = await withPost(await getJSON('../home.json'));
@@ -438,7 +534,7 @@ async function boot() {
   for (const b of document.querySelectorAll('[data-howto]')) b.addEventListener('click', () => openSheet(b));
   $('sheetClose').addEventListener('click', closeSheet); $('veil').addEventListener('click', closeSheet);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); else if (e.key === 'Tab' && S.sheet) { e.preventDefault(); try { $('sheetClose').focus(); } catch (_) { /* nothing */ } } });   // the sheet has one control: focus stays on it
-  const [fx, home, howto, news, learned, biz, tfile, edge, brief, goals] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), getJSON('./howto.json'), getJSON('./news_week.json'), S.forced ? null : getJSON('../hub/learned.json'),
+  const [fx, home, howto, news, learned, biz, tfile, edge, brief, goals] = await Promise.all([getJSON('./fixture.json'), S.forced ? null : getJSON('../home.json'), getJSON('./howto.json'), getJSON('./news_week.json'), null /* QA #14: ../hub/learned.json is never published (a 404 on every load): off until the lead publishes it (LEAD_WIRES) */,
     getJSON('../business/accounts.json'), getJSON('../trading/trades.json'), getJSON('../edge.json'), getJSON('./brief.json'), getJSON('../business/goals.json')]);
   S.fixture = fx; S.howto = howto; S.news = news; S.learned = learned; S.biz = biz; S.tfile = tfile; S.edge = edge; S.brief = brief; S.goals = goals;   // brief.json: the day-brief helper's pre-market brief (optional)
   // the PC's 15-minute status (no GitHub) first, up to 3.5 s, so the first numbers on screen are the real ones; when it is later than

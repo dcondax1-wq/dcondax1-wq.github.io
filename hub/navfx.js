@@ -78,7 +78,7 @@
   var burst = {};
   function goal(key, el, text) {
     if (still || burst[key] || !el) return; burst[key] = 1;
-    var s = d.createElement('script'); s.src = BASE + 'olympus/nqfx.js?v=n5'; s.async = true;
+    var s = d.createElement('script'); s.src = BASE + 'olympus/nqfx.js?v=n6'; s.async = true;
     s.onload = function () {
       var N = w.OLYMPUS_NQFX; if (!N || !N.ready) return;
       N.ready().then(function () { try { N.milestone(el, { text: text }); } catch (e) { /* no burst */ } });

@@ -3,7 +3,7 @@
 //   <section class="ag-card card mfx-card" data-moneyfx="payout">          <- the funded payout goal: 3D vault + an "earliest" ring
 //     <div class="mfx-vault" data-mfx-vault></div><div class="mfx-ring" data-mfx-ring><b data-mfx-pct>0%</b></div>
 //     <p class="note" data-mfx-note>...</p></section>
-//   <script type="module" src="../olympus/moneyfx.js?v=6"></script>
+//   <script type="module" src="../olympus/moneyfx.js?v=7"></script>
 // and may call window.MONEYFX.roll(el) on a number it just wrote (the number rolls up to its own text).
 // Numbers: the PC's last post over home.json (olympus/truth.js), each funded account in MFFU's own terms (pc_feed.js mffuView:
 // balance = profit; goal = the full request at buffer + max; earliest = buffer + min). Effects: DESIGN's kit (olympus/nqfx.js: navy /
@@ -30,7 +30,7 @@ export function kit() {
   if (kitP) return kitP;
   kitP = afterLoad().then(() => new Promise((res) => {
     if (window.OLYMPUS_NQFX) { window.OLYMPUS_NQFX.ready().then(() => res(window.OLYMPUS_NQFX), () => res(null)); return; }
-    const t = document.createElement('script'); t.src = new URL('./nqfx.js?v=n5', import.meta.url).href; t.async = true;
+    const t = document.createElement('script'); t.src = new URL('./nqfx.js?v=n6', import.meta.url).href; t.async = true;
     t.onload = () => { const F = window.OLYMPUS_NQFX; if (!F || !F.ready) { res(null); return; } F.ready().then(() => res(F), () => res(null)); };
     t.onerror = () => res(null); document.head.appendChild(t);
   }));

@@ -192,7 +192,7 @@ async function boot() {
 // olympus/nqfx.js (the NQ effects kit) is added only AFTER the first paint: after load + idle, so the page paints exactly as before. OLYMPUS NIGHT colours
 // (black, violet), the balance and K8's pool numbers roll up (the real text is already written and comes back when the roll ends), and a K8 leg whose last
 // result is a win from today gets the green sparks once per page view. Reduced motion / FX off: the kit shows the final state still. No kit = nothing.
-const FX_SRC = '../olympus/nqfx.js?v=n5';
+const FX_SRC = '../olympus/nqfx.js?v=n6';
 const FX_COLORS = { base: '#000000', cyan: '#9d59ee', cyanHi: '#dacbf0', blue: '#4d2e76', violet: '#9d59ee', win: '#77db89', loss: '#ef4444' };   // OLYMPUS NIGHT (owner 2026-11-20)
 const FX = { started: false, won: false, loaded: null, done: false, busyUntil: 0 };   // done + busyUntil: the test hook waits for the rolls to land
 function fxScript() {

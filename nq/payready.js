@@ -63,8 +63,8 @@ export function model(lite, home, biz, coach, today) {
     if (!P || typeof coach.coach !== 'function') { out.push({ ...base, verdict: 'No coach', reason: 'The payout coach script did not load.', need: null, pace: null }); continue; }
     const missing = [];
     if (bal === null) missing.push('the balance');
-    if (!f) missing.push("the funded tracker (mf.f)");
-    if (missing.length) { out.push({ ...base, verdict: 'Waiting for the PC', reason: `The PC has not sent ${missing.join(' and ')} yet: the tracker fills in from its next report.`, need: null, pace: pace(row && row.eq) }); continue; }
+    if (!f) missing.push('its payout tracker');          // night-nq-accounts: plain words (was "the funded tracker (mf.f)")
+    if (missing.length) { out.push({ ...base, verdict: 'Waiting for the PC', reason: `The PC has not sent ${missing.join(' and ')} yet: it fills in from the PC's next report.`, need: null, pace: pace(row && row.eq) }); continue; }
     const st = { balance: bal, cycle_start_balance: num(f.cp) !== null ? Math.round((bal - f.cp) * 100) / 100 : null, best_day: num(f.bd), cycle_days: num(f.cd),
       first_trade: day(f.ft), eligible_from: day(f.ef), last_trade: day(row && row.lt), payouts_n: num(f.pn), room: num(card && card.room) };
     const c = coach.coach(st, pk, today);

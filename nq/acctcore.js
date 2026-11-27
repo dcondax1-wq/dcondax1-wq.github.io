@@ -8,6 +8,8 @@
 // -> { pc: {ageS, text, level}, banner: {level, title, text} | null, cards: [card], counts }
 // Never a broker id or name: only the last 4 digits (mf "l4"). Nothing here places, arms or changes anything.
 
+import * as GM from './goals_model.js?v=1';
+
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);
 const num = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(+v) ? null : +v);
@@ -155,23 +157,24 @@ export function card(a, ctx) {
   const rawK = arr(isObj(lite) && isObj(lite.k7) ? lite.k7.a : null).find((r) => isObj(r) && ids.includes(String(r.id)));
   const clock = a.has || a.dot !== 'plan' ? clockOf(arr(k7).find((r) => ids.includes(String(r.id))) || null, today, minuteET, rawK && rawK.act, etDate) : null;
   const roomLvl = a.roomFrac === null ? 'none' : a.roomFrac < 0.25 ? 'bad' : a.roomFrac < 0.5 ? 'warn' : 'ok';
-  let goal;
-  if (funded) {
-    const P = MFFU_PAY[size], b = num(a.balance), need = b === null ? null : Math.max(0, Math.ceil(P.at - b));
-    goal = { label: 'To first payout', text: need === null ? '-' : need === 0 ? 'Payout ready' : `+${money(need)}`,
-      sub: `ask the max ${money(P.ask)} at ${money(P.at)}`, frac: b === null ? null : Math.max(0, Math.min(1, b / P.at)) };
-  } else {
-    const tgt = size === '50K' ? 3000 : 1500, g = num(a.goal);
-    goal = { label: 'To pass', text: g === null ? '-' : g <= 0 ? 'Target reached' : money(g), sub: `target +${money(tgt)}`,
-      frac: g === null ? null : Math.max(0, Math.min(1, 1 - g / tgt)) };
-  }
+  // QA #4: ONE goals model for nq/ and nq/accounts (goals_model.js, night-nq-main): to pass = the plan's target; to payout = the max ask
+  // above the buffer (Builder 25K $1,000 at $2,100, 50K $2,000 at $4,100, Rapid $500 at $2,100 incl. the bot's $500 keep), earliest ask too
+  const G = GM.goal({ key: a.key, name: a.name, plan: a.plan, stage: a.stage, balance: a.has ? a.balance : null });
+  const goal = funded
+    ? { label: 'To first payout', text: G.left === null ? '-' : G.left <= 0 ? 'Payout ready' : `+${money(G.left)}`,
+      sub: G.ask !== null ? `ask the max ${money(G.ask)} at ${money(G.goalAt)}` : `the first ask at ${money(G.goalAt)}`, frac: G.frac,
+      note: G.earliestAt !== null && G.earliestAt < (G.goalAt || 0) && G.earliestLeft !== null ? (G.earliestLeft > 0 ? `MFFU allows the first ${money(G.earliestAt - (G.goalAt - G.ask))} ask at ${money(G.earliestAt)} (${money(G.earliestLeft)} to go)` : 'MFFU already allows a smaller first ask') : '' }
+    : { label: 'To pass', text: G.left === null ? '-' : G.left <= 0 ? 'Target reached' : money(G.left), sub: `target +${money(G.goalAt)}`, frac: G.frac,
+      note: G.profit !== null && G.profit < 0 ? `${money(-G.profit)} below the start: ${money(G.left)} to make back and reach +${money(G.goalAt)}` : '' };
   const P = paydayRow(a, ids, payday);
-  const eta = P ? (funded ? `1st payout ~${monDay(P.first_pay_med) || 'not in 6 months'} (~${money(P.first_pay_usd)} to you)`
+  // QA #4: the date from the forecast, the $ from the ONE goals model (the plan's ask x the split: $800 on a Builder 25K), never two different $
+  const eta = P ? (funded ? `1st payout ~${monDay(P.first_pay_med) || 'not in 6 months'} (${money(G.toYou ?? P.first_pay_usd)} to you)`
     : `Funded ~${monDay(P.funded_med) || '?'} · 1st payout ~${monDay(P.first_pay_med) || 'not in 6 months'}`) + (P.like ? ` (like ${P.like})` : '') : '';
   return {
     key: String(a.key), name: safeName(PLAN_IDS[a.key] || !mf || !mf.nm ? a.name : mf.nm), plan: a.plan || '', stage: funded ? 'Funded' : 'Eval', l4, has: !!a.has, dot: a.dot, ageS,
     planned: a.dot === 'plan', fresh: a.dot === 'live',
     balance: a.has ? (funded ? `${money(a.balance, true)}` : money(a.balance)) : '-', balanceNote: funded && a.has ? 'MFFU shows funded as profit from $0' : '',
+    todayN: a.has ? num(a.today) : null, balanceN: a.has ? num(a.balance) : null, roomN: a.has ? num(a.room) : null,
     today: a.has ? money(a.today, true) : '-', todayLvl: num(a.today) === null ? 'none' : a.today > 0 ? 'ok' : a.today < 0 ? 'bad' : 'none',
     room: a.has ? money(a.room) : '-', roomOf: a.mll ? money(a.mll) : '', roomFrac: a.roomFrac, roomLvl,
     goal, eta, etaNote: P ? 'estimate from 1,000 replays, not a promise' : '',
@@ -208,4 +211,111 @@ export function build(accts, k7, ctx) {
       text: 'The numbers below are from the last report. The bots and the keep-alive only run while the PC and NinjaTrader are on.' };
   }
   return { pc, banner, cards, counts: { all: cards.length, risk: risk.length, warn: warn.length, live: cards.filter((x) => x.fresh).length } };
+}
+
+// ------------------------------------------------------------------------------------------------ night-nq-accounts 2026-11-27: the premium card's extra numbers
+// All pure, all honest: a field the PC or the site did not send is null and the page says so; nothing is made up.
+
+/** the PC account row (lite.accounts[]) of a card: its eval block carries dll / dll_used / today */
+function pcRow(ids, lite) { return arr(isObj(lite) ? lite.accounts : null).find((a) => isObj(a) && ids.includes(String(a.id))) || null; }
+
+/** daily loss used today: { used, of, frac, text, lvl } | null (the PC sends eval.dll + eval.dll_used; a soft day stop, never a fail) */
+export function dllOf(ids, lite, todayUsd) {
+  const r = pcRow(ids, lite), ev = r && isObj(r.eval) ? r.eval : null;
+  const of = num(ev && ev.dll);
+  if (!of || of <= 0) return null;
+  let used = num(ev.dll_used);
+  if (used === null) { const t = num(ev.today ?? todayUsd); used = t === null ? null : Math.max(0, -t); }
+  if (used === null) return null;
+  const frac = Math.max(0, Math.min(1, used / of));
+  return { used, of, frac, text: `${money(used)} of ${money(of)}`, lvl: frac >= 0.75 ? 'bad' : frac >= 0.4 ? 'warn' : 'ok' };
+}
+
+/** the pass / payout forecast (../business/forecast.json, tools/forecast.py: 1,000 replays from TODAY's balance) */
+export function forecastOf(key, fc, funded) {
+  const A = isObj(fc) && isObj(fc.accounts) ? fc.accounts : {}, r = isObj(A[key]) ? A[key] : null;
+  if (!r) return null;
+  const g = isObj(r['2026-like']) ? r['2026-like'] : {}, b = isObj(r['2021-25-like']) ? r['2021-25-like'] : {};
+  const made = String((fc && fc.made) || '').slice(0, 10);
+  if (funded) {
+    const p = num(g.first_payout_pct); if (p === null) return null;
+    return { pct: p, bad: num(b.first_payout_pct), label: '1st payout in 6 months', lost: num(g.lost_pct), made };
+  }
+  const p = num(g.pass_pct); if (p === null) return null;
+  return { pct: p, bad: num(b.pass_pct), label: 'Pass chance', med: num(g.pass_med_sessions), made };
+}
+
+/** the account's end-of-day P&L points (the PC's mf eq, oldest first) for the history sparkline: { pts, min, max, last, first } | null */
+export function historyOf(ids, lite) {
+  const r = arr(isObj(lite) && isObj(lite.mf) ? lite.mf.a : null).find((x) => isObj(x) && ids.includes(String(x.id)));
+  const pts = arr(r && r.eq).map(num).filter((x) => x !== null).slice(-60);
+  if (pts.length < 2) return null;
+  return { pts, min: Math.min(...pts), max: Math.max(...pts), last: pts[pts.length - 1], first: pts[0], n: pts.length };
+}
+
+/** an SVG polyline "x,y x,y" for points in a w x h box (pad px), the zero line's y (or null when 0 is outside) */
+export function sparkPath(pts, w, h, pad) {
+  const p = pad || 4, lo = Math.min(0, ...pts), hi = Math.max(0, ...pts), span = hi - lo || 1;
+  const X = (i) => p + (i * (w - 2 * p)) / Math.max(1, pts.length - 1), Y = (v) => p + ((hi - v) * (h - 2 * p)) / span;
+  return { line: pts.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' '), zero: Y(0), lastX: X(pts.length - 1), lastY: Y(pts[pts.length - 1]) };
+}
+
+/** a ring gauge: stroke-dasharray for a fraction of a circle of radius r ("<on> <off>") */
+export function ringDash(frac, r) {
+  const c = 2 * Math.PI * r, f = frac === null || frac === undefined || !Number.isFinite(+frac) ? 0 : Math.max(0, Math.min(1, +frac));
+  return { dash: `${(c * f).toFixed(2)} ${(c * (1 - f) + 0.01).toFixed(2)}`, c };
+}
+
+/** the 7-day clock as 7 segments: lit = days left (0..7), the rest spent; lvl from the clock */
+export function k7Segments(clock) {
+  if (!clock) return null;
+  const left = Math.max(0, Math.min(7, num(clock.left) ?? 0));
+  return Array.from({ length: 7 }, (_, i) => (i < left ? clock.lvl : 'spent'));
+}
+
+/** the business view: the 12-month planner range (nq/plan12.json) + the buy light (the PC's "bg": only when its show switch is on) */
+export function business(plan, lite) {
+  const rows = arr(isObj(plan) ? plan.rows : null).filter((r) => isObj(r) && num(r.p50) !== null);
+  const bg = isObj(lite) && isObj(lite.bg) && (lite.bg.s === 'OK' || lite.bg.s === 'STOP') ? lite.bg : null;
+  // each row on its OWN scale ($0 always inside it): one shared scale made the 2021-25 rows a few pixels wide next to the 2026 one
+  return {
+    rows: rows.map((r) => { const lo = Math.min(0, num(r.p10)) * 1.08, hi = Math.max(0, num(r.p90)) * 1.08, pos = (v) => Math.max(0, Math.min(1, (v - lo) / ((hi - lo) || 1)));
+      return { m: String(r.m), label: String(r.label || r.m), p10: num(r.p10), p50: num(r.p50), p90: num(r.p90),
+      text: `${money(r.p50, true)} middle · ${money(r.p10, true)} to ${money(r.p90, true)}`, a: pos(num(r.p10)), b: pos(num(r.p90)), mid: pos(num(r.p50)), zero: pos(0),
+      // the band split at $0: the losing part red, the winning part mint (never a red tint on a range that is all profit)
+      neg: num(r.p10) < 0 ? [pos(num(r.p10)), pos(Math.min(0, num(r.p90)))] : null, posb: num(r.p90) > 0 ? [pos(Math.max(0, num(r.p10))), pos(num(r.p90))] : null,
+      cash: num(r.cash), fees: num(r.fees), loss: num(r.loss), plan: r.m === 'M25' }; }),
+    made: String((plan && plan.made) || ''), note: String((plan && plan.note) || ''),
+    light: bg ? { stop: bg.s === 'STOP', word: bg.s === 'STOP' ? 'STOP buying new evals' : 'OK to buy new evals',
+      line: String(bg.l || '').replace(/^Buy gate:[^·]*·\s*/, '').slice(0, 200) } : null,
+  };
+}
+
+/** the extras for one card (the page calls it next to card()) */
+export function extras(c, ctx) {
+  const ids = idsOf({ key: c.key }, ctx.biz);
+  const funded = c.stage === 'Funded';
+  return { ids, dll: c.has ? dllOf(ids, ctx.lite, null) : null, fc: forecastOf(c.key, ctx.forecast, funded), hist: historyOf(ids, ctx.lite),
+    seg: k7Segments(c.clock), ring: ringDash(c.roomFrac, 34) };
+}
+
+/** QA #4: the ONE payout / funded date forecast both nq/ and nq/accounts show (business/payday.json, 1,000 replays, the Jul-Oct-like row).
+ *  key = the account key (zlarior | fresh25 | atlas | rapid1 | a new one: matched by plan like card()), acct = {name, plan, stage}.
+ *  -> { firstPay: 'YYYY-MM-DD' | null, firstPayText: 'Dec 17', toYou: $ to you at the first payout | null, funded: 'YYYY-MM-DD' | null,
+ *       fundedText, like: '' | 'Rapid EOD 25K' (a new account read off a like one), note: 'estimate from 1,000 replays, not a promise' } | null */
+export function payoutEta(key, acct, biz, payday) {
+  const a = { key: String(key), name: (acct && acct.name) || '', plan: (acct && acct.plan) || '', stage: (acct && acct.stage) || '', mll: acct && acct.mll };
+  const P = paydayRow(a, idsOf(a, biz), payday);
+  if (!P) return null;
+  return { firstPay: day(P.first_pay_med), firstPayText: monDay(P.first_pay_med), toYou: num(P.first_pay_usd), funded: day(P.funded_med), fundedText: monDay(P.funded_med),
+    like: P.like || '', note: 'estimate from 1,000 replays, not a promise' };
+}
+
+/** the strip on top: today's $ over every account the PC reported, the room left in all, how many accounts are live */
+export function totals(cards) {
+  const live = arr(cards).filter((c) => isObj(c) && c.has);
+  const t = live.map((c) => c.todayN).filter((v) => v !== null), r = live.map((c) => c.roomN).filter((v) => v !== null);
+  const today = t.length ? t.reduce((a, b) => a + b, 0) : null, room = r.length ? r.reduce((a, b) => a + b, 0) : null;
+  return { n: live.length, today, todayText: today === null ? '-' : money(today, true), todayLvl: today === null ? 'none' : today > 0 ? 'ok' : today < 0 ? 'bad' : 'none',
+    room, roomText: room === null ? '-' : money(room), funded: live.filter((c) => c.stage === 'Funded').length };
 }

@@ -256,7 +256,7 @@ A.accounts = async (deps, nowD) => {
 async function chartOpen(deps) {                                   // the chart feed's open trades (the PC's "-bars" ntfy post), or null
   try {
     const st = await getFile('status', deps); if (!st || !isObj(st.j)) return null;
-    const B = await import('../nq/nqbars.js?v=b1');
+    const B = await import('../nq/nqbars.js?v=b2');
     const f = (deps && deps.fetch) || fetch;
     for (const u of B.feedUrls(st.j)) {
       const ctl = typeof AbortController === 'function' ? new AbortController() : null, tm = setTimeout(() => ctl && ctl.abort(), FETCH_MS);

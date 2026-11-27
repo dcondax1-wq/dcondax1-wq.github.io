@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NQ Live</title>
+<title>NQ Live trades</title>
 <meta name="description" content="Live trades and where we're at: each account (armed, today's $, balance, room, to pass / payout), the open trade with live $ and R on a mini chart, each bot's setup step, today's trades and this week / month.">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
@@ -15,8 +15,8 @@
 <!-- day-livedash 2026-11-26 (owner: "I want to see live trades on the dashboard, where we're at"): ONE live screen, phone first, OLYMPUS NIGHT.
      Read only: ../home.json, ../business/accounts.json, ../business/payday.json, the PC's public status post (../pc_feed.js) and its chart post
      (nqbars.js), polled every 20 s while on screen. livecore.js = the pure rules (node-tested), live.js = the page. Text only through textContent. -->
-<link rel="stylesheet" href="live.css?v=1">
-<script src="../pc_feed.js?v=n9"></script>
+<link rel="stylesheet" href="live.css?v=3">
+<script src="../pc_feed.js?v=n9"></script><script src="nqfeed.js?v=1"></script>
 </head>
 <body>
 <main id="app" data-trade="0">
@@ -43,6 +43,11 @@
     <p class="lv-note" id="chartNote"></p>
   </section>
 
+  <section class="lv-opens" id="opens" aria-labelledby="opensH" hidden>
+    <h2 class="lv-h2" id="opensH">Open trades by account <small id="opensSum"></small></h2>
+    <div class="lv-ogrid" id="ogrid"></div>
+  </section>
+
   <section class="lv-card" id="flat" aria-labelledby="flatH">
     <div class="lv-trow"><h2 id="flatH">No open trade</h2><span class="lv-chip" id="flatAge"></span></div>
     <p class="lv-note" id="flatText">Waiting for the PC's report.</p>
@@ -60,10 +65,18 @@
 
   <section class="lv-card" aria-labelledby="todayH">
     <div class="lv-trow"><h2 id="todayH">Today's trades</h2><b class="lv-tsum" id="todaySum"></b></div>
+    <div class="lv-tl" id="tl" role="img" aria-label="Today's session from 18:00 to 17:00 ET with each trade on it"></div>
     <ol class="lv-list" id="today"></ol>
     <h3 class="lv-h3">This week / month</h3>
     <table class="lv-per" id="per"><thead><tr><th scope="col">Account</th><th scope="col">Week</th><th scope="col">Month</th></tr></thead><tbody></tbody></table>
     <p class="lv-note" id="perNote"></p>
+  </section>
+
+  <section class="lv-card lv-journal" aria-labelledby="jrH">
+    <div class="lv-trow"><h2 id="jrH">Trade journal</h2><span class="lv-chip" id="jrCount"></span></div>
+    <div class="lv-streak" id="streak" aria-live="polite"></div>
+    <ol class="lv-jr" id="jr"></ol>
+    <p class="lv-note" id="jrNote"></p>
   </section>
 
   <footer class="lv-foot">
@@ -71,6 +84,7 @@
     <p><a href="accounts.html">Every account in detail</a> · <a href="brain.html">The bots' brains</a> · <a href="./">NQ dashboard</a></p>
   </footer>
 </main>
-<script type="module" src="live.js?v=1"></script>
+<script type="module" src="live.js?v=4"></script>
+<script src="nqnav.js?v=2" defer></script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+{
+ "v": 1,
+ "made": "2026-11-26",
+ "src": "research/planner/results.json (today's plan K0, no tripwire; 1,000 paths x 12 months, real engine, today's 4 accounts)",
+ "note": "Net $ after eval fees and MFFU's split, before tax. A simulation of the next 12 months, not a promise.",
+ "rows": [
+  {
+   "m": "M25",
+   "label": "Plan on this: 25% of 2026's edge",
+   "p10": -1484,
+   "p50": 1397,
+   "p90": 8751,
+   "mean": 2651,
+   "mo": [
+    -223,
+    -63,
+    800
+   ],
+   "mo2": [
+    -223,
+    -63,
+    1537
+   ],
+   "fees": 94.0,
+   "cash": 1512,
+   "loss": 34.2
+  },
+  {
+   "m": "G",
+   "label": "2026-like market",
+   "p10": 19705,
+   "p50": 38506,
+   "p90": 57045,
+   "mean": 38399,
+   "mo": [
+    0,
+    1600,
+    7116
+   ],
+   "mo2": [
+    0,
+    3217,
+    8145
+   ],
+   "fees": 29.3,
+   "cash": 92,
+   "loss": 0.0
+  },
+  {
+   "m": "B",
+   "label": "2021-25-like market",
+   "p10": -1993,
+   "p50": -1449,
+   "p90": 1644,
+   "mean": -667,
+   "mo": [
+    -252,
+    -97,
+    0
+   ],
+   "mo2": [
+    -286,
+    -155,
+    0
+   ],
+   "fees": 133.9,
+   "cash": 2011,
+   "loss": 76.3
+  },
+  {
+   "m": "SW",
+   "label": "Good 3 months, then bad",
+   "p10": -209,
+   "p50": 5593,
+   "p90": 14249,
+   "mean": 6488,
+   "mo": [
+    -160,
+    0,
+    3359
+   ],
+   "mo2": [
+    -252,
+    -97,
+    0
+   ],
+   "fees": 81.2,
+   "cash": 398,
+   "loss": 10.9
+  }
+ ]
+}

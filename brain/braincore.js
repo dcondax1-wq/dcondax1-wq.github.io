@@ -9,9 +9,9 @@
 //   dist_pts, window, limit, stop, target}, .levels [{k, p, p2?, label?}] (also accepted at lite.brain[id]). Absent = derived or "not sent".
 // Nothing made up: a number no source has is null and drawn as "-" / "not sent"; the bundled fixture is always labelled SAMPLE.
 //   build(src, nowS) -> { mode, pc, price, headline, sample, regions[], pulse }
-import * as W from '../warroom/warcore.js?v=w2';
-import * as NB from '../nq/nqbars.js?v=b1';
-import * as PF from '../pillars/pillarsfeed.js?v=p4';
+import * as W from '../warroom/warcore.js?v=w3';
+import * as NB from '../nq/nqbars.js?v=b2';
+import * as PF from '../pillars/pillarsfeed.js?v=p5';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);
@@ -177,10 +177,11 @@ export function build(src, nowS) {
       reg.chain = B ? B.groups.map((G) => ({ id: G.id, name: G.name, state: G.state || '', needs: str(G.needs, 200), steps: arr(G.steps).map((s) => ({ n: s.n, label: s.label, state: s.state, help: str(s.help, 200) })) })) : [];
       reg.chart = chartOf(R.id, S.bars, war.chart, lite, nowS);
     } else if (R.id === 'blitz' || R.id === 'of') {
-      reg.next = { setup: R.id === 'blitz' ? 'Switched OFF (paper only)' : (P && P.tick && P.tick.has ? `Collecting: ${P.tick.d} of ${P.tick.of} tick days` : 'Not collecting yet'),
+      const tk = P && P.tick, ready = !!(tk && tk.has && Number(tk.d) >= Number(tk.of) && Number(tk.of) > 0);   // QA #11: 312 of 60 -> ready
+      reg.next = { setup: R.id === 'blitz' ? 'Switched OFF (paper only)' : (tk && tk.has ? (ready ? `Ready: ${tk.d} tick days collected (needed ${tk.of})` : `Collecting: ${tk.d} of ${tk.of} tick days`) : 'Not collecting yet'),
         waiting: R.id === 'blitz' ? 'The owner\'s yes to switch it on, on a Rapid eval.' : (P && P.tick ? P.tick.text : 'The tick recorder\'s first count.'),
         window: R.id === 'blitz' ? '11:00-15:30 ET when on' : '', steps: null, limit: null, stop: null, target: null, rr: null, dist: null, distFrom: '',
-        pct: R.id === 'of' && P && P.tick && P.tick.frac !== null ? Math.round(P.tick.frac * 100) : 0, word: R.id === 'blitz' ? 'Off' : 'Collecting', from: 'derived' };
+        pct: R.id === 'of' && tk && tk.frac !== null ? Math.min(100, Math.round(tk.frac * 100)) : 0, word: R.id === 'blitz' ? 'Off' : ready ? 'Ready' : 'Collecting', from: 'derived' };
       reg.chain = P && P.chain ? [{ id: R.id, name: '', state: '', needs: '', steps: arr(P.chain.steps).map((s, i) => ({ n: i + 1, label: str(s.label, 40), state: s.state, help: str(s.help, 200) })) }] : [];
       reg.chart = null;
       if (R.id === 'of') reg.designs = arr(P && P.designs).map((d) => ({ id: d.id, text: str(d.text, 160) }));

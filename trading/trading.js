@@ -6,8 +6,8 @@
 import * as C from './tradingcore.js?v=5';
 import * as T from '../olympus/truth.js';
 import * as DK from '../nq/nqdesk.js?v=8';
-import * as NB from '../nq/nqbars.js?v=b1';
-import * as PR from '../nq/payready.js?v=2';
+import * as NB from '../nq/nqbars.js?v=b2';
+import * as PR from '../nq/payready.js?v=3';
 import * as MG from './merged.js?v=1';     // round 3: Odeon reels + the Why study as cards   // nqdash3 round 2: payout readiness per funded account   // the PC's chart post (le-bars): an open trade's stop as it is now and the last price   // nqdash3: the accounts strip (the same cards as the NQ page)
 
 const O = window.OLYMPUS || null;

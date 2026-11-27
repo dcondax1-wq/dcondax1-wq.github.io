@@ -5,7 +5,7 @@
 // Data: what the page already holds (window.NQ.S on the NQ page: no fetch there), else the site's own home.json (one small read, the
 // same file the page reads). It never polls the PC feed. createElement / textContent only. Read only.
 import * as P from './pillarscore.js?v=p4';
-import * as PF from './pillarsfeed.js?v=p4';
+import * as PF from './pillarsfeed.js?v=p5';
 
 const BASE = new URL('./', import.meta.url);
 const NEW_KEY = 'oly.new.pillars';

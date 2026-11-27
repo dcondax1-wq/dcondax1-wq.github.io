@@ -16,11 +16,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <!-- NQ (OLYMPUS, 2026-11-11): "the NQ bots, right now", one page built for trust. Full notes: docs/OLYMPUS_MAP.md (nq). -->
 <script>(function () { var d = document.documentElement; try { if (window.top !== window) d.classList.add('framed'); } catch (e) { d.classList.add('framed'); } })();</script>
-<!-- perf 2026-11-20 (largest paint 6.9 s = the chart's line, at the end of page -> nqchart.js -> status_feed.json -> the PC's chart post):
-     the page's data files and the chart post start here at once; nq.js / nqchart.js take them (window.NQ_EARLY, each used once) -->
+<!-- perf: the data files + the chart post start here at once (window.NQ_EARLY, each used once) -->
 <script>(function () { var J = {}, X = {}; window.NQ_EARLY = { json: J, text: X }; if (typeof fetch !== 'function') return;
   var get = function (u, as, cache) { return fetch(u, { cache: cache || 'no-cache' }).then(function (r) { return r.ok ? (as === 'text' ? r.text() : r.json()) : null; }).catch(function () { return null; }); };
-  ['./fixture.json', '../home.json', './howto.json', './news_week.json', '../hub/learned.json', '../business/accounts.json', '../trading/trades.json', '../edge.json', './brief.json', '../business/goals.json']
+  ['./fixture.json', '../home.json', './howto.json', './news_week.json', '../business/accounts.json', '../trading/trades.json', '../edge.json', './brief.json', '../business/goals.json']
     .forEach(function (u) { J[u] = get(u); });
   X['../status_feed.json'] = get('../status_feed.json', 'text').then(function (t) {
     try { var f = JSON.parse(t || 'null'), base = String((f && f.ntfy) || 'https://ntfy.sh').replace(/\/+$/, ''), topic = String((f && f.bars_topic) || '');
@@ -30,18 +29,23 @@
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a11">
 <script src="../olympus/themes.js?v=o11"></script>
-<script src="../pc_feed.js?v=n9"></script><script src="../business/payoutcoach.js?v=4"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
-<script src="../olympus/olympus.js?v=o27" data-app="nq"></script>
+<script defer src="../pc_feed.js?v=n9"></script><script defer src="nqfeed.js?v=1"></script><script defer src="../business/payoutcoach.js?v=4"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
+<script src="../olympus/olympus.js?v=o28" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i14" defer></script>
 <script src="../olympus/a11y.js" defer></script>
 <script src="../olympus/agora-ui.js?v=12" defer></script>
 <script src="../olympus/gate-nav.js?v=g14" defer></script><!-- the way back to the Gate + Go to (olympus/gate-nav.js) -->
 <script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#c8a24a'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
-<link rel="stylesheet" href="nq.css?v=a9">
+<link rel="stylesheet" href="nq.css?v=a11">
 <link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
-<link rel="stylesheet" href="nqdesk.css?v=11">
-<link rel="stylesheet" href="nqgoals.css?v=9">
-<link rel="stylesheet" href="nqtheme.css?v=9"><!-- owner 2026-11-20 15:15 ET: the NQ terminal look (navy, cyan / blue glows, violet), last so it wins -->
+<link rel="stylesheet" href="nqdesk.css?v=13">
+<link rel="stylesheet" href="nqhero.css?v=10">
+<link rel="stylesheet" href="plan.css?v=4" media="print" onload="this.media='all'"><link rel="stylesheet" href="december.css?v=1" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="nqgoals.css?v=10" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="nqtheme.css?v=11">
+<link rel="stylesheet" href="sun.css?v=2" id="sunCss" media="(prefers-contrast: more)"><!-- SUNLIGHT MODE: off = not render-blocking; on (saved, or prefers-contrast: more) = applied before the first paint -->
+<script>(function () { var d = document.documentElement, v = null; try { v = localStorage.getItem('nq.sun'); } catch (e) { /* private mode */ }
+  var on = v === '1' || (v !== '0' && !!(window.matchMedia && matchMedia('(prefers-contrast: more)').matches)); if (on) { d.classList.add('sun'); document.getElementById('sunCss').media = 'all'; } })();</script>
 <style>/* the status lines above the chart fill in a moment after the page shows (3 + 2 lines on a phone): held from the start so the chart card never jumps (phone QA 2026-11-19) */
 @media (max-width: 520px) { #status { min-height: 3lh; } #src:empty { min-height: 2lh; } }</style>
 </head>
@@ -50,10 +54,30 @@
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ</h1><p class="sub">Are the bots on, and how much $ each account can still lose before it fails.</p></div></div>
-    <div class="tags"><a class="btn primary brainlink" href="live.html">Live</a><a class="btn brainlink" href="../warroom/" aria-label="Open the War Room: every bot, every step, live">War Room</a><a class="btn brainlink" href="../brain/" aria-label="Open the Brain: one living 3D brain of every bot">3D Brain</a><a class="btn brainlink" href="../pillars/" aria-label="Open the four pillars: LIT, ATLAS, BLITZ, ORDER FLOW">Pillars</a><a class="btn brainlink" href="accounts.html" aria-label="Open every account on one screen">Accounts</a><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+    <div class="tags"><a class="btn primary brainlink" href="live.html">Live</a><a class="btn brainlink" href="../warroom/" aria-label="Open the War Room: every bot, every step, live">War Room</a><a class="btn brainlink" href="../brain/" aria-label="Open the Brain: one living 3D brain of every bot">3D Brain</a><a class="btn brainlink" href="../pillars/" aria-label="Open the four pillars: LIT, ATLAS, BLITZ, ORDER FLOW">Pillars</a><a class="btn brainlink" href="accounts.html" aria-label="Open every account on one screen">Accounts</a><a class="btn brainlink" href="orderflow.html" aria-label="Open the Order Flow room: levels, absorption reads, paper trades">Order Flow</a><a class="btn brainlink" href="replay.html" aria-label="Replay any recent trading day with the bots' decisions">Replay</a><a class="btn brainlink" href="pchealth.html" aria-label="Open PC health: every check in one plain sentence">PC health</a><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
+  <!-- night-nq-main 2026-11-27: the hero (nqdesk.js hero / drawHero / heroScene; nqhero.css) -->
+  <section class="hx" id="hero" aria-labelledby="hxTitle" data-tone="none">
+    <canvas class="hx-scene" id="heroScene" aria-hidden="true"></canvas>
+    <div class="hx-in">
+      <div class="hx-head">
+        <div class="hx-money"><span class="hx-k" id="hxTitle" data-hx="todayK">TODAY</span><b class="hx-big ag-num" data-hx="today">-</b><span class="hx-age" data-hx="age">Loading the PC's report...</span></div>
+        <div class="hx-clock"><b data-hx="phase"></b><span class="hx-who" data-hx="who"></span><span class="hx-next" data-hx="next"></span></div>
+      </div>
+      <div class="hx-tools" role="group" aria-label="Hear the brief, or switch to the high-contrast outdoor look"><button type="button" class="btn hx-tool" id="hxBrief" aria-pressed="false" aria-controls="hxBriefText"><i class="hx-ti" aria-hidden="true"></i><span class="hx-tl">Brief me</span></button><button type="button" class="btn hx-tool" id="hxSun" aria-pressed="false"><i class="hx-ti sun" aria-hidden="true"></i><span class="hx-tl">Sunlight</span></button></div>
+      <p class="hx-brief" id="hxBriefText" hidden></p>
+      <div class="hx-honestw" data-hx="honestw" hidden><p class="hx-honest" data-hx="honest"></p><button type="button" class="btn hx-how" data-howto aria-haspopup="dialog" aria-expanded="false">How to get the PC reporting again</button></div>
+      <div class="hx-bots" data-hx="bots" role="group" aria-label="What LIT and ATLAS are doing now"></div>
+      <div class="hx-accts" data-hx="accts" role="group" aria-label="Each account: the way to pass or to payout, and the room left"></div>
+    </div>
+  </section>
+
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <p id="src" class="note" data-truth="source"></p>
+  <section class="ag-card card bp" id="battle" aria-labelledby="battleH" hidden></section>
+  <details class="nq-fold bp-drawer" id="alertsDrawer" hidden></details>
+  <section class="ag-card card dc" id="decCard" aria-labelledby="decH" hidden></section>
+  <nav class="hx-jump" id="jump" aria-label="Jump to a card on this page"><a href="#battle">Plan</a><a href="#decCard">December</a><a href="#chartCard">Chart</a><a href="#goalCard">Goals</a><a href="#acctMore">Accounts</a><a href="#thinkCard">Bots</a><a href="#tradesCard">Trades</a><a href="#newsCard">News</a><a href="#qualCard">Checks</a></nav>
   <a class="btn primary" id="liveDoor" href="live.html" style="display:flex;min-height:52px;margin:8px 0;font-weight:800">LIVE NOW: trades, accounts, setups ›</a>
 
   <section class="banner" id="banner" data-level="bad" aria-labelledby="bannerTitle" hidden>
@@ -67,14 +91,14 @@
     <nav class="ph-chips"></nav>
   </section>
 
-  <!-- v4 (owner 2026-11-20 15:00 ET: "goals on the NQ dashboard"): each account's next money goal, a glowing ring and the $ left (nqgoals.js); tap one for its rules and date -->
+  <!-- v4 (owner 2026-11-20 15:00 ET: "goals on the NQ dashboard"): each account's next money goal, a ... -->
   <section class="ag-card card" id="goalCard" aria-labelledby="goalH">
     <div class="row"><h2 id="goalH">Next money goals</h2><span class="pill" id="goalAge">Loading</span></div>
     <div class="gl-strip" id="goals" role="group" aria-label="Each account's next money goal"></div>
     <div class="gl-detail" id="goalDetail" aria-live="polite" hidden></div>
   </section>
 
-  <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars with every entry, stop and target; its own module -->
+  <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars w ... -->
   <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
     <div class="row"><h2 id="chartH">Live chart</h2><span class="ctools"><button type="button" class="btn ctog" id="chart3dBtn" aria-pressed="false" hidden>3D</button><span class="pill" id="chartPill">Loading</span></span></div>
     <p class="note" id="chartAsOf" hidden></p>
@@ -100,6 +124,7 @@
     <p class="note" id="vaultNote">MFFU shows a funded account as its profit. The goal is a $1,000 ask at $2,100.</p>
   </section>
 
+  <details class="nq-fold" id="acctMore"><summary><b>Account details</b><span>the full grid, the 7-day clock, the numbers, GO / WAIT / HALT</span></summary>
     <!-- nqdash3 2026-11-20 (nqdesk.js): every MFFU account at a glance, a live / stale dot from the PC's 15-minute report -->
   <section class="ag-card card" id="acctCard" aria-labelledby="acctH">
     <div class="row"><h2 id="acctH">Accounts</h2><span class="pill" id="acctPill">Loading</span></div>
@@ -119,6 +144,13 @@
     <div class="row"><h2 id="numH">The numbers</h2><span class="pill" id="numPill"></span></div>
     <div id="nums"></div>
   </section>
+  <!-- round 3 (Ares merged here): can each account's bot trade right now? -->
+  <section class="ag-card card" id="gateCard" aria-labelledby="gateH">
+    <div class="row"><h2 id="gateH">GO / WAIT / HALT</h2><span class="pill" id="gatePill"></span></div>
+    <div class="dk-gates" id="gates"></div>
+    <a class="dk-more" href="../ares/">Check a trade by hand (the Ares calculator)</a>
+  </section>
+  </details>
 
   <!-- v4: today's NQ as a 3D price landscape, our trades as beacons (nqland.js, lazy; a 2D picture without WebGL or on LITE) -->
   <section class="ag-card card" id="landCard" aria-labelledby="landH">
@@ -127,15 +159,9 @@
       <div class="l3d" id="land3d" hidden></div>
       <svg class="land-fb" id="landFb" viewBox="0 0 360 240" preserveAspectRatio="none" aria-hidden="true"></svg>
     </div>
-    <p class="note" id="landNote">Today's 5-minute bars from your PC. A green beacon is a winning trade, red a loss, cyan an open one.</p>
+    <p class="note" id="landNote">Today's 5-minute bars from your PC. A green beacon is a winning trade, red a loss, gold an open one.</p>
   </section>
 
-  <!-- round 3 (Ares merged here): can each account's bot trade right now? -->
-  <section class="ag-card card" id="gateCard" aria-labelledby="gateH">
-    <div class="row"><h2 id="gateH">GO / WAIT / HALT</h2><span class="pill" id="gatePill"></span></div>
-    <div class="dk-gates" id="gates"></div>
-    <a class="dk-more" href="../ares/">Check a trade by hand (the Ares calculator)</a>
-  </section>
 
   <!-- round 3 (Kairos merged here): the trading day on one line -->
   <section class="ag-card card" id="dayCard" aria-labelledby="dayH">
@@ -168,7 +194,9 @@
     <p class="note">From the PC's own report (its brain glance). The lean is the side of the setup it has armed; it never trades a lean alone.</p>
   </section>
 
+  <details class="nq-fold" id="botsMore"><summary><b>Drawdown and today, per account</b><span>the long cards: drawdown left, today in $ and R, eval progress</span></summary>
   <section id="bots" class="cards" aria-label="Each account"></section>
+  </details>
 
   <section class="ag-card card" id="newsCard" aria-labelledby="newsH">
     <div class="row"><h2 id="newsH">News this week</h2><span class="pill" id="newsSrc"></span></div>
@@ -182,6 +210,7 @@
     <ol class="trades" id="trades"></ol>
   </section>
 
+  <details class="nq-fold" id="checksMore"><summary><b>Checks, replays and the backtest</b><span>is the data fresh, does the bot match its twin, replay a past day, what the testing says</span></summary>
   <section class="ag-card card" id="qualCard" aria-labelledby="qualH">
     <div class="row"><h2 id="qualH">Quality checks</h2><span class="pill" id="qualPill"></span></div>
     <div id="qual"></div>
@@ -200,6 +229,7 @@
     <div class="facts" id="facts"></div>
     <p class="note">These are replays of the LIT rules on past NQ futures data, not money made. Real trading will differ. 1R is the money risked on one trade.</p>
   </section>
+  </details>
 
   <section class="ag-card card" id="moreCard" aria-labelledby="moreH">
     <h2 id="moreH">More</h2>
@@ -218,11 +248,12 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r33"></script>
-<script type="module" src="nqchart.js?v=c9"></script>
+<script type="module" src="nq.js?v=r43"></script>
+<script type="module" src="nqchart.js?v=d1"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
-<script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q6f" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
-<script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=3" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
-<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c4').catch(function(){})},400)})</script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q9" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
+<script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=4" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
+<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c5').catch(function(){})},400)})</script>
+<script src="nqnav.js?v=2" defer></script>
 </body>
 </html>

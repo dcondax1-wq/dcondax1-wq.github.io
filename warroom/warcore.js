@@ -9,7 +9,7 @@
 // Account ids never appear: the bars post carries labels; the glance's "mode" (it can hold part of an account id) is never shown.
 //   build(src, nowS, memo) -> { pc, price, headline, bots[], feed[], chart, positions[], milestones[] }
 import { LIT_STAGES, ATLAS_STEPS, ATLAS_LOBES, stageN, lobeState } from '../nq/braincore.js?v=7';
-import * as NB from '../nq/nqbars.js?v=b1';
+import * as NB from '../nq/nqbars.js?v=b2';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);

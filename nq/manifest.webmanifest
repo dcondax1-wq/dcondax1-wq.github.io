@@ -1,7 +1,7 @@
 {
   "name": "NQ",
   "short_name": "NQ",
-  "description": "OLYMPUS NQ: the NQ bots, right now. Status with the exact age of the last report, drawdown left, today's P&L in $ with R, eval progress, the last 10 trades, and how to bring reporting back.",
+  "description": "OLYMPUS NQ: the NQ bots right now: PC status, live trades, chart, accounts, order flow, brain. Opens straight into NQ.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
@@ -33,6 +33,57 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "display_override": [
+    "standalone"
+  ],
+  "launch_handler": {
+    "client_mode": [
+      "navigate-existing",
+      "auto"
+    ]
+  },
+  "categories": [
+    "finance",
+    "productivity"
+  ],
+  "shortcuts": [
+    {
+      "name": "Live",
+      "short_name": "Live",
+      "description": "Trades, accounts and setups right now",
+      "url": "./live.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Accounts",
+      "short_name": "Accounts",
+      "description": "Room to max loss, to pass, payouts",
+      "url": "./accounts.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Brain",
+      "short_name": "Brain",
+      "description": "What each bot is doing and why",
+      "url": "./brain.html",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

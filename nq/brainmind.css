@@ -1,0 +1,97 @@
+/* NQ BRAIN · THE MIND LAYER (night-nq-brain 2026-11-27). OLYMPUS NIGHT: black #000, cards #16131e, violet #3e255e / #4d2e76, glow #9d59ee,
+   gold #f1c14b accents, mint #77db89 for up. Phone first 390 x 844; taps >= 44 px; no sideways scroll; reduced motion = no animation. */
+.mind-hero { position: relative; overflow: hidden; border-color: #4d2e76 !important; background: radial-gradient(120% 120% at 0% 0%, rgba(157, 89, 238, .26), transparent 55%), radial-gradient(90% 90% at 100% 100%, rgba(241, 193, 75, .10), transparent 60%), #16131e !important;
+  box-shadow: 0 0 0 1px rgba(157, 89, 238, .25), 0 0 36px rgba(157, 89, 238, .28), inset 0 1px 0 rgba(255, 255, 255, .05) !important; }
+.mind-hero h2 { display: flex; align-items: center; gap: 10px; }
+.mthink { display: inline-flex; gap: 4px; } .mthink i { width: 7px; height: 7px; border-radius: 50%; background: #f1c14b; box-shadow: 0 0 10px #f1c14b; animation: mDot 1.2s ease-in-out infinite; }
+.mthink i:nth-child(2) { animation-delay: .2s; } .mthink i:nth-child(3) { animation-delay: .4s; }
+@keyframes mDot { 0%, 100% { opacity: .25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+.mnrow { padding: 10px 12px; margin: 0 0 8px; border-radius: 14px; border: 1px solid #3e255e; background: rgba(0, 0, 0, .45); }
+.mnrow.live { border-color: #9d59ee; box-shadow: 0 0 18px rgba(157, 89, 238, .35); }
+.mnwho { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.mnwho b { font-size: 16px; letter-spacing: .02em; color: #f1c14b; }
+.mnstate { padding: 2px 10px; border-radius: 999px; border: 1px solid #4d2e76; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #dacbf0; }
+.mnrow.live .mnstate { border-color: #77db89; color: #77db89; }
+.mntext { margin: 6px 0 0; font-size: 15px; line-height: 1.4; color: #f4effb; overflow-wrap: anywhere; }
+.mmeta, .mnote { margin: 4px 0 0; font-size: 12.5px; color: var(--ag-muted, #a99cc2); }
+.mnone { color: var(--ag-muted, #a99cc2); }
+
+/* the pipeline */
+.mpipe { position: relative; margin: 6px -4px 4px; border-radius: 18px; overflow: hidden; background: radial-gradient(60% 50% at 50% 30%, rgba(157, 89, 238, .18), transparent 70%), #05040a;
+  border: 1px solid #3e255e; perspective: 900px; }
+.mpipe canvas { display: block; width: 100%; }
+.mpipel { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.mst { padding: 8px 10px; border-radius: 12px; border: 1px solid #2a2140; background: #0e0b15; }
+.mst.taken { border-color: rgba(119, 219, 137, .55); } .mst.live { border-color: #f1c14b; box-shadow: 0 0 14px rgba(241, 193, 75, .3); }
+.mstrow { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; } .mstrow span { color: #dacbf0; }
+.mbar { position: relative; height: 7px; margin: 6px 0 4px; border-radius: 999px; background: #000; border: 1px solid #241c33; overflow: hidden; }
+.mbar i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: linear-gradient(90deg, #9d59ee, #f1c14b); box-shadow: 0 0 10px rgba(157, 89, 238, .6); }
+.mst.taken .mbar i, .mbar.up i { background: linear-gradient(90deg, #3f9b55, #77db89); box-shadow: 0 0 10px rgba(119, 219, 137, .5); }
+.mbar.dn i { background: linear-gradient(90deg, #7a2a2a, #ef4444); }
+.mlate { margin: 4px 0 0; font-size: 12.5px; color: #f1c14b; } .mlivetxt { margin: 4px 0 0; font-size: 12.5px; font-weight: 700; color: #f1c14b; }
+.mpipelist { margin-top: 6px; } .mpipelist > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: #dacbf0; font-weight: 600; }
+
+/* ATLAS members */
+.mmembers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: start; }
+.mmem { padding: 10px; border-radius: 14px; border: 1px solid #3e255e; background: linear-gradient(180deg, #1d1828, #0c0a12); min-width: 0; transform: perspective(500px) rotateX(5deg); }
+.mmem b { display: block; font-size: 15px; color: #f4effb; } .mmstate { display: block; margin-top: 2px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ag-muted, #a99cc2); }
+.mmem p { margin: 6px 0 0; font-size: 12px; color: #dacbf0; overflow-wrap: anywhere; }
+.mmem.armed, .mmem.trade, .mmem.signal { border-color: #f1c14b; box-shadow: 0 0 20px rgba(241, 193, 75, .35); animation: mGlow 2s ease-in-out infinite; }
+.mmem.armed .mmstate, .mmem.trade .mmstate, .mmem.signal .mmstate { color: #f1c14b; }
+.mmem.done { border-color: rgba(119, 219, 137, .5); } .mmem.done .mmstate { color: #77db89; }
+.mmem.window { border-color: #9d59ee; } .mmem.off, .mmem.unknown { opacity: .62; }
+@keyframes mGlow { 50% { box-shadow: 0 0 30px rgba(241, 193, 75, .6); } }
+
+/* ideas on trial */
+.mrings { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.mring { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px; border-radius: 16px; border: 1px solid #2a2140; background: #0e0b15; }
+.mr { --p: 0%; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; position: relative;
+  background: radial-gradient(circle, #0c0a12 58%, transparent 59%), conic-gradient(#f1c14b var(--p), rgba(157, 89, 238, .2) 0); box-shadow: 0 0 18px rgba(157, 89, 238, .4); }
+.mr b { font-size: 15px; color: #f4effb; }
+.mring.promote .mr { background: radial-gradient(circle, #0c0a12 58%, transparent 59%), conic-gradient(#77db89 var(--p), rgba(119, 219, 137, .2) 0); box-shadow: 0 0 22px rgba(119, 219, 137, .5); }
+.mring.demoted { opacity: .6; }
+.mrt b { display: block; font-size: 14px; color: #f4effb; } .mrt p { margin: 3px 0 0; font-size: 12.5px; color: var(--ag-muted, #a99cc2); } .mrt .mw { color: #dacbf0; }
+.mnew { display: inline-block; margin: 4px 0 0; padding: 2px 8px; border-radius: 999px; border: 1px solid #f1c14b; color: #f1c14b; font-size: 12px; font-weight: 700; letter-spacing: .04em; box-shadow: 0 0 12px rgba(241, 193, 75, .35); }
+
+/* lessons / gap / health */
+.mlessons { list-style: none; margin: 0; padding: 0 0 0 14px; border-left: 2px solid #2a2140; display: grid; gap: 8px; }
+.mles { position: relative; font-size: 13.5px; color: #f4effb; overflow-wrap: anywhere; }
+.mles::before { content: ""; position: absolute; left: -20px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #9d59ee; box-shadow: 0 0 10px #9d59ee; }
+.mles.lit::before { background: #f1c14b; box-shadow: 0 0 10px #f1c14b; } .mles.atlas::before { background: #77db89; box-shadow: 0 0 10px #77db89; }
+.mles small { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ag-muted, #a99cc2); }
+.mmore { display: inline-flex; align-items: center; min-height: 44px; margin-top: 6px; padding: 0 14px; border-radius: 999px; border: 1px solid #4d2e76; color: #f1c14b; text-decoration: none; font-weight: 600; }
+.mgap { margin: 8px 0 0; } .pos { color: #77db89; } .neg { color: #f87171; }
+.mband { position: relative; height: 22px; margin: 6px 0 4px; border-radius: 8px; background: #000; border: 1px solid #2a2140; }
+.mband .z { position: absolute; top: 3px; bottom: 3px; border-radius: 5px; background: rgba(119, 219, 137, .22); border: 1px solid rgba(119, 219, 137, .5); }
+.mband .m { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1px; background: #f1c14b; box-shadow: 0 0 10px #f1c14b; } .mband .m.t { background: #9d59ee; box-shadow: 0 0 10px #9d59ee; }
+
+/* wide screens: the Brain becomes a two-column dashboard (the 3D brain, the now card and the pipeline span both) */
+@media (min-width: 1100px) {
+  #app { max-width: 1180px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  #app > * { grid-column: 1 / -1; }
+  #app > section.ag-card { grid-column: auto; align-content: start; align-self: stretch; }
+  .mmembers { align-items: start; }
+  #app { grid-auto-flow: row dense; }
+  #app > #brainCard, #app > #mindNow, #app > #mindPipe, #app > #mindTrial { grid-column: 1 / -1; }
+  #mindPipe .mpipecols { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  #mindPipe .mpipelist { margin-top: 0; } #mindPipe .mpipelist > summary { display: none; }
+  .mrings { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #brainCard .bstage { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+  #brainCard .bhost { margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .mthink i, .mmem.armed, .mmem.trade, .mmem.signal { animation: none; } .mmem { transform: none; } }
+
+/* Ask WHY (nq/ask.js, night 2026-11-27) */
+.askqs { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
+.askb { min-height: 44px; padding: 8px 12px; border-radius: 14px; border: 1px solid #4d2e76; background: #0c0a12; color: #f4effb; font: 600 14px system-ui, sans-serif; text-align: left; }
+.askb[aria-pressed="true"] { border-color: #f1c14b; color: #f1c14b; box-shadow: 0 0 16px rgba(157, 89, 238, .45); }
+.aska:empty { display: none; }
+.aska { margin-top: 10px; padding: 12px; border-radius: 16px; border: 1px solid #9d59ee; background: radial-gradient(120% 100% at 0% 0%, rgba(157, 89, 238, .16), transparent 60%), #07060b;
+  box-shadow: 0 0 22px rgba(157, 89, 238, .3); animation: askIn .35s ease-out; }
+.askq { margin: 0 0 8px; font-weight: 700; color: #f1c14b; }
+.askpart { margin: 0 0 8px; } .askpart b { display: block; color: #f4effb; font-size: 15px; }
+.askpart ul { margin: 4px 0 0; padding-left: 18px; color: #dacbf0; font-size: 14px; } .askpart li { margin: 0 0 4px; overflow-wrap: anywhere; }
+.askdata { margin: 8px 0 0; font-size: 12.5px; color: var(--ag-muted, #a99cc2); }
+@keyframes askIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .aska { animation: none; } }
+@media (min-width: 1100px) { #app > #askCard { grid-column: 1 / -1; } }

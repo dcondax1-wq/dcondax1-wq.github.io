@@ -68,13 +68,13 @@ function mount(box, data) {
   // candles: bodies (unlit, glowing colours), their additive halos, wicks; one draw each
   const boxG = new THREE.BoxGeometry(1, 1, 1);
   const bodies = inst(boxG, new THREE.MeshBasicMaterial({ toneMapped: false }), MAXB);
-  const halos = inst(boxG, new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.32, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), MAXB);
+  const halos = inst(boxG, new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), MAXB);
   const wicks = inst(boxG, new THREE.MeshBasicMaterial({ toneMapped: false }), MAXB);
   for (const m of [halos, bodies, wicks]) { m.setColorAt(0, C.violet); m.instanceColor.setUsage(THREE.DynamicDrawUsage); day.add(m); }
   // the price ribbon over the closes + its glow dots
   const line = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: C.lav, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false }));
   day.add(line);
-  const dots = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ map: tex, color: C.lav, size: 0.42, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending, depthWrite: false }));
+  const dots = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ map: tex, color: C.lav, size: 0.26, transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending, depthWrite: false }));
   day.add(dots);
   // trade beacons: pillars (one draw) + their glowing tips (points with colours)
   const pillars = inst(new THREE.CylinderGeometry(0.035, 0.035, 1, 8), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), MAXK);
@@ -82,13 +82,17 @@ function mount(box, data) {
   const tipG = new THREE.BufferGeometry(); tipG.setAttribute('position', new THREE.BufferAttribute(new Float32Array(MAXK * 3), 3)); tipG.setAttribute('color', new THREE.BufferAttribute(new Float32Array(MAXK * 3), 3));
   const tips = new THREE.Points(tipG, new THREE.PointsMaterial({ map: tex, size: 0.7, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
   tips.frustumCulled = false; day.add(tips);
+  // night-nq-chart 2026-11-27: the levels behind the candles (session highs / lows lavender, the PC's levels gold) and each open trade's entry
+  // (gold), stop (rose) and target (mint) across the whole day: one LineSegments, vertex colours
+  const lv = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.85, depthWrite: false, toneMapped: false }));
+  day.add(lv);
   // the last price: a small pulsing gold marker + halo (the one gold accent)
   const lastM = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, color: C.gold, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
   const lastC = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 8), new THREE.MeshBasicMaterial({ color: C.gold, toneMapped: false }));
   day.add(lastM); day.add(lastC);
   day.traverse((o) => { const ms = o.material ? [].concat(o.material) : []; for (const m of ms) m.fog = false; });
 
-  R = { box, cv, renderer, scene, camera, tex, grid, day, pool, bodies, halos, wicks, line, dots, pillars, tips, lastM, lastC, phone, still,
+  R = { box, cv, renderer, scene, camera, tex, grid, day, pool, bodies, halos, wicks, line, dots, pillars, tips, lastM, lastC, phone, still, lv,
     S: null, opens: [], yaw: 0, pitch: 0.32, drag: null, userUntil: 0, userYaw: 0, userPitch: 0, t0: performance.now(), last: 0, raf: 0, onScreen: true, io: null, ro: null, fns: {} };
   update(data);
   const size = () => { if (!R) return; const w = Math.max(1, box.clientWidth), h = Math.max(1, box.clientHeight); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); frame(performance.now(), true); };
@@ -121,7 +125,7 @@ function update(data) {
     col.copy(S.calm ? C.violet : up ? C.up : C.dn);
     const bh = Math.max(0.035, Math.abs(yc - yo)), by = (yo + yc) / 2;
     put(R.bodies, i, x(i), by, 0, bw, bh, D, col);
-    put(R.halos, i, x(i), by, 0, bw * 2.2, bh + 0.14, D * 1.35, col);
+    put(R.halos, i, x(i), by, 0, bw * 1.35, bh + 0.06, D * 1.15, col);   // night-nq-chart: a tight halo (2.2x blurred the candles)
     put(R.wicks, i, x(i), (yl + yh) / 2, 0, Math.max(0.012, bw * 0.16), Math.max(0.02, yh - yl), Math.max(0.012, bw * 0.16), col);
   }
   for (const m of [R.bodies, R.halos, R.wicks]) { m.count = n; m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; }
@@ -133,6 +137,13 @@ function update(data) {
   const lp = num(data && data.last), ly = lp !== null && !S.calm ? y(Math.max(S.lo, Math.min(S.hi, lp))) : y(cs[n - 1].close);
   R.lastM.position.set(x(n - 1) + step * 0.9, ly, D * 0.6); R.lastC.position.copy(R.lastM.position);
   R.lastM.visible = R.lastC.visible = !S.calm;
+  // the levels and the open trades' lines (only those inside the day's price range: the camera fit is the candles')
+  const segs = [], cols = [], addL = (p, c, z) => { const v = num(p); if (v === null || S.calm || v < S.lo || v > S.hi) return; const yy = y(v); segs.push(-W / 2, yy, z, W / 2, yy, z); cols.push(c.r, c.g, c.b, c.r, c.g, c.b); };
+  const LAVL = new THREE.Color('#b9a6dc'), ROSE = new THREE.Color('#ff5d73');
+  for (const L of (data && Array.isArray(data.levels) ? data.levels : [])) addL(L.price, L.src === 'pc' ? C.gold : LAVL, -D * 0.8);
+  for (const z of (data && Array.isArray(data.zones) ? data.zones : [])) { addL(z.e, C.gold, D * 0.7); addL(z.sl, ROSE, D * 0.7); addL(z.tp, C.up, D * 0.7); }
+  R.lv.geometry.dispose(); R.lv.geometry = new THREE.BufferGeometry();
+  R.lv.geometry.setAttribute('position', new THREE.Float32BufferAttribute(segs, 3)); R.lv.geometry.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3));
   // beacons at the trades (the bar at or before the marker's time)
   const mk = S.calm ? [] : (data && Array.isArray(data.markers) ? data.markers : []).filter((m) => m && num(m.time) !== null).slice(-MAXK);
   const idxOf = (t) => { let j = 0; for (let i = 0; i < n; i++) if (cs[i].time <= t) j = i; return j; };

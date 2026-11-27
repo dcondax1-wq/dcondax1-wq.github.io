@@ -14,9 +14,10 @@ export const limitFor = (id) => { const a = String(id || '').toLowerCase(); for 
 const LANE_ID = { lit: 'mffu50k_eval', atlas: 'atlas', rapid: 'rapid' };
 export const kaId = (k) => LANE_ID[k] || (String(k).startsWith('x:') ? String(k).slice(2) : String(k));
 
+let DAY_FMT = null;
 /** the CME trading day of a time (18:00 ET starts the next day) */
 export function tradingDay(nowS) {
-  const p = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date((nowS + 6 * 3600) * 1000));
+  const p = (DAY_FMT || (DAY_FMT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }))).format(new Date((nowS + 6 * 3600) * 1000));   // night-nq-speed: one formatter, not one per call
   return p;
 }
 

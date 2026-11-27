@@ -1,5 +1,5 @@
 // Board: the payout readiness card (nqdash3 round 2, ../nq/payready.js). Waits for board.js's data (event "board-data"); DEMO = the NQ page's example.
-import * as PR from '../nq/payready.js?v=2';
+import * as PR from '../nq/payready.js?v=3';
 
 const $ = (id) => document.getElementById(id);
 const today = () => { try { return new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); } catch (e) { return new Date().toISOString().slice(0, 10); } };

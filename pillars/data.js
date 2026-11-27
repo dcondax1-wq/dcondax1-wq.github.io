@@ -5,7 +5,7 @@
 // Read only: GET requests; nothing is sent, armed or placed. ?at=<ISO> pins the clock (tests). window.PILLAR_DATA = the test hook.
 import * as DC from './datacore.js?v=d2';
 import * as B from '../brain/braincore.js?v=b3';
-import * as PF from './pillarsfeed.js?v=p4';
+import * as PF from './pillarsfeed.js?v=p5';
 
 const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);

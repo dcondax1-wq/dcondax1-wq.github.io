@@ -90,8 +90,8 @@
   {
    "date": "2026-11-26",
    "pillar": "atlas",
-   "text": "S1 forward test (ATLAS only when the 20-day range is above its 1-year median): 0/60 sessions, re-judge 2027-02-26; twin ATLAS on S1-ON days 0 trades 0R, on S1-OFF days 0 trades 0R",
-   "n": 0.0,
+   "text": "S1 forward test (ATLAS only when the 20-day range is above its 1-year median): 4/60 sessions, re-judge 2027-02-26; twin ATLAS on S1-ON days 0 trades 0R, on S1-OFF days 0 trades 0R",
+   "n": 4.0,
    "usd": null,
    "status": "watching"
   },
@@ -1004,12 +1004,13 @@
    "research/forward/forward.json",
    "research/ideamill/summary.json",
    "research/livegap/daily.json",
-   "research/health/bands.json"
+   "research/health/bands.json",
+   "research/evalplan/ladder.json"
   ],
   "forward": {
    "from": "2026-11-23",
-   "data_end": "2026-11-20",
-   "sessions": 0,
+   "data_end": "2026-11-26",
+   "sessions": 4,
    "rules": [
     {
      "id": "blitz_v1_noise",
@@ -1145,6 +1146,23 @@
      "status": "watching",
      "eta_days": 405,
      "word": "needs 20 more new trades (~405 trading days at its usual pace)",
+     "progress": 0.0
+    },
+    {
+     "id": "of_lane_a_ladder",
+     "what": "Order flow lane A (absorption level fade) gate ladder: paper -> Sim101 -> one eval -> the rest -> funded",
+     "bot": "OF",
+     "kind": "ladder",
+     "n": 0,
+     "need": 30,
+     "fwd_r": null,
+     "fwd_sum": 0,
+     "band_r": 0.495,
+     "band_n": 40,
+     "z": null,
+     "status": "watching",
+     "eta_days": 33,
+     "word": "step 0 (paper forward): needs 30 more forward trades (~33 trading days)",
      "progress": 0.0
     }
    ]
@@ -1460,7 +1478,7 @@
      "r": null,
      "n": 50,
      "win": 0.42,
-     "avg_r": -0.03
+     "avg_r": -0.016
     },
     {
      "day": "2026-11-19",
@@ -1486,7 +1504,20 @@
   },
   "of": {
    "lines": [],
-   "next": "waiting for its first trades (no data to learn from yet)"
+   "next": "waiting for its first trades (no data to learn from yet)",
+   "verdict": {
+    "line": "51 real tick days (2026-09-27 to 2026-11-26). Absorption (lane A): YES: absorption separated winners from losers (a candidate: forward days decide). OF1 on LIT, the pre-registered battery test (both halves): TOO FEW; paper lane B (replay): TOO FEW: 18 of 20 LIT trades; real Zlarior trades: TOO FEW: 0 of 20 LIT trades with an OF read.",
+    "tick_days": 51,
+    "first": "2026-09-27",
+    "last": "2026-11-26",
+    "made": "2026-11-27",
+    "absorption": "YES: absorption separated winners from losers (a candidate: forward days decide)",
+    "taken_r": 0.495,
+    "skipped_r": -0.31,
+    "p": 0.0065,
+    "fwd_n": 0,
+    "fwd_need": 20
+   }
   },
   "next": [
    {

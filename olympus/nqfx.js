@@ -162,12 +162,21 @@
       if (still || weak() || !(window.WebGLRenderingContext || window.WebGL2RenderingContext)) { host.setAttribute('data-nqfx-vault', '2d'); return api; }
       var go = function () {
         if (dead || d.hidden) return;
-        import(BASE + 'nqvault3d.js?v=n3').then(function (m) {
+        import(BASE + 'nqvault3d.js?v=n4').then(function (m) {
           if (dead) return;
+          // QA #3 (night-nq-accounts 2026-11-27): the 2D vault hides only after the 3D's FIRST DRAWN FRAME (o.frame); no frame within 2 s,
+          // a WebGL failure or a lost context = the 3D is stopped and the 2D stays (never a black box)
+          var drawn = false, watchdog = 0;
+          var back2d = function () { if (watchdog) { clearTimeout(watchdog); watchdog = 0; } pic.el.style.opacity = '1'; host.setAttribute('data-nqfx-vault', '2d'); };
           three = m.mount(host, { value: value, tier: ctx.tier, pick: ctx.pick, tick: ctx.ticker, add: ctx.add, theme: Object.assign({}, THEME),
-            lost: function () { three = null; pic.el.style.opacity = '1'; host.setAttribute('data-nqfx-vault', '2d'); } });
-          if (three) { host.setAttribute('data-nqfx-vault', '3d'); requestAnimationFrame(function () { if (!dead) pic.el.style.opacity = '0'; }); }
-          else host.setAttribute('data-nqfx-vault', '2d');
+            frame: function () { if (dead || drawn) return; drawn = true; if (watchdog) { clearTimeout(watchdog); watchdog = 0; } pic.el.style.opacity = '0'; host.setAttribute('data-nqfx-vault', '3d'); },
+            lost: function () { three = null; back2d(); } });
+          if (!three) { back2d(); return; }
+          if (!drawn) {
+            host.setAttribute('data-nqfx-vault', 'starting');
+            watchdog = setTimeout(function () { watchdog = 0; if (drawn || dead) return; try { if (three) three.stop(); } catch (e) { /* gone */ } three = null; back2d(); }, 2000);
+            ctx.add(function () { if (watchdog) clearTimeout(watchdog); });
+          }
         }, function () { host.setAttribute('data-nqfx-vault', '2d'); });
       };
       var idle = window.requestIdleCallback ? function (f) { window.requestIdleCallback(f, { timeout: 2000 }); } : function (f) { setTimeout(f, 300); };

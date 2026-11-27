@@ -2,9 +2,6 @@
    black base, violet glows + lavender highlights, bright gold only as small accents, mint / red for $ and R; dark + light. AA text in both. */
 
 html:root[data-theme] {
-  /* OLYMPUS NIGHT (owner 2026-11-20 16:00 ET, the Jarvis switcher's colours): pure black, near-black violet cards, deep violet outlines,
-     violet #9d59ee glows with lavender #dacbf0 highlights, bright gold #f1c14b as small accents only, mint / red for $ and R.
-     (--nq-cyan / --nq-blue keep their names: they are the glow pair, now violet + deep violet; --nq-violet is the gold accent) */
   --nq-cyan: #9d59ee; --nq-cyan-rgb: 157, 89, 238; --nq-cyan-hi: #dacbf0; --nq-blue: #6d3fc0; --nq-blue-rgb: 109, 63, 192;
   --nq-violet: #f1c14b; --nq-violet-rgb: 241, 193, 75; --nq-violet-hi: #ebbf4f; --nq-up: #77db89; --nq-up-text: #77db89; --nq-dn: #ef4444; --nq-dn-text: #f87171;
   --ag-night: #000000; --ag-panel: #0c0a12; --ag-raise: #16131e; --ag-line: #3e255e;
@@ -96,7 +93,6 @@ html[data-theme] .dk-dot.stale { background: #f1c14b; }
 .ctog[aria-pressed="true"]{border-color:#f1c14b;box-shadow:0 0 14px rgba(241,193,75,.45)}
 html[data-theme] .chartbox{border-color:#3e255e;box-shadow:0 0 0 1px rgba(157,89,238,.12) inset,0 0 26px rgba(157,89,238,.18)}
 .chartbox::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 95% at 50% 45%,transparent 62%,rgba(0,0,0,.55));z-index:2}
-/* perf 2026-11-21 (TBT 525 -> 880 ms with the 3D chart): no CSS filter on the chart canvases (every chart repaint re-ran the blur); the glow is the violet area + glow line */
 .chartbox.intro .chart{animation:nqIn .9s cubic-bezier(.2,.8,.2,1) both}@keyframes nqIn{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
 .cpulse{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#f1c14b;box-shadow:0 0 10px #f1c14b;pointer-events:none;z-index:3}
 .cpulse::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(241,193,75,.7);animation:nqPulse 1.6s ease-out infinite}@keyframes nqPulse{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}

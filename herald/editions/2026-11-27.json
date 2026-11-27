@@ -1,13 +1,13 @@
 {
  "v": 1,
- "date": "2026-11-26",
+ "date": "2026-11-27",
  "number": 2,
- "built": "2026-11-26T21:10:53Z",
+ "built": "2026-11-27T08:53:48Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
   "motto": "Only what the files say",
-  "date_words": "Thursday, 26 November 2026"
+  "date_words": "Friday, 27 November 2026"
  },
  "label": "Some stories rest on sample data and say so.",
  "lead": {
@@ -149,9 +149,9 @@
    "standfirst": "Who is building what today, straight from the lead's roster.",
    "body": [
     "The roster the lead keeps lists 10 build agents at work on OLYMPUS, each on a branch of its own.",
-    "On the bench today: Jarvis brain: Search everything, follow-up questions, briefings, tours.",
-    "Next to it: NQ bot: The NQ page and the kit that updates the PC's bot folder.",
-    "And a third: Colosseum: A 3D arena where two strategies duel on real numbers.",
+    "On the bench today: Fixer: Fixing the broken tests and phone-layout bugs in old apps.",
+    "Next to it: Jarvis brain: Search everything, follow-up questions, briefings, tours.",
+    "And a third: NQ bot: The NQ page and the kit that updates the PC's bot folder.",
     "Between them they cover 9 areas: arena, cities, data, design, factory, jarvis, quality, research, trading.",
     "The roster was last updated at 2026-11-11T01:10:00Z."
    ],
@@ -161,6 +161,16 @@
      "src": "handoff/agents_now.json",
      "calc": "count of agents",
      "raw": 10
+    },
+    {
+     "t": "Fixer",
+     "src": "handoff/agents_now.json",
+     "quote": true
+    },
+    {
+     "t": "Fixing the broken tests and phone-layout bugs in old apps",
+     "src": "handoff/agents_now.json",
+     "quote": true
     },
     {
      "t": "Jarvis brain",
@@ -179,16 +189,6 @@
     },
     {
      "t": "The NQ page and the kit that updates the PC's bot folder",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "Colosseum",
-     "src": "handoff/agents_now.json",
-     "quote": true
-    },
-    {
-     "t": "A 3D arena where two strategies duel on real numbers",
      "src": "handoff/agents_now.json",
      "quote": true
     },
@@ -555,33 +555,17 @@
   {
    "id": "calendar",
    "kicker": "Market calendar",
-   "headline": "Next on the calendar: Thanksgiving: US markets closed",
+   "headline": "Next on the calendar: Day after Thanksgiving: early close 1:15 PM ET",
    "standfirst": "The next dated market events, from Pythia's calendar.",
    "body": [
-    "Thanksgiving: US markets closed: 2026-11-26, impact low, to be confirmed on the official page.",
     "Day after Thanksgiving: early close 1:15 PM ET: 2026-11-27 at 13:15 New York time, impact med, to be confirmed on the official page.",
     "Jobs report (NFP, November data): 2026-12-04 at 08:30 New York time, impact high, to be confirmed on the official page.",
     "FOMC decision 2:00 PM with projections, press conference 2:30 PM: 2026-12-09 at 14:00 New York time, impact high, to be confirmed on the official page.",
+    "Your roll step: switch the NinjaTrader chart to MNQ 03-27: 2026-12-09 at 16:00 New York time, impact med.",
     "A high-impact release is on the list: size down around it.",
     "The calendar was last rebuilt on 2026-11-10; agencies move dates, so check the official page."
    ],
    "facts": [
-    {
-     "t": "Thanksgiving: US markets closed",
-     "src": "pythia/events.json",
-     "quote": true
-    },
-    {
-     "t": "2026-11-26",
-     "src": "pythia/events.json",
-     "at": "events/19/date",
-     "raw": "2026-11-26"
-    },
-    {
-     "t": "low",
-     "src": "pythia/events.json",
-     "quote": true
-    },
     {
      "t": "Day after Thanksgiving: early close 1:15 PM ET",
      "src": "pythia/events.json",
@@ -649,13 +633,35 @@
      "quote": true
     },
     {
+     "t": "Your roll step: switch the NinjaTrader chart to MNQ 03-27",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
+     "t": "2026-12-09",
+     "src": "pythia/events.json",
+     "at": "events/23/date",
+     "raw": "2026-12-09"
+    },
+    {
+     "t": "16:00",
+     "src": "pythia/events.json",
+     "at": "events/23/time",
+     "raw": "16:00"
+    },
+    {
+     "t": "med",
+     "src": "pythia/events.json",
+     "quote": true
+    },
+    {
      "t": "2026-11-10",
      "src": "pythia/events.json",
      "at": "updated",
      "raw": "2026-11-10"
     },
     {
-     "t": "Thanksgiving: US markets closed",
+     "t": "Day after Thanksgiving: early close 1:15 PM ET",
      "src": "pythia/events.json",
      "quote": true
     }
@@ -673,9 +679,9 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 293 write-ups.",
-    "The newest lesson on file, dated 2026-11-26, reads: The joint test fails. No rule keeps ≥ 80% of 2026 Jan-Jun money for BOTH streams (ATLAS and the Asia trades) while helping the old years.",
-    "It was filed under \"finding\" and comes from research/writeups/regime2026-2026-11-26.md."
+    "The research shelf now counts 296 write-ups.",
+    "The newest lesson on file, dated 2026-11-27, reads: On Fri Nov 20 03:45 ET ATLAS's EMA member went short and hit its +6.6R target.",
+    "It was filed under \"finding\" and comes from research/writeups/missed-trades-2026-11-27.md."
    ],
    "facts": [
     {
@@ -707,18 +713,18 @@
      "quote": true
     },
     {
-     "t": "293",
+     "t": "296",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 293
+     "raw": 296
     },
     {
-     "t": "2026-11-26",
+     "t": "2026-11-27",
      "src": "ergasterion/queue.json",
      "quote": true
     },
     {
-     "t": "The joint test fails. No rule keeps ≥ 80% of 2026 Jan-Jun money for BOTH streams (ATLAS and the Asia trades) while helping the old years.",
+     "t": "On Fri Nov 20 03:45 ET ATLAS's EMA member went short and hit its +6.6R target.",
      "src": "ergasterion/queue.json",
      "quote": true
     },
@@ -728,7 +734,7 @@
      "quote": true
     },
     {
-     "t": "research/writeups/regime2026-2026-11-26.md",
+     "t": "research/writeups/missed-trades-2026-11-27.md",
      "src": "ergasterion/queue.json",
      "quote": true
     }
@@ -873,8 +879,8 @@
    "article": "archive"
   },
   {
-   "value": "2026-11-26",
-   "label": "Next on the calendar: Thanksgiving: US markets closed",
+   "value": "2026-11-27",
+   "label": "Next on the calendar: Day after Thanksgiving: early close 1:15 PM ET",
    "src": "pythia/events.json",
    "article": "calendar"
   }
@@ -944,54 +950,54 @@
   "note": "Savings are estimates. Sample offers, not real ones."
  },
  "weather": {
-  "level": "calm",
-  "text": "Calm: nothing rated medium or high is on today's calendar.",
+  "level": "busy",
+  "text": "Busy: a medium-impact release is on today's calendar.",
   "src": "pythia/events.json",
   "events": [
    {
-    "time": "",
-    "title": "Thanksgiving: US markets closed",
-    "impact": "low"
+    "time": "13:15",
+    "title": "Day after Thanksgiving: early close 1:15 PM ET",
+    "impact": "med"
    }
   ],
   "note": "From the saved calendar. It is not a forecast of price."
  },
  "quiz": [
   {
-   "id": "z2",
-   "topic": "size",
-   "q": "The stop is tight today. The rules allow",
+   "id": "g1",
+   "topic": "greed",
+   "q": "You are up on the day and a new setup appears. The plan allows",
    "o": [
-    "More micros, up to the risk cap",
-    "Fewer micros",
-    "Exactly the same number"
+    "One trade a day, so no",
+    "As many as show up",
+    "A bigger one to finish strong"
    ],
    "a": 0,
-   "why": "A small stop allows more micros, but never above the cap the account rules give you."
+   "why": "One trade a day. Quiet days and early finishes are normal: the plan wants 2 to 4 trades a week."
   },
   {
-   "id": "t4",
-   "topic": "target",
-   "q": "At 1R in profit the stop goes to",
-   "o": [
-    "Break-even, plus the costs (+1.25 points)",
-    "The target",
-    "Further away"
-   ],
-   "a": 0,
-   "why": "At 1R the stop moves to break-even plus costs. That is the only stop move allowed."
-  },
-  {
-   "id": "f2",
+   "id": "f3",
    "topic": "flat",
-   "q": "What is the latest time for a new entry?",
+   "q": "A trade is open at 15:50 and looks great. You",
    "o": [
-    "15:30 New York",
-    "15:55",
-    "16:10"
+    "Let it close at 15:55",
+    "Hold it overnight",
+    "Add to it"
    ],
    "a": 0,
-   "why": "Entries run from 02:00 to 15:30 ET, so a trade has time to work before flat."
+   "why": "Flat at 15:55, every day. Overnight is not part of the plan."
+  },
+  {
+   "id": "z1",
+   "topic": "size",
+   "q": "The stop is wide today. How many micros?",
+   "o": [
+    "Fewer: size follows the stop",
+    "The same as always",
+    "More, to make the money back"
+   ],
+   "a": 0,
+   "why": "A wide stop means less risk per micro, so you carry fewer. The dollars risked stay inside the plan."
   }
  ],
  "interviews": [
@@ -1037,22 +1043,22 @@
    ]
   },
   {
-   "id": "builder:a802da40",
-   "name": "Hellas",
-   "title": "Build agent, cities",
+   "id": "builder:a8fa04fb",
+   "name": "Theme finisher",
+   "title": "Build agent, design",
    "src": "handoff/agents_now.json",
    "qa": [
     {
      "q": "What are you building?",
-     "a": "A world of 200+ cities built from the real research data."
+     "a": "One calm AGORA look in every app; a unique accent per app."
     },
     {
      "q": "Where does your work live?",
-     "a": "On my own branch, worktree-agent-a802da4078c305b1b. The lead merges it when it is ready."
+     "a": "On my own branch, worktree-agent-a8fa04fb59e01df25. The lead merges it when it is ready."
     },
     {
      "q": "Which part of OLYMPUS is yours?",
-     "a": "The cities area."
+     "a": "The design area."
     }
    ]
   }

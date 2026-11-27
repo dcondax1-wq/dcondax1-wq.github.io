@@ -11,7 +11,7 @@
 // burst(kind), dispose() } and fires 'nqland'. mount returns false (the box untouched) when WebGL cannot be made.
 import * as THREE from '../jarvis/three.module.min.js';
 
-// owner 2026-11-20 15:15 ET: the NQ terminal look: a navy night, the ridge cyan (up) / blue / violet (down), the light trail + goal arc cyan (GOLD keeps its
+// night-nq-main 2026-11-27: the colours are Olympus Night (violet ridge, lavender up, deep violet down, gold open beacon; no cyan). Was (owner 2026-11-20 15:15 ET) the NQ terminal look: a navy night, the ridge cyan (up) / blue / violet (down), the light trail + goal arc cyan (GOLD keeps its
 // name: the accent), beacons green (a win) / red (a loss) / bright cyan (open): green and red only where it is $
 const BG = 0x000000, GOLD = new THREE.Color('#9d59ee'), UP = new THREE.Color('#dacbf0'), UPG = new THREE.Color('#9d59ee'), DN = new THREE.Color('#4d2e76');
 const WIN = new THREE.Color('#77db89'), LOSS = new THREE.Color('#ef4444'), OPEN = new THREE.Color('#f1c14b');
@@ -95,7 +95,7 @@ function mount(box, data) {
   const sparks = points(phone ? 90 : 160, 0.22, tex); scene.add(sparks);
   const arc = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
   arc.rotation.x = -Math.PI / 2; arc.position.set(0, 0.01, -1.2); scene.add(arc);
-  const ring = new THREE.Mesh(new THREE.RingGeometry(6.2, 6.28, 96), new THREE.MeshBasicMaterial({ color: 0x2b2a6e, transparent: true, opacity: 0.6, side: THREE.DoubleSide }));
+  const ring = new THREE.Mesh(new THREE.RingGeometry(6.2, 6.28, 96), new THREE.MeshBasicMaterial({ color: 0x4d2e76, transparent: true, opacity: 0.6, side: THREE.DoubleSide }));
   ring.rotation.x = -Math.PI / 2; ring.position.set(0, 0.005, -1.2); scene.add(ring);
   // embers: random spots over the ridge, drifting up and fading
   const eP = embers.geometry.attributes.position.array, eV = new Float32Array(NP), eL = new Float32Array(NP);

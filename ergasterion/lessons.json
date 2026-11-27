@@ -1,8 +1,8 @@
 {
  "v": 1,
  "name": "Ergasterion lessons",
- "asof": "2026-11-26",
- "say": "This week we wrote down 50 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
+ "asof": "2026-11-27",
+ "say": "This week we wrote down 40 lessons. The strongest (3 files agree): LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01). What changed our mind: The coverage map's -$7.0k at 05:00-06:00 / -$6.8k at 06:30 is mostly ATLAS EMA in 2021-24 (the pick found it: -$11.2k), and it does not hold in Jul-Oct 2026.",
  "week": [
   {
    "text": "LIT GREEN (last 40 sessions PF 4.62 vs backtest 3.91) but no edge in 2021-25 (PF 1.01).",
@@ -23,16 +23,6 @@
    "sources": [
     "docs/TESTED_AND_REJECTED.md",
     "research/writeups/2026-11-04_second_strategies_night.md"
-   ]
-  },
-  {
-   "text": "Owner - \"NQ bot to its max - read data faster, better fills, timing.\" A replay harness runs the real LiveBot (paper, frozen clock) on LE_BarFeed-format files that grow bar by bar, through the real NinjaTrader read, hist…",
-   "cat": "NQ strategy",
-   "d": "2026-11-20",
-   "strength": 2,
-   "sources": [
-    "research/writeups/nq-speed-fills-2026-11-20.md",
-    "research/writeups/nq-live-reliability-2026-11-20.md"
    ]
   },
   {
@@ -73,6 +63,15 @@
   },
   {
    "text": "Tested and rejected: LIT entry refinement on 1m (2026-11-26, entry-fine-2026-11-26.md, research/entryfine/, pre-registered): 5 versions vs today (limit at the 5m CISD level, then the 1m CISD; H1 / H2 / 2021-25…",
+   "cat": "NQ strategy",
+   "d": "2026-11-26",
+   "strength": 1,
+   "sources": [
+    "docs/TESTED_AND_REJECTED.md"
+   ]
+  },
+  {
+   "text": "Tested and rejected: Exit realism / touch-not-fill (2026-11-26, exitreal-2026-11-26.md, research/exitreal/, pre-registered): of 298 stored target exits (LIT 75, ATLAS 223) 0 were touch-only (all but 6 traded 3+…",
    "cat": "NQ strategy",
    "d": "2026-11-26",
    "strength": 1,

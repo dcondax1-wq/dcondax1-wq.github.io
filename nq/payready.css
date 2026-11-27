@@ -1,24 +1,26 @@
-/* PAYOUT READINESS (nqdash3 round 2, nq/payready.js): board/ and trading/. Tokens only (dark + light from olympus/agora.css); motion stops under reduced motion. */
+/* PAYOUT READINESS (nqdash3 round 2, nq/payready.js): board/ and trading/. Layout tokens from olympus/agora.css; status colours OLYMPUS NIGHT
+   (night-nq-accounts 2026-11-27: mint ready, gold allowed, red lost, violet meter + glow; never olive / brown). Motion stops under reduced motion. */
 .pr-list { display: grid; gap: 12px; }
-.pr-acct { display: grid; gap: 8px; min-width: 0; padding: 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); animation: pr-in .5s ease both; }
-.pr-acct[data-status="ready"] { border-color: var(--ag-olive-text, #8fa05a); box-shadow: 0 0 0 1px var(--ag-olive-text, #8fa05a) inset; }
+.pr-acct { display: grid; gap: 8px; min-width: 0; padding: 12px; border-radius: var(--ag-radius-s, 12px); border: 1px solid var(--ag-line); animation: pr-in .5s ease both;
+  background: linear-gradient(170deg, rgba(157, 89, 238, .08), transparent 60%); box-shadow: 0 10px 26px -14px rgba(0, 0, 0, .8); }
+.pr-acct[data-status="ready"] { border-color: var(--pr-mint, #77db89); box-shadow: 0 0 0 1px var(--pr-mint, #77db89) inset, 0 0 22px rgba(119, 219, 137, .3); }
 .pr-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .pr-name { flex: 1; min-width: 0; font: 700 16px/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-text); overflow-wrap: anywhere; }
 .pr-badge { flex: none; padding: 5px 10px; border-radius: 999px; font: 700 12px/1 var(--ag-sans); border: 1px solid var(--ag-line); color: var(--ag-soft); }
-.pr-badge.ok { color: var(--ag-olive-text, #8fa05a); border-color: currentColor; } .pr-badge.warn { color: var(--ag-sun, #d9a441); border-color: currentColor; }
-.pr-badge.bad { color: var(--ag-terra-text, #c0603c); border-color: currentColor; }
+.pr-badge.ok { color: var(--pr-mint, #77db89); border-color: currentColor; } .pr-badge.warn { color: var(--pr-gold, #f1c14b); border-color: currentColor; }
+.pr-badge.bad { color: var(--pr-red, #ff5d6c); border-color: currentColor; }
 .pr-reason, .pr-line { margin: 0; font-size: 0.9375rem; color: var(--ag-soft); overflow-wrap: anywhere; }
 .pr-line b { color: var(--ag-text); }
 .pr-need { margin: 0; font: 700 20px/1.2 var(--ag-serif, Georgia, serif); color: var(--ag-text); }
 .pr-meter { height: 8px; border-radius: 999px; background: var(--ag-line); overflow: hidden; }
-.pr-meter i { display: block; height: 100%; width: var(--w, 0); border-radius: inherit; background: var(--ag-gold, #c8a24a); transform-origin: left; animation: pr-grow .9s cubic-bezier(.2, .7, .2, 1) both; }
+.pr-meter i { display: block; height: 100%; width: var(--w, 0); border-radius: inherit; background: linear-gradient(90deg, var(--pr-deep, #6a3bb0), var(--pr-violet, #9d59ee), var(--pr-gold, #f1c14b)); box-shadow: 0 0 10px rgba(157, 89, 238, .6); transform-origin: left; animation: pr-grow .9s cubic-bezier(.2, .7, .2, 1) both; }
 .pr-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .pr-checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 2px 8px; align-items: baseline; font-size: 0.9375rem; color: var(--ag-soft); padding: 6px 0; border-top: 1px solid var(--ag-line-soft, var(--ag-line)); }
 .pr-checks .pr-v { grid-column: 2; color: var(--ag-text); font-weight: 600; overflow-wrap: anywhere; }
-.pr-checks li.ok .pr-ic { color: var(--ag-olive-text, #8fa05a); } .pr-checks li.no .pr-ic { color: var(--ag-terra-text, #c0603c); }
+.pr-checks li.ok .pr-ic { color: var(--pr-mint, #77db89); } .pr-checks li.no .pr-ic { color: var(--pr-red, #ff5d6c); }
 .pr-ic { font-weight: 800; text-align: center; }
 .pr-note, .pr-none { margin: 0; font-size: 0.875rem; color: var(--ag-muted); overflow-wrap: anywhere; }
-.pr-note.warn { color: var(--ag-terra-text, #c0603c); }
+.pr-note.warn { color: var(--pr-red, #ff5d6c); }
 .pr-steps summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; color: var(--ag-text); }
 .pr-steps ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 0.9375rem; color: var(--ag-soft); overflow-wrap: anywhere; }
 @keyframes pr-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }

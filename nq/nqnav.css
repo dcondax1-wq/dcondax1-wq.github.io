@@ -1,0 +1,131 @@
+/* NQ nav (night-nq-nav 2026-11-27): the one bottom dock of every NQ page, the shared PC pill, pull-to-refresh, page transitions,
+ * install + offline chips. Loaded by nqnav.js (it adds this link itself). OLYMPUS NIGHT: black, cards #16131e, violet #3e255e / #4d2e76
+ * outlines + #9d59ee glow, gold #f1c14b accents, mint #77db89 up. Every motion is off under prefers-reduced-motion. */
+:root {
+  --nqn-bg: rgba(14, 11, 20, .86); --nqn-card: #16131e; --nqn-line: #3e255e; --nqn-line2: #4d2e76; --nqn-glow: #9d59ee;
+  --nqn-gold: #f1c14b; --nqn-mint: #77db89; --nqn-red: #ff6b81; --nqn-text: #ece6f7; --nqn-dim: #a99cc0;
+  --nqnav-h: calc(60px + env(safe-area-inset-bottom, 0px));
+}
+
+/* cross-page transitions (Chrome 126+, Safari 18.2+): the dock and its ink stay put, the page cross-fades */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: nqn-out .16s cubic-bezier(.4, 0, 1, 1) both; }
+  ::view-transition-new(root) { animation: nqn-in .26s cubic-bezier(0, 0, .2, 1) both; }
+  ::view-transition-group(nqnav-ink) { animation-duration: .3s; animation-timing-function: cubic-bezier(.2, .9, .25, 1.15); }
+  html.nqnav-leaving body { opacity: 0; transform: translateY(6px) scale(.992); transition: opacity .14s ease-in, transform .14s ease-in; }
+  html.nqnav-enter body { animation: nqn-in .28s cubic-bezier(0, 0, .2, 1) both; }
+}
+@keyframes nqn-out { to { opacity: 0; transform: scale(.985); } }
+@keyframes nqn-in { from { opacity: 0; transform: translateY(8px) scale(.992); } }
+
+html.nqnav-on body { padding-bottom: calc(var(--nqnav-h) + 34px) !important; }
+html.nqnav-on { overscroll-behavior-y: contain; overflow-x: hidden; }   /* a page's stray wide chip never zooms the phone out (the dock would sit below the screen) */
+/* the kit's floating buttons step up above the dock */
+html.nqnav-on .oly-home { bottom: calc(var(--nqnav-h) + 14px) !important; }
+html.nqnav-on .oly-ask-btn { bottom: calc(var(--nqnav-h) + 14px) !important; }
+
+/* the dock */
+.nqn-dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; height: var(--nqnav-h); box-sizing: border-box;
+  padding: 4px 6px env(safe-area-inset-bottom, 0px); display: flex; align-items: stretch; justify-content: space-around;
+  background: linear-gradient(180deg, rgba(29, 22, 42, .9), var(--nqn-bg)); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4);
+  border-top: 1px solid var(--nqn-line); box-shadow: 0 -1px 0 rgba(157, 89, 238, .18), 0 -14px 34px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .04);
+  view-transition-name: nqnav-dock; font: 600 10.5px/1.1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+.nqn-dock::before { content: ""; position: absolute; left: 12%; right: 12%; top: -1px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(157, 89, 238, .9), rgba(241, 193, 75, .55), rgba(157, 89, 238, .9), transparent); }
+.nqn-tab { position: relative; flex: 1 1 0; min-width: 44px; min-height: 48px; max-width: 92px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 3px; color: var(--nqn-dim); text-decoration: none; border-radius: 14px; outline: none; transition: color .2s, transform .12s; }
+.nqn-tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; position: relative; z-index: 1; }
+.nqn-tab span { position: relative; z-index: 1; white-space: nowrap; letter-spacing: .01em; }
+.nqn-tab:hover { color: var(--nqn-text); }
+.nqn-tab:focus-visible { box-shadow: 0 0 0 2px var(--nqn-gold); }
+.nqn-tab.is-on { color: var(--nqn-gold); }
+.nqn-tab.is-on svg { filter: drop-shadow(0 0 6px rgba(241, 193, 75, .55)); }
+.nqn-ink { position: absolute; inset: 3px 4px; border-radius: 13px; view-transition-name: nqnav-ink;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(157, 89, 238, .42), rgba(77, 46, 118, .26) 55%, rgba(22, 19, 30, .2));
+  border: 1px solid var(--nqn-line2); box-shadow: 0 0 18px rgba(157, 89, 238, .45), inset 0 1px 0 rgba(255, 255, 255, .08); }
+.nqn-ink::after { content: ""; position: absolute; left: 50%; top: -1px; width: 16px; height: 2px; margin-left: -8px; border-radius: 2px;
+  background: var(--nqn-gold); box-shadow: 0 0 8px var(--nqn-gold); }
+.nqn-tab.is-press { transform: scale(.9); }
+.nqn-ripple { position: absolute; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(241, 193, 75, .45), rgba(157, 89, 238, 0) 70%);
+  transform: scale(0); animation: nqn-rip .5s ease-out forwards; }
+@keyframes nqn-rip { to { transform: scale(2.6); opacity: 0; } }
+.nqn-tab[hidden] { display: none; }
+
+/* the PC pill: a capsule riding on the dock's top edge, or inside any [data-nq-pc-pill] slot */
+.nqn-pill { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 14px 0 12px; border-radius: 999px; box-sizing: border-box;
+  background: rgba(22, 19, 30, .94); border: 1px solid var(--nqn-line2); color: var(--nqn-text); font: 600 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 0 6px 18px rgba(0, 0, 0, .55), 0 0 16px rgba(157, 89, 238, .28); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+.nqn-pill:focus-visible { outline: 2px solid var(--nqn-gold); outline-offset: 2px; }
+.nqn-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--nqn-dim); flex: none; }
+.nqn-pill b { font-weight: 700; color: var(--nqn-gold); }
+.nqn-pill[data-lv="ok"] i { background: var(--nqn-mint); box-shadow: 0 0 8px var(--nqn-mint); }
+.nqn-pill[data-lv="warn"] i { background: var(--nqn-gold); box-shadow: 0 0 8px var(--nqn-gold); }
+.nqn-pill[data-lv="bad"] { border-color: rgba(255, 107, 129, .6); }
+.nqn-pill[data-lv="bad"] i { background: var(--nqn-red); box-shadow: 0 0 8px var(--nqn-red); }
+.nqn-pill[data-old="1"]::after { content: "saved"; font-size: 10px; color: var(--nqn-dim); font-weight: 500; }
+.nqn-float { position: fixed; z-index: 61; left: 50%; bottom: calc(var(--nqnav-h) - 14px); transform: translateX(-50%); view-transition-name: nqnav-pill; }
+@media (prefers-reduced-motion: no-preference) {
+  .nqn-pill[data-lv="ok"] i { animation: nqn-beat 2.4s ease-in-out infinite; }
+}
+@keyframes nqn-beat { 0%, 100% { box-shadow: 0 0 4px var(--nqn-mint); } 50% { box-shadow: 0 0 12px var(--nqn-mint), 0 0 0 4px rgba(119, 219, 137, .14); } }
+html.nqnav-on body { --nqnav-pill-room: 18px; }
+
+/* the sheet (tap the pill) */
+.nqn-scrim { position: fixed; inset: 0; z-index: 2147483000; background: rgba(0, 0, 0, .6); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.nqn-sheet { position: fixed; z-index: 2147483001; left: 0; right: 0; bottom: 0; max-width: 520px; margin: 0 auto; box-sizing: border-box;
+  padding: 10px 18px calc(18px + env(safe-area-inset-bottom, 0px)); border-radius: 22px 22px 0 0; background: var(--nqn-card); color: var(--nqn-text);
+  border: 1px solid var(--nqn-line2); border-bottom: 0; box-shadow: 0 -12px 40px rgba(0, 0, 0, .6), 0 0 30px rgba(157, 89, 238, .25);
+  font: 400 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; max-height: 80vh; overflow: auto; }
+@media (prefers-reduced-motion: no-preference) { .nqn-sheet { animation: nqn-up .26s cubic-bezier(.2, .9, .25, 1) both; } }
+@keyframes nqn-up { from { transform: translateY(40px); opacity: 0; } }
+.nqn-grab { width: 40px; height: 4px; border-radius: 2px; background: var(--nqn-line2); margin: 0 auto 12px; }
+.nqn-sheet h2 { margin: 0 0 10px; font: 700 17px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; text-transform: none; color: var(--nqn-gold); letter-spacing: .02em; }
+.nqn-row { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(62, 37, 94, .6); }
+.nqn-row span:first-child { color: var(--nqn-dim); }
+.nqn-row span:last-child { text-align: right; font-weight: 600; }
+.nqn-row .up { color: var(--nqn-mint); } .nqn-row .warn { color: var(--nqn-gold); } .nqn-row .bad { color: var(--nqn-red); }
+.nqn-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.nqn-btn { flex: 1 1 140px; min-height: 44px; border-radius: 12px; border: 1px solid var(--nqn-line2); background: #1d1729; color: var(--nqn-text);
+  font: 600 14px/1 system-ui, -apple-system, sans-serif; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; cursor: pointer; }
+.nqn-btn.gold { background: linear-gradient(180deg, #f6d06a, var(--nqn-gold)); color: #1a1208; border-color: var(--nqn-gold); box-shadow: 0 0 16px rgba(241, 193, 75, .35); }
+.nqn-note { margin: 12px 0 0; color: var(--nqn-dim); font-size: 12.5px; }
+
+/* pull-to-refresh */
+.nqn-ptr { position: fixed; z-index: 62; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 8px); width: 40px; height: 40px; margin-left: -20px; border-radius: 50%;
+  background: var(--nqn-card); border: 1px solid var(--nqn-line2); box-shadow: 0 6px 18px rgba(0, 0, 0, .6), 0 0 16px rgba(157, 89, 238, .4);
+  display: flex; align-items: center; justify-content: center; transform: translateY(-70px); opacity: 0; pointer-events: none; }
+.nqn-ptr svg { width: 24px; height: 24px; transform: rotate(-90deg); }
+.nqn-ptr circle { fill: none; stroke: var(--nqn-gold); stroke-width: 2.6; stroke-linecap: round; }
+.nqn-ptr.is-go circle { stroke: var(--nqn-mint); }
+.nqn-ptr.is-spin { transition: transform .2s; }
+@media (prefers-reduced-motion: no-preference) { .nqn-ptr.is-spin svg { animation: nqn-spin .8s linear infinite; } }
+@keyframes nqn-spin { to { transform: rotate(270deg); } }
+
+/* chips: offline + install */
+.nqn-chip { position: fixed; z-index: 63; left: 12px; right: 12px; max-width: 480px; margin: 0 auto; box-sizing: border-box; display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 14px; background: rgba(22, 19, 30, .96); border: 1px solid var(--nqn-line2); color: var(--nqn-text);
+  font: 500 13px/1.35 system-ui, -apple-system, sans-serif; box-shadow: 0 10px 30px rgba(0, 0, 0, .6), 0 0 18px rgba(157, 89, 238, .3); }
+.nqn-chip.top { top: calc(env(safe-area-inset-top, 0px) + 8px); }
+.nqn-chip.low { bottom: calc(var(--nqnav-h) + 26px); }
+.nqn-chip p { margin: 0; flex: 1; }
+.nqn-chip b { color: var(--nqn-gold); }
+.nqn-chip.off { border-color: rgba(255, 107, 129, .55); }
+.nqn-chip button { min-width: 44px; min-height: 44px; border-radius: 10px; border: 1px solid var(--nqn-line2); background: #1d1729; color: var(--nqn-text); font: 600 13px system-ui, sans-serif; cursor: pointer; }
+.nqn-chip button.gold { background: var(--nqn-gold); color: #1a1208; border-color: var(--nqn-gold); padding: 0 12px; }
+@media (prefers-reduced-motion: no-preference) { .nqn-chip { animation: nqn-up .3s cubic-bezier(.2, .9, .25, 1) both; } }
+
+/* the haptic switch (iOS 18 Safari ticks on a switch toggle): never seen */
+.nqn-hap { position: fixed; left: -9999px; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* wide screens: the dock floats as a centered glass bar */
+@media (min-width: 760px) {
+  .nqn-dock { left: 50%; right: auto; width: 600px; margin-left: -300px; bottom: 16px; height: 64px; padding: 6px 8px; border: 1px solid var(--nqn-line2); border-radius: 22px; }
+  html.nqnav-on { --nqnav-h: 80px; }
+  .nqn-dock .nqn-tab { font-size: 11.5px; }
+  .nqn-float { bottom: 66px; }
+}
+/* inside a frame (Jarvis, a hub) the host already has its own navigation */
+html.framed .nqn-dock, html.framed .nqn-float { display: none !important; }
+@media print { .nqn-dock, .nqn-float, .nqn-chip, .nqn-ptr { display: none !important; } }
+@media (forced-colors: active) { .nqn-tab.is-on { outline: 2px solid CanvasText; } }

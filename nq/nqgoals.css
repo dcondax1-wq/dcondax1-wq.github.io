@@ -7,33 +7,45 @@
 .gl-strip { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 4px; margin: 0 -2px; min-height: 68px;
   scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .gl-strip::-webkit-scrollbar { display: none; }
-.gl-tile { flex: 0 0 auto; width: auto; min-width: 192px; max-width: 280px; min-height: 64px; display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 8px; scroll-snap-align: start;
-  border-radius: 16px; border: 1px solid rgba(var(--oly-accent-rgb, 200, 162, 74), .28); color: var(--ag-ink, #f3ece0); text-align: left; cursor: pointer;
-  background: radial-gradient(120% 140% at 0% 0%, rgba(var(--oly-accent-rgb, 200, 162, 74), .16), transparent 60%), var(--ag-surface-2, rgba(255, 255, 255, .04));
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, .2) inset, 0 6px 18px rgba(0, 0, 0, .25); font: inherit; }
-.gl-tile[aria-expanded="true"] { border-color: rgba(var(--oly-accent-rgb, 200, 162, 74), .8); box-shadow: 0 0 18px rgba(var(--oly-accent-rgb, 200, 162, 74), .35); }
+.gl-tile { flex: 0 0 auto; width: auto; min-width: 192px; max-width: 280px; min-height: 64px; display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 8px; scroll-snap-align: start;
+  border-radius: 18px; border: 1px solid rgba(77, 46, 118, .9); color: var(--ag-ink, #f3eefc); text-align: left; cursor: pointer; position: relative; overflow: hidden;
+  background: radial-gradient(120% 140% at 0% 0%, rgba(157, 89, 238, .20), transparent 60%), linear-gradient(170deg, #1f1930, #16131e 70%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset, 0 10px 22px -10px rgba(0, 0, 0, .9), 0 0 16px rgba(157, 89, 238, .18); font: inherit;
+  transform: translateZ(0); transition: transform .18s ease, box-shadow .25s ease, border-color .25s ease; }
+.gl-tile::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;   /* night-nq-accounts: a slow light sweep */
+  background: linear-gradient(115deg, transparent 35%, rgba(241, 193, 75, .08) 48%, transparent 60%); background-size: 260% 100%; animation: gl-sheen 9s linear infinite; }
+.gl-tile.payout { border-color: rgba(241, 193, 75, .45); }
+.gl-tile:active { transform: translateY(1px) scale(.985); }
+.gl-tile[aria-expanded="true"] { border-color: #f1c14b; box-shadow: 0 0 0 1px rgba(241, 193, 75, .4) inset, 0 0 22px rgba(241, 193, 75, .35); }
 .gl-tile.dim { opacity: .62; }
-.gl-tile:focus-visible { outline: 2px solid var(--ag-focus, #f0c96a); outline-offset: 2px; }
-.gl-rw { position: relative; width: 50px; height: 50px; flex: none; }
-.gl-ring { width: 50px; height: 50px; overflow: visible; }
-.gl-track { fill: none; stroke: rgba(var(--oly-accent-rgb, 200, 162, 74), .16); stroke-width: 6; }
-.gl-arc { fill: none; stroke-width: 6; stroke-linecap: round; stroke: #e0b060; transition: stroke-dashoffset 1.2s cubic-bezier(.2, .8, .2, 1); }
-.gl-arc.glow { stroke-width: 12; opacity: .22; }
-.gl-arc.plan { stroke: var(--ag-muted, #b8ab98); } .gl-arc.plan.glow { opacity: 0; }
+.gl-tile:focus-visible { outline: 2px solid #f1c14b; outline-offset: 2px; }
+/* the ring sits in a recessed 3D disc: dark well, violet rim light, the arc glowing on top */
+.gl-rw { position: relative; width: 54px; height: 54px; flex: none; border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #241c35, #0b0812 70%); box-shadow: 0 0 0 1px rgba(157, 89, 238, .35), 0 6px 14px rgba(0, 0, 0, .7), 0 -2px 6px rgba(157, 89, 238, .15) inset, 0 3px 8px rgba(0, 0, 0, .8) inset; }
+.gl-ring { width: 54px; height: 54px; overflow: visible; }
+.gl-track { fill: none; stroke: rgba(157, 89, 238, .16); stroke-width: 6; }
+.gl-arc { fill: none; stroke-width: 6; stroke-linecap: round; stroke: #9d59ee; transition: stroke-dashoffset 1.2s cubic-bezier(.2, .8, .2, 1); }
+.gl-arc.payout { stroke: #f1c14b; } .gl-arc.pass { stroke: #b27cff; } .gl-arc.fleet { stroke: #77db89; }
+.gl-arc.done { stroke: #77db89; }
+.gl-arc.glow { stroke-width: 13; opacity: .26; }
+.gl-arc.plan { stroke: #6f6485; } .gl-arc.plan.glow { opacity: 0; }
 .gl-on .gl-arc { stroke-dashoffset: var(--to); }
-.gl-pct { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+.gl-pct { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #f3eefc; text-shadow: 0 0 8px rgba(157, 89, 238, .8); }
+@keyframes gl-sheen { from { background-position: 150% 0; } to { background-position: -110% 0; } }
+@media (prefers-reduced-motion: reduce) { .gl-tile::after { animation: none; } .gl-tile { transition: none; } }
 .gl-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
 .gl-name { font-size: 13px; color: var(--ag-muted, #c9bca8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gl-big { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--ag-ink, #fff3dc); text-shadow: 0 0 14px rgba(var(--oly-accent-rgb, 200, 162, 74), .45); }
+.gl-big { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: #fff; text-shadow: 0 0 14px rgba(241, 193, 75, .45); }
 .gl-unit { font-size: 12px; color: var(--ag-muted, #c9bca8); }
 .gl-bigrow { display: flex; align-items: baseline; gap: 5px; white-space: nowrap; }
 .gl-goal { font-size: 12px; color: var(--ag-muted, #c9bca8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 124px; }
-.gl-detail { margin-top: 4px; padding: 10px 12px; border-radius: 14px; background: var(--ag-surface-2, rgba(255, 255, 255, .04)); border: 1px solid rgba(var(--oly-accent-rgb, 200, 162, 74), .25); }
+.gl-detail { margin-top: 6px; padding: 10px 12px; border-radius: 16px; background: linear-gradient(170deg, #1f1930, #16131e); border: 1px solid rgba(157, 89, 238, .45); box-shadow: 0 0 18px rgba(157, 89, 238, .18); }
 .gl-detail p { margin: 0 0 6px; font-size: 15px; }
 .gl-dh { font-weight: 700; }
-.gl-when { color: var(--ag-accent, #e0b060); }
+.gl-when { color: #f1c14b; }
 .gl-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 4px 0 8px; }
-.gl-chips li { font-size: 13px; padding: 3px 9px; border-radius: 999px; border: 1px solid rgba(var(--oly-accent-rgb, 200, 162, 74), .3); }
+.gl-chips li { font-size: 13px; padding: 3px 9px; border-radius: 999px; border: 1px solid rgba(157, 89, 238, .45); }
+.gl-chips li.ok { color: #77db89; border-color: rgba(119, 219, 137, .5); } .gl-chips li.no { color: #ff5d6c; border-color: rgba(255, 93, 108, .5); }
 .gl-burst { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; }
 .nm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .nm-acct { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: baseline; padding: 10px 12px; border-radius: 14px; background: var(--ag-surface-2, rgba(255, 255, 255, .04)); }
@@ -56,14 +68,14 @@
 .nm-ct p { margin: 0 0 3px; }
 .nm-ph { font-weight: 700; } .nm-who { font-size: 13px; color: var(--ag-muted, #c9bca8); }
 .nm-ws { display: flex; flex-wrap: wrap; gap: 6px; }
-.nm-w { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(var(--oly-accent-rgb, 200, 162, 74), .3); }
+.nm-w { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(157, 89, 238, .45); }
 .nm-next { font-size: 14px; }
 .nm-vix { margin: 12px 0 0; font-size: 14px; }
-.nm-band { padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(var(--oly-accent-rgb, 200, 162, 74), .4); }
+.nm-band { padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(241, 193, 75, .5); }
 .land { position: relative; height: 280px; border-radius: 16px; overflow: hidden; background: radial-gradient(120% 90% at 50% 100%, rgba(224, 176, 96, .14), transparent 60%), #14110e; }
 .land svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .land .l3d { position: absolute; inset: 0; }
-.land-fb path.a { fill: url(#landG); } .land-fb path.l { fill: none; stroke: #e0b060; stroke-width: 2; filter: drop-shadow(0 0 4px rgba(224, 176, 96, .8)); }
+.land-fb path.a { fill: url(#landG); } .land-fb path.l { fill: none; stroke: #f1c14b; stroke-width: 2; filter: drop-shadow(0 0 4px rgba(241, 193, 75, .8)); }
 @media (prefers-reduced-motion: reduce) { .gl-arc { transition: none; } }
 @media (max-width: 520px) { .chartbox, .chartbox.empty { height: clamp(300px, 35vh, 440px); } .nm-stats { grid-template-columns: repeat(2, 1fr); } .land { height: 240px; } }
 #acctStrip .dk-kv { grid-template-columns: minmax(0, 1fr) auto; gap: 3px 6px; }
@@ -79,3 +91,15 @@
 @media (prefers-reduced-motion: reduce) { .nm-otag { animation: none; } }
 .vault { aspect-ratio: 4 / 3; max-height: 340px; width: 100%; border-radius: 16px; overflow: hidden; position: relative; background: #14110e; }
 .nm-h, .nm-next, .nm-osub { font-size: .9375rem; }
+/* night-nq-accounts 2026-11-27: the theme file (nqtheme.css, html[data-theme] .gl-*) paints every ring one gradient; these win by one more
+   class so the ring says what the goal is: gold = a payout, violet = a pass, mint = done / the fleet; the tile keeps its 3D night card */
+html[data-theme] .gl-strip .gl-tile { border-color: rgba(77, 46, 118, .9);
+  background: radial-gradient(120% 140% at 0% 0%, rgba(157, 89, 238, .20), transparent 60%), linear-gradient(170deg, #1f1930, #16131e 70%); }
+html[data-theme] .gl-strip .gl-tile.payout { border-color: rgba(241, 193, 75, .45); }
+html[data-theme] .gl-strip .gl-tile[aria-expanded="true"] { border-color: #f1c14b; box-shadow: 0 0 0 1px rgba(241, 193, 75, .4) inset, 0 0 22px rgba(241, 193, 75, .35); }
+html[data-theme] .gl-ring .gl-arc.payout { stroke: #f1c14b; }
+html[data-theme] .gl-ring .gl-arc.pass { stroke: #b27cff; }
+html[data-theme] .gl-ring .gl-arc.fleet, html[data-theme] .gl-ring .gl-arc.done { stroke: #77db89; }
+html[data-oly-scheme="light"] .gl-strip .gl-tile { background: radial-gradient(120% 140% at 0% 0%, rgba(107, 47, 196, .10), transparent 60%), #ffffff; }
+html[data-oly-scheme="light"] .gl-rw { background: radial-gradient(circle at 50% 38%, #ffffff, #ece6f6 70%); box-shadow: 0 0 0 1px rgba(107, 47, 196, .3), 0 4px 10px rgba(60, 20, 120, .15); }
+html[data-oly-scheme="light"] .gl-pct { color: #2a1650; text-shadow: none; }

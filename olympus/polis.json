@@ -1,15 +1,15 @@
 {
  "v": 1,
  "kind": "olympus-polis",
- "date": "2026-11-26",
- "built": "2026-11-26T21:10:53Z",
+ "date": "2026-11-27",
+ "built": "2026-11-27T08:53:48Z",
  "demo": false,
  "paper": true,
  "label": "Written from the published files. Nothing is invented. Paper only.",
  "herald": [
   {
    "kind": "money",
-   "day": "2026-11-26",
+   "day": "2026-11-27",
    "cry": "The 5 money machines reckon about $1,493.81 a month. An estimate, not a promise.",
    "plain": "Money machines (paper): an estimate of about $1,493.81 a month. Not a promise.",
    "usd": 1493.81,
@@ -97,7 +97,7 @@
  ],
  "oracle": {
   "src": "home.json",
-  "day": "2026-11-20",
+  "day": "2026-11-26",
   "stale": true,
   "speaker": {
    "id": "villager:pythia",
@@ -123,8 +123,8 @@
     "date": "2026-12-04",
     "date_words": "Fri 4 Dec",
     "time": "08:30",
-    "days_left": 8,
-    "when": "in 8 days",
+    "days_left": 7,
+    "when": "in 7 days",
     "verify": true,
     "week_of": null
    },
@@ -140,8 +140,8 @@
     "date": "2026-12-09",
     "date_words": "Wed 9 Dec",
     "time": "14:00",
-    "days_left": 13,
-    "when": "in 13 days",
+    "days_left": 12,
+    "when": "in 12 days",
     "verify": true,
     "week_of": null
    },
@@ -157,8 +157,8 @@
     "date": "2026-12-09",
     "date_words": "Wed 9 Dec",
     "time": "16:00",
-    "days_left": 13,
-    "when": "in 13 days",
+    "days_left": 12,
+    "when": "in 12 days",
     "verify": false,
     "week_of": "2026-12-07"
    },
@@ -174,8 +174,8 @@
     "date": "2027-01-27",
     "date_words": "Wed 27 Jan",
     "time": "14:00",
-    "days_left": 62,
-    "when": "in 62 days",
+    "days_left": 61,
+    "when": "in 61 days",
     "verify": true,
     "week_of": null
    },
@@ -191,8 +191,8 @@
     "date": "2027-02-05",
     "date_words": "Fri 5 Feb",
     "time": "08:30",
-    "days_left": 71,
-    "when": "in 71 days",
+    "days_left": 70,
+    "when": "in 70 days",
     "verify": true,
     "week_of": null
    },
@@ -208,8 +208,8 @@
     "date": "2027-03-05",
     "date_words": "Fri 5 Mar",
     "time": "08:30",
-    "days_left": 99,
-    "when": "in 99 days",
+    "days_left": 98,
+    "when": "in 98 days",
     "verify": true,
     "week_of": null
    },
@@ -225,8 +225,8 @@
     "date": "2027-03-10",
     "date_words": "Wed 10 Mar",
     "time": "16:00",
-    "days_left": 104,
-    "when": "in 104 days",
+    "days_left": 103,
+    "when": "in 103 days",
     "verify": false,
     "week_of": "2027-03-08"
    },
@@ -242,8 +242,8 @@
     "date": "2027-03-17",
     "date_words": "Wed 17 Mar",
     "time": "14:00",
-    "days_left": 111,
-    "when": "in 111 days",
+    "days_left": 110,
+    "when": "in 110 days",
     "verify": true,
     "week_of": null
    }
@@ -346,9 +346,9 @@
  "stoic": {
   "mood": "quiet",
   "why": "A quiet day with no fresh trade: a line on today's task.",
-  "text": "Everywhere means nowhere.",
+  "text": "Hold every hour in your grasp. Lay hold of to-day's task, and you will not need to depend so much upon to-morrow's.",
   "author": "Seneca",
-  "work": "Moral Letters 2",
+  "work": "Moral Letters 1",
   "translator": "R. M. Gummere",
   "public_domain": true
  },

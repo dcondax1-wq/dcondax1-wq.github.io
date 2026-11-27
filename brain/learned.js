@@ -51,6 +51,7 @@ function grad(L) {
   if (!F || !(F.rules || []).length) { box.replaceChildren(el('p', { class: 'muted', text: 'No idea is on trial yet (research/forward/forward.json has not been built).' })); return; }
   const kids = [el('p', { class: 'muted', text: `Each idea is scored only on trading days from ${md(F.from)} on, against what it did in its own backtest. It graduates at ${L.promote_bar}. Then the lead brings you a yes / no card; nothing switches on by itself.` })];
   if (!F.sessions) kids.push(el('p', { class: 'muted', text: `No new trading days scored yet (the bars end ${md(F.data_end)}). The count starts with the next pulled day.` }));
+  else if (!F.rules.some((r) => r.n)) kids.push(el('p', { class: 'muted', text: `${F.sessions} new trading day${F.sessions === 1 ? '' : 's'} scored (${md(F.from)} - ${md(F.data_end)}): none of the ideas had a trade on them yet.` }));
   for (const r of F.rules) {
     kids.push(el('div', { class: 'idea', 'data-id': r.id },
       el('div', { class: 't' }, el('b', { text: r.what }), el('span', { class: `badge ${r.status}`, text: STATUS[r.status] || r.status })),
@@ -126,8 +127,8 @@ function gap(L) {
   const G = L.livegap, box = $('gap');
   if (!G) { box.replaceChildren(el('p', { class: 'muted', text: 'The live-vs-twin audit has not run yet.' })); return; }
   const words = { MISSED: 'Missed (the twin traded, live did not)', SLIPPED: 'Slipped (worse fills than the twin)', SIZE: 'Size (different number of micros)', EXTRA: 'Extra (live moved with no twin trade)' };
-  const kids = [el('p', { class: 'muted', text: `The twin is the backtest run on the PC's own bars. Every gap since the accounts started, to ${md(G.to)} ($ = live minus twin, by kind):` }),
-    el('div', { class: 'kv' }, ...Object.entries(G.totals || {}).flatMap(([k, v]) => [el('span', { text: words[k] || k }), el('b', { class: cls(-v), text: usd(v) })]))];
+  const kids = [el('p', { class: 'muted', text: `The twin is the backtest run on the PC's own bars. Every gap since the accounts started, to ${md(G.to)} ($ = live minus twin, by kind; + = live did better):` }),
+    el('div', { class: 'kv' }, ...Object.entries(G.totals || {}).flatMap(([k, v]) => [el('span', { text: words[k] || k }), el('b', { class: cls(v), text: usd(v) })]))];
   if ((G.recent || []).length) kids.push(el('ul', { class: 'lst' }, ...G.recent.map((x) => el('li', { text: `${x.when}: ${x.kind} ${x.bot} ${usd(x.usd)}. ${x.detail}` }))));
   box.replaceChildren(...kids);
 }
@@ -151,13 +152,31 @@ function health(L) {
 function of(L) {
   const O = L.of || {}, box = $('of');
   const kids = (O.lines || []).length ? [el('ul', { class: 'lst' }, ...O.lines.map((x) => el('li', { text: `${md(x.date)}: ${x.text}` })))]
-    : [el('p', { class: 'muted', text: 'No order-flow lessons yet: it is still collecting tick days.' })];
-  if (O.next) kids.push(el('p', { class: 'src', text: `Next: ${O.next}` }));
+    : (O.verdict ? [] : [el('p', { class: 'muted', text: 'No order-flow lessons yet: it is still collecting tick days.' })]);
+  const V = O.verdict;
+  if (V) {
+    kids.unshift(el('div', { class: 'kv' }, el('span', { text: 'Real tick days' }), el('b', { text: `${V.tick_days} (${md(V.first)} - ${md(V.last)})` }),
+      el('span', { text: 'Absorbed sweeps (taken)' }), el('b', { class: cls(V.taken_r), text: `${R(V.taken_r)} a trade` }),
+      el('span', { text: 'Not absorbed (skipped)' }), el('b', { class: cls(V.skipped_r), text: `${R(V.skipped_r)} a trade` }),
+      el('span', { text: 'New-day trades for the verdict' }), el('b', { text: `${int(V.fwd_n || 0)} of ${int(V.fwd_need || 20)}` })),
+    el('p', { class: 'muted', style: 'margin-top:8px', text: V.line }));
+  }
+  if (O.next && !V) kids.push(el('p', { class: 'src', text: `Next: ${O.next}` }));
   box.replaceChildren(...kids);
 }
 
 /* ---------------- page ---------------- */
+function hideBlitz(d) {                                // owner rule: BLITZ is hidden on the phone pages (paper, switched off)
+  const no = (x) => !/blitz/i.test(String(x || ''));
+  d.journal = (d.journal || []).filter((r) => no(r.pillar));
+  const L = d.learning || {};
+  if (L.forward) L.forward.rules = (L.forward.rules || []).filter((r) => no(r.bot) && no(r.id));
+  if (L.health && L.health.bots) for (const k of Object.keys(L.health.bots)) if (!no(k)) delete L.health.bots[k];
+  if (L.next) L.next = L.next.filter((x) => no(x.pillar));
+  return d;
+}
 function render(d) {
+  d = hideBlitz(d);
   S.d = d;
   const L = d.learning || {};
   hero(d); grad(L); scores(L); timeline(d); nextList(L); funnel(L); mill(L); gap(L); health(L); of(L);

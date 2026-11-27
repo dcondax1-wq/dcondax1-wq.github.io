@@ -22,6 +22,7 @@ export const BOT_NAME = { lit: 'Zlarior', atlas: 'ATLAS', rapid: 'Rapid EOD', bl
 export const IDS_OF = { zlarior: ['mffu50k_eval', 'lit'], fresh25: ['b25k_2'], atlas: ['atlas', 'acct_b'], rapid1: ['rapid'] };
 export const CHART_KEY = { z50k: 'mffu50k_eval', z25k2: 'b25k_2', atlas25f: 'atlas', rapid: 'rapid', rapid25: 'rapid' };
 const LIT_IDS = ['mffu50k_eval', 'lit', 'b25k_2'];
+export const HIDDEN = ['blitz', 'acctc', 'acct_c'];          // BLITZ is hidden from the owner (paper): never a card, a row or a streak
 
 // ------------------------------------------------------------------------------------------------ words
 export function usd(v, sign) {
@@ -148,9 +149,10 @@ export function trades(lite, bars) {
 }
 
 /** the open trade (one card: every account in the same trade), with live $ and R from the newest price */
-export function openTrade(lite, bars, cards, nowS) {
+/** every open trade row (the feed's rows + the board's lit / atlas positions merged in), newest first. BLITZ never (hidden). */
+export function openRows(lite, bars, nowS) {
   const L = obj(lite), bd = obj(L.board), all = trades(lite, bars);
-  const rows = all.filter((t) => t.open && num(t.entry) !== null && nowS - t.t < 20 * 3600);
+  const rows = all.filter((t) => t.open && num(t.entry) !== null && nowS - t.t < 20 * 3600 && !HIDDEN.includes(t.acct));
   // the board's position (lit / atlas) = the bot's trade even when no account row says so yet
   for (const [bot, ids] of [['lit', ['mffu50k_eval']], ['atlas', ['atlas']]]) {
     const p = obj(obj(bd[bot]).position);
@@ -160,6 +162,10 @@ export function openTrade(lite, bars, cards, nowS) {
     if (m) { if (m.stop === null) m.stop = num(p.stop); if (m.target === null) m.target = num(p.target); if (p.be) m.be = true; if (m.pcR == null) m.pcR = num(p.unrealized_r); continue; }
     rows.push({ acct: ids[0], bot, t: num(p.entry_t), dir, qty: num(p.qty), entry: num(p.entry), stop: num(p.stop), target: num(p.target), be: !!p.be, pcR: num(p.unrealized_r), open: true, src: 'board' });
   }
+  return rows.sort((a, b) => b.t - a.t);
+}
+export function openTrade(lite, bars, cards, nowS) {
+  const rows = openRows(lite, bars, nowS);
   if (!rows.length) return null;
   // group by side + entry time: the copies of one signal on several accounts
   rows.sort((a, b) => b.t - a.t);
@@ -270,6 +276,84 @@ export function periods(lite, cards, nowS, list) {
   return rows;
 }
 
+// ------------------------------------------------------------------------------------------------ night-nq-live 2026-11-27: one card per account
+const botOf = (acct, bot) => bot || (LIT_IDS.includes(acct) || acct === 'rapid' ? 'lit' : 'atlas');
+/** where a price sits between the stop (0) and the target (1); null without both levels */
+export function frac(p, stop, target) {
+  const a = num(stop), b = num(target), v = num(p);
+  if (a === null || b === null || v === null || a === b) return null;
+  return (v - a) / (b - a);
+}
+/** one open-trade card per account: entry, stop, target, R, $ now, time in trade, the stop -> entry -> target bar with the price on it */
+export function openCards(lite, bars, cards, nowS) {
+  const rows = openRows(lite, bars, nowS), P = price(lite, bars), out = [];
+  for (const r of rows) {
+    if (out.some((c) => c.acct === r.acct)) continue;
+    const bot = botOf(r.acct, r.bot), qty = num(r.qty), risk = num(r.stop) !== null ? Math.abs(r.entry - r.stop) : null;
+    const pts = P ? (P.px - r.entry) * r.dir : null;
+    const fNow = P ? frac(P.px, r.stop, r.target) : null, fIn = frac(r.entry, r.stop, r.target);
+    out.push({ acct: r.acct, name: nameOf(r.acct, lite, cards), bot, botName: BOT_NAME[bot] || bot, side: r.dir === -1 ? 'SHORT' : 'LONG', dir: r.dir, qty,
+      entry: r.entry, stop: num(r.stop), target: num(r.target), be: !!r.be, t: r.t, at: et(r.t) ? et(r.t).hm : '', inFor: Math.max(0, nowS - r.t),
+      px: P ? P.px : null, pxAge: P ? Math.max(0, nowS - P.t) : null, pts, usd: pts !== null && qty ? pts * qty * PT_USD : null,
+      r: pts !== null && risk ? pts / risk : r.pcR ?? null, riskUsd: risk !== null && qty ? risk * qty * PT_USD : null,
+      targetUsd: num(r.target) !== null && qty ? Math.abs(r.target - r.entry) * qty * PT_USD : null,
+      planR: risk && num(r.target) !== null ? Math.abs(r.target - r.entry) / risk : null,
+      bar: fIn === null ? null : { entry: Math.max(0, Math.min(1, fIn)), now: fNow === null ? null : Math.max(0, Math.min(1, fNow)), over: fNow !== null && (fNow < 0 || fNow > 1) },
+      lvl: P ? lvlOf(Math.max(0, nowS - P.t)) : 'bad', key: `${r.acct}|${r.t}` });
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------------------------------------ the journal: the last 30 closed real trades
+// fq.fc rows (engine/feed_fills): [bot, entry_t, dir, plan micros, filled micros, entry slip ticks, exit slip ticks, execution $, flags, L|S]
+export function slipOf(lite, bot, t, dir) {
+  const fc = arr(obj(obj(lite).fq).fc);
+  const r = fc.find((x) => Array.isArray(x) && x[0] === bot && num(x[1]) !== null && Math.abs(num(x[1]) - t) <= 300 && (num(x[2]) === null || num(x[2]) === dir));
+  if (!r) return null;
+  const e = num(r[5]), x = num(r[6]);
+  return { entry: e, exit: x, plan: num(r[3]), filled: num(r[4]), sim: r[9] === 'S',
+    grade: e === null ? '' : e <= 1 ? 'clean' : e <= 4 ? 'ok' : 'poor' };
+}
+export const WHY = { TARGET: 'target', STOP: 'stop', BE: 'breakeven', TIME: 'time exit', EOD: 'end of day', TRAIL: 'trail', CUT: '15-min cut', KILL: 'kill switch' };
+export function journal(lite, bars, cards, n = 30) {
+  const list = trades(lite, bars).filter((t) => !t.open && num(t.usd) !== null && !HIDDEN.includes(t.acct));
+  list.sort((a, b) => (b.xt || b.t) - (a.xt || a.t));
+  return list.slice(0, n).map((t) => {
+    const bot = botOf(t.acct), e = et(t.t), x = t.xt ? et(t.xt) : null;
+    return { key: `${t.acct}|${t.t}`, acct: t.acct, name: nameOf(t.acct, lite, cards), bot, botName: BOT_NAME[bot] || bot, side: t.dir === -1 ? 'SHORT' : 'LONG',
+      qty: t.qty, entry: t.entry, exit: t.exit ?? null, usd: t.usd, r: t.r, why: WHY[t.why] || (t.why ? t.why.toLowerCase() : ''),
+      day: cmeDay(t.xt || t.t), at: e ? e.hm : '', xAt: x ? x.hm : '', held: t.xt ? Math.max(0, t.xt - t.t) : null, slip: slipOf(lite, bot, t.t, t.dir) };
+  });
+}
+/** the run of results, newest first: { kind 'W' | 'L' | null, n, wins, losses, be, winRate, total } (a $0 trade is breakeven: it ends a run) */
+export function streak(rows) {
+  const R = arr(rows).filter((t) => num(t.usd) !== null);
+  const sgn = (v) => (Math.round(v) > 0 ? 'W' : Math.round(v) < 0 ? 'L' : 'B');
+  let kind = null, n = 0;
+  for (const t of R) { const k = sgn(t.usd); if (k === 'B') break; if (kind === null) kind = k; if (k !== kind) break; n++; }
+  const wins = R.filter((t) => sgn(t.usd) === 'W').length, losses = R.filter((t) => sgn(t.usd) === 'L').length;
+  return { kind, n, wins, losses, be: R.length - wins - losses, winRate: wins + losses ? wins / (wins + losses) : null,
+    total: R.reduce((s, t) => s + t.usd, 0), count: R.length };
+}
+
+// ------------------------------------------------------------------------------------------------ today's timeline (the CME session 18:00 -> 17:00 ET)
+export const SESSION_S = 23 * 3600;
+export function sessionStart(nowS) {
+  const p = et(nowS); if (!p) return null;
+  const mod = +p.hm.slice(0, 2) * 60 + +p.hm.slice(3, 5);
+  const since = ((mod - 18 * 60) % 1440 + 1440) % 1440;              // minutes since the last 18:00 ET
+  return Math.floor(nowS / 60) * 60 - since * 60;
+}
+export function timeline(rows, nowS) {
+  const s0 = sessionStart(nowS); if (s0 === null) return null;
+  const f = (t) => (num(t) === null ? null : Math.max(0, Math.min(1, (t - s0) / SESSION_S)));
+  const pins = arr(rows).filter((t) => num(t.t) !== null && t.t >= s0 - 3600).map((t) => ({ key: t.key, name: t.name, side: t.side, open: !!t.open,
+    x0: f(t.t), x1: t.open ? f(nowS) : f(t.xt ?? t.t), usd: t.usd ?? null }));
+  // the windows the bots trade in (ET): London 02:00, NY 09:30, LIT's last entry 15:30, the 15:55 flat
+  const at = (h, m) => { const mod = h * 60 + m; return f(s0 + (((mod - 18 * 60) % 1440 + 1440) % 1440) * 60); };
+  return { start: s0, now: f(nowS), pins, marks: [{ x: at(2, 0), label: '02:00' }, { x: at(9, 30), label: '09:30' }, { x: at(15, 30), label: '15:30' }] };
+}
+
 // ------------------------------------------------------------------------------------------------ the screen
 export function build(input) {
   const I = obj(input), nowS = num(I.nowS) || 0, lite = isObj(I.lite) ? I.lite : null, bars = isObj(I.bars) ? I.bars : null, cards = arr(I.cards);
@@ -280,7 +364,8 @@ export function build(input) {
   const todayRows = list.filter((t) => cmeDay(t.xt || t.t) === today || t.open).sort((a, b) => b.t - a.t).map((t) => ({
     acct: t.acct, name: nameOf(t.acct, lite, cards), side: t.dir === -1 ? 'SHORT' : 'LONG', qty: t.qty, entry: t.entry, exit: t.exit ?? null, usd: t.usd, r: t.r,
     why: t.why, open: !!t.open, at: et(t.t) ? et(t.t).hm : '', xAt: t.xt && et(t.xt) ? et(t.xt).hm : '', member: t.member || '',
-  }));
+    t: t.t, xt: t.xt ?? null, key: `${t.acct}|${t.t}`,
+  })).filter((t) => !HIDDEN.includes(t.acct));
   const P = periods(lite, cards, nowS, list);
   const inTrade = new Set(open ? open.accounts.map((a) => a.id) : []);
   const accounts = cards.map((c) => {
@@ -293,6 +378,9 @@ export function build(input) {
       week: p.week ?? null, month: p.month ?? null, monthN: p.monthN || 0, monthPartial: !!p.monthPartial, bots: bots.map((b) => b.name).join(' + ') };
   });
   const todayUsd = todayRows.filter((t) => !t.open && num(t.usd) !== null).reduce((s, t) => s + t.usd, 0);
+  const J = journal(lite, bars, cards, 30);
   return { pc: H.pc, health: H, accounts, open, setups: setups(lite, nowS, open), today: todayRows, todayUsd, day: today,
+    opens: lite || bars ? openCards(lite, bars, cards, nowS) : [], journal: J, streak: streak(J), timeline: timeline(todayRows, nowS),
+    fills: !!(lite && isObj(lite.fq) && arr(lite.fq.fc).length),
     rich: { bf: !!(lite && isObj(lite.bf)), ck: !!(lite && isObj(lite.ck)), bars: !!bars } };
 }

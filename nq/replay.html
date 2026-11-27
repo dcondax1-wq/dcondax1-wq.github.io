@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Replay Theater</title>
+<meta name="description" content="OLYMPUS NQ Replay Theater: watch a recent trading day play back like a film, candle by candle, with every LIT and ATLAS decision narrated as it happened.">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NQ Replay">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- NQ REPLAY THEATER (night 2026-11-27, owner: "make everything better, 3D, higher quality, effects, features"). Read only: it reads
+     nq/replay/index.json + nq/replay/<day>.json (tools/build_replay.py: the bots' backtest twins on the PC's own bars). Sends nothing. -->
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a11">
+<script src="../olympus/themes.js?v=o11"></script>
+<script src="../olympus/olympus.js?v=o28" data-app="nq"></script>
+<script src="../olympus/intro-app.js?v=i14" defer></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=12" defer></script>
+<script src="../olympus/gate-nav.js?v=g14" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#f1c14b'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
+<link rel="stylesheet" href="nq.css?v=a8">
+<link rel="stylesheet" href="nqtheme.css?v=9">
+<link rel="stylesheet" href="brain.css?v=3">
+<link rel="stylesheet" href="replay.css?v=r1">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">Replay Theater</h1><p class="sub">Watch a trading day play back, every bot decision as it happened.</p></div></div>
+  </header>
+  <nav class="nqtabs" aria-label="NQ"><a href="./">Desk</a><a href="brain.html">Brain</a><a href="replay.html" aria-current="page">Replay</a></nav>
+
+  <section class="ag-card card" id="dayCard" aria-labelledby="dayH">
+    <div class="row"><h2 id="dayH">Pick a day</h2><span class="pill" id="dayRange">-</span></div>
+    <div class="rdays" id="rDays" role="group" aria-label="Trading days"></div>
+  </section>
+
+  <section class="ag-card card rtheater" id="theater" aria-labelledby="thH">
+    <div class="row"><h2 id="thH">-</h2><span class="pill" id="rClock">--:-- ET</span></div>
+    <div class="rstage" id="rStage">
+      <canvas id="rChart" role="img" aria-label="The day's 5-minute candles drawn bar by bar, with the bots' entries, stops and targets; the story below says it in words"></canvas>
+      <div class="rhud"><b id="rPrice">-</b><span id="rOpen"></span></div>
+    </div>
+    <ol class="rsteps" id="rSteps" aria-label="LIT's steps for the current setup">
+      <li data-s="2">Sweep</li><li data-s="3">Induce</li><li data-s="5">CISD</li><li data-s="8">Entry</li><li data-s="x">Exit</li>
+    </ol>
+    <p class="rnow" id="rNow" aria-live="polite">-</p>
+    <div class="rctl">
+      <button type="button" class="btn rbtn" id="rPlay" aria-label="Play">&#9654;</button>
+      <button type="button" class="btn rbtn" id="rNext" aria-label="Jump to the next bot event">&#9197;</button>
+      <div class="rspeed" role="group" aria-label="Speed (5-minute bars a second)">
+        <button type="button" class="btn" data-x="1">1x</button><button type="button" class="btn" data-x="5">5x</button><button type="button" class="btn" data-x="15" aria-pressed="true">15x</button><button type="button" class="btn" data-x="60">60x</button>
+      </div>
+    </div>
+    <input type="range" class="rscrub" id="rScrub" min="0" max="0" step="1" value="0" aria-label="Scrub through the day">
+    <div class="rtot" id="rTot"></div>
+  </section>
+
+  <section class="ag-card card" id="storyCard" aria-labelledby="storyH"><h2 id="storyH">The story so far</h2><ol class="rstory" id="rStory"></ol></section>
+  <section class="ag-card card" id="notesCard" aria-labelledby="notesH"><h2 id="notesH">That day, also</h2><ul class="rnotes" id="rNotes"></ul></section>
+  <p class="foot">The bots' backtest twins on your PC's own 5-minute bars (what the PC bot runs). LIT $ at its real size; ATLAS $ at a fixed $250 risk a trade. Read only: nothing here trades.</p>
+</main>
+<script type="module" src="replay.js?v=r1"></script>
+<script src="nqnav.js?v=2" data-tab="brain" defer></script>
+</body>
+</html>

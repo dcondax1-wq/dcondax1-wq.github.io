@@ -6,7 +6,7 @@
 // the page is open. The chart: TradingView Lightweight Charts 5.2.1 (Apache-2.0), vendored in vendor/ (no CDN: it works offline),
 // loaded after the page. Its own module and card: a failure here never touches the rest of the NQ page. Text only through textContent.
 // Read only: it sends nothing, stores nothing, places nothing. window.NQCHART is the test hook. ?acct=z50k opens on one account.
-import * as B from './nqbars.js?v=b1';
+import * as B from './nqbars.js?v=b2';
 
 const LIB = 'vendor/lightweight-charts.standalone.production.js?v=5.2.1';
 const POLL_MS = 120000, TIMEOUT_MS = 7000;
@@ -25,10 +25,10 @@ function tokens() {
   TOK_KEY = key; TOK = tokensRead(); return TOK;
 }
 function tokensRead() {
-  const cs = getComputedStyle(document.documentElement), v = (n, d) => (cs.getPropertyValue(n) || '').trim() || d;
-  return { text: v('--ag-text', '#f3ece0'), soft: v('--ag-soft', '#cfc4b2'), muted: v('--ag-muted', '#9a8f7d'), line: v('--ag-line', '#3a3228'),
-    up: v('--ag-olive-text', '#a0ac6e'), down: v('--ag-terra-text', '#e08a6b'), good: v('--ag-olive-text', '#a0ac6e'), bad: v('--ag-terra-text', '#e08a6b'),
-    gold: v('--ag-gold-hi', '#67e8f9'), aegean: v('--ag-aegean-text', '#7fa7c2'), mauve: '#a78bfa', sand: '#60a5fa', olive: v('--ag-olive', '#7f8a52'), rose: '#f0abfc',
+  // night-nq-chart 2026-11-27: the chart's own OLYMPUS NIGHT palette (the page kit's AGORA tokens fell back to cyan / olive): black, violet
+  // outlines + glow, gold accents, mint up, a clear rose-red down; account dots gold / lavender / violet
+  return { text: '#f3eefc', soft: '#cfc3e6', muted: '#9b8fb5', line: 'rgba(157,89,238,0.32)', up: '#77db89', down: '#ff5d73', good: '#77db89', bad: '#ff5d73',
+    gold: '#f1c14b', lav: '#dacbf0', aegean: '#dacbf0', mauve: '#b48cf2', violet: '#9d59ee', rose: '#f472b6', amber: '#fbbf24', sky: '#a5b4fc', sand: '#f472b6',
     font: getComputedStyle(document.body).fontFamily || 'system-ui, sans-serif' };
 }
 const col = (T, k) => T[k] || T.gold;
@@ -115,6 +115,8 @@ function say(m) {
   pill.textContent = st[0]; pill.className = 'pill ' + st[1];
   const asOf = $('chartAsOf'); asOf.textContent = m.state === 'none' ? '' : m.state === 'old' ? m.message : m.asOf; asOf.hidden = m.state === 'none';
   $('chartKey').hidden = m.state === 'none'; $('chartWhole').hidden = m.state === 'none' || !S.lib;
+  $('chartKey').textContent = 'Arrow = entry (the account\'s colour) · dot = exit + $ · shaded = an open trade\'s risk (rose) and reward (mint) · dashed = a session\'s high / low · ◆ = a sweep';
+  age();
 }
 
 // ------------------------------------------------------------------------------------------------ the chart
@@ -123,21 +125,22 @@ function makeChart(LC, T) {
   const chart = LC.createChart(el, {
     autoSize: true,
     layout: { background: { type: LC.ColorType.Solid, color: 'rgba(0,0,0,0)' }, textColor: T.muted, fontFamily: T.font, fontSize: 11, attributionLogo: false },
-    grid: { vertLines: { color: 'rgba(157,89,238,0.07)' }, horzLines: { color: 'rgba(157,89,238,0.11)' } },   // Olympus Night: a faint violet grid (it fades at the edges: nqtheme.css)
+    grid: { vertLines: { visible: false }, horzLines: { color: 'rgba(157,89,238,0.10)' } },   // night-nq-chart: horizontal guides only, faint violet
     rightPriceScale: { borderColor: T.line, scaleMargins: { top: 0.08, bottom: 0.08 } },
     timeScale: { borderColor: T.line, timeVisible: true, secondsVisible: false, rightOffset: 3, barSpacing: 5, minBarSpacing: 0.8 },     // 0.8: the whole day fits a phone
-    crosshair: { mode: LC.CrosshairMode.Normal, vertLine: { color: 'rgba(218,203,240,0.55)', width: 1, labelBackgroundColor: '#3a1f5e' }, horzLine: { color: 'rgba(218,203,240,0.55)', width: 1, labelBackgroundColor: '#3a1f5e' } },
+    crosshair: { mode: LC.CrosshairMode.Normal, vertLine: { color: 'rgba(218,203,240,0.45)', width: 1, style: 3, labelBackgroundColor: '#2a1846' }, horzLine: { color: 'rgba(218,203,240,0.45)', width: 1, style: 3, labelBackgroundColor: '#2a1846' } },
     handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
     handleScale: { axisPressedMouseMove: true, mouseWheel: true, pinch: true },
+    kineticScroll: { touch: true, mouse: false },      // night-nq-chart: a flick keeps gliding on a phone (momentum), like a native chart
     localization: { locale: 'en-US', priceFormatter: (p) => { const r = Math.round(p * 100) / 100; return Number.isInteger(r) ? r.toLocaleString('en-US') : B.px(r); } },
   });
   // v5 (owner 2026-11-20 15:50 ET: "The chart looks terrible. It needs some 3D, it needs some effects"): under the candles, the day's closes as a
   // glowing violet line with a soft violet fill fading to black (never in the price scale's range: the candles and the trade lines set it)
-  const area = chart.addSeries(LC.AreaSeries, { lineColor: 'rgba(157,89,238,0.95)', lineWidth: 2, topColor: 'rgba(157,89,238,0.30)', bottomColor: 'rgba(157,89,238,0.0)',
+  const area = chart.addSeries(LC.AreaSeries, { lineColor: 'rgba(157,89,238,0.0)', lineWidth: 1, topColor: 'rgba(157,89,238,0.16)', bottomColor: 'rgba(157,89,238,0.0)',   // night-nq-chart: a soft violet glow under the candles, no line over them
     priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, autoscaleInfoProvider: () => null, lineType: LC.LineType ? LC.LineType.Curved : 0,
     priceFormat: { type: 'price', precision: 2, minMove: 0.25 } }, 0);
   const series = chart.addSeries(LC.CandlestickSeries, {
-    upColor: T.up, downColor: T.down, borderUpColor: T.up, borderDownColor: T.down, wickUpColor: T.up, wickDownColor: T.down,
+    upColor: T.up, downColor: T.down, borderUpColor: T.up, borderDownColor: T.down, wickUpColor: 'rgba(119,219,137,0.85)', wickDownColor: 'rgba(255,93,115,0.85)',
     priceFormat: { type: 'price', precision: 2, minMove: 0.25 }, lastValueVisible: false, priceLineVisible: false,   // the last price: the gold tag below
     // the open trade's stop and target stay on the screen even when the candles have not reached them (the price scale takes them in)
     autoscaleInfoProvider: (orig) => {
@@ -147,22 +150,18 @@ function makeChart(LC, T) {
     },
   });
   const marks = LC.createSeriesMarkers(series, []);
-  // v4 (owner: "light trails on the chart"): the last 3 hours of closes as a glowing cyan trail (a wide faint line under a bright one) whose newest
-  // point pulses; no axis label, no crosshair dot, never in the price scale's range. Reduced motion: the trail without the pulse.
-  let still = false; try { still = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { /* moving */ }
-  const quiet = { priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false, autoscaleInfoProvider: () => null, priceFormat: { type: 'price', precision: 2, minMove: 0.25 } };
-  const glow = chart.addSeries(LC.LineSeries, { ...quiet, color: 'rgba(157,89,238,0.28)', lineWidth: 4, lineType: LC.LineType ? LC.LineType.Curved : 0 }, 0);
-  const trail = chart.addSeries(LC.LineSeries, { ...quiet, color: 'rgba(218,203,240,0.95)', lineWidth: 2, lineType: LC.LineType ? LC.LineType.Curved : 0,
-    lastPriceAnimation: still || !LC.LastPriceAnimationMode ? 0 : LC.LastPriceAnimationMode.OnDataUpdate }, 0);   // OnDataUpdate: a pulse when a new bar lands (Continuous repainted the chart every frame: +400 ms blocking at 4x CPU)
+  // night-nq-chart 2026-11-27: the v4 light trail over the candles is gone (it hid them); the area glow under them and the gold last price stay
+  const glow = null, trail = null;
   // the last price as a bright GOLD tag on the axis + a dotted gold line (one point, no line drawn); the pulsing dot over it is DOM (#chartPulse)
   const tag = chart.addSeries(LC.LineSeries, { color: '#f1c14b', lineVisible: false, pointMarkersVisible: false, crosshairMarkerVisible: false, lastValueVisible: true,
     priceLineVisible: true, priceLineColor: 'rgba(241,193,75,0.55)', priceLineStyle: LC.LineStyle.Dotted, priceLineWidth: 1, autoscaleInfoProvider: () => null,
     priceFormat: { type: 'price', precision: 2, minMove: 0.25 } }, 0);
-  const pulse = () => placePulse();
+  const pulse = () => { placePulse(); fx(); nowBtn(); };
   chart.timeScale().subscribeVisibleLogicalRangeChange(pulse);
   // the view is set before the price axis has measured its labels: when the plot gets narrower (or the phone turns), set it again,
   // unless the owner moved the chart himself (a drag, a pinch, the wheel: from then on his view is kept)
-  chart.timeScale().subscribeSizeChange(() => { if (S.want && S.mode !== 'user') setView(S.want[0], S.want[1]); });
+  chart.timeScale().subscribeSizeChange(() => { if (S.want && S.mode !== 'user') setView(S.want[0], S.want[1]); fx(); });
+  chart.subscribeCrosshairMove((p) => legend(p && p.time != null && p.seriesData ? p.seriesData.get(series) : null));
   const mine = () => { S.mode = 'user'; };
   for (const ev of ['pointerdown', 'touchstart', 'wheel']) el.addEventListener(ev, mine, { passive: true });
   return { chart, series, marks, trail, glow, area, tag };
@@ -201,7 +200,6 @@ function draw(m) {
   if (!S.chart) Object.assign(S, makeChart(LC, T));
   const keep = S.drawnN && S.viewKey === m.acct && (S.mode === 'user' || S.mode === 'focus') ? viewNow() : null;   // a refresh keeps where the owner looked
   S.series.setData(m.candles);
-  try { const tr = m.candles.slice(-36).map((c) => ({ time: c.time, value: c.close })); S.trail.setData(tr); S.glow.setData(tr); } catch (e) { /* the candles are the chart */ }
   try { S.area.setData(m.candles.map((c) => ({ time: c.time, value: c.close }))); const L = m.candles[m.candles.length - 1]; S.tag.setData(L ? [{ time: L.time, value: L.close }] : []); } catch (e) { /* the candles are the chart */ }
   S.drawnN = m.n;
   S.marks.setMarkers(m.markers.map((x) => ({ time: x.time, position: x.position, price: x.price, shape: x.shape, color: col(T, x.color), text: x.text, size: x.size, id: x.id })));
@@ -214,18 +212,141 @@ function draw(m) {
   else want(m.view.from, m.view.to, 'default');
   S.viewKey = m.acct;
   if (!S.introDone) { S.introDone = true; const box = $('chartBox'); if (box) { box.classList.add('intro'); setTimeout(() => box.classList.remove('intro'), 1200); } }
-  requestAnimationFrame(placePulse);
+  requestAnimationFrame(() => { placePulse(); fx(); nowBtn(); });
+  legend(null); age();
   if (S.view3d) feed3d();
 }
 /** the pulsing last-price dot (DOM, CSS animated: nothing repaints the chart): on the newest close, hidden when that bar is out of view */
 function placePulse() {
-  const d = $('chartPulse'), m = S.model; if (!d || !S.chart || !m || !m.candles.length) { if (d) d.hidden = true; return; }
+  const d = $('chartPulse'), m = S.model; if (!d || !S.chart || !m || !m.candles.length || S.stale) { if (d) d.hidden = true; return; }
   try {
     const L = m.candles[m.candles.length - 1], x = S.chart.timeScale().timeToCoordinate(L.time), y = S.series.priceToCoordinate(L.close), w = S.chart.timeScale().width();
     if (x === null || y === null || x < 0 || x > w) { d.hidden = true; return; }
     d.hidden = false; d.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
   } catch (e) { d.hidden = true; }
 }
+// ------------------------------------------------------------------------------------------------ night-nq-chart 2026-11-27: the overlay
+// One canvas over the plot (pointer-events none, clipped to the plot, never the price axis): the session bands (Asia / London / New York) with
+// their names, each open trade's risk (rose) and reward (mint) box from its entry to the right edge, the session highs / lows the bars hold
+// (dashed lavender from where they formed, the name at their start) and each sweep (a gold diamond + "swept"). Drawn on a view change only.
+function ensureFx() {
+  const box = $('chartBox'); if (!box) return null;
+  let c = $('chartFx');
+  if (!c) { c = document.createElement('canvas'); c.id = 'chartFx'; c.className = 'cfx'; c.setAttribute('aria-hidden', 'true'); box.insertBefore(c, $('chartPulse')); }
+  return c;
+}
+let FXQ = 0;
+function fx() { if (FXQ) return; FXQ = requestAnimationFrame(() => { FXQ = 0; try { drawFx(); } catch (e) { /* the chart stays */ } }); }
+function drawFx() {
+  const c = ensureFx(), m = S.model; if (!c || !S.chart || !m || m.state === 'none') { if (c) c.hidden = true; return; }
+  const ts = S.chart.timeScale(), W = Math.max(0, ts.width()), ps = S.chart.paneSize ? S.chart.paneSize(0) : null, H = Math.max(0, ps && ps.height ? ps.height : c.parentElement.clientHeight - 28);
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  c.hidden = false; c.style.width = W + 'px'; c.style.height = H + 'px';
+  if (c.width !== Math.round(W * dpr) || c.height !== Math.round(H * dpr)) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+  const g = c.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+  const X = (t) => ts.timeToCoordinate(t), Y = (p) => S.series.priceToCoordinate(p), half = Math.max(1, (ts.options().barSpacing || 6) / 2);
+  const T = tokens(), font = (px, w) => `${w || 600} ${px}px ${T.font}`;
+  // sessions
+  const tint = { asia: 'rgba(157,89,238,0.07)', london: 'rgba(218,203,240,0.05)', ny: 'rgba(241,193,75,0.035)' };
+  for (const s of m.sessions || []) {
+    let x0 = X(s.from), x1 = X(s.to);
+    if (x0 == null && x1 == null) continue;
+    x0 = x0 == null ? 0 : x0 - half; x1 = x1 == null ? W : x1 + half;
+    if (x1 < 0 || x0 > W) continue;
+    g.fillStyle = tint[s.k] || 'rgba(157,89,238,0.05)'; g.fillRect(Math.max(0, x0), 0, Math.min(W, x1) - Math.max(0, x0), H);
+    g.fillStyle = 'rgba(157,89,238,0.35)'; g.fillRect(Math.max(0, x0), 0, 1, H);
+    if (x1 - Math.max(0, x0) > 56) { g.font = font(10, 700); g.fillStyle = 'rgba(218,203,240,0.55)'; g.fillText(s.name.toUpperCase(), Math.max(0, x0) + 6, H - 8); }
+  }
+  // open trades: risk / reward boxes
+  for (const z of m.zones || []) {
+    const x0 = X(z.from); if (x0 == null) continue;
+    const ye = Y(z.e);
+    for (const [p, fill, stroke] of [[z.sl, 'rgba(255,93,115,0.13)', 'rgba(255,93,115,0.55)'], [z.tp, 'rgba(119,219,137,0.12)', 'rgba(119,219,137,0.55)']]) {
+      if (p == null || ye == null) continue;
+      const y = Y(p); if (y == null) continue;
+      const top = Math.min(y, ye), h = Math.abs(y - ye), x = Math.max(0, x0 - half);
+      g.fillStyle = fill; g.fillRect(x, top, W - x, h);
+      g.strokeStyle = stroke; g.lineWidth = 1; g.strokeRect(x + 0.5, top + 0.5, W - x - 1, h - 1);
+    }
+  }
+  // session highs / lows + the PC's levels
+  g.setLineDash([5, 4]); g.lineWidth = 1;
+  for (const L of m.levels || []) {
+    const y = Y(L.price); if (y == null || y < 0 || y > H) continue;
+    let x0 = X(L.from); x0 = x0 == null ? 0 : Math.max(0, x0 - half);
+    g.strokeStyle = L.src === 'pc' ? 'rgba(241,193,75,0.75)' : 'rgba(218,203,240,0.55)';
+    g.beginPath(); g.moveTo(x0, Math.round(y) + 0.5); g.lineTo(W, Math.round(y) + 0.5); g.stroke();
+    g.font = font(10, 600);
+    const tw = g.measureText(L.label).width, tx = Math.min(x0 + 4, W - tw - 6), ty = y + (L.side > 0 ? -5 : 13);
+    g.fillStyle = 'rgba(7,5,12,0.78)'; g.fillRect(tx - 3, ty - 10, tw + 6, 13);                   // a dark backing: readable over the candles
+    g.fillStyle = L.src === 'pc' ? '#f1c14b' : 'rgba(218,203,240,0.92)'; g.fillText(L.label, tx, ty);
+  }
+  g.setLineDash([]);
+  // sweeps
+  for (const w of m.sweeps || []) {
+    const x = X(w.time), y = Y(w.price); if (x == null || y == null || x < 0 || x > W) continue;
+    const yy = y + (w.side > 0 ? -9 : 9);
+    g.save(); g.translate(x, yy); g.rotate(Math.PI / 4); g.fillStyle = '#f1c14b'; g.shadowColor = 'rgba(241,193,75,0.8)'; g.shadowBlur = 8; g.fillRect(-3.5, -3.5, 7, 7); g.restore();
+    g.font = font(9, 700);
+    const sx = Math.min(x + 7, W - 38), sy = yy + (w.side > 0 ? -4 : 10), sw = g.measureText('SWEPT').width;
+    g.fillStyle = 'rgba(7,5,12,0.78)'; g.fillRect(sx - 2, sy - 9, sw + 4, 12);
+    g.fillStyle = 'rgba(241,193,75,0.95)'; g.fillText('SWEPT', sx, sy);
+  }
+}
+// the readout over the plot: the bar under the finger (or the newest): its ET time + session, O H L C and the change, in the chart's colours
+function legend(bar) {
+  const box = $('chartBox'), m = S.model; if (!box || !m || !m.candles.length) return;
+  let el = $('chartLeg');
+  if (!el) { el = h('div', 'cleg'); el.id = 'chartLeg'; el.setAttribute('aria-hidden', 'true'); box.appendChild(el); }
+  const c = bar && bar.open != null ? bar : m.candles[m.candles.length - 1], i = m.candles.findIndex((x) => x.time === c.time), prev = i > 0 ? m.candles[i - 1].close : c.open;
+  const real = c.time - ((B.et(c.time) || {}).off || 0), sess = B.sessionOf(real), sn = (B.SESS.find((x) => x.k === sess) || {}).name || '';
+  const ch = c.close - prev, up = c.close >= c.open;
+  clear(el);
+  const top = h('div', 'cl1');
+  top.appendChild(h('b', '', B.hm(real, Date.now() / 1000).replace(' ET', '')));
+  top.appendChild(h('span', 'clc ' + (up ? 'up' : 'dn'), B.px(c.close)));
+  top.appendChild(h('span', 'clch ' + (ch >= 0 ? 'up' : 'dn'), (ch >= 0 ? '+' : '') + B.px(ch)));
+  if (sn) top.appendChild(h('span', 'cls', sn));
+  el.appendChild(top);
+  const row = h('div', 'cl2');
+  for (const [k, v] of [['O', c.open], ['H', c.high], ['L', c.low]]) { const s2 = h('span', 'clv'); s2.appendChild(h('i', '', k)); s2.appendChild(h('b', '', B.px(v))); row.appendChild(s2); }
+  el.appendChild(row);
+}
+// the honest age of the bars, on the chart itself: mint "LIVE" under 20 minutes, gold when older than that, rose past the fresh limit
+function age() {
+  const box = $('chartBox'), m = S.model; if (!box) return;
+  let el = $('chartAge');
+  if (!el) { el = h('div', 'cage'); el.id = 'chartAge'; box.appendChild(el); }
+  const f = B.freshness(m, S.pc, Date.now() / 1000);
+  if (f.cls === 'none') { el.hidden = true; return; }
+  el.hidden = false; el.className = 'cage ' + f.cls + (f.pc ? ' pcnow' : '');
+  if (S.stale !== (f.cls !== 'live')) { S.stale = f.cls !== 'live'; placePulse(); }   // the pulsing dot means live: never on old bars
+  el.textContent = f.text; el.setAttribute('aria-label', f.label);
+  // on a phone the badge sits over the readout's corner: the readout goes just under it, however many lines the badge takes
+  const leg = $('chartLeg');
+  if (leg) { const narrow = box.clientWidth <= 420; leg.style.top = narrow ? (el.offsetTop + el.offsetHeight + 6) + 'px' : ''; }
+  // never a 500-point-old close dressed as the current price: the gold tag names its bar's time when the bars are not live,
+  // and the PC's newer price gets its own dashed gold line (seen when it is inside the chart's range; the badge says it in words)
+  try { if (S.tag) S.tag.applyOptions({ title: f.tagTitle }); } catch (e) { /* the badge says it */ }
+  try {
+    if (S.pcLine) { S.series.removePriceLine(S.pcLine); S.pcLine = null; }
+    if (f.pc && S.series && S.lib) S.pcLine = S.series.createPriceLine({ price: f.pc.px, color: '#f1c14b', lineWidth: 1, lineStyle: S.lib.LineStyle.Dashed, axisLabelVisible: true, title: 'NQ now (PC)' });
+  } catch (e) { /* the badge says it */ }
+}
+// "Now": back to the newest bar when the owner scrolled away from it
+function nowBtn() {
+  const box = $('chartBox'), m = S.model; if (!box || !S.chart || !m || m.state === 'none') return;
+  let b = $('chartNow');
+  if (!b) {
+    b = h('button', 'cnow', 'Now ›'); b.id = 'chartNow'; b.type = 'button'; b.setAttribute('aria-label', 'Back to the newest bar');
+    b.addEventListener('click', () => { S.whole = false; const w = $('chartWhole'); if (w) w.textContent = 'Whole day'; want(m.view.from, m.view.to, 'default'); });
+    box.appendChild(b);
+  }
+  let away = false;
+  try { const lr = S.chart.timeScale().getVisibleLogicalRange(); away = !!lr && lr.to < m.n - 1.5; } catch (e) { away = false; }
+  b.hidden = !away;
+}
+
 // ------------------------------------------------------------------------------------------------ the 3D view (nqchart3d.js, only on the toggle)
 // The owner's choice is kept on this phone (one key, nq.chart.view = '2d' | '3d'); 2D is the default. The 3D module (three.js) is fetched only
 // when the 3D view is chosen: a module tag (no dynamic import), its 'nqchart3d' event, then NQCHART3D.mount(#chart3d, data).
@@ -234,7 +355,7 @@ const prefGet = () => { try { return window.localStorage.getItem(PREF) || ''; } 
 const prefSet = (v) => { try { window.localStorage.setItem(PREF, v); } catch (e) { /* this visit only */ } };
 function data3d() {
   const m = S.model || {}, c = m.candles || [];
-  return { candles: c, last: c.length ? c[c.length - 1].close : null,
+  return { candles: c, last: c.length ? c[c.length - 1].close : null, levels: m.levels || [], zones: m.zones || [],
     markers: (m.markers || []).map((x) => ({ time: x.time, kind: x.kind, usd: x.kind === 'exit' && x.text ? (/^-/.test(x.text) ? -1 : 1) : null, open: x.kind === 'entry' && !(m.markers || []).some((y) => y.kind === 'exit' && String(y.id).slice(1) === String(x.id).slice(1)) })) };
 }
 function feed3d() { const M = window.NQCHART3D; if (M && S.mounted3d) { try { M.update(data3d()); } catch (e) { /* the 2D chart stays */ } } }
@@ -257,7 +378,7 @@ function show3d(on, keep) {
   if (!S.load3d) {
     S.load3d = true;
     window.addEventListener('nqchart3d', mount3d, { once: true });
-    const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./nqchart3d.js?v=2', import.meta.url).href;
+    const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./nqchart3d.js?v=3', import.meta.url).href;
     t.onerror = () => { S.load3d = false; S.view3d = false; setToggle(); };
     document.head.appendChild(t);
   }
@@ -281,11 +402,19 @@ function render() {
   S.ready = true;
 }
 
+async function pcPrice() {
+  const F = window.PC_FEED;                          // index.html loads ../pc_feed.js (its fetches are shared with the rest of the page)
+  if (!F || !F.fetchLatest) return;
+  try {
+    const lite = await Promise.race([F.fetchLatest({ feedUrl: new URL('../status_feed.json', import.meta.url).href }), new Promise((r) => setTimeout(() => r(null), 12000))]);
+    const p = B.pcNow(lite); if (p) S.pc = p;
+  } catch (e) { /* the bars alone */ }
+}
 async function refresh(force) {
   if (S.busy || (!force && (document.hidden || Date.now() - S.fetchedAt < POLL_MS / 2))) return;
   S.busy = true;
   try {
-    const r = await fetchPost();
+    const [r] = await Promise.all([fetchPost(), pcPrice()]);
     S.fetchedAt = Date.now();
     if (r.post || !S.post) { S.post = r.post; S.why = r.why; }       // a failed poll keeps the last good bars on the screen
     render();
@@ -293,7 +422,12 @@ async function refresh(force) {
   } finally { S.busy = false; }
 }
 
+function css() {
+  if ($('chartCss')) return;
+  const l = document.createElement('link'); l.id = 'chartCss'; l.rel = 'stylesheet'; l.href = new URL('./chart.css?v=1', import.meta.url).href; document.head.appendChild(l);
+}
 async function boot() {
+  css();
   const q = new URLSearchParams(location.search), a = q.get('acct');
   if (a && /^[a-z0-9_]{1,24}$/.test(a)) S.acct = a;
   $('chartWhole').addEventListener('click', () => {
@@ -311,7 +445,8 @@ async function boot() {
     const go = () => show3d(true, false);
     if (typeof requestIdleCallback === 'function') requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 300);
   }
-  addEventListener('resize', () => requestAnimationFrame(placePulse));
+  addEventListener('resize', () => requestAnimationFrame(() => { placePulse(); fx(); }));
+  setInterval(() => { if (!document.hidden) age(); }, 30000);
   setInterval(() => refresh(false), POLL_MS);
   setInterval(() => { if (!document.hidden && S.model && S.model.state !== 'none') say(B.model(S.post, S.acct, Date.now() / 1000)); }, 60000);   // the age keeps counting
   document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });

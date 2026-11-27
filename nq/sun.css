@@ -1,0 +1,26 @@
+/* SUNLIGHT MODE (night-nq-main 2026-11-27): OLYMPUS NIGHT for outdoors. Same black / violet / gold / mint, turned up: near-white text, thick
+   bright outlines, solid cards, no glow, no blur, no gradient text, bigger numbers. Scoped to html.sun; the head script sets it from
+   localStorage 'nq.sun' ('1' on, '0' off) or, with nothing saved, prefers-contrast: more. Off = this file is not render-blocking. */
+html.sun{--ag-text:#fff;--ag-soft:#f4effb;--ag-muted:#e6dcf5;--hx-faint:#d9cdee;--hx-lav:#e2ccff;--ag-line:#b48cff;--ag-line-soft:#9d73e6;--hx-line2:#b48cff;
+--ag-gold:#ffd25e;--ag-good:#8ff0a0;--ag-bad:#ff8a8a;--nq-cyan:#c9a6ff;--nq-cyan-hi:#e2ccff;--sun-card:#0d0a14;color-scheme:dark}
+html.sun body{background:#000!important;color:#fff}
+html.sun *,html.sun *::before,html.sun *::after{text-shadow:none!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transition:none!important}
+html.sun :is(.hx-ring,.hx-big,.hx-acc,.hx-bot,img,svg){filter:none!important}
+html.sun .hx{background:#000!important;border:2px solid #b48cff}
+html.sun .hx::before{display:none}
+html.sun .hx-scene{opacity:.18}
+html.sun :is(.card,.ag-card,.hx-acc,.hx-bot,.hx-clock,.hx-honestw,.hx-jump,.nq-fold,details,.btn,.hx-tool,.tag,.pill){border-width:2px!important;border-style:solid!important;border-color:#b48cff!important;background:var(--sun-card)!important;animation:none!important;transform:none!important}
+html.sun .btn.primary{background:#ffd25e!important;color:#000!important;border-color:#ffd25e!important}
+html.sun .hx-big{font-size:clamp(52px,15vw,84px);background:none!important;-webkit-text-fill-color:currentColor!important;color:#fff}
+html.sun .hx-big.up{color:#8ff0a0} html.sun .hx-big.down{color:#ff8a8a}
+html.sun .ag-num{font-weight:900}
+html.sun .hx-goal b{font-size:26px} html.sun .hx-room-l b,html.sun .hx-acc-ft .ag-num{font-size:16px}
+html.sun :is(.hx-k,.hx-age,.hx-bot-l,.hx-bot-age,.hx-acc-age,.hx-acc-st,.note,.sub,p,li,span){color:inherit}
+html.sun :is(.hx-age,.hx-bot-l,.hx-acc-age,.note,.sub){font-size:14px;color:var(--ag-soft)}
+html.sun .hx-bot-l{-webkit-line-clamp:3}
+html.sun .hx-bar{height:10px;border:1px solid #b48cff}
+html.sun .hx-r0{stroke:#3e255e} html.sun .hx-r1{stroke-width:7}
+html.sun a{text-decoration-thickness:2px}
+html.sun :focus-visible{outline:3px solid #ffd25e!important;outline-offset:2px}
+html.sun .hx-tool[aria-pressed="true"]{background:#ffd25e!important;color:#000!important;border-color:#ffd25e!important}
+html.sun .hx-tool[aria-pressed="true"] .hx-ti.sun{border-color:#000}

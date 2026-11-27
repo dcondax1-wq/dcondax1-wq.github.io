@@ -1,0 +1,233 @@
+{
+ "v": 1,
+ "kind": "nq-replay-index",
+ "from": "2026-10-23",
+ "to": "2026-11-26",
+ "days": [
+  {
+   "day": "2026-11-26",
+   "bars": 228,
+   "trades": 0,
+   "setups": 7,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 7
+  },
+  {
+   "day": "2026-11-25",
+   "bars": 276,
+   "trades": 0,
+   "setups": 6,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 6
+  },
+  {
+   "day": "2026-11-24",
+   "bars": 276,
+   "trades": 0,
+   "setups": 6,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 6
+  },
+  {
+   "day": "2026-11-23",
+   "bars": 276,
+   "trades": 0,
+   "setups": 6,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 6
+  },
+  {
+   "day": "2026-11-20",
+   "bars": 276,
+   "trades": 1,
+   "setups": 9,
+   "lit_usd": 0,
+   "atlas_usd": 1658.65,
+   "events": 11
+  },
+  {
+   "day": "2026-11-19",
+   "bars": 276,
+   "trades": 0,
+   "setups": 6,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 6
+  },
+  {
+   "day": "2026-11-18",
+   "bars": 276,
+   "trades": 1,
+   "setups": 5,
+   "lit_usd": 0,
+   "atlas_usd": -261.0,
+   "events": 7
+  },
+  {
+   "day": "2026-11-17",
+   "bars": 276,
+   "trades": 1,
+   "setups": 5,
+   "lit_usd": 0,
+   "atlas_usd": 1716.38,
+   "events": 7
+  },
+  {
+   "day": "2026-11-16",
+   "bars": 276,
+   "trades": 1,
+   "setups": 10,
+   "lit_usd": -128.9,
+   "atlas_usd": 0,
+   "events": 14
+  },
+  {
+   "day": "2026-11-13",
+   "bars": 276,
+   "trades": 2,
+   "setups": 9,
+   "lit_usd": 0,
+   "atlas_usd": -257.77,
+   "events": 13
+  },
+  {
+   "day": "2026-11-12",
+   "bars": 276,
+   "trades": 1,
+   "setups": 7,
+   "lit_usd": 0,
+   "atlas_usd": -254.75,
+   "events": 9
+  },
+  {
+   "day": "2026-11-11",
+   "bars": 276,
+   "trades": 2,
+   "setups": 6,
+   "lit_usd": -41.9,
+   "atlas_usd": -254.25,
+   "events": 12
+  },
+  {
+   "day": "2026-11-10",
+   "bars": 276,
+   "trades": 2,
+   "setups": 6,
+   "lit_usd": -230.8,
+   "atlas_usd": -256.18,
+   "events": 12
+  },
+  {
+   "day": "2026-11-09",
+   "bars": 276,
+   "trades": 0,
+   "setups": 4,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 4
+  },
+  {
+   "day": "2026-11-06",
+   "bars": 276,
+   "trades": 1,
+   "setups": 8,
+   "lit_usd": 0,
+   "atlas_usd": -257.33,
+   "events": 10
+  },
+  {
+   "day": "2026-11-05",
+   "bars": 276,
+   "trades": 0,
+   "setups": 5,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 5
+  },
+  {
+   "day": "2026-11-04",
+   "bars": 276,
+   "trades": 0,
+   "setups": 5,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 5
+  },
+  {
+   "day": "2026-11-03",
+   "bars": 276,
+   "trades": 3,
+   "setups": 7,
+   "lit_usd": 27.6,
+   "atlas_usd": 237.42,
+   "events": 15
+  },
+  {
+   "day": "2026-11-02",
+   "bars": 276,
+   "trades": 0,
+   "setups": 10,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 10
+  },
+  {
+   "day": "2026-10-30",
+   "bars": 276,
+   "trades": 0,
+   "setups": 5,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 5
+  },
+  {
+   "day": "2026-10-29",
+   "bars": 276,
+   "trades": 0,
+   "setups": 7,
+   "lit_usd": 0,
+   "atlas_usd": 0,
+   "events": 7
+  },
+  {
+   "day": "2026-10-28",
+   "bars": 276,
+   "trades": 2,
+   "setups": 9,
+   "lit_usd": -347.6,
+   "atlas_usd": -260.0,
+   "events": 15
+  },
+  {
+   "day": "2026-10-27",
+   "bars": 276,
+   "trades": 2,
+   "setups": 7,
+   "lit_usd": -137.4,
+   "atlas_usd": 1993.25,
+   "events": 13
+  },
+  {
+   "day": "2026-10-26",
+   "bars": 276,
+   "trades": 2,
+   "setups": 4,
+   "lit_usd": 0.6,
+   "atlas_usd": -257.25,
+   "events": 10
+  },
+  {
+   "day": "2026-10-23",
+   "bars": 276,
+   "trades": 1,
+   "setups": 7,
+   "lit_usd": 0,
+   "atlas_usd": 0.17,
+   "events": 9
+  }
+ ]
+}

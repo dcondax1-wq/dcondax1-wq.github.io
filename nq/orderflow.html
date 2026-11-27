@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Order Flow</title>
+<meta name="description" content="The Order Flow room (PAPER): today's key levels with the absorption read at each, the order-flow paper bot's trades, Zlarior's 'flow says' vs result, the forward score and the real-data verdict.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- night-nq-of 2026-11-27 (owner: "make everything better, 3D, higher quality, effects, features"): the ORDER FLOW ROOM, phone first, OLYMPUS NIGHT.
+     Read only: of_room.json (tools/build_of_room.py, cloud) + the PC's public status post (../pc_feed.js + the shared nqfeed.js: core "price", ext "ofp" = the paper bot
+     today, engine/oflive.paper_tiny), polled every 30 s while on screen. Everything here is PAPER research: nothing trades. Text only via textContent. -->
+<link rel="stylesheet" href="orderflow.css?v=1">
+<script src="../pc_feed.js?v=n9"></script><script src="nqfeed.js?v=1"></script>
+</head>
+<body>
+<main id="app" data-state="loading">
+  <header class="of-top">
+    <a class="of-back" href="./" aria-label="Back to NQ">‹ NQ</a>
+    <h1><span class="of-orb" aria-hidden="true"></span>Order Flow <span class="of-paper">PAPER</span></h1>
+    <span class="of-chip" id="src" data-level="warn" role="status" aria-live="polite">Loading…</span>
+  </header>
+
+  <section class="of-hero" aria-labelledby="heroH">
+    <div class="of-hero-txt">
+      <h2 id="heroH">Today</h2>
+      <p class="of-line" id="heroLine">Reading the order flow…</p>
+      <div class="of-stats" id="stats"></div>
+    </div>
+    <figure class="of-ring" aria-labelledby="ringCap">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <defs><linearGradient id="ringG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1c14b"/><stop offset="1" stop-color="#9d59ee"/></linearGradient></defs>
+        <circle class="of-ring-bg" cx="50" cy="50" r="40"/>
+        <circle class="of-ring-fg" id="ringFg" cx="50" cy="50" r="40" stroke="url(#ringG)" stroke-dasharray="0 252"/>
+      </svg>
+      <div class="of-ring-n"><b id="ringN">0</b><span id="ringOf">of 20</span></div>
+      <figcaption id="ringCap">forward paper trades</figcaption>
+    </figure>
+  </section>
+
+  <section class="of-card of-ladder-card" aria-labelledby="ladH">
+    <div class="of-row"><h2 id="ladH">Key levels</h2><span class="of-chip" id="ladChip" data-level="warn">-</span></div>
+    <p class="of-note" id="ladNote">Each level the bot watches, and what order flow said when price swept it.</p>
+    <div class="of-ladder-wrap"><div class="of-ladder" id="ladder" role="img" aria-label="Key levels with their order-flow reads"></div></div>
+    <ul class="of-legend" aria-label="Legend">
+      <li><i class="lg-a"></i>absorbed (held)</li><li><i class="lg-n"></i>not absorbed</li><li><i class="lg-u"></i>untouched</li><li><i class="lg-p"></i>price now</li>
+    </ul>
+  </section>
+
+  <section class="of-card" aria-labelledby="tapeH">
+    <div class="of-row"><h2 id="tapeH">Sweep tape</h2><span class="of-chip" id="tapeChip">09:30 - 16:00 ET</span></div>
+    <div class="of-tape" id="tape" role="img" aria-label="Every level sweep today on a timeline: dot size = volume at the level, colour = the read"></div>
+    <p class="of-note" id="tapeNote"></p>
+  </section>
+
+  <section class="of-card" aria-labelledby="paperH">
+    <div class="of-row"><h2 id="paperH">Paper trades</h2><span class="of-chip of-pchip">PAPER · 1 MNQ</span></div>
+    <ol class="of-trades" id="trades"></ol>
+    <p class="of-empty" id="tradesEmpty" hidden></p>
+  </section>
+
+  <section class="of-card" aria-labelledby="litH">
+    <div class="of-row"><h2 id="litH">Zlarior: flow says</h2><span class="of-chip" id="litChip">lane B</span></div>
+    <p class="of-note">What the order-flow filter WOULD have said at each real Zlarior entry, next to how it ended. It changes nothing on Zlarior.</p>
+    <ul class="of-lit" id="lit"></ul>
+    <p class="of-empty" id="litEmpty" hidden>No Zlarior entry today.</p>
+  </section>
+
+  <section class="of-card of-verdict" id="verdict" data-level="warn" aria-labelledby="verH">
+    <div class="of-row"><h2 id="verH">Real-data verdict</h2><span class="of-chip" id="verChip" data-level="warn">-</span></div>
+    <dl class="of-vgrid" id="vgrid"></dl>
+    <p class="of-note" id="verNote"></p>
+  </section>
+
+  <p class="of-foot">Paper research only: nothing on this page places, sizes or changes a trade. Rules frozen before the data
+    (research/orderflow/DESIGN_paper.md). <span id="made"></span></p>
+</main>
+<script type="module" src="orderflow.js?v=1"></script>
+<script src="nqnav.js?v=2" defer></script>
+</body>
+</html>

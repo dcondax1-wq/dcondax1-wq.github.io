@@ -1677,7 +1677,7 @@
     try { new IntersectionObserver((es) => { FXK.vis = es.some((e) => e.isIntersecting); }).observe($('#k8fx')); } catch (_) { FXK.vis = true; }
     FXK.raf = requestAnimationFrame(k8FxLoop);
     // the kit (rolls, bursts): after the hero, never on the first paint
-    if (!window.OLYMPUS_NQFX) { const sc = document.createElement('script'); sc.src = '../olympus/nqfx.js?v=n5'; sc.async = true; sc.onload = () => { k8FxKit(); }; document.head.appendChild(sc); } else k8FxKit();
+    if (!window.OLYMPUS_NQFX) { const sc = document.createElement('script'); sc.src = '../olympus/nqfx.js?v=n6'; sc.async = true; sc.onload = () => { k8FxKit(); }; document.head.appendChild(sc); } else k8FxKit();
   }
   async function k8FxKit() {
     try { FXK.nq = await window.OLYMPUS_NQFX.ready() ? window.OLYMPUS_NQFX : null; } catch (_) { FXK.nq = null; }

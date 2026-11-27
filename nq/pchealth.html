@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PC Health</title>
+<meta name="description" content="PC Health: every part of the trading PC in one look (report, bot, NinjaTrader, version and auto-update, accounts armed, clock, disk, backup, alerts), green / amber / red with one plain sentence each.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="pchealth.css">
+<script src="../pc_feed.js"></script><script src="nqfeed.js?v=1"></script>
+<!-- PC HEALTH (night-nq-home 2026-11-27). Reads ONLY the PC's public report through ../pc_feed.js; sends nothing, arms nothing.
+     Rules in pchealth_core.js (node-tested); text set with textContent only. -->
+</head>
+<body>
+<main>
+<div class="top"><h1>PC <b>Health</b></h1><a class="back" href="trading_home.html">&larr; Trading Home</a></div>
+<section class="hero" id="hero" data-s="grey" aria-live="polite">
+  <div class="orb" id="orb" aria-hidden="true">?</div>
+  <div><div class="big" id="say">Loading the PC report...</div><div class="meta" id="meta"></div><div class="chips" id="chips"></div></div>
+</section>
+<button class="copy" id="copy" type="button">Copy for Claude</button>
+<h2 id="needh" hidden>Needs you</h2>
+<ul class="grid" id="need"></ul>
+<h2 id="okh" hidden>Fine</h2>
+<ul class="grid" id="ok"></ul>
+<p class="foot">Grey = the PC does not send that yet, or the report is old. This page reads the PC's public report only; nothing here arms or trades. Refreshes every minute.</p>
+<p class="foot"><a href="trading_home.html">Trading Home</a> &middot; <a href="index.html">NQ bots</a> &middot; <a href="live.html">Live</a></p>
+</main>
+<script src="pchealth_core.js"></script>
+<script src="pchealth.js"></script>
+<script src="nqnav.js?v=2" defer></script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+{
+ "v": 1,
+ "kind": "december-plan",
+ "month": "2026-12",
+ "made": "2026-11-27 05:38 UTC",
+ "paper_only": true,
+ "note": "A plan to read: nothing here changes a bot, a size or an account.",
+ "summary": {
+  "sessions": 22,
+  "full_days": 21,
+  "half_days": 1,
+  "closed": [
+   "2026-12-25"
+  ],
+  "roll_day": "2026-12-10",
+  "news_high": [
+   "2026-12-04 08:30 Non-Farm Payrolls (jobs report)",
+   "2026-12-09 14:00 FOMC rate decision + projections",
+   "2026-12-09 14:30 FOMC press conference",
+   "2026-12-10 08:30 CPI (consumer inflation)",
+   "2026-12-30 14:00 FOMC minutes (Dec meeting)"
+  ],
+  "lit_trades_month": 12.4,
+  "atlas_trades_month": 9.3
+ },
+ "caveats": [
+  "Holiday hours (Dec 24 halt 13:15, Dec 25 closed, Dec 31 full day, Jan 1 closed) come from 5 years of CME bars + the rule (engine/cme_calendar); CME posts the exact hours about 2 weeks before: re-check around Dec 10.",
+  "The forecast is from today's balances on Jan-Oct 2026 (good) and 2021-25 (bad) market paths; the real December can be either."
+ ],
+ "days": [
+  {
+   "day": "2026-12-01",
+   "wd": "Tue",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-02",
+   "wd": "Wed",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-03",
+   "wd": "Thu",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-04",
+   "wd": "Fri",
+   "market": "open",
+   "halt": null,
+   "news": [
+    {
+     "t": "08:30",
+     "what": "Non-Farm Payrolls (jobs report)",
+     "impact": "high"
+    }
+   ],
+   "roll": false,
+   "flags": [
+    "news"
+   ],
+   "bots": "Non-Farm Payrolls (jobs report) 08:30 ET: LIT flat by 08:25 (5 min before); MFFU evals allow news"
+  },
+  {
+   "day": "2026-12-07",
+   "wd": "Mon",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-08",
+   "wd": "Tue",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-09",
+   "wd": "Wed",
+   "market": "open",
+   "halt": null,
+   "news": [
+    {
+     "t": "14:00",
+     "what": "FOMC rate decision + projections",
+     "impact": "high"
+    },
+    {
+     "t": "14:30",
+     "what": "FOMC press conference",
+     "impact": "high"
+    }
+   ],
+   "roll": false,
+   "flags": [
+    "news"
+   ],
+   "bots": "FOMC rate decision + projections 14:00 ET: LIT flat by 13:55 (5 min before); MFFU evals allow news; FOMC press conference 14:30 ET: LIT flat by 14:25 (5 min before); MFFU evals allow news"
+  },
+  {
+   "day": "2026-12-10",
+   "wd": "Thu",
+   "market": "open",
+   "halt": null,
+   "news": [
+    {
+     "t": "08:30",
+     "what": "CPI (consumer inflation)",
+     "impact": "high"
+    }
+   ],
+   "roll": true,
+   "flags": [
+    "news",
+    "roll"
+   ],
+   "bots": "CPI (consumer inflation) 08:30 ET: LIT flat by 08:25 (5 min before); MFFU evals allow news; contract roll: orders move from MNQ 12-26 to MNQ 03-27 at 00:00 ET (roll_auto, hands-free)"
+  },
+  {
+   "day": "2026-12-11",
+   "wd": "Fri",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-14",
+   "wd": "Mon",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-15",
+   "wd": "Tue",
+   "market": "open",
+   "halt": null,
+   "news": [
+    {
+     "t": "08:30",
+     "what": "PPI (producer inflation)",
+     "impact": "medium"
+    }
+   ],
+   "roll": false,
+   "flags": [],
+   "bots": "PPI (producer inflation) 08:30 ET (medium: no pause)"
+  },
+  {
+   "day": "2026-12-16",
+   "wd": "Wed",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-17",
+   "wd": "Thu",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-18",
+   "wd": "Fri",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-21",
+   "wd": "Mon",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-22",
+   "wd": "Tue",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-23",
+   "wd": "Wed",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-24",
+   "wd": "Thu",
+   "market": "early",
+   "halt": "13:15",
+   "news": [],
+   "roll": false,
+   "flags": [
+    "early close"
+   ],
+   "bots": "half day: halt 13:15 ET; no new entry after 13:00, everything flat by 13:10"
+  },
+  {
+   "day": "2026-12-25",
+   "wd": "Fri",
+   "market": "closed",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [
+    "closed"
+   ],
+   "bots": "CME closed: no session, no trades."
+  },
+  {
+   "day": "2026-12-28",
+   "wd": "Mon",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-29",
+   "wd": "Tue",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  },
+  {
+   "day": "2026-12-30",
+   "wd": "Wed",
+   "market": "open",
+   "halt": null,
+   "news": [
+    {
+     "t": "14:00",
+     "what": "FOMC minutes (Dec meeting)",
+     "impact": "high"
+    }
+   ],
+   "roll": false,
+   "flags": [
+    "news"
+   ],
+   "bots": "FOMC minutes (Dec meeting) 14:00 ET: LIT flat by 13:55 (5 min before); MFFU evals allow news"
+  },
+  {
+   "day": "2026-12-31",
+   "wd": "Thu",
+   "market": "open",
+   "halt": null,
+   "news": [],
+   "roll": false,
+   "flags": [],
+   "bots": "normal day: LIT and ATLAS take their usual setups, everything flat by 15:55 ET."
+  }
+ ],
+ "weeks": [
+  {
+   "week_of": "2026-11-30",
+   "sessions": 4.0,
+   "lit_trades": 2.3,
+   "atlas_trades": 1.7
+  },
+  {
+   "week_of": "2026-12-07",
+   "sessions": 5.0,
+   "lit_trades": 2.9,
+   "atlas_trades": 2.2
+  },
+  {
+   "week_of": "2026-12-14",
+   "sessions": 5.0,
+   "lit_trades": 2.9,
+   "atlas_trades": 2.2
+  },
+  {
+   "week_of": "2026-12-21",
+   "sessions": 3.5,
+   "lit_trades": 2.0,
+   "atlas_trades": 1.5
+  },
+  {
+   "week_of": "2026-12-28",
+   "sessions": 4.0,
+   "lit_trades": 2.3,
+   "atlas_trades": 1.7
+  }
+ ],
+ "k7": {
+  "rule": "MFFU closes an account after 7 calendar days with no executed trade; the bot's keep-alive trades 1 micro when a clock gets short (switch on per account).",
+  "accounts": [
+   {
+    "id": "atlas",
+    "name": "ATLAS 25K funded",
+    "last_fill": "2026-11-25",
+    "safe_by": "2026-12-01",
+    "mffu_last_day": "2026-12-02",
+    "keepalive_on": true
+   },
+   {
+    "id": "b25k_2",
+    "name": "Zlarior 25K #2",
+    "last_fill": "2026-11-25",
+    "safe_by": "2026-12-01",
+    "mffu_last_day": "2026-12-02",
+    "keepalive_on": true
+   },
+   {
+    "id": "mffu50k_eval",
+    "name": "Zlarior 50K",
+    "last_fill": "2026-11-25",
+    "safe_by": "2026-12-01",
+    "mffu_last_day": "2026-12-02",
+    "keepalive_on": true
+   },
+   {
+    "id": "rapid",
+    "name": "Rapid EOD 25K",
+    "last_fill": "2026-11-25",
+    "safe_by": "2026-12-01",
+    "mffu_last_day": "2026-12-02",
+    "keepalive_on": true
+   }
+  ],
+  "christmas_squeeze": "If an account's last trade is Mon Dec 21, its safe deadline is 2026-12-27 and the only session left is 2026-12-24 (Christmas Eve half day, halt 13:15 ET): the keep-alive must trade it, or trade any account that is quiet by Tue Dec 22.",
+  "new_year": "New Year: Thu Dec 31 is a full day, Fri Jan 1 closed. Last trade Mon Dec 28 -> safe by 2027-01-03 (3 sessions left): no squeeze."
+ },
+ "k7_src": "PC k7 block (board.fetch_lite)",
+ "k7_src_rows": [
+  {
+   "id": "atlas",
+   "nm": "ATLAS 25K funded",
+   "lf": "2026-11-25",
+   "base": "fill",
+   "dl": "2026-12-01",
+   "hard": "2026-12-02",
+   "left": 5,
+   "ses": 4,
+   "act": "2026-12-01",
+   "on": true,
+   "lvl": "ok"
+  },
+  {
+   "id": "b25k_2",
+   "nm": "Zlarior 25K #2",
+   "lf": "2026-11-25",
+   "base": "fill",
+   "dl": "2026-12-01",
+   "hard": "2026-12-02",
+   "left": 5,
+   "ses": 4,
+   "act": "2026-12-01",
+   "on": true,
+   "lvl": "ok"
+  },
+  {
+   "id": "mffu50k_eval",
+   "nm": "Zlarior 50K",
+   "lf": "2026-11-25",
+   "base": "fill",
+   "dl": "2026-12-01",
+   "hard": "2026-12-02",
+   "left": 5,
+   "ses": 4,
+   "act": "2026-12-01",
+   "on": true,
+   "lvl": "ok"
+  },
+  {
+   "id": "rapid",
+   "nm": "Rapid EOD 25K",
+   "lf": "2026-11-25",
+   "base": "fill",
+   "dl": "2026-12-01",
+   "hard": "2026-12-02",
+   "left": 5,
+   "ses": 4,
+   "act": "2026-12-01",
+   "on": true,
+   "lvl": "ok"
+  }
+ ],
+ "accounts": [
+  {
+   "key": "zlarior",
+   "name": "Zlarior 50K eval",
+   "bots": "LIT",
+   "stage": "eval",
+   "profit_now": -822.48,
+   "room_now": 1009.32,
+   "2026-like": {
+    "pass_by_month_end_pct": 49.2,
+    "fail_by_month_end_pct": 16.7,
+    "median_pass_day": "2026-12-17",
+    "pass_60_pct": 68.6,
+    "fail_60_pct": 31.4
+   },
+   "2021-25-like": {
+    "pass_by_month_end_pct": 6.8,
+    "fail_by_month_end_pct": 33.1,
+    "median_pass_day": "2026-12-30",
+    "pass_60_pct": 13.2,
+    "fail_60_pct": 86.6
+   }
+  },
+  {
+   "key": "fresh25",
+   "name": "Zlarior 25K #2 eval",
+   "bots": "LIT",
+   "stage": "eval",
+   "profit_now": 19.24,
+   "room_now": 995.62,
+   "2026-like": {
+    "pass_by_month_end_pct": 65.5,
+    "fail_by_month_end_pct": 0.9,
+    "median_pass_day": "2026-12-10",
+    "pass_60_pct": 88.0,
+    "fail_60_pct": 11.1
+   },
+   "2021-25-like": {
+    "pass_by_month_end_pct": 19.4,
+    "fail_by_month_end_pct": 4.8,
+    "median_pass_day": "2026-12-17",
+    "pass_60_pct": 29.9,
+    "fail_60_pct": 69.1
+   }
+  },
+  {
+   "key": "rapid1",
+   "name": "Rapid EOD 25K eval",
+   "bots": "LIT + ATLAS",
+   "stage": "eval",
+   "profit_now": -4.76,
+   "room_now": 995.24,
+   "2026-like": {
+    "pass_by_month_end_pct": 25.1,
+    "fail_by_month_end_pct": 0.2,
+    "median_pass_day": "2027-01-19",
+    "pass_60_pct": 95.4,
+    "fail_60_pct": 3.3
+   },
+   "2021-25-like": {
+    "pass_by_month_end_pct": 2.7,
+    "fail_by_month_end_pct": 25.0,
+    "median_pass_day": "2027-01-08",
+    "pass_60_pct": 7.4,
+    "fail_60_pct": 92.3
+   }
+  },
+  {
+   "key": "atlas",
+   "name": "ATLAS 25K funded",
+   "bots": "ATLAS",
+   "stage": "funded",
+   "profit_now": 401.38,
+   "room_now": 1000.0,
+   "2026-like": {
+    "payout_by_month_end_pct": 43.2,
+    "earliest_day": "2026-12-07",
+    "median_day": "2026-12-30",
+    "payout_6m_pct": 81.5,
+    "lost_6m_pct": 11.5
+   },
+   "2021-25-like": {
+    "payout_by_month_end_pct": 6.5,
+    "earliest_day": "2026-12-16",
+    "median_day": "2026-12-15",
+    "payout_6m_pct": 9.3,
+    "lost_6m_pct": 90.6
+   }
+  }
+ ],
+ "forecast_made": "2026-11-27 05:37 UTC",
+ "forecast_engine": "research/plans/rank.py (two_week eval sizing, ATLAS lane at 10 ticks a side, MFFU funded payout rules)",
+ "atlas_payout": {
+  "profit_now": 401.38,
+  "min_route": "MFFU's first-payout minimum: profit $1,350 (buffer $1,100 + $250) -> ask $250 ($200 to you); $949 more profit needed",
+  "goal_route": "The plan's first payout goal: $1,000 at $2,100 profit ($800 lands); $1,699 more needed",
+  "forecast_earliest_day": "2026-12-07",
+  "forecast_median_day": "2026-12-30",
+  "forecast_by_month_end_pct": 43.2,
+  "rules": "2 traded days a cycle, best day <= 50% of the cycle's profit, 48 h after the first funded trade; 5 sim payouts then live"
+ },
+ "taxes": {
+  "rule": "Move 30% of every payout into the tax pot the day it lands.",
+  "dec_vs_jan": "A payout that LANDS in December is 2026 income (paid with the Jan 15, 2027 quarterly 1040-ES for Sep-Dec); one that lands in January is 2027 income (first 2027 quarterly due Apr 15, 2027). Same tax either way, only the year and the due date move. Eval fees paid in 2026 lower 2026's profit.",
+  "source": "research/writeups/taxes-2026-11-17.md (not tax advice: ask a pro for your own case)"
+ },
+ "sources": [
+  "engine/cme_calendar.py",
+  "data/news/events.csv",
+  "engine/roll_watch.py",
+  "PC k7 block (board.fetch_lite)",
+  "research/forecast/forecast.json",
+  "docs/ACCOUNT_RULES.md",
+  "STRATEGY.md",
+  "research/writeups/taxes-2026-11-17.md (not tax advice: ask a pro for your own case)"
+ ]
+}

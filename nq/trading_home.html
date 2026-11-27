@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script src="../pc_feed.js"></script><script src="nqfeed.js?v=1"></script>
 <!-- TRADING HOME (owner 2026-11-22). OLYMPUS NIGHT. Reads ONLY ../status_feed.json (the PC's public report) through ../pc_feed.js;
      sends nothing, arms nothing. The text is set with textContent. trading_home_core.js = the rules (node-tested). -->
 <style>
@@ -42,26 +43,70 @@ li.acct .as{font-size:14px;color:var(--fg);overflow-wrap:anywhere}
 li.acct.no .an{color:var(--gold)}
 .foot{color:var(--mut);font-size:13px;margin-top:10px}
 a{color:var(--gold)}
+/* night-nq-home 2026-11-27: the launcher tiles (3D tilt + glow; reduced motion = flat) */
+body{background:radial-gradient(120% 50% at 50% -10%,rgba(157,89,238,.22),transparent 60%),#000}
+main{max-width:1100px}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{font-size:28px;background:linear-gradient(90deg,#fff,#e9ddff 40%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(157,89,238,.35)}
+.tiles{display:grid;grid-auto-flow:row dense;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 18px;perspective:900px}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(4,1fr);gap:14px}a.tile[data-id=brain]{grid-column:span 4}}
+a.tile{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:112px;padding:12px 12px 11px;border-radius:16px;text-decoration:none;color:var(--fg);
+ background:linear-gradient(160deg,#211a2f,#120e19 70%);border:1px solid var(--line2);box-shadow:0 10px 24px rgba(0,0,0,.6),0 0 0 1px rgba(157,89,238,.08),inset 0 1px 0 rgba(255,255,255,.06);
+ transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);transform-style:preserve-3d;transition:transform .18s ease,box-shadow .25s ease;overflow:hidden;animation:tin .5s ease both;animation-delay:calc(var(--i,0)*45ms)}
+a.tile::before{content:"";position:absolute;inset:-1px;border-radius:16px;padding:1px;background:conic-gradient(from var(--a,0deg),transparent 0 70%,var(--tc) 85%,transparent 100%);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 7s linear infinite;opacity:.9;pointer-events:none}
+a.tile::after{content:"";position:absolute;width:120px;height:120px;right:-40px;top:-50px;border-radius:50%;background:radial-gradient(circle,var(--tc),transparent 70%);opacity:.22;pointer-events:none}
+a.tile:hover,a.tile:focus-visible{box-shadow:0 16px 32px rgba(0,0,0,.7),0 0 22px color-mix(in srgb,var(--tc) 45%,transparent)}
+a.tile{--tc:var(--glow)}a.tile.mint{--tc:var(--mint)}a.tile.gold{--tc:var(--gold)}a.tile.red{--tc:#ff6b81}a.tile.grey{--tc:#6f6884}
+.tl{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--mut)}
+.tb{font-size:22px;font-weight:850;line-height:1.15;margin:6px 0 4px;transform:translateZ(18px);overflow-wrap:anywhere}
+a.tile.mint .tb{color:var(--mint)}a.tile.gold .tb{color:var(--gold)}a.tile.red .tb{color:#ff9aaa}a.tile.grey .tb{color:var(--mut)}
+.ts{font-size:12.5px;color:#cfc6e2;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+a.tile.wide{grid-column:span 2}
+@property --a{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes spin{to{--a:360deg}}
+@keyframes tin{from{opacity:0;transform:translateY(10px) rotateX(8deg)}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){a.tile,a.tile::before{animation:none!important;transition:none!important;transform:none!important}}
+h2.sec{font-size:13px;margin:4px 2px 8px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
 </style>
 </head>
 <body>
 <main>
-<h1>Trading Home</h1>
-<p class="sub"><span class="pill" id="left">loading...</span> <span id="age"></span></p>
+<div class="hero"><h1>Trading Home</h1><p class="sub"><span class="pill" id="left">loading...</span> <span id="age"></span></p></div>
+<nav class="tiles" id="tiles" aria-label="Go to"></nav>
+<h2 class="sec">Today's checklist</h2>
 <ul id="rows"></ul>
 <h2 id="acctsh" hidden>Accounts</h2>
 <ul id="accts"></ul>
 <p class="foot">Reads the PC's public report only. Nothing here arms or trades. On the PC, double-click <b>TRADE_HOME</b> and press the number shown.</p>
-<p class="foot"><a href="index.html">NQ bots</a> &middot; <a href="../add-account/">Add an account</a> (your private PC link)</p>
+<p class="foot"><a href="pchealth.html">PC Health</a> &middot; <a href="index.html">NQ bots</a> &middot; <a href="../add-account/">Add an account</a> (your private PC link)</p>
 </main>
-<script src="../pc_feed.js"></script>
+<script src="pchealth_core.js"></script>
 <script src="trading_home_core.js"></script>
 <script>
 (function () {
   var KEY = 'trading_home_alerts_ok';
   function ls(get, v) { try { return get ? localStorage.getItem(KEY) : localStorage.setItem(KEY, v); } catch (e) { return null; } }
-  var lite = null;
+  var lite = null, news = null;
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tilt(a) {   // a light 3D tilt toward the finger / mouse; off with reduced motion
+    if (still) return;
+    a.addEventListener('pointermove', function (e) { var r = a.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      a.style.setProperty('--ry', (x * 10).toFixed(1) + 'deg'); a.style.setProperty('--rx', (-y * 10).toFixed(1) + 'deg'); });
+    a.addEventListener('pointerleave', function () { a.style.setProperty('--ry', '0deg'); a.style.setProperty('--rx', '0deg'); });
+  }
+  function renderTiles() {
+    var nav = document.getElementById('tiles'); nav.textContent = '';
+    window.TRADING_HOME.tiles(lite, { news: news, health: window.PCHEALTH }).sort(function (p, q) { return (q.id === 'health' && q.tone === 'red') - (p.id === 'health' && p.tone === 'red'); }).forEach(function (x, i) {
+      var a = document.createElement('a'); a.className = 'tile ' + x.tone + (x.id === 'health' || x.id === 'brain' ? ' wide' : ''); a.href = x.href; a.setAttribute('data-id', x.id); a.style.setProperty('--i', i);
+      var l = document.createElement('div'); l.className = 'tl'; l.textContent = x.title;
+      var b = document.createElement('div'); b.className = 'tb'; b.textContent = x.big;
+      var s = document.createElement('div'); s.className = 'ts'; s.textContent = x.sub;
+      a.appendChild(l); a.appendChild(b); a.appendChild(s); nav.appendChild(a); tilt(a);
+    });
+  }
   function render() {
+    renderTiles();
     var res = window.TRADING_HOME.today(lite, { alertsOkAt: ls(true), mffuView: window.PC_FEED && window.PC_FEED.mffuView });
     var ul = document.getElementById('rows'); ul.textContent = '';
     res.lines.forEach(function (l) {
@@ -90,12 +135,17 @@ a{color:var(--gold)}
     document.getElementById('age').textContent = res.age == null ? 'No PC report' : 'PC reported ' + window.TRADING_HOME.ageText(res.age) + ' ago';
   }
   render();
+  var NQF = window.NQ_FEED;   // night-nq-speed shared feed: the kept post now, every newer post pushed (one read per phone)
+  if (NQF) { var first = NQF.cached(); if (first) { lite = first; render(); } NQF.on(function (j) { lite = j || lite; render(); }); }
   function load() {
+    if (NQF) { NQF.latest().then(function (j) { if (j) { lite = j; render(); } }, function () {}); return; }
     if (!window.PC_FEED) return;
     window.PC_FEED.fetchLatest({ feedUrl: new URL('../status_feed.json', location.href).href }).then(function (j) { lite = j || null; render(); }, function () { render(); });
   }
-  load(); setInterval(load, 60000);
+  fetch('news_week.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { news = j && j.events || null; renderTiles(); }, function () {});
+  load(); if (!NQF) setInterval(load, 60000);
 })();
 </script>
+<script src="nqnav.js?v=2" defer></script>
 </body>
 </html>

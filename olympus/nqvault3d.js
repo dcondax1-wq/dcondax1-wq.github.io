@@ -82,10 +82,24 @@ export function mount(host, o) {
       if (showerT > 3.5) { showerT = -2; shower.forEach(c => { c.visible = false; }); }
     }
     renderer.render(scene, camera);
+    if (!painted) seen();
+  }
+  // QA #3 (night-nq-accounts 2026-11-27): the 2D vault fades out ONLY once a frame really drew something. A phone whose WebGL makes a
+  // context but never paints (driver, memory, a blocked GPU) used to leave a black box. Read one pixel right after the render (same task,
+  // so the buffer is still there): any alpha = drawn -> o.frame() once. Nothing drawn: no call, nqfx.js keeps the 2D and stops us after ~2 s.
+  let painted = false;
+  function seen() {
+    try {
+      const gl = renderer.getContext();
+      if (!gl || gl.isContextLost()) return;
+      const px = new Uint8Array(4), w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+      gl.readPixels(w >> 1, h >> 1, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+      if (px[3] > 0 || px[0] + px[1] + px[2] > 0) { painted = true; cv.classList.add('on'); if (o.frame) o.frame(); }
+    } catch (e) { /* not drawn: the 2D stays */ }
   }
   const k = o.tick((dt) => { if (!dead) draw(dt); }, { el: host });
   k.start();
-  draw(0); requestAnimationFrame(() => { if (!dead) cv.classList.add('on'); });
+  try { draw(0); } catch (e) { stop(); if (o.lost) o.lost(); return null; }     // a render that throws = no 3D (the 2D stays)
   cv.addEventListener('webglcontextlost', (e) => { e.preventDefault(); stop(); if (o.lost) o.lost(); });
 
   function stop() {

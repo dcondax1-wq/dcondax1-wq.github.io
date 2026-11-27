@@ -6,7 +6,7 @@
 .dk-acct:nth-child(2) { animation-delay: .06s; } .dk-acct:nth-child(3) { animation-delay: .12s; } .dk-acct:nth-child(4) { animation-delay: .18s; }
 .dk-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .dk-name { font: 700 14px/1.2 var(--ag-sans); color: var(--ag-text); min-width: 0; overflow-wrap: anywhere; flex: 1; }
-.dk-stage { font: 700 10px/1 var(--ag-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ag-muted); flex: none; }
+.dk-stage { font: 700 12px/1 var(--ag-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ag-muted); flex: none; }
 .dk-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--ag-muted); position: relative; }
 .dk-dot.live { background: var(--ag-olive-text, #8fa05a); }
 .dk-dot.live::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--ag-olive-text, #8fa05a); opacity: 0; animation: dk-ping 2.4s ease-out infinite; }
@@ -37,7 +37,7 @@
 .dk-steps li.on { color: var(--ag-text); border-top-color: var(--ag-gold, #c8a24a); }
 .dk-sec { display: grid; gap: 6px; min-width: 0; }
 .dk-sec.live { padding: 10px; border-radius: 10px; background: var(--ag-raise, transparent); }
-.dk-eye { margin: 0; font: 700 11px/1 var(--ag-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ag-gold, #c8a24a); }
+.dk-eye { margin: 0; font: 700 12px/1 var(--ag-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ag-gold, #c8a24a); }
 .dk-lean, .dk-line, .dk-note { margin: 0; font-size: 0.9375rem; color: var(--ag-soft); overflow-wrap: anywhere; }
 .dk-line b { color: var(--ag-text); }
 .dk-note { font-size: 0.9375rem; color: var(--ag-muted); }
@@ -76,7 +76,7 @@
 .dk-dotr { position: absolute; top: 7px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; border: 2px solid var(--ag-text); }
 .dk-dotr.win { background: var(--ag-olive-text, #8fa05a); } .dk-dotr.loss { background: var(--ag-terra-text, #c0603c); } .dk-dotr.open { background: var(--ag-gold, #c8a24a); }
 .dk-now { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ag-text); animation: dk-blink 2s ease-in-out infinite; }
-.dk-ticks { position: relative; height: 16px; font-size: 11px; color: var(--ag-muted); }
+.dk-ticks { position: relative; height: 16px; font-size: 12px; color: var(--ag-muted); }
 .dk-ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; } .dk-ticks span:first-child { transform: none; } .dk-ticks span:last-child { transform: translateX(-100%); }
 .dk-past { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .dk-past li { display: flex; justify-content: space-between; gap: 10px; align-items: center; min-height: 44px; border-top: 1px solid var(--ag-line-soft, var(--ag-line)); font-size: 14px; }
@@ -96,7 +96,7 @@
 
 /* day-nqops 2026-11-21: the MFFU 7-day clock card (OLYMPUS NIGHT: violet outline, gold accent, mint / red for the state) */
 .k7 { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.k7r { display: grid; gap: 2px; padding: 10px 12px; border-radius: 14px; border: 1px solid #3e255e; background: #16131e; }
-.k7r b { color: #f1c14b; } .k7r span { font-size: 14px; color: #dacbf0; }
-.k7r.ok { border-color: rgba(119, 219, 137, .45); } .k7r.warn { border-color: #f1c14b; } .k7r.bad { border-color: #ef4444; box-shadow: 0 0 14px rgba(239, 68, 68, .35); }
-.k7r.bad .k7h { color: #f87171; font-weight: 700; } .k7r.warn .k7h { color: #f1c14b; }
+.k7r { display: grid; gap: 2px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--ag-line, #3e255e); background: var(--ag-raise, #16131e); }
+.k7r b { color: var(--ag-gold, #f1c14b); } .k7r span { font-size: 14px; color: var(--nq-cyan-hi, #dacbf0); }
+.k7r.ok { border-color: rgba(119, 219, 137, .45); } .k7r.warn { border-color: var(--ag-gold, #f1c14b); } .k7r.bad { border-color: var(--nq-dn, #ef4444); box-shadow: 0 0 14px rgba(239, 68, 68, .35); }
+.k7r.bad .k7h { color: var(--ag-bad, #f87171); font-weight: 700; } .k7r.warn .k7h { color: var(--ag-gold, #f1c14b); }

@@ -1,6 +1,6 @@
 {
  "v": 2,
- "asof": "2026-11-26",
+ "asof": "2026-11-27",
  "note": "Built from handoff/QUEUE.md, research/writeups, research/runs, the Archive index, the Mind's proposals and git (when present) by tools/ergasterion_build.py. Plain text only; nothing here is a trade.",
  "queue": {
   "total": 67,
@@ -190,8 +190,29 @@
   ]
  },
  "writeups": {
-  "count": 293,
+  "count": 296,
   "latest": [
+   {
+    "date": "2026-11-27",
+    "title": "Lane A (absorbed level fade): how it would really fill, and the cheapest way in (night-of-exec, 2026-11-27)",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/ofexec-2026-11-27.md"
+   },
+   {
+    "date": "2026-11-27",
+    "title": "Every live-vs-twin gap, Oct 23 - Nov 26 2026: what live missed, why, and what it cost",
+    "status": "finding",
+    "summary": "On Fri Nov 20 03:45 ET ATLAS's EMA member went short and hit its +6.6R target.",
+    "file": "research/writeups/missed-trades-2026-11-27.md"
+   },
+   {
+    "date": "2026-11-27",
+    "title": "Lane A (absorbed level fade) stress test, 2026-11-27",
+    "status": "",
+    "summary": "",
+    "file": "research/writeups/lanea-proof-2026-11-27.md"
+   },
    {
     "date": "2026-11-26",
     "title": "Is there a trustworthy \"market is 2026-like\" switch? (big-regime2026, 2026-11-26)",
@@ -254,27 +275,6 @@
     "status": "",
     "summary": "",
     "file": "research/writeups/exitreal-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "A sturdier execution path for the MFFU accounts (big-execution, 2026-11-26)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/execution-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "Entry execution policy for LIT and ATLAS: market vs limit vs pullback (big-execution, 2026-11-26)",
-    "status": "finding",
-    "summary": "Card: no order change for either bot. Instead, ONE logging change makes the ATLAS question answerable with real ticks within ~20 ATLAS signals (below).",
-    "file": "research/writeups/execpol-2026-11-26.md"
-   },
-   {
-    "date": "2026-11-26",
-    "title": "Optimal eval sizing policy: today's rule is already the best (2026-11-26)",
-    "status": "",
-    "summary": "",
-    "file": "research/writeups/evalsizer-2026-11-26.md"
    }
   ]
  },
@@ -369,6 +369,13 @@
   "Dead hours per pillar (2026-11-24, dead-hours-2026-11-24.md, research/hours/, pre-registered DESIGN.md): worst 1-3 half-hour window per book picked on 2021-24 only (PF 0.8, 20+ trades), tes…"
  ],
  "learnings": [
+  {
+   "d": "2026-11-27",
+   "who": "dev",
+   "text": "On Fri Nov 20 03:45 ET ATLAS's EMA member went short and hit its +6.6R target.",
+   "src": "research/writeups/missed-trades-2026-11-27.md",
+   "kind": "finding"
+  },
   {
    "d": "2026-11-26",
    "who": "dev",
@@ -851,13 +858,6 @@
    "text": "Ten genuinely untested Zlarior ideas (time stop, NY-open exit / breakeven, news exit / breakeven, stall exit, breakeven on a close, NR7 size-up, London build-up size-up, 18:00 gap against size-down), one pre-declared ve…",
    "src": "research/writeups/zeus-lab-lit-ideas-2026-11-18.md",
    "kind": "rejected"
-  },
-  {
-   "d": "2026-11-18",
-   "who": "atlas",
-   "text": "I expect all of our strategies to be better.\" Every trade of the repo's own backtests (costs in) was taken apart - Zlarior 631 (run lit_live, 2026 on 1m), ATLAS 1,288 account trades, BLITZ 2,198 - with MAE / MFE in R an…",
-   "src": "research/writeups/win-loss-anatomy-2026-11-18.md",
-   "kind": "finding"
   }
  ],
  "lessons": [
@@ -1893,6 +1893,30 @@
   }
  ],
  "events": [
+  {
+   "t": 1795780800,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Lane A (absorbed level fade): how it would really fill, and the cheapest way in (night-of-exec, 2026-11-27)",
+   "src": "research/writeups/ofexec-2026-11-27.md"
+  },
+  {
+   "t": 1795780800,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up: Lane A (absorbed level fade) stress test, 2026-11-27",
+   "src": "research/writeups/lanea-proof-2026-11-27.md"
+  },
+  {
+   "t": 1795780800,
+   "who": "dev",
+   "kind": "writeup",
+   "ok": true,
+   "text": "Write-up (finding): Every live-vs-twin gap, Oct 23 - Nov 26 2026: what live missed, why, and what it cost",
+   "src": "research/writeups/missed-trades-2026-11-27.md"
+  },
   {
    "t": 1795694400,
    "who": "lit",
@@ -3948,30 +3972,6 @@
    "ok": true,
    "text": "Write-up (rejected): Meta-labeling (quant / ML) - learn when a signal is likely to win, and size it x0.5 to x1.5",
    "src": "research/writeups/meta-labeling.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): High-probability mean reversion at exhaustion - fade a stretched move back to VWAP / the middle / 1R",
-   "src": "research/writeups/hq-reversion.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): HQ continuation - first pullback after a directional London / NY leg (FVG / order block / 50%, CISD, stop hun…",
-   "src": "research/writeups/hq-continuation.md"
-  },
-  {
-   "t": 1792756800,
-   "who": "dev",
-   "kind": "writeup",
-   "ok": true,
-   "text": "Write-up (rejected): HQ bias - top-down draw on liquidity (the HTF draw picks the direction and the target, LIT's chain enters)",
-   "src": "research/writeups/hq-bias.md"
   }
  ],
  "pipeline": {
@@ -4230,49 +4230,49 @@
   {
    "name": "CBOE_vol_1d.csv",
    "last": "2026-09-17",
-   "days": 70,
+   "days": 71,
    "file": "data/CBOE_vol_1d.csv"
   },
   {
    "name": "ES_15m.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/ES_15m.csv"
   },
   {
    "name": "ES_1d.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/ES_1d.csv"
   },
   {
    "name": "ES_1h.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/ES_1h.csv"
   },
   {
    "name": "ES_5m.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/ES_5m.csv"
   },
   {
    "name": "GEX_1d.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/GEX_1d.csv"
   },
   {
    "name": "NQ_1d.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/NQ_1d.csv"
   },
   {
    "name": "tv_mnq_5m_2026-10-16.csv",
    "last": "2026-10-16",
-   "days": 41,
+   "days": 42,
    "file": "data/tv_mnq_5m_2026-10-16.csv"
   }
  ],
@@ -4353,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795727400,
+   "t": 1795769580,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4375,104 +4375,104 @@
   "available": true,
   "commits": [
    {
-    "t": 1795727386,
-    "s": "Keep the exit-real forecast.json (the publish rebuild had dropped account names); pillars data"
+    "t": 1795769498,
+    "s": "Rebuild Jarvis search index for landing #1"
    },
    {
-    "t": 1795727358,
-    "s": "Rebuild research hub data"
+    "t": 1795769469,
+    "s": "Rebuild generated hub data for landing #1"
    },
    {
-    "t": 1795727294,
-    "s": "Rebuild brain hub data"
+    "t": 1795769457,
+    "s": "Rebuild brain hub data for landing #1"
    },
    {
-    "t": 1795727282,
-    "s": "LEDGER: 15:30 ET finder round skipped; vault"
-   },
-   {
-    "t": 1795724344,
-    "s": "handsfree READ_ONLY: buy gate seed + setup-score pool (cloud-built, read on the PC); STATE names the .bat fil…"
-   },
-   {
-    "t": 1795722945,
-    "s": "bump: jarvis search index"
-   },
-   {
-    "t": 1795722936,
-    "s": "Land day-zeroerr-rt25 (fill log, exit-real costs, forecast re-run); hubs, vault"
-   },
-   {
-    "t": 1795722915,
-    "s": "Merge remote-tracking branch 'olympus/day-zeroerr-rt25' into land-1126"
-   },
-   {
-    "t": 1795722888,
-    "s": "red team #25: research/batch5 counts ATLAS ENTRY fills only (fills.jsonl.gz carries stop / target / close row…"
-   },
-   {
-    "t": 1795722687,
-    "s": "Third 11-26 landing: alloc cards 2+3 (OFF) + Decide cards, zeroerr2 hang guard; hubs, vault, bumps"
-   },
-   {
-    "t": 1795722620,
-    "s": "Merge remote-tracking branch 'olympus/big-zeroerr2-rt5' into land-1126"
-   },
-   {
-    "t": 1795722619,
-    "s": "Merge remote-tracking branch 'olympus/day-alloc' into land-1126"
-   },
-   {
-    "t": 1795722601,
+    "t": 1795769451,
     "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
    },
    {
-    "t": 1795722596,
-    "s": "STATE: second 11-26 landing"
+    "t": 1795769401,
+    "s": "Landing #1 integration fixes: PC pill 44 px tap target on every NQ page, no HEAD probe (sprint pages landed),…"
    },
    {
-    "t": 1795722550,
-    "s": "Landing fixes: of_paper export + shadow_eval write via fsutil.replace (selfheal); first_screen.mjs serves sta…"
+    "t": 1795766989,
+    "s": "STATE: night sprint landing #1"
    },
    {
-    "t": 1795722100,
-    "s": "day-alloc: lit_live check result (OK)"
+    "t": 1795765981,
+    "s": "Night sprint landing: test pins from bump_versions; nq eager-JS budget 600 - 640 KB (shared nav dock + feed o…"
    },
    {
-    "t": 1795720896,
-    "s": "red team #23 follow-up: accounts_flat_reason skips a state file untouched for 24 h (a removed account's lefto…"
+    "t": 1795765851,
+    "s": "bump_versions for the night sprint landing (nqscene q9 by hand)"
    },
    {
-    "t": 1795720610,
-    "s": "red team #23: 30 h of the same 'not flat' = ONE 'Bot update stuck' line naming the state file (a leftover ope…"
+    "t": 1795765792,
+    "s": "Night sprint lead wires: NQ nav links (Order Flow, Replay, PC health), payready.css v3, nqgoals v10, nqchart…"
    },
    {
-    "t": 1795719566,
-    "s": "test_fill_log 21/21: big-exitreal's per-entry exit columns across lanes, from the stop / target rows"
+    "t": 1795765756,
+    "s": "Night sprint lead wires: nqnav.js on every NQ page (incl. orderflow, pchealth, replay); register the new suit…"
    },
    {
-    "t": 1795719535,
-    "s": "Merge big-exitreal: its per-entry exit columns folded into the ONE fill schema"
+    "t": 1795765698,
+    "s": "Keep tonight's handoff screenshots off pc (233 files, 498M total): they stay on the helper branches; .gitigno…"
    },
    {
-    "t": 1795718789,
-    "s": "hang_guard: resolve the merge left in all_flat_reason (keep the one shared helper: autoupdate.files_flat_reas…"
+    "t": 1795765679,
+    "s": "Merge remote-tracking branch 'olympus/night-missedalarm' into land-1127"
    },
    {
-    "t": 1795718589,
-    "s": "Merge origin/big-zeroerr2-rt2 (red team #22 base) into the follow-ups; run_area: one ops2 entry"
+    "t": 1795765678,
+    "s": "Merge remote-tracking branch 'olympus/night-of-lane' into land-1127"
    },
    {
-    "t": 1795718565,
-    "s": "big-zeroerr2-rt2: one flat check for every account (autoupdate.files_flat_reason + accounts_flat_reason), gua…"
+    "t": 1795765678,
+    "s": "Merge remote-tracking branch 'olympus/night-of-conflog-rt' into land-1127"
    },
    {
-    "t": 1795718447,
-    "s": "run_area: one zeroerr2 entry (a duplicate from the cherry-pick merge)"
+    "t": 1795765663,
+    "s": "Merge remote-tracking branch 'olympus/night-of-paperv2' into land-1127"
    },
    {
-    "t": 1795718399,
-    "s": "red team #22: hang guard - flat on EVERY account (each data/ninjatrader_state_.json, unreadable = not flat),…"
+    "t": 1795765663,
+    "s": "Merge remote-tracking branch 'olympus/night-nq-cards' into land-1127"
+   },
+   {
+    "t": 1795765662,
+    "s": "Merge remote-tracking branch 'olympus/night-of-backfill' into land-1127"
+   },
+   {
+    "t": 1795765662,
+    "s": "Merge remote-tracking branch 'olympus/night-of-asks-rt' into land-1127"
+   },
+   {
+    "t": 1795765662,
+    "s": "Merge remote-tracking branch 'olympus/night-nq-nav' into land-1127"
+   },
+   {
+    "t": 1795765662,
+    "s": "Merge remote-tracking branch 'olympus/day-proedge' into land-1127"
+   },
+   {
+    "t": 1795765661,
+    "s": "Merge remote-tracking branch 'olympus/big-regime' into land-1127"
+   },
+   {
+    "t": 1795765661,
+    "s": "Merge remote-tracking branch 'olympus/night-nq-of' into land-1127"
+   },
+   {
+    "t": 1795765648,
+    "s": "Merge remote-tracking branch 'olympus/night-nq-accounts' into land-1127"
+   },
+   {
+    "t": 1795765636,
+    "s": "Merge remote-tracking branch 'olympus/day-zeroerr' into land-1127"
+   },
+   {
+    "t": 1795765636,
+    "s": "Merge remote-tracking branch 'olympus/night-nq-chart' into land-1127"
    }
   ],
   "branches": [
