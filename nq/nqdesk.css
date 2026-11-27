@@ -100,3 +100,4 @@
 .k7r b { color: var(--ag-gold, #f1c14b); } .k7r span { font-size: 14px; color: var(--nq-cyan-hi, #dacbf0); }
 .k7r.ok { border-color: rgba(119, 219, 137, .45); } .k7r.warn { border-color: var(--ag-gold, #f1c14b); } .k7r.bad { border-color: var(--nq-dn, #ef4444); box-shadow: 0 0 14px rgba(239, 68, 68, .35); }
 .k7r.bad .k7h { color: var(--ag-bad, #f87171); font-weight: 700; } .k7r.warn .k7h { color: var(--ag-gold, #f1c14b); }
+.dk-levels small { font-size: 12px; }   /* landing #2: the distance line was 10 px (small of 12) */

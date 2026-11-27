@@ -4353,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795780260,
+   "t": 1795780560,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4374,6 +4374,10 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795780401,
+    "s": "NQ page: thinking-card level distances and the VIX note at 12 px (were 10 / 11.7 px); nqdesk.css v14, nqgoals…"
+   },
    {
     "t": 1795780176,
     "s": "NQ page: the Four Pillars chips at 12 px (were 9.5-10.5 px; found in the live check), nqhero.css v11, sw le-p…"
@@ -4469,10 +4473,6 @@
    {
     "t": 1795769776,
     "s": "STATE: landing #1 shipped + published"
-   },
-   {
-    "t": 1795769498,
-    "s": "Rebuild Jarvis search index for landing #1"
    }
   ],
   "branches": [

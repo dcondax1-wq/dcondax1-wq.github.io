@@ -70,7 +70,7 @@
 .nm-ws { display: flex; flex-wrap: wrap; gap: 6px; }
 .nm-w { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(157, 89, 238, .45); }
 .nm-next { font-size: 14px; }
-.nm-vix { margin: 12px 0 0; font-size: 14px; }
+.nm-vix { margin: 12px 0 0; font-size: 14px; } .nm-vix small { font-size: 12px; }
 .nm-band { padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(241, 193, 75, .5); }
 .land { position: relative; height: 280px; border-radius: 16px; overflow: hidden; background: radial-gradient(120% 90% at 50% 100%, rgba(224, 176, 96, .14), transparent 60%), #14110e; }
 .land svg { position: absolute; inset: 0; width: 100%; height: 100%; }

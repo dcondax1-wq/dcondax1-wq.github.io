@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-27 06:51 ET",
+ "built": "2026-11-27 06:56 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
+   "NQ page: thinking-card level distances and the VIX note at 12 px (were 10 / 11.7 px); nqdesk.css...",
    "NQ page: the Four Pillars chips at 12 px (were 9.5-10.5 px; found in the live check), nqhero.css...",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
    "landing #2: floaters row +20 px above the dock (nav QA N3 clearance) and in-bar from 1240 px (pill...",
    "landing #2: version bumps (bump_versions --apply), sw le-public-v226",
    "landing #2: one dock rule set in nqnav.css (main's one-row floaters win; nav's 12/13 px kept);...",
    "landing #2: keep QA shots2 screenshots off pc (gitignore shots*/)",
-   "NQ QA second sweep: battle plan + thinking price only from the PC's chart bar (brief close...",
-   "QA second sweep: #3 the vault box shows a CSS-drawn vault at once (it was EMPTY until the effects..."
+   "NQ QA second sweep: battle plan + thinking price only from the PC's chart bar (brief close..."
   ]
  },
  "next": {
