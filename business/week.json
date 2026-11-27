@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-27 06:56 ET",
+ "built": "2026-11-27 08:03 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 27 6:45 ET",
+ "pc": "PC last reported Nov 27 8:00 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49177.52,
-   "src": "PC live, Nov 27 6:45 ET",
+   "src": "PC live, Nov 27 8:00 ET",
    "room": 1009.32,
    "to_pass": 3822.48,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 27 6:45 ET",
+   "src": "PC live, Nov 27 8:00 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24995.24,
-   "src": "PC live, Nov 27 6:45 ET",
+   "src": "PC live, Nov 27 8:00 ET",
    "room": 995.24,
    "to_pass": 1504.76,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 27 6:45 ET",
+   "src": "PC live, Nov 27 8:00 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "NQ page: thinking-card level distances and the VIX note at 12 px (were 10 / 11.7 px); nqdesk.css...",
-   "NQ page: the Four Pillars chips at 12 px (were 9.5-10.5 px; found in the live check), nqhero.css...",
+   "Research Hub data rebuilt (v5 + monfix)",
+   "pchealth_core.js: mask() comment without any id-shaped example",
+   "pchealth_core.js: the mask() example comment uses a made-up account id",
+   "Decide card oflane-sim: $ impact + docs-first source (test_decide / learn_night schema); vault...",
+   "Order flow lane: /oflane Sim101 note, ladder holds the step-1 card while later trades lose, Decide...",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "landing #2: floaters row +20 px above the dock (nav QA N3 clearance) and in-bar from 1240 px (pill...",
-   "landing #2: version bumps (bump_versions --apply), sw le-public-v226",
-   "landing #2: one dock rule set in nqnav.css (main's one-row floaters win; nav's 12/13 px kept);...",
-   "landing #2: keep QA shots2 screenshots off pc (gitignore shots*/)",
-   "NQ QA second sweep: battle plan + thinking price only from the PC's chart bar (brief close..."
+   "NQ page: thinking-card level distances and the VIX note at 12 px (were 10 / 11.7 px); nqdesk.css...",
+   "NQ page: the Four Pillars chips at 12 px (were 9.5-10.5 px; found in the live check), nqhero.css..."
   ]
  },
  "next": {
@@ -333,6 +333,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 27 6:45 ET"
+  "board_pc": "Nov 27 8:00 ET"
  }
 }

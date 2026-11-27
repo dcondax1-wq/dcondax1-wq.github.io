@@ -15,7 +15,7 @@
     s = Math.max(0, Math.round(s));
     return s < 90 ? s + ' s' : s < 5400 ? Math.round(s / 60) + ' min' : s < 172800 ? (s / 3600).toFixed(1) + ' h' : Math.round(s / 86400) + ' days';
   }
-  // privacy: an account id like MFFUSFBLDR…6018 / MFFUEVBLDR12346016 -> "…6018"
+  // privacy: a broker account id is shown only as its last 4 digits ("…" + last 4)
   function mask(t) {
     return String(t == null ? '' : t).replace(/\b[A-Z]{3,}[A-Z0-9_-]*?(?:…|\.\.\.)?(\d{4})\b/g, '…$1');
   }

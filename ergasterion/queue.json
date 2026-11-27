@@ -4353,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795780560,
+   "t": 1795784700,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4375,6 +4375,42 @@
   "available": true,
   "commits": [
    {
+    "t": 1795784577,
+    "s": "Research Hub data rebuilt (v5 + monfix)"
+   },
+   {
+    "t": 1795784293,
+    "s": "pchealth_core.js: mask() comment without any id-shaped example"
+   },
+   {
+    "t": 1795784038,
+    "s": "pchealth_core.js: the mask() example comment uses a made-up account id (public_build_privacy flagged an MFFU-…"
+   },
+   {
+    "t": 1795784011,
+    "s": "Decide card oflane-sim: $ impact + docs-first source (test_decide / learn_night schema); vault rebuilt"
+   },
+   {
+    "t": 1795781963,
+    "s": "Order flow lane: /oflane Sim101 note, ladder holds the step-1 card while later trades lose, Decide card oflan…"
+   },
+   {
+    "t": 1795781831,
+    "s": "Merge commit 'e6ce2fe411b3a831aa72cfc3a535d1820fe77ea7' into land3"
+   },
+   {
+    "t": 1795781818,
+    "s": "Merge commit '6a95044f66a5c2dee656ea25715822cb96b017f7' into land3"
+   },
+   {
+    "t": 1795780690,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795780684,
+    "s": "STATE: landing #2 live le-public-v228"
+   },
+   {
     "t": 1795780401,
     "s": "NQ page: thinking-card level distances and the VIX note at 12 px (were 10 / 11.7 px); nqdesk.css v14, nqgoals…"
    },
@@ -4389,6 +4425,10 @@
    {
     "t": 1795779345,
     "s": "STATE: night sprint landing #2"
+   },
+   {
+    "t": 1795777279,
+    "s": "red team #35: research levels see every earlier file (a dropped thin half day is the prior day, as live); the…"
    },
    {
     "t": 1795776924,
@@ -4431,48 +4471,8 @@
     "s": "Merge remote-tracking branch 'olympus/night-nq-chart' into land2"
    },
    {
-    "t": 1795772418,
-    "s": "test_nq_goals: the vault note expects goals_model's line (QA #4 removed the hard-coded Dec 18-31); the plan d…"
-   },
-   {
-    "t": 1795772357,
-    "s": "NQ QA second sweep: battle plan + thinking price only from the PC's chart bar (brief close labelled, levels 1…"
-   },
-   {
-    "t": 1795772042,
-    "s": "QA second sweep: #3 the vault box shows a CSS-drawn vault at once (it was EMPTY until the effects kit loaded)…"
-   },
-   {
-    "t": 1795772016,
-    "s": "night-nq-nav QA N2/N3: desktop = full-width bar pinned to the window bottom (pill inside, right), tab labels…"
-   },
-   {
-    "t": 1795771910,
-    "s": "night-nq-of: no text under 12 px in the OF room (tape labels / tags / chips / captions 10-11.5 - 12 px; tape…"
-   },
-   {
-    "t": 1795771901,
-    "s": "night-nq-chart: chart readout labels = 12 px (lead)"
-   },
-   {
-    "t": 1795771771,
-    "s": "night-nq-live: every label = 12 px (chips, ages, journal meta, cards, chart price tags, timeline); test measu…"
-   },
-   {
-    "t": 1795771564,
-    "s": "night-nq-qa: second sweep on the live site after tonight's landing (status of the 15 + 4 new)"
-   },
-   {
-    "t": 1795769791,
-    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
-   },
-   {
-    "t": 1795769786,
-    "s": "Refresh dated dashboard data (news week, brief, business week)"
-   },
-   {
-    "t": 1795769776,
-    "s": "STATE: landing #1 shipped + published"
+    "t": 1795774380,
+    "s": "lane A: prior day = last RTH file, Sunday evening joins the overnight; ladder judges first-of-day trades"
    }
   ],
   "branches": [
