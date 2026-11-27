@@ -151,7 +151,7 @@ export function build(data, ctx) {
 /** the 4 mini chips for Home / NQ: name, one status word, one short line */
 export function chips(model) {
   return arr(model).map((m) => ({ id: m.id, name: m.name, color: m.color, level: m.level, word: m.statusWord,
-    line: m.id === 'of' ? (m.tick && m.tick.has ? `${m.tick.d}/${m.tick.of} tick days` : 'recorder not set up')
+    line: m.id === 'of' ? (m.tick && m.tick.has ? (m.tick.d >= m.tick.of ? 'Ready' : `${m.tick.d}/${m.tick.of} tick days`) : 'recorder not set up')
       : m.id === 'blitz' ? 'built · OFF'
         : m.accounts.some((a) => a.has) ? `${m.armed}/${m.accounts.length} armed` : 'waiting for the PC' }));
 }

@@ -15,9 +15,9 @@
 }
 #chartCard .cleg .cl1 { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
 #chartCard .cleg .cl1 b { font-weight: 700; color: #f1c14b; }
-#chartCard .cleg .cls { color: #9b8fb5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11.5px; }
+#chartCard .cleg .cls { color: #9b8fb5; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; }
 #chartCard .cleg .cl1 .clc { font-weight: 800; font-variant-numeric: tabular-nums; }
-#chartCard .cleg .cl2 { display: flex; gap: 8px; flex-wrap: nowrap; font-variant-numeric: tabular-nums; color: #cfc3e6; font-size: 11.5px; font-weight: 600; }
+#chartCard .cleg .cl2 { display: flex; gap: 8px; flex-wrap: nowrap; font-variant-numeric: tabular-nums; color: #cfc3e6; font-size: 12px; font-weight: 600; }
 #chartCard .cleg .clv i { font-style: normal; color: #9b8fb5; margin-right: 2px; }
 #chartCard .cleg .up { color: #77db89; } #chartCard .cleg .dn { color: #ff5d73; }
 #chartCard .cleg .clch { font-weight: 700; }

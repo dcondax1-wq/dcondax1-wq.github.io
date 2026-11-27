@@ -160,7 +160,7 @@ export function briefFor(brief, botId, nowS) {
     : legs.length ? String(legs[0].waiting_for || '') : '';
   const R = isObj(brief.recap) ? brief.recap : null;
   return { bias, levels, news, waiting, recap: R ? pickStr(R, 'traded') : '', stale: pickArr(isObj(brief.data) ? brief.data : null, 'stale').map(String).slice(0, 3),
-    headline: pickStr(brief, 'headline'), day };
+    headline: pickStr(brief, 'headline'), day, last, barsTo: isObj(brief.data) ? pickStr(brief.data, 'bars_to') : '' };
 }
 
 // ------------------------------------------------------------------------------------------------ 2. the thinking, per bot
@@ -194,6 +194,16 @@ function reelOf(file, bot, entryT) {
   return r && r.odeon ? '../odeon/#reel=' + encodeURIComponent(r.odeon) : '';
 }
 
+// QA N1: the PC's live levels win; else the brief's, measured from the PC's chart bar when one is fresh (<= 30 min), else from the brief's
+// close and SAID so; a level more than 1,000 pts away is dropped (a data problem, never shown as real)
+function briefLevels(lv, bf, chart, nowS) {
+  if (lv.length) return { levels: lv, levelsFrom: '' };
+  if (!bf) return { levels: [], levelsFrom: '' };
+  const c = isObj(chart) && num(chart.last) !== null && num(chart.t) !== null && num(nowS) - num(chart.t) <= 1800 ? num(chart.last) : null;
+  const ref = c ?? bf.last;
+  const levels = bf.levels.map((x) => ({ ...x, dist: ref !== null ? Math.round((x.px - ref) * 4) / 4 : x.dist })).filter((x) => x.dist === null || Math.abs(x.dist) <= 1000);
+  return { levels, levelsFrom: c !== null ? `pts from now (the PC's chart); levels from the brief of ${bf.day || 'its day'}` : `pts from the brief's last price${bf.barsTo ? ` (bars to ${bf.barsTo})` : ''}, not now` };
+}
 export function thinking(home, news, file, nowS, chart, brief) {
   const h = isObj(home) ? home : {}, live = isObj(h.live) ? h.live : {}, board = isObj(h.board) ? h.board : {};
   const glance = isObj(live.pc) && isObj(live.pc.glance) ? live.pc.glance : null, fa = feedAge(h, nowS);
@@ -211,7 +221,7 @@ export function thinking(home, news, file, nowS, chart, brief) {
     const before = {
       lean: L, news: tn.length || !bf ? tn : bf.news, next: nx ? `${nd(nx.date)} ${nx.time} ET, ${nx.title}` : '',
       bias: bf && bf.bias ? bf.bias : null, recap: bf ? bf.recap : '', briefHead: bf && bot.id === 'lit' ? bf.headline : '', stale: bf && bot.id === 'lit' ? bf.stale : [],
-      levels: lv.length ? lv : bf ? bf.levels : [],
+      ...briefLevels(lv, bf, chart, nowS),
       window: String((card && isObj(card.window) && card.window.text) || (card && isObj(card.window) && card.window.open ? 'In its entry window now' : '') || ''),
       windowOpen: !!(card && isObj(card.window) && card.window.open),
       waiting: String((g && g.wait) || (card && card.waiting) || (bf && bf.waiting) || ''), why: String((g && g.why) || ''),
@@ -357,6 +367,7 @@ function drawThinking(box, bots, opts) {
       const ul = el('ul', 'dk-levels'); ul.setAttribute('aria-label', 'Key levels it watches');
       for (const l of b.before.levels) { const li = el('li'); li.appendChild(el('span', '', l.label)); li.appendChild(el('b', 'ag-num', px(l.px))); if (l.dist !== null) li.appendChild(el('small', 'ag-num', `${l.dist > 0 ? '+' : ''}${l.dist} pt`)); ul.appendChild(li); }
       bf.appendChild(ul);
+      if (b.before.levelsFrom) bf.appendChild(el('p', 'dk-line dk-note', b.before.levelsFrom));
     }   // QA (lower): no levels in the report = no line (it read like an unfinished page)
     if (b.before.why) bf.appendChild(el('p', 'dk-note', 'Last decision: ' + b.before.why));
     c.appendChild(bf);
@@ -510,7 +521,7 @@ draw.gate = drawGate; draw.day = drawDay; draw.past = drawPast;
 // account's way to pass / to payout + the room left, LIT and ATLAS in one word each, where the trading day is and what comes next. Only the models
 // above (accounts / goals / thinking / phase): nothing new is guessed; an empty or old report says so.
 const NEXT = [   // the next moment that matters, in ET minutes after 18:00 (the CME day)
-  { at: 120, label: 'London entries open 02:00' }, { at: 480, label: 'New York morning 08:00' }, { at: 930, label: 'Last new entries 15:30' },
+  { at: 120, label: 'London entries open 02:00' }, { at: 570, label: 'New York opens 09:30' }, { at: 930, label: 'Last new entries 15:30' },
   { at: 955, label: 'Flat time 15:55' }, { at: 1080, label: 'CME reopens 18:00' },
 ];
 export function nextUp(nowS) {
@@ -555,7 +566,7 @@ export function hero(accts, goalList, bots, home, nowS, demo) {
   return {
     today, todayText: today === null ? '-' : money(today, true), tone: today === null ? 'none' : today > 0.5 ? 'up' : today < -0.5 ? 'down' : 'flat',
     ageText: demo ? 'example numbers (DEMO)' : age === null ? 'no PC report on this page yet' : updated(age), level, ageS: age === null ? null : num(age), nowS: num(nowS), demo: !!demo,
-    nAcc: withNum.length, phase: { id: ph.id, label: ph.label, who: ph.who }, next: nx, nextText: nx.label ? (nx.inS !== null ? `${nx.label} in ${mins(nx.inS)}` : nx.label) : '',
+    nAcc: withNum.length, /* QA N4: an open window says so */ phase: { id: ph.id, label: ph.id === 'london' ? 'London open now' : ph.id === 'nyam' && ph.mod < 570 ? 'New York pre-open' : ph.label, who: ph.who }, next: nx, nextText: nx.label ? (nx.inS !== null ? `${nx.label} in ${mins(nx.inS)}` : nx.label) : '',
     accts: acc, bots: arr(bots).filter((b) => isObj(b)).map((b) => ({ id: b.id, name: b.name, what: b.what, ...botState(b),
       ageText: demo ? 'DEMO' : num(b.age) === null ? 'no report' : updated(b.age), ageS: num(b.age) })),
     honest: !acc.some((a) => a.has) ? (demo ? '' : "Waiting for your PC's report: no account numbers yet. Nothing here is made up.") : '',

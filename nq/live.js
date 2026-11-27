@@ -110,7 +110,7 @@ function drawChart(O) {
   if (!all.length) { note.textContent = 'The chart fills in once the PC sends its candles (about hourly while the bots trade, and right after each entry).'; return; }
   const from = O.t - 12 * 300, bars = all.filter((b) => b[0] >= from).slice(-48);
   const use = bars.length >= 4 ? bars : all.slice(-36);
-  const W = 360, H = 170, pl = 4, pr = 58, pt = 8, pb = 8;
+  const W = 360, H = 170, pl = 4, pr = 66, pt = 10, pb = 10;
   const lv = [O.entry, O.stop, O.target, O.px].filter((x) => L.num(x) !== null);
   let lo = Math.min(...use.map((b) => b[3]), ...lv), hi = Math.max(...use.map((b) => b[2]), ...lv);
   const pad = (hi - lo) * 0.06 || 2; lo -= pad; hi += pad;
@@ -128,8 +128,8 @@ function drawChart(O) {
   const line = (p, color, label, dash) => {
     if (L.num(p) === null) return;
     svg.appendChild(sv('line', { x1: pl, x2: W - pr, y1: y(p), y2: y(p), stroke: color, 'stroke-width': 1.2, ...(dash ? { 'stroke-dasharray': '4 3' } : {}) }));
-    svg.appendChild(sv('rect', { x: W - pr + 2, y: y(p) - 8, width: pr - 4, height: 16, rx: 4, fill: color }));
-    svg.appendChild(sv('text', { x: W - pr / 2, y: y(p) + 4, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 700, fill: '#000' }, label));
+    svg.appendChild(sv('rect', { x: W - pr + 2, y: y(p) - 9, width: pr - 4, height: 18, rx: 4, fill: color }));
+    svg.appendChild(sv('text', { x: W - pr / 2, y: y(p) + 4.5, 'text-anchor': 'middle', 'font-size': 12.5, 'font-weight': 700, fill: '#000' }, label));
   };
   line(O.target, '#77db89', 'TP ' + Math.round(O.target), false);
   line(O.stop, '#ff5d6c', 'SL ' + Math.round(O.stop), false);
@@ -267,18 +267,18 @@ function drawOpens(M) {
 function drawTimeline(M) {
   const box = $('tl'); box.textContent = '';
   const T = M.timeline; if (!T) return;
-  const W = 360, H = 74, Y = 38, x = (f) => 10 + f * (W - 20);
+  const W = 360, H = 84, Y = 42, x = (f) => 10 + f * (W - 20);
   const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none', 'aria-hidden': 'true' });
   const defs = sv('defs'), g = sv('linearGradient', { id: 'lvTlG', x1: 0, x2: 1 });
   g.append(sv('stop', { offset: '0', 'stop-color': '#4d2e76' }), sv('stop', { offset: '1', 'stop-color': '#9d59ee' }));
   defs.appendChild(g); svg.appendChild(defs);
   svg.appendChild(sv('rect', { x: 10, y: Y - 2, width: W - 20, height: 4, rx: 2, fill: '#2a2140' }));
   if (T.now !== null) svg.appendChild(sv('rect', { x: 10, y: Y - 2, width: Math.max(0, x(T.now) - 10), height: 4, rx: 2, fill: 'url(#lvTlG)' }));
-  svg.appendChild(sv('text', { x: 10, y: Y + 22, 'font-size': 9, fill: '#6f6485' }, '18:00'));
+  svg.appendChild(sv('text', { x: 10, y: Y + 24, 'font-size': 12, fill: '#8a7da3' }, '18:00'));
   for (const m of T.marks) {
     if (m.x === null) continue;
     svg.appendChild(sv('line', { x1: x(m.x), x2: x(m.x), y1: Y - 7, y2: Y + 7, stroke: '#4d2e76', 'stroke-width': 1 }));
-    svg.appendChild(sv('text', { x: x(m.x), y: Y + 22, 'text-anchor': 'middle', 'font-size': 9, fill: '#a99cc0' }, m.label));
+    svg.appendChild(sv('text', { x: x(m.x), y: Y + 24, 'text-anchor': 'middle', 'font-size': 12, fill: '#a99cc0' }, m.label));
   }
   const col = (p) => (p.open ? '#f1c14b' : p.usd === null ? '#a99cc0' : p.usd > 0 ? '#77db89' : p.usd < 0 ? '#ff5d6c' : '#a99cc0');
   const pins = T.pins.filter((p) => p.x0 !== null).sort((a, b) => a.x0 - b.x0);
@@ -286,21 +286,21 @@ function drawTimeline(M) {
     if (p.x1 !== null && p.x1 > p.x0) svg.appendChild(sv('rect', { x: x(p.x0), y: Y - 5, width: Math.max(2, x(p.x1) - x(p.x0)), height: 10, rx: 3, fill: col(p), opacity: 0.5 }));
     svg.appendChild(sv('circle', { cx: x(p.x0), cy: Y, r: 5, fill: col(p), stroke: '#000', 'stroke-width': 1.5, class: isNew('tl:' + p.key) ? 'lv-pin lv-new' : 'lv-pin' }));
   }
-  // one label a cluster of pins (closer than 7% of the session): "2 OPEN", or the cluster's closed $ (never overlapping text)
+  // one label a cluster of pins (closer than 12% of the session): "2 OPEN", or the cluster's closed $ (never overlapping text)
   const groups = [];
-  for (const p of pins) { const g0 = groups[groups.length - 1]; if (g0 && p.x0 - g0[g0.length - 1].x0 < 0.07) g0.push(p); else groups.push([p]); }
+  for (const p of pins) { const g0 = groups[groups.length - 1]; if (g0 && p.x0 - g0[g0.length - 1].x0 < 0.12) g0.push(p); else groups.push([p]); }
   for (const g1 of groups) {
     const open = g1.filter((p) => p.open).length, closed = g1.filter((p) => !p.open && p.usd !== null), sum = closed.reduce((s, p) => s + p.usd, 0);
     const parts = [];
     if (open) parts.push(`${open > 1 ? open + ' ' : ''}OPEN`);
     if (closed.length) parts.push(L.usd(sum, true));
-    const cx = Math.min(W - 30, Math.max(30, x(g1.reduce((s, p) => s + p.x0, 0) / g1.length)));
-    svg.appendChild(sv('text', { x: cx, y: Y - 13, 'text-anchor': 'middle', 'font-size': 10, 'font-weight': 800,
+    const cx = Math.min(W - 44, Math.max(44, x(g1.reduce((s, p) => s + p.x0, 0) / g1.length)));
+    svg.appendChild(sv('text', { x: cx, y: Y - 14, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 800,
       fill: open && closed.length ? '#f3eefc' : col(g1[0]) }, parts.join(' · ') || g1[0].side));
   }
   if (T.now !== null) {
     svg.appendChild(sv('line', { x1: x(T.now), x2: x(T.now), y1: Y - 9, y2: Y + 9, stroke: '#f3eefc', 'stroke-width': 1.4 }));
-    svg.appendChild(sv('text', { x: x(T.now), y: H - 2, 'text-anchor': 'middle', 'font-size': 9, 'font-weight': 700, fill: '#f3eefc' }, 'now'));
+    svg.appendChild(sv('text', { x: x(T.now), y: H - 2, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: '#f3eefc' }, 'now'));
   }
   box.appendChild(svg);
   remember(T.pins.map((p) => 'tl:' + p.key));

@@ -1,7 +1,7 @@
 // TODAY'S BATTLE PLAN + ALERT HISTORY on nq/ (night-nq-main 2026-11-27). Its own deferred module (never blocks the first paint): reads
 // ./brief.json, ./news_week.json and ../board/board.json once, takes the page's merged PC state from nq.js (window.NQ_HOME + the 'nq-home'
 // event: the same post the hero shows, never a 2nd feed read), and draws #battle + #alertsDrawer (textContent / createElement only).
-import * as P from './plancore.js?v=3';
+import * as P from './plancore.js?v=4';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = String(text); return e; };
@@ -14,7 +14,7 @@ const age = (s) => (s < 90 ? 'just now' : s < 3600 ? `${Math.round(s / 60)} min 
 
 function drawPlan() {
   const box = $('battle'); if (!box) return;
-  const nowS = Date.now() / 1000, st = S.st || {}, M = P.plan(S.brief, S.news, st.home, nowS);
+  const nowS = Date.now() / 1000, st = S.st || {}, M = P.plan(S.brief, S.news, st.home, nowS, st.chart ? { px: st.chart.last, t: st.chart.t } : null);
   clear(box); box.hidden = false;
   const hd = el('div', 'bp-head'); const h2 = el('h2', 'bp-h', "Today's battle plan"); h2.id = 'battleH'; hd.appendChild(h2);
   hd.appendChild(el('span', 'pill ' + (M.stale ? 'warn' : 'ok'), M.has ? (M.stale ? `from ${M.dayText}` : M.dayText) : 'NOT BUILT'));
@@ -51,15 +51,16 @@ function drawPlan() {
   const lad = el('div', 'bp-ladder'); lad.appendChild(el('h3', '', 'Levels LIT watches'));
   const L = M.levels, ul = el('ol', 'bp-rungs'); let placed = false;
   for (const r of L.rows) {
-    if (!placed && L.price !== null && r.px < L.price) { ul.appendChild(priceRow(L.price)); placed = true; }
+    if (!placed && L.price !== null && r.px < L.price) { ul.appendChild(priceRow(L.price, L.priceTag)); placed = true; }
     const li = el('li', 'bp-rung ' + (r.dist === null ? '' : r.dist >= 0 ? 'above' : 'below'));
     li.appendChild(el('b', '', r.name)); li.appendChild(el('span', 'ag-num', px(r.px))); li.appendChild(el('span', 'bp-dist ag-num', pts(r.dist))); ul.appendChild(li);
   }
-  if (!placed && L.price !== null) ul.appendChild(priceRow(L.price));
+  if (!placed && L.price !== null) ul.appendChild(priceRow(L.price, L.priceTag));
   lad.appendChild(ul);
   lad.appendChild(el('p', 'bp-note', L.rows.length ? `Distance from ${L.priceSrc || 'the last price'}.` : 'No levels in the brief or the last PC report.'));
+  for (const f of L.far || []) lad.appendChild(el('p', 'bp-note gold', `Hidden: ${f.name} ${px(f.px)} is ${f.away.toLocaleString('en-US')} pts away (more than 1,000: check that level's data).`));
   grid.appendChild(lad);
-  const rd = el('div', 'bp-read'); rd.appendChild(el('h3', '', 'Market read')); if (M.read.from) rd.appendChild(el('p', 'bp-note', `From ${M.read.from} (its own price, not the PC's):`));
+  const rd = el('div', 'bp-read'); rd.appendChild(el('h3', '', 'Market read')); if (M.read.from) rd.appendChild(el('p', 'bp-note', `From ${M.read.from} (its own price then, not now):`));
   for (const t of [M.read.vix, M.read.where, M.read.bias, M.read.day]) if (t) rd.appendChild(el('p', '', t));
   grid.appendChild(rd);
   box.appendChild(grid);
@@ -79,7 +80,7 @@ function drawPlan() {
   }
   box.appendChild(bw);
 }
-function priceRow(v) { const li = el('li', 'bp-rung now'); li.appendChild(el('b', '', 'Price')); li.appendChild(el('span', 'ag-num', px(v))); li.appendChild(el('span', 'bp-dist', 'now')); return li; }
+function priceRow(v, tag) { const li = el('li', 'bp-rung now'); li.appendChild(el('b', '', 'Price')); li.appendChild(el('span', 'ag-num', px(v))); li.appendChild(el('span', 'bp-dist', tag || 'now')); return li; }
 
 function drawAlerts() {
   const box = $('alertsDrawer'); if (!box) return;

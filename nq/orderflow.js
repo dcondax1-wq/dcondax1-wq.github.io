@@ -168,7 +168,7 @@ function drawTape(M) {
   const lanes = M.levels.length ? M.levels.map((x) => x.label) : [...new Set(pts.map((r) => r.level))];
   for (const r of pts) if (!lanes.some((l) => key(l) === key(r.level))) lanes.push(r.level);
   const laneOf = (lv) => lanes.findIndex((l) => key(l) === key(lv));
-  const LANE = 26, top = 14, W = Math.round(Math.max(300, Math.min(760, box.clientWidth || 360))), x0 = 92, x1 = W - 16, a = 570, b = 960, H = top + Math.max(1, lanes.length) * LANE + 24;
+  const LANE = 28, top = 14, W = Math.round(Math.max(300, Math.min(760, box.clientWidth || 360))), x0 = 100, x1 = W - 16, a = 570, b = 960, H = top + Math.max(1, lanes.length) * LANE + 24;
   const X = (m) => x0 + (x1 - x0) * Math.min(1, Math.max(0, (m - a) / (b - a)));
   const svg = sv('svg', { viewBox: `0 0 ${W} ${H}` });
   lanes.forEach((nm, k) => {

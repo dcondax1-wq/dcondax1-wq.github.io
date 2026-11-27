@@ -21,22 +21,20 @@
 
 html.nqnav-on body { padding-bottom: calc(var(--nqnav-h) + 34px) !important; }
 html.nqnav-on { overscroll-behavior-y: contain; overflow-x: hidden; }   /* a page's stray wide chip never zooms the phone out (the dock would sit below the screen) */
-/* the kit's floating buttons step up above the dock */
-html.nqnav-on .oly-home { bottom: calc(var(--nqnav-h) + 14px) !important; }
-html.nqnav-on .oly-ask-btn { bottom: calc(var(--nqnav-h) + 14px) !important; }
+/* the kit floating buttons: placed by the one-row rule at the end of this file (QA N2/N3) */
 
 /* the dock */
 .nqn-dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; height: var(--nqnav-h); box-sizing: border-box;
   padding: 4px 6px env(safe-area-inset-bottom, 0px); display: flex; align-items: stretch; justify-content: space-around;
   background: linear-gradient(180deg, rgba(29, 22, 42, .9), var(--nqn-bg)); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4);
   border-top: 1px solid var(--nqn-line); box-shadow: 0 -1px 0 rgba(157, 89, 238, .18), 0 -14px 34px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .04);
-  view-transition-name: nqnav-dock; font: 600 10.5px/1.1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+  view-transition-name: nqnav-dock; font: 600 12px/1.1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
 .nqn-dock::before { content: ""; position: absolute; left: 12%; right: 12%; top: -1px; height: 1px; pointer-events: none;
   background: linear-gradient(90deg, transparent, rgba(157, 89, 238, .9), rgba(241, 193, 75, .55), rgba(157, 89, 238, .9), transparent); }
 .nqn-tab { position: relative; flex: 1 1 0; min-width: 44px; min-height: 48px; max-width: 92px; display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: 3px; color: var(--nqn-dim); text-decoration: none; border-radius: 14px; outline: none; transition: color .2s, transform .12s; }
 .nqn-tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; position: relative; z-index: 1; }
-.nqn-tab span { position: relative; z-index: 1; white-space: nowrap; letter-spacing: .01em; }
+.nqn-tab span { position: relative; z-index: 1; white-space: nowrap; letter-spacing: -.01em; }
 .nqn-tab:hover { color: var(--nqn-text); }
 .nqn-tab:focus-visible { box-shadow: 0 0 0 2px var(--nqn-gold); }
 .nqn-tab.is-on { color: var(--nqn-gold); }
@@ -63,7 +61,7 @@ html.nqnav-on .oly-ask-btn { bottom: calc(var(--nqnav-h) + 14px) !important; }
 .nqn-pill[data-lv="warn"] i { background: var(--nqn-gold); box-shadow: 0 0 8px var(--nqn-gold); }
 .nqn-pill[data-lv="bad"] { border-color: rgba(255, 107, 129, .6); }
 .nqn-pill[data-lv="bad"] i { background: var(--nqn-red); box-shadow: 0 0 8px var(--nqn-red); }
-.nqn-pill[data-old="1"]::after { content: "saved"; font-size: 10px; color: var(--nqn-dim); font-weight: 500; }
+.nqn-pill[data-old="1"]::after { content: "saved"; font-size: 12px; color: var(--nqn-dim); font-weight: 500; }
 .nqn-float { position: fixed; z-index: 61; left: 50%; bottom: calc(var(--nqnav-h) - 14px); transform: translateX(-50%); view-transition-name: nqnav-pill; }
 @media (prefers-reduced-motion: no-preference) {
   .nqn-pill[data-lv="ok"] i { animation: nqn-beat 2.4s ease-in-out infinite; }
@@ -118,12 +116,29 @@ html.nqnav-on body { --nqnav-pill-room: 18px; }
 /* the haptic switch (iOS 18 Safari ticks on a switch toggle): never seen */
 .nqn-hap { position: fixed; left: -9999px; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
-/* wide screens: the dock floats as a centered glass bar */
+/* wide screens (QA N2): a full-width bar pinned to the bottom of the window (never over the page's cards), the tabs centered in 720 px */
 @media (min-width: 760px) {
-  .nqn-dock { left: 50%; right: auto; width: 600px; margin-left: -300px; bottom: 16px; height: 64px; padding: 6px 8px; border: 1px solid var(--nqn-line2); border-radius: 22px; }
-  html.nqnav-on { --nqnav-h: 80px; }
-  .nqn-dock .nqn-tab { font-size: 11.5px; }
-  .nqn-float { bottom: 66px; }
+  html.nqnav-on { --nqnav-h: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  .nqn-dock { padding: 6px max(16px, calc(50% - 360px)) env(safe-area-inset-bottom, 0px); justify-content: center; gap: 6px; }
+  .nqn-dock .nqn-tab { font-size: 13px; max-width: 100px; }
+}
+/* QA second sweep N2 / N3 / #9 (night-nq-main 2026-11-27): ONE row for the floaters, never a stack, never mid-screen.
+ * Phone + tablet: the PC pill, the kit's Ask ring and the Olympus Home seat share one row just above the dock (off the tabs).
+ * Wide (>= 760): the dock is a full-width bar flush with the bottom edge (no floating capsule over the cards);
+ * >= 1240: the pill, the Ask ring and Home ride inside that bar, beside the tabs (landing #2: +20 px row so taps sit clear of the dock). */
+html.nqnav-on .oly-home, html.nqnav-on .oly-ask-btn { bottom: calc(var(--nqnav-h) + 20px) !important; }
+.nqn-float { bottom: calc(var(--nqnav-h) + 20px); }
+html.nqnav-on body { padding-bottom: calc(var(--nqnav-h) + 64px) !important; }
+@media (min-width: 760px) {
+  html.nqnav-on { --nqnav-h: calc(56px + env(safe-area-inset-bottom, 0px)); }
+  .nqn-dock { left: 0; right: 0; width: auto; margin-left: 0; bottom: 0; height: var(--nqnav-h); padding: 4px 8px env(safe-area-inset-bottom, 0px);
+    border: 0; border-top: 1px solid var(--nqn-line2); border-radius: 0; justify-content: center; }
+  .nqn-float { bottom: calc(var(--nqnav-h) + 20px); }
+}
+@media (min-width: 1240px) {   /* only once the 7 tabs (736 px) leave room on both sides: pill left of Home, never over a tab */
+  html.nqnav-on .oly-home, html.nqnav-on .oly-ask-btn { bottom: calc(6px + env(safe-area-inset-bottom, 0px)) !important; }
+  .nqn-float { bottom: calc(6px + env(safe-area-inset-bottom, 0px)); left: auto; right: 72px; transform: none; }
+  html.nqnav-on body { padding-bottom: calc(var(--nqnav-h) + 24px) !important; }
 }
 /* inside a frame (Jarvis, a hub) the host already has its own navigation */
 html.framed .nqn-dock, html.framed .nqn-float { display: none !important; }

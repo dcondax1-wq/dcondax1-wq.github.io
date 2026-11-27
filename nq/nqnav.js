@@ -298,7 +298,7 @@
   // ---------- start ----------
   function css() {
     if (d.querySelector('link[data-nqnav]')) return;
-    var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = base + 'nqnav.css?v=2'; l.setAttribute('data-nqnav', ''); d.head.appendChild(l);
+    var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = base + 'nqnav.css?v=3'; l.setAttribute('data-nqnav', ''); d.head.appendChild(l);
   }
   function start() {
     var html = d.documentElement;

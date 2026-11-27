@@ -42,7 +42,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .ac-tot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 14px; }
 .tt-cell { min-width: 0; padding: 9px 10px; border-radius: 14px; border: 1px solid var(--line2); text-align: center;
   background: linear-gradient(170deg, rgba(157, 89, 238, .14), rgba(22, 19, 30, .9)); box-shadow: 0 0 16px rgba(157, 89, 238, .15); }
-.tt-cell span { display: block; font-size: 10.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--dim); }
+.tt-cell span { display: block; font-size: 12px; letter-spacing: .3px; line-height: 1.25; text-transform: uppercase; color: var(--dim); }
 .tt-cell b { display: block; margin-top: 2px; font-size: 17px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .tt-cell b.ok { color: var(--mint); } .tt-cell b.bad { color: var(--red); }
 
@@ -74,7 +74,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .ac-stage { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: .5px; border: 1px solid var(--line2); color: var(--ink);
   background: rgba(157, 89, 238, .12); white-space: nowrap; }
 .ac-stage.funded { color: #160f02; background: linear-gradient(180deg, #ffe08a, var(--gold)); border-color: var(--gold); box-shadow: 0 0 14px rgba(241, 193, 75, .55); }
-.ac-age { display: block; margin-top: 5px; max-width: 150px; margin-left: auto; font-size: 11.5px; color: var(--dim); }
+.ac-age { display: block; margin-top: 5px; max-width: 150px; margin-left: auto; font-size: 12px; color: var(--dim); }
 .ac-age.warn { color: var(--gold); } .ac-age.bad { color: var(--red); }
 
 /* hero: the numbers + the room ring */
@@ -82,12 +82,12 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .ac-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; min-width: 0; }
 .ac-num { min-width: 0; }
 .ac-num.big { grid-column: 1 / -1; }
-.ac-num span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; color: var(--dim); }
+.ac-num span { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .7px; color: var(--dim); }
 .ac-num b { display: block; font-size: 19px; font-variant-numeric: tabular-nums; color: var(--ink); overflow-wrap: anywhere; }
 .ac-num.big b { font-size: 30px; font-weight: 800; letter-spacing: .2px; text-shadow: 0 0 22px rgba(157, 89, 238, .45); }
 .ac-card[data-stage="funded"] .ac-num.big b { color: var(--gold); text-shadow: 0 0 22px rgba(241, 193, 75, .4); }
 .ac-num b.ok { color: var(--mint); } .ac-num b.bad { color: var(--red); }
-.ac-num small { display: block; font-size: 11px; color: var(--faint); }
+.ac-num small { display: block; font-size: 12px; color: var(--faint); }
 
 .ac-ring { position: relative; width: 84px; height: 84px; flex: none; transform: translateZ(24px); }
 .ac-ring svg { display: block; }
@@ -100,7 +100,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .ac-ring.none .rg-arc, .ac-ring.none .rg-glow { stroke: var(--faint); }
 .rg-mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1; }
 .rg-mid b { font-size: 17px; font-variant-numeric: tabular-nums; }
-.rg-mid small { font-size: 10px; letter-spacing: .6px; text-transform: uppercase; color: var(--dim); margin-top: 2px; }
+.rg-mid small { font-size: 12px; letter-spacing: .6px; text-transform: uppercase; color: var(--dim); margin-top: 2px; }
 
 /* bars */
 .ac-bar { margin: 8px 0 2px; }
@@ -118,9 +118,9 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 
 /* forecast + payout */
 .ac-fc { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding: 8px 10px; border-radius: 14px; background: rgba(157, 89, 238, .08); border: 1px solid var(--line); }
-.fc-big { flex: none; min-width: 74px; text-align: center; line-height: 1; }
+.fc-big { flex: none; min-width: 74px; max-width: 108px; text-align: center; line-height: 1; }
 .fc-big b { display: block; font-size: 26px; font-weight: 900; font-variant-numeric: tabular-nums; }
-.fc-big small { display: block; margin-top: 3px; font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: var(--dim); }
+.fc-big small { display: block; margin-top: 3px; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; color: var(--dim); }
 .fc-big.ok b { color: var(--mint); text-shadow: 0 0 14px rgba(119, 219, 137, .45); } .fc-big.warn b { color: var(--gold); } .fc-big.bad b { color: var(--red); }
 .fc-txt { display: grid; gap: 2px; min-width: 0; font-size: 12.5px; }
 .fc-none { font-size: 12.5px; color: var(--dim); }
@@ -130,7 +130,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .ac-pay.ready b { color: var(--mint); }
 .ac-pay.wait { border-color: var(--line2); background: rgba(157, 89, 238, .07); } .ac-pay.wait span { color: var(--gold); }
 .ac-eta { margin: 8px 0 0; font-size: 12.5px; color: var(--gold); }
-.ac-eta small { color: var(--faint); }
+.ac-eta small { color: var(--faint); font-size: 12px; }   /* QA #15: a <small> inside 12.5 px fell to 10.4 px */
 
 .ac-bots { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
 .ac-bots li { padding: 4px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid var(--line2); background: #100d17; color: var(--dim); }
@@ -149,7 +149,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .k7-seg.ok { stroke: var(--mint); } .k7-seg.warn { stroke: var(--gold); } .k7-seg.bad { stroke: var(--red); }
 .ac-k7.bad .k7-seg.spent { stroke: rgba(255, 93, 108, .25); }
 .k7-num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1; font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
-.k7-num small { font-size: 9px; letter-spacing: .5px; text-transform: uppercase; font-weight: 700; color: var(--dim); }
+.k7-num small { font-size: 12px; letter-spacing: .5px; text-transform: uppercase; font-weight: 700; color: var(--dim); }
 .ac-k7.ok .k7-num { color: var(--mint); } .ac-k7.warn .k7-num { color: var(--gold); } .ac-k7.bad .k7-num { color: var(--red); text-shadow: 0 0 14px rgba(255, 93, 108, .6); }
 .k7-txt { display: grid; gap: 2px; min-width: 0; }
 .ac-k7 .t { font-size: 12.5px; color: var(--dim); } .ac-k7 .t.strong { color: var(--ink); font-weight: 700; font-size: 13.5px; }
@@ -184,7 +184,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .bz-light.stop .dot { background: var(--red); box-shadow: 0 0 12px var(--red); animation: pulse 1.4s ease-in-out infinite; }
 .bz-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .bz-head h2 { margin: 0 0 6px; font-size: 18px; color: var(--gold); }
-.bz-head span { font-size: 11.5px; }
+.bz-head span { font-size: 12px; }
 .bz-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3px 8px; padding: 9px 0; border-top: 1px solid rgba(62, 37, 94, .6); }
 .bz-lab { font-size: 13px; color: var(--dim); } .bz-val { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
 @media (min-width: 520px) { .bz-row { grid-template-columns: minmax(0, 1fr) auto; } .bz-val { text-align: right; } }
@@ -196,7 +196,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .bz-mid { position: absolute; top: -1px; bottom: -1px; left: var(--m); width: 3px; margin-left: -1px; background: #fff; box-shadow: 0 0 8px var(--gold); }
 .bz-zero { position: absolute; top: 0; bottom: 0; left: var(--z); width: 1px; background: rgba(243, 238, 252, .55); }
 .bz-note { grid-column: 1 / -1; margin: 4px 0 0; font-size: 12px; color: var(--gold); }
-.bz-foot { margin: 8px 0 0; font-size: 11.5px; }
+.bz-foot { margin: 8px 0 0; font-size: 12px; }
 
 .ac-foot { margin-top: 18px; padding: 12px 14px; border-radius: 16px; border: 1px solid var(--line); background: var(--card); color: var(--dim); font-size: 13px; }
 .ac-foot p { margin: 0 0 8px; } .ac-foot p:last-child { margin: 0; } .ac-foot b { color: var(--gold); }

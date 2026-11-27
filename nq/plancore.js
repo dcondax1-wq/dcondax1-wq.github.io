@@ -28,7 +28,7 @@ const pos = (m) => (((m - 1080) % 1440) + 1440) % 1440 / 1380;          // 18:00
 const SESS = [{ id: 'asia', label: 'Asia', from: 1080, to: 120 }, { id: 'london', label: 'London', from: 120, to: 480 }, { id: 'ny', label: 'NY', from: 480, to: 960 }];
 const WD = (d) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' });
 
-export function plan(brief, news, home, nowS) {
+export function plan(brief, news, home, nowS, liveBar) {
   const B = isObj(brief) && (brief.v === undefined || brief.v === 1) ? brief : null, today = tradeDay(nowS);
   if (!B) return { has: false, day: today, stale: true, staleText: "No battle plan yet: the pre-market brief (nq/brief.json) is not on the site.", map: null, levels: null, news: [], read: null, bots: [] };
   const day = String(B.day || ''), stale = !!day && day < today;
@@ -45,14 +45,23 @@ export function plan(brief, news, home, nowS) {
   const h = isObj(home) ? home : {}, g = isObj(h.live) && isObj(h.live.pc) && isObj(h.live.pc.glance) ? h.live.pc.glance : null;
   const glit = g ? arr(g.bots).find((b) => isObj(b) && b.id === 'lit') : null;
   let rows = arr(glit && glit.lv).filter((x) => Array.isArray(x) && num(x[1]) !== null).map((x) => ({ name: String(x[0] || ''), px: num(x[1]), dist: num(x[2]), src: 'pc' }));
-  let price = null, priceSrc = '';
-  if (rows.length && rows.some((r) => r.dist !== null)) { const r = rows.find((x) => x.dist !== null); price = Math.round((r.px - r.dist) * 4) / 4; priceSrc = "the PC's last report"; }
+  let price = null, priceSrc = '', priceTag = 'now';
+  if (rows.length && rows.some((r) => r.dist !== null)) { const r = rows.find((x) => x.dist !== null); price = Math.round((r.px - r.dist) * 4) / 4; priceSrc = "the PC's last report"; priceTag = 'PC report'; }
+  const barsTo = String((B.data && B.data.bars_to) || '');
+  // QA N1: "now" comes only from the PC's own chart feed (a 5-minute bar no older than 30 min); the brief's last close is labelled with its time
+  const lv = isObj(liveBar) && num(liveBar.px) !== null && num(liveBar.t) !== null && num(nowS) - num(liveBar.t) <= 1800 && num(nowS) - num(liveBar.t) >= -300 ? { px: num(liveBar.px), hm: et(num(liveBar.t)).hm } : null;
   if (!rows.length) {
     const mk = isObj(B.market) ? B.market : {}, last = num(mk.last), litB = arr(B.bots).find((b) => isObj(b) && b.id === 'lit');
     const watch = new Set(arr(litB && litB.watch).map((w) => isObj(w) && w.name));
-    rows = arr(mk.levels).filter((x) => isObj(x) && num(x.price) !== null).map((x) => ({ name: String(x.name || ''), px: num(x.price), dist: num(x.dist_pts) ?? (last !== null ? num(x.price) - last : null), src: 'brief', watched: watch.has(x.name) }));
-    price = last; priceSrc = last !== null ? `the brief's last price (${B.data && B.data.bars_to ? 'bars to ' + B.data.bars_to : 'its date'})` : '';
+    const ref = lv ? lv.px : last;
+    rows = arr(mk.levels).filter((x) => isObj(x) && num(x.price) !== null).map((x) => ({ name: String(x.name || ''), px: num(x.price), dist: ref !== null ? Math.round((num(x.price) - ref) * 4) / 4 : num(x.dist_pts), src: 'brief', watched: watch.has(x.name) }));
+    price = ref;
+    if (lv) { priceTag = `now · ${lv.hm} ET`; priceSrc = `the PC's chart (last bar ${lv.hm} ET); the levels are from the brief of ${WD(day || today)}`; }
+    else { priceTag = `brief close${barsTo ? ' · ' + barsTo.slice(5) : ''}`; priceSrc = last !== null ? `the brief's last price (${barsTo ? 'bars to ' + barsTo : 'its date'}), not now: no fresh bar from the PC's chart` : ''; }
   }
+  // a level more than 1,000 pts from the price is left out and named (NQ's day range is ~250-500 pts: that far = a data problem to check)
+  const far = price === null ? [] : rows.filter((r) => Math.abs(r.px - price) > 1000).map((r) => ({ name: r.name, px: r.px, away: Math.round(Math.abs(r.px - price)) }));
+  if (far.length) rows = rows.filter((r) => Math.abs(r.px - price) <= 1000);
   const seen = new Set();
   rows = rows.filter((r) => { const k = r.name + '|' + r.px; if (seen.has(k)) return false; seen.add(k); return true; })
     .sort((a, b) => Math.abs(a.dist ?? 1e9) - Math.abs(b.dist ?? 1e9)).slice(0, 5).sort((a, b) => b.px - a.px);
@@ -70,7 +79,7 @@ export function plan(brief, news, home, nowS) {
   const mk = isObj(B.market) ? B.market : {}, vx = isObj(mk.vix) ? mk.vix : null, bias = isObj(B.bias) ? B.bias : null;
   const read = { vix: vx && num(vx.value) !== null ? `VIX ${num(vx.value).toFixed(1)} (${vx.band || '?'}): one day's move about ${Math.round(num(vx.day_move_pts) || 0)} pts${vx.date ? ` (VIX of ${vx.date})` : ''}` : '',
     where: String(mk.where_text || ''), bias: bias ? (String(bias.call || '').match(/up|down/i) ? `Bias ${String(bias.call).toUpperCase()}${bias.context_only !== false ? ' (context only, never a trade signal)' : ''}` : `No bias call${bias.why_none ? ': ' + bias.why_none : ''}`) : '',
-    day: String(B.day_type || B.forecast || ''), from: stale || rows.some((r) => r.src === 'pc') ? `the brief of ${WD(day || today)}` : '' };
+    day: String(B.day_type || B.forecast || ''), from: `the brief of ${WD(day || today)}${barsTo ? `, bars to ${barsTo}` : ''}` };   // QA N1: its numbers always say whose and when
   // 5. one line per bot: what it needs to trade today
   const bots = arr(B.bots).filter((b) => isObj(b) && !/blitz/i.test(String(b.id) + b.name)).map((b) => {
     const wf = String(b.waiting_for || ''), cut = wf.indexOf('. '), s1 = cut > 0 ? wf.slice(0, cut + 1) : wf;   // the first sentence (no lookbehind: Safari 16)
@@ -80,7 +89,7 @@ export function plan(brief, news, home, nowS) {
       window: win ? `${win} ET` : '', need, max: num(b.max_trades) };
   });
   return { has: true, day, dayText: WD(day || today), stale, staleText: stale ? `Plan from ${WD(day)} - today's (${WD(today)}) is not built yet. Levels and news below are that day's.` : '',
-    early, headline: String(B.headline || ''), map, levels: { price, priceSrc, rows }, news: newsRows, read, bots };
+    early, headline: String(B.headline || ''), map, levels: { price, priceSrc, priceTag, rows, far }, news: newsRows, read, bots };
 }
 
 // ------------------------------------------------------------------------------------------------ the alert history

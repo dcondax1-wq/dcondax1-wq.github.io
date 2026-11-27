@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-27 03:52 ET",
+ "built": "2026-11-27 06:36 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 27 3:45 ET",
+ "pc": "PC last reported Nov 27 6:30 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49177.52,
-   "src": "PC live, Nov 27 3:44 ET",
+   "src": "PC live, Nov 27 6:30 ET",
    "room": 1009.32,
    "to_pass": 3822.48,
    "trades": 0,
@@ -44,7 +44,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 27 3:44 ET",
+   "src": "PC live, Nov 27 6:30 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -69,7 +69,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 24995.24,
-   "src": "PC live, Nov 27 3:44 ET",
+   "src": "PC live, Nov 27 6:30 ET",
    "room": 995.24,
    "to_pass": 1504.76,
    "trades": 0,
@@ -95,7 +95,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 27 3:44 ET",
+   "src": "PC live, Nov 27 6:30 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -167,14 +167,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Rebuild Jarvis search index for landing #1",
-   "Rebuild generated hub data for landing #1",
-   "Rebuild brain hub data for landing #1",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Landing #1 integration fixes: PC pill 44 px tap target on every NQ page, no HEAD probe (sprint...",
-   "Night sprint landing: test pins from bump_versions; nq eager-JS budget 600 - 640 KB",
-   "bump_versions for the night sprint landing (nqscene q9 by hand)",
-   "Night sprint lead wires: NQ nav links (Order Flow, Replay, PC health), payready.css v3, nqgoals..."
+   "landing #2: floaters row +20 px above the dock (nav QA N3 clearance) and in-bar from 1240 px (pill...",
+   "landing #2: version bumps (bump_versions --apply), sw le-public-v226",
+   "landing #2: one dock rule set in nqnav.css (main's one-row floaters win; nav's 12/13 px kept);...",
+   "landing #2: keep QA shots2 screenshots off pc (gitignore shots*/)",
+   "NQ QA second sweep: battle plan + thinking price only from the PC's chart bar (brief close...",
+   "QA second sweep: #3 the vault box shows a CSS-drawn vault at once (it was EMPTY until the effects...",
+   "nav QA N2/N3: desktop = full-width bar pinned to the window bottom (pill inside, right), tab..."
   ]
  },
  "next": {
@@ -249,10 +249,10 @@
   "mode": "paper",
   "loss_used": 0.0,
   "loss_stop": 13.75,
-  "last": "WWWWWWWWWW",
-  "bets_total": 13,
-  "won_pct": 92,
-  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 10 bets WWWWWWWWWW; 13 bets so far, 92% won."
+  "last": "WWWWWWWWWL",
+  "bets_total": 14,
+  "won_pct": 86,
+  "line": "K8 (paper): $0 of the $13.75 weekly loss stop used; last 10 bets WWWWWWWWWL; 14 bets so far, 86% won."
  },
  "calendar": [
   {
@@ -333,6 +333,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 27 3:45 ET"
+  "board_pc": "Nov 27 6:30 ET"
  }
 }

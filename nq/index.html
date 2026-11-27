@@ -41,7 +41,7 @@
 <link rel="stylesheet" href="nqdesk.css?v=13">
 <link rel="stylesheet" href="nqhero.css?v=10">
 <link rel="stylesheet" href="plan.css?v=4" media="print" onload="this.media='all'"><link rel="stylesheet" href="december.css?v=1" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="nqgoals.css?v=10" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="nqgoals.css?v=11" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="nqtheme.css?v=11">
 <link rel="stylesheet" href="sun.css?v=2" id="sunCss" media="(prefers-contrast: more)"><!-- SUNLIGHT MODE: off = not render-blocking; on (saved, or prefers-contrast: more) = applied before the first paint -->
 <script>(function () { var d = document.documentElement, v = null; try { v = localStorage.getItem('nq.sun'); } catch (e) { /* private mode */ }
@@ -220,7 +220,7 @@
   <!-- round 3 (Chronos merged here): replay a past day; its trade file (~0.5 MB) loads only when this card comes into view -->
   <section class="ag-card card dk-lazy" id="pastCard" aria-labelledby="pastH">
     <h2 id="pastH">Replay a past day</h2>
-    <div id="pastDays"><p class="note">Loading when you get here...</p></div>
+    <div id="pastDays"><p class="note">Loads when you open this section.</p></div>
     <a class="dk-more" href="../chronos/">All days (Chronos)</a>
   </section>
 
@@ -248,12 +248,12 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r43"></script>
-<script type="module" src="nqchart.js?v=d1"></script>
+<script type="module" src="nq.js?v=r44"></script>
+<script type="module" src="nqchart.js?v=d2"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q9" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=4" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
-<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c5').catch(function(){})},400)})</script>
-<script src="nqnav.js?v=2" defer></script>
+<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c6').catch(function(){})},400)})</script>
+<script src="nqnav.js?v=3" defer></script>
 </body>
 </html>

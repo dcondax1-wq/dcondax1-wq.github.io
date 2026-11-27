@@ -424,7 +424,7 @@ async function refresh(force) {
 
 function css() {
   if ($('chartCss')) return;
-  const l = document.createElement('link'); l.id = 'chartCss'; l.rel = 'stylesheet'; l.href = new URL('./chart.css?v=1', import.meta.url).href; document.head.appendChild(l);
+  const l = document.createElement('link'); l.id = 'chartCss'; l.rel = 'stylesheet'; l.href = new URL('./chart.css?v=2', import.meta.url).href; document.head.appendChild(l);
 }
 async function boot() {
   css();

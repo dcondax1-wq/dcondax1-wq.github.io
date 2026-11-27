@@ -51,8 +51,8 @@ function start() {
     n.textContent = `How to read this page · ${i + 1} of ${stops.length}`; t.textContent = s.title; p.textContent = s.text;
     back.hidden = i === 0; go.textContent = i === stops.length - 1 ? 'Done' : 'Next';
     const r = tgt.getBoundingClientRect();
-    if (r.top < 70 || r.bottom > innerHeight * 0.55) tgt.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
-    place(); setTimeout(place, still ? 0 : 420);
+    if (r.top < 70 || r.bottom > innerHeight * 0.55) window.scrollTo({ top: Math.max(0, r.top + scrollY - 96), behavior: still ? 'auto' : 'smooth' });   // under the sticky bars
+    place(); setTimeout(place, still ? 0 : 420); setTimeout(place, 900);
     go.focus({ preventScroll: true });
   };
   const end = () => { save(); removeEventListener('resize', place); removeEventListener('scroll', place, true); document.removeEventListener('keydown', key, true); root.remove(); st.remove(); };

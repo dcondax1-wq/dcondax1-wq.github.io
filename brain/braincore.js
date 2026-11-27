@@ -11,7 +11,7 @@
 //   build(src, nowS) -> { mode, pc, price, headline, sample, regions[], pulse }
 import * as W from '../warroom/warcore.js?v=w3';
 import * as NB from '../nq/nqbars.js?v=b2';
-import * as PF from '../pillars/pillarsfeed.js?v=p5';
+import * as PF from '../pillars/pillarsfeed.js?v=p6';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);

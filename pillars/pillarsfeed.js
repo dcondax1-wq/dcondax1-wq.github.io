@@ -3,7 +3,7 @@
 import * as D from '../nq/nqdesk.js?v=8';
 import * as K7 from '../nq/clock7.js?v=3';
 import * as A from '../nq/acctcore.js?v=1';
-import * as P from './pillarscore.js?v=p4';
+import * as P from './pillarscore.js?v=p5';
 
 export function etNow(t) {
   try {

@@ -5,7 +5,7 @@
 // ?demo=1 the example; ?demo=1&silent=4d (or 90m, 5h) the example with a silent PC; ?flat=1 the 2D columns; ?howto=1 opens the sheet.
 import * as C from './nqcore.js?v=d6';   // d6 (night-seedata): today's $ in the first line; d1 (polish2 2026-11-19): the CME trading day
 import * as T from '../olympus/truth.js';
-import * as D from './nqdesk.js?v=14';
+import * as D from './nqdesk.js?v=15';
 import * as GM from './goals_model.js?v=1';             // night-nq-main: ONE goals model (QA #4)
 import { unpack as unpackBars } from './nqbars.js?v=b2';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
 import * as G from './nqgoals.js?v=10';
@@ -158,11 +158,20 @@ export function shortDay(text) {
   const end = +m[4] * 60 + +m[5];
   return end < 930 ? { day: m[1] || '', end: `${m[4]}:${m[5]}` } : null;
 }
+/** today's early halt from the brief (engine/cme_calendar rule: entries stop 15 min, flat 5 min before it); null on a normal day / an old brief */
+export function haltClose(brief, nowS) {
+  try {
+    const e = brief && typeof brief.early_close === 'string' ? /^(\d\d):(\d\d)$/.exec(brief.early_close) : null;
+    if (!e || String(brief.day || '') !== D.etParts(nowS).day) return null;
+    const m = +e[1] * 60 + +e[2], hm = (x) => `${String(Math.floor(x / 60)).padStart(2, '0')}:${String(x % 60).padStart(2, '0')}`;
+    return m < 960 ? { halt: hm(m), entry: hm(m - 15), flat: hm(m - 5) } : null;
+  } catch (_) { return null; }
+}
 // weight pass: plan.js (the battle plan + alert history) is code-split: added when its card nears the screen or the browser is idle,
 // never in the first paint's way (it reads window.NQ_HOME at start, then the 'nq-home' events)
 function loadPlan() {
   if (S.planAsked) return; S.planAsked = true;
-  const go = () => { if (S.planIn) return; S.planIn = true; const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./plan.js?v=3', import.meta.url).href; document.head.appendChild(t); };
+  const go = () => { if (S.planIn) return; S.planIn = true; const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./plan.js?v=4', import.meta.url).href; document.head.appendChild(t); };
   const card = $('battle');
   if (card && 'IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' }); io.observe(card); }
   (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(go, { timeout: 4000 });
@@ -197,7 +206,7 @@ function loadTour() {
   let seen = false; try { seen = !!localStorage.getItem('nq.tour'); } catch (_) { seen = false; }
   const force = /[?&]tour=1\b/.test(location.search);
   if ((seen || navigator.webdriver) && !force) return;   // an automated browser (the test suites) is not the owner: ?tour=1 only
-  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => { const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./tour.js?v=1', import.meta.url).href; document.head.appendChild(t); }, { timeout: 4000 });
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => { const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./tour.js?v=2', import.meta.url).href; document.head.appendChild(t); }, { timeout: 4000 });
 }
 function toolsInit() {
   const b = $('hxBrief'), s = $('hxSun');
@@ -218,8 +227,10 @@ addEventListener('click', (e) => { const a = e.target && e.target.closest && e.t
 addEventListener('hashchange', () => openFoldFor(location.hash));
 function renderPlan() {
   const p = S.view.plan, w = (() => { try { const h0 = deskHome(); return h0 && h0.board && h0.board.lit && h0.board.lit.window ? h0.board.lit.window.text : ''; } catch (_) { return ''; } })();
-  const sd = shortDay(w);
-  $('planRule').textContent = sd ? `${sd.day ? sd.day + ' is' : 'Today is'} a short CME day: LIT's window ends at ${sd.end} ET and it is flat before the early halt (5 minutes before it). Other days: one trade between 02:00 and 15:30 ET, flat by 15:55 ET.` : p.rule; $('planNow').textContent = p.now; $('planNow').hidden = !p.now; $('planNote').textContent = p.note; $('planNote').hidden = !p.note;
+  const sd = shortDay(w), hc = haltClose(S.brief, Date.now() / 1000);
+  // QA #8: ONE sentence from the day's real close (the brief's early_close today, else the PC's window text): never "flat by 15:55" next to a 13:15 halt
+  $('planRule').textContent = hc ? `Today is a short CME day: the CME halts at ${hc.halt} ET, so LIT's one trade can start until ${hc.entry} ET and it is flat by ${hc.flat} ET.`
+    : sd ? `${sd.day ? sd.day + ' is' : 'Today is'} a short CME day: LIT's window ends at ${sd.end} ET and it is flat 5 minutes before the early halt.` : p.rule; $('planNow').textContent = p.now; $('planNow').hidden = !p.now; $('planNote').textContent = p.note; $('planNote').hidden = !p.note;
 }
 function renderTrades() {
   const ol = $('trades'); clear(ol); const rows = S.view.trades;
@@ -290,8 +301,11 @@ function watchPast() {
     try { D.draw.past(box, D.pastDays(od)); } catch (_) { /* nothing */ }
     card.classList.remove('dk-lazy');
   };
-  if (!('IntersectionObserver' in window)) { go(); return; }
-  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' });
+  let once = false; const run = () => { if (once) return; once = true; go(); };
+  const fold = card.closest('details');                 // QA #6: folded in "Checks": load when the fold opens (a closed fold never intersects)
+  if (fold) { if (fold.open) run(); else fold.addEventListener('toggle', () => { if (fold.open) run(); }); return; }
+  if (!('IntersectionObserver' in window)) { run(); return; }
+  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); run(); } }, { rootMargin: '400px 0px' });
   io.observe(card);
 }
 // the hero scene's ribbon: today's (the CME day's, from 18:00 ET) 5-minute closes in the PC's chart post; the DEMO's fixture chart; else none
@@ -366,7 +380,7 @@ function render() {
   { const el = $('src'); if (el) el.textContent = srcLine(); }   // (the hero shows today's $: v.todayLine stays in the model for Jarvis / tests)
   S.ready = true;
   try {                                  // night-nq-main: the battle plan + alert history (plan.js) read the SAME merged PC state, never a 2nd feed read
-    window.NQ_HOME = { home: deskHome(), lite: S.lite || null, demo: S.demo };
+    window.NQ_HOME = { home: deskHome(), lite: S.lite || null, demo: S.demo, chart: deskChart() };   // chart = the PC's last 5-min bar (the battle plan's only "now" price)
     dispatchEvent(new CustomEvent('nq-home', { detail: window.NQ_HOME }));
     loadPlan(); loadDec();
   } catch (_) { /* the plan keeps its last draw */ }
