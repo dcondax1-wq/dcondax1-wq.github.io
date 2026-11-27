@@ -34,7 +34,7 @@ async function getJSON(url, ms = 8000) {
 let feedLib = null;
 /** the PC's ntfy status (../pc_feed.js, the same file and version the Trading page loads), or null; never throws, ~3 s at most */
 function pcFeed() {
-  if (!feedLib) feedLib = window.PC_FEED ? Promise.resolve(window.PC_FEED) : new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n9'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
+  if (!feedLib) feedLib = window.PC_FEED ? Promise.resolve(window.PC_FEED) : new Promise((res) => { try { const sc = document.createElement('script'); sc.src = '../pc_feed.js?v=n10'; sc.async = true; sc.onload = () => res(window.PC_FEED || null); sc.onerror = () => res(null); document.head.appendChild(sc); } catch (_) { res(null); } });
   return feedLib.then((F) => (F && F.fetchLatest ? Promise.race([F.fetchLatest({ feedUrl: '../status_feed.json' }), new Promise((r) => setTimeout(() => r(null), 3000))]) : null)).catch(() => null);
 }
 

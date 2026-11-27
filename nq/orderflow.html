@@ -15,8 +15,9 @@
 <!-- night-nq-of 2026-11-27 (owner: "make everything better, 3D, higher quality, effects, features"): the ORDER FLOW ROOM, phone first, OLYMPUS NIGHT.
      Read only: of_room.json (tools/build_of_room.py, cloud) + the PC's public status post (../pc_feed.js + the shared nqfeed.js: core "price", ext "ofp" = the paper bot
      today, engine/oflive.paper_tiny), polled every 30 s while on screen. Everything here is PAPER research: nothing trades. Text only via textContent. -->
-<link rel="stylesheet" href="orderflow.css?v=2">
-<script src="../pc_feed.js?v=n9"></script><script src="nqfeed.js?v=1"></script>
+<link rel="stylesheet" href="orderflow.css?v=3">
+<link rel="stylesheet" href="ofstrip.css?v=1">
+<script src="../pc_feed.js?v=n10"></script><script src="nqfeed.js?v=1"></script>
 </head>
 <body>
 <main id="app" data-state="loading">
@@ -38,9 +39,51 @@
         <circle class="of-ring-bg" cx="50" cy="50" r="40"/>
         <circle class="of-ring-fg" id="ringFg" cx="50" cy="50" r="40" stroke="url(#ringG)" stroke-dasharray="0 252"/>
       </svg>
-      <div class="of-ring-n"><b id="ringN">0</b><span id="ringOf">of 20</span></div>
-      <figcaption id="ringCap">forward paper trades</figcaption>
+      <div class="of-ring-n"><b id="ringN">0</b><span id="ringOf">of 30</span></div>
+      <figcaption id="ringCap">first-of-day trades</figcaption>
     </figure>
+  </section>
+
+  <section class="of-card" id="stripCard" aria-labelledby="stripH">
+    <div class="of-row"><h2 id="stripH">Footprint</h2><span class="of-chip" id="stripChip" data-level="warn">-</span></div>
+    <p class="of-note">Every 5-minute bar: who was aggressive at each price, where a push was absorbed, the big prints. Tap a bar or slide.</p>
+    <div id="strip"></div>
+  </section>
+
+  <section class="of-card of-lane" id="lane" data-on="0" aria-labelledby="laneH">
+    <div class="of-row"><h2 id="laneH">Practice lane</h2><span class="of-chip" id="laneChip" data-level="warn">-</span></div>
+    <p class="of-note" id="laneNote">Lane A on a NinjaTrader simulation account: the first absorbed signal of the day, 1 a day. Simulation money only.</p>
+    <div class="of-lane-meta" id="laneMeta"></div>
+    <ul class="of-lane-trades" id="laneTrades"></ul>
+  </section>
+
+  <section class="of-card" id="gate" aria-labelledby="gateH">
+    <div class="of-row"><h2 id="gateH">The ladder: step 0</h2><span class="of-chip" id="gateChip" data-level="warn">-</span></div>
+    <p class="of-note" id="gateNote">Paper forward, judged on the first trade of each day. Fixed before any forward trade.</p>
+    <div class="of-prog" role="progressbar" aria-labelledby="gateH" id="gateBar" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0"><span id="gateFill"></span></div>
+    <p class="of-prog-txt" id="gateTxt"></p>
+    <ul class="of-checks" id="gateChecks"></ul>
+  </section>
+
+  <section class="of-card" id="bt" aria-labelledby="btH">
+    <div class="of-row"><h2 id="btH">The honest backtest</h2><span class="of-chip" id="btChip">in-sample</span></div>
+    <p class="of-note" id="btNote"></p>
+    <div class="of-tiles" id="btTiles"></div>
+    <p class="of-warn" id="btLater" hidden></p>
+  </section>
+
+  <section class="of-card of-oos" id="oos" data-pending="1" aria-labelledby="oosH">
+    <div class="of-row"><h2 id="oosH">Full-year result</h2><span class="of-chip" id="oosChip" data-level="warn">-</span></div>
+    <p class="of-oos-big" id="oosBig"></p>
+    <p class="of-note" id="oosNote"></p>
+    <div class="of-tiles" id="oosTiles"></div>
+    <ul class="of-books" id="oosBooks"></ul>
+  </section>
+
+  <section class="of-card" id="v5" aria-labelledby="v5H">
+    <div class="of-row"><h2 id="v5H">v5: 8 new ideas tested</h2><span class="of-chip" id="v5Chip">no new edge</span></div>
+    <p class="of-note" id="v5Line"></p>
+    <ol class="of-v5" id="v5List"></ol>
   </section>
 
   <section class="of-card of-ladder-card" aria-labelledby="ladH">
@@ -80,7 +123,7 @@
   <p class="of-foot">Paper research only: nothing on this page places, sizes or changes a trade. Rules frozen before the data
     (research/orderflow/DESIGN_paper.md). <span id="made"></span></p>
 </main>
-<script type="module" src="orderflow.js?v=2"></script>
-<script src="nqnav.js?v=3" defer></script>
+<script type="module" src="orderflow.js?v=3"></script>
+<script src="nqnav.js?v=4" defer></script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eval Economics</title>
+<meta name="description" content="Every MFFU account type you use or could buy, at your real prices: expected $ per $1 of fees, months to pay back, the best next buy, and the honest bad-market numbers.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- day-evalroi 2026-11-27: read only. ./roi.json (tools/roi_build.py from the stored real-engine eval sims) + the PC's public post for the
+     payouts paid so far. roicore.js = the pure rules (node-tested: tests/test_evalroi.py), roi.js = the page. Text only via textContent. -->
+<link rel="stylesheet" href="roi.css?v=1">
+<script src="../pc_feed.js?v=n10"></script><script src="nqfeed.js?v=1"></script>
+</head>
+<body>
+<main id="app">
+  <header class="ac-top"><a class="ac-back" href="accounts.html" aria-label="Back to Accounts">‹ Accounts</a><h1>Eval economics</h1></header>
+  <section class="rb" id="best" aria-label="Best next money move" role="status"></section>
+  <section class="sf" id="sofar" aria-label="Spent and earned so far"></section>
+  <div class="rps" id="plans" aria-label="Each account type"></div>
+  <p class="cv" id="caveat"></p>
+  <p class="src" id="src"></p>
+</main>
+<script type="module" src="roi.js?v=1"></script>
+</body>
+</html>

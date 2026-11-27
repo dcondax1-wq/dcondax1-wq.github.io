@@ -202,7 +202,7 @@
     var done = false, fin = function () { if (done) return; done = true; cb(w.OLYMPUS_TRUTH || null); };
     w.addEventListener('gate-truth', fin);
     try {
-      var url = new w.URL(base + 'olympus/truth.js?v=r15', w.location.href).href, s = d.createElement('script');
+      var url = new w.URL(base + 'olympus/truth.js?v=r16', w.location.href).href, s = d.createElement('script');
       s.type = 'module';
       s.textContent = 'import * as T from ' + JSON.stringify(url) + '; window.OLYMPUS_TRUTH = T; window.dispatchEvent(new Event("gate-truth"));';
       d.head.appendChild(s);

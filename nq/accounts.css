@@ -116,6 +116,29 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 @keyframes grow { from { transform: scaleX(0); } }
 .ac-mini { margin: 8px 0 0; font-size: 12.5px; }
 
+/* day-healthqa: what the account is doing now + an open trade (live $ pulses) */
+.ac-now { margin: 8px 0 0; padding: 7px 10px; border-radius: 12px; font-size: 13px; color: var(--dim); background: rgba(157, 89, 238, .07); border: 1px solid var(--line);
+  overflow-wrap: anywhere; }
+.ac-now.in { color: var(--mint); border-color: rgba(119, 219, 137, .5); background: rgba(119, 219, 137, .08); }
+.ac-now.setup { color: var(--gold); border-color: rgba(241, 193, 75, .45); }
+.ac-open { margin-top: 8px; padding: 10px 12px; border-radius: 14px; border: 1px solid rgba(119, 219, 137, .55);
+  background: linear-gradient(160deg, rgba(119, 219, 137, .12), rgba(22, 19, 30, .9)); box-shadow: 0 0 22px rgba(119, 219, 137, .22); }
+.op-head { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.op-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px var(--mint); animation: pulse 1.2s ease-in-out infinite; }
+.op-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+.op-cell span { display: block; font-size: 12px; color: var(--dim); }
+.op-cell b { display: block; font-size: 16px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.op-cell.ok b { color: var(--mint); } .op-cell.bad b { color: var(--red); }
+.op-cell.live b { animation: live 1.6s ease-in-out infinite; }
+@keyframes live { 50% { opacity: .62; text-shadow: 0 0 12px currentColor; } }
+/* day-healthqa: the owner's hands steps (only while the PC says they are open) */
+.ac-hands { margin: 0 0 12px; padding: 12px 14px; border-radius: 16px; border: 1px solid rgba(241, 193, 75, .6);
+  background: linear-gradient(160deg, rgba(241, 193, 75, .12), rgba(22, 19, 30, .95)); box-shadow: 0 0 20px rgba(241, 193, 75, .2); }
+.hs-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; }
+.hs-head b { color: var(--gold); font-size: 15px; } .hs-head span { font-size: 12px; }
+.hs-list { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+.hs-list li b { display: block; font-size: 14px; } .hs-list li span { display: block; font-size: 13px; color: var(--dim); }
+
 /* forecast + payout */
 .ac-fc { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding: 8px 10px; border-radius: 14px; background: rgba(157, 89, 238, .08); border: 1px solid var(--line); }
 .fc-big { flex: none; min-width: 74px; max-width: 108px; text-align: center; line-height: 1; }
@@ -171,6 +194,13 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
 .hist-dot.up { fill: var(--mint); } .hist-dot.down { fill: var(--red); }
 @keyframes open { from { opacity: 0; transform: translateY(-6px); } }
 
+/* day-evalroi: the eval economics card (a link to roi.html) */
+.ac-roi { display: grid; gap: 3px; margin-top: 18px; padding: 13px 16px; border-radius: 18px; text-decoration: none; color: var(--ink);
+  border: 1px solid rgba(241, 193, 75, .6); background: linear-gradient(160deg, rgba(241, 193, 75, .13), rgba(22, 19, 30, .95)); box-shadow: 0 0 22px rgba(241, 193, 75, .18); }
+.ac-roi .rc-k { font-size: 12px; letter-spacing: .5px; text-transform: uppercase; color: var(--gold); font-weight: 800; }
+.ac-roi b { font-size: 17px; } .ac-roi .rc-l { font-size: 13px; color: var(--dim); } .ac-roi .rc-go { font-size: 13px; color: var(--gold); font-weight: 700; }
+.ac-roi:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
 /* ---------------------------------------------------------------- the business view */
 .ac-biz { margin-top: 18px; padding: 14px; border-radius: 20px; border: 1px solid var(--line2);
   background: radial-gradient(120% 80% at 0% 0%, rgba(241, 193, 75, .07), transparent 60%), linear-gradient(170deg, var(--card2), var(--card));
@@ -208,6 +238,7 @@ main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-
   .ac-biz, .ac-foot { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .op-dot, .op-cell.live b { animation: none !important; }
   .ac-card, .ac-card::after, .ac-banner, .ac-pc::before, .ac-bar .fl, .ac-hist, .bz-light .dot { animation: none !important; }
   .ac-card { transition: none; transform: none; }
   .rg-arc, .rg-glow { transition: none; }

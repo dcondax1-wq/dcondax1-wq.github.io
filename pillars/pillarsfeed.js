@@ -1,8 +1,8 @@
 // The Four Pillars model from the site's files + the PC post: the Accounts screen's cards (nq/acctcore.js), then pillarscore.build.
 // Shared by the Pillars page (pillars.js) and the mini strip on the NQ page (strip.js). Pure apart from Intl (ET clock).
 import * as D from '../nq/nqdesk.js?v=8';
-import * as K7 from '../nq/clock7.js?v=3';
-import * as A from '../nq/acctcore.js?v=1';
+import * as K7 from '../nq/clock7.js?v=4';
+import * as A from '../nq/acctcore.js?v=3';
 import * as P from './pillarscore.js?v=p5';
 
 export function etNow(t) {

@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-27",
  "number": 2,
- "built": "2026-11-27T13:05:08Z",
+ "built": "2026-11-27T20:33:21Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -679,7 +679,7 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 296 write-ups.",
+    "The research shelf now counts 297 write-ups.",
     "The newest lesson on file, dated 2026-11-27, reads: On Fri Nov 20 03:45 ET ATLAS's EMA member went short and hit its +6.6R target.",
     "It was filed under \"finding\" and comes from research/writeups/missed-trades-2026-11-27.md."
    ],
@@ -713,10 +713,10 @@
      "quote": true
     },
     {
-     "t": "296",
+     "t": "297",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 296
+     "raw": 297
     },
     {
      "t": "2026-11-27",

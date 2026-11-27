@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Insta card</title>
+<meta name="description" content="Make an Instagram card of the day's P&L: post or story size, three styles, hide balances or $; names only, never an account number.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- day-sharecard 2026-11-27 (owner: "when we have good days I want a sick image to post on insta that shows daily PNL"). sharecard.js draws the card
+     (pure, node-tested); share.js gathers the day (the live post through livecore.js, or replay/<day>.json = backtest, stamped). Text via textContent. -->
+<link rel="stylesheet" href="share.css?v=1">
+<script src="../pc_feed.js?v=n10"></script><script src="nqfeed.js?v=1"></script>
+</head>
+<body>
+<main id="app" data-state="loading">
+  <header class="sh-top">
+    <a class="sh-back" href="./" aria-label="Back to NQ">‹ NQ</a>
+    <h1>📸 Insta card</h1>
+  </header>
+  <div class="sh-wrap">
+    <figure class="sh-preview"><canvas id="card" width="1080" height="1350" role="img" aria-label="The share card"></canvas></figure>
+    <div class="sh-ctl">
+      <p class="sh-sum" id="sum"></p>
+      <p class="sh-red" id="redNote" hidden>A red day: there is no automatic button for it, but you can still make the card.</p>
+      <label class="sh-lab" for="day">Day</label>
+      <select id="day" class="sh-sel"></select>
+      <div class="sh-seg" id="size" role="group" aria-label="Size">
+        <button type="button" data-v="post" aria-pressed="true">Post 4:5</button><button type="button" data-v="story" aria-pressed="false">Story 9:16</button>
+      </div>
+      <div class="sh-seg" id="style" role="group" aria-label="Style">
+        <button type="button" data-v="neon" aria-pressed="true">Neon</button><button type="button" data-v="clean" aria-pressed="false">Clean</button><button type="button" data-v="vault" aria-pressed="false">Vault</button>
+      </div>
+      <label class="sh-tog"><input type="checkbox" id="hideBal"> Hide balances</label>
+      <label class="sh-tog"><input type="checkbox" id="hideUsd"> Hide $ (show R only)</label>
+      <div class="sh-go">
+        <button type="button" class="sh-btn gold" id="share">Share</button>
+        <button type="button" class="sh-btn" id="dl">Download PNG</button>
+      </div>
+      <p class="sh-msg" id="msg" role="status" aria-live="polite"></p>
+      <p class="sh-foot">Names only: never an account number or firm id. Past days are the bots' backtest twins and say so on the card.</p>
+    </div>
+  </div>
+</main>
+<script type="module" src="share.js?v=1"></script>
+</body>
+</html>

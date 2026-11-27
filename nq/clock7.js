@@ -42,9 +42,14 @@ export function rows(lite, nowS) {
   const L = isObj(lite) ? lite : {}, today = tradingDay(nowS);
   if (isObj(L.k7) && arr(L.k7.a).length) {
     // the PC's own block: "left" is re-counted for today (the post may be from yesterday)
+    // day-healthqa 2026-11-27: ka = the last fill was the KEEP-ALIVE's (newer than the strategy's own last trade, the mf row's lt_strat /
+    // lt); null when the post has no mf row for the account (unknown). The words then say "keep-alive filled Nov 25".
+    const mfRows = arr(isObj(L.mf) ? L.mf.a : null).filter(isObj);
     return arr(L.k7.a).filter((r) => isObj(r) && day(r.hard)).map((r) => {
       const x = row(r.id, r.nm, addDays(r.hard, -limitFor(r.id)), null, today, r.on === undefined ? null : r.on);
-      return { ...x, lf: day(r.lf), base: r.base === 'start' ? 'start' : 'fill' };
+      const lf = day(r.lf), m = mfRows.find((a) => a.id === r.id), strat = m ? day(m.lt_ka ? m.lt_strat : m.lt) : undefined;
+      const ka = r.base !== 'fill' || !lf || m === undefined ? null : !strat || lf > strat;
+      return { ...x, lf, base: r.base === 'start' ? 'start' : 'fill', ka };
     }).sort((a, b) => a.left - b.left || a.id.localeCompare(b.id));
   }
   const ka = isObj(L.pc) && isObj(L.pc.keepalive) ? L.pc.keepalive : null;
@@ -53,18 +58,21 @@ export function rows(lite, nowS) {
   const out = [];
   for (const a of arr(isObj(L.mf) ? L.mf.a : null)) {
     if (!isObj(a) || !a.id || a.id === 'blitz') continue;
-    const f = [day(a.lt), kaLast[a.id]].filter(Boolean).sort().pop() || null;
+    const strat = day(a.lt_ka ? a.lt_strat : a.lt), f = [strat, kaLast[a.id], day(a.lt)].filter(Boolean).sort().pop() || null;
     const r = row(a.id, a.nm, f, a.sd, today, ka ? !!onMap[a.id] : null);
-    if (r) out.push(r);
+    if (r) out.push({ ...r, ka: f ? !strat || f > strat : null });
   }
   return out.sort((a, b) => a.left - b.left || a.id.localeCompare(b.id));
 }
 
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const wd = (s) => { const d = new Date(s + 'T12:00:00Z'); return `${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getUTCDay()]} ${s.slice(5).replace('-', '/')}`; };
 /** plain words for one row */
 export function words(r) {
   const when = r.left === 0 ? 'today' : r.left < 0 ? `${-r.left} day${r.left === -1 ? '' : 's'} late` : `in ${r.left} day${r.left === 1 ? '' : 's'}`;
-  return { last: r.lf ? `Last fill ${wd(r.lf)}` : 'No fill yet', hard: `${r.lim === FIRM_LIMIT.lucid ? 'Lucid' : 'MFFU'} last day ${wd(r.hard)} (${when}${r.ses != null && r.left >= 0 ? `, ${r.ses} session${r.ses === 1 ? '' : 's'} left` : ''})`,
+  const kaf = r.ka === true && r.lf ? `keep-alive filled ${MON[+r.lf.slice(5, 7) - 1]} ${+r.lf.slice(8, 10)}, ` : '';
+  return { last: r.lf ? `Last fill ${wd(r.lf)}${r.ka === true ? ' (the keep-alive)' : ''}` : 'No fill yet',
+    hard: `${r.lim === FIRM_LIMIT.lucid ? 'Lucid' : 'MFFU'} last day ${wd(r.hard)} (${kaf}${when}${r.ses != null && r.left >= 0 ? `, ${r.ses} session${r.ses === 1 ? '' : 's'} left` : ''})`,
     ka: r.on === true ? 'Keep-alive ON' : r.on === false ? 'Keep-alive OFF' : 'Keep-alive: not reported',
     act: r.lvl === 'bad' ? 'Needs one filled trade by then: let the bot trade, or 1 MNQ by hand while every account is flat.' : r.lvl === 'warn' ? 'Getting close: a trade this week resets it.' : 'Fine.' };
 }

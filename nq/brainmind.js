@@ -14,6 +14,7 @@ const HIDDEN = new Set(['blitz']);
 const S = { learn: null, model: null, atlas: null, ready: false, raf: 0, parts: [], drawn: 0, feedOn: false };
 const R = (v) => (v === null || v === undefined || !Number.isFinite(+v) ? '-' : `${v > 0 ? '+' : ''}${(+v).toFixed(2)}R`);
 const usd = (v) => (v === null || v === undefined ? '-' : `${v < 0 ? '-' : '+'}$${Math.abs(Math.round(v)).toLocaleString('en-US')}`);
+const staleDays = (s) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); return m ? Math.floor((Date.now() - Date.UTC(+m[1], +m[2] - 1, +m[3])) / 864e5) : 0; };
 const md = (s) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : (s || '?'); };
 const hm = (t) => { try { return new Date(t * 1000).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }); } catch (_) { return '?'; } };
 
@@ -50,7 +51,7 @@ function drawNow() {
   const t = lite && (lite.t || (lite.reporter && lite.reporter.t));
   const cur = S.learn && S.learn.current;
   const meta = [t ? `PC report ${hm(t)} ET (${ageText(t)})` : 'the PC\'s report has not arrived yet (the site\'s copy)',
-    cur && cur.regime ? `market: ${cur.regime} week, ${cur.vix_band || ''}${cur.prior_day ? `, prior day ${cur.prior_day}` : ''} (as of ${md(cur.data_to)})` : null].filter(Boolean).join(' · ');
+    cur && cur.regime ? `market: ${cur.regime} week, ${cur.vix_band || ''}${cur.prior_day ? `, prior day ${cur.prior_day}` : ''} (as of ${md(cur.data_to)}${staleDays(cur.data_to) > 3 ? `, ${staleDays(cur.data_to)} days old: waiting on newer NQ bars` : ''})` : null].filter(Boolean).join(' · ');
   $('mNowMeta').textContent = meta;
 }
 

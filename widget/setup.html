@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Widget Setup</title>
-<meta name="description" content="Set up the big Olympus widget on the iPhone Home Screen in 2 minutes: live account numbers plus 8 tap buttons.">
+<title>NQ Widget Setup</title>
+<meta name="description" content="Set up NQ NOW on the iPhone in 2 minutes: the NQ price, each bot as an emoji, today's $, the next news event, the 7-day last day. Home Screen and lock screen.">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
 <meta name="color-scheme" content="light dark">
@@ -31,12 +31,36 @@ code.u { font-size: .75rem; overflow-wrap: anywhere; color: var(--soft); }
 <body>
 <main id="app">
   <header class="top">
-    <div><h1>Big widget</h1><p class="sub">Half your Home Screen: live numbers + 8 buttons</p></div>
+    <div><h1>NQ NOW widget</h1><p class="sub">The NQ bots on your Home Screen and lock screen</p></div>
     <span class="tag live">FREE</span>
   </header>
 
+  <!-- day-widget 2026-11-27: NQ NOW (nq-now.js), one paste -->
+  <section class="card fade" aria-labelledby="hN">
+    <h2 id="hN">NQ NOW: one paste (2 minutes)</h2>
+    <ol class="steps">
+      <li><b>Get Scriptable</b> (free). <a href="https://apps.apple.com/app/scriptable/id1405459188" rel="noopener">Open the App Store</a></li>
+      <li><b>One tap:</b> <button type="button" class="btn" id="goNq" data-src="nq-now.js">Copy NQ NOW + open Scriptable</button><br><span class="muted">Long-press, Paste, tap the title, name it <b>NQ NOW</b>, Done.</span></li>
+      <li><b>Home Screen:</b> long-press it, <b>+</b>, <b>Scriptable</b>, pick Small, Medium or Large, Add Widget. Long-press the widget, <b>Edit Widget</b>, Script = <b>NQ NOW</b>.</li>
+      <li><b>Lock screen (optional):</b> long-press the lock screen, <b>Customize</b>, <b>Lock Screen</b>, tap the widget row, <b>Scriptable</b>, then tap it: Script = <b>NQ NOW</b>.</li>
+    </ol>
+    <p class="soft"><b>What it shows:</b> the NQ price with <b>▲ / ▼</b> vs the last close, each bot as an emoji: <b>🟢 in trade +$X</b>, <b>👀 setup 4/10</b>, <b>⏸️ waiting</b>, <b>🔴 PC silent</b>; today's total $; <b>⏳</b> the next news / half day / roll with a countdown; MFFU's <b>7-day last day</b>. Tap = the NQ dashboard. BLITZ is never shown.</p>
+    <p class="muted" style="font-size:.9rem"><b>Honest note:</b> iOS decides when widgets redraw (it asks every 5 min; usually 5-15 min). The PC posts every 15 min. The bottom line always says how old the numbers are: <b>live · 10:26 ET</b>, <b>as of 09:42 ET</b> in gold after 20 min, <b>PC silent</b> in red after an hour.</p>
+  </section>
+
+  <!-- day-widget 2026-11-27: Siri (the same nq-now.js, named for the phrase) -->
+  <section class="card fade" aria-labelledby="hS">
+    <h2 id="hS">Siri: "Hey Siri, NQ status"</h2>
+    <ol class="steps">
+      <li><b>One tap:</b> <button type="button" class="btn" id="goSiri" data-src="nq-now.js">Copy + open Scriptable</button><br><span class="muted">Paste, name it <b>NQ status</b>, Done. Say <b>"Hey Siri, NQ status"</b>.</span></li>
+      <li><b>Again:</b> tap the button once more, paste, name it <b>Why no trade</b>. Say <b>"Hey Siri, why no trade"</b>.</li>
+    </ol>
+    <p class="soft"><b>NQ status</b> speaks: "NQ 25,665, down 1.3 percent. Zlarior is forming a long setup at stage 4 of 10, ATLAS is waiting, no trades today, zero dollars. Next: the market halts at 1:15." <b>Why no trade</b> speaks the newest setup the bot skipped and why, in plain words.</p>
+    <p class="muted" style="font-size:.9rem">Same file as the widget; the script's name picks what it says. Old numbers say so ("As of 9:45 ..." / "The PC has been quiet since ...").</p>
+  </section>
+
   <section class="card fade" aria-labelledby="hA">
-    <h2 id="hA">Set it up (2 minutes)</h2>
+    <h2 id="hA">The big Olympus widget (all apps + 8 buttons)</h2>
     <div class="draws"><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="1. Get Scriptable (free)"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="14" y="20" width="92" height="22" rx="6" class="ic"/><text x="60" y="35" class="t">App Store</text><rect x="30" y="70" width="60" height="60" rx="14" class="gd"/><text x="60" y="105" class="t b">S</text><rect x="38" y="145" width="44" height="16" rx="8" class="bt"/><text x="60" y="157" class="t s">GET</text></svg><figcaption>1. Get Scriptable (free)</figcaption></figure><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="2. Paste, name it Olympus"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="14" y="22" width="92" height="120" rx="8" class="ic"/><text x="22" y="40" class="t l">// Olympus</text><text x="22" y="54" class="t l">const VERSION…</text><rect x="22" y="150" width="76" height="18" rx="9" class="bt"/><text x="60" y="163" class="t s">Paste · Done</text></svg><figcaption>2. Paste, name it Olympus</figcaption></figure><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="3. Long-press, +, Scriptable, Large"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="14" y="22" width="18" height="18" rx="5" class="ic"/><rect x="39" y="22" width="18" height="18" rx="5" class="ic"/><rect x="64" y="22" width="18" height="18" rx="5" class="ic"/><rect x="89" y="22" width="18" height="18" rx="5" class="ic"/><rect x="14" y="47" width="18" height="18" rx="5" class="ic"/><rect x="39" y="47" width="18" height="18" rx="5" class="ic"/><rect x="64" y="47" width="18" height="18" rx="5" class="ic"/><rect x="89" y="47" width="18" height="18" rx="5" class="ic"/><circle cx="22" cy="14" r="6" class="bt"/><text x="22" y="17" class="t s">+</text><rect x="14" y="80" width="92" height="96" rx="12" class="gd o"/><text x="60" y="132" class="t">Scriptable · Large</text></svg><figcaption>3. Long-press, +, Scriptable, Large</figcaption></figure><figure class="draw"><svg viewBox="0 0 120 200" role="img" aria-label="4. Edit Widget, Script = Olympus"><rect x="4" y="4" width="112" height="192" rx="18" class="ph"/><rect x="10" y="14" width="100" height="100" rx="14" class="gd o"/><text x="18" y="30" class="t l">OLYMPUS ● Bot running</text><text x="18" y="44" class="t l">● Zlarior 50K  $49,193</text><text x="18" y="56" class="t l">● ATLAS  $24,887</text><rect x="16" y="70" width="19" height="16" rx="4" class="bt"/><rect x="39" y="70" width="19" height="16" rx="4" class="bt"/><rect x="62" y="70" width="19" height="16" rx="4" class="bt"/><rect x="85" y="70" width="19" height="16" rx="4" class="bt"/><rect x="16" y="90" width="19" height="16" rx="4" class="bt"/><rect x="39" y="90" width="19" height="16" rx="4" class="bt"/><rect x="62" y="90" width="19" height="16" rx="4" class="bt"/><rect x="85" y="90" width="19" height="16" rx="4" class="bt"/><rect x="22" y="130" width="76" height="18" rx="9" class="bt"/><text x="60" y="142" class="t s">Edit Widget</text></svg><figcaption>4. Edit Widget, Script = Olympus</figcaption></figure></div>
     <ol class="steps">
       <li><b>Get Scriptable</b> (free). <a href="https://apps.apple.com/app/scriptable/id1405459188" rel="noopener">Open the App Store</a></li>
@@ -78,7 +102,8 @@ code.u { font-size: .75rem; overflow-wrap: anywhere; color: var(--soft); }
   'use strict';
   var toast = document.getElementById('toast'), text = '';
   function say(s) { toast.textContent = s; toast.classList.add('on'); setTimeout(function () { toast.classList.remove('on'); }, 2400); }
-  fetch('olympus-widget.js', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); }).then(function (t) { text = t; }, function () {});
+  var texts = {};
+  ['olympus-widget.js', 'nq-now.js'].forEach(function (f) { fetch(f, { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); }).then(function (t) { texts[f] = t; if (f === 'olympus-widget.js') text = t; }, function () {}); });
   function copy(s) {
     if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(s).then(function () { return true; }, function () { return old(s); });
     return Promise.resolve(old(s));
@@ -89,14 +114,18 @@ code.u { font-size: .75rem; overflow-wrap: anywhere; color: var(--soft); }
     var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
     document.body.removeChild(ta); return ok;
   }
-  document.getElementById('go').addEventListener('click', function () {
+  function oneTap(id, file) { document.getElementById(id).addEventListener('click', function () {
+    var text = texts[file];
     if (!text) { say('Still loading, try again'); return; }
     copy(text).then(function (ok) {
       if (!ok) { say('Copy failed: use the Small widget page'); return; }
       say('Copied. Paste it in the new script');
       setTimeout(function () { location.href = 'scriptable:///add'; }, 600);
     });
-  });
+  }); }
+  oneTap('goNq', 'nq-now.js');
+  oneTap('goSiri', 'nq-now.js');
+  oneTap('go', 'olympus-widget.js');
   Array.prototype.forEach.call(document.querySelectorAll('.cp'), function (b) {
     b.addEventListener('click', function () { copy(b.getAttribute('data-u')).then(function (ok) { say(ok ? 'URL copied' : 'Copy failed: long-press the link'); }); });
   });

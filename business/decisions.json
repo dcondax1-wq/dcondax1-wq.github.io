@@ -854,6 +854,30 @@
    "recommend": "yes",
    "recommend_why": "It costs nothing, the stop rules and kill switch apply, and the forward ladder needs real-order-path fills before any eval is even asked.",
    "answered": null
+  },
+  {
+   "id": "atlas-full-50k",
+   "question": "ATLAS at full size (x1.0 instead of x0.5) on the Zlarior 50K eval?",
+   "why": "day-50ksize (research/lit/size50k-2026-11-27/RESULT.md): ATLAS x1.0 on the 50K combo = +$183 / +$111 / +$44 a month (2026 Jan-Jun / Jul-Oct / 2021-25), passes in ~5 sessions vs ~10, first payout ~1 week sooner; fails 3 -> 9% (H1) and 9 -> 13% (Jul-Oct) fresh, 6 -> 15% / 14 -> 20% from today's $1,313 room; biggest single loss ~$700 = half today's room. LIT upsizing (room_f 0.5-0.7) rejected.",
+   "impact": "+$110 to +$180 a month vs more eval fails ($91.80 + ~3 weeks each)",
+   "impact_usd": 150,
+   "options": [
+    "yes",
+    "no",
+    "later"
+   ],
+   "status": "later",
+   "answer": "later",
+   "answered": "2026-11-27",
+   "owner_words": "Wait until more room",
+   "revisit": "when the Zlarior 50K room is back above $2,000",
+   "source": "research/lit/size50k-2026-11-27/RESULT.md",
+   "usd_month": 150,
+   "added": "2026-11-27",
+   "applies": "Zlarior 50K eval (ATLAS combo lane)",
+   "recommend": "later",
+   "recommend_why": "With $1,313 of room one full-size ATLAS loss (~$700) is half the room; ask again above $2,000.",
+   "risk": "Fails 6 -> 15% (Jan-Jun-like) and 14 -> 20% (Jul-Oct-like) from today's room; each fail $91.80 + ~3 weeks."
   }
  ],
  "triage_note": "2026-11-23 triage (research/handoff/2026-11-23/DECISIONS.md): 2 live decisions; 5 merged / retired (status superseded, superseded_by points to the card or study that replaced them), 3 waiting on an outside answer or an account stage, 2 later. Nothing deleted, nothing live changed."

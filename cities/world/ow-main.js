@@ -515,7 +515,7 @@ function loadScript(src) {
 let feedP = null;
 async function live() {
   const now = Date.now() / 1000;
-  if (!window.PC_FEED && !feedP) feedP = loadScript(ROOT + 'pc_feed.js?v=n9');
+  if (!window.PC_FEED && !feedP) feedP = loadScript(ROOT + 'pc_feed.js?v=n10');
   const [lite, board, edge, lab] = await Promise.all([
     (feedP || Promise.resolve()).then(() => (window.PC_FEED ? Promise.race([window.PC_FEED.fetchLatest({ feedUrl: ROOT + 'status_feed.json' }), new Promise((r) => setTimeout(() => r(null), 9000))]) : null)).catch(() => null),
     getJSON(ROOT + 'board/board.json', 8000), getJSON(ROOT + 'edge.json', 8000), getJSON(ROOT + 'business/lab.json', 8000)]);

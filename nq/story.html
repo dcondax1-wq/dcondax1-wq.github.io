@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Story</title>
+<meta name="description" content="OLYMPUS NQ Story: the trading session told as a timeline of key moments: the Asia range, the sweeps, every LIT setup and why it stopped, entries, targets and stops in $.">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NQ Story">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- TODAY'S STORY (day-nqports 2026-11-27). Read only: the PC's status post + chart topic (today), nq/replay/<day>.json (the last 5 stored
+     days), nq/ports.json (context). Sends nothing. The model: storycore.js; the page: story.js (the same module as the nq/ card). -->
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a11">
+<script src="../olympus/themes.js?v=o11"></script>
+<script src="../pc_feed.js?v=n10"></script>
+<script src="../olympus/olympus.js?v=o29" data-app="nq"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=12" defer></script>
+<script src="../olympus/gate-nav.js?v=g14" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#f1c14b'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
+<link rel="stylesheet" href="nq.css?v=a12">
+<link rel="stylesheet" href="nqtheme.css?v=11">
+<link rel="stylesheet" href="story.css?v=2">
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">The story</h1><p class="sub">The session as a timeline: what the market did, what LIT and ATLAS saw, and why they acted or waited.</p></div></div>
+  </header>
+  <nav class="nqtabs" aria-label="NQ"><a href="./">Desk</a><a href="story.html" aria-current="page">Story</a><a href="replay.html">Replay</a></nav>
+  <section class="ag-card card st" id="storyPage" aria-labelledby="storyPageH"><p class="st-note">Loading the session...</p></section>
+  <p class="note">Today: the PC's own chart bars and thought stream. Past days: the PC's stored bars with the bots' replay twin (TWIN); real fills are marked REAL. Context, never a trade signal.</p>
+</main>
+<script type="module" src="story.js?v=2"></script>
+<script src="nqnav.js?v=4" data-tab="home" defer></script>
+</body>
+</html>

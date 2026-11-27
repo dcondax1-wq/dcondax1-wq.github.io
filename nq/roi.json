@@ -1,0 +1,302 @@
+{
+ "v": 1,
+ "made": "2026-11-27",
+ "rows": [
+  {
+   "key": "mffu_builder_50k",
+   "name": "Builder 50K",
+   "price": 91.8,
+   "cap": 1,
+   "used": 1,
+   "free": 0,
+   "markets": {
+    "H2": {
+     "pass": 83.3,
+     "blow": 15.8,
+     "days": 7.0,
+     "net6": 7221,
+     "per_dollar": 37.78,
+     "owner6": 7418,
+     "fees6": 196.4,
+     "first_pay_days": 34.0,
+     "first_pay_months": 1.6,
+     "lost": 19.8,
+     "no_pay": 1.6
+    },
+    "H1": {
+     "pass": 83.1,
+     "blow": 16.8,
+     "days": 7.0,
+     "net6": 7031,
+     "per_dollar": 37.51,
+     "owner6": 7224,
+     "fees6": 192.6,
+     "first_pay_days": 33.0,
+     "first_pay_months": 1.6,
+     "lost": 19.1,
+     "no_pay": 0.4
+    },
+    "REF": {
+     "pass": 18.8,
+     "blow": 81.2,
+     "days": 5.0,
+     "net6": -603,
+     "per_dollar": 0.24,
+     "owner6": 192,
+     "fees6": 794.8,
+     "first_pay_days": 64.5,
+     "first_pay_months": 3.1,
+     "lost": 78.7,
+     "no_pay": 89.8
+    },
+    "Y25": {
+     "pass": 21.0,
+     "blow": 78.6,
+     "days": 5.0,
+     "net6": -468,
+     "per_dollar": 0.29,
+     "owner6": 195,
+     "fees6": 663.3,
+     "first_pay_days": null,
+     "first_pay_months": null,
+     "lost": null,
+     "no_pay": 89.0
+    }
+   },
+   "break_even_months": 1.6
+  },
+  {
+   "key": "mffu_builder_25k",
+   "name": "Builder 25K",
+   "price": 63.0,
+   "cap": 2,
+   "used": 2,
+   "free": 0,
+   "markets": {
+    "H2": {
+     "pass": 82.0,
+     "blow": 8.6,
+     "days": 8.0,
+     "net6": 2889,
+     "per_dollar": 24.86,
+     "owner6": 3010,
+     "fees6": 121.1,
+     "first_pay_days": 37.0,
+     "first_pay_months": 1.8,
+     "lost": 22.2,
+     "no_pay": 8.5
+    },
+    "H1": {
+     "pass": 87.8,
+     "blow": 6.5,
+     "days": 8.0,
+     "net6": 3243,
+     "per_dollar": 27.72,
+     "owner6": 3365,
+     "fees6": 121.4,
+     "first_pay_days": 36.0,
+     "first_pay_months": 1.7,
+     "lost": 22.3,
+     "no_pay": 3.7
+    },
+    "REF": {
+     "pass": 18.8,
+     "blow": 80.4,
+     "days": 5.0,
+     "net6": -346,
+     "per_dollar": 0.14,
+     "owner6": 58,
+     "fees6": 404.1,
+     "first_pay_days": 70.0,
+     "first_pay_months": 3.3,
+     "lost": 64.2,
+     "no_pay": 93.9
+    },
+    "Y25": {
+     "pass": 20.4,
+     "blow": 79.0,
+     "days": 6.0,
+     "net6": -283,
+     "per_dollar": 0.17,
+     "owner6": 56,
+     "fees6": 339.3,
+     "first_pay_days": null,
+     "first_pay_months": null,
+     "lost": null,
+     "no_pay": 94.0
+    }
+   },
+   "break_even_months": 1.8
+  },
+  {
+   "key": "mffu_rapid_eod_25k",
+   "name": "Rapid EOD 25K",
+   "price": 97.2,
+   "cap": 3,
+   "used": 1,
+   "free": 1,
+   "markets": {
+    "H2": {
+     "pass": 85.0,
+     "blow": 2.2,
+     "days": 26.0,
+     "net6": 4618,
+     "per_dollar": 32.55,
+     "owner6": 4764,
+     "fees6": 146.4,
+     "first_pay_days": 56.0,
+     "first_pay_months": 2.7,
+     "lost": 40.3,
+     "no_pay": 16.5
+    },
+    "H1": {
+     "pass": 78.4,
+     "blow": 0.4,
+     "days": 33.0,
+     "net6": 10781,
+     "per_dollar": 83.47,
+     "owner6": 10912,
+     "fees6": 130.7,
+     "first_pay_days": 54.0,
+     "first_pay_months": 2.6,
+     "lost": 30.5,
+     "no_pay": 9.2
+    },
+    "REF": {
+     "pass": 6.5,
+     "blow": 79.3,
+     "days": 30.0,
+     "net6": -325,
+     "per_dollar": 0.14,
+     "owner6": 53,
+     "fees6": 378.0,
+     "first_pay_days": 66.0,
+     "first_pay_months": 3.1,
+     "lost": 18.2,
+     "no_pay": 97.3
+    },
+    "Y25": {
+     "pass": 6.6,
+     "blow": 65.2,
+     "days": 33.0,
+     "net6": -236,
+     "per_dollar": 0.2,
+     "owner6": 58,
+     "fees6": 294.1,
+     "first_pay_days": null,
+     "first_pay_months": null,
+     "lost": null,
+     "no_pay": 97.8
+    }
+   },
+   "break_even_months": 2.7
+  },
+  {
+   "key": "mffu_rapid_eod_50k",
+   "name": "Rapid EOD 50K",
+   "price": 165.0,
+   "cap": 3,
+   "used": 0,
+   "free": 1,
+   "markets": {
+    "H2": {
+     "pass": 91.0,
+     "blow": 5.1,
+     "days": 23.0,
+     "net6": 13100,
+     "per_dollar": 54.18,
+     "owner6": 13346,
+     "fees6": 246.3,
+     "first_pay_days": 47.0,
+     "first_pay_months": 2.2,
+     "lost": 38.5,
+     "no_pay": 7.8
+    },
+    "H1": {
+     "pass": 93.7,
+     "blow": 2.9,
+     "days": 24.0,
+     "net6": 29035,
+     "per_dollar": 124.14,
+     "owner6": 29271,
+     "fees6": 235.8,
+     "first_pay_days": 40.0,
+     "first_pay_months": 1.9,
+     "lost": 33.8,
+     "no_pay": 1.5
+    },
+    "REF": {
+     "pass": 10.0,
+     "blow": 84.6,
+     "days": 25.0,
+     "net6": -607,
+     "per_dollar": 0.26,
+     "owner6": 214,
+     "fees6": 820.4,
+     "first_pay_days": 72.0,
+     "first_pay_months": 3.4,
+     "lost": 29.2,
+     "no_pay": 94.4
+    },
+    "Y25": {
+     "pass": 13.7,
+     "blow": 74.6,
+     "days": 31.0,
+     "net6": -303,
+     "per_dollar": 0.53,
+     "owner6": 341,
+     "fees6": 644.0,
+     "first_pay_days": null,
+     "first_pay_months": null,
+     "lost": null,
+     "no_pay": 91.8
+    }
+   },
+   "break_even_months": 2.2
+  }
+ ],
+ "spent": [
+  {
+   "name": "Zlarior Builder 50K eval",
+   "usd": 91.8,
+   "src": "docs/ACCOUNT_RULES.md"
+  },
+  {
+   "name": "Zlarior Builder 25K #2 eval",
+   "usd": 63.0,
+   "src": "docs/ACCOUNT_RULES.md"
+  },
+  {
+   "name": "Rapid EOD 25K eval",
+   "usd": 97.2,
+   "src": "docs/ACCOUNT_RULES.md"
+  },
+  {
+   "name": "ATLAS's Builder 25K eval (now funded)",
+   "usd": 43.0,
+   "usd_hi": 63.0,
+   "src": "CLAUDE.md '25K $63 / $43': one 25K was $43, which one is not recorded"
+  }
+ ],
+ "spent_lo": 295.0,
+ "spent_hi": 315.0,
+ "slots": {
+  "used": 4,
+  "cap": 5
+ },
+ "markets": {
+  "H2": "2026 Jul-Oct-like (the fair test)",
+  "H1": "2026 Jan-Jun-like (good)",
+  "REF": "2021-25 mix",
+  "Y25": "2025-like"
+ },
+ "src": "research/plans/results.json + research/badcase/results.json + research/evalroi/rapid50_y25.json (1,000 runs each, real engine)",
+ "consfix": "Builder runs predate the 2026-11-26 pass-count fix: their pass % / $ are slightly low (0.1-2.2 points, $4-145 a slot)",
+ "best": {
+  "key": "mffu_rapid_eod_50k",
+  "name": "Rapid EOD 50K",
+  "price": 165.0,
+  "line": "Best next buy: a Rapid EOD 50K at $165.00 (your last free funded slot). In a 2026-like market it returns about $54 per $1 of fees, $13,100 in 6 months, first payout in about 2.2 months. In a 2025-like market it loses about $303 in 6 months, so buy it only while LIT is trading like 2026.",
+  "card": "Decide the 'plan-rapid50k-max2-rebuys' card first (the fleet plan's #1 move)"
+ }
+}

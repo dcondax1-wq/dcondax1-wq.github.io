@@ -4,8 +4,8 @@
 // show the Brain's bundled fixture, labelled SAMPLE; money, trades and research are always the real files. createElement / textContent only.
 // Read only: GET requests; nothing is sent, armed or placed. ?at=<ISO> pins the clock (tests). window.PILLAR_DATA = the test hook.
 import * as DC from './datacore.js?v=d2';
-import * as B from '../brain/braincore.js?v=b5';
-import * as PF from './pillarsfeed.js?v=p6';
+import * as B from '../brain/braincore.js?v=b6';
+import * as PF from './pillarsfeed.js?v=p7';
 
 const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);

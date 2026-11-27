@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-27 08:03 ET",
+ "built": "2026-11-27 15:31 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,33 +10,36 @@
   "complete": false,
   "sessions_done": 4
  },
- "pc": "PC last reported Nov 27 8:00 ET",
+ "pc": "PC last reported Nov 27 15:30 ET",
  "accounts": [
   {
    "key": "zlarior",
    "name": "Zlarior",
    "plan": "MFFU Builder 50K",
    "stage": "eval",
-   "end": 49177.52,
-   "src": "PC live, Nov 27 8:00 ET",
-   "room": 1009.32,
-   "to_pass": 3822.48,
-   "trades": 0,
-   "win_pct": null,
-   "usd_week": 0,
-   "best_day": null,
+   "end": 49481.62,
+   "src": "PC live, Nov 27 15:30 ET",
+   "room": 1313.42,
+   "to_pass": 3518.38,
+   "trades": 1,
+   "win_pct": 100,
+   "usd_week": 304.1,
+   "best_day": {
+    "day": "2026-11-27",
+    "usd": 304.1
+   },
    "strat": "Zlarior",
    "start": 49177.52,
-   "wins": 0,
+   "wins": 1,
    "losses": 0,
-   "r_week": null,
+   "r_week": 1.93,
    "room_start": 1009.32,
    "to_pass_start": 3822.48,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
-    "line": "No trading day this week."
+    "line": "best day 11-27 +$304: fine (no rule in the eval)."
    },
-   "status_line": "$3,822 to pass, $1,009 of room above the floor"
+   "status_line": "$3,518 to pass, $1,313 of room above the floor"
   },
   {
    "key": "atlas",
@@ -44,7 +47,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 27 8:00 ET",
+   "src": "PC live, Nov 27 15:30 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -68,26 +71,26 @@
    "name": "Rapid EOD 25K",
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
-   "end": 24995.24,
-   "src": "PC live, Nov 27 8:00 ET",
-   "room": 995.24,
-   "to_pass": 1504.76,
+   "end": 25299.34,
+   "src": "PC live, Nov 27 15:30 ET",
+   "room": 1000.0,
+   "to_pass": 1200.66,
    "trades": 0,
    "win_pct": null,
    "usd_week": 0,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 24995.24,
+   "start": 25299.34,
    "wins": 0,
    "losses": 0,
    "r_week": null,
-   "room_start": 995.24,
-   "to_pass_start": 1504.76,
+   "room_start": 1000.0,
+   "to_pass_start": 1200.66,
    "consistency": {
     "rule": "Rapid EOD eval: best day at most 30% of the profit",
     "line": "No trading day this week."
    },
-   "status_line": "$1,505 to pass, $995 of room above the floor"
+   "status_line": "$1,201 to pass, $1,000 of room above the floor"
   },
   {
    "key": "fresh25",
@@ -95,7 +98,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 27 8:00 ET",
+   "src": "PC live, Nov 27 15:30 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -119,11 +122,11 @@
  "strategies": [
   {
    "name": "Zlarior",
-   "trades": 0,
+   "trades": 1,
    "target": "2-4 a week",
-   "pf": null,
-   "usd": 0,
-   "win_pct": null,
+   "pf": "no loss",
+   "usd": 304.1,
+   "win_pct": 100,
    "exp_tpw": [
     2.56,
     3.12
@@ -136,7 +139,7 @@
    "exp_usd_week": 306.0,
    "plan_usd_month": 1656.0,
    "verdict": "on track",
-   "why": "$0 vs about $306 expected"
+   "why": "+$304 vs about $306 expected"
   },
   {
    "name": "ATLAS",
@@ -167,14 +170,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "Research Hub data rebuilt (v5 + monfix)",
-   "pchealth_core.js: mask() comment without any id-shaped example",
-   "pchealth_core.js: the mask() example comment uses a made-up account id",
-   "Decide card oflane-sim: $ impact + docs-first source (test_decide / learn_night schema); vault...",
-   "Order flow lane: /oflane Sim101 note, ladder holds the step-1 card while later trades lose, Decide...",
+   "jarvis search index rebuilt",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "NQ page: thinking-card level distances and the VIX note at 12 px (were 10 / 11.7 px); nqdesk.css...",
-   "NQ page: the Four Pillars chips at 12 px (were 9.5-10.5 px; found in the live check), nqhero.css..."
+   "Decide card atlas-full-50k: full fields; research hub data",
+   "brain hub data rebuilt for this landing",
+   "keep pc's research/lit/live_check.json (test output)",
+   "afternoon landing: Story + Market ports cards below the live chart (no layout shift over the...",
+   "afternoon landing: learn_night nqsite test expectations, sharecard comment without id-shaped...",
+   "NQ Brain: the market-regime line says how many days old its data is when 3 days (live showed 'as..."
   ]
  },
  "next": {
@@ -198,8 +201,8 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 0.0,
-  "line": "On pace for $0 a month (estimate: this week's $0 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
+  "usd_month": 1650.0,
+  "line": "On pace for $1,650 a month (estimate: this week's +$304 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
   "basis": "this week"
  },
  "twins": {
@@ -242,7 +245,19 @@
   ],
   "note": "R only (the twin's $ is at the research size). Days after the cloud's last bars are not compared."
  },
- "best": null,
+ "best": {
+  "acct": "zlarior",
+  "bot": "Zlarior",
+  "day": "2026-11-27",
+  "time": "10:10",
+  "side": "LONG",
+  "usd": 304.1,
+  "r": 1.93,
+  "exit": "TARGET",
+  "mfe_r": null,
+  "cause": "target",
+  "lesson": "Target hit: the plan did exactly what it should. Nothing to change."
+ },
  "worst": null,
  "kalshi": {
   "src": "PC status post (card)",
@@ -333,6 +348,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 27 8:00 ET"
+  "board_pc": "Nov 27 15:30 ET"
  }
 }

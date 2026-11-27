@@ -59,6 +59,24 @@
       }
     }
     if (used) out.ext_t = Math.round(used);
+    keepAliveDays(out);
+    return out;
+  }
+
+  // day-healthqa 2026-11-27 (owner: "make sure everything's good"): MFFU's 7-day rule counts ANY executed trade, the keep-alive's 1-MNQ
+  // fills included. The mf rows' "lt" is the STRATEGY's last trade day only (engine/mffu_view), so pages reading lt showed "no trade since
+  // Nov 16" while the keep-alive had filled on Nov 25. The post's k7 block (engine/clock7) already takes the newer of the two (lf, base
+  // "fill"): every mf row now carries that day as lt (the strategy's own day kept as lt_strat, lt_ka = true when the keep-alive's is newer).
+  function keepAliveDays(out) {
+    const k7 = isObj(out.k7) && Array.isArray(out.k7.a) ? out.k7.a : [], rows = isObj(out.mf) && Array.isArray(out.mf.a) ? out.mf.a : [];
+    const DAY = /^\d{4}-\d{2}-\d{2}$/;
+    for (const r of rows) {
+      if (!isObj(r)) continue;
+      const k = k7.find((x) => isObj(x) && x.id === r.id && x.base === 'fill' && DAY.test(String(x.lf || '')));
+      if (!k) continue;
+      const lt = DAY.test(String(r.lt || '')) ? String(r.lt) : '';
+      if (String(k.lf) > lt) { r.lt_strat = lt || null; r.lt = String(k.lf); r.lt_ka = true; }
+    }
     return out;
   }
 
@@ -341,9 +359,13 @@
     const lastOf = (id) => { const a = at.find((x) => isObj(x) && x.id === id); const ts = (a && Array.isArray(a.tr) ? a.tr : []).map((r) => (Array.isArray(r) ? +r[0] : NaN)).filter(okN); return ts.length ? Math.max(...ts) : null; };
     for (const [card, id] of [[b.lit, at.some((x) => isObj(x) && x.id === 'mffu50k_eval') ? 'mffu50k_eval' : null], [b.atlas, 'atlas']].concat(ex.map((c) => [c, c.id]))) {
       const lt = id ? lastOf(id) : null;
-      if (!isObj(card) || card.quiet_days != null || lt == null) continue;
-      card.quiet_days = Math.max(0, Math.round((Date.parse(nowDay + 'T12:00:00Z') - Date.parse(etParts(lt).day + 'T12:00:00Z')) / 86400000));
-      card.last_trade_day = etParts(lt).day;
+      const k = id && isObj(lite.k7) && Array.isArray(lite.k7.a) ? lite.k7.a.find((x) => isObj(x) && x.id === id && x.base === 'fill') : null;
+      const ltDay = lt == null ? null : etParts(lt).day, kDay = k && /^\d{4}-\d{2}-\d{2}$/.test(String(k.lf || '')) ? String(k.lf) : null;
+      const day = ltDay && kDay ? (kDay > ltDay ? kDay : ltDay) : (ltDay || kDay);   // day-healthqa: a keep-alive fill counts (MFFU's rule)
+      if (!isObj(card) || card.quiet_days != null || day == null) continue;
+      card.quiet_days = Math.max(0, Math.round((Date.parse(nowDay + 'T12:00:00Z') - Date.parse(day + 'T12:00:00Z')) / 86400000));
+      card.last_trade_day = day;
+      if (kDay && day === kDay && kDay !== ltDay) card.last_trade_ka = true;
     }
     return b;
   }
@@ -504,7 +526,7 @@
     return { ...home, live: nl, board: boardOver(home.board, lite, now) };
   }
 
-  const API = { FRESH_S, EXT_KIND, EXT_MAX_S, parseLatest, merge, feedUrls, fetchLatest, mergeBoard, boardOver, weekOf, cmeDay, toLive, overlayHome,
+  const API = { FRESH_S, EXT_KIND, EXT_MAX_S, parseLatest, merge, keepAliveDays, feedUrls, fetchLatest, mergeBoard, boardOver, weekOf, cmeDay, toLive, overlayHome,
     atTradesOf, daysOfTrades, accountsOver, eval50, payoutLines, homeOver, verifyText, keepSigned, canVerify, splitSig, feedKeys, keyCandidate, SKEW_S, MFFU, mffuView };
   root.PC_FEED = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;

@@ -1,0 +1,38 @@
+/* EVAL ECONOMICS (day-evalroi 2026-11-27): OLYMPUS NIGHT - black, cards #16131e, violet outlines + glow, gold accents, mint up. Text >= 12 px. */
+:root { --bg: #000; --card: #16131e; --card2: #1f1930; --line: #3e255e; --line2: #4d2e76; --glow: #9d59ee; --gold: #f1c14b; --mint: #77db89;
+  --red: #ff5d6c; --ink: #f3eefc; --dim: #a99cc0; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+body { font: 15px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif; overflow-x: hidden;
+  background: radial-gradient(120% 55% at 50% -12%, rgba(157, 89, 238, .26), transparent 60%), var(--bg); min-height: 100vh; }
+main { max-width: 560px; margin: 0 auto; padding: max(12px, env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); overflow-x: clip; }
+.ac-top { display: flex; align-items: center; gap: 10px; margin: 4px 0 14px; }
+.ac-top h1 { flex: 1; min-width: 0; margin: 0; font-size: 26px; color: var(--gold); text-shadow: 0 0 18px rgba(241, 193, 75, .35); }
+.ac-back { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 12px; border-radius: 12px; color: var(--ink);
+  text-decoration: none; border: 1px solid var(--line); background: var(--card); font-weight: 600; white-space: nowrap; }
+.rb { padding: 14px 16px; border-radius: 18px; border: 1px solid rgba(241, 193, 75, .65); background: linear-gradient(160deg, rgba(241, 193, 75, .14), rgba(22, 19, 30, .95));
+  box-shadow: 0 0 26px rgba(241, 193, 75, .22); }
+.rb-k { margin: 0; font-size: 12px; letter-spacing: .6px; text-transform: uppercase; color: var(--gold); font-weight: 800; }
+.rb-line { margin: 4px 0 0; font-size: 16px; font-weight: 600; }
+.rb-card { margin: 6px 0 0; font-size: 13px; color: var(--dim); }
+.sf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.sf-cell { min-width: 0; padding: 9px 10px; border-radius: 14px; border: 1px solid var(--line2); background: var(--card); text-align: center; }
+.sf-cell span { display: block; font-size: 12px; color: var(--dim); line-height: 1.25; }
+.sf-cell b { display: block; margin-top: 3px; font-size: 14px; overflow-wrap: anywhere; } .sf-cell b.ok { color: var(--mint); } .sf-cell b.bad { color: var(--red); }
+.rps { display: grid; gap: 14px; }
+.rp { padding: 14px; border-radius: 18px; border: 1px solid var(--line2); background: linear-gradient(170deg, var(--card2), var(--card) 60%);
+  box-shadow: 0 16px 36px -14px rgba(0, 0, 0, .85), 0 0 22px rgba(157, 89, 238, .16); }
+.rp.best { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(241, 193, 75, .35) inset, 0 0 26px rgba(241, 193, 75, .25); }
+.rp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.rp-head h2 { margin: 0; font-size: 20px; } .rp-price { color: var(--gold); font-size: 18px; }
+.rp-big { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; }
+.rp-per { padding: 8px; border-radius: 12px; text-align: center; border: 1px solid var(--line); }
+.rp-per b { display: block; font-size: 26px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.rp-per span { display: block; font-size: 12px; color: var(--dim); }
+.rp-per.good b { color: var(--mint); text-shadow: 0 0 14px rgba(119, 219, 137, .4); } .rp-per.badm b { color: var(--red); }
+.rp-lines { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 13.5px; color: var(--ink); }
+.rp-slot { margin: 8px 0 0; font-size: 13px; color: var(--dim); } .rp-slot.free { color: var(--gold); font-weight: 700; }
+.rp-verdict { margin: 2px 0 0; font-size: 13px; font-weight: 700; } .rp.ok .rp-verdict { color: var(--mint); } .rp.warn .rp-verdict { color: var(--gold); } .rp.bad .rp-verdict { color: var(--red); }
+.cv { margin: 16px 0 0; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 93, 108, .55); background: rgba(255, 93, 108, .08); font-size: 14px; }
+.src { margin: 10px 2px 0; font-size: 12px; color: var(--dim); }
+@media (min-width: 900px) { main { max-width: 1120px; } .rps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

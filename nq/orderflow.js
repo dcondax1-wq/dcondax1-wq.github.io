@@ -2,6 +2,7 @@
 // Reads of_room.json (tools/build_of_room.py) and the PC's public status post (../pc_feed.js fetchLatest: core "price" + "t", ext "ofp" =
 // today's paper bot, engine/oflive.paper_tiny), every 30 s while the screen is visible. model() is pure (node-tested: tests/test_nq_of.py);
 // draw() uses textContent / createElement(NS) only. Sends nothing, stores nothing. ?at=<ISO time> pins the clock (tests / screenshots).
+import { mount as mountStrip } from './ofstrip.js?v=1';
 export const NAMES = { pdh: 'Prior-day high', pdl: 'Prior-day low', onh: 'Overnight high', onl: 'Overnight low', orh: 'Opening-range high', orl: 'Opening-range low' };
 const READ = { a: 'absorbed', n: 'not absorbed', u: 'untouched' };
 const POLL_MS = 30000, LIVE_MAX_S = 3 * 3600;
@@ -15,7 +16,7 @@ export function etParts(t) {
   } catch (_) { return null; }
 }
 export const fmtPx = (v) => (num(v) === null ? '-' : v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-export const fmtR = (v) => (num(v) === null ? '-' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(v).toFixed(1)}R`);
+export const fmtR = (v) => (num(v) === null ? '-' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(v).toFixed(Math.abs(v) < 0.1 && v !== 0 ? 2 : 1)}R`);
 export const fmtUsd = (v) => (num(v) === null ? '-' : `${v > 0 ? '+' : v < 0 ? '−' : ''}$${Math.abs(Math.round(v)).toLocaleString('en-US')}`);
 export function ago(s) {
   if (num(s) === null || s < 0) return '';
@@ -31,7 +32,8 @@ export function verdictKind(txt) {
   if (!t) return 'none';
   if (t.startsWith('YES') || t.startsWith('PASS')) return 'yes';
   if (t.startsWith('TOO FEW') || t.startsWith('WAITING') || t.startsWith('NOT RUN')) return 'few';
-  if (t.startsWith('NO') || t.startsWith('REJECTED')) return 'no';
+  if (t.startsWith('NO') || t.startsWith('REJECTED') || t.startsWith('FAIL')) return 'no';
+  if (t.startsWith('WEAK')) return 'few';
   return 'few';
 }
 function shortVerdict(txt) {
@@ -105,8 +107,46 @@ export function model({ room, lite, nowS }) {
       level: 'warn', chip: 'waiting for real days', note: 'The first real verdict runs the night the PC sends its recorded tick days (tools/of_realday_verdict.py).' };
   }
   M.made = R && num(R.made) !== null ? R.made : null;
+  // day-ofroom2: the control room (room "control" from tools/build_of_room.py + the PC's live lane block)
+  const C = (R && R.control && typeof R.control === 'object') ? R.control : {};
+  M.ladder = C.ladder || null;
+  if (M.ladder) M.ring = { n: Math.max(0, num(M.ladder.n) ?? 0), need: num(M.ladder.need) || 30, label: 'first-of-day trades' };
+  M.backtest = C.backtest || null;
+  M.oos = C.oos || { pending: true, when: 'tonight 10:30 PM ET' };
+  M.v5 = Array.isArray(C.v5) ? C.v5 : [];
+  M.v5Line = C.v5_line || '';
+  M.lane = laneOf(L, C.lane, pcT, now, today);
   M.ok = M.state !== 'empty';
   return M;
+}
+
+// the practice lane: the PC's live block (status post "ofl") wins when it is today's and fresh, else the room's copy
+export const LANE_KEYS = ['ofl', 'oflane', 'of_lane'];
+export function laneOf(L, roomLane, pcT, now, today) {
+  let live = null;
+  for (const k of LANE_KEYS) if (L && L[k] && typeof L[k] === 'object') { live = L[k]; break; }
+  const fresh = live && pcT !== null && now - pcT <= LIVE_MAX_S;
+  const x = fresh ? live : roomLane && typeof roomLane === 'object' ? roomLane : null;
+  if (!x) return null;
+  const trades = (Array.isArray(x.trades) ? x.trades : Array.isArray(x.tr) ? x.tr : []).map((t) => (Array.isArray(t)
+    ? { t: t[0], dir: t[1], qty: t[2], status: t[3], pnl: t[4], why: t[5] } : t));
+  const day = x.day || x.d || null;
+  return { src: fresh ? 'live' : 'room', on: x.on === true || x.on === 1, account: String(x.account || x.acct || 'Sim102').slice(0, 12),
+    cap: num(x.cap) ?? 1, used: num(x.used) ?? trades.filter((t) => ['open', 'closed', 'sending'].includes(t.status)).length,
+    today: day === today, day, trades, why: x.why || null };
+}
+export function whyWords(t) {
+  const w = String((t && t.why) || '').toLowerCase();
+  if (t && t.status === 'refused' && /^(skipped|no fill)/.test(w)) return String(t.why);   // the lane's own short words (engine/oflive)
+  if (t && t.status === 'refused') {
+    if (w.includes('day cap')) return 'skipped: day cap (1 a day)';
+    if (w.includes('late')) return 'skipped: too late to act';
+    if (w.includes('news')) return 'skipped: news window';
+    if (w.includes('kill')) return 'skipped: kill switch';
+    if (w.includes('hedge')) return 'skipped: another account holds the other side';
+    return `skipped: ${String(t.why || '').slice(0, 70)}`;
+  }
+  return t && t.status ? String(t.status) : '';
 }
 
 // ------------------------------------------------------------------------------------------------ drawing (browser only)
@@ -268,6 +308,135 @@ function drawVerdict(M) {
   document.getElementById('verNote').textContent = V.note;
 }
 
+function drawLane(M) {
+  const X = M.lane, box = document.getElementById('lane'), chip = document.getElementById('laneChip'), meta = document.getElementById('laneMeta'), ul = document.getElementById('laneTrades');
+  meta.replaceChildren(); ul.replaceChildren();
+  if (!X) {
+    box.dataset.on = '0'; chip.textContent = 'no report yet'; chip.dataset.level = 'warn';
+    ul.append(el('li', 'of-lane-empty', 'The lane\'s state reaches this page with the PC\'s report. On the PC: /oflane status (Telegram).'));
+    return;
+  }
+  box.dataset.on = X.on ? '1' : '0';
+  chip.textContent = X.on ? `ON · ${X.account}` : `OFF · ${X.account}`; chip.dataset.level = X.on ? 'ok' : 'warn';
+  const used = el('span', 'of-pill', `Day cap: ${X.used} of ${X.cap} used`); if (X.used >= X.cap) used.dataset.full = '1';
+  meta.append(el('span', 'of-pill', `${X.account} (simulation)`), used, el('span', 'of-pill', X.src === 'live' ? 'live from the PC' : (X.day ? `as of ${X.day}` : 'room copy')));
+  const rows = X.today ? X.trades : [];
+  if (!rows.length) ul.append(el('li', 'of-lane-empty', X.on ? 'No lane trade yet today: it waits for the first absorbed level sweep (09:45-15:00 ET).' : 'The lane is off: no simulation order goes out.'));
+  for (const t of rows) {
+    const li = el('li'); li.dataset.status = t.status || '';
+    const head = el('span', 'of-lt-h', `${t.t || ''} ${String(t.dir || '').toUpperCase()}${t.qty ? ` ${t.qty} MNQ` : ''}`);
+    const res = t.status === 'refused' ? el('span', 'of-lt-r skip', whyWords(t))
+      : num(t.pnl) !== null ? el('span', `of-lt-r ${t.pnl >= 0 ? 'up' : 'dn'}`, `${fmtUsd(t.pnl)} (sim)`)
+        : num(t.R) !== null ? el('span', `of-lt-r ${t.R >= 0 ? 'up' : 'dn'}`, fmtR(t.R))
+          : el('span', 'of-lt-r open', t.status === 'open' ? 'OPEN' : t.status === 'sending' ? 'SENDING' : (t.status || ''));
+    li.append(head, res);
+    const why = t.status !== 'refused' && t.why ? el('span', 'of-lt-why', String(t.why)) : null;
+    if (why) li.append(why);
+    ul.append(li);
+  }
+}
+
+function drawGate(M) {
+  const G = M.ladder, chip = document.getElementById('gateChip'), ul = document.getElementById('gateChecks');
+  ul.replaceChildren();
+  if (!G) { chip.textContent = 'not scored yet'; document.getElementById('gateTxt').textContent = 'The ladder is scored nightly (tools/of_ladder.py).'; return; }
+  const lvl = G.status === 'passed' || G.status === 'ask_owner' ? 'ok' : G.status === 'stopped' ? 'bad' : 'warn';
+  chip.textContent = G.status === 'watching' ? 'watching' : String(G.status || '').replace('_', ' '); chip.dataset.level = lvl;
+  document.getElementById('gateH').textContent = `The ladder: step ${G.step ?? 0}${G.step_name ? ` · ${G.step_name}` : ''}`;
+  const n = num(G.n) ?? 0, need = num(G.need) || 30;
+  document.getElementById('gateFill').style.width = `${Math.min(100, 100 * n / need)}%`;
+  const bar = document.getElementById('gateBar'); bar.setAttribute('aria-valuenow', String(n)); bar.setAttribute('aria-valuemax', String(need));
+  document.getElementById('gateTxt').textContent = `${n} of ${need} first-of-day trades` + (n ? ` · ${G.won ?? 0} won · ${fmtR(num(G.sum_R) ?? 0)} · ${fmtUsd(num(G.usd_1) ?? 0)} at 1 MNQ` : ' · the count starts with the next forward trade');
+  const fmtV = (k, v) => (v === null || v === undefined ? '-' : k === 'mean R' ? fmtR(v) : k === 'PF ($)' ? Number(v).toFixed(2) : String(v));
+  for (const g of G.gates || []) {
+    const v = g.v, ok = v === null || v === undefined || n < need ? null : (g.k === 'mean R' ? v >= 0.2 : g.k === 'PF ($)' ? v >= 1.3 : null);
+    const li = el('li'); li.dataset.ok = ok === null ? 'wait' : ok ? '1' : '0';
+    li.append(el('span', 'of-ck-k', g.k), el('span', 'of-ck-need', g.need), el('span', 'of-ck-v', n ? fmtV(g.k, v) : '-'));
+    ul.append(li);
+  }
+  const extra = [];
+  if (num(G.later_n)) extra.push(`Later-in-the-day trades (not judged): ${G.later_n}, ${fmtR(num(G.later_sum_R) ?? 0)}.`);
+  if (G.cap_one_a_day) extra.push('The ladder says: cap the lane at 1 trade a day.');
+  document.getElementById('gateNote').textContent = 'Paper forward, judged ONCE on the first 30 first-of-day trades; set before any forward trade.' + (extra.length ? ' ' + extra.join(' ') : '');
+}
+
+function tile(v, k, cls) { const d = el('div', `of-tile ${cls || ''}`); d.append(el('b', '', v), el('span', '', k)); return d; }
+function drawBacktest(M) {
+  const B = M.backtest, box = document.getElementById('btTiles');
+  box.replaceChildren();
+  const later = document.getElementById('btLater');
+  if (!B) { document.getElementById('btNote').textContent = 'Not in this copy of the room data yet.'; later.hidden = true; return; }
+  document.getElementById('btNote').textContent = `Lane A, ${B.label}, ${B.days} real trading days. Costs in, $ at 1 micro. Not proof: the ladder decides.`;
+  box.append(tile(num(B.per_week) !== null ? `${B.per_week.toFixed(1)}/wk` : '-', 'trades'), tile(num(B.win_pct) !== null ? `${Math.round(B.win_pct)}%` : '-', 'won', 'up'),
+    tile(fmtR(B.mean_R), 'avg a trade', B.mean_R > 0 ? 'up' : 'dn'), tile(num(B.pf) !== null ? B.pf.toFixed(2) : '-', 'profit factor', 'gold'),
+    tile(fmtUsd(B.usd_1), `on ${B.days} days`, B.usd_1 > 0 ? 'up' : 'dn'), tile(num(B.max_dd) !== null ? `$${Math.round(B.max_dd).toLocaleString('en-US')}` : '-', 'max drawdown'),
+    tile(`${fmtR(B.half_old)} / ${fmtR(B.half_new)}`, 'older / newer half', 'wide'));
+  const L = B.later;
+  later.hidden = !L;
+  if (L) later.textContent = `Later-in-the-day trades lose: ${L.trades} trades, ${fmtUsd(L.usd_1)} at 1 MNQ. That is why the lane takes 1 trade a day. The newer half (${fmtR(B.half_new)}) is much weaker than the older one.`;
+}
+
+function drawOos(M) {
+  const O = M.oos || { pending: true }, box = document.getElementById('oos'), chip = document.getElementById('oosChip');
+  box.dataset.pending = O.pending ? '1' : '0';
+  if (O.pending) {
+    chip.textContent = 'pending'; chip.dataset.level = 'warn';
+    document.getElementById('oosBig').textContent = O.when ? O.when.replace(/^./, (c) => c.toUpperCase()) : 'Tonight';
+    document.getElementById('oosNote').textContent = 'Lane A on a full year of NQ ticks, rules frozen. The result shows here when the run finishes.';
+    return;
+  }
+  const k = verdictKind(O.verdict), v = String(O.verdict || '').toLowerCase();
+  chip.textContent = O.days ? `${O.days} days` : 'done'; chip.dataset.level = k === 'yes' ? 'ok' : k === 'no' ? 'bad' : 'warn';
+  const A = O.laneA || {};
+  document.getElementById('oosBig').textContent = v === 'pass' ? 'PASS: the ladder still decides' : v === 'fail' ? 'FAIL: no edge on the full year'
+    : v === 'weak' ? 'WEAK: not enough to act on' : O.verdict ? shortVerdict(O.verdict) : (num(A.mean_R) !== null ? `${fmtR(A.mean_R)} avg` : 'Done');
+  document.getElementById('oosNote').textContent = [O.line || '', O.first ? `${O.first} to ${O.last}${O.days ? `, ${O.days} days` : ''}.` : ''].filter(Boolean).join(' ');
+  const tiles = document.getElementById('oosTiles'); tiles.replaceChildren();
+  const add = (val, key, cls) => { if (val !== null && val !== undefined && val !== '-') tiles.append(tile(val, key, cls)); };
+  const H = A.halves || {};
+  if (num(A.n) !== null) {
+    add(num(A.tpw) !== null ? `${A.tpw.toFixed(1)}/wk` : String(A.n), num(A.tpw) !== null ? `${A.n} trades` : 'trades');
+    add(num(A.win_pct) !== null ? `${Math.round(A.win_pct)}%` : null, 'won', 'up');
+    add(fmtR(A.mean_R), 'avg a trade', A.mean_R > 0 ? 'up' : 'dn');
+    add(num(A.pf) !== null ? A.pf.toFixed(2) : null, 'profit factor', 'gold');
+    add(num(A.usd_1) !== null ? fmtUsd(A.usd_1) : null, 'at 1 MNQ', A.usd_1 > 0 ? 'up' : 'dn');
+    add(num(A.max_dd) !== null ? `$${Math.round(Math.abs(A.max_dd)).toLocaleString('en-US')}` : null, 'max drawdown');
+    const hs = [['h1_2026', '2026 H1'], ['h2_2026', '2026 H2'], ['dec_2025', 'Dec 2025']].filter((h) => num(H[h[0]]) !== null);
+    if (hs.length) add(hs.map((h) => fmtR(H[h[0]])).join(' / '), hs.map((h) => h[1]).join(' / '), 'wide');
+  }
+  const bk = document.getElementById('oosBooks'); bk.replaceChildren();
+  for (const [key, lab] of [['first', 'First trade of the day'], ['one_at_a_time', 'Every signal, one at a time']]) {
+    const b = (O.books || {})[key];
+    if (!b || num(b.n) === null) continue;
+    const parts = [`${lab}: ${b.n} trades${num(b.tpw) !== null ? ` (${b.tpw.toFixed(1)}/wk)` : ''}`, `${fmtR(b.mean_R)} avg`,
+      num(b.win_pct) !== null ? `${Math.round(b.win_pct)}% won` : null, num(b.pf) !== null ? `PF ${b.pf.toFixed(2)}` : null, num(b.usd_1) !== null ? fmtUsd(b.usd_1) : null];
+    bk.append(el('li', '', parts.filter(Boolean).join(' · ')));
+  }
+}
+
+function drawV5(M) {
+  const ol = document.getElementById('v5List');
+  ol.replaceChildren();
+  document.getElementById('v5Line').textContent = M.v5Line || (M.v5.length ? '' : 'The v5 summary is not in this copy of the room data.');
+  for (const r of M.v5) {
+    const li = el('li'); const vk = /^(no|effectively no)/i.test(r.verdict) ? 'no' : /too few/i.test(r.verdict) ? 'few' : 'weak';
+    li.dataset.v = vk; if (r.watch) li.dataset.watch = '1';
+    const top = el('div', 'of-v5-top');
+    top.append(el('span', 'of-v5-rank', `#${r.rank}`), el('span', 'of-v5-name', `${r.family} · ${r.variant}`));
+    if (r.watch) top.append(el('span', 'of-tag p', 'WATCH'));
+    top.append(el('span', `of-v5-v ${vk}`, r.verdict));
+    const nums = el('div', 'of-v5-nums');
+    for (const t of [num(r.per_week) !== null ? `${r.per_week}/wk` : null, num(r.win_pct) !== null ? `${Math.round(r.win_pct)}% won` : null, fmtR(r.mean_R), num(r.pf) !== null ? `PF ${r.pf.toFixed(2)}` : null, num(r.usd_1) !== null ? fmtUsd(r.usd_1) : null].filter(Boolean)) nums.append(el('span', 'nw', t));
+    li.append(top, el('p', 'of-v5-what', r.what), nums);
+    if (r.oos) {
+      const o = r.oos, bits = [o.verdict ? String(o.verdict).toUpperCase() : null, num(o.n) !== null ? `${o.n} trades` : null,
+        num(o.mean_R) !== null ? fmtR(o.mean_R) : null, num(o.usd_1) !== null ? fmtUsd(o.usd_1) : null, o.line || null].filter(Boolean);
+      li.append(el('p', 'of-v5-oos', `Full year: ${bits.join(' · ') || 'scored'}`));
+    }
+    ol.append(li);
+  }
+}
+
 function draw(M) {
   const app = document.getElementById('app');
   app.dataset.state = M.state;
@@ -280,13 +449,15 @@ function draw(M) {
   document.getElementById('ringFg').setAttribute('stroke-dasharray', `${(C * f).toFixed(1)} ${C.toFixed(1)}`);
   document.getElementById('ringN').textContent = String(M.ring.n);
   document.getElementById('ringOf').textContent = `of ${M.ring.need}`;
+  document.getElementById('ringCap').textContent = M.ring.label || 'forward paper trades';
+  drawLane(M); drawGate(M); drawBacktest(M); drawOos(M); drawV5(M);
   drawLadder(M); drawTape(M); drawTrades(M); drawLit(M); drawVerdict(M);
   const age = M.made ? ago(M.nowS - M.made) : '';
   document.getElementById('made').textContent = age ? `Room data built ${age}.` : '';
 }
 
 // ------------------------------------------------------------------------------------------------ boot
-const S = { room: null, lite: null, M: null, ready: false, polls: 0 };
+const S = { room: null, lite: null, M: null, ready: false, polls: 0, strip: null };
 const AT = (() => { try { const v = new URLSearchParams(location.search).get('at'); const t = v ? Date.parse(v) : NaN; return Number.isFinite(t) ? t / 1000 : null; } catch (_) { return null; } })();
 const T0 = Date.now() / 1000, nowS = () => (AT ? AT + (Date.now() / 1000 - T0) : Date.now() / 1000);
 async function getJSON(url, ms) {
@@ -298,7 +469,19 @@ async function getPost() {
   if (!F || !F.fetchLatest) return null;
   try { return await Promise.race([F.fetchLatest({ feedUrl: new URL('../status_feed.json', import.meta.url).href }), new Promise((r) => setTimeout(() => r(null), 15000))]); } catch (_) { return null; }
 }
+async function loadStrip() {
+  const d = await getJSON('of_strip.json');
+  const chip = document.getElementById('stripChip'), box = document.getElementById('strip');
+  if (!d || !Array.isArray(d.bars) || !d.bars.length) {
+    chip.textContent = 'no day yet';
+    if (!S.strip) box.replaceChildren(el('p', 'of-empty', 'The footprint shows here once a recorded tick day reaches the site.'));
+    return;
+  }
+  chip.textContent = d.day ? `${d.day} · ${d.bars.length} bars` : `${d.bars.length} bars`; chip.dataset.level = 'ok';
+  if (S.strip) S.strip.update(d); else S.strip = mountStrip(box, d, { height: 230 });
+}
 async function refresh(full) {
+  if (full || !S.strip) loadStrip();
   const [room, lite] = await Promise.all([full || !S.room ? getJSON('of_room.json') : Promise.resolve(S.room), getPost()]);
   if (room) S.room = room;
   if (lite) S.lite = lite;

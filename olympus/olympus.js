@@ -1,7 +1,7 @@
 /* OLYMPUS kit (tools/web_public/olympus/, 2026-11-03; docs/OLYMPUS_DESIGN.md): the small shared layer that makes the nine 3D
  * apps one product. A classic script, loaded in <head> BEFORE the app's modules:
  *   <script src="../olympus/themes.js?v=o11"></script>  (the OLYMPUS themes: optional, just before)
- *   <script src="../olympus/olympus.js?v=o28" data-app="mind"></script>
+ *   <script src="../olympus/olympus.js?v=o29" data-app="mind"></script>
  * It never throws and every app still works when it is missing (each call site reads window.OLYMPUS defensively).
  *
  *   quality  ONE setting for every app and Jarvis: localStorage 'jfx' = ultra | high | low | off (Jarvis's own 3D-effects key,
@@ -651,7 +651,7 @@
     } catch (e) { /* no worker on this browser */ }
     try {
       if (base && !framed && id !== 'jarvis' && !d.querySelector('script[src*="jarvis/ask.js"]') && d.body) {
-        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=9'; s.defer = true; if (id) s.setAttribute('data-app', id);
+        var s = d.createElement('script'); s.src = base + 'jarvis/ask.js?v=10'; s.defer = true; if (id) s.setAttribute('data-app', id);
         d.body.appendChild(s); d.body.classList.add('oly-has-ask');   // agora.css: the last lines scroll clear of the fixed button
       }
     } catch (e) { /* the page works without the button */ }

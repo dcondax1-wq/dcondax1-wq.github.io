@@ -1,5 +1,5 @@
 /* NQ nav (night-nq-nav 2026-11-27): ONE line makes any NQ page part of the NQ app.
- *     <script src="nqnav.js?v=1" defer></script>          (pages in tools/web_public/nq/; it loads nqnav.css itself)
+ *     <script src="nqnav.js?v=4" defer></script>          (pages in tools/web_public/nq/; it loads nqnav.css itself)
  * - The dock: Home, Live, Chart, Accounts, Order flow, Brain, PC health; the page you are on lit (gold icon, violet ink that slides between
  *   pages through the View Transitions API; older browsers get a short fade). A page may name its tab: <script ... data-tab="live">.
  *   A tab whose page is not there yet (orderflow.html, pchealth.html, chart.html during the sprint) uses its fallback or hides (HEAD probe,
@@ -90,7 +90,7 @@
   function loadFeed() {
     if (w.PC_FEED) return Promise.resolve(w.PC_FEED);
     return new Promise(function (res) {
-      var s = d.createElement('script'); s.src = base + '../pc_feed.js?v=n9'; s.async = true;
+      var s = d.createElement('script'); s.src = base + '../pc_feed.js?v=n10'; s.async = true;
       s.onload = function () { res(w.PC_FEED || null); }; s.onerror = function () { res(null); };
       d.head.appendChild(s);
     });

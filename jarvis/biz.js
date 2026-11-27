@@ -495,7 +495,7 @@ export const TAX_PCT = 30, SPLIT = 0.8;
 A.payoutnow = async (deps, nowD) => {
   const L = await freshLive(deps);
   const raw = L && isObj(L.raw) ? L.raw : null;
-  const [feed, coach] = await Promise.all([deps.feed ? deps.feed : loadScript('../pc_feed.js?v=n9', 'PC_FEED'), deps.coach ? deps.coach : loadScript('../business/payoutcoach.js', 'PAYOUT_COACH')]);
+  const [feed, coach] = await Promise.all([deps.feed ? deps.feed : loadScript('../pc_feed.js?v=n10', 'PC_FEED'), deps.coach ? deps.coach : loadScript('../business/payoutcoach.js', 'PAYOUT_COACH')]);
   const funded = accountsOf(L).filter((a) => a.stage === 'funded');
   if (!funded.length) return { text: 'No funded account on the PC report right now, so no payout to ask for yet. Say "first payout" for the dates.', src: liveSrc(L, +nowD) };
   const lines = [];

@@ -15,8 +15,8 @@
 <!-- day-accounts 2026-11-23: ONE clean screen for the accounts (OLYMPUS NIGHT). Read only: ../home.json, ../business/accounts.json,
      ../business/payday.json and the PC's public status post (../pc_feed.js). acctcore.js = the pure rules (node-tested), accounts.js = the page.
      Text only through textContent. A new account added on the PC (TRADE_HOME 4) appears by itself from the PC's post. -->
-<link rel="stylesheet" href="accounts.css?v=3">
-<script src="../pc_feed.js?v=n9"></script><script src="nqfeed.js?v=1"></script>
+<link rel="stylesheet" href="accounts.css?v=4">
+<script src="../pc_feed.js?v=n10"></script><script src="nqfeed.js?v=1"></script><script defer src="sharebtn.js?v=1"></script><!-- day-sharecard: "📸 Make Insta card" on green days -->
 <script src="../business/payoutcoach.js?v=4"></script>
 </head>
 <body>
@@ -32,10 +32,12 @@
     <p class="ac-bx" id="bannerText"></p>
   </section>
 
+  <section class="ac-hands" id="hands" aria-label="Steps for you at the PC" hidden></section>
   <p class="ac-sum" id="sum"></p>
   <div class="ac-tot" id="tot" aria-label="All accounts together" hidden></div>
   <div id="cards" class="ac-cards" aria-label="Each account"></div>
 
+  <a class="ac-roi" id="roiCard" href="roi.html" hidden aria-label="Eval economics: the best next buy"></a>
   <section class="ac-biz" id="biz" aria-label="The business"></section>
 
   <section class="ac-foot">
@@ -44,8 +46,8 @@
     <p>Funded accounts show MFFU's way: profit from $0. Payout dates, pass chances and the 12-month range are estimates from 1,000 replays, not a promise. Read only: this page never places, arms or changes anything.</p>
   </section>
 </main>
-<script type="module" src="accounts.js?v=2"></script>
+<script type="module" src="accounts.js?v=3"></script>
 <script>addEventListener('load', function () { setTimeout(function () { import('../pillars/nightfx.js?v=h1').then(function (m) { m.mount(); }).catch(function () {}); import('../pillars/livefx.js?v=h1').then(function (m) { m.watch(); }).catch(function () {}); }, 700); });</script><!-- day-pillars2 quality pass: the particle field + number glow on change (after the page) -->
-<script src="nqnav.js?v=3" defer></script>
+<script src="nqnav.js?v=4" defer></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 // The markup reserves each part's height in pulse.css before data arrives, so filling it in moves nothing (CLS 0).
 import * as T from './truth.js';
 import '../age.js';
-import '../pc_feed.js?v=n9';      // MFFU's own view of an account (PC_FEED.mffuView: a sim-funded account shows balance = profit, day-archive 2026-11-20)          // the site's one data-age format (root age.js, DATA TRUTH) (window.OLY_AGE: "updated 4 min ago", amber / red per kind)
+import '../pc_feed.js?v=n10';      // MFFU's own view of an account (PC_FEED.mffuView: a sim-funded account shows balance = profit, day-archive 2026-11-20)          // the site's one data-age format (root age.js, DATA TRUTH) (window.OLY_AGE: "updated 4 min ago", amber / red per kind)
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const num = T.num;

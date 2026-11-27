@@ -9,7 +9,7 @@ import * as D from './nqdesk.js?v=15';
 import * as GM from './goals_model.js?v=1';             // night-nq-main: ONE goals model (QA #4)
 import { unpack as unpackBars } from './nqbars.js?v=b2';     // nqdash3: the accounts strip, the bots' thinking, the quality checks
 import * as G from './nqgoals.js?v=10';
-import * as K7 from './clock7.js?v=3';                          // day-nqops: the MFFU 7-day clock card + window.NQ_K7 for Jarvis                       // v4: the goals strip, the numbers card, the bursts
+import * as K7 from './clock7.js?v=4';                          // day-nqops: the MFFU 7-day clock card + window.NQ_K7 for Jarvis                       // v4: the goals strip, the numbers card, the bursts
 
 const O = window.OLYMPUS || null;
 const $ = (id) => document.getElementById(id);
@@ -175,6 +175,19 @@ function loadPlan() {
   const card = $('battle');
   if (card && 'IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' }); io.observe(card); }
   (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(go, { timeout: 4000 });
+}
+// TODAY'S STORY (story.js + storycore.js): the card + the hero's one line; added when the browser is idle (the hero line wants it early)
+function loadStory() {
+  if (S.storyIn) return; S.storyIn = true;
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => { const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./story.js?v=2', import.meta.url).href; document.head.appendChild(t); }, { timeout: 4000 });
+}
+// MARKET PORTS (ports.js + portscore.js; nq/ports.json from tools/nq_ports.py): code-split like plan.js, near its section or when idle
+function loadPorts() {
+  if (S.portsAsked) return; S.portsAsked = true;
+  const go = () => { if (S.portsIn) return; S.portsIn = true; const t = document.createElement('script'); t.type = 'module'; t.src = new URL('./ports.js?v=1', import.meta.url).href; document.head.appendChild(t); };
+  const card = $('ports');
+  if (card && 'IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '600px 0px' }); io.observe(card); }
+  (window.requestIdleCallback || ((f) => setTimeout(f, 2500)))(go, { timeout: 6000 });
 }
 // the December card (december.js + decore.js): code-split like plan.js, added near its card or when idle
 function loadDec() {
@@ -380,9 +393,9 @@ function render() {
   { const el = $('src'); if (el) el.textContent = srcLine(); }   // (the hero shows today's $: v.todayLine stays in the model for Jarvis / tests)
   S.ready = true;
   try {                                  // night-nq-main: the battle plan + alert history (plan.js) read the SAME merged PC state, never a 2nd feed read
-    window.NQ_HOME = { home: deskHome(), lite: S.lite || null, demo: S.demo, chart: deskChart() };   // chart = the PC's last 5-min bar (the battle plan's only "now" price)
+    window.NQ_HOME = { home: deskHome(), lite: S.lite || null, demo: S.demo, chart: deskChart(), bars: heroBars() };   // chart = the PC's last 5-min bar (the battle plan's only "now" price)
     dispatchEvent(new CustomEvent('nq-home', { detail: window.NQ_HOME }));
-    loadPlan(); loadDec();
+    loadPlan(); loadDec(); loadPorts(); loadStory();
   } catch (_) { /* the plan keeps its last draw */ }
   try { if (O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
   tryScene(); tryLand();

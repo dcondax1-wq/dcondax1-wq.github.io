@@ -4,8 +4,8 @@
 // Funded accounts also get the payout tracker's line (payready.js model + ../business/payoutcoach.js). Text only through textContent /
 // createElement(NS). Sends nothing, stores nothing. ?at=<ISO time> pins the clock (tests and screenshots only).
 import * as D from './nqdesk.js?v=8';
-import * as K7 from './clock7.js?v=3';
-import * as A from './acctcore.js?v=2';
+import * as K7 from './clock7.js?v=4';
+import * as A from './acctcore.js?v=3';
 import { model as payModel } from './payready.js?v=3';
 
 const $ = (id) => document.getElementById(id);
@@ -74,6 +74,31 @@ function ring(c) {
   box.appendChild(mid);
   return box;
 }
+/** an open trade: its live $ (unrealised, pulsing), the $ at risk to the stop and the $ at the target, from the PC's post */
+function openBox(p) {
+  const w = el('div', 'ac-open'); w.setAttribute('role', 'group'); w.setAttribute('aria-label', 'Open trade');
+  const head = el('div', 'op-head');
+  head.append(el('span', 'op-dot'), el('b', null, `${p.side || 'OPEN'} ${p.qty != null ? p.qty + ' MNQ' : ''}`.trim()),
+    el('span', 'dim', p.entry != null ? `@ ${p.entry.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : ''));
+  const g = el('div', 'op-grid');
+  const cell = (lab, val, cls) => { const d = el('div', 'op-cell ' + (cls || '')); d.append(el('span', null, lab), el('b', null, val)); return d; };
+  g.append(cell('Live $ now', p.now === null ? 'not sent' : A.money(p.now, true) + (p.r !== null ? ` (${p.r >= 0 ? '+' : ''}${p.r.toFixed(2)}R)` : ''), p.now === null ? '' : p.now >= 0 ? 'ok live' : 'bad live'),
+    cell('Risk to stop', p.risk === null ? 'not sent' : '-' + A.money(p.risk), 'bad'), cell('At target', p.tgt === null ? 'not sent' : A.money(p.tgt, true), 'ok'));
+  w.append(head, g);
+  return w;
+}
+function handsBox(steps) {
+  const box = $('hands'); if (!box) return;
+  box.textContent = '';
+  box.hidden = !steps.length;
+  if (!steps.length) return;
+  const h = el('div', 'hs-head'); h.append(el('b', null, `\u270B ${steps.length === 1 ? '1 step' : steps.length + ' steps'} for you at the PC`), el('span', 'dim', 'shown only while the PC says they are open'));
+  box.appendChild(h);
+  const ol = el('ol', 'hs-list');
+  for (const s of steps) { const li = el('li', 'hs-' + s.k); li.append(el('b', null, s.title), el('span', null, s.how)); ol.appendChild(li); }
+  box.appendChild(ol);
+}
+
 function k7Box(c) {
   const k = c.clock;
   if (!k) return el('div', 'ac-k7 none', c.planned ? '7-day clock starts once the PC reports this account.' : '7-day clock: the PC has not reported this account yet.');
@@ -161,6 +186,9 @@ function drawCard(c) {
   const n3 = el('div', 'ac-num'); n3.append(el('span', null, 'Room left'), el('b', c.roomLvl === 'bad' ? 'bad' : '', c.room));
   nums.append(n1, n2, n3);
   hero.append(nums, ring(c)); box.appendChild(hero);
+  const lv = c.x.live;                                             // day-healthqa: what this account is doing now (the PC's glance row)
+  if (lv && lv.state !== 'none') box.appendChild(el('p', 'ac-now ' + lv.state, `${lv.icon} ${lv.line}`));
+  if (lv && lv.pos) box.appendChild(openBox(lv.pos));
 
   box.appendChild(bar('goal', `${c.goal.label} (${c.goal.sub})`, c.goal.text, c.goal.frac));
   if (c.goal.note) box.appendChild(el('p', 'ac-mini dim', c.goal.note));
@@ -227,6 +255,15 @@ function render() {
   for (const card of M.cards) box.appendChild(drawCard(card));
   if (!S.counted && T.n) { S.counted = true; countUp(box); }
   drawBiz(M.biz);
+  handsBox(A.handsSteps(S.lite, t));
+  const rc = $('roiCard');                                         // day-evalroi: the best next money move -> roi.html
+  if (rc) {
+    rc.textContent = '';
+    const b = S.roi && S.roi.best;
+    rc.hidden = !b;
+    if (b) rc.append(el('span', 'rc-k', 'Eval economics · best next money move'), el('b', null, `${b.name} at $${Number(b.price).toFixed(2)}`),
+      el('span', 'rc-l', String(b.line || '').replace(/^Best next buy: [^.]*\.\s*/, '')), el('span', 'rc-go', 'Every account type, $ per $1, payback ›'));
+  }
   if (!S.ready) tiltOn();
   S.ready = true;
 }
@@ -277,6 +314,7 @@ async function load(first) {
   const [home, biz, payday, fc, plan] = await Promise.all([getJSON('../home.json'), first || !S.biz ? getJSON('../business/accounts.json') : S.biz,
     first || !S.payday ? getJSON('../business/payday.json') : S.payday, getJSON('../business/forecast.json'), first || !S.plan ? getJSON('./plan12.json') : S.plan]);
   S.home = home; S.biz = biz; S.payday = payday; S.forecast = fc || S.forecast; S.plan = plan || S.plan;
+  if (first || !S.roi) S.roi = (await getJSON('./roi.json')) || S.roi;
   if (first) render();                 // the plan rows at once; the PC's numbers a moment later
   const lite = await getPost();
   if (lite) S.lite = lite;

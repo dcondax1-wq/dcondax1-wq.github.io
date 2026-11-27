@@ -165,7 +165,7 @@ main#app > header.top > .tags { flex-wrap: wrap; justify-content: flex-end; min-
 /* night-nq-main 2026-11-27: a wide screen gets a wide desk: the hero and the chart full width, the cards in two columns (phone unchanged) */
 @media (min-width: 1100px) {
   #app { max-width: 1180px; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; column-gap: 16px; }
-  #app > :is(header, .gn-facts, #hero, #status, #src, #liveDoor, #banner, #pillarsStrip, #chartCard, #bots, #moreCard, .foot, #goalCard, #acctCard, #numCard, #thinkCard) { grid-column: 1 / -1; }
+  #app > :is(header, .gn-facts, #hero, #status, #src, #liveDoor, #banner, #pillarsStrip, #chartCard, #bots, #moreCard, .foot, #goalCard, #acctCard, #numCard, #thinkCard, #ports, #decCard, #battle, #jump) { grid-column: 1 / -1; }
   #hero .hx-accts { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   #hero .hx-bots { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; }
 }

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Week in Review</title>
+<meta name="description" content="Your week in plain words: $ and trades per account, every trade as a card with why it won or lost, setups the bots rejected, trades the backtest took that the account missed, what each bot waits for, the 7-day clock and payout progress, then a Grade.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- day-weekreview 2026-11-27: WEEK IN REVIEW, phone first, OLYMPUS NIGHT. Read only: week_review.json (tools/week_review.py, built in the site build).
+     No account numbers, no keys; text only via textContent. The four weeks are selectable; every empty state says why it is empty. -->
+<link rel="stylesheet" href="week.css?v=1">
+</head>
+<body>
+<main id="app" data-state="loading">
+  <header class="wk-top">
+    <a class="wk-back" href="./" aria-label="Back to NQ">‹ NQ</a>
+    <h1><span class="wk-orb" aria-hidden="true"></span>Week in Review</h1>
+    <span class="wk-chip" id="src" data-level="warn" role="status" aria-live="polite">Loading…</span>
+  </header>
+  <nav class="wk-picker" id="picker" aria-label="Pick a week"></nav>
+  <section class="wk-hero" id="hero" aria-label="The week at a glance"></section>
+  <p class="wk-miss" id="missing" hidden></p>
+  <div id="accounts"></div>
+  <div id="rejected"></div>
+  <div id="twin"></div>
+  <div id="waiting"></div>
+  <div id="clock"></div>
+  <div id="of"></div>
+  <div id="blitz"></div>
+  <div id="next"></div>
+  <div id="gradeBox"></div>
+  <p class="wk-foot">Read only: nothing on this page places, sizes or changes a trade. Built from the PC's public status feed, the bots' backtest twins and the audited trade days. Backtest $ are at the twin's size; "would have made" is hindsight.</p>
+</main>
+<script src="weekcore.js?v=1"></script>
+<script src="week.js?v=1"></script>
+<script src="nqnav.js?v=4" defer></script>
+</body>
+</html>

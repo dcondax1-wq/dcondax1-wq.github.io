@@ -135,9 +135,10 @@ export function clockOf(r, today, minuteET, rawAct, etDate) {
   if (!act && day(rawAct) && day(rawAct) >= today) act = day(rawAct);
   const left = r.left, lvl = left <= 1 ? 'bad' : left <= 3 ? 'warn' : 'ok';   // owner: green 4+ days, gold 2-3, red 0-1
   return { lf: r.lf, hard: r.hard, left, ses: r.ses, on: r.on, act, lvl: r.lvl === 'bad' ? 'bad' : lvl === 'ok' && r.lvl === 'warn' ? 'warn' : lvl,
-    lastText: r.lf ? `Last trade ${nice(r.lf)}` : `No trade yet (counts from ${nice(addDays(base, 1))})`,
+    ka: r.ka === true,
+    lastText: r.lf ? (r.ka === true ? `Keep-alive filled ${nice(r.lf)}` : `Last trade ${nice(r.lf)}`) : `No trade yet (counts from ${nice(addDays(base, 1))})`,
     leftText: left < 0 ? `${-left} day${left === -1 ? '' : 's'} PAST` : left === 0 ? 'LAST DAY TODAY' : `${left} day${left === 1 ? '' : 's'} left`,
-    hardText: `MFFU's last day ${nice(r.hard)}`,
+    hardText: `MFFU's last day ${nice(r.hard)}` + (r.ka === true && r.lf ? ` (keep-alive filled ${monDay(r.lf)})` : ''),
     kaText: r.on === true ? 'Keep-alive ON' : r.on === false ? 'Keep-alive OFF' : 'Keep-alive not reported',
     actText: act ? (r.on === true ? `acts ${nice(act)} 3:33 PM ET if nothing trades` : `would act ${nice(act)}`) : '' };
 }
@@ -295,7 +296,7 @@ export function business(plan, lite) {
 export function extras(c, ctx) {
   const ids = idsOf({ key: c.key }, ctx.biz);
   const funded = c.stage === 'Funded';
-  return { ids, dll: c.has ? dllOf(ids, ctx.lite, null) : null, fc: forecastOf(c.key, ctx.forecast, funded), hist: historyOf(ids, ctx.lite),
+  return { ids, live: c.has ? liveOf(ids, ctx.lite) : { state: 'none', icon: '', line: '', pos: null }, dll: c.has ? dllOf(ids, ctx.lite, null) : null, fc: forecastOf(c.key, ctx.forecast, funded), hist: historyOf(ids, ctx.lite),
     seg: k7Segments(c.clock), ring: ringDash(c.roomFrac, 34) };
 }
 
@@ -318,4 +319,49 @@ export function totals(cards) {
   const today = t.length ? t.reduce((a, b) => a + b, 0) : null, room = r.length ? r.reduce((a, b) => a + b, 0) : null;
   return { n: live.length, today, todayText: today === null ? '-' : money(today, true), todayLvl: today === null ? 'none' : today > 0 ? 'ok' : today < 0 ? 'bad' : 'none',
     room, roomText: room === null ? '-' : money(room), funded: live.filter((c) => c.stage === 'Funded').length };
+}
+
+// ------------------------------------------------------------------------------------------------ day-healthqa 2026-11-27: live, today, hands steps
+const GLANCE_ID = { mffu50k_eval: 'lit', lit: 'lit', atlas: 'atlas', acct_b: 'atlas', rapid: 'rapid', b25k_2: 'b25k_2' };
+/** the PC's glance row of an account (lite.pc.glance.bots[]: per account id: on, armed, wait, stage, pos when in a trade) */
+function glanceOf(ids, lite) {
+  const bots = arr(isObj(lite) && isObj(lite.pc) && isObj(lite.pc.glance) ? lite.pc.glance.bots : null).filter(isObj);
+  const want = ids.map((i) => GLANCE_ID[i] || i);
+  return bots.find((b) => want.includes(String(b.id))) || null;
+}
+/** one account's "now": { state: 'in' | 'setup' | 'wait' | 'off' | 'none', icon, line, pos: {side, qty, entry, stop, target, risk, now, tgt, r} | null }
+ *  in = the PC sent an open position (glance pos); setup = a setup is forming (a stage like "Displacement (4/10)" or "setup forming");
+ *  wait = on and waiting; off = the bot is off for this account; none = the PC sent nothing for it. Never made up. */
+export function liveOf(ids, lite) {
+  const g = glanceOf(ids, lite);
+  if (!g) return { state: 'none', icon: '', line: '', pos: null };
+  const p = isObj(g.pos) ? g.pos : null;
+  if (p && (num(p.qty) || p.side)) {
+    const risk = num(p.risk_usd), now = num(p.now_usd);
+    const pos = { side: String(p.side || '').toUpperCase(), qty: num(p.qty), entry: num(p.entry), stop: num(p.stop), target: num(p.target), risk, now,
+      tgt: num(p.tgt_usd), r: risk && now !== null ? Math.round((now / risk) * 100) / 100 : null };
+    return { state: 'in', icon: '\u{1F7E2}', line: `In a trade: ${pos.side} ${pos.qty ?? ''}`.trim(), pos };
+  }
+  const wait = String(g.wait || '').trim(), stage = String(g.stage || '').trim();
+  if (g.on === false) return { state: 'off', icon: '⏸️', line: 'Bot off for this account', pos: null };
+  if (stage || /setup forming|armed \((long|short)\)/i.test(wait)) {
+    return { state: 'setup', icon: '\u{1F440}', line: (stage ? `Setup forming: ${stage}` : 'Setup forming') + (wait ? ` · ${wait}` : ''), pos: null };
+  }
+  return { state: 'wait', icon: '⏸️', line: wait ? `Waiting: ${wait}` : 'Waiting for a setup', pos: null };
+}
+
+/** the owner's hands steps that are open RIGHT NOW (only from the PC's own post):
+ *   NinjaTrader 'Connect on startup' OFF = ck.nt[2] === 0 (engine/pc_checklist reads it from NinjaTrader's config.xml);
+ *   the order-flow recorder needs one F5 = a self-heal Board event "still runs the old LE_TickRec" under 7 days old with no newer
+ *   event saying NinjaTrader runs it (engine/ns_sync). -> [{ k, title, how }] (empty = nothing to do) */
+export function handsSteps(lite, nowS) {
+  const L = isObj(lite) ? lite : {}, out = [];
+  const nt = isObj(L.ck) && Array.isArray(L.ck.nt) ? L.ck.nt : null;
+  if (nt && nt[2] === 0) out.push({ k: 'nt_auto', title: "NinjaTrader: tick 'Connect on startup'", how: 'Connections > Configure > your MFFU connection > tick Connect on startup > OK (once). Without it a restart leaves NinjaTrader disconnected: no trades, no 7-day keep-alive fill.' });
+  const ev = arr(isObj(L.brd) ? L.brd.ev : null).filter(Array.isArray), now = num(nowS) || 0;
+  const tick = ev.filter((e) => /LE_TickRec/.test(String(e[3] || ''))).sort((a, b) => (+b[0] || 0) - (+a[0] || 0))[0];
+  if (tick && /still runs the old LE_TickRec/.test(String(tick[3])) && (!now || now - (+tick[0] || 0) < 7 * 86400)) {
+    out.push({ k: 'f5', title: 'NinjaTrader: press F5 once', how: 'New > NinjaScript Editor > F5, then close the editor, while every account is flat (it reloads the charts’ feed for a moment). Only the order-flow recorder needs it; LIT and ATLAS do not.' });
+  }
+  return out;
 }
