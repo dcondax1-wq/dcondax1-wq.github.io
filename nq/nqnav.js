@@ -40,7 +40,7 @@
     ['chart', 'Chart', 'chart.html', 'index.html#chartCard', ['chart.html']],
     ['accounts', 'Accounts', 'accounts.html', null, ['accounts.html']],
     ['flow', 'Flow', 'orderflow.html', null, ['orderflow.html']],
-    ['brain', 'Brain', 'brain.html', null, ['brain.html']],
+    ['brain', 'Brain', 'brains.html', null, ['brains.html', 'brain.html']],   // overnight 2026-11-27: the 4 strategy brains (brains.html); brain.html stays lit
     ['pc', 'PC', 'pchealth.html', '../pc/index.html', ['pchealth.html']]
   ];
   var LS_PC = 'nqnav.pc.v1', LS_HAVE = 'nqnav.have.v1', LS_INST = 'nqnav.inst.v1', SS_ENTER = 'nqnav.enter';
@@ -66,7 +66,7 @@
     if (s < 48 * 3600) return Math.round(s / 3600) + 'h';
     return Math.round(s / 86400) + 'd';
   }
-  var NAMES = { lit: 'Zlarior 50K', atlas: 'ATLAS 25K', rapid: 'Rapid EOD 25K', rapid2: 'Rapid EOD #2', b25k_2: 'Zlarior 25K #2', of: 'Order flow' };   // engine/brain_glance ids
+  var NAMES = { lit: 'Zlarior 50K', atlas: 'ATLAS 25K', rapid: 'Rapid EOD 25K', rapid2: 'Rapid EOD #2', b25k_2: 'Zlarior 25K #2', of: 'POSEIDON · order flow' };   // engine/brain_glance ids
   function armedOf(lite) {
     var ar = lite && lite.ar, out = [];
     if (!ar || typeof ar !== 'object') return null;
@@ -200,7 +200,7 @@
       if (!href) a.hidden = true; else a.href = href;
       if (T[0] === on) { a.classList.add('is-on'); a.setAttribute('aria-current', 'page'); a.appendChild(el('i', 'nqn-ink')); }
       a.appendChild(svg(I[T[0]])); a.appendChild(el('span', null, T[1]));
-      a.setAttribute('aria-label', T[0] === 'flow' ? 'Order flow' : T[0] === 'pc' ? 'PC health' : T[1]);
+      a.setAttribute('aria-label', T[0] === 'flow' ? 'POSEIDON, order flow' : T[0] === 'pc' ? 'PC health' : T[1]);
       nav.appendChild(a);
     }
     nav.addEventListener('pointerdown', function (e) { var t = e.target.closest && e.target.closest('.nqn-tab'); if (!t) return; t.classList.add('is-press'); ripple(t, e); prefetch(t.href); });

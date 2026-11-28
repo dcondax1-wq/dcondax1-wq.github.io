@@ -185,3 +185,9 @@ main[data-state="live"] .of-orb { animation: orb 2.4s ease-in-out infinite; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .of-ladder { transform: none; }
 }
+
+/* day-poseidon: the POSEIDON · order flow name + trident mark */
+.of-top h1 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.of-mark { width: 34px; height: 34px; flex: none; filter: drop-shadow(0 0 10px rgba(157, 89, 238, .55)); }
+.of-name { letter-spacing: .06em; color: var(--gold, #f1c14b); text-shadow: 0 0 16px rgba(241, 193, 75, .35); }
+.of-name small { font-size: max(12px, .55em); letter-spacing: 0; color: var(--dim, #a99cc0); font-weight: 600; text-shadow: none; }

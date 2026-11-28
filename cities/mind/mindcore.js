@@ -7,7 +7,7 @@
 //   - trade timelines = odeon/trades.json (the real ledger + paper + the backtest replays, with each engine event's time and the bars);
 //   - research lobes = cities/brain-data.json (the Research Brain's findings per family; BLITZ is hidden, as everywhere).
 // Read only: nothing here arms, starts, stops or orders anything.
-import { LIT_STAGES, stageN, lobeState } from '../../nq/braincore.js?v=4';
+import { LIT_STAGES, stageN, lobeState } from '../../nq/braincore.js?v=7';
 import { pillarOf } from '../../pillars/pillarof.js?v=p1';
 export { pillarOf };
 

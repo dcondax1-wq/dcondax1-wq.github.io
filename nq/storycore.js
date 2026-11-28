@@ -120,7 +120,7 @@ function logMoments(rows) {
       if (P.kind === 'thought' && /^(box|level)/i.test(String(r[2] || ''))) continue;      // the level book's housekeeping, not a story line
       out.push({ t, ...P, tag: 'PC' });
     } else if (bot === 'atlas') out.push({ t, emoji: '🤖', kind: 'atlas', tone: 'calm', title: 'ATLAS', text, short: '', level: null, tag: 'PC' });
-    else if (bot === 'of') out.push({ t, emoji: '📊', kind: 'of', tone: 'calm', title: 'Order flow (paper)', text, short: '', level: null, tag: 'PC' });
+    else if (bot === 'of') out.push({ t, emoji: '📊', kind: 'of', tone: 'calm', title: 'POSEIDON · order flow (paper)', text, short: '', level: null, tag: 'PC' });
   }
   return out;
 }

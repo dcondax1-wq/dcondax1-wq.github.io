@@ -27,3 +27,4 @@
 .st-wait b{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ag-gold,#f1c14b)} .st-wait p{margin:0;font-size:14px;color:var(--ag-text,#f4f1fa)}
 .st-open{justify-self:start;min-height:44px;display:inline-flex;align-items:center}
 .hx-story{margin:0;font-size:13.5px;line-height:1.4;color:var(--ag-soft,#d6cfe4);padding:8px 12px;border-radius:12px;border:1px solid var(--hx-line2,#4d2e76);background:rgba(6,4,11,.6)}
+.nqtabs{display:flex;gap:6px;margin:2px 0 8px}.nqtabs a{flex:1;min-height:44px;display:grid;place-items:center;border-radius:999px;border:1px solid #3e255e;color:var(--ag-text,#f4f1fa);text-decoration:none;font-weight:700;background:#0c0a12}.nqtabs a[aria-current="page"]{border-color:#f1c14b;color:#f1c14b}

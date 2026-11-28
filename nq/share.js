@@ -1,11 +1,11 @@
 // NQ SHARE page (day-sharecard 2026-11-27): an Instagram card of the day's P&L (sharecard.js draws it). Today = the PC's post through the
 // same pipeline as the live screen (livecore.js); ?day=YYYY-MM-DD = that day's replay file (the bots' BACKTEST twins: the card says so).
 // Sends nothing (navigator.share only opens the phone's own share sheet with the PNG), stores nothing. ?at=<ISO> pins the clock (tests).
-import * as D from './nqdesk.js?v=8';
+import * as D from './nqdesk.js?v=15';
 import * as K7 from './clock7.js?v=4';
 import * as A from './acctcore.js?v=3';
-import * as B from './nqbars.js?v=b1';
-import * as L from './livecore.js?v=1';
+import * as B from './nqbars.js?v=b2';
+import * as L from './livecore.js?v=2';
 import { cardModel, draw, textOf, SIZES } from './sharecard.js?v=1';
 
 const $ = (id) => document.getElementById(id);

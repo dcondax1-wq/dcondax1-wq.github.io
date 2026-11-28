@@ -22,7 +22,7 @@
     return num(lite.day_pnl);
   }
   function place(btn) {
-    const after = document.getElementById('liveDoor') || document.querySelector('.ac-top') || document.querySelector('main header');
+    const door = document.getElementById('liveDoor'), after = (door && door.closest && door.closest('.nq-doors')) || door || document.querySelector('.ac-top') || document.querySelector('main header');
     if (after && after.parentNode) after.parentNode.insertBefore(btn, after.nextSibling); else (document.querySelector('main') || document.body).prepend(btn);
   }
   function show(usd) {

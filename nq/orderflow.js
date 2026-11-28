@@ -441,7 +441,7 @@ function draw(M) {
   const app = document.getElementById('app');
   app.dataset.state = M.state;
   const c = document.getElementById('src'); c.textContent = M.chip.text; c.dataset.level = M.chip.level;
-  document.getElementById('heroH').textContent = M.state === 'recorded' ? `Last recorded day · ${M.day}` : M.state === 'empty' ? 'Order flow' : 'Today';
+  document.getElementById('heroH').textContent = M.state === 'recorded' ? `Last recorded day · ${M.day}` : M.state === 'empty' ? 'POSEIDON · order flow' : 'Today';
   document.getElementById('heroLine').textContent = M.line;
   const st = document.getElementById('stats'); st.replaceChildren();
   for (const s of M.stats) { const d = el('span', `of-stat ${s.cls}`); d.append(el('b', '', s.v), el('span', '', s.k)); st.append(d); }

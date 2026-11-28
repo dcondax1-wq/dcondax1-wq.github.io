@@ -2,7 +2,7 @@
 // Reads ../home.json, ../business/accounts.json, ../business/payday.json once, the PC's public status post (../pc_feed.js fetchLatest)
 // every 22 s and its chart post (nqbars.js) every 60 s, only while the screen is visible. Text only through textContent / createElement;
 // the chart is SVG made with createElementNS. Sends nothing, stores nothing. ?at=<ISO time> pins the clock (tests and screenshots only).
-import * as D from './nqdesk.js?v=8';
+import * as D from './nqdesk.js?v=15';
 import * as K7 from './clock7.js?v=4';
 import * as A from './acctcore.js?v=3';
 import * as B from './nqbars.js?v=b2';

@@ -213,7 +213,7 @@ function drawLessons() {
     seen.add(k); J.push(r); if (J.length >= 7) break;
   }
   if (!J.length) { ol.appendChild(h('li', 'mnone', 'No lessons logged yet.')); return; }
-  const NAME = { lit: 'LIT', atlas: 'ATLAS', of: 'ORDER FLOW', learn: 'MARKET', risk: 'RISK' };
+  const NAME = { lit: 'LIT', atlas: 'ATLAS', of: 'POSEIDON', learn: 'MARKET', risk: 'RISK' };
   for (const r of J) { const li = h('li', 'mles ' + r.pillar); li.appendChild(h('small', '', `${md(r.date)} · ${NAME[r.pillar] || r.pillar}`)); li.appendChild(h('span', '', r.text)); ol.appendChild(li); }
 }
 function drawGap() {

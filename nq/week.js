@@ -186,7 +186,7 @@
         h('div', 'wk-stat', '', [h('b', '', String(o.skipped_n || 0)), h('span', 'wk-stat-k', 'skipped')]), h('div', 'wk-stat', '', [h('b', 'num ' + C.tone(o.skipped_r), C.r(o.skipped_r) || '0R'), h('span', 'wk-stat-k', 'skipped would be')])]));
       if (o.today && o.today.line) kids.push(h('p', 'wk-note', '🧪 Today: ' + o.today.line));
     }
-    empty('#of').appendChild(card('of', '🧪 Order-flow practice lane', 'PAPER', kids));
+    empty('#of').appendChild(card('of', '🔱 POSEIDON · order-flow practice lane', 'PAPER', kids));
   }
 
   function drawBlitz(w) {

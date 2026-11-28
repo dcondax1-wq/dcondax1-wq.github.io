@@ -6,7 +6,7 @@
 //   past days  nq/replay/index.json + nq/replay/<day>.json (the PC's bars + the bots' replay twin), the last 5 stored;
 //              nq/thoughts/<day>.json (the PC's own day thought log, engine/thoughtlog.py -> tools/nq_thoughts.py) when published
 //   context    nq/ports.json (the normal Asia range, the prior day's levels, today's CME half day)
-import * as SC from './storycore.js?v=2';
+import * as SC from './storycore.js?v=3';
 import { feedUrls, parse as parseBars, parseVerified, unpack } from './nqbars.js?v=b2';
 
 const $ = (id) => document.getElementById(id);
@@ -120,6 +120,7 @@ addEventListener('nq-home', (e) => { S.home = e.detail || S.home; if (S.pick ===
   if (PAGE) await pagePost();
   S.home = window.NQ_HOME || S.home;
   await draw();
+  try { const O = window.OLYMPUS; if (PAGE && O && O.ready) O.ready(); } catch (_) { /* the veil lifts by itself */ }
   if (S.pick !== 'today') { S.live = await storyFor('today'); hero(); }
   setInterval(() => { if (S.pick === 'today') draw(); }, 120000);
 })();

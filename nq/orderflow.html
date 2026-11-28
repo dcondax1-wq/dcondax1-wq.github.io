@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NQ Order Flow</title>
-<meta name="description" content="The Order Flow room (PAPER): today's key levels with the absorption read at each, the order-flow paper bot's trades, Zlarior's 'flow says' vs result, the forward score and the real-data verdict.">
+<title>POSEIDON · order flow</title>
+<meta name="description" content="POSEIDON, the order-flow room (PAPER): today's key levels with the absorption read at each, the order-flow paper bot's trades, Zlarior's 'flow says' vs result, the forward score and the real-data verdict.">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,15 +15,15 @@
 <!-- night-nq-of 2026-11-27 (owner: "make everything better, 3D, higher quality, effects, features"): the ORDER FLOW ROOM, phone first, OLYMPUS NIGHT.
      Read only: of_room.json (tools/build_of_room.py, cloud) + the PC's public status post (../pc_feed.js + the shared nqfeed.js: core "price", ext "ofp" = the paper bot
      today, engine/oflive.paper_tiny), polled every 30 s while on screen. Everything here is PAPER research: nothing trades. Text only via textContent. -->
-<link rel="stylesheet" href="orderflow.css?v=3">
+<link rel="stylesheet" href="orderflow.css?v=4">
 <link rel="stylesheet" href="ofstrip.css?v=1">
-<script src="../pc_feed.js?v=n10"></script><script src="nqfeed.js?v=1"></script>
+<script src="../pc_feed.js?v=n10"></script><script src="nqfeed.js?v=2"></script>
 </head>
 <body>
 <main id="app" data-state="loading">
   <header class="of-top">
     <a class="of-back" href="./" aria-label="Back to NQ">‹ NQ</a>
-    <h1><span class="of-orb" aria-hidden="true"></span>Order Flow <span class="of-paper">PAPER</span></h1>
+    <h1><img class="of-mark" src="poseidon.svg?v=2" alt="" width="34" height="34"><span class="of-name">POSEIDON <small>· order flow</small></span> <span class="of-paper">PAPER</span></h1>
     <span class="of-chip" id="src" data-level="warn" role="status" aria-live="polite">Loading…</span>
   </header>
 
@@ -123,7 +123,7 @@
   <p class="of-foot">Paper research only: nothing on this page places, sizes or changes a trade. Rules frozen before the data
     (research/orderflow/DESIGN_paper.md). <span id="made"></span></p>
 </main>
-<script type="module" src="orderflow.js?v=3"></script>
-<script src="nqnav.js?v=4" defer></script>
+<script type="module" src="orderflow.js?v=4"></script>
+<script src="nqnav.js?v=5" defer></script>
 </body>
 </html>

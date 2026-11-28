@@ -3,7 +3,7 @@
 // ../business/forecast.json (pass / payout chances), ./plan12.json (the 12-month range) and the PC's public status post (../pc_feed.js).
 // Funded accounts also get the payout tracker's line (payready.js model + ../business/payoutcoach.js). Text only through textContent /
 // createElement(NS). Sends nothing, stores nothing. ?at=<ISO time> pins the clock (tests and screenshots only).
-import * as D from './nqdesk.js?v=8';
+import * as D from './nqdesk.js?v=15';
 import * as K7 from './clock7.js?v=4';
 import * as A from './acctcore.js?v=3';
 import { model as payModel } from './payready.js?v=3';

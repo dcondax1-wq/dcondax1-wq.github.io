@@ -242,7 +242,7 @@
       (win && !openW ? 'entry window' + (nw ? ' · ' : '') : '') + (nw ? 'news: ' + nw.title + ' (' + nw.date.slice(5) + ' ' + nw.time + ' ET)' : win ? '' : 'no window or news in the report'), openW ? 'gold' : 'violet');
     // 5 order flow recorder
     const tr = L && isObj(L.tr) ? L.tr : null;
-    add('of', 'index.html', 'Order flow', tr && num(tr.d) != null ? num(tr.d) + ' days' : '-',
+    add('of', 'index.html', 'POSEIDON · order flow', tr && num(tr.d) != null ? num(tr.d) + ' days' : '-',
       tr ? (tr.on ? 'recording' : 'OFF') + (tr.o ? ' since ' + tr.o : '') + (tr.bf ? ', backfill ' + tr.bf : '') : 'the PC did not send it', !tr ? 'grey' : tr.on ? 'mint' : 'gold');
     // 6 brain: Zlarior's stage + what it waits for
     const zb = gl.find((b) => isObj(b) && b.id === 'lit');

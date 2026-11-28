@@ -1,26 +1,26 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-27 15:31 ET",
+ "built": "2026-11-27 19:00 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
   "to": "2026-11-27",
   "label": "Nov 23 - Nov 27",
-  "complete": false,
-  "sessions_done": 4
+  "complete": true,
+  "sessions_done": 5
  },
- "pc": "PC last reported Nov 27 15:30 ET",
+ "pc": "PC last reported Nov 27 19:00 ET",
  "accounts": [
   {
    "key": "zlarior",
    "name": "Zlarior",
    "plan": "MFFU Builder 50K",
    "stage": "eval",
-   "end": 49481.62,
-   "src": "PC live, Nov 27 15:30 ET",
-   "room": 1313.42,
-   "to_pass": 3518.38,
+   "end": 49477.14,
+   "src": "PC live, Nov 27 19:00 ET",
+   "room": 1308.94,
+   "to_pass": 3522.86,
    "trades": 1,
    "win_pct": 100,
    "usd_week": 304.1,
@@ -29,17 +29,17 @@
     "usd": 304.1
    },
    "strat": "Zlarior",
-   "start": 49177.52,
+   "start": 49173.04,
    "wins": 1,
    "losses": 0,
    "r_week": 1.93,
-   "room_start": 1009.32,
-   "to_pass_start": 3822.48,
+   "room_start": 1004.84,
+   "to_pass_start": 3826.96,
    "consistency": {
     "rule": "Builder eval: no best-day rule",
     "line": "best day 11-27 +$304: fine (no rule in the eval)."
    },
-   "status_line": "$3,518 to pass, $1,313 of room above the floor"
+   "status_line": "$3,523 to pass, $1,309 of room above the floor"
   },
   {
    "key": "atlas",
@@ -47,7 +47,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 27 15:30 ET",
+   "src": "PC live, Nov 27 19:00 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -71,26 +71,26 @@
    "name": "Rapid EOD 25K",
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
-   "end": 25299.34,
-   "src": "PC live, Nov 27 15:30 ET",
+   "end": 25279.86,
+   "src": "PC live, Nov 27 19:00 ET",
    "room": 1000.0,
-   "to_pass": 1200.66,
+   "to_pass": 1220.14,
    "trades": 0,
    "win_pct": null,
    "usd_week": 0,
    "best_day": null,
    "strat": "Zlarior",
-   "start": 25299.34,
+   "start": 25279.86,
    "wins": 0,
    "losses": 0,
    "r_week": null,
    "room_start": 1000.0,
-   "to_pass_start": 1200.66,
+   "to_pass_start": 1220.14,
    "consistency": {
     "rule": "Rapid EOD eval: best day at most 30% of the profit",
     "line": "No trading day this week."
    },
-   "status_line": "$1,201 to pass, $1,000 of room above the floor"
+   "status_line": "$1,220 to pass, $1,000 of room above the floor"
   },
   {
    "key": "fresh25",
@@ -98,7 +98,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 27 15:30 ET",
+   "src": "PC live, Nov 27 19:00 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -136,10 +136,10 @@
     4.98
    ],
    "exp_src": "backtest_live.json (2026 Jul-Oct / Jan-Jun)",
-   "exp_usd_week": 306.0,
+   "exp_usd_week": 382.0,
    "plan_usd_month": 1656.0,
-   "verdict": "on track",
-   "why": "+$304 vs about $306 expected"
+   "verdict": "behind",
+   "why": "1 trades (target 2-4)"
   },
   {
    "name": "ATLAS",
@@ -157,10 +157,10 @@
     2.75
    ],
    "exp_src": "edge_health.json (40-session medians, 2026)",
-   "exp_usd_week": 92.0,
+   "exp_usd_week": 115.0,
    "plan_usd_month": 500.0,
-   "verdict": "on track",
-   "why": "$0 vs about $92 expected"
+   "verdict": "behind",
+   "why": "0 trades (target 2-4)"
   }
  ],
  "light": {
@@ -170,14 +170,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "jarvis search index rebuilt",
+   "site data rebuilt for ship (hub / brain / search)",
+   "brain hub data rebuilt",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "Decide card atlas-full-50k: full fields; research hub data",
-   "brain hub data rebuilt for this landing",
-   "keep pc's research/lit/live_check.json (test output)",
-   "afternoon landing: Story + Market ports cards below the live chart (no layout shift over the...",
-   "afternoon landing: learn_night nqsite test expectations, sharecard comment without id-shaped...",
-   "NQ Brain: the market-regime line says how many days old its data is when 3 days (live showed 'as..."
+   "NQ home: strategy rooms row right below the live chart (chart stays the first card under the...",
+   "pillars-data rebuilt (new TESTED_AND_REJECTED lines)",
+   "bump_versions for the evening landing",
+   "Evening landing wires: Brains dock tab - brains.html, nqsite runs refresh_backtests +...",
+   "red team (brains-feed): brain_xray free texts (LIT's blocking guard, BLITZ state / signals, ATLAS..."
   ]
  },
  "next": {
@@ -201,8 +201,8 @@
   "steps": []
  },
  "pace": {
-  "usd_month": 1650.0,
-  "line": "On pace for $1,650 a month (estimate: this week's +$304 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
+  "usd_month": 1320.0,
+  "line": "On pace for $1,320 a month (estimate: this week's +$304 x 4.3; one week is noise, the plan says about $2,156). Eval $ is not cash until the account passes and pays out.",
   "basis": "this week"
  },
  "twins": {
@@ -348,6 +348,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 27 15:30 ET"
+  "board_pc": "Nov 27 19:00 ET"
  }
 }

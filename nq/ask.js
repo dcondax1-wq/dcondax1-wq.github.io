@@ -114,7 +114,7 @@ function aLearned(D) {
   const wk = J.filter((r) => t0 - Date.parse(`${r.date}T00:00:00Z`) < 7 * 864e5);
   const seen = new Set(), pick = [];
   for (const r of wk) { const k = r.pillar + String(r.text).split(' - ')[0].slice(0, 80); if (!seen.has(k)) { seen.add(k); pick.push(r); } if (pick.length >= 5) break; }
-  const NAME = { lit: 'LIT', atlas: 'ATLAS', of: 'Order flow', learn: 'Market', risk: 'Risk' };
+  const NAME = { lit: 'LIT', atlas: 'ATLAS', of: 'POSEIDON (order flow)', learn: 'Market', risk: 'Risk' };
   const L = [`${wk.length} lessons in the 7 days to ${md(last)}. The newest:`, ...pick.map((r) => `${NAME[r.pillar] || r.pillar} (${md(r.date)}): ${String(r.text).length > 170 ? String(r.text).slice(0, 167) + '...' : r.text}`)];
   const nx = ((D.learn.learning && D.learn.learning.next) || []).filter((x) => x.pillar !== 'blitz').slice(0, 2);
   if (nx.length) L.push(`Testing next: ${nx.map((x) => `${NAME[x.pillar] || x.pillar}: ${x.text}`).join(' · ')}`);

@@ -1,0 +1,7 @@
+/* day-strats 2026-11-27: the 4 strategy rooms on the NQ home (index.html #stratNav, plain links): OLYMPUS NIGHT, 4 across at 390, taps >= 44 px */
+.snav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 4px 0; }
+.snav a { display: flex; flex-direction: column; justify-content: center; min-height: 54px; min-width: 0; padding: 6px; border-radius: 12px; text-align: center;
+  background: #16131e; border: 1px solid #3e255e; box-shadow: inset 0 -3px 0 var(--c, #9d59ee), 0 0 14px rgba(157, 89, 238, 0.12); color: #f3eefc; text-decoration: none; }
+.snav a b { font: 800 13px/1.15 -apple-system, system-ui, sans-serif; color: var(--c, #f1c14b); overflow-wrap: anywhere; }
+.snav a small { font: 600 12px/1.2 -apple-system, system-ui, sans-serif; color: #9b8fb5; overflow-wrap: anywhere; }
+.snav a:focus-visible { outline: 2px solid #f1c14b; outline-offset: 2px; }

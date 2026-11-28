@@ -45,9 +45,17 @@ function loadLib() {
   });
 }
 // ------------------------------------------------------------------------------------------------ the card
+/** day-strats: a strategy room (strat.html sets window.NQ_STRAT) shows only its bot's accounts, 'All <name>' first */
+const STRAT_BOT = { lit: 'LIT', atlas: 'ATLAS' }, STRAT_NAME = { lit: 'Zlarior', atlas: 'ATLAS', blitz: 'BLITZ', poseidon: 'POSEIDON' };
+function stratChips(m) {
+  const b = STRAT_BOT[S.strat]; if (!S.strat) return m.chips;
+  if (!b) return [];
+  const mine = m.chips.filter((c) => c.k !== 'all' && String(c.bot || '').toUpperCase() === b);
+  return [{ k: 'bot:' + b, name: 'All ' + STRAT_NAME[S.strat], n: mine.reduce((a, c) => a + c.n, 0), color: null }, ...mine];
+}
 function renderChips(m) {
   const box = $('chartChips'); clear(box);
-  for (const c of m.chips) {
+  for (const c of stratChips(m)) {
     const b = h('button', 'chip'); b.type = 'button'; b.dataset.k = c.k; b.setAttribute('aria-pressed', c.k === m.acct ? 'true' : 'false');
     if (c.color) { const d = h('span', 'cdot'); d.style.setProperty('--c', col(tokens(), c.color)); d.setAttribute('aria-hidden', 'true'); b.appendChild(d); }
     b.appendChild(h('span', 'cname', c.name));
@@ -511,9 +519,9 @@ function whyAt(p) {
   const cand = [];
   const near = (x, y, r, text, head) => { if (x == null || y == null) return; const d = Math.hypot(x - p.point.x, y - p.point.y); if (d <= r) cand.push({ d, text, head }); };
   for (const w of [...(m.sweeps || []), ...(Lv.sweeps || [])]) near(X(w.time), Y(w.price), 22, `${w.label || 'A level'} was swept at ${at(w.time)} ET: price ran ${w.side > 0 ? 'above' : 'below'} it to ${B.px(w.price)} and closed back ${w.side > 0 ? 'under' : 'over'} it. That grab of stops is what Zlarior waits for before it looks for a ${w.side > 0 ? 'short' : 'long'}.`, '🧹 Swept');
-  for (const a of Lv.absorb || []) near(X(a.time), Y(a.price), 22, `Order flow at ${a.label} (${B.px(a.price)}), ${at(a.time)} ET: the ${a.side > 0 ? 'buyers' : 'sellers'} who ran it got absorbed (${a.read}). Lane A fades that.`, '🧲 Absorbed');
+  for (const a of Lv.absorb || []) near(X(a.time), Y(a.price), 22, `POSEIDON (order flow) at ${a.label} (${B.px(a.price)}), ${at(a.time)} ET: the ${a.side > 0 ? 'buyers' : 'sellers'} who ran it got absorbed (${a.read}). Lane A fades that.`, '🧲 Absorbed');
   for (const x of m.markers || []) near(X(x.time), Y(x.price != null ? x.price : (m.candles.find((c) => c.time === x.time) || {}).close), 20, (x.why || x.text || 'Our trade') + ` (${at(x.time)} ET)`, x.kind === 'exit' ? '💰 Exit' : '🚀 Entry');
-  for (const l of Lv.levels || []) { const y = Y(l.price); if (y != null && Math.abs(y - p.point.y) <= 10) cand.push({ d: Math.abs(y - p.point.y) + 8, head: '📏 ' + l.label, text: `${l.label} at ${B.px(l.price)}: a level ${l.src === 'of' ? 'the order-flow room' : l.src === 'atlas' ? 'ATLAS' : 'Zlarior'} watches.${l.read ? ' Read: ' + l.read + '.' : ''}${l.src === 'lit' && Lv.why && Lv.why.lit ? ' Zlarior: ' + Lv.why.lit : ''}` }); }
+  for (const l of Lv.levels || []) { const y = Y(l.price); if (y != null && Math.abs(y - p.point.y) <= 10) cand.push({ d: Math.abs(y - p.point.y) + 8, head: '📏 ' + l.label, text: `${l.label} at ${B.px(l.price)}: a level ${l.src === 'of' ? 'POSEIDON, the order-flow room' : l.src === 'atlas' ? 'ATLAS' : 'Zlarior'} watches.${l.read ? ' Read: ' + l.read + '.' : ''}${l.src === 'lit' && Lv.why && Lv.why.lit ? ' Zlarior: ' + Lv.why.lit : ''}` }); }
   if (Lv.halt) { let x = X(Lv.halt.time); if (x != null && Math.abs(x - p.point.x) <= 14) cand.push({ d: 30, head: '📰 Halt', text: Lv.halt.text + ': the bots stop new trades before it and are flat at it.' }); }
   cand.sort((a, b) => a.d - b.d);
   showWhy(cand[0] || null);
@@ -567,7 +575,7 @@ async function aux() {
   const get = async (f) => { const t = await getText(new URL('./' + f, import.meta.url).href + '?t=' + Math.floor(Date.now() / 60000), 6000, 'no-cache'); try { return t ? JSON.parse(t) : null; } catch (e) { return null; } };
   const [b, o, f] = await Promise.all([get('brief.json'), get('of_room.json'), get('of_strip.json')]);
   if (b) S.brief = b; if (o) S.ofroom = o;
-  if (f && Array.isArray(f.bars) && f.bars.length && !(S.stripData && S.stripData.live)) ofStrip(f);     // the PC sends it nightly: the last recorded day, labelled
+  if (f && Array.isArray(f.bars) && f.bars.length && !(S.stripData && S.stripData.live) && (!S.strat || S.strat === 'poseidon')) ofStrip(f);     // the PC sends it nightly: the last recorded day, labelled
 }
 /** the footprint bar at a chart time (wall-time candle) -> selected in the strip (a tap on a candle, the replay scrubber) */
 const stripToday = (f) => !!f && f.day === (B.et(Date.now() / 1000) || {}).day;
@@ -613,10 +621,19 @@ function withPriv(m) {
     markers: (m.markers || []).filter((x) => x.time <= candles[n - 1].time), chips: m.chips && m.chips.length ? m.chips : [{ k: 'all', name: 'All', n: 0, color: null }],
     list: m.list || [], lines: m.lines || [], sessions: m.sessions || [], levels: m.levels || [], sweeps: m.sweeps || [], zones: m.zones || [], extent: m.extent || null };
 }
+/** day-strats: in a strategy room only that strategy's levels / marks / thoughts / trade (the halt stays: it stops every bot) */
+function stratLive(v) {
+  const s = S.strat; if (!s || !v) return v;
+  const lit = s === 'lit', atl = s === 'atlas', pos = s === 'poseidon', src = lit ? 'lit' : atl ? 'atlas' : pos ? 'of' : '-';
+  const bot = lit ? 'lit' : atl ? 'atlas' : '-', name = lit ? 'Zlarior' : atl ? 'ATLAS' : '-';
+  return { ...v, stage: lit ? v.stage : null, litOn: lit && v.litOn, atlasArm: atl ? v.atlasArm : null, levels: v.levels.filter((x) => x.src === src),
+    sweeps: v.sweeps.filter((x) => x.src === src), absorb: pos ? v.absorb : [], ema: atl ? v.ema : [], trades: v.trades.filter((t) => t.bot === bot),
+    ticker: v.ticker.filter((r) => r.bot === bot), next: v.next && v.next.bot === name ? v.next : null };
+}
 function liveLayer(m) {
   try {
     const bars = m.rawBars || B.unpack(S.post);
-    S.live = L.live({ lite: S.lite, priv: S.priv, brief: S.brief, ofroom: S.ofroom, bars, candles: m.candles, nowS: Date.now() / 1000 });
+    S.live = stratLive(L.live({ lite: S.lite, priv: S.priv, brief: S.brief, ofroom: S.ofroom, bars, candles: m.candles, nowS: Date.now() / 1000 }));
   } catch (e) { S.live = null; }
   try { renderLive(); } catch (e) { /* the chart stays */ }
 }
@@ -657,7 +674,7 @@ async function boot() {
   setInterval(() => { if (!document.hidden) age(); }, 30000);
   setInterval(liteTick, LITE_MS);                            // day-livechart: the bots' glance / thoughts + the PC price every 30 s
   setInterval(aux, AUX_MS);
-  if (isPriv()) { privPoll(); setInterval(privPoll, PRIV_MS); fpPoll(); setInterval(fpPoll, 60000); }   // the private link: the bot itself every 3 s
+  if (isPriv()) { privPoll(); setInterval(privPoll, PRIV_MS); if (!S.strat || S.strat === 'poseidon') { fpPoll(); setInterval(fpPoll, 60000); } }   // the private link: the bot itself every 3 s
   setInterval(() => { if (!document.hidden && S.model) { const e = $('lcStamp'), st = stampNow(); if (e) { e.textContent = st.text; e.className = 'lcstamp ' + st.cls; } } }, 5000);
   setInterval(() => { if (!document.hidden && S.model && S.model.state !== 'none') say(B.model(S.post, S.acct, Date.now() / 1000)); }, 60000);   // the age keeps counting
 }

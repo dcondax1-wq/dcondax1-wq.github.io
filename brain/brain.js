@@ -4,7 +4,7 @@
 // arrives it shows the bundled fixture.json, always labelled SAMPLE. Deep links: brain/#lit #atlas #blitz #of #learn #risk.
 // Text only through textContent / createElement. Storage: none. Read only: GET requests; nothing is sent, armed or placed.
 // ?at=<ISO> pins the clock, ?lite=2d forces the flat brain, ?lite=1 the low tier, ?fx=hq pins hq (tests and screenshots). window.BRAIN = the test hook.
-import * as B from './braincore.js?v=b6';
+import * as B from './braincore.js?v=b7';
 import * as NB from '../nq/nqbars.js?v=b2';
 
 const $ = (id) => document.getElementById(id);

@@ -12,7 +12,7 @@
 //   clock(nowS)                 -> the session clock: London / New York windows, the next entry window and how long until it
 //   vixLine(brief)              -> the VIX band and the LIT target size (one VIX day move, at least 1.5R, banked at 8R)
 // Read only: it never trades, arms or fetches. The page (nq.js) hands in everything.
-import { etParts, DAY } from './nqdesk.js?v=8';
+import { etParts, DAY } from './nqdesk.js?v=15';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="POSEIDON trident">
+  <!-- POSEIDON · order flow mark (day-poseidon 2026-11-27): a gold trident on an OLYMPUS NIGHT violet disc -->
+  <defs>
+    <radialGradient id="pd" cx="40%" cy="32%" r="70%"><stop offset="0" stop-color="#4d2e76"/><stop offset=".7" stop-color="#1c1230"/><stop offset="1" stop-color="#0b0712"/></radialGradient>
+    <linearGradient id="pg" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="56"><stop offset="0" stop-color="#ffe29a"/><stop offset=".55" stop-color="#f1c14b"/><stop offset="1" stop-color="#c8962a"/></linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#pd)" stroke="#9d59ee" stroke-width="2"/>
+  <g fill="none" stroke="url(#pg)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 13v40"/>
+    <path d="M19 15v11l13 7 13-7V15"/>
+    <path d="M27 53h10"/>
+  </g>
+  <g fill="url(#pg)">
+    <path d="M32 4l-5.2 10h10.4z"/>
+    <path d="M19 6l-4.6 10h9.2z"/>
+    <path d="M45 6l-4.6 10h9.2z"/>
+  </g>
+  <path d="M13 45c4-3 8-3 12 0s8 3 12 0 8-3 12 0" fill="none" stroke="#77db89" stroke-width="2.4" stroke-linecap="round" opacity=".75"/>
+</svg>

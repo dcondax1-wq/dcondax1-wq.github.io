@@ -24,12 +24,13 @@
   X['../status_feed.json'] = get('../status_feed.json', 'text').then(function (t) {
     try { var f = JSON.parse(t || 'null'), base = String((f && f.ntfy) || 'https://ntfy.sh').replace(/\/+$/, ''), topic = String((f && f.bars_topic) || '');
       if (!/^[A-Za-z0-9_-]{1,64}$/.test(topic)) topic = /^[A-Za-z0-9_-]{1,59}$/.test(String((f && f.topic) || '')) ? f.topic + '-bars' : '';
-      if (topic && /^https:\/\/[A-Za-z0-9.-]+(:\d+)?$/.test(base)) { var u = base + '/' + encodeURIComponent(topic) + '/json?poll=1&since=latest'; X[u] = get(u, 'text', 'no-store'); } } catch (e) { /* the chart asks itself */ }
+      if (topic && /^https:\/\/[A-Za-z0-9.-]+(:\d+)?$/.test(base)) { var u = base + '/' + encodeURIComponent(topic) + '/json?poll=1&since=latest'; X[u] = get(u, 'text', 'no-store'); }
+      var ct = String((f && f.topic) || ''); if (/^[A-Za-z0-9_-]{1,64}$/.test(ct) && /^https:\/\/[A-Za-z0-9.-]+(:\d+)?$/.test(base)) { var cu = base + '/' + encodeURIComponent(ct) + '/json?poll=1&since=70m'; X[cu] = get(cu, 'text', 'no-store'); }   /* day-poseidon: the PC's status post (the hero's $) starts here too */ } catch (e) { /* the chart asks itself */ }
     return t; }); })();</script>
 <link rel="stylesheet" href="../olympus/olympus.css?v=o7">
 <link rel="stylesheet" href="../olympus/agora.css?v=a11">
 <script src="../olympus/themes.js?v=o11"></script>
-<script defer src="../pc_feed.js?v=n10"></script><script defer src="nqfeed.js?v=1"></script><script defer src="sharebtn.js?v=1"></script><!-- day-sharecard: "📸 Make Insta card" on green days --><script defer src="../business/payoutcoach.js?v=4"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
+<script defer src="../pc_feed.js?v=n10"></script><script defer src="nqfeed.js?v=2"></script><script defer src="sharebtn.js?v=2"></script><!-- day-sharecard: "📸 Make Insta card" on green days --><script defer src="../business/payoutcoach.js?v=4"></script><!-- night-feedsB: the PC's status post reader and the payout coach, before the kit (a missing file never trips its "could not load") -->
 <script src="../olympus/olympus.js?v=o29" data-app="nq"></script>
 <script src="../olympus/intro-app.js?v=i14" defer></script>
 <script src="../olympus/a11y.js" defer></script>
@@ -39,10 +40,11 @@
 <link rel="stylesheet" href="nq.css?v=a12">
 <link rel="stylesheet" href="../nqdeep.css?v=2" media="print" onload="this.media='all'"><!-- perf: the deep views (.nqd-*) are far below the first screen: not render-blocking -->
 <link rel="stylesheet" href="nqdesk.css?v=14">
-<link rel="stylesheet" href="nqhero.css?v=11">
-<link rel="stylesheet" href="plan.css?v=4" media="print" onload="this.media='all'"><link rel="stylesheet" href="december.css?v=1" media="print" onload="this.media='all'"><link rel="stylesheet" href="ports.css?v=1" media="print" onload="this.media='all'"><link rel="stylesheet" href="story.css?v=2" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="nqhero.css?v=12">
+<link rel="stylesheet" href="plan.css?v=4" media="print" onload="this.media='all'"><link rel="stylesheet" href="december.css?v=1" media="print" onload="this.media='all'"><link rel="stylesheet" href="ports.css?v=1" media="print" onload="this.media='all'"><link rel="stylesheet" href="story.css?v=3" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="nqgoals.css?v=12" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="nqtheme.css?v=11">
+<link rel="stylesheet" href="stratnav.css?v=1">
 <link rel="stylesheet" href="sun.css?v=2" id="sunCss" media="(prefers-contrast: more)"><!-- SUNLIGHT MODE: off = not render-blocking; on (saved, or prefers-contrast: more) = applied before the first paint -->
 <script>(function () { var d = document.documentElement, v = null; try { v = localStorage.getItem('nq.sun'); } catch (e) { /* private mode */ }
   var on = v === '1' || (v !== '0' && !!(window.matchMedia && matchMedia('(prefers-contrast: more)').matches)); if (on) { d.classList.add('sun'); document.getElementById('sunCss').media = 'all'; } })();</script>
@@ -54,7 +56,7 @@
 <main id="app">
   <header class="top">
     <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">NQ</h1><p class="sub">Are the bots on, and how much $ each account can still lose before it fails.</p></div></div>
-    <div class="tags"><a class="btn primary brainlink" href="live.html">Live</a><a class="btn brainlink" href="../warroom/" aria-label="Open the War Room: every bot, every step, live">War Room</a><a class="btn brainlink" href="../brain/" aria-label="Open the Brain: one living 3D brain of every bot">3D Brain</a><a class="btn brainlink" href="../pillars/" aria-label="Open the four pillars: LIT, ATLAS, BLITZ, ORDER FLOW">Pillars</a><a class="btn brainlink" href="accounts.html" aria-label="Open every account on one screen">Accounts</a><a class="btn brainlink" href="orderflow.html" aria-label="Open the Order Flow room: levels, absorption reads, paper trades">Order Flow</a><a class="btn brainlink" href="week.html" aria-label="Open the Week in Review: $ per account, every trade, missed trades, grade">Week</a><a class="btn brainlink" href="story.html" aria-label="Open today's story: the session as a timeline">Story</a><a class="btn brainlink" href="roi.html" aria-label="Open eval economics: $ per $1 of fees, best next buy">Eval $</a><a class="btn brainlink" href="replay.html" aria-label="Replay any recent trading day with the bots' decisions">Replay</a><a class="btn brainlink" href="pchealth.html" aria-label="Open PC health: every check in one plain sentence">PC health</a><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
+    <div class="tags"><a class="btn primary brainlink" href="live.html">Live</a><a class="btn brainlink" href="../warroom/" aria-label="Open the War Room: every bot, every step, live">War Room</a><a class="btn brainlink" href="../brain/" aria-label="Open the Brain: one living 3D brain of every bot">3D Brain</a><a class="btn brainlink" href="../pillars/" aria-label="Open the four pillars: LIT, ATLAS, BLITZ, ORDER FLOW">Pillars</a><a class="btn brainlink" href="accounts.html" aria-label="Open every account on one screen">Accounts</a><a class="btn brainlink" href="orderflow.html" aria-label="Open POSEIDON, the order-flow room: levels, absorption reads, paper trades">🔱 POSEIDON</a><a class="btn brainlink" href="week.html" aria-label="Open the Week in Review: $ per account, every trade, missed trades, grade">Week</a><a class="btn brainlink" href="story.html" aria-label="Open today's story: the session as a timeline">Story</a><a class="btn brainlink" href="roi.html" aria-label="Open eval economics: $ per $1 of fees, best next buy">Eval $</a><a class="btn brainlink" href="replay.html" aria-label="Replay any recent trading day with the bots' decisions">Replay</a><a class="btn brainlink" href="pchealth.html" aria-label="Open PC health: every check in one plain sentence">PC health</a><a class="btn brainlink" href="brain.html" aria-label="Open the bots' brains">Brain</a><span id="demo" class="tag demo" hidden>DEMO</span><span id="lite" class="tag" hidden>LITE</span></div>
   </header>
   <!-- night-nq-main 2026-11-27: the hero (nqdesk.js hero / drawHero / heroScene; nqhero.css) -->
   <section class="hx" id="hero" aria-labelledby="hxTitle" data-tone="none">
@@ -73,13 +75,39 @@
     </div>
   </section>
 
+  <!-- day-poseidon 2026-11-27: the live chart sits right under the hero (owner's #1 ask). Was: the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars w ... -->
+  <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
+    <div class="row"><h2 id="chartH">Live chart</h2><span class="ctools"><button type="button" class="btn ctog" id="chart3dBtn" aria-pressed="false" hidden>3D</button><span class="pill" id="chartPill">Loading</span></span></div>
+    <p class="note" id="chartAsOf" hidden></p>
+    <div class="chartbox" id="chartBox" role="img" aria-label="The NQ chart with our trades">
+      <div class="chart" id="chart"></div>
+      <span class="cpulse" id="chartPulse" aria-hidden="true" hidden></span>
+      <div class="c3d" id="chart3d" hidden></div>
+      <p class="chartmsg" id="chartMsg">Loading the PC's chart...</p>
+    </div>
+    <div class="chips" id="chartChips" role="group" aria-label="Show the trades of"></div>
+    <div class="row chartfoot"><p class="note ckey" id="chartKey" hidden>Arrow = entry (its colour = the account's dot) · round dot = exit + $ · red line stop, green target, dashed entry</p>
+      <button type="button" class="btn" id="chartWhole" hidden>Whole day</button></div>
+    <h3 class="cth" id="chartTradesH" hidden>Today's trades on the chart</h3>
+    <ol class="ctrades" id="chartTrades"></ol>
+    <p class="note">The bars come from your PC's NinjaTrader about every hour while the bots trade (01:50-16:10 ET) and right after each entry or exit; it never shows made-up prices. Tap a trade to see it on the chart.</p>
+    <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
+  </section>
+  <!-- day-strats 2026-11-27 (owner: "complete charts of each strategy"): the 4 STRATEGY ROOMS (strat.html?s=...), plain links (no script) -->
+  <nav class="snav" id="stratNav" aria-label="Strategy rooms">
+    <a href="strat.html?s=lit" style="--c:#f1c14b"><b>Zlarior</b><small>LIT · live</small></a>
+    <a href="strat.html?s=atlas" style="--c:#b48cf2"><b>ATLAS</b><small>live</small></a>
+    <a href="strat.html?s=blitz" style="--c:#f472b6"><b>BLITZ</b><small>paper</small></a>
+    <a href="strat.html?s=poseidon" style="--c:#77db89"><b>POSEIDON</b><small>order flow · paper</small></a>
+  </nav>
+
   <p id="status" class="note" role="status" aria-live="polite">Loading...</p>
   <p id="src" class="note" data-truth="source"></p>
   <section class="ag-card card bp" id="battle" aria-labelledby="battleH" hidden></section>
   <details class="nq-fold bp-drawer" id="alertsDrawer" hidden></details>
   <section class="ag-card card dc" id="decCard" aria-labelledby="decH" hidden></section>
-  <nav class="hx-jump" id="jump" aria-label="Jump to a card on this page"><a href="#battle">Plan</a><a href="#storyCard">Story</a><a href="#decCard">December</a><a href="#ports">Market</a><a href="#chartCard">Chart</a><a href="#goalCard">Goals</a><a href="#acctMore">Accounts</a><a href="#thinkCard">Bots</a><a href="#tradesCard">Trades</a><a href="#newsCard">News</a><a href="#qualCard">Checks</a></nav>
-  <a class="btn primary" id="liveDoor" href="live.html" style="display:flex;min-height:52px;margin:8px 0;font-weight:800">LIVE NOW: trades, accounts, setups ›</a>
+  <nav class="hx-jump" id="jump" aria-label="Jump to a card on this page"><a href="#chartCard">Chart</a><a href="#battle">Plan</a><a href="#storyCard">Story</a><a href="#decCard">December</a><a href="#ports">Market</a><a href="#goalCard">Goals</a><a href="#acctMore">Accounts</a><a href="#thinkCard">Bots</a><a href="#tradesCard">Trades</a><a href="#newsCard">News</a><a href="#qualCard">Checks</a></nav>
+  <div class="nq-doors" style="display:flex;gap:8px;margin:8px 0;flex-wrap:wrap"><a class="btn primary" id="liveDoor" href="live.html" style="display:flex;align-items:center;justify-content:center;flex:1 1 200px;min-height:52px;font-weight:800">LIVE NOW: trades, accounts, setups ›</a><a class="btn" id="chartJump" href="#chartCard" style="display:flex;align-items:center;justify-content:center;flex:0 1 150px;min-height:52px;font-weight:800">📈 Live chart</a></div>
 
   <section class="banner" id="banner" data-level="bad" aria-labelledby="bannerTitle" hidden>
     <p class="btitle" id="bannerTitle">Last report from your PC: unknown.</p>
@@ -99,24 +127,6 @@
     <div class="gl-detail" id="goalDetail" aria-live="polite" hidden></div>
   </section>
 
-  <!-- the live chart (owner 2026-11-18, nqchart.js + nqbars.js): the PC's NinjaTrader 5-minute bars w ... -->
-  <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
-    <div class="row"><h2 id="chartH">Live chart</h2><span class="ctools"><button type="button" class="btn ctog" id="chart3dBtn" aria-pressed="false" hidden>3D</button><span class="pill" id="chartPill">Loading</span></span></div>
-    <p class="note" id="chartAsOf" hidden></p>
-    <div class="chartbox" id="chartBox" role="img" aria-label="The NQ chart with our trades">
-      <div class="chart" id="chart"></div>
-      <span class="cpulse" id="chartPulse" aria-hidden="true" hidden></span>
-      <div class="c3d" id="chart3d" hidden></div>
-      <p class="chartmsg" id="chartMsg">Loading the PC's chart...</p>
-    </div>
-    <div class="chips" id="chartChips" role="group" aria-label="Show the trades of"></div>
-    <div class="row chartfoot"><p class="note ckey" id="chartKey" hidden>Arrow = entry (its colour = the account's dot) · round dot = exit + $ · red line stop, green target, dashed entry</p>
-      <button type="button" class="btn" id="chartWhole" hidden>Whole day</button></div>
-    <h3 class="cth" id="chartTradesH" hidden>Today's trades on the chart</h3>
-    <ol class="ctrades" id="chartTrades"></ol>
-    <p class="note">The bars come from your PC's NinjaTrader about every hour while the bots trade (01:50-16:10 ET) and right after each entry or exit; it never shows made-up prices. Tap a trade to see it on the chart.</p>
-    <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
-  </section>
   <section class="ag-card card st" id="storyCard" aria-labelledby="storyH" hidden></section>
   <section class="ag-card card pt" id="ports" aria-labelledby="portsH" hidden><div class="row"><h2 id="portsH">Market ports</h2></div><p class="pt-intro">What the wider market says today, from free public data: context for your decisions, never a trade signal.</p></section>
 
@@ -251,12 +261,12 @@
   <div class="sheetbody" id="sheetBody"></div>
 </section>
 <script src="../nqdeep.js?v=1" defer></script>
-<script type="module" src="nq.js?v=r46"></script>
-<script type="module" src="nqchartfeed.js?v=1"></script>
+<script type="module" src="nq.js?v=r47"></script>
+<script type="module" src="nqchartfeed.js?v=2"></script>
 <!-- QA round 6: the 3D loads after the first paint, and not at all on LITE (olympus/lazy3d.js) -->
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqscene.js?v=q9" data-near="#sceneCard" data-skip="lite" data-event="nq3d" defer></script>
 <script src="../olympus/lazy3d.js?v=l2" data-src="nqland.js?v=4" data-near="#landCard" data-skip="lite" data-event="nqland" defer></script>
-<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c7').catch(function(){})},400)})</script>
-<script src="nqnav.js?v=4" defer></script>
+<script>addEventListener('load',function(){setTimeout(function(){import('../pillars/hero.js?v=c8').catch(function(){})},400)})</script>
+<script src="nqnav.js?v=5" defer></script>
 </body>
 </html>

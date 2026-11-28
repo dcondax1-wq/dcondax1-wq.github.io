@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="agora" data-oly-light>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Brains</title>
+<meta name="description" content="OLYMPUS NQ Brains: the live decision pipeline of LIT, ATLAS, BLITZ and POSEIDON - every gate with the number it saw and the rule, what would trigger a trade now, every thought, the skipped setups and why, the next trade's size and the bot's health.">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NQ Brains">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- THE FOUR BRAINS (day-brains 2026-11-27). Read only: the PC's status post (../pc_feed.js). Sends nothing. One brain = nq/brainview.js
+     (the same module nq/strat.html mounts in #brainMount); the model = brainviewcore.js. -->
+<link rel="stylesheet" href="../olympus/olympus.css?v=o7">
+<link rel="stylesheet" href="../olympus/agora.css?v=a11">
+<script src="../olympus/themes.js?v=o11"></script>
+<script src="../pc_feed.js?v=n9"></script>
+<script src="../olympus/olympus.js?v=o28" data-app="nq"></script>
+<script src="../olympus/a11y.js" defer></script>
+<script src="../olympus/agora-ui.js?v=12" defer></script>
+<script src="../olympus/gate-nav.js?v=g14" defer></script>
+<script>(function () { var r = document.documentElement.style; r.setProperty('--oly-accent', '#f1c14b'); r.setProperty('--oly-accent-rgb', '241, 193, 75'); })();</script>
+<link rel="stylesheet" href="nq.css?v=a12">
+<link rel="stylesheet" href="nqtheme.css?v=11">
+<link rel="stylesheet" href="brainview.css?v=1" data-brainview>
+<style>
+  .nqtabs{display:flex;gap:6px;margin:2px 0 8px}.nqtabs a{flex:1;min-height:44px;display:grid;place-items:center;border-radius:999px;border:1px solid #3e255e;color:var(--ag-text,#f4f1fa);text-decoration:none;font-weight:700;background:#0c0a12}.nqtabs a[aria-current="page"]{border-color:#f1c14b;color:#f1c14b}
+  .bz-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .bz-chip{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--ag-line,#3e255e);background:rgba(6,4,11,.7);color:var(--ag-soft,#d6cfe4);font:inherit;font-size:14px;font-weight:800;letter-spacing:.06em;cursor:pointer}
+  .bz-chip[aria-pressed="true"]{border-color:var(--ag-gold,#f1c14b);color:var(--ag-gold,#f1c14b);background:rgba(241,193,75,.08)}
+  .bz-grid{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+  .bz-card{padding:14px;border-radius:20px;border:1px solid #4d2e76;background:#0b0912;min-width:0}
+  .bz-card[data-on="0"]{display:none}
+  .bz-age{margin:0;font-size:12.5px;color:var(--ag-muted,#a79fb8)}
+  @media (min-width:1100px){#app{display:block;max-width:1400px}.bz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bz-card[data-on="0"]{display:block}.bz-chips{display:none}}
+</style>
+</head>
+<body>
+<main id="app">
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="44" height="44"><div><h1 class="ag-title">The brains</h1><p class="sub">Inside each strategy: every gate it checks, the number it saw, what it waits for, what it skipped and why.</p></div></div>
+  </header>
+  <nav class="nqtabs" aria-label="NQ"><a href="./">Desk</a><a href="brains.html" aria-current="page">Brains</a><a href="story.html">Story</a></nav>
+  <p class="bz-age" id="brainAge" role="status">Waiting for the PC's report...</p>
+  <div class="bz-chips" id="brainChips" role="group" aria-label="Pick a strategy"></div>
+  <div class="bz-grid" id="brainGrid"></div>
+  <p class="note">Context, never a trade signal. BLITZ and POSEIDON are paper: they never trade an account.</p>
+</main>
+<script type="module" src="brains.js?v=1"></script>
+<script src="nqnav.js?v=3" data-tab="brain" defer></script>
+</body>
+</html>

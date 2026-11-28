@@ -14,9 +14,9 @@ export const FRESH_S = 80 * 60;          // newer than this = live (the PC sends
 export const VIEW_BARS = 78;             // the first view: the last 6.5 hours (the scroll and the pinch reach the rest)
 export const ACCTS = [                   // the owner's filter (2026-11-18): All / Zlarior 50K / Zlarior 25K #2 / ATLAS funded
   { k: 'all', name: 'All' },
-  { k: 'z50k', name: 'Zlarior 50K', tag: 'Z50', color: 'gold' },
-  { k: 'z25k2', name: 'Zlarior 25K #2', tag: 'Z25 #2', color: 'lav' },
-  { k: 'atlas25f', name: 'ATLAS funded', tag: 'ATLAS', color: 'mauve' },
+  { k: 'z50k', name: 'Zlarior 50K', tag: 'Z50', color: 'gold', bot: 'LIT' },
+  { k: 'z25k2', name: 'Zlarior 25K #2', tag: 'Z25 #2', color: 'lav', bot: 'LIT' },
+  { k: 'atlas25f', name: 'ATLAS funded', tag: 'ATLAS', color: 'mauve', bot: 'ATLAS' },
 ];
 const OTHER_COLORS = ['rose', 'amber', 'sky'];   // night-nq-chart 2026-11-27: OLYMPUS NIGHT (no olive / brown)
 // the PC's pace (tools/pc_report.py, at most 24 posts a day: ntfy's free cap): candles about hourly while the bots trade, the trades at once
@@ -171,7 +171,7 @@ function accounts(post) {
   for (const [k, v] of Object.entries(ac)) {
     if (!/^[a-z0-9_]{1,24}$/.test(k)) continue;
     const label = str(Array.isArray(v) ? v[0] : '', 32), bot = str(Array.isArray(v) ? v[1] : '', 8), badge = str(Array.isArray(v) ? v[2] : '', 6);
-    if (out[k]) { out[k].inFeed = true; out[k].bot = bot || null; out[k].badge = /^(LIVE|SIM|PAPER)$/.test(badge) ? badge : null; continue; }
+    if (out[k]) { out[k].inFeed = true; out[k].bot = bot || out[k].bot || null; out[k].badge = /^(LIVE|SIM|PAPER)$/.test(badge) ? badge : null; continue; }
     out[k] = { k, name: label || `Account ${k}`, tag: (label || k).replace(/^Account\s*/, 'Acct ').slice(0, 10), color: OTHER_COLORS[x++ % OTHER_COLORS.length], bot: bot || null,
       badge: /^(LIVE|SIM|PAPER)$/.test(badge) ? badge : null, inFeed: true };
   }
@@ -290,7 +290,7 @@ export function model(post, acct, nowS) {
   const now = num(nowS) != null ? num(nowS) : Date.now() / 1000;
   const want = acct && acct !== 'all' ? String(acct) : 'all';
   const A = accounts(post), bars = unpack(post);
-  const chips = [{ k: 'all', name: 'All', n: 0, color: null }, ...Object.values(A).filter((a) => ACCTS.some((x) => x.k === a.k) || a.inFeed).map((a) => ({ k: a.k, name: a.name, n: 0, color: a.color }))];
+  const chips = [{ k: 'all', name: 'All', n: 0, color: null }, ...Object.values(A).filter((a) => ACCTS.some((x) => x.k === a.k) || a.inFeed).map((a) => ({ k: a.k, name: a.name, n: 0, color: a.color, bot: a.bot || null }))];
   if (!bars.length) {
     return { state: 'none', acct: want, chips, candles: [], markers: [], lines: [], list: [], asOf: '', age: null, view: null, last: null, sessions: [], levels: [], sweeps: [], zones: [],
       message: `The PC has not sent chart bars yet (it needs the new update first). ${EVERY}.` };
@@ -298,8 +298,9 @@ export function model(post, acct, nowS) {
   const opens = arr(post.open).map((r) => cleanTrade(r, true)).filter(Boolean), closed = arr(post.closed).map((r) => cleanTrade(r, false)).filter(Boolean);
   for (const r of [...opens, ...closed]) { if (!A[r.k]) A[r.k] = { k: r.k, name: `Account ${r.k}`, tag: r.k.slice(0, 8), color: 'rose', inFeed: true }; }
   for (const c of chips) c.n = c.k === 'all' ? opens.length + closed.length : opens.filter((r) => r.k === c.k).length + closed.filter((r) => r.k === c.k).length;
-  for (const k of Object.keys(A)) if (!chips.some((c) => c.k === k)) chips.push({ k, name: A[k].name, color: A[k].color, n: opens.filter((r) => r.k === k).length + closed.filter((r) => r.k === k).length });
-  const pick = (r) => want === 'all' || r.k === want;
+  for (const k of Object.keys(A)) if (!chips.some((c) => c.k === k)) chips.push({ k, name: A[k].name, color: A[k].color, bot: A[k].bot || null, n: opens.filter((r) => r.k === k).length + closed.filter((r) => r.k === k).length });
+  const wb = /^bot:/.test(want) ? want.slice(4).toUpperCase() : null;      // day-strats: a strategy room shows one bot's accounts ('bot:LIT')
+  const pick = (r) => want === 'all' || r.k === want || (!!wb && !!A[r.k] && String(A[r.k].bot || '').toUpperCase() === wb);
   const op = opens.filter(pick), cl = closed.filter(pick);
   const tag = (k) => (A[k] ? A[k].tag : k), color = (k) => (A[k] ? A[k].color : 'rose');
   const off = (t) => { const p = et(t); return p ? p.off : 0; };

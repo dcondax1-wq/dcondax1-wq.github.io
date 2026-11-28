@@ -7,8 +7,8 @@
 //   brain(bot, src, nowS) -> { bot, name, what, mode, on, armed, steps[], current, regions[], thoughts[], watch[], memory, grade, plan, risk[],
 //                              accounts[], payout, health[], replay, cards{} }
 // LIT's ten stages and their words are engine/brain.py STAGES (the bot's own brain); ATLAS is three lobes (EMA, MACD, S/R) and a shared risk gate.
-import { etParts, updated, ageLevel, accounts as deskAccounts, feedAge } from './nqdesk.js?v=8';
-import { goals as goalTiles, clock } from './nqgoals.js?v=10';
+import { etParts, updated, ageLevel, accounts as deskAccounts, feedAge } from './nqdesk.js?v=15';
+import { goals as goalTiles, clock } from './nqgoals.js?v=11';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);

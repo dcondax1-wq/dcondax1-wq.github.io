@@ -5,7 +5,7 @@
 // whichever comes first. Read only: it sends nothing, stores nothing, places nothing.
 import * as B from './nqbars.js?v=b2';
 
-const POLL_MS = 120000, TIMEOUT_MS = 7000, VIEW = './nqchart.js?v=d3';
+const POLL_MS = 120000, TIMEOUT_MS = 7000, VIEW = './nqchart.js?v=d4';
 const S = { lite: null, priv: null, privSeen: [], privOn: false, privFails: 0, brief: null, ofroom: null, live: null, replay: null, playing: 0, sweepSeen: null, glLines: [], emaS: null,
   feed: undefined, post: null, why: '', acct: 'all', model: null, lib: null, libTried: false, chart: null, series: null, marks: null, lines: [],
   whole: false, want: null, mode: 'default', viewKey: '', drawnN: 0, ready: false, fetchedAt: 0, busy: false, err: '' };
@@ -65,15 +65,21 @@ const C = window.NQCHART = { S, B, view: null, getText, pcPrice, refresh: (f) =>
 
 const a = new URLSearchParams(location.search).get('acct');
 if (a && /^[a-z0-9_]{1,24}$/.test(a)) S.acct = a;
+// day-strats: a strategy room (nq/strat.html sets window.NQ_STRAT before this module) shows one strategy's accounts only
+const ST = String(window.NQ_STRAT || ''), SB = { lit: 'LIT', atlas: 'ATLAS' };
+if (/^(lit|atlas|blitz|poseidon)$/.test(ST)) { S.strat = ST; S.acct = SB[ST] ? 'bot:' + SB[ST] : 'bot:NONE'; }
 refresh(true);
 setInterval(() => refresh(false), POLL_MS);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
 window.addEventListener('nq-refresh', () => refresh(true));
 // the view: on first view of the card (400 px ahead), else once the page is idle after load (the chart is ready before a scroll gets there)
 const card = document.getElementById('chartCard');
-if (card && typeof IntersectionObserver === 'function') {
+// day-poseidon: the card now sits right under the hero, so the view waits for the page's load (the hero's $ paints first: LCP)
+const watch = () => { if (card && typeof IntersectionObserver === 'function') {
   const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); loadView(); } }, { rootMargin: '400px 0px' });
   io.observe(card);
-}
+} };
+const watchIdle = () => (typeof requestIdleCallback === 'function' ? requestIdleCallback(watch, { timeout: 2500 }) : setTimeout(watch, 1500));   // idle: the effects kit (vault) gets its turn too
+if (document.readyState === 'complete') watchIdle(); else addEventListener('load', watchIdle, { once: true });
 const idle = () => (typeof requestIdleCallback === 'function' ? requestIdleCallback(loadView, { timeout: 2500 }) : setTimeout(loadView, 1500));
 if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });

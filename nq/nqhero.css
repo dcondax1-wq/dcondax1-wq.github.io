@@ -92,7 +92,7 @@ main#app > .gn-facts .gn-fchip{min-height:44px;display:inline-flex;align-items:c
 .hx-big.none{font-size:clamp(30px,8vw,44px);color:var(--ag-muted);text-shadow:none;}
 .hx-honestw{display:grid;gap:10px;padding:12px;border-radius:16px;border:1px dashed var(--hx-line2);background:rgba(12,10,18,.8);}
 .hx-honestw .hx-honest{padding:0;border:0;background:none;}
-.hx-how{min-height:44px;justify-self:start;}
+.hx-how{min-height:44px;justify-self:start;max-width:min(100%,250px);white-space:normal;text-align:left;line-height:1.25;}  /* day-poseidon: never in Jarvis's bottom-right corner */
 .hx-acc.none{gap:4px;animation:none;}
 .hx-bot-age{display:block;margin-top:4px;font-size:12px;color:var(--hx-faint)}
 .hx-jump{position:sticky;top:calc(env(safe-area-inset-top,0px) + 54px);z-index:20;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:6px;margin:0 -4px;border-radius:16px;border:1px solid var(--ag-line);background:rgba(6,4,11,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.5)}

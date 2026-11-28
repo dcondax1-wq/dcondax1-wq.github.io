@@ -63,6 +63,14 @@
     const timer = E.setTimeout || ((f, ms) => setTimeout(f, ms));
     const visible = E.visible || (() => !hasDoc || document.visibilityState !== 'hidden');
     const net = E.fetch || (typeof fetch !== 'undefined' ? (u, o) => fetch(u, o) : null);
+    // day-poseidon: a poll the page head already started (index.html NQ_EARLY.text, e.g. the core since=70m) is answered from it once
+    const early = hasDoc && root.NQ_EARLY && root.NQ_EARLY.text, usedEarly = new Set();
+    const pollFetch = (E.fetch || !early) ? E.fetch : (u, o) => {
+      const p = !usedEarly.has(u) && early[u];
+      if (!p) return net(u, o);
+      usedEarly.add(u);
+      return Promise.resolve(p).then((t) => (typeof t === 'string' && t ? { ok: true, status: 200, text: async () => t }   /* raw text: pc_feed parses + checks the signature */ : net(u, o)));
+    };
     const feedUrl = E.feedUrl || 'status_feed.json';
     const subs = new Set();
     const S = { mem: null, at: 0, src: '', inflight: null, fails: 0, retryAt: 0, probing: false, lastFull: 0, cfg: store.get(CFG_KEY), stats: { net: 0, cache: 0, peer: 0, probe: 0, probeEmpty: 0, fail: 0 } };
@@ -112,7 +120,7 @@
       if (!orig) return null;
       const { cached, fresh } = await getCfg();
       let j = null;
-      const run = (feed) => Promise.race([orig.call(F, { feed, fetch: E.fetch }), new Promise((r) => timer(() => r(null), HARD_MS))]).catch(() => null);
+      const run = (feed) => Promise.race([orig.call(F, { feed, fetch: pollFetch }), new Promise((r) => timer(() => r(null), HARD_MS))]).catch(() => null);
       if (cached) {
         j = await run(cached);
         const f = await fresh;

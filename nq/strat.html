@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-oly-scheme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NQ Strategy Room</title>
+<meta name="description" content="One strategy room each for Zlarior, ATLAS, BLITZ (paper) and POSEIDON (order flow, paper): the live chart with only its marks, every trade it ever took, equity live vs backtest, the numbers by period and its brain.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<!-- day-strats 2026-11-27 (owner: "complete charts of each strategy: Zlarior, ATLAS, BLITZ and order flow; I want to see everything"). One STRATEGY ROOM
+     per strategy (?s=lit | atlas | blitz | poseidon): (1) the live chart (nqchart.js, filtered to this strategy: window.NQ_STRAT) + today's signals,
+     (2) every trade on a tappable history chart, (3) equity live vs backtest by account, (4) the numbers by period, (5) the Brain (brainview.js, the
+     brains helper's module, loaded when its card nears the screen). Data: strats/<s>.json (tools/build_strats.py) + the PC's public post (pc_feed.js)
+     + of_room.json. Read only; text only via textContent. BLITZ and POSEIDON trade on PAPER only and say so everywhere. -->
+<script>(function () { var s = (new URLSearchParams(location.search).get('s') || 'lit').toLowerCase(); if (!/^(lit|atlas|blitz|poseidon)$/.test(s)) s = 'lit';
+  window.NQ_STRAT = s; document.documentElement.setAttribute('data-strat', s); })();</script>
+<link rel="stylesheet" href="nq.css?v=a12">
+<link rel="stylesheet" href="strat.css?v=1">
+<script defer src="../pc_feed.js?v=n10"></script>
+</head>
+<body>
+<main id="app" class="sr" data-state="loading">
+  <header class="sr-top">
+    <a class="sr-back" href="./" aria-label="Back to NQ">‹ NQ</a>
+    <h1 id="srTitle"><span class="sr-orb" aria-hidden="true"></span><span id="srName">Strategy</span> <span class="sr-paper" id="srPaper" hidden>PAPER</span></h1>
+    <span class="sr-chip" id="srSrc" role="status" aria-live="polite">Loading…</span>
+  </header>
+  <nav class="sr-tabs" id="srTabs" aria-label="Strategy rooms">
+    <a href="strat.html?s=lit" data-s="lit"><b>Zlarior</b><small>LIT · live</small></a>
+    <a href="strat.html?s=atlas" data-s="atlas"><b>ATLAS</b><small>live</small></a>
+    <a href="strat.html?s=blitz" data-s="blitz"><b>BLITZ</b><small>paper</small></a>
+    <a href="strat.html?s=poseidon" data-s="poseidon"><b>POSEIDON</b><small>order flow · paper</small></a>
+  </nav>
+  <p class="sr-what" id="srWhat"></p>
+
+  <!-- (1) the live chart: nqchart.js with window.NQ_STRAT (this strategy's accounts, levels, thoughts, trade) -->
+  <section class="ag-card card" id="chartCard" aria-labelledby="chartH">
+    <div class="row"><h2 id="chartH">Live chart</h2><span class="ctools"><button type="button" class="btn ctog" id="chart3dBtn" aria-pressed="false" hidden>3D</button><span class="pill" id="chartPill">Loading</span></span></div>
+    <p class="note" id="chartAsOf" hidden></p>
+    <div class="chartbox" id="chartBox" role="img" aria-label="The NQ chart with this strategy's marks">
+      <div class="chart" id="chart"></div>
+      <span class="cpulse" id="chartPulse" aria-hidden="true" hidden></span>
+      <div class="c3d" id="chart3d" hidden></div>
+      <p class="chartmsg" id="chartMsg">Loading the PC's chart...</p>
+    </div>
+    <div class="chips" id="chartChips" role="group" aria-label="Show the trades of"></div>
+    <div class="row chartfoot"><p class="note ckey" id="chartKey" hidden></p>
+      <button type="button" class="btn" id="chartWhole" hidden>Whole day</button></div>
+    <h3 class="cth" id="chartTradesH" hidden>Today's trades on the chart</h3>
+    <ol class="ctrades" id="chartTrades"></ol>
+    <a class="attrib" id="chartAttrib" href="https://www.tradingview.com/" target="_blank" rel="noopener">Chart: TradingView Lightweight Charts™, © TradingView, Inc.</a>
+  </section>
+
+  <section class="ag-card card sr-card" id="sigCard" aria-labelledby="sigH">
+    <div class="row"><h2 id="sigH">Today's signals</h2><span class="sr-chip" id="sigChip">-</span></div>
+    <ol class="sr-sigs" id="sigList"></ol>
+  </section>
+
+  <!-- (2) every trade it ever took -->
+  <section class="ag-card card sr-card" id="histCard" aria-labelledby="histH">
+    <div class="row"><h2 id="histH">Every trade</h2><span class="sr-chip" id="histChip">-</span></div>
+    <div class="sr-seg" id="histSrc" role="group" aria-label="Which trades"></div>
+    <div class="sr-seg" id="histSpan" role="group" aria-label="Which years"></div>
+    <div class="sr-plot" id="histPlot" role="img" aria-label="Every trade as a dot on the running total"></div>
+    <div class="sr-key" id="histKey"></div>
+    <article class="sr-trade" id="tradeCard" aria-live="polite" hidden></article>
+    <h3 class="sr-h3">Newest trades</h3>
+    <ol class="sr-list" id="histList"></ol>
+  </section>
+
+  <!-- (3) equity: live vs backtest, by account -->
+  <section class="ag-card card sr-card" id="eqCard" aria-labelledby="eqH">
+    <div class="row"><h2 id="eqH">Equity</h2><span class="sr-chip" id="eqChip">-</span></div>
+    <div class="sr-seg" id="eqView" role="group" aria-label="Which view"></div>
+    <div class="sr-plot" id="eqPlot" role="img" aria-label="The running total in dollars"></div>
+    <div class="sr-key" id="eqKey"></div>
+    <p class="sr-note" id="eqNote"></p>
+  </section>
+
+  <!-- (4) the numbers by period -->
+  <section class="ag-card card sr-card" id="statCard" aria-labelledby="statH">
+    <div class="row"><h2 id="statH">The numbers</h2><span class="sr-chip" id="statChip">-</span></div>
+    <div class="sr-seg" id="statSpan" role="group" aria-label="Which period"></div>
+    <div class="sr-tiles" id="statTiles"></div>
+    <p class="sr-note" id="statNote"></p>
+  </section>
+
+  <!-- (5) the Brain: brainview.js (the brains helper) fills #brainMount -->
+  <section class="ag-card card sr-card" id="brainCard" aria-labelledby="brainH">
+    <div class="row"><h2 id="brainH">Brain</h2><span class="sr-chip" id="brainChip">-</span></div>
+    <div id="brainMount"></div>
+  </section>
+
+  <p class="sr-foot" id="srFoot"></p>
+</main>
+<script type="module" src="strat.js?v=1"></script>
+<script type="module" src="nqchartfeed.js?v=1"></script>
+</body>
+</html>
