@@ -1,7 +1,7 @@
 {
  "v": 1,
  "title": "ZEUS this week",
- "built": "2026-11-27 19:00 ET",
+ "built": "2026-11-27 20:10 ET",
  "built_by": "tools/weekly_review.py",
  "week": {
   "from": "2026-11-23",
@@ -10,7 +10,7 @@
   "complete": true,
   "sessions_done": 5
  },
- "pc": "PC last reported Nov 27 19:00 ET",
+ "pc": "PC last reported Nov 27 20:00 ET",
  "accounts": [
   {
    "key": "zlarior",
@@ -18,7 +18,7 @@
    "plan": "MFFU Builder 50K",
    "stage": "eval",
    "end": 49477.14,
-   "src": "PC live, Nov 27 19:00 ET",
+   "src": "PC live, Nov 27 19:59 ET",
    "room": 1308.94,
    "to_pass": 3522.86,
    "trades": 1,
@@ -47,7 +47,7 @@
    "plan": "MFFU Builder 25K (funded)",
    "stage": "funded",
    "end": 25401.38,
-   "src": "PC live, Nov 27 19:00 ET",
+   "src": "PC live, Nov 27 19:59 ET",
    "room": 1000.0,
    "to_pass": null,
    "trades": 0,
@@ -72,7 +72,7 @@
    "plan": "MFFU Rapid EOD 25K",
    "stage": "eval",
    "end": 25279.86,
-   "src": "PC live, Nov 27 19:00 ET",
+   "src": "PC live, Nov 27 19:59 ET",
    "room": 1000.0,
    "to_pass": 1220.14,
    "trades": 0,
@@ -98,7 +98,7 @@
    "plan": "MFFU Builder 25K",
    "stage": "eval",
    "end": 25019.24,
-   "src": "PC live, Nov 27 19:00 ET",
+   "src": "PC live, Nov 27 19:59 ET",
    "room": 995.62,
    "to_pass": 1480.76,
    "trades": 0,
@@ -170,14 +170,14 @@
  "changes": {
   "n": 200,
   "items": [
-   "site data rebuilt for ship (hub / brain / search)",
-   "brain hub data rebuilt",
+   "jarvis search index rebuilt",
+   "research hub data rebuilt (money audit)",
    "vault: rebuilt for this landing (tools/obsidian_brain.py)",
-   "NQ home: strategy rooms row right below the live chart (chart stays the first card under the...",
-   "pillars-data rebuilt (new TESTED_AND_REJECTED lines)",
-   "bump_versions for the evening landing",
-   "Evening landing wires: Brains dock tab - brains.html, nqsite runs refresh_backtests +...",
-   "red team (brains-feed): brain_xray free texts (LIT's blocking guard, BLITZ state / signals, ATLAS..."
+   "bump_versions: ?v= + sw cache le-public-v232 for the sharefix / POSEIDON rename",
+   "red team #47: an unchanged NinjaTrader state is still rewritten every SAVE_EVERY_S (600 s):...",
+   "NinjaTrader flat proof hardened (red team #47): 5 account-row reads, = 2 pts of move, = 3 distinct...",
+   "NinjaTrader state save: fsync before the replace, a last-good .bak, restore falls back to it,...",
+   "data: the PC's bars + context to Nov 27 (tools/data_pull.py --latest)"
   ]
  },
  "next": {
@@ -206,41 +206,66 @@
   "basis": "this week"
  },
  "twins": {
-  "to": "2026-11-26",
+  "to": "2026-11-27",
   "days": [
    "2026-11-23",
    "2026-11-24",
    "2026-11-25",
-   "2026-11-26"
+   "2026-11-26",
+   "2026-11-27"
   ],
   "bots": [
    {
     "name": "Zlarior",
-    "rows": [],
+    "rows": [
+     {
+      "day": "2026-11-27",
+      "time": "10:10",
+      "side": "LONG",
+      "who": "-",
+      "twin_exit": null,
+      "twin_r": null,
+      "status": "extra",
+      "live_r": 1.93,
+      "live_usd": 304.1
+     }
+    ],
     "n": {
      "matched": 0,
      "missed": 0,
-     "extra": 0,
+     "extra": 1,
      "not live yet": 0
     },
     "twin_r": 0,
-    "live_r": 0,
-    "verdict": "same as the twin",
-    "line": "twin 0 trades +0.00R, live 0 trades +0.00R."
+    "live_r": 1.93,
+    "verdict": "differs from the twin",
+    "line": "twin 0 trades +0.00R, live 1 trades +1.93R; 1 extra (no twin)."
    },
    {
     "name": "ATLAS",
-    "rows": [],
+    "rows": [
+     {
+      "day": "2026-11-27",
+      "time": "10:10",
+      "side": "LONG",
+      "who": "S/R",
+      "twin_exit": "TARGET",
+      "twin_r": 1.99,
+      "status": "missed",
+      "live_r": null,
+      "live_usd": null
+     }
+    ],
     "n": {
      "matched": 0,
-     "missed": 0,
+     "missed": 1,
      "extra": 0,
      "not live yet": 0
     },
-    "twin_r": 0,
+    "twin_r": 1.99,
     "live_r": 0,
-    "verdict": "same as the twin",
-    "line": "twin 0 trades +0.00R, live 0 trades +0.00R."
+    "verdict": "differs from the twin",
+    "line": "twin 1 trades +1.99R, live 0 trades +0.00R; 1 missed."
    }
   ],
   "note": "R only (the twin's $ is at the research size). Days after the cloud's last bars are not compared."
@@ -254,7 +279,7 @@
   "usd": 304.1,
   "r": 1.93,
   "exit": "TARGET",
-  "mfe_r": null,
+  "mfe_r": 1.98,
   "cause": "target",
   "lesson": "Target hit: the plan did exactly what it should. Nothing to change."
  },
@@ -348,6 +373,6 @@
  "sources": {
   "trades": "PC status post",
   "plan_updated": "2026-11-20",
-  "board_pc": "Nov 27 19:00 ET"
+  "board_pc": "Nov 27 20:00 ET"
  }
 }

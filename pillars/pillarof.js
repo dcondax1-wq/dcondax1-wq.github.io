@@ -16,4 +16,4 @@ export function pillarOf(text, fam) {
   return null;
 }
 
-export const PILLARS = [['lit', 'LIT'], ['atlas', 'ATLAS'], ['blitz', 'BLITZ'], ['of', 'ORDER FLOW']];
+export const PILLARS = [['lit', 'LIT'], ['atlas', 'ATLAS'], ['blitz', 'BLITZ'], ['of', 'POSEIDON']];

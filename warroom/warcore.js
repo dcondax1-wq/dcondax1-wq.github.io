@@ -231,7 +231,7 @@ function ofBot(ctx) {
   const idx = days !== null && days >= need ? 3 : days ? 2 : 0;            // record -> backfill -> 60 days -> study -> verdict
   const steps = chain.map((c, i) => ({ n: i + 1, key: str(c.key, 20), label: str(c.label, 30), help: str(c.help, 220),
     state: i < idx ? 'done' : i === idx ? 'now' : i === idx + 1 ? 'next' : 'wait' }));
-  return { id: 'of', name: 'ORDER FLOW', alias: 'the tick study', color: COLORS.of, has: !!p, on: false, armed: false, hidden: false,
+  return { id: 'of', name: 'POSEIDON', alias: 'the tick study', color: COLORS.of, has: !!p, on: false, armed: false, hidden: false,
     pill: p && p.state === 'live' ? 'LIVE' : 'RESEARCH', stepText: days !== null ? `${days}/${need} days` : `0/${need} days`, groups: [{ id: 'of', name: '', steps }],
     now: steps[idx] ? { label: steps[idx].label, text: p ? str(p.status, 220) : 'Waiting for the pillars file.' } : null,
     next: steps[idx + 1] ? { label: steps[idx + 1].label, text: steps[idx + 1].help } : null,
@@ -310,7 +310,7 @@ export function chart(bars, glanceBots, nowS, pos) {
 }
 
 // ------------------------------------------------------------------------------------------------ the narration: a time-stamped story of the day
-const WHO = { lit: 'LIT', atlas: 'ATLAS', blitz: 'BLITZ', of: 'ORDER FLOW' };
+const WHO = { lit: 'LIT', atlas: 'ATLAS', blitz: 'BLITZ', of: 'POSEIDON' };
 export function feed(src, model, nowS, memo) {
   const lite = isObj(src.lite) ? src.lite : {}, G = arr(isObj(lite.pc) && isObj(lite.pc.glance) ? lite.pc.glance.bots : null), today = etNow(nowS);
   const tOf = (hm) => { const m = toM(hm); if (m === null) return null; let t = atET(nowS, hm); if (t > nowS + 300) t -= 86400; return t; };

@@ -2,7 +2,7 @@
  "v": 1,
  "date": "2026-11-28",
  "number": 2,
- "built": "2026-11-28T00:00:39Z",
+ "built": "2026-11-28T01:10:14Z",
  "demo": false,
  "masthead": {
   "title": "The Olympus Herald",
@@ -679,7 +679,7 @@
    "body": [
     "The build queue holds 67 tasks: 67 open and 0 done.",
     "First in line (P0): cities/ renders almost nothing after 30 s (only 160 characters of text, a few dots, no labels, no cards). It is the worst app. Find why (console, fet…",
-    "The research shelf now counts 300 write-ups.",
+    "The research shelf now counts 301 write-ups.",
     "The newest lesson on file, dated 2026-11-28, reads: A grade from 16 entry facts fitted on 2026 Jan-Jun ranks Jan-Jun trades but flips (LIT) or fades (ATLAS, BLITZ) on Jul-Oct and 2021-25.",
     "It was filed under \"rejected\" and comes from research/writeups/setup-grades-2026-11-28.md."
    ],
@@ -713,10 +713,10 @@
      "quote": true
     },
     {
-     "t": "300",
+     "t": "301",
      "src": "ergasterion/queue.json",
      "at": "writeups/count",
-     "raw": 300
+     "raw": 301
     },
     {
      "t": "2026-11-28",

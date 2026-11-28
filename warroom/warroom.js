@@ -3,7 +3,7 @@
 // chart with the levels each bot watches, and (only when the owner turns it on) shows milestone alerts on this phone.
 // Text only through textContent. Storage: this phone's own conveniences only (the alert switch, what it already alerted, today's changes).
 // Read only: GET requests to the site and the PC's public status topic; nothing is sent, armed, placed or closed. window.WARROOM = the test hook.
-import * as C from './warcore.js?v=w3';
+import * as C from './warcore.js?v=w4';
 import * as NB from '../nq/nqbars.js?v=b2';
 
 const $ = (id) => document.getElementById(id);

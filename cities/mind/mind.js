@@ -1,8 +1,8 @@
 // Strategy Brain page (cities/mind/index.html). Reads odeon/trades.json (the trade ledger + replays), cities/brain-data.json (the
 // research findings), home.json and the PC's status post (pc_feed.js). Built with createElement / textContent and SVG nodes only
 // (no innerHTML of data). Read only: no arm / start / stop / order anywhere.
-import * as M from './mindcore.js?v=m7';
-import * as P from '../../pillars/pillarscore.js?v=p6';
+import * as M from './mindcore.js?v=m8';
+import * as P from '../../pillars/pillarscore.js?v=p7';
 
 const $ = (id) => document.getElementById(id);
 const SVGNS = 'http://www.w3.org/2000/svg';
@@ -251,12 +251,12 @@ function findingBody(body, id) {
 function ofTestBody(body, tid) {
   const p = S.pillars && (S.pillars.pillars || []).find((x) => x.id === 'of'), t = p && (p.tests || []).find((x) => x.id === tid);
   body.replaceChildren();
-  if (!t) { body.append(el('h2', { text: 'Order flow' }), el('p', { class: 'muted', text: 'This test is not in the pillars file any more.' })); return; }
-  body.append(el('h2', { text: t.name }), el('div', { class: 'muted' }, el('span', { class: 'tag v-' + t.verdict, text: M.VERDICT_WORD[t.verdict] || t.verdict }), document.createTextNode(` ORDER FLOW · ${t.stage}`)));
+  if (!t) { body.append(el('h2', { text: 'POSEIDON · order flow' }), el('p', { class: 'muted', text: 'This test is not in the pillars file any more.' })); return; }
+  body.append(el('h2', { text: t.name }), el('div', { class: 'muted' }, el('span', { class: 'tag v-' + t.verdict, text: M.VERDICT_WORD[t.verdict] || t.verdict }), document.createTextNode(` POSEIDON · ${t.stage}`)));
   const tb = el('table', { class: 'spans', id: 'ofSpans' }), hr = el('tr'); ['Span', '/wk', 'Win', 'PF', '$/mo'].forEach((h) => hr.append(el('th', { text: h }))); tb.append(el('thead', {}, hr));
   const tbody = el('tbody'); t.spans.forEach((sp) => { const tr = el('tr'); [sp.k, fmtN(sp.tpw, 1), sp.win == null ? '-' : fmtN(sp.win, 0) + '%', fmtN(sp.pf, 2), sp.usd_mo != null ? fmtUsd(sp.usd_mo) : sp.net_vs_lit != null ? fmtUsd(sp.net_vs_lit) + ' vs LIT' : '-'].forEach((x) => tr.append(el('td', { text: x }))); tbody.append(tr); });
   tb.append(tbody); body.append(tb, el('p', { class: 'muted', text: `Placebo p ${t.placebo_p ?? '-'}${t.holm_p != null ? ' · Holm p ' + t.holm_p : ''}. Bar data stands in for ticks here: the real test (OF1-OF3) waits for 60 tick days.` }));
-  body.append(el('button', { type: 'button', class: 'more', text: '← ORDER FLOW', onclick: () => select('of') }));
+  body.append(el('button', { type: 'button', class: 'more', text: '← POSEIDON', onclick: () => select('of') }));
 }
 
 /* ---------------- today: every bot's thinking in time order ---------------- */

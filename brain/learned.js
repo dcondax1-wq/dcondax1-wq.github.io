@@ -4,7 +4,7 @@
 // Text only through textContent / createElement. Read only: nothing sent, armed or placed. Storage: none. window.LEARNED = the test hook.
 const $ = (id) => document.getElementById(id);
 const COL = { lit: '#f1c14b', atlas: '#77db89', blitz: '#c58cff', of: '#9d59ee', learn: '#e9d58a', risk: '#b6f0c2' };
-const NAME = { lit: 'LIT', atlas: 'ATLAS', blitz: 'BLITZ', of: 'ORDER FLOW', learn: 'MARKET', risk: 'RISK' };
+const NAME = { lit: 'LIT', atlas: 'ATLAS', blitz: 'BLITZ', of: 'POSEIDON', learn: 'MARKET', risk: 'RISK' };
 const STATUS = { watching: 'watching', confirmed: 'confirmed', rejected: 'rejected', paper: 'on paper', found: 'found', noted: 'noted', promote: 'ready', demoted: 'dropped', error: 'not scored' };
 const S = { d: null, filter: 'all', shown: 24 };
 
@@ -43,7 +43,7 @@ function hero(d) {
       : { b: int(F.sessions || 0), s: 'new trading days scored so far' },
   ];
   $('hero').replaceChildren(...tiles.map((t) => el('div', { class: 'tile' + (t.c ? ' ' + t.c : '') }, el('b', { text: t.b }), el('span', { text: t.s }))));
-  const J2 = [['sGrad', 'On trial'], ['sScore', 'Setup scores'], ['sTime', 'Lessons'], ['sNext', 'Next'], ['sLit', 'LIT funnel'], ['sMill', 'Idea mill'], ['sGap', 'Live vs twin'], ['sHealth', 'Health'], ['sOf', 'Order flow']];
+  const J2 = [['sGrad', 'On trial'], ['sScore', 'Setup scores'], ['sTime', 'Lessons'], ['sNext', 'Next'], ['sLit', 'LIT funnel'], ['sMill', 'Idea mill'], ['sGap', 'Live vs twin'], ['sHealth', 'Health'], ['sOf', 'POSEIDON · order flow']];
   $('jump').replaceChildren(...J2.map(([id, t]) => el('a', { href: `#${id}`, text: t })));
 }
 function grad(L) {

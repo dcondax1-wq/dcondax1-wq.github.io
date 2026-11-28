@@ -4,8 +4,8 @@
 // show the Brain's bundled fixture, labelled SAMPLE; money, trades and research are always the real files. createElement / textContent only.
 // Read only: GET requests; nothing is sent, armed or placed. ?at=<ISO> pins the clock (tests). window.PILLAR_DATA = the test hook.
 import * as DC from './datacore.js?v=d2';
-import * as B from '../brain/braincore.js?v=b7';
-import * as PF from './pillarsfeed.js?v=p8';
+import * as B from '../brain/braincore.js?v=b8';
+import * as PF from './pillarsfeed.js?v=p9';
 
 const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);
@@ -13,7 +13,7 @@ const AT = (() => { const v = q.get('at'); const t = v ? Date.parse(v) : NaN; re
 const T0 = Date.now() / 1000;
 const nowS = () => (AT ? AT + (Date.now() / 1000 - T0) : Date.now() / 1000);
 const S = { site: {}, lite: null, id: 'lit', model: null };
-const NAMES = { lit: 'LIT', atlas: 'ATLAS', blitz: 'BLITZ', of: 'ORDER FLOW' };
+const NAMES = { lit: 'LIT', atlas: 'ATLAS', blitz: 'BLITZ', of: 'POSEIDON' };
 
 function el(tag, attrs, ...kids) {
   const e = document.createElement(tag);

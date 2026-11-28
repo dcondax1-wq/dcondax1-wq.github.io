@@ -3,7 +3,7 @@
 // the PC's public post (window.PC_FEED.fetchLatest), once after load and every 2 minutes while visible. It takes NO height of its own: the
 // strip's 44 px links sit right above the search (the header gives up its spare 18 px) (the 6 dashboards + More stay on the first 390 x 844 screen). createElement / textContent only. Read only.
 import * as T from './todaycore.js?v=t1';
-import * as PF from './pillarsfeed.js?v=p8';
+import * as PF from './pillarsfeed.js?v=p9';
 
 const BASE = new URL('./', import.meta.url);
 const CSS = `.g-today{display:flex;gap:4px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;height:44px;margin:-2px 0 -26px;padding:0 2px;align-items:center;

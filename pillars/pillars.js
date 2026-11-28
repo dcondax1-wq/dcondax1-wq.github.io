@@ -2,8 +2,8 @@
 // Reads pillars-data.json (tools/build_pillars.py), ../home.json, ../business/accounts.json, ../business/payday.json, ../odeon/trades.json
 // and the PC's public status post (../pc_feed.js). Text only through textContent / createElement. Sends nothing, stores nothing but the
 // last opened pillar (localStorage, per viewer). ?at=<ISO time> pins the clock (tests and screenshots only).
-import * as PF from './pillarsfeed.js?v=p8';
-import * as P from './pillarscore.js?v=p6';
+import * as PF from './pillarsfeed.js?v=p9';
+import * as P from './pillarscore.js?v=p7';
 
 const $ = (id) => document.getElementById(id);
 const S = { data: null, home: null, biz: null, payday: null, file: null, lite: null, sel: 'lit', model: [], scene: null };

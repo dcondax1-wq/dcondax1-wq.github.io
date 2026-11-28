@@ -36,11 +36,18 @@ async function getBars() {
   return null;
 }
 
+/** the card's clock (day-sharefix): "today" = the New York calendar day. From 18:00 ET the CME trading day is already tomorrow's (empty),
+ *  so the evening card reads the day as of 17:59 ET = the session that just ended (the owner posts in the evening). Before 18:00: now. */
+export function cardNow(t) {
+  const e = L.et(t); if (!e || !e.hm) return t;
+  const m = +e.hm.slice(0, 2) * 60 + +e.hm.slice(3);
+  return m >= 18 * 60 ? t - (m - (17 * 60 + 59)) * 60 - (t % 60) : t;
+}
 /** today from the PC's post (the live screen's own model): accounts' $ today, closed trades, streak, week, the day's 5m bars */
 export async function todaySource() {
   const [home, biz, payday, lite, bars] = await Promise.all([getJSON('../home.json'), getJSON('../business/accounts.json'), getJSON('../business/payday.json'), getPost(), getBars()]);
   if (!lite) return { why: 'No report from your PC yet: the card fills in once it posts.' };
-  const t = nowS(), F = window.PC_FEED;
+  const t = cardNow(nowS()), F = window.PC_FEED;
   const h = F && F.homeOver ? F.homeOver(home || {}, lite, t, window.PAYOUT_COACH || null) : (home || {});
   let cards = [];
   try {
@@ -139,6 +146,6 @@ async function loadDay(day) {
 }
 
 if (typeof document !== 'undefined' && $('app')) {
-  window.NQ_SHARE = { S, ready: () => S.ready, render, SIZES };
+  window.NQ_SHARE = { S, ready: () => S.ready, render, SIZES, cardNow };
   boot().catch(() => { S.ready = true; $('msg').textContent = 'Could not build the card.'; });
 }

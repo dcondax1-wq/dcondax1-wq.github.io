@@ -190,7 +190,7 @@
   ]
  },
  "writeups": {
-  "count": 300,
+  "count": 301,
   "latest": [
    {
     "date": "2026-11-28",
@@ -4353,7 +4353,7 @@
    "src": "money/sibyl.json"
   },
   {
-   "t": 1795824000,
+   "t": 1795828200,
    "who": "oikos",
    "kind": "money",
    "ok": true,
@@ -4374,6 +4374,66 @@
  "git": {
   "available": true,
   "commits": [
+   {
+    "t": 1795828185,
+    "s": "jarvis search index rebuilt"
+   },
+   {
+    "t": 1795828158,
+    "s": "research hub data rebuilt (money audit)"
+   },
+   {
+    "t": 1795828151,
+    "s": "vault: rebuilt for this landing (tools/obsidian_brain.py)"
+   },
+   {
+    "t": 1795826776,
+    "s": "STATE: ATLAS funded + 25K #2 combo were STARTUP DISARMED since Nov 26 22:01 ET; fixed (day-moneyaudit-bot, re…"
+   },
+   {
+    "t": 1795826610,
+    "s": "bump_versions: ?v= + sw cache le-public-v232 for the sharefix / POSEIDON rename"
+   },
+   {
+    "t": 1795826546,
+    "s": "Merge commit 'e7a27a567' into land-ma"
+   },
+   {
+    "t": 1795826546,
+    "s": "Land day-moneyaudit-bot 5f6194bff (red team #47 CLEAR): account-row flat proof un-disarms ATLAS funded + 25K…"
+   },
+   {
+    "t": 1795826492,
+    "s": "red team #47: an unchanged NinjaTrader state is still rewritten every SAVE_EVERY_S (600 s): autoupdate.accoun…"
+   },
+   {
+    "t": 1795826172,
+    "s": "NinjaTrader flat proof hardened (red team #47): 5 account-row reads, = 2 pts of move, = 3 distinct 1m closes"
+   },
+   {
+    "t": 1795826091,
+    "s": "NinjaTrader state save: fsync before the replace, a last-good .bak, restore falls back to it, unchanged saves…"
+   },
+   {
+    "t": 1795825283,
+    "s": "data: the PC's bars + context to Nov 27 (tools/data_pull.py --latest)"
+   },
+   {
+    "t": 1795825282,
+    "s": "Money audit (every lane x account, Oct 19 - Nov 27): AUDIT.json + write-up on all 30 PC day folders"
+   },
+   {
+    "t": 1795825166,
+    "s": "NinjaTrader: a torn-state hold clears on a FLAT account with no position file; live_guard pushes STARTUP DISA…"
+   },
+   {
+    "t": 1795824464,
+    "s": "POSEIDON outside the NQ app: the four-pillars name (gate + home tile, pillars, war room, brain, mind, PC app)…"
+   },
+   {
+    "t": 1795824412,
+    "s": "Insta card: today = the New York day; from 18:00 ET (CME day rolled) the card reads the day as of 17:59 ET, t…"
+   },
    {
     "t": 1795822662,
     "s": "site data rebuilt for ship (hub / brain / search)"
@@ -4413,66 +4473,6 @@
    {
     "t": 1795819934,
     "s": "Merge remote-tracking branch 'olympus/day-litmes' into land-eve"
-   },
-   {
-    "t": 1795819926,
-    "s": "Merge remote-tracking branch 'olympus/day-blitzmore' into land-eve"
-   },
-   {
-    "t": 1795819925,
-    "s": "Merge remote-tracking branch 'olympus/day-grades' into land-eve"
-   },
-   {
-    "t": 1795819925,
-    "s": "Merge remote-tracking branch 'olympus/day-brains-feed' into land-eve"
-   },
-   {
-    "t": 1795819915,
-    "s": "Merge remote-tracking branch 'olympus/day-brains' into land-eve"
-   },
-   {
-    "t": 1795819898,
-    "s": "Merge remote-tracking branch 'olympus/day-strats' into land-eve"
-   },
-   {
-    "t": 1795815151,
-    "s": "red team (brains-feed): brain_xray free texts (LIT's blocking guard, BLITZ state / signals, ATLAS checks) mas…"
-   },
-   {
-    "t": 1795815111,
-    "s": "POSEIDON trident: a real shaft (user-space gradient) + sharper prongs; the chart view waits for the first idl…"
-   },
-   {
-    "t": 1795815013,
-    "s": "pc_report split: the cut list can no longer push the last ext post over MAX_STATUS_BYTES (it was sized before…"
-   },
-   {
-    "t": 1795813929,
-    "s": "Fresh backtests for the strategy rooms: tools/refresh_backtests.py re-runs LIT / ATLAS / BLITZ through the ne…"
-   },
-   {
-    "t": 1795813383,
-    "s": "nqfeed: the early poll hands pc_feed raw text only (it parses + checks the signature); test_nq_speed a5 knows…"
-   },
-   {
-    "t": 1795813375,
-    "s": "brains: fixture from the final brain_xray fit (newest setups keep value / rule, ATLAS names whole); skipped r…"
-   },
-   {
-    "t": 1795813352,
-    "s": "brain_xray fit: the size sentence and the oldest setups go before any check text is cut (the newest setups ke…"
-   },
-   {
-    "t": 1795813316,
-    "s": "STRATEGY ROOMS: nq/strat.html?s=lit|atlas|blitz|poseidon (live chart filtered to the strategy, today's signal…"
-   },
-   {
-    "t": 1795812942,
-    "s": "brainview: hosted mount (getState given) uses ONLY getState - no window.NQ_HOME, no global listener, no own f…"
-   },
-   {
-    "t": 1795812893,
-    "s": "story.html lifts the Olympus veil + styles its nav row (story.js / story.css v3); brains LEAD_WIRES"
    }
   ],
   "branches": [

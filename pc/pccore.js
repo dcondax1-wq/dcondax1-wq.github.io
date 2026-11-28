@@ -59,7 +59,7 @@
     rows.push({ k: 'bz', label: 'BLITZ', st: 'ok', text: ck.bz === 'off' ? 'off (paper only, hidden)' : ck.bz === 'paper' ? 'on (paper)' : 'on' });
     const clk = ck.clk || null;
     rows.push({ k: 'clk', label: 'Clock', st: !clk ? 'unk' : clk[0] ? 'ok' : 'bad', text: !clk ? 'not known' : clk[0] ? `OK (${clk[1]} s)` : `off by ${clk[1]} s` });
-    const pillars = (ck.pl || []).map((p) => ({ p: { OF: 'Order Flow' }[p[0]] || p[0], st: p[1], text: p[2] }));
+    const pillars = (ck.pl || []).map((p) => ({ p: { OF: 'POSEIDON' }[p[0]] || p[0], st: p[1], text: p[2] }));
     const need = !pc.ok ? { k: 'pc', t: 'The PC is silent: check it is on and Windows is signed in' } : ck.need || null;
     return { rows, need, pillars, version: up.v || null, ck };
   }

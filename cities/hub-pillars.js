@@ -1,6 +1,6 @@
 // Research Hub: the PILLARS filter (day-pillars 2026-11-24). One chip row on each tab (Research, Strategy Lab): All / LIT / ATLAS /
 // BLITZ / ORDER FLOW. The rule is ../pillars/pillarof.js (the same one the Strategy Brain uses). createElement only. Read only.
-import { pillarOf, PILLARS } from '../pillars/pillarof.js?v=p1';
+import { pillarOf, PILLARS } from '../pillars/pillarof.js?v=p2';
 
 // the Hub's families are ['LIT', 'ATLAS', 'Rapid + fleet money', ...]: only 0 and 1 name a pillar (its 2 is NOT BLITZ)
 export const ofCard = (c) => pillarOf(`${c && c.t || ''} ${c && c.x || ''}`, c && (c.f === 0 || c.f === 1) ? c.f : -1);

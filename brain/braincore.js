@@ -9,9 +9,9 @@
 //   dist_pts, window, limit, stop, target}, .levels [{k, p, p2?, label?}] (also accepted at lite.brain[id]). Absent = derived or "not sent".
 // Nothing made up: a number no source has is null and drawn as "-" / "not sent"; the bundled fixture is always labelled SAMPLE.
 //   build(src, nowS) -> { mode, pc, price, headline, sample, regions[], pulse }
-import * as W from '../warroom/warcore.js?v=w3';
+import * as W from '../warroom/warcore.js?v=w4';
 import * as NB from '../nq/nqbars.js?v=b2';
-import * as PF from '../pillars/pillarsfeed.js?v=p8';
+import * as PF from '../pillars/pillarsfeed.js?v=p9';
 
 const isObj = (x) => !!x && typeof x === 'object' && !Array.isArray(x);
 const arr = (x) => (Array.isArray(x) ? x : []);
@@ -23,7 +23,7 @@ export const REGIONS = [
   { id: 'lit', name: 'LIT', alias: 'Zlarior', color: '#f1c14b', glyph: 'Λ', blurb: 'The liquidity sweep brain: levels, sweep, CISD, entry' },
   { id: 'atlas', name: 'ATLAS', alias: 'three lobes', color: '#77db89', glyph: 'A', blurb: 'EMA, MACD and S/R lobes, one trade a day each' },
   { id: 'blitz', name: 'BLITZ', alias: 'paper', color: '#c58cff', glyph: 'B', blurb: 'The afternoon brain: built, switched OFF' },
-  { id: 'of', name: 'ORDER FLOW', alias: 'ticks', color: '#9d59ee', glyph: 'Ω', blurb: 'Collecting NQ ticks for 3 pre-registered designs' },
+  { id: 'of', name: 'POSEIDON', alias: 'ticks', color: '#9d59ee', glyph: 'Ω', blurb: 'Collecting NQ ticks for 3 pre-registered designs' },
   { id: 'learn', name: 'MARKET LEARN', alias: 'the learner', color: '#e9d58a', glyph: 'Ψ', blurb: 'The shared learner: what the market taught every bot' },
   { id: 'risk', name: 'RISK', alias: 'accounts', color: '#b6f0c2', glyph: '$', blurb: 'Every account: today $, room left, the 7-day clock' },
 ];

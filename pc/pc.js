@@ -17,7 +17,7 @@
     nd.className = 'card need ' + (m.need ? 'bad' : S.lite ? 'ok' : '');
     $('needText').textContent = m.need ? m.need.t : S.lite ? 'Nothing. Everything runs by itself.' : 'checking…';
     $('rows').innerHTML = m.rows.map((r) => `<li><span class="dot ${esc(r.st)}"></span><b>${esc(r.label)}</b><span class="t">${esc(r.text)}</span></li>`).join('');
-    $('pillars').innerHTML = (m.pillars.length ? m.pillars : [{ p: 'LIT', st: 'wait', text: 'waiting' }, { p: 'ATLAS', st: 'wait', text: 'waiting' }, { p: 'BLITZ', st: 'wait', text: 'waiting' }, { p: 'Order Flow', st: 'wait', text: 'waiting' }])
+    $('pillars').innerHTML = (m.pillars.length ? m.pillars : [{ p: 'LIT', st: 'wait', text: 'waiting' }, { p: 'ATLAS', st: 'wait', text: 'waiting' }, { p: 'BLITZ', st: 'wait', text: 'waiting' }, { p: 'POSEIDON', st: 'wait', text: 'waiting' }])
       .map((p) => `<div class="pl ${esc(p.st)}"><b>${esc(p.p)}</b><span>${esc(p.text)}</span></div>`).join('');
     const rc = (S.lite && S.lite.rc) || null;
     $('last').textContent = rc && rc.last ? `Last command: ${rc.last}` : 'No phone command yet.';
